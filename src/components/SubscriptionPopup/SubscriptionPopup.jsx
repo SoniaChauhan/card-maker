@@ -44,7 +44,7 @@ export default function SubscriptionPopup({ card, userEmail, existingStatus, onC
         </div>
 
         {/* Status-based content */}
-        {status === 'pending' && (
+        {status === 'pending' && !done && (
           <div className="sub-status pending">
             ⏳ Your request is pending approval.
           </div>
@@ -54,16 +54,6 @@ export default function SubscriptionPopup({ card, userEmail, existingStatus, onC
           <div className="sub-status rejected">
             ❌ Your request was rejected. Please contact the admin.
           </div>
-        )}
-
-        {(!status || done) && status !== 'pending' && status !== 'rejected' && !done && (
-          <button
-            className="sub-request-btn"
-            onClick={handleRequest}
-            disabled={loading}
-          >
-            {loading ? '⏳ Requesting…' : '📩 Request Subscription'}
-          </button>
         )}
 
         {done && status === 'pending' && (
