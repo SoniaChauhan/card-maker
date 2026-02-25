@@ -1,0 +1,112 @@
+/* ---- Subscription Popup ---- */
+.sub-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.sub-popup {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 28px 28px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.4);
+  text-align: center;
+  position: relative;
+  animation: subPopIn .3s ease;
+}
+
+@keyframes subPopIn {
+  from { transform: scale(.85); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.sub-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+}
+.sub-close:hover { color: #333; }
+
+.sub-card-icon { font-size: 44px; margin-bottom: 10px; }
+
+.sub-popup h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.sub-admin-info {
+  background: linear-gradient(135deg, rgba(102,126,234,.08), rgba(118,75,162,.06));
+  border: 1.5px solid rgba(102,126,234,.2);
+  border-radius: 12px;
+  padding: 14px;
+  margin: 16px 0;
+}
+.sub-admin-label {
+  font-size: 10px;
+  color: #888;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.sub-admin-name {
+  font-size: 17px;
+  font-weight: 800;
+  color: #667eea;
+}
+
+.sub-status {
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 16px 0;
+}
+.sub-status.pending {
+  background: #fffbeb;
+  color: #f59e0b;
+  border: 1.5px solid #fde68a;
+}
+.sub-status.rejected {
+  background: #fef2f2;
+  color: #ef4444;
+  border: 1.5px solid #fecaca;
+}
+
+.sub-request-btn {
+  width: 100%;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(102,126,234,.4);
+  transition: box-shadow .2s, opacity .2s;
+  margin-top: 10px;
+}
+.sub-request-btn:hover:not(:disabled) { box-shadow: 0 10px 30px rgba(102,126,234,.55); }
+.sub-request-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+.sub-description {
+  font-size: 13px;
+  color: #888;
+  line-height: 1.6;
+  margin-top: 12px;
+}

@@ -1,0 +1,182 @@
+/* ---- Profile Dashboard ---- */
+.profile-dashboard {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 30px 20px 40px;
+}
+
+/* Top bar */
+.pd-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto 20px;
+}
+.pd-logo {
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+.pd-logout {
+  background: rgba(255,255,255,.18);
+  border: 1.5px solid rgba(255,255,255,.3);
+  color: #fff;
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s;
+}
+.pd-logout:hover { background: rgba(255,255,255,.3); }
+
+/* Tabs */
+.pd-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.pd-tab {
+  padding: 9px 22px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1.5px solid rgba(255,255,255,.3);
+  background: transparent;
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+  transition: all .2s;
+}
+.pd-tab.active {
+  background: #fff;
+  color: #667eea;
+  border-color: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,.15);
+}
+
+/* Profile tab */
+.pd-profile-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 500px;
+  margin: 0 auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,.2);
+  text-align: center;
+}
+.pd-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+}
+.pd-profile-card h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #333;
+  margin-bottom: 6px;
+}
+.pd-profile-card .pd-email {
+  font-size: 14px;
+  color: #667eea;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.pd-profile-card .pd-role {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 14px;
+  border-radius: 50px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.pd-profile-msg {
+  margin-top: 16px;
+  font-size: 13px;
+  color: #888;
+  line-height: 1.6;
+}
+
+/* Dashboard card grid (reuses selection screen pattern) */
+.pd-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.pd-card {
+  border-radius: 20px;
+  padding: 30px 22px 26px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .3s cubic-bezier(.175,.885,.32,1.275), box-shadow .3s;
+  position: relative;
+  overflow: hidden;
+}
+.pd-card:hover { transform: translateY(-8px) scale(1.02); }
+.pd-card-icon { font-size: 48px; display: block; margin-bottom: 12px; }
+.pd-card h3 { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+.pd-card p  { font-size: 12px; color: rgba(255,255,255,.8); line-height: 1.5; margin-bottom: 14px; }
+
+.pd-card-badge {
+  display: inline-block;
+  background: rgba(255,255,255,.22);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 50px;
+}
+
+.pd-card-lock {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 18px;
+  background: rgba(0,0,0,.25);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pd-card-status {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  font-size: 9px;
+  font-weight: 800;
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 50px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.pd-card-status.pending  { background: #f59e0b; }
+.pd-card-status.approved { background: #10b981; }
+.pd-card-status.rejected { background: #ef4444; }
+
+/* Card colors */
+.pd-card.birthday    { background: linear-gradient(135deg, #ff6b6b, #feca57); box-shadow: 0 16px 40px rgba(255,107,107,.4); }
+.pd-card.anniversary { background: linear-gradient(135deg, #dc3c64, #ff9a9e); box-shadow: 0 16px 40px rgba(220,60,100,.4); }
+.pd-card.jagrata     { background: linear-gradient(135deg, #f7971e, #ffd200); box-shadow: 0 16px 40px rgba(247,151,30,.4); }
+.pd-card.biodata     { background: linear-gradient(135deg, #c0392b, #d4af37); box-shadow: 0 16px 40px rgba(192,57,43,.4); }
+.pd-card.wedding     { background: linear-gradient(135deg, #7b1c1c, #c9963e); box-shadow: 0 16px 40px rgba(123,28,28,.4); }
+.pd-card.resume      { background: linear-gradient(135deg, #1a73e8, #2d3748); box-shadow: 0 16px 40px rgba(26,115,232,.4); }
