@@ -19,7 +19,8 @@ export default function SubscriptionPopup({ card, userEmail, existingStatus, onC
       /* Notify admin */
       await notifyAdmin(
         `🔔 Subscription Request — ${card.label}`,
-        `User ${userEmail} is requesting access to the "${card.label}" template.\n\nPlease log in to the Admin Panel to approve or reject.`
+        `Sender: ${userEmail}\n\nThis user is requesting access to the "${card.label}" template.\n\nPlease log in to the Admin Panel to approve or reject.`,
+        userEmail
       ).catch(() => {});
     } catch (err) {
       console.error(err);

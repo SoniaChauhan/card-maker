@@ -15,12 +15,13 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey:            import.meta.env.VITE_FIREBASE_API_KEY            || 'YOUR_API_KEY',
-  authDomain:        import.meta.env.VITE_FIREBASE_AUTH_DOMAIN        || 'YOUR_PROJECT.firebaseapp.com',
-  projectId:         import.meta.env.VITE_FIREBASE_PROJECT_ID         || 'YOUR_PROJECT_ID',
-  storageBucket:     import.meta.env.VITE_FIREBASE_STORAGE_BUCKET     || 'YOUR_PROJECT.appspot.com',
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID|| 'YOUR_SENDER_ID',
-  appId:             import.meta.env.VITE_FIREBASE_APP_ID             || 'YOUR_APP_ID',
+  apiKey:            "AIzaSyB8w_qvKRHlkPmmYQ3lU-V27SpwNkS-fSQ",
+  authDomain:        "card-maker-dashboard.firebaseapp.com",
+  projectId:         "card-maker-dashboard",
+  storageBucket:     "card-maker-dashboard.firebasestorage.app",
+  messagingSenderId: "795093953775",
+  appId:             "1:795093953775:web:6f2302b70e4e2ef9fe3f1a",
+  measurementId:     "G-3P4XG9P5HH",
 };
 
 const app = initializeApp(firebaseConfig);

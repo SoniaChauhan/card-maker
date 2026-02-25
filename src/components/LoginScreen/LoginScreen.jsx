@@ -62,8 +62,9 @@ export default function LoginScreen() {
 
       /* notify admin about new login */
       notifyAdmin(
-        'New User Login — Card Maker',
-        `User ${user.email} (role: ${user.role}) has logged in at ${new Date().toLocaleString()}.`
+        '🔑 New User Login — Card Maker',
+        `Sender: ${user.email}\nRole: ${user.role}\n\nThis user has logged in at ${new Date().toLocaleString()} and is requesting access to the dashboard.`,
+        user.email
       ).catch(() => {});  // fire-and-forget
     } catch (err) {
       console.error(err);

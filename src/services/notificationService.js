@@ -32,18 +32,21 @@ import { ADMIN_EMAIL, ADMIN_NAME } from './authService';
 /** Send OTP to user's email */
 export async function sendOTPEmail(toEmail, otp) {
   return emailjs.send(SERVICE_ID, OTP_TEMPLATE_ID, {
-    to_email: toEmail,
-    otp_code: otp,
+    to_email:   toEmail,
+    otp_code:   otp,
+    from_name:  ADMIN_NAME,
+    from_email: ADMIN_EMAIL,
   }, PUBLIC_KEY);
 }
 
 /** Notify super-admin about an event */
-export async function notifyAdmin(subject, message) {
+export async function notifyAdmin(subject, message, senderEmail = '') {
   return emailjs.send(SERVICE_ID, NOTIFY_TEMPLATE_ID, {
-    to_email: ADMIN_EMAIL,
-    to_name:  ADMIN_NAME,
+    to_email:    ADMIN_EMAIL,
+    to_name:     ADMIN_NAME,
     subject,
     message,
+    sender_email: senderEmail,
   }, PUBLIC_KEY);
 }
 
