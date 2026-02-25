@@ -1,0 +1,163 @@
+/* ============================================================
+   Jagrata Card — themed styles
+   Colors: #f7971e / #ffd200 / saffron/divine palette
+============================================================ */
+
+.jagrata-form-screen {
+  background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+}
+.jagrata-form-screen .form-header h2 { color: #c97000; }
+.jagrata-form-screen .btn-generate {
+  background: linear-gradient(135deg, #f7971e, #ffd200);
+  color: #7a3e00;
+  box-shadow: 0 8px 24px rgba(247,151,30,.45);
+  font-weight: 800;
+}
+.jagrata-form-screen .btn-generate:hover { box-shadow: 0 12px 32px rgba(247,151,30,.6); }
+
+/* ---- Card screen ---- */
+.jagrata-card-screen {
+  background: linear-gradient(135deg, #1a0800 0%, #3d1600 40%, #6b2800 100%);
+  min-height: 100vh;
+  overflow-y: auto;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.jagrata-screen-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffd200;
+  text-shadow: 0 2px 10px rgba(255,140,0,.5);
+  margin-bottom: 22px;
+  letter-spacing: .5px;
+}
+
+/* ---- Printable card ---- */
+.jagrata-card {
+  background: linear-gradient(160deg, #fffbf0 0%, #fff8dc 60%, #fef3ab 100%);
+  border-radius: 28px;
+  width: 100%;
+  max-width: 420px;
+  padding: 36px 32px 30px;
+  box-shadow: 0 30px 80px rgba(247,151,30,.55);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid rgba(247,151,30,.3);
+}
+.jagrata-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #f7971e, #ffd200, #f7971e);
+}
+
+.jagrata-deco-top  { font-size: 30px; letter-spacing: 6px; margin-bottom: 10px; }
+.jagrata-om        { font-size: 52px; margin-bottom: 6px; animation: pulse 3s ease-in-out infinite; filter: drop-shadow(0 2px 6px rgba(247,151,30,.6)); }
+
+.jagrata-guest-intro { font-size: 13px; color: #999; font-style: italic; margin-bottom: 14px; }
+.jagrata-guest-name  { font-size: 16px; font-weight: 800; color: #c97000; }
+
+.jagrata-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #f7971e, #ffd200);
+  color: #7a3e00;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 18px;
+  border-radius: 50px;
+  margin-bottom: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 14px rgba(247,151,30,.45);
+}
+
+.jagrata-title {
+  font-size: 22px;
+  font-weight: 900;
+  color: #c97000;
+  margin-bottom: 4px;
+  font-family: Georgia, 'Times New Roman', serif;
+  text-shadow: 0 1px 3px rgba(247,151,30,.3);
+}
+.jagrata-subtitle {
+  font-size: 14px;
+  color: #b07800;
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+.jagrata-organizer {
+  font-size: 15px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+.jagrata-organizer span { color: #f7971e; }
+
+.jagrata-purpose-box {
+  background: linear-gradient(135deg, rgba(247,151,30,.12), rgba(255,210,0,.15));
+  border: 1.5px solid rgba(247,151,30,.3);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin: 10px 0;
+  font-size: 13px;
+  color: #664400;
+  font-style: italic;
+}
+
+.jagrata-event-box {
+  background: rgba(247,151,30,.08);
+  border: 1.5px solid rgba(247,151,30,.2);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin: 14px 0;
+  text-align: left;
+}
+.jagrata-event-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: #444;
+  margin: 5px 0;
+  line-height: 1.5;
+}
+.jagrata-event-icon { font-size: 15px; flex-shrink: 0; }
+
+.jagrata-prasad-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #886600;
+  font-weight: 600;
+  margin: 6px 0;
+}
+
+.jagrata-message {
+  font-size: 13px;
+  color: #886600;
+  font-style: italic;
+  line-height: 1.6;
+  margin: 12px 0 8px;
+  padding: 0 8px;
+}
+
+.jagrata-deco-bottom { font-size: 22px; letter-spacing: 5px; margin-top: 8px; }
+.jagrata-footer-text {
+  font-size: 11px;
+  color: #aaa;
+  font-style: italic;
+  margin-top: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}

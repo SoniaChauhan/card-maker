@@ -1,0 +1,26 @@
+/**
+ * CardActions — row of buttons shown beneath a card preview.
+ * @param {{
+ *   onEdit: function,
+ *   onBack: function,
+ *   onDownload: function,
+ *   downloading: boolean,
+ *   dlBtnStyle?: object
+ * }} props
+ */
+export default function CardActions({ onEdit, onBack, onDownload, downloading, dlBtnStyle = {} }) {
+  return (
+    <div className="card-actions">
+      <button className="btn-back-card" onClick={onEdit}>✏️ Edit Details</button>
+      <button className="btn-back-card outline" onClick={onBack}>🏠 Choose Another</button>
+      <button
+        className="btn-download"
+        onClick={onDownload}
+        disabled={downloading}
+        style={dlBtnStyle}
+      >
+        {downloading ? '⏳ Saving…' : '⬇️ Download Card'}
+      </button>
+    </div>
+  );
+}
