@@ -8,10 +8,14 @@ import JagrataCard     from './components/JagrataCard';
 import BiodataCard     from './components/BiodataCard';
 import WeddingCard     from './components/WeddingCard';
 import ResumeCard      from './components/ResumeCard';
+import useScreenshotProtection from './hooks/useScreenshotProtection';
 
 function AppContent() {
   const { user, loading } = useAuth();
   const [selected, setSelected] = useState(null);
+
+  /* Activate screenshot protection globally */
+  useScreenshotProtection();
 
   /* ---------- loading splash ---------- */
   if (loading)

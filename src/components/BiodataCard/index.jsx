@@ -106,7 +106,7 @@ export default function BiodataCard({ onBack }) {
       <Particles icons={PARTICLES} count={20} />
       <p className="biodata-screen-title">💍 Marriage Biodata</p>
       <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-      <div className="card-wrapper">
+      <div className="card-wrapper screenshot-protected">
         <BiodataCardPreview data={data} lang={lang} />
       </div>
       <CardActions

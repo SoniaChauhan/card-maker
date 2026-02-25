@@ -72,7 +72,7 @@ export default function WeddingCard({ onBack }) {
       <Particles icons={PARTICLES} count={24} />
       <p className="wedding-screen-title">💍 Your Wedding Invitation</p>
       <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-      <div className="card-wrapper">
+      <div className="card-wrapper screenshot-protected">
         <WeddingCardPreview data={data} lang={lang} />
       </div>
       <CardActions

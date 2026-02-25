@@ -66,7 +66,7 @@ export default function BirthdayCard({ onBack }) {
       <Particles icons={PARTICLES} count={24} />
       <p className="birthday-screen-title">� Your Birthday Invitation</p>
       <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-      <div className="card-wrapper">
+      <div className="card-wrapper screenshot-protected">
         <BirthdayCardPreview data={data} lang={lang} />
       </div>
       <CardActions

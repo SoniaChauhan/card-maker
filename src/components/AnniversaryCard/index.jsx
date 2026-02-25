@@ -59,7 +59,7 @@ export default function AnniversaryCard({ onBack }) {
       <Particles icons={PARTICLES} count={24} />
       <p className="anniversary-screen-title">💍 Your Anniversary Card</p>
       <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-      <div className="card-wrapper">
+      <div className="card-wrapper screenshot-protected">
         <AnniversaryCardPreview data={data} lang={lang} />
       </div>
       <CardActions

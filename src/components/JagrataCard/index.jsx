@@ -53,7 +53,7 @@ export default function JagrataCard({ onBack }) {
       <Particles icons={PARTICLES} count={24} />
       <p className="jagrata-screen-title">🪔 Your Jagrata Invitation</p>
       <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-      <div className="card-wrapper">
+      <div className="card-wrapper screenshot-protected">
         <JagrataCardPreview data={data} lang={lang} />
       </div>
       <CardActions

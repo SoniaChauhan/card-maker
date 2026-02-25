@@ -67,7 +67,7 @@ export default function ResumeCard({ onBack }) {
     <div className="resume-card-screen">
       <Particles icons={PARTICLES} count={20} />
       <p className="resume-screen-title">📄 Your Resume</p>
-      <div className="card-wrapper">
+      <div className="card-wrapper screenshot-protected">
         <ResumeCardPreview data={data} />
       </div>
       <CardActions
