@@ -111,6 +111,14 @@
 .card-option.wedding:hover { box-shadow: 0 30px 80px rgba(123,28,28,.65); }
 .card-option.wedding::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
+/* Resume */
+.card-option.resume {
+  background: linear-gradient(135deg, #1a73e8, #2d3748);
+  box-shadow: 0 20px 60px rgba(26,115,232,.45);
+}
+.card-option.resume:hover { box-shadow: 0 30px 80px rgba(26,115,232,.65); }
+.card-option.resume::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
+
 .card-option-icon {
   font-size: 60px;
   display: block;

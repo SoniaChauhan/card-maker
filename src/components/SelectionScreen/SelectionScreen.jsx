@@ -37,6 +37,13 @@ const CARDS = [
     icon: '💐',
     badge: '🌸 Royal & Classic',
   },
+  {
+    id: 'resume',
+    label: 'Resume / CV',
+    desc: 'Build a professional resume and download it as a PDF, ready to share.',
+    icon: '📄',
+    badge: '💼 Professional',
+  },
 ];
 
 const PARTICLES = ['⭐', '✨', '🌙', '💫', '🌟', '🎊', '🎉', '💖', '🌸', '💍'];

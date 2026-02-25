@@ -8,7 +8,7 @@
  *   dlBtnStyle?: object
  * }} props
  */
-export default function CardActions({ onEdit, onBack, onDownload, downloading, dlBtnStyle = {} }) {
+export default function CardActions({ onEdit, onBack, onDownload, downloading, dlBtnStyle = {}, dlLabel }) {
   return (
     <div className="card-actions">
       <button className="btn-back-card" onClick={onEdit}>✏️ Edit Details</button>
@@ -19,7 +19,7 @@ export default function CardActions({ onEdit, onBack, onDownload, downloading, d
         disabled={downloading}
         style={dlBtnStyle}
       >
-        {downloading ? '⏳ Saving…' : '⬇️ Download Card'}
+        {downloading ? '⏳ Saving…' : (dlLabel || '⬇️ Download Card')}
       </button>
     </div>
   );
