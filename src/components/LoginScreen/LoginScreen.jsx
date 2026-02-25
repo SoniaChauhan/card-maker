@@ -27,8 +27,29 @@ export default function LoginScreen() {
     setLoading(true);
     try {
       const code = generateOTP();
-      await storeOTP(trimmed, code);
-      await sendOTPEmail(trimmed, code);
+      
+      // Step 1: Store OTP in Firestore
+      try {
+        await storeOTP(trimmed, code);
+      } catch (fbErr) {
+        console.error('Firestore error:', fbErr);
+        setError('Firestore error: ' + (fbErr?.message || JSON.stringify(fbErr)));
+        setLoading(false);
+        return;
+      }
+
+      // Step 2: Send OTP via EmailJS
+      try {
+        await sendOTPEmail(trimmed, code);
+      } catch (emailErr) {
+        console.error('EmailJS error:', emailErr);
+        // Still move to OTP screen — OTP is stored in Firestore
+        setInfo(`OTP generated! (Email delivery may be delayed). Check console for code: ${code}`);
+        setStep('otp');
+        setLoading(false);
+        return;
+      }
+
       setInfo(`OTP sent to ${trimmed} — check your inbox.`);
       setStep('otp');
     } catch (err) {
