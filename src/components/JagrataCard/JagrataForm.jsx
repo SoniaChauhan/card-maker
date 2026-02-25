@@ -1,17 +1,33 @@
 import FormField from '../shared/FormField';
+import { RELIGIONS } from '../../utils/religionConfig';
 
 export default function JagrataForm({ data, errors, onChange, onBack, onGenerate }) {
   const today = new Date().toISOString().split('T')[0];
+  const selectedReligion = RELIGIONS.find(r => r.code === data.religion) || RELIGIONS[0];
   return (
     <div className="form-screen jagrata-form-screen">
       <div className="form-card">
         <div className="form-header">
-          <span className="form-header-icon">🪔</span>
+          <span className="form-header-icon">{selectedReligion.label.split(' ')[0]}</span>
           <h2>Jagrata Invitation Details</h2>
-          <p>Create a beautiful divine invitation for Khatushyam Ji Jagrata &mdash; Baba's blessing awaits!</p>
+          <p>Create a beautiful divine invitation &mdash; choose your religion for a personalised card!</p>
         </div>
 
         <div className="form-grid">
+          <div className="form-field" style={{ gridColumn: '1/-1' }}>
+            <label className="form-label">Religion / Faith <span className="form-required">*</span></label>
+            <select
+              name="religion"
+              value={data.religion}
+              onChange={onChange}
+              className="form-input"
+              style={{ cursor: 'pointer' }}
+            >
+              {RELIGIONS.map(r => (
+                <option key={r.code} value={r.code}>{r.label}</option>
+              ))}
+            </select>
+          </div>
           <FormField label="Guest / Recipient Name" name="guestName"
             value={data.guestName} onChange={onChange}
             placeholder="Who will receive this invite?" required error={errors.guestName} />

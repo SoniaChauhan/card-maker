@@ -9,7 +9,7 @@ import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 
-const INIT = { guestName: '', organizerName: '', jagrataTitle: '', purpose: '', date: '', startTime: '', venue: '', venueAddress: '', prasad: '', message: '' };
+const INIT = { religion: 'hindu', guestName: '', organizerName: '', jagrataTitle: '', purpose: '', date: '', startTime: '', venue: '', venueAddress: '', prasad: '', message: '' };
 const PARTICLES = ['🪔', '🙏', '🕉️', '✨', '🌸', '🌺', '⭐', '💛'];
 
 export default function JagrataCard({ onBack }) {

@@ -1,14 +1,16 @@
 import { formatDate, formatTime } from '../../utils/helpers';
 import { T } from '../../utils/translations';
+import { RELIGION_CONFIG } from '../../utils/religionConfig';
 
 export default function JagrataCardPreview({ data, lang = 'hi' }) {
   const t = T[lang];
-  const { guestName, organizerName, jagrataTitle, purpose, date, startTime, venue, venueAddress, prasad, message } = data;
+  const { guestName, organizerName, jagrataTitle, purpose, date, startTime, venue, venueAddress, prasad, message, religion = 'hindu' } = data;
+  const rc = RELIGION_CONFIG[religion] || RELIGION_CONFIG.hindu;
 
   return (
     <div id="jagrata-card-print" className="jagrata-card">
-      <div className="jagrata-deco-top">🪔 ✨ 🪔 ✨ 🪔</div>
-      <div className="jagrata-om">🕉️</div>
+      <div className="jagrata-deco-top">{rc.decoTop}</div>
+      <div className="jagrata-om" style={{ color: rc.accentColor }}>{rc.mainIcon}</div>
 
       <div className="jagrata-badge">{t.jagBadge}</div>
 
@@ -57,7 +59,7 @@ export default function JagrataCardPreview({ data, lang = 'hi' }) {
         )}
         {prasad && (
           <div className="jagrata-event-row">
-            <span className="jagrata-event-icon">🍯</span>
+            <span className="jagrata-event-icon">{rc.prasadIcon}</span>
             <span><strong>{t.jagPrasad}:</strong> {prasad}</span>
           </div>
         )}
@@ -65,7 +67,7 @@ export default function JagrataCardPreview({ data, lang = 'hi' }) {
 
       {message && <div className="jagrata-message">"{message}"</div>}
 
-      <div className="jagrata-deco-bottom">🌸 🪔 ॐ 🪔 🌸</div>
+      <div className="jagrata-deco-bottom">{rc.decoBottom}</div>
       <div className="jagrata-footer-text">{t.jagFooter}</div>
     </div>
   );
