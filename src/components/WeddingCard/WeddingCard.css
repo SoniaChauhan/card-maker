@@ -1,5 +1,6 @@
 /* ============================================================
-   Wedding Invitation Card — Premium Royal Indian Design
+   Wedding Invitation Card — Premium Royal Indian Design v2
+   Jaimala + Praise Couplets + Cute Blessings
    Colors: deep maroon #7b1c1c / rich gold #c9963e / cream #fff8f0
 ============================================================ */
 
@@ -89,81 +90,217 @@
 }
 
 /* ==============================
-   ORNAMENTAL TOP / BOTTOM BARS
+   TOP / BOTTOM GARLAND BORDERS
 ============================== */
-.wed-ornament-top,
-.wed-ornament-bottom {
+.wed-top-garland,
+.wed-bottom-garland {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 14px 24px 6px;
+  gap: 6px;
+  padding: 14px 20px 6px;
+  font-size: 20px;
+  letter-spacing: 2px;
 }
-.wed-ornament-bottom { padding: 6px 24px 14px; }
+.wed-bottom-garland { padding: 6px 20px 14px; }
 
-.wed-ornament-line {
-  flex: 1;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #c9963e, transparent);
+.wed-top-garland span,
+.wed-bottom-garland span {
+  display: inline-block;
+  animation: garlandFloat 3.5s ease-in-out infinite;
+  filter: drop-shadow(0 1px 3px rgba(201,150,62,.35));
 }
-.wed-ornament-icon {
-  font-size: 18px;
-  filter: drop-shadow(0 1px 3px rgba(201,150,62,.5));
+.wed-top-garland span:nth-child(2),
+.wed-bottom-garland span:nth-child(2) { animation-delay: .4s; }
+.wed-top-garland span:nth-child(3),
+.wed-bottom-garland span:nth-child(3) { animation-delay: .8s; }
+.wed-top-garland span:nth-child(4),
+.wed-bottom-garland span:nth-child(4) { animation-delay: 1.2s; }
+.wed-top-garland span:nth-child(5),
+.wed-bottom-garland span:nth-child(5) { animation-delay: 1.6s; }
+
+@keyframes garlandFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-4px) rotate(6deg); }
 }
 
 /* ==============================
    AUSPICIOUS HEADER
 ============================== */
 .wed-auspicious {
-  padding: 10px 0 6px;
+  padding: 10px 0 4px;
 }
-.wed-ganesh {
-  font-size: 36px;
+.wed-om {
+  font-size: 40px;
+  color: #c9963e;
   display: block;
-  filter: drop-shadow(0 2px 6px rgba(201,150,62,.4));
+  filter: drop-shadow(0 2px 6px rgba(201,150,62,.5));
   animation: pulse 3s ease-in-out infinite;
 }
-.wed-shubh-label {
-  font-size: 16px;
+.wed-shubh {
+  font-size: 17px;
   font-weight: 700;
   color: #7b1c1c;
   letter-spacing: 4px;
-  margin-top: 4px;
+  margin-top: 2px;
   text-shadow: 0 1px 2px rgba(123,28,28,.15);
 }
-
-/* ==============================
-   FLORAL STRIP
-============================== */
-.wed-floral-strip {
-  font-size: 20px;
-  letter-spacing: 10px;
-  padding: 6px 0;
-  opacity: .55;
+.wed-ganesh-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 13px;
+  color: #c9963e;
 }
-.wed-floral-strip span {
-  display: inline-block;
-  animation: gentleSway 4s ease-in-out infinite;
+.wed-gl-wing {
+  opacity: .5;
+  letter-spacing: 2px;
 }
-.wed-floral-strip span:nth-child(2) { animation-delay: .5s; }
-.wed-floral-strip span:nth-child(3) { animation-delay: 1s; }
-.wed-floral-strip span:nth-child(4) { animation-delay: 1.5s; }
-.wed-floral-strip span:nth-child(5) { animation-delay: 2s; }
-
-@keyframes gentleSway {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-3px) rotate(5deg); }
+.wed-gl-icon {
+  font-size: 22px;
+  filter: drop-shadow(0 1px 4px rgba(201,150,62,.45));
 }
 
 /* ==============================
-   INVITATION MESSAGE
+   PRAISE / COUPLET SECTIONS
 ============================== */
-.wed-invite-msg {
+.wed-praise {
+  margin: 10px 22px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(201,150,62,.25);
+}
+
+/* Sanskrit shlok praise */
+.wed-praise-shlok {
+  background: linear-gradient(135deg, #fffbf2, #fef5e3);
+  border-left: 3px solid #c9963e;
+}
+.wed-praise-text {
+  font-size: 12px;
+  color: #7b1c1c;
+  font-style: italic;
+  line-height: 1.75;
+  letter-spacing: .3px;
+}
+.wed-praise-meaning {
+  font-size: 10.5px;
+  color: #8a6030;
+  font-style: italic;
+  line-height: 1.6;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(201,150,62,.3);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Cute / love praise */
+.wed-praise-cute {
+  background: linear-gradient(135deg, #fef8f0, #fdf2e5, #fef8f0);
+  border: 1px dashed rgba(201,150,62,.35);
+}
+.wed-praise-emoji {
+  font-size: 22px;
+  letter-spacing: 8px;
+  margin-bottom: 6px;
+}
+.wed-praise-cute-text {
+  font-size: 12px;
+  color: #6a3a18;
+  line-height: 1.7;
+}
+
+/* Kids / child praise */
+.wed-praise-kids {
+  background: linear-gradient(135deg, #fff5fb, #fef0f6, #fdf8ff);
+  border: 1.5px dashed rgba(220,120,160,.3);
+}
+.wed-praise-kids-text {
   font-size: 12.5px;
+  color: #8b3060;
+  line-height: 1.7;
+}
+.wed-kids-sub {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #b06080;
+  font-style: italic;
+}
+
+/* ==============================
+   JAIMALA SCENE
+============================== */
+.wed-jaimala-scene {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 20px 4px;
+}
+.wed-jm-garland-left,
+.wed-jm-garland-right {
+  font-size: 20px;
+  letter-spacing: 3px;
+  animation: garlandSwing 4s ease-in-out infinite;
+}
+.wed-jm-garland-right { animation-direction: reverse; }
+
+.wed-jm-couple {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.wed-jm-person {
+  font-size: 36px;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.15));
+}
+.wed-jm-hearts {
+  font-size: 20px;
+  animation: heartBounce 1.5s ease-in-out infinite;
+}
+
+.wed-jm-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #c9963e;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin: 4px 0 10px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+@keyframes garlandSwing {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  25% { transform: rotate(-5deg) translateY(-3px); }
+  75% { transform: rotate(5deg) translateY(-3px); }
+}
+@keyframes heartBounce {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.25); }
+}
+
+/* ==============================
+   BLESSING BOX
+============================== */
+.wed-blessing-box {
+  margin: 6px 22px 10px;
+  padding: 12px 18px;
+  background: linear-gradient(135deg, rgba(201,150,62,.08), rgba(201,150,62,.04));
+  border-radius: 12px;
+  border: 1px solid rgba(201,150,62,.2);
+}
+.wed-blessing-icon {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+.wed-blessing-text {
+  font-size: 12px;
   color: #8a6030;
   font-style: italic;
   line-height: 1.7;
-  padding: 8px 28px;
   letter-spacing: .3px;
 }
 
@@ -172,18 +309,30 @@
 ============================== */
 .wed-photo-section {
   display: flex;
-  justify-content: center;
-  padding: 14px 0 10px;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0 8px;
 }
+.wed-photo-garland-top,
+.wed-photo-garland-bottom {
+  font-size: 14px;
+  letter-spacing: 4px;
+  opacity: .5;
+  line-height: 1;
+}
+.wed-photo-garland-top { margin-bottom: 6px; }
+.wed-photo-garland-bottom { margin-top: 6px; }
+
 .wed-photo-frame {
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   padding: 4px;
   background: linear-gradient(135deg, #c9963e, #f5d998, #c9963e);
   box-shadow:
-    0 0 0 3px rgba(123,28,28,.12),
+    0 0 0 4px rgba(123,28,28,.1),
+    0 0 20px rgba(201,150,62,.3),
     0 8px 30px rgba(201,150,62,.4);
 }
 .wed-photo {
@@ -191,7 +340,7 @@
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #fff8f0;
+  border: 2.5px solid #fff8f0;
 }
 
 /* ==============================
@@ -202,18 +351,19 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 10px 20px;
-  margin: 6px 20px;
+  padding: 12px 20px;
+  margin: 8px 20px;
   background: linear-gradient(135deg, rgba(201,150,62,.08), rgba(123,28,28,.04));
   border-top: 1px solid rgba(201,150,62,.25);
   border-bottom: 1px solid rgba(201,150,62,.25);
+  border-radius: 8px;
 }
 .wed-family-block {
   flex: 1;
   text-align: center;
 }
 .wed-family-name {
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 700;
   color: #5a3010;
   line-height: 1.4;
@@ -224,7 +374,7 @@
   text-transform: uppercase;
   letter-spacing: 1.5px;
   font-weight: 600;
-  margin-top: 2px;
+  margin-top: 3px;
   font-family: 'Segoe UI', sans-serif;
 }
 .wed-family-separator {
@@ -241,7 +391,7 @@
   letter-spacing: 3px;
   color: #b08040;
   font-weight: 700;
-  margin: 12px 0 4px;
+  margin: 14px 0 4px;
   font-family: 'Segoe UI', sans-serif;
 }
 
@@ -269,18 +419,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   margin: 6px 0;
 }
 .wed-amp-line {
   display: inline-block;
-  width: 50px;
+  width: 45px;
   height: 1px;
   background: linear-gradient(90deg, transparent, #c9963e, transparent);
 }
-.wed-amp-center {
-  font-size: 32px;
-  animation: pulse 2.5s ease-in-out infinite;
+.wed-amp-center-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.wed-amp-icon {
+  font-size: 20px;
+}
+.wed-amp-heart {
+  font-size: 22px;
+  animation: heartBounce 2s ease-in-out infinite;
   filter: drop-shadow(0 2px 6px rgba(201,150,62,.5));
 }
 
@@ -288,35 +446,36 @@
    TAGLINE
 ============================== */
 .wed-tagline {
-  font-size: 11px;
-  color: #999;
+  font-size: 11.5px;
+  color: #9a7050;
   font-style: italic;
   letter-spacing: .5px;
   margin-bottom: 10px;
+  line-height: 1.5;
+  padding: 0 28px;
   font-family: 'Segoe UI', sans-serif;
 }
 
 /* ==============================
-   MANDALA DIVIDER
+   FLOWER DIVIDER
 ============================== */
-.wed-mandala-divider {
+.wed-flower-divider {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin: 8px 0 14px;
-  font-size: 12px;
-  color: #c9963e;
-}
-.wed-md-wing {
-  letter-spacing: 2px;
+  gap: 6px;
+  margin: 6px 0 14px;
+  font-size: 16px;
   opacity: .5;
-  font-size: 11px;
 }
-.wed-md-center {
-  font-size: 20px;
-  opacity: .7;
+.wed-flower-divider span {
+  display: inline-block;
+  animation: garlandFloat 3s ease-in-out infinite;
 }
+.wed-flower-divider span:nth-child(2) { animation-delay: .3s; }
+.wed-flower-divider span:nth-child(3) { animation-delay: .6s; }
+.wed-flower-divider span:nth-child(4) { animation-delay: .9s; }
+.wed-flower-divider span:nth-child(5) { animation-delay: 1.2s; }
 
 /* ==============================
    EVENT CARDS (Ceremony / Reception)
@@ -341,6 +500,9 @@
   gap: 8px;
   padding: 10px 16px 8px;
   background: linear-gradient(135deg, #7b1c1c, #a82e2e);
+}
+.wed-event-header-reception {
+  background: linear-gradient(135deg, #4a2508, #7a4018);
 }
 .wed-event-emoji {
   font-size: 16px;
@@ -435,14 +597,14 @@
   font-style: italic;
   line-height: 1.65;
   margin: 10px 28px;
-  padding: 10px 16px;
+  padding: 12px 18px;
   background: rgba(201,150,62,.06);
   border-left: 3px solid #c9963e;
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 10px 10px 0;
   text-align: left;
 }
 .wed-msg-quote {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 900;
   color: #c9963e;
   line-height: 1;
@@ -454,10 +616,16 @@
 ============================== */
 .wed-invite-appeal {
   margin: 12px 22px;
-  padding: 14px 18px;
-  background: linear-gradient(135deg, #7b1c1c, #8b2424);
-  border-radius: 12px;
-  box-shadow: 0 4px 18px rgba(123,28,28,.3);
+  padding: 16px 18px;
+  background: linear-gradient(135deg, #7b1c1c, #8b2424, #7b1c1c);
+  border-radius: 14px;
+  box-shadow:
+    0 4px 18px rgba(123,28,28,.3),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
+.wed-appeal-icon {
+  font-size: 28px;
+  margin-bottom: 6px;
 }
 .wed-appeal-text {
   font-size: 12px;
@@ -517,11 +685,11 @@
    FOOTER
 ============================== */
 .wed-footer {
-  padding: 10px 20px 4px;
+  padding: 12px 20px 4px;
 }
-.wed-footer-floral {
+.wed-footer-garland {
   font-size: 16px;
-  letter-spacing: 6px;
+  letter-spacing: 5px;
   margin-bottom: 6px;
   opacity: .5;
 }
@@ -531,7 +699,15 @@
   font-style: italic;
   letter-spacing: .5px;
   font-family: 'Segoe UI', sans-serif;
-  margin-bottom: 0;
+  margin-bottom: 4px;
+}
+.wed-footer-sub {
+  font-size: 9.5px;
+  color: #c9963e;
+  letter-spacing: 1px;
+  font-style: italic;
+  opacity: .65;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 /* ==============================
@@ -553,4 +729,8 @@
   .wed-invite-appeal { margin: 10px 14px; }
   .wed-custom-msg { margin: 8px 14px; }
   .wed-family-members { margin: 10px 14px; }
+  .wed-praise { margin: 8px 14px; }
+  .wed-jaimala-scene { gap: 6px; }
+  .wed-jm-person { font-size: 28px; }
+  .wed-blessing-box { margin: 6px 14px 10px; }
 }
