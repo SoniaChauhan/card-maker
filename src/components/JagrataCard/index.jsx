@@ -5,6 +5,7 @@ import JagrataCardPreview from './JagrataCardPreview';
 import CardActions from '../shared/CardActions';
 import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
+import LanguagePicker from '../shared/LanguagePicker';
 import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
@@ -51,12 +52,7 @@ export default function JagrataCard({ onBack }) {
     <div className="jagrata-card-screen">
       <Particles icons={PARTICLES} count={24} />
       <p className="jagrata-screen-title">🪔 Your Jagrata Invitation</p>
-      <div className="lang-toggle-bar">
-        <label className="lang-select-label">🌐 Language:</label>
-        <select className="lang-select" value={lang} onChange={e => setLang(e.target.value)}>
-          {LANGUAGES.map(l => <option key={l.code} value={l.code}>{l.label}</option>)}
-        </select>
-      </div>
+      <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
       <div className="card-wrapper">
         <JagrataCardPreview data={data} lang={lang} />
       </div>

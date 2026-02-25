@@ -5,6 +5,7 @@ import BirthdayCardPreview from './BirthdayCardPreview';
 import CardActions from '../shared/CardActions';
 import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
+import LanguagePicker from '../shared/LanguagePicker';
 import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
@@ -64,12 +65,7 @@ export default function BirthdayCard({ onBack }) {
     <div className="birthday-card-screen">
       <Particles icons={PARTICLES} count={24} />
       <p className="birthday-screen-title">🎂 Your Birthday Card</p>
-      <div className="lang-toggle-bar">
-        <label className="lang-select-label">🌐 Language:</label>
-        <select className="lang-select" value={lang} onChange={e => setLang(e.target.value)}>
-          {LANGUAGES.map(l => <option key={l.code} value={l.code}>{l.label}</option>)}
-        </select>
-      </div>
+      <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
       <div className="card-wrapper">
         <BirthdayCardPreview data={data} lang={lang} />
       </div>

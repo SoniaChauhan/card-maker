@@ -5,6 +5,7 @@ import AnniversaryCardPreview from './AnniversaryCardPreview';
 import CardActions from '../shared/CardActions';
 import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
+import LanguagePicker from '../shared/LanguagePicker';
 import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
@@ -57,12 +58,7 @@ export default function AnniversaryCard({ onBack }) {
     <div className="anniversary-card-screen">
       <Particles icons={PARTICLES} count={24} />
       <p className="anniversary-screen-title">💍 Your Anniversary Card</p>
-      <div className="lang-toggle-bar">
-        <label className="lang-select-label">🌐 Language:</label>
-        <select className="lang-select" value={lang} onChange={e => setLang(e.target.value)}>
-          {LANGUAGES.map(l => <option key={l.code} value={l.code}>{l.label}</option>)}
-        </select>
-      </div>
+      <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
       <div className="card-wrapper">
         <AnniversaryCardPreview data={data} lang={lang} />
       </div>
