@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://SoniaChauhan.github.io/card-making",
+  "homepage": "https://SoniaChauhan.github.io/card-maker",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
