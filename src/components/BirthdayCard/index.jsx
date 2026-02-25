@@ -7,6 +7,7 @@ import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
+import { LANGUAGES } from '../../utils/translations';
 
 const INIT = { guestName: '', birthdayPerson: '', age: '', date: '', venue: '', venueAddress: '', message: '' };
 const PARTICLES = ['🎈', '🎉', '🎊', '⭐', '✨', '🎁', '🌟', '🎂'];
@@ -60,8 +61,7 @@ export default function BirthdayCard({ onBack }) {
       <div className="lang-toggle-bar">
         <label className="lang-select-label">🌐 Language:</label>
         <select className="lang-select" value={lang} onChange={e => setLang(e.target.value)}>
-          <option value="en">🇬🇧 English</option>
-          <option value="hi">🇮🇳 हिन्दी</option>
+          {LANGUAGES.map(l => <option key={l.code} value={l.code}>{l.label}</option>)}
         </select>
       </div>
       <div className="card-wrapper">
