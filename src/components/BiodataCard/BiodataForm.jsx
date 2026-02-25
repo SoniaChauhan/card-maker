@@ -36,7 +36,7 @@ export default function BiodataForm({ data, errors, onChange, onBack, onGenerate
 
         {/* — Personal Information — */}
         <div className="biodata-section-title">👤 Personal Information</div>
-        <div className="form-grid">
+        <div className="form-stack">
           <FormField label="Full Name" name="fullName"
             value={data.fullName} onChange={onChange}
             placeholder="e.g. Priya Sharma" required error={errors.fullName} />
@@ -80,7 +80,7 @@ export default function BiodataForm({ data, errors, onChange, onBack, onGenerate
 
         {/* — Astrological Details — */}
         <div className="biodata-section-title">🔮 Astrological Details</div>
-        <div className="form-grid">
+        <div className="form-stack">
           <FormField label="Gotra" name="gotra"
             value={data.gotra} onChange={onChange}
             placeholder="e.g. Kashyap" />
@@ -100,7 +100,7 @@ export default function BiodataForm({ data, errors, onChange, onBack, onGenerate
 
         {/* — Education & Career — */}
         <div className="biodata-section-title">🎓 Education &amp; Career</div>
-        <div className="form-grid">
+        <div className="form-stack">
           <FormField label="Highest Education" name="education"
             value={data.education} onChange={onChange}
             placeholder="e.g. B.Tech / MBA / M.Sc" required error={errors.education} />
@@ -120,7 +120,7 @@ export default function BiodataForm({ data, errors, onChange, onBack, onGenerate
 
         {/* — Family Details — */}
         <div className="biodata-section-title">👨‍👩‍👧 Family Details</div>
-        <div className="form-grid">
+        <div className="form-stack">
           <FormField label="Father's Name" name="fatherName"
             value={data.fatherName} onChange={onChange}
             placeholder="Father's full name" />
@@ -139,26 +139,25 @@ export default function BiodataForm({ data, errors, onChange, onBack, onGenerate
 
           <FormField label="Siblings" name="siblings"
             value={data.siblings} onChange={onChange}
-            placeholder="e.g. 1 Elder Brother (Married)"
-            span />
+            placeholder="e.g. 1 Elder Brother (Married)" />
         </div>
 
         {/* — About Me — */}
         <div className="biodata-section-title">💬 About Me</div>
-        <div className="form-grid">
+        <div className="form-stack">
           <FormField label="Hobbies &amp; Interests" name="hobbies"
             value={data.hobbies} onChange={onChange}
-            placeholder="e.g. Reading, Cooking, Travelling" span />
+            placeholder="e.g. Reading, Cooking, Travelling" />
 
           <FormField label="About Yourself" name="aboutMe"
             value={data.aboutMe} onChange={onChange}
             placeholder="Write a short introduction about yourself…"
-            rows={3} span />
+            rows={3} />
         </div>
 
         {/* — Contact Details — */}
         <div className="biodata-section-title">📞 Contact Details</div>
-        <div className="form-grid">
+        <div className="form-stack">
           <FormField label="Contact Person Name" name="contactName"
             value={data.contactName} onChange={onChange}
             placeholder="e.g. Ramesh Sharma (Father)" />
@@ -169,7 +168,7 @@ export default function BiodataForm({ data, errors, onChange, onBack, onGenerate
 
           <FormField label="Address" name="contactAddress"
             value={data.contactAddress} onChange={onChange}
-            placeholder="City, State" span />
+            placeholder="City, State" />
         </div>
 
         {/* — Photo Upload — */}
