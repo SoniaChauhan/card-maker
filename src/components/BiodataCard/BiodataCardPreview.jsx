@@ -1,4 +1,5 @@
 import { formatDate } from '../../utils/helpers';
+import { T } from '../../utils/translations';
 
 function Row({ label, value }) {
   if (!value) return null;
@@ -11,7 +12,8 @@ function Row({ label, value }) {
   );
 }
 
-export default function BiodataCardPreview({ data }) {
+export default function BiodataCardPreview({ data, lang = 'en' }) {
+  const t = T[lang];
   const {
     fullName, dob, age, height, weight, complexion, bloodGroup,
     religion, caste, subCaste,
@@ -29,8 +31,8 @@ export default function BiodataCardPreview({ data }) {
       {/* Header */}
       <div className="bio-header">
         <div className="bio-header-deco">🌸 ॐ 🌸</div>
-        <div className="bio-header-title">Marriage Biodata</div>
-        <div className="bio-header-sub">विवाह परिचय पत्र</div>
+        <div className="bio-header-title">{t.bioTitle}</div>
+        <div className="bio-header-sub">{t.bioSubTitle}</div>
         <div className="bio-divider-ornament">❧ ✦ ❧</div>
       </div>
 
@@ -43,7 +45,7 @@ export default function BiodataCardPreview({ data }) {
         )}
         <div className="bio-name-block">
           <div className="bio-full-name">{fullName || 'Candidate Name'}</div>
-          {dob && <div className="bio-dob-line">Born: {formatDate(dob)}</div>}
+          {dob && <div className="bio-dob-line">{t.bioBorn}: {formatDate(dob)}</div>}
           {(caste || religion) && (
             <div className="bio-caste-line">{[religion, caste].filter(Boolean).join(' • ')}</div>
           )}
@@ -54,16 +56,16 @@ export default function BiodataCardPreview({ data }) {
 
       {/* Personal Details */}
       <div className="bio-section">
-        <div className="bio-section-heading">👤 Personal Details</div>
+        <div className="bio-section-heading">{t.bioPersonal}</div>
         <div className="bio-rows">
-          <Row label="Age"         value={age ? `${age} Years` : ''} />
-          <Row label="Height"      value={height} />
-          <Row label="Weight"      value={weight} />
-          <Row label="Complexion"  value={complexion} />
-          <Row label="Blood Group" value={bloodGroup} />
-          <Row label="Religion"    value={religion} />
-          <Row label="Caste"       value={caste} />
-          <Row label="Sub Caste"   value={subCaste} />
+          <Row label={t.bioAge}        value={age ? `${age} ${t.bioYears}` : ''} />
+          <Row label={t.bioHeight}     value={height} />
+          <Row label={t.bioWeight}     value={weight} />
+          <Row label={t.bioComplexion} value={complexion} />
+          <Row label={t.bioBlood}      value={bloodGroup} />
+          <Row label={t.bioReligion}   value={religion} />
+          <Row label={t.bioCaste}      value={caste} />
+          <Row label={t.bioSubCaste}   value={subCaste} />
         </div>
       </div>
 
@@ -73,12 +75,12 @@ export default function BiodataCardPreview({ data }) {
       {(gotra || rashi || nakshatra || manglik) && (
         <>
           <div className="bio-section">
-            <div className="bio-section-heading">🔮 Astrological Details</div>
+            <div className="bio-section-heading">{t.bioAstro}</div>
             <div className="bio-rows">
-              <Row label="Gotra"     value={gotra} />
-              <Row label="Rashi"     value={rashi} />
-              <Row label="Nakshatra" value={nakshatra} />
-              <Row label="Manglik"   value={manglik} />
+              <Row label={t.bioGotra}     value={gotra} />
+              <Row label={t.bioRashi}     value={rashi} />
+              <Row label={t.bioNakshatra} value={nakshatra} />
+              <Row label={t.bioManglik}   value={manglik} />
             </div>
           </div>
           <div className="bio-divider" />
@@ -87,12 +89,12 @@ export default function BiodataCardPreview({ data }) {
 
       {/* Education & Career */}
       <div className="bio-section">
-        <div className="bio-section-heading">🎓 Education &amp; Career</div>
+        <div className="bio-section-heading">{t.bioEdu}</div>
         <div className="bio-rows">
-          <Row label="Education"      value={education} />
-          <Row label="Occupation"     value={occupation} />
-          <Row label="Employer"       value={employer} />
-          <Row label="Annual Income"  value={annualIncome} />
+          <Row label={t.bioEducation}  value={education} />
+          <Row label={t.bioOccupation} value={occupation} />
+          <Row label={t.bioEmployer}   value={employer} />
+          <Row label={t.bioIncome}     value={annualIncome} />
         </div>
       </div>
 
@@ -102,13 +104,13 @@ export default function BiodataCardPreview({ data }) {
       {(fatherName || motherName || siblings) && (
         <>
           <div className="bio-section">
-            <div className="bio-section-heading">👨‍👩‍👧 Family Details</div>
+            <div className="bio-section-heading">{t.bioFamily}</div>
             <div className="bio-rows">
-              <Row label="Father's Name"       value={fatherName} />
-              <Row label="Father's Occupation" value={fatherOccupation} />
-              <Row label="Mother's Name"       value={motherName} />
-              <Row label="Mother's Occupation" value={motherOccupation} />
-              <Row label="Siblings"            value={siblings} />
+              <Row label={t.bioFather}    value={fatherName} />
+              <Row label={t.bioFatherOcc} value={fatherOccupation} />
+              <Row label={t.bioMother}    value={motherName} />
+              <Row label={t.bioMotherOcc} value={motherOccupation} />
+              <Row label={t.bioSiblings}  value={siblings} />
             </div>
           </div>
           <div className="bio-divider" />
@@ -119,10 +121,10 @@ export default function BiodataCardPreview({ data }) {
       {(hobbies || aboutMe) && (
         <>
           <div className="bio-section">
-            <div className="bio-section-heading">💬 About Me</div>
+            <div className="bio-section-heading">{t.bioAbout}</div>
             {hobbies && (
               <div className="bio-about-row">
-                <span className="bio-label">Hobbies</span>
+                <span className="bio-label">{t.bioHobbies}</span>
                 <span className="bio-colon">:</span>
                 <span className="bio-value">{hobbies}</span>
               </div>
@@ -135,18 +137,18 @@ export default function BiodataCardPreview({ data }) {
 
       {/* Contact Details */}
       <div className="bio-section bio-contact-section">
-        <div className="bio-section-heading">📞 Contact Details</div>
+        <div className="bio-section-heading">{t.bioContact}</div>
         <div className="bio-rows">
-          <Row label="Contact Person" value={contactName} />
-          <Row label="Phone"          value={contactPhone} />
-          <Row label="Address"        value={contactAddress} />
+          <Row label={t.bioContactPerson} value={contactName} />
+          <Row label={t.bioPhone}         value={contactPhone} />
+          <Row label={t.bioAddress}       value={contactAddress} />
         </div>
       </div>
 
       {/* Footer */}
       <div className="bio-footer">
         <div className="bio-footer-deco">🌸 ✦ 🌸 ✦ 🌸</div>
-        <div className="bio-footer-note">With Family Blessings</div>
+        <div className="bio-footer-note">{t.bioFooter}</div>
       </div>
     </div>
   );

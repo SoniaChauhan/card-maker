@@ -15,6 +15,7 @@ export default function BirthdayCard({ onBack }) {
   const [step, setStep]     = useState('form');
   const [data, setData]     = useState(INIT);
   const [errors, setErrors] = useState({});
+  const [lang, setLang]     = useState('en');
 
   const filename = `birthday-${toFilename(data.birthdayPerson || 'card')}.png`;
   const { downloading, handleDownload, toast } = useDownload('bday-card-print', filename);
@@ -56,8 +57,14 @@ export default function BirthdayCard({ onBack }) {
     <div className="birthday-card-screen">
       <Particles icons={PARTICLES} count={24} />
       <p className="birthday-screen-title">🎂 Your Birthday Card</p>
+      <div className="lang-toggle-bar">
+        <button className="btn-lang-toggle" onClick={() => setLang(l => l === 'en' ? 'hi' : 'en')}>
+          <span className="lang-flag">{lang === 'en' ? '🇮🇳' : '🇬🇧'}</span>
+          {lang === 'en' ? 'हिन्दी में देखें' : 'View in English'}
+        </button>
+      </div>
       <div className="card-wrapper">
-        <BirthdayCardPreview data={data} />
+        <BirthdayCardPreview data={data} lang={lang} />
       </div>
       <CardActions
         onEdit={() => setStep('form')}

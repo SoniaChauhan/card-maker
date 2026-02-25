@@ -1,6 +1,8 @@
 import { formatDate } from '../../utils/helpers';
+import { T } from '../../utils/translations';
 
-export default function BirthdayCardPreview({ data }) {
+export default function BirthdayCardPreview({ data, lang = 'en' }) {
+  const t = T[lang];
   const { guestName, birthdayPerson, age, date, venue, venueAddress, message } = data;
 
   return (
@@ -9,20 +11,20 @@ export default function BirthdayCardPreview({ data }) {
 
       {guestName && (
         <div className="bday-guest-intro">
-          To: <span className="bday-guest-name">{guestName}</span>
+          {t.to}: <span className="bday-guest-name">{guestName}</span>
         </div>
       )}
 
       <div className="balloon-row">🎈 🎈 🎈</div>
 
-      <div className="bday-badge">🎊 Birthday Celebration 🎊</div>
+      <div className="bday-badge">{t.bdayBadge}</div>
 
-      <div className="bday-title">Happy Birthday!</div>
+      <div className="bday-title">{t.bdayTitle}</div>
       <div className="bday-name">{birthdayPerson || 'Dear Friend'}</div>
 
       {age && (
         <div style={{ marginBottom: 8 }}>
-          <span className="bday-age-badge">🎂 Turning {age}! 🎂</span>
+          <span className="bday-age-badge">{t.bdayTurning(age)}</span>
         </div>
       )}
 
@@ -32,14 +34,14 @@ export default function BirthdayCardPreview({ data }) {
         {date && (
           <div className="bday-event-row">
             <span className="bday-event-icon">📅</span>
-            <span><strong>Date:</strong> {formatDate(date)}</span>
+            <span><strong>{t.date}:</strong> {formatDate(date)}</span>
           </div>
         )}
         {venue && (
           <div className="bday-event-row">
             <span className="bday-event-icon">📍</span>
             <div>
-              <strong>Venue:</strong> {venue}
+              <strong>{t.venue}:</strong> {venue}
               {venueAddress && <><br /><span style={{ color: '#666', fontSize: '12px' }}>{venueAddress}</span></>}
             </div>
           </div>

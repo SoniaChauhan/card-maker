@@ -1,6 +1,8 @@
 import { formatDate, formatTime, ordinal } from '../../utils/helpers';
+import { T } from '../../utils/translations';
 
-export default function AnniversaryCardPreview({ data }) {
+export default function AnniversaryCardPreview({ data, lang = 'en' }) {
+  const t = T[lang];
   const { guestName, partner1, partner2, years, date, time, venue, venueAddress, message } = data;
 
   return (
@@ -10,17 +12,17 @@ export default function AnniversaryCardPreview({ data }) {
 
       {guestName && (
         <div className="anniv-guest-intro">
-          To: <span className="anniv-guest-name">{guestName}</span>
+          {t.to}: <span className="anniv-guest-name">{guestName}</span>
         </div>
       )}
 
       {years && (
         <div className="anniv-badge">
-          🎊 {ordinal(parseInt(years, 10))} Anniversary 🎊
+          {t.annivBadge(ordinal(parseInt(years, 10)))}
         </div>
       )}
 
-      <div className="anniv-title">Happy Anniversary!</div>
+      <div className="anniv-title">{t.annivTitle}</div>
 
       <div className="anniv-couple">
         {partner1 || 'Partner 1'} &hearts; {partner2 || 'Partner 2'}
@@ -30,20 +32,20 @@ export default function AnniversaryCardPreview({ data }) {
         {date && (
           <div className="anniv-event-row">
             <span className="anniv-event-icon">📅</span>
-            <span><strong>Date:</strong> {formatDate(date)}</span>
+            <span><strong>{t.date}:</strong> {formatDate(date)}</span>
           </div>
         )}
         {time && (
           <div className="anniv-event-row">
             <span className="anniv-event-icon">⏰</span>
-            <span><strong>Time:</strong> {formatTime(time)}</span>
+            <span><strong>{t.time}:</strong> {formatTime(time)}</span>
           </div>
         )}
         {venue && (
           <div className="anniv-event-row">
             <span className="anniv-event-icon">📍</span>
             <div>
-              <strong>Venue:</strong> {venue}
+              <strong>{t.venue}:</strong> {venue}
               {venueAddress && <><br /><span style={{ color: '#888', fontSize: '12px' }}>{venueAddress}</span></>}
             </div>
           </div>

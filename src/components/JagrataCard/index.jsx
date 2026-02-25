@@ -15,6 +15,7 @@ export default function JagrataCard({ onBack }) {
   const [step, setStep]     = useState('form');
   const [data, setData]     = useState(INIT);
   const [errors, setErrors] = useState({});
+  const [lang, setLang]     = useState('hi');
 
   const filename = `jagrata-${toFilename(data.jagrataTitle || 'invite')}.png`;
   const { downloading, handleDownload, toast } = useDownload('jagrata-card-print', filename);
@@ -49,8 +50,14 @@ export default function JagrataCard({ onBack }) {
     <div className="jagrata-card-screen">
       <Particles icons={PARTICLES} count={24} />
       <p className="jagrata-screen-title">🪔 Your Jagrata Invitation</p>
+      <div className="lang-toggle-bar">
+        <button className="btn-lang-toggle" onClick={() => setLang(l => l === 'en' ? 'hi' : 'en')}>
+          <span className="lang-flag">{lang === 'en' ? '🇮🇳' : '🇬🇧'}</span>
+          {lang === 'en' ? 'हिन्दी में देखें' : 'View in English'}
+        </button>
+      </div>
       <div className="card-wrapper">
-        <JagrataCardPreview data={data} />
+        <JagrataCardPreview data={data} lang={lang} />
       </div>
       <CardActions
         onEdit={() => setStep('form')}

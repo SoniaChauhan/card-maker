@@ -53,6 +53,7 @@ export default function BiodataCard({ onBack }) {
   const [step, setStep]     = useState('form');
   const [data, setData]     = useState(INIT);
   const [errors, setErrors] = useState({});
+  const [lang, setLang]     = useState('en');
 
   const filename = `biodata-${toFilename(data.fullName || 'card')}.png`;
   const { downloading, handleDownload, toast } = useDownload('biodata-print', filename);
@@ -102,8 +103,14 @@ export default function BiodataCard({ onBack }) {
     <div className="biodata-card-screen">
       <Particles icons={PARTICLES} count={20} />
       <p className="biodata-screen-title">💍 Marriage Biodata</p>
+      <div className="lang-toggle-bar">
+        <button className="btn-lang-toggle" onClick={() => setLang(l => l === 'en' ? 'hi' : 'en')}>
+          <span className="lang-flag">{lang === 'en' ? '🇮🇳' : '🇬🇧'}</span>
+          {lang === 'en' ? 'हिन्दी में देखें' : 'View in English'}
+        </button>
+      </div>
       <div className="card-wrapper">
-        <BiodataCardPreview data={data} />
+        <BiodataCardPreview data={data} lang={lang} />
       </div>
       <CardActions
         onEdit={() => setStep('form')}
