@@ -44,6 +44,19 @@ export default function BirthdayForm({ data, errors, onChange, onBack, onGenerat
             placeholder="Write a heartfelt message…" rows={3} span />
         </div>
 
+        {/* — Photo Upload — */}
+        <div className="form-stack" style={{ marginBottom: 0 }}>
+          <div className="card-photo-upload">
+            <label htmlFor="bday-photo">
+              📷 Upload Photo <span className="optional">(optional)</span>
+            </label>
+            <input type="file" id="bday-photo" name="photo" accept="image/*" onChange={onChange} />
+            {data.photoPreview && (
+              <img src={data.photoPreview} alt="Preview" className="card-photo-preview card-photo-preview--circle" />
+            )}
+          </div>
+        </div>
+
         <div className="form-actions">
           <button className="btn-back-form" onClick={onBack}>← Back</button>
           <button className="btn-generate" onClick={onGenerate}

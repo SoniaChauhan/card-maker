@@ -17,6 +17,30 @@
 }
 .birthday-form-screen .btn-generate:hover { box-shadow: 0 12px 32px rgba(255,107,107,.55); }
 
+/* ---- Photo upload border colour override for birthday ---- */
+.birthday-form-screen .card-photo-upload input[type="file"] {
+  border-color: #ff6b6b;
+  background: #fff9f9;
+}
+.birthday-form-screen .card-photo-preview--circle {
+  border: 3px solid #ff6b6b;
+}
+
+/* ---- Photo on birthday card ---- */
+.bday-photo-frame {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 6px;
+}
+.bday-photo {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #ff6b6b;
+  box-shadow: 0 4px 16px rgba(255,107,107,.4);
+}
+
 /* ---- Card screen background ---- */
 .birthday-card-screen {
   background: linear-gradient(135deg, #ff6b6b 0%, #feca57 60%, #ff9ff3 100%);

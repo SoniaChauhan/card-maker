@@ -3,7 +3,7 @@ import { T } from '../../utils/translations';
 
 export default function BirthdayCardPreview({ data, lang = 'en' }) {
   const t = T[lang];
-  const { guestName, birthdayPerson, age, date, venue, venueAddress, message } = data;
+  const { guestName, birthdayPerson, age, date, venue, venueAddress, message, photoPreview } = data;
 
   return (
     <div id="bday-card-print" className="birthday-card">
@@ -16,6 +16,12 @@ export default function BirthdayCardPreview({ data, lang = 'en' }) {
       )}
 
       <div className="balloon-row">🎈 🎈 🎈</div>
+
+      {photoPreview && (
+        <div className="bday-photo-frame">
+          <img src={photoPreview} alt={birthdayPerson} className="bday-photo" />
+        </div>
+      )}
 
       <div className="bday-badge">{t.bdayBadge}</div>
 

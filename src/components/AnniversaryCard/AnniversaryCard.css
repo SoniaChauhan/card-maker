@@ -14,6 +14,35 @@
 }
 .anniversary-form-screen .btn-generate:hover { box-shadow: 0 12px 32px rgba(220,60,100,.55); }
 
+/* ---- Photo upload in anniversary form ---- */
+.anniversary-form-screen .card-photo-upload input[type="file"] {
+  border: 2px dashed #dc3c64;
+  background: #fff5f8;
+}
+.card-photo-preview--heart {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 4px solid #dc3c64;
+  object-fit: cover;
+  margin-top: 8px;
+}
+
+/* ---- Photo on anniversary card ---- */
+.anniv-photo-frame {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 10px;
+}
+.anniv-photo {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #dc3c64;
+  box-shadow: 0 4px 18px rgba(220,60,100,.4);
+}
+
 /* ---- Card screen ---- */
 .anniversary-card-screen {
   background: linear-gradient(135deg, #1a0010 0%, #3d0029 40%, #6a0040 100%);

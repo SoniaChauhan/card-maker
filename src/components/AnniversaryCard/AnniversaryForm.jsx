@@ -48,6 +48,19 @@ export default function AnniversaryForm({ data, errors, onChange, onBack, onGene
             placeholder="Write a romantic message…" rows={3} span />
         </div>
 
+        {/* — Photo Upload — */}
+        <div className="form-stack" style={{ marginBottom: 0 }}>
+          <div className="card-photo-upload">
+            <label htmlFor="anniv-photo">
+              📷 Upload Couple Photo <span className="optional">(optional)</span>
+            </label>
+            <input type="file" id="anniv-photo" name="photo" accept="image/*" onChange={onChange} />
+            {data.photoPreview && (
+              <img src={data.photoPreview} alt="Preview" className="card-photo-preview card-photo-preview--heart" />
+            )}
+          </div>
+        </div>
+
         <div className="form-actions">
           <button className="btn-back-form" onClick={onBack}>← Back</button>
           <button

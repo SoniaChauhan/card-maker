@@ -3,12 +3,18 @@ import { T } from '../../utils/translations';
 
 export default function AnniversaryCardPreview({ data, lang = 'en' }) {
   const t = T[lang];
-  const { guestName, partner1, partner2, years, date, time, venue, venueAddress, message } = data;
+  const { guestName, partner1, partner2, years, date, time, venue, venueAddress, message, photoPreview } = data;
 
   return (
     <div id="anniv-card-print" className="anniversary-card">
       <div className="anniv-rose-row">🌹 🌹 🌹</div>
       <div className="anniv-rings">💍</div>
+
+      {photoPreview && (
+        <div className="anniv-photo-frame">
+          <img src={photoPreview} alt={`${partner1} & ${partner2}`} className="anniv-photo" />
+        </div>
+      )}
 
       {guestName && (
         <div className="anniv-guest-intro">

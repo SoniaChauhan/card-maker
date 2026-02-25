@@ -9,7 +9,7 @@ import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 
-const INIT = { guestName: '', birthdayPerson: '', age: '', date: '', venue: '', venueAddress: '', message: '' };
+const INIT = { guestName: '', birthdayPerson: '', age: '', date: '', venue: '', venueAddress: '', message: '', photo: null, photoPreview: '' };
 const PARTICLES = ['🎈', '🎉', '🎊', '⭐', '✨', '🎁', '🌟', '🎂'];
 
 export default function BirthdayCard({ onBack }) {
@@ -22,9 +22,15 @@ export default function BirthdayCard({ onBack }) {
   const { downloading, handleDownload, toast } = useDownload('bday-card-print', filename);
 
   function onChange(e) {
-    const { name, value } = e.target;
-    setData(d => ({ ...d, [name]: value }));
-    if (errors[name]) setErrors(er => ({ ...er, [name]: '' }));
+    const { name, value, files } = e.target;
+    if (name === 'photo' && files && files[0]) {
+      const reader = new FileReader();
+      reader.onloadend = () => setData(d => ({ ...d, photo: files[0], photoPreview: reader.result }));
+      reader.readAsDataURL(files[0]);
+    } else {
+      setData(d => ({ ...d, [name]: value }));
+      if (errors[name]) setErrors(er => ({ ...er, [name]: '' }));
+    }
   }
 
   function validate() {
