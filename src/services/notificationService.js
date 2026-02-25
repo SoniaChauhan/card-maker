@@ -36,17 +36,21 @@ export async function sendOTPEmail(toEmail, otp) {
     otp_code:   otp,
     from_name:  ADMIN_NAME,
     from_email: ADMIN_EMAIL,
+    name:       ADMIN_NAME,
+    email:      toEmail,
   }, PUBLIC_KEY);
 }
 
 /** Notify super-admin about an event */
 export async function notifyAdmin(subject, message, senderEmail = '') {
   return emailjs.send(SERVICE_ID, NOTIFY_TEMPLATE_ID, {
-    to_email:    ADMIN_EMAIL,
-    to_name:     ADMIN_NAME,
+    to_email:     ADMIN_EMAIL,
+    to_name:      ADMIN_NAME,
     subject,
     message,
     sender_email: senderEmail,
+    name:         senderEmail || 'Card Maker',
+    email:        senderEmail || ADMIN_EMAIL,
   }, PUBLIC_KEY);
 }
 

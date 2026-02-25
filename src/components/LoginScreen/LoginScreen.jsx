@@ -43,8 +43,9 @@ export default function LoginScreen() {
         await sendOTPEmail(trimmed, code);
       } catch (emailErr) {
         console.error('EmailJS error:', emailErr);
-        // Still move to OTP screen — OTP is stored in Firestore
-        setInfo(`OTP generated! (Email delivery may be delayed). Check console for code: ${code}`);
+        const errMsg = emailErr?.text || emailErr?.message || JSON.stringify(emailErr);
+        setError('EmailJS error: ' + errMsg);
+        // Still move to OTP step since OTP is in Firestore
         setStep('otp');
         setLoading(false);
         return;
