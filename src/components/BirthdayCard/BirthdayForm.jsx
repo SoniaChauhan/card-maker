@@ -6,29 +6,36 @@ export default function BirthdayForm({ data, errors, onChange, onBack, onGenerat
     <div className="form-screen birthday-form-screen">
       <div className="form-card">
         <div className="form-header">
-          <span className="form-header-icon">🎂</span>
-          <h2>Birthday Card Details</h2>
-          <p>Fill in the details and we'll create a beautiful personalised birthday card!</p>
+          <span className="form-header-icon">�</span>
+          <h2>Birthday Invitation Details</h2>
+          <p>Fill in the details and we'll create a beautiful birthday party invitation!</p>
         </div>
 
         <div className="form-grid">
-          <FormField label="Guest / Recipient Name" name="guestName"
-            value={data.guestName} onChange={onChange}
-            placeholder="Who will receive this card?" required
-            error={errors.guestName} />
-
           <FormField label="Birthday Person's Name" name="birthdayPerson"
             value={data.birthdayPerson} onChange={onChange}
             placeholder="Whose birthday is it?" required
             error={errors.birthdayPerson} />
 
-          <FormField label="Age (if applicable)" name="age"
+          <FormField label="Age (Milestone)" name="age"
             type="number" value={data.age} onChange={onChange}
             placeholder="e.g. 25" min="1" max="120" />
 
-          <FormField label="Date of Birthday" name="date"
+          <FormField label="Invited Guest Name" name="guestName"
+            value={data.guestName} onChange={onChange}
+            placeholder="Who is being invited?" required
+            error={errors.guestName} />
+
+          <FormField label="Hosted By" name="hostName"
+            value={data.hostName} onChange={onChange}
+            placeholder="e.g. The Sharma Family" />
+
+          <FormField label="Date of Party" name="date"
             type="date" value={data.date} onChange={onChange}
             required error={errors.date} min={today} />
+
+          <FormField label="Party Time" name="time"
+            type="time" value={data.time} onChange={onChange} />
 
           <FormField label="Venue / Location" name="venue"
             value={data.venue} onChange={onChange}
@@ -39,9 +46,9 @@ export default function BirthdayForm({ data, errors, onChange, onBack, onGenerat
             value={data.venueAddress} onChange={onChange}
             placeholder="Full address (optional)" />
 
-          <FormField label="Personal Message" name="message"
+          <FormField label="Special Message / RSVP Note" name="message"
             value={data.message} onChange={onChange}
-            placeholder="Write a heartfelt message…" rows={3} span />
+            placeholder="e.g. Kindly RSVP by…" rows={3} span />
         </div>
 
         {/* — Photo Upload — */}
@@ -61,7 +68,7 @@ export default function BirthdayForm({ data, errors, onChange, onBack, onGenerat
           <button className="btn-back-form" onClick={onBack}>← Back</button>
           <button className="btn-generate" onClick={onGenerate}
             style={{ background: 'linear-gradient(135deg,#ff6b6b,#feca57)', color: '#fff', boxShadow: '0 8px 24px rgba(255,107,107,.4)' }}>
-            🎉 Generate Card
+            🎉 Generate Invitation
           </button>
         </div>
       </div>

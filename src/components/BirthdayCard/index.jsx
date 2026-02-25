@@ -10,7 +10,7 @@ import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 
-const INIT = { guestName: '', birthdayPerson: '', age: '', date: '', venue: '', venueAddress: '', message: '', photo: null, photoPreview: '' };
+const INIT = { guestName: '', birthdayPerson: '', age: '', date: '', time: '', venue: '', venueAddress: '', hostName: '', message: '', photo: null, photoPreview: '' };
 const PARTICLES = ['🎈', '🎉', '🎊', '⭐', '✨', '🎁', '🌟', '🎂'];
 
 export default function BirthdayCard({ onBack }) {
@@ -36,7 +36,7 @@ export default function BirthdayCard({ onBack }) {
 
   function validate() {
     const err = {};
-    if (!data.guestName.trim())       err.guestName       = 'Guest name is required.';
+    if (!data.guestName.trim())       err.guestName       = 'Invited guest name is required.';
     if (!data.birthdayPerson.trim())  err.birthdayPerson  = 'Birthday person is required.';
     if (!data.date)                   err.date            = 'Please select a date.';
     if (!data.venue.trim())           err.venue           = 'Venue is required.';
@@ -64,7 +64,7 @@ export default function BirthdayCard({ onBack }) {
   return (
     <div className="birthday-card-screen">
       <Particles icons={PARTICLES} count={24} />
-      <p className="birthday-screen-title">🎂 Your Birthday Card</p>
+      <p className="birthday-screen-title">� Your Birthday Invitation</p>
       <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
       <div className="card-wrapper">
         <BirthdayCardPreview data={data} lang={lang} />
