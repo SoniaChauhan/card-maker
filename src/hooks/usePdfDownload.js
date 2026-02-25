@@ -21,13 +21,20 @@ export default function usePdfDownload(elementId, filename) {
     if (!el) return;
 
     setDownloading(true);
+
+    /* Temporarily expand the element to fill A4 width so there's no white gap */
+    const prevMaxW = el.style.maxWidth;
+    const prevW    = el.style.width;
+    el.style.maxWidth = 'none';
+    el.style.width    = '794px';   // A4 width at 96 dpi (210mm)
+
     try {
       const html2pdf = (await import('html2pdf.js')).default;
       const opt = {
         margin: 0,
         filename,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, logging: false },
+        html2canvas: { scale: 2, useCORS: true, logging: false, width: 794 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       };
       await html2pdf().set(opt).from(el).save();
@@ -35,6 +42,9 @@ export default function usePdfDownload(elementId, filename) {
     } catch {
       showToast('❌ Download failed — try again.');
     } finally {
+      /* Restore original dimensions */
+      el.style.maxWidth = prevMaxW;
+      el.style.width    = prevW;
       setDownloading(false);
     }
   }
