@@ -51,7 +51,7 @@ const INIT = {
 
 const PARTICLES = ['🌸', '💐', '🌺', '✨', '💖', '🕉️', '🌼', '💍'];
 
-export default function BiodataCard({ onBack }) {
+export default function BiodataCard({ onBack, userEmail, isSuperAdmin }) {
   const [step, setStep]     = useState('form');
   const [data, setData]     = useState(INIT);
   const [errors, setErrors] = useState({});
@@ -106,7 +106,7 @@ export default function BiodataCard({ onBack }) {
       <Particles icons={PARTICLES} count={20} />
       <p className="biodata-screen-title">💍 Marriage Biodata</p>
       <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-      <div className="card-wrapper screenshot-protected">
+      <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
         <BiodataCardPreview data={data} lang={lang} />
       </div>
       <CardActions
@@ -114,6 +114,11 @@ export default function BiodataCard({ onBack }) {
         onBack={onBack}
         onDownload={handleDownload}
         downloading={downloading}
+        locked={!isSuperAdmin}
+        cardId="biodata"
+        cardLabel="Marriage Biodata"
+        userEmail={userEmail}
+        isSuperAdmin={isSuperAdmin}
         dlBtnStyle={{ background: 'linear-gradient(135deg,#d4af37,#c0392b)', boxShadow: '0 8px 24px rgba(212,175,55,.4)' }}
       />
       {toast && <Toast message={toast.message} type={toast.type} />}

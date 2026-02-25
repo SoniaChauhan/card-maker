@@ -18,7 +18,7 @@ const INIT = {
 };
 const PARTICLES = ['📄', '✨', '💼', '🎓', '⭐', '🌟', '🖊️', '💡'];
 
-export default function ResumeCard({ onBack }) {
+export default function ResumeCard({ onBack, userEmail, isSuperAdmin }) {
   const [step, setStep]     = useState('form');
   const [data, setData]     = useState(INIT);
   const [errors, setErrors] = useState({});
@@ -67,7 +67,7 @@ export default function ResumeCard({ onBack }) {
     <div className="resume-card-screen">
       <Particles icons={PARTICLES} count={20} />
       <p className="resume-screen-title">📄 Your Resume</p>
-      <div className="card-wrapper screenshot-protected">
+      <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
         <ResumeCardPreview data={data} />
       </div>
       <CardActions
@@ -75,6 +75,11 @@ export default function ResumeCard({ onBack }) {
         onBack={onBack}
         onDownload={handleDownload}
         downloading={downloading}
+        locked={!isSuperAdmin}
+        cardId="resume"
+        cardLabel="Resume / CV"
+        userEmail={userEmail}
+        isSuperAdmin={isSuperAdmin}
         dlLabel="📥 Download PDF"
         dlBtnStyle={{ background: 'linear-gradient(135deg,#1a73e8,#2d3748)', color: '#fff', boxShadow: '0 6px 20px rgba(26,115,232,.45)' }}
       />

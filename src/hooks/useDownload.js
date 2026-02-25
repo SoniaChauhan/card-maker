@@ -22,6 +22,11 @@ export default function useDownload(elementId, filename) {
     if (!el) return;
 
     setDownloading(true);
+
+    // Temporarily remove watermark for clean download
+    const wrapper = el.closest('.card-preview-locked');
+    if (wrapper) wrapper.classList.remove('card-preview-locked');
+
     try {
       const canvas = await html2canvas(el, {
         scale: 2,
@@ -45,6 +50,8 @@ export default function useDownload(elementId, filename) {
     } catch {
       showToast('⚠️ Download failed. Please try again.');
     } finally {
+      // Restore watermark
+      if (wrapper) wrapper.classList.add('card-preview-locked');
       setDownloading(false);
     }
   }

@@ -13,7 +13,7 @@ import { LANGUAGES } from '../../utils/translations';
 const INIT = { religion: 'hindu', guestName: '', organizerName: '', jagrataTitle: '', purpose: '', date: '', startTime: '', venue: '', venueAddress: '', prasad: '', message: '' };
 const PARTICLES = ['🪔', '🙏', '🕉️', '✨', '🌸', '🌺', '⭐', '💛'];
 
-export default function JagrataCard({ onBack }) {
+export default function JagrataCard({ onBack, userEmail, isSuperAdmin }) {
   const [step, setStep]     = useState('form');
   const [data, setData]     = useState(INIT);
   const [errors, setErrors] = useState({});
@@ -53,7 +53,7 @@ export default function JagrataCard({ onBack }) {
       <Particles icons={PARTICLES} count={24} />
       <p className="jagrata-screen-title">🪔 Your Jagrata Invitation</p>
       <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-      <div className="card-wrapper screenshot-protected">
+      <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
         <JagrataCardPreview data={data} lang={lang} />
       </div>
       <CardActions
@@ -61,6 +61,11 @@ export default function JagrataCard({ onBack }) {
         onBack={onBack}
         onDownload={handleDownload}
         downloading={downloading}
+        locked={!isSuperAdmin}
+        cardId="jagrata"
+        cardLabel="Jagrata Invitation"
+        userEmail={userEmail}
+        isSuperAdmin={isSuperAdmin}
         dlBtnStyle={{ background: 'linear-gradient(135deg,#f7971e,#ffd200)', color: '#7a3e00', boxShadow: '0 6px 20px rgba(247,151,30,.5)' }}
       />
       <Toast text={toast.text} show={toast.show} />

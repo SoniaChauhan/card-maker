@@ -13,7 +13,7 @@ import { LANGUAGES } from '../../utils/translations';
 const INIT = { guestName: '', birthdayPerson: '', age: '', date: '', time: '', venue: '', venueAddress: '', hostName: '', message: '', photo: null, photoPreview: '' };
 const PARTICLES = ['🎈', '🎉', '🎊', '⭐', '✨', '🎁', '🌟', '🎂'];
 
-export default function BirthdayCard({ onBack }) {
+export default function BirthdayCard({ onBack, userEmail, isSuperAdmin }) {
   const [step, setStep]     = useState('form');
   const [data, setData]     = useState(INIT);
   const [errors, setErrors] = useState({});
@@ -66,7 +66,7 @@ export default function BirthdayCard({ onBack }) {
       <Particles icons={PARTICLES} count={24} />
       <p className="birthday-screen-title">� Your Birthday Invitation</p>
       <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-      <div className="card-wrapper screenshot-protected">
+      <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
         <BirthdayCardPreview data={data} lang={lang} />
       </div>
       <CardActions
@@ -74,6 +74,11 @@ export default function BirthdayCard({ onBack }) {
         onBack={onBack}
         onDownload={handleDownload}
         downloading={downloading}
+        locked={!isSuperAdmin}
+        cardId="birthday"
+        cardLabel="Birthday Invitation"
+        userEmail={userEmail}
+        isSuperAdmin={isSuperAdmin}
         dlBtnStyle={{ background: 'linear-gradient(135deg,#ff6b6b,#feca57)', color: '#fff', boxShadow: '0 6px 20px rgba(255,107,107,.45)' }}
       />
       <Toast text={toast.text} show={toast.show} />

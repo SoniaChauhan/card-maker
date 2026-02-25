@@ -22,6 +22,10 @@ export default function usePdfDownload(elementId, filename) {
 
     setDownloading(true);
 
+    // Temporarily remove watermark for clean download
+    const wrapper = el.closest('.card-preview-locked');
+    if (wrapper) wrapper.classList.remove('card-preview-locked');
+
     /* Temporarily expand the element to fill A4 width so there's no white gap */
     const prevMaxW = el.style.maxWidth;
     const prevW    = el.style.width;
@@ -45,6 +49,8 @@ export default function usePdfDownload(elementId, filename) {
       /* Restore original dimensions */
       el.style.maxWidth = prevMaxW;
       el.style.width    = prevW;
+      // Restore watermark
+      if (wrapper) wrapper.classList.add('card-preview-locked');
       setDownloading(false);
     }
   }

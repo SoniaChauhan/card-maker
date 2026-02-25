@@ -64,3 +64,45 @@ export async function rejectSubscription(docId) {
     rejectedAt: Timestamp.now(),
   });
 }
+
+/** Check if user has a paid/approved download for a card */
+export async function hasUserPaid(email, cardId) {
+  const q = query(
+    collection(db, 'subscriptions'),
+    where('email', '==', email.toLowerCase().trim()),
+    where('cardId', '==', cardId),
+    where('status', '==', 'approved'),
+  );
+  const snap = await getDocs(q);
+  return !snap.empty;
+}
+
+/** Record a payment submission for admin review */
+export async function recordPayment(email, cardId, cardName, txnId) {
+  const key = email.toLowerCase().trim();
+  // Check if payment record already exists
+  const q = query(
+    collection(db, 'subscriptions'),
+    where('email', '==', key),
+    where('cardId', '==', cardId),
+  );
+  const snap = await getDocs(q);
+  if (!snap.empty) {
+    // Update existing record with payment info
+    await updateDoc(doc(db, 'subscriptions', snap.docs[0].id), {
+      txnId,
+      status: 'payment_pending',
+      paidAt: Timestamp.now(),
+    });
+  } else {
+    await addDoc(collection(db, 'subscriptions'), {
+      email: key,
+      cardId,
+      cardName,
+      txnId,
+      status: 'payment_pending',
+      requestedAt: Timestamp.now(),
+      paidAt: Timestamp.now(),
+    });
+  }
+}

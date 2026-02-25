@@ -34,13 +34,14 @@ function AppContent() {
 
   /* ---------- card screens ---------- */
   function handleBack() { setSelected(null); }
+  const cardProps = { onBack: handleBack, userEmail: user.email, isSuperAdmin: user.role === 'superadmin' };
 
-  if (selected === 'birthday')    return <BirthdayCard    onBack={handleBack} />;
-  if (selected === 'anniversary') return <AnniversaryCard onBack={handleBack} />;
-  if (selected === 'jagrata')     return <JagrataCard     onBack={handleBack} />;
-  if (selected === 'biodata')     return <BiodataCard     onBack={handleBack} />;
-  if (selected === 'wedding')     return <WeddingCard     onBack={handleBack} />;
-  if (selected === 'resume')      return <ResumeCard      onBack={handleBack} />;
+  if (selected === 'birthday')    return <BirthdayCard    {...cardProps} />;
+  if (selected === 'anniversary') return <AnniversaryCard {...cardProps} />;
+  if (selected === 'jagrata')     return <JagrataCard     {...cardProps} />;
+  if (selected === 'biodata')     return <BiodataCard     {...cardProps} />;
+  if (selected === 'wedding')     return <WeddingCard     {...cardProps} />;
+  if (selected === 'resume')      return <ResumeCard      {...cardProps} />;
 
   /* ---------- main dashboard ---------- */
   return <ProfileDashboard onSelect={setSelected} />;
