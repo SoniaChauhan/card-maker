@@ -1,6 +1,7 @@
 import FormField from '../shared/FormField';
 
 export default function AnniversaryForm({ data, errors, onChange, onBack, onGenerate }) {
+  const today = new Date().toISOString().split('T')[0];
   return (
     <div className="form-screen anniversary-form-screen">
       <div className="form-card">
@@ -29,7 +30,7 @@ export default function AnniversaryForm({ data, errors, onChange, onBack, onGene
 
           <FormField label="Date of Anniversary" name="date"
             type="date" value={data.date} onChange={onChange}
-            required error={errors.date} />
+            required error={errors.date} min={today} />
 
           <FormField label="Time" name="time"
             type="time" value={data.time} onChange={onChange} />

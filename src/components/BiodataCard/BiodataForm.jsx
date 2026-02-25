@@ -23,6 +23,8 @@ const RASHI_OPTIONS = [
 ].map(v => ({ value: v, label: v }));
 
 export default function BiodataForm({ data, errors, onChange, onBack, onGenerate }) {
+  const today = new Date().toISOString().split('T')[0];
+  const minDob = '1940-01-01';
   return (
     <div className="form-screen biodata-form-screen">
       <div className="form-card biodata-form-card">
@@ -41,7 +43,7 @@ export default function BiodataForm({ data, errors, onChange, onBack, onGenerate
 
           <FormField label="Date of Birth" name="dob"
             type="date" value={data.dob} onChange={onChange}
-            required error={errors.dob} />
+            required error={errors.dob} min={minDob} max={today} />
 
           <FormField label="Age" name="age"
             type="number" value={data.age} onChange={onChange}

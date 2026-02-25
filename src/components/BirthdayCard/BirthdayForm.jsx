@@ -1,6 +1,7 @@
 import FormField from '../shared/FormField';
 
 export default function BirthdayForm({ data, errors, onChange, onBack, onGenerate }) {
+  const today = new Date().toISOString().split('T')[0];
   return (
     <div className="form-screen birthday-form-screen">
       <div className="form-card">
@@ -27,7 +28,7 @@ export default function BirthdayForm({ data, errors, onChange, onBack, onGenerat
 
           <FormField label="Date of Birthday" name="date"
             type="date" value={data.date} onChange={onChange}
-            required error={errors.date} />
+            required error={errors.date} min={today} />
 
           <FormField label="Venue / Location" name="venue"
             value={data.venue} onChange={onChange}

@@ -1,6 +1,7 @@
 import FormField from '../shared/FormField';
 
 export default function JagrataForm({ data, errors, onChange, onBack, onGenerate }) {
+  const today = new Date().toISOString().split('T')[0];
   return (
     <div className="form-screen jagrata-form-screen">
       <div className="form-card">
@@ -25,7 +26,7 @@ export default function JagrataForm({ data, errors, onChange, onBack, onGenerate
 
           <FormField label="Date" name="date"
             type="date" value={data.date} onChange={onChange}
-            required error={errors.date} />
+            required error={errors.date} min={today} />
 
           <FormField label="Start Time" name="startTime"
             type="time" value={data.startTime} onChange={onChange} />
