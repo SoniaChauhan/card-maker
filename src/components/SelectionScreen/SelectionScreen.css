@@ -103,6 +103,14 @@
 .card-option.biodata:hover { box-shadow: 0 30px 80px rgba(192,57,43,.65); }
 .card-option.biodata::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
+/* Wedding */
+.card-option.wedding {
+  background: linear-gradient(135deg, #7b1c1c, #c9963e);
+  box-shadow: 0 20px 60px rgba(123,28,28,.45);
+}
+.card-option.wedding:hover { box-shadow: 0 30px 80px rgba(123,28,28,.65); }
+.card-option.wedding::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
+
 .card-option-icon {
   font-size: 60px;
   display: block;

@@ -4,6 +4,7 @@ import BirthdayCard    from './components/BirthdayCard';
 import AnniversaryCard from './components/AnniversaryCard';
 import JagrataCard     from './components/JagrataCard';
 import BiodataCard     from './components/BiodataCard';
+import WeddingCard     from './components/WeddingCard';
 
 export default function App() {
   const [selected, setSelected] = useState(null);
@@ -14,6 +15,7 @@ export default function App() {
   if (selected === 'anniversary') return <AnniversaryCard onBack={handleBack} />;
   if (selected === 'jagrata')     return <JagrataCard     onBack={handleBack} />;
   if (selected === 'biodata')     return <BiodataCard     onBack={handleBack} />;
+  if (selected === 'wedding')     return <WeddingCard     onBack={handleBack} />;
 
   return <SelectionScreen onSelect={setSelected} />;
 }

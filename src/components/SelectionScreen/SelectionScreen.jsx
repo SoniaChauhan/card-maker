@@ -30,6 +30,13 @@ const CARDS = [
     icon: '💍',
     badge: '🌸 Traditional & Elegant',
   },
+  {
+    id: 'wedding',
+    label: 'Wedding Invitation',
+    desc: 'Create a royal, elegant invitation card to invite guests to your wedding ceremony.',
+    icon: '💐',
+    badge: '🌸 Royal & Classic',
+  },
 ];
 
 const PARTICLES = ['⭐', '✨', '🌙', '💫', '🌟', '🎊', '🎉', '💖', '🌸', '💍'];
