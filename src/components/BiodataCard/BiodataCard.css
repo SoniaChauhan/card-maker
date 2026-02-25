@@ -33,6 +33,17 @@
 }
 
 /* Photo upload */
+.biodata-photo-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.biodata-photo-upload label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+}
 .biodata-photo-upload input[type="file"] {
   border: 2px dashed #d4af37;
   padding: 10px;

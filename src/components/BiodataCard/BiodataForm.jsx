@@ -182,8 +182,8 @@ export default function BiodataForm({ data, errors, onChange, onBack, onGenerate
 
         {/* — Photo Upload — */}
         <div className="biodata-section-title">📷 Photo (optional)</div>
-        <div className="form-grid">
-          <div className="form-group span-2 biodata-photo-upload">
+        <div className="form-stack">
+          <div className="biodata-photo-upload">
             <label htmlFor="photo">Upload Photo <span className="optional">(optional)</span></label>
             <input type="file" id="photo" name="photo" accept="image/*" onChange={onChange} />
             {data.photoPreview && (

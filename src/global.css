@@ -236,14 +236,20 @@ body {
   gap: 16px;
   margin-bottom: 28px;
 }
+/* Every direct child fills full width in a stack */
+.form-stack > * {
+  width: 100%;
+}
 
 /* ---- DOB Picker ---- */
 .dob-picker-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 .dob-select {
-  flex: 1;
+  flex: 1 1 80px;
+  min-width: 80px;
   padding: 10px 12px;
   border: 1.5px solid #ddd;
   border-radius: 10px;
