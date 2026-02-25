@@ -7,7 +7,7 @@ import {
   updateDoc, doc, setDoc, getDoc, Timestamp,
 } from 'firebase/firestore';
 
-export const ADMIN_EMAIL = 'sonirajvansi9876@gmail.com';
+export const ADMIN_EMAIL = 'soniarajvansi9876@gmail.com';
 export const ADMIN_NAME  = 'Sonia Chauhan';
 
 /* ---- OTP helpers ---- */
