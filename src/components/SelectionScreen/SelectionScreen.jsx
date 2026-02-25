@@ -23,9 +23,16 @@ const CARDS = [
     icon: '🪔',
     badge: '🙏 Divine Blessing',
   },
+  {
+    id: 'biodata',
+    label: 'Marriage Biodata',
+    desc: 'Create a traditional and elegant Indian marriage biodata with all details.',
+    icon: '💍',
+    badge: '🌸 Traditional & Elegant',
+  },
 ];
 
-const PARTICLES = ['⭐', '✨', '🌙', '💫', '🌟', '🎊', '🎉', '💖'];
+const PARTICLES = ['⭐', '✨', '🌙', '💫', '🌟', '🎊', '🎉', '💖', '🌸', '💍'];
 
 export default function SelectionScreen({ onSelect }) {
   return (

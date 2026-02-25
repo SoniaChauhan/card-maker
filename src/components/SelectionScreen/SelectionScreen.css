@@ -95,6 +95,14 @@
 .card-option.jagrata:hover { box-shadow: 0 30px 80px rgba(247,151,30,.65); }
 .card-option.jagrata::before { background: linear-gradient(135deg, rgba(255,255,255,.18), transparent); }
 
+/* Biodata */
+.card-option.biodata {
+  background: linear-gradient(135deg, #c0392b, #d4af37);
+  box-shadow: 0 20px 60px rgba(192,57,43,.45);
+}
+.card-option.biodata:hover { box-shadow: 0 30px 80px rgba(192,57,43,.65); }
+.card-option.biodata::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
+
 .card-option-icon {
   font-size: 60px;
   display: block;
