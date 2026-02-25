@@ -14,9 +14,9 @@ const INIT = {
   groomName: '', brideName: '', groomFamily: '', brideFamily: '',
   weddingDate: '', weddingTime: '', weddingVenue: '', weddingVenueAddress: '',
   receptionDate: '', receptionTime: '', receptionVenue: '',
-  guestName: '', message: '', photo: null, photoPreview: '',
+  guestName: '', message: '', familyMembers: '', photo: null, photoPreview: '',
 };
-const PARTICLES = ['🌸', '💍', '✨', '🌺', '💐', '🎊', '🌟', '💖', '🪷', '✿'];
+const PARTICLES = ['🌸', '🪷', '✨', '🌺', '💐', '🎊', '🌟', '💖', '🪷', '✿'];
 
 export default function WeddingCard({ onBack, userEmail, isSuperAdmin }) {
   const [step, setStep]     = useState('form');

@@ -7,7 +7,7 @@ export default function WeddingCardPreview({ data, lang = 'en' }) {
     groomName, brideName, groomFamily, brideFamily,
     weddingDate, weddingTime, weddingVenue, weddingVenueAddress,
     receptionDate, receptionTime, receptionVenue,
-    guestName, message, photoPreview,
+    guestName, message, photoPreview, familyMembers,
   } = data;
 
   return (
@@ -67,7 +67,7 @@ export default function WeddingCardPreview({ data, lang = 'en' }) {
         <div className="wed-name wed-groom">{groomName || t.wedGroom}</div>
         <div className="wed-ampersand">
           <span className="wed-amp-line" />
-          <span className="wed-amp-ring">💍</span>
+          <span className="wed-amp-center">🪷</span>
           <span className="wed-amp-line" />
         </div>
         <div className="wed-name wed-bride">{brideName || t.wedBride}</div>
@@ -185,6 +185,21 @@ export default function WeddingCardPreview({ data, lang = 'en' }) {
           We humbly request the honour of your attendance.
         </div>
       </div>
+
+      {/* Family members */}
+      {familyMembers && familyMembers.trim() && (
+        <div className="wed-family-members">
+          <div className="wed-fm-header">
+            <span className="wed-fm-icon">👨‍👩‍👧‍👦</span>
+            <span className="wed-fm-title">With Love From Our Family</span>
+          </div>
+          <div className="wed-fm-list">
+            {familyMembers.split('\n').filter(n => n.trim()).map((name, i) => (
+              <div key={i} className="wed-fm-name">🌸 {name.trim()}</div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Footer decoration */}
       <div className="wed-footer">

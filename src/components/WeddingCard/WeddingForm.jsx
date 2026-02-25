@@ -6,7 +6,7 @@ export default function WeddingForm({ data, errors, onChange, onBack, onGenerate
     <div className="form-screen wedding-form-screen">
       <div className="form-card">
         <div className="form-header">
-          <span className="form-header-icon">💍</span>
+          <span className="form-header-icon">🪷</span>
           <h2>Wedding Invitation Details</h2>
           <p>Fill in the details and we'll create a beautiful wedding invitation card!</p>
         </div>
@@ -71,6 +71,22 @@ export default function WeddingForm({ data, errors, onChange, onBack, onGenerate
             placeholder="e.g. Your presence will bless our union…" rows={3} span />
         </div>
 
+        {/* — Family Members — */}
+        <div className="form-stack">
+          <div className="form-group">
+            <label className="form-label">👨‍👩‍👧‍👦 Family Members <span className="optional">(one per line)</span></label>
+            <textarea
+              className="form-input"
+              name="familyMembers"
+              value={data.familyMembers}
+              onChange={onChange}
+              placeholder={"e.g.\nMr. & Mrs. Ramesh Sharma\nRahul Sharma (Brother)\nPriya Sharma (Sister)\nGrandmother - Smt. Kamla Devi"}
+              rows={5}
+              style={{ resize: 'vertical', fontFamily: 'inherit', fontSize: '13px', lineHeight: '1.6' }}
+            />
+          </div>
+        </div>
+
         {/* — Couple Photo — */}
         <div className="form-stack" style={{ marginBottom: 0 }}>
           <div className="card-photo-upload">
@@ -88,7 +104,7 @@ export default function WeddingForm({ data, errors, onChange, onBack, onGenerate
           <button className="btn-back-form" onClick={onBack}>← Back</button>
           <button className="btn-generate" onClick={onGenerate}
             style={{ background: 'linear-gradient(135deg,#7b1c1c,#c9963e)', color: '#fff', boxShadow: '0 8px 24px rgba(123,28,28,.4)' }}>
-            💍 Generate Invitation
+            🪷 Generate Invitation
           </button>
         </div>
       </div>

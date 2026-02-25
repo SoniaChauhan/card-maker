@@ -278,8 +278,8 @@
   height: 1px;
   background: linear-gradient(90deg, transparent, #c9963e, transparent);
 }
-.wed-amp-ring {
-  font-size: 28px;
+.wed-amp-center {
+  font-size: 32px;
   animation: pulse 2.5s ease-in-out infinite;
   filter: drop-shadow(0 2px 6px rgba(201,150,62,.5));
 }
@@ -469,6 +469,51 @@
 }
 
 /* ==============================
+   FAMILY MEMBERS SECTION
+============================== */
+.wed-family-members {
+  margin: 14px 22px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1.5px solid rgba(201,150,62,.35);
+  background: linear-gradient(145deg, #fffbf5, #fef6ec);
+}
+.wed-fm-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px 8px;
+  background: linear-gradient(135deg, rgba(201,150,62,.12), rgba(123,28,28,.06));
+  border-bottom: 1px solid rgba(201,150,62,.25);
+}
+.wed-fm-icon {
+  font-size: 18px;
+}
+.wed-fm-title {
+  font-size: 10px;
+  font-weight: 800;
+  color: #7b1c1c;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'Segoe UI', sans-serif;
+}
+.wed-fm-list {
+  padding: 12px 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.wed-fm-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a2810;
+  line-height: 1.5;
+  text-align: left;
+  letter-spacing: .3px;
+}
+
+/* ==============================
    FOOTER
 ============================== */
 .wed-footer {
@@ -507,4 +552,5 @@
   .wed-guest-card { margin: 10px 14px; }
   .wed-invite-appeal { margin: 10px 14px; }
   .wed-custom-msg { margin: 8px 14px; }
+  .wed-family-members { margin: 10px 14px; }
 }
