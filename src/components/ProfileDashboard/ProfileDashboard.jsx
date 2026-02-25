@@ -86,16 +86,61 @@ export default function ProfileDashboard({ onSelect }) {
 
       {/* Profile tab */}
       {tab === 'profile' && (
-        <div className="pd-profile-card">
-          <div className="pd-avatar">{initial}</div>
-          <h3>{isSuperAdmin ? 'Sonia Chauhan' : (user.name || user.email)}</h3>
-          <div className="pd-email">{user.email}</div>
-          <div className="pd-role">{isSuperAdmin ? '⭐ Super Admin' : '👤 User'}</div>
-          <p className="pd-profile-msg">
-            {isSuperAdmin
-              ? 'Welcome back! You have full access to all templates and the admin panel.'
-              : 'Your profile is created with this email. Go to the Dashboard tab to explore card templates.'}
-          </p>
+        <div className="pd-profile-section">
+          {/* Hero banner */}
+          <div className="pd-profile-hero">
+            <div className="pd-profile-hero-bg" />
+            <div className="pd-avatar-large">{initial}</div>
+          </div>
+
+          {/* Main info card */}
+          <div className="pd-profile-card">
+            <h3 className="pd-profile-name">
+              {isSuperAdmin ? 'Sonia Chauhan' : (user.name || 'Card Maker User')}
+            </h3>
+            <div className="pd-role-badge">
+              {isSuperAdmin ? '⭐ Super Admin' : '👤 Member'}
+            </div>
+
+            {/* Info rows */}
+            <div className="pd-info-grid">
+              <div className="pd-info-item">
+                <span className="pd-info-icon">📧</span>
+                <div>
+                  <div className="pd-info-label">Email</div>
+                  <div className="pd-info-value">{user.email}</div>
+                </div>
+              </div>
+              <div className="pd-info-item">
+                <span className="pd-info-icon">🛡️</span>
+                <div>
+                  <div className="pd-info-label">Role</div>
+                  <div className="pd-info-value">{isSuperAdmin ? 'Super Admin' : 'User'}</div>
+                </div>
+              </div>
+              <div className="pd-info-item">
+                <span className="pd-info-icon">📅</span>
+                <div>
+                  <div className="pd-info-label">Member Since</div>
+                  <div className="pd-info-value">{new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'short' })}</div>
+                </div>
+              </div>
+              <div className="pd-info-item">
+                <span className="pd-info-icon">🎨</span>
+                <div>
+                  <div className="pd-info-label">Templates</div>
+                  <div className="pd-info-value">{isSuperAdmin ? `${CARDS.length} (All Access)` : `${Object.values(subs).filter(s => s === 'approved').length} Approved`}</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Message */}
+            <div className="pd-profile-msg">
+              {isSuperAdmin
+                ? '🚀 You have full access to all templates and the admin panel.'
+                : '💡 Go to the Dashboard tab to explore and request card templates.'}
+            </div>
+          </div>
         </div>
       )}
 
