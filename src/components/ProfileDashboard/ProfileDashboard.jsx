@@ -64,7 +64,8 @@ export default function ProfileDashboard({ onSelect }) {
     setPopup(card);
   }
 
-  const initial = user?.email?.charAt(0)?.toUpperCase() || '?';
+  const displayName = user?.name || user?.email || '?';
+  const initial = displayName.charAt(0).toUpperCase();
 
   return (
     <div className="profile-dashboard">
@@ -87,7 +88,7 @@ export default function ProfileDashboard({ onSelect }) {
       {tab === 'profile' && (
         <div className="pd-profile-card">
           <div className="pd-avatar">{initial}</div>
-          <h3>{isSuperAdmin ? 'Sonia Chauhan' : user.email}</h3>
+          <h3>{isSuperAdmin ? 'Sonia Chauhan' : (user.name || user.email)}</h3>
           <div className="pd-email">{user.email}</div>
           <div className="pd-role">{isSuperAdmin ? '⭐ Super Admin' : '👤 User'}</div>
           <p className="pd-profile-msg">
