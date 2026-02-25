@@ -1,6 +1,6 @@
 /* ============================================================
-   Wedding Invitation Card — themed styles
-   Colors: maroon #7b1c1c / gold #c9963e / cream #fff8f0
+   Wedding Invitation Card — Premium Royal Indian Design
+   Colors: deep maroon #7b1c1c / rich gold #c9963e / cream #fff8f0
 ============================================================ */
 
 /* ---- Form screen background ---- */
@@ -8,7 +8,6 @@
   background: linear-gradient(135deg, #7b1c1c 0%, #c9963e 100%);
 }
 .wedding-form-screen .form-header h2 { color: #7b1c1c; }
-
 .wedding-form-screen .card-photo-upload input[type="file"] {
   border-color: #c9963e;
   background: #fffaf4;
@@ -19,7 +18,7 @@
 
 /* ---- Card screen background ---- */
 .wedding-card-screen {
-  background: linear-gradient(135deg, #7b1c1c 0%, #c9963e 60%, #e8c98a 100%);
+  background: linear-gradient(135deg, #2c0a0a 0%, #5a1515 35%, #1a0808 100%);
   min-height: 100vh;
   overflow-y: auto;
   padding: 40px 20px;
@@ -30,218 +29,482 @@
 }
 
 .wedding-screen-title {
-  color: #fff;
-  font-size: 20px;
+  color: #e8c98a;
+  font-size: 22px;
   font-weight: 800;
   margin-bottom: 16px;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   text-align: center;
+  text-shadow: 0 2px 8px rgba(0,0,0,.6);
 }
 
-/* ---- The printable card ---- */
+/* ============================================================
+   THE PRINTABLE CARD — Royal ornate style
+============================================================ */
 .wedding-card {
-  background: linear-gradient(170deg, #fff8f0 0%, #fff3e0 60%, #fff8f0 100%);
-  border-radius: 0;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(201,150,62,.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 90%, rgba(201,150,62,.06) 0%, transparent 60%),
+    linear-gradient(180deg, #fff8f0 0%, #fff3e0 30%, #fffbf5 60%, #fff3e0 100%);
   width: 100%;
-  max-width: 420px;
-  padding: 32px 28px 28px;
-  box-shadow: 0 30px 80px rgba(0,0,0,.4);
+  max-width: 480px;
+  padding: 0;
+  box-shadow:
+    0 0 0 3px #c9963e,
+    0 0 0 7px rgba(201,150,62,.2),
+    0 0 0 10px rgba(123,28,28,.15),
+    0 30px 80px rgba(0,0,0,.5);
   text-align: center;
   position: relative;
   overflow: hidden;
-  border: 2px solid #c9963e;
-  outline: 6px solid rgba(201,150,62,.15);
-  outline-offset: -10px;
+  font-family: Georgia, 'Times New Roman', serif;
 }
 
-/* Corner florals */
-.wedding-card::before,
-.wedding-card::after {
-  content: '🌸';
+/* Subtle inner glow */
+.wedding-card::before {
+  content: '';
   position: absolute;
-  font-size: 28px;
-  opacity: 0.25;
-}
-.wedding-card::before { top: 8px; left: 10px; }
-.wedding-card::after  { bottom: 8px; right: 10px; }
-
-/* ---- Top decoration ---- */
-.wedding-deco-top {
-  font-size: 22px;
-  letter-spacing: 8px;
-  margin-bottom: 8px;
-  color: #c9963e;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(201,150,62,.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 100%, rgba(201,150,62,.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
 }
 
-/* ---- Invitation badge ---- */
-.wedding-invite-badge {
+/* Inner gold border frame */
+.wedding-card::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1.5px solid rgba(201,150,62,.35);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* All direct children above pseudo-elements */
+.wedding-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==============================
+   ORNAMENTAL TOP / BOTTOM BARS
+============================== */
+.wed-ornament-top,
+.wed-ornament-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px 6px;
+}
+.wed-ornament-bottom { padding: 6px 24px 14px; }
+
+.wed-ornament-line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #c9963e, transparent);
+}
+.wed-ornament-icon {
+  font-size: 18px;
+  filter: drop-shadow(0 1px 3px rgba(201,150,62,.5));
+}
+
+/* ==============================
+   AUSPICIOUS HEADER
+============================== */
+.wed-auspicious {
+  padding: 10px 0 6px;
+}
+.wed-ganesh {
+  font-size: 36px;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(201,150,62,.4));
+  animation: pulse 3s ease-in-out infinite;
+}
+.wed-shubh-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: #7b1c1c;
+  letter-spacing: 4px;
+  margin-top: 4px;
+  text-shadow: 0 1px 2px rgba(123,28,28,.15);
+}
+
+/* ==============================
+   FLORAL STRIP
+============================== */
+.wed-floral-strip {
+  font-size: 20px;
+  letter-spacing: 10px;
+  padding: 6px 0;
+  opacity: .55;
+}
+.wed-floral-strip span {
   display: inline-block;
-  background: linear-gradient(135deg, #7b1c1c, #c9963e);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 800;
-  padding: 5px 20px;
-  border-radius: 0;
-  margin-bottom: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  box-shadow: 0 4px 14px rgba(123,28,28,.35);
+  animation: gentleSway 4s ease-in-out infinite;
+}
+.wed-floral-strip span:nth-child(2) { animation-delay: .5s; }
+.wed-floral-strip span:nth-child(3) { animation-delay: 1s; }
+.wed-floral-strip span:nth-child(4) { animation-delay: 1.5s; }
+.wed-floral-strip span:nth-child(5) { animation-delay: 2s; }
+
+@keyframes gentleSway {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(5deg); }
 }
 
-/* ---- Blessing line ---- */
-.wedding-blessing {
-  font-size: 12px;
-  color: #a07030;
+/* ==============================
+   INVITATION MESSAGE
+============================== */
+.wed-invite-msg {
+  font-size: 12.5px;
+  color: #8a6030;
   font-style: italic;
-  margin-bottom: 16px;
-  line-height: 1.6;
+  line-height: 1.7;
+  padding: 8px 28px;
+  letter-spacing: .3px;
 }
 
-/* ---- Photo frame ---- */
-.wedding-photo-frame {
+/* ==============================
+   COUPLE PHOTO
+============================== */
+.wed-photo-section {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin: 10px 0 14px;
+  padding: 14px 0 10px;
 }
-.wedding-photo {
-  width: 90px;
-  height: 90px;
+.wed-photo-frame {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, #c9963e, #f5d998, #c9963e);
+  box-shadow:
+    0 0 0 3px rgba(123,28,28,.12),
+    0 8px 30px rgba(201,150,62,.4);
+}
+.wed-photo {
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #c9963e;
-  box-shadow: 0 4px 16px rgba(201,150,62,.4);
+  border: 2px solid #fff8f0;
 }
 
-/* ---- Couple names ---- */
-.wedding-couple-section {
-  margin: 6px 0 14px;
+/* ==============================
+   FAMILY NAMES HEADER
+============================== */
+.wed-family-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 10px 20px;
+  margin: 6px 20px;
+  background: linear-gradient(135deg, rgba(201,150,62,.08), rgba(123,28,28,.04));
+  border-top: 1px solid rgba(201,150,62,.25);
+  border-bottom: 1px solid rgba(201,150,62,.25);
 }
-.wedding-couple-intro {
+.wed-family-block {
+  flex: 1;
+  text-align: center;
+}
+.wed-family-name {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #5a3010;
+  line-height: 1.4;
+}
+.wed-family-side {
+  font-size: 9px;
+  color: #b08040;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  margin-top: 2px;
+  font-family: 'Segoe UI', sans-serif;
+}
+.wed-family-separator {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+/* ==============================
+   INVITE LINE
+============================== */
+.wed-invite-line {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #b08040;
+  font-weight: 700;
+  margin: 12px 0 4px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ==============================
+   COUPLE HERO NAMES
+============================== */
+.wed-couple-hero {
+  padding: 8px 20px 12px;
+}
+.wed-name {
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: 1px;
+}
+.wed-groom {
+  color: #7b1c1c;
+  text-shadow: 0 1px 4px rgba(123,28,28,.2);
+}
+.wed-bride {
+  color: #7b1c1c;
+  text-shadow: 0 1px 4px rgba(123,28,28,.2);
+}
+.wed-ampersand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 6px 0;
+}
+.wed-amp-line {
+  display: inline-block;
+  width: 50px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c9963e, transparent);
+}
+.wed-amp-ring {
+  font-size: 28px;
+  animation: pulse 2.5s ease-in-out infinite;
+  filter: drop-shadow(0 2px 6px rgba(201,150,62,.5));
+}
+
+/* ==============================
+   TAGLINE
+============================== */
+.wed-tagline {
   font-size: 11px;
   color: #999;
-  letter-spacing: 2px;
-  text-transform: uppercase;
+  font-style: italic;
+  letter-spacing: .5px;
   margin-bottom: 10px;
-  font-weight: 600;
+  font-family: 'Segoe UI', sans-serif;
 }
-.wedding-groom-name,
-.wedding-bride-name {
-  font-size: 26px;
-  font-weight: 900;
-  color: #7b1c1c;
-  line-height: 1.2;
-  text-shadow: 0 1px 3px rgba(123,28,28,.15);
-}
-.wedding-and {
-  font-size: 20px;
+
+/* ==============================
+   MANDALA DIVIDER
+============================== */
+.wed-mandala-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 8px 0 14px;
+  font-size: 12px;
   color: #c9963e;
-  font-weight: 700;
-  font-style: italic;
-  margin: 4px 0;
-  letter-spacing: 2px;
 }
-.wedding-families {
+.wed-md-wing {
+  letter-spacing: 2px;
+  opacity: .5;
   font-size: 11px;
-  color: #a07030;
-  font-style: italic;
-  margin-top: 6px;
-  line-height: 1.6;
+}
+.wed-md-center {
+  font-size: 20px;
+  opacity: .7;
 }
 
-/* ---- Divider ---- */
-.wedding-divider {
-  font-size: 18px;
-  letter-spacing: 6px;
-  margin: 12px 0;
-  opacity: 0.6;
-  color: #c9963e;
+/* ==============================
+   EVENT CARDS (Ceremony / Reception)
+============================== */
+.wed-event-card {
+  margin: 10px 22px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1.5px solid rgba(201,150,62,.35);
+}
+.wed-ceremony-card {
+  background: linear-gradient(145deg, #fff8f0, #fef4e6);
+}
+.wed-reception-card {
+  background: linear-gradient(145deg, #fef9f5, #fef4ea);
 }
 
-/* ---- Event box ---- */
-.wedding-event-box {
-  background: linear-gradient(135deg, rgba(123,28,28,.06), rgba(201,150,62,.12));
-  border: 1.5px solid rgba(201,150,62,.4);
-  border-radius: 0;
-  padding: 14px 16px;
-  margin: 10px 0;
-  text-align: left;
+.wed-event-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px 8px;
+  background: linear-gradient(135deg, #7b1c1c, #a82e2e);
 }
-.wedding-event-section-title {
-  font-size: 10px;
+.wed-event-emoji {
+  font-size: 16px;
+}
+.wed-event-title {
+  font-size: 11px;
   font-weight: 800;
-  color: #7b1c1c;
-  letter-spacing: 2px;
+  color: #f5d998;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
-  border-bottom: 1px solid rgba(201,150,62,.3);
-  padding-bottom: 6px;
-  margin-bottom: 8px;
+  font-family: 'Segoe UI', sans-serif;
 }
-.wedding-event-row {
+
+.wed-event-details {
+  padding: 12px 16px 14px;
+}
+.wed-detail-row {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  font-size: 13px;
-  color: #444;
-  margin: 5px 0;
-  line-height: 1.5;
+  margin: 6px 0;
+  text-align: left;
 }
-.wedding-event-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
-
-/* ---- Guest tag ---- */
-.wedding-guest-tag {
-  background: linear-gradient(135deg, rgba(123,28,28,.08), rgba(201,150,62,.15));
-  border: 1.5px dashed rgba(201,150,62,.55);
-  padding: 12px 18px 10px;
-  margin: 12px 0 10px;
-  text-align: center;
+.wed-detail-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
 }
-.wedding-guest-label {
-  font-size: 10px;
+.wed-detail-label {
+  font-size: 9px;
   font-weight: 700;
+  color: #b08040;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-family: 'Segoe UI', sans-serif;
+}
+.wed-detail-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #3a2010;
+  line-height: 1.3;
+}
+.wed-detail-address {
+  font-size: 11px;
+  color: #888;
+  margin-top: 2px;
+  line-height: 1.4;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ==============================
+   GUEST CARD
+============================== */
+.wed-guest-card {
+  margin: 14px 22px 10px;
+  background: linear-gradient(145deg, rgba(201,150,62,.08), rgba(123,28,28,.05));
+  border: 1.5px dashed rgba(201,150,62,.55);
+  border-radius: 14px;
+  padding: 16px 20px 14px;
+}
+.wed-guest-header {
+  font-size: 10px;
+  font-weight: 800;
   color: #c9963e;
   letter-spacing: 2px;
   text-transform: uppercase;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  font-family: 'Segoe UI', sans-serif;
 }
-.wedding-guest-name {
-  font-size: 20px;
+.wed-guest-hero-name {
+  font-size: 24px;
   font-weight: 900;
   color: #7b1c1c;
   line-height: 1.2;
+  text-shadow: 0 1px 3px rgba(123,28,28,.12);
 }
-.wedding-guest-tagline {
+.wed-guest-sub {
   font-size: 11px;
   color: #999;
   font-style: italic;
-  margin-top: 5px;
+  margin-top: 6px;
+  line-height: 1.5;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-/* ---- Message ---- */
-.wedding-message {
-  font-size: 13px;
-  color: #666;
+/* ==============================
+   CUSTOM MESSAGE
+============================== */
+.wed-custom-msg {
+  font-size: 13.5px;
+  color: #5a3010;
   font-style: italic;
-  line-height: 1.6;
-  margin: 10px 0 8px;
+  line-height: 1.65;
+  margin: 10px 28px;
+  padding: 10px 16px;
+  background: rgba(201,150,62,.06);
+  border-left: 3px solid #c9963e;
+  border-radius: 0 8px 8px 0;
+  text-align: left;
+}
+.wed-msg-quote {
+  font-size: 22px;
+  font-weight: 900;
+  color: #c9963e;
+  line-height: 1;
+  vertical-align: text-top;
 }
 
-/* ---- Footer ---- */
-.wedding-deco-bottom {
-  font-size: 20px;
-  letter-spacing: 8px;
-  margin-top: 12px;
-  color: #c9963e;
+/* ==============================
+   INVITATION APPEAL
+============================== */
+.wed-invite-appeal {
+  margin: 12px 22px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #7b1c1c, #8b2424);
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(123,28,28,.3);
 }
-.wedding-footer-text {
-  font-size: 11px;
+.wed-appeal-text {
+  font-size: 12px;
+  color: #f5d998;
+  font-style: italic;
+  line-height: 1.7;
+  letter-spacing: .3px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ==============================
+   FOOTER
+============================== */
+.wed-footer {
+  padding: 10px 20px 4px;
+}
+.wed-footer-floral {
+  font-size: 16px;
+  letter-spacing: 6px;
+  margin-bottom: 6px;
+  opacity: .5;
+}
+.wed-footer-text {
+  font-size: 10.5px;
   color: #a07030;
   font-style: italic;
-  margin-top: 6px;
-  letter-spacing: 0.5px;
+  letter-spacing: .5px;
+  font-family: 'Segoe UI', sans-serif;
+  margin-bottom: 0;
 }
 
+/* ==============================
+   ANIMATIONS
+============================== */
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
   50%       { transform: scale(1.08); }
+}
+
+/* ==============================
+   RESPONSIVE
+============================== */
+@media (max-width: 480px) {
+  .wedding-card { max-width: 100%; }
+  .wed-name { font-size: 26px; }
+  .wed-event-card { margin: 8px 14px; }
+  .wed-guest-card { margin: 10px 14px; }
+  .wed-invite-appeal { margin: 10px 14px; }
+  .wed-custom-msg { margin: 8px 14px; }
 }

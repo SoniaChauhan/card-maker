@@ -13,99 +13,191 @@ export default function WeddingCardPreview({ data, lang = 'en' }) {
   return (
     <div id="wedding-card-print" className="wedding-card">
 
-      {/* Top decoration */}
-      <div className="wedding-deco-top">🌸 ✿ 🌸</div>
+      {/* Ornamental top border */}
+      <div className="wed-ornament-top">
+        <div className="wed-ornament-line" />
+        <span className="wed-ornament-icon">🕉️</span>
+        <div className="wed-ornament-line" />
+      </div>
 
-      {/* Invitation badge */}
-      <div className="wedding-invite-badge">{t.wedInviteBadge}</div>
+      {/* Corner mandalas (CSS pseudo-elements) rendered by CSS */}
 
-      {/* Blessing line */}
-      <div className="wedding-blessing">{t.wedBlessing}</div>
+      {/* Ganesh / auspicious header */}
+      <div className="wed-auspicious">
+        <span className="wed-ganesh">🙏</span>
+        <div className="wed-shubh-label">॥ शुभ विवाह ॥</div>
+      </div>
 
-      {/* Couple photo */}
+      {/* Decorative floral strip */}
+      <div className="wed-floral-strip">
+        <span>🌺</span><span>🪷</span><span>🌸</span><span>🪷</span><span>🌺</span>
+      </div>
+
+      {/* Invitation message */}
+      <div className="wed-invite-msg">
+        {t.wedBlessing}
+      </div>
+
+      {/* Couple photo with frame */}
       {photoPreview && (
-        <div className="wedding-photo-frame">
-          <img src={photoPreview} alt="Couple" className="wedding-photo" />
+        <div className="wed-photo-section">
+          <div className="wed-photo-frame">
+            <img src={photoPreview} alt="Couple" className="wed-photo" />
+          </div>
         </div>
       )}
 
-      {/* Couple names */}
-      <div className="wedding-couple-section">
-        <div className="wedding-couple-intro">{t.wedTogetherLabel}</div>
-        <div className="wedding-groom-name">{groomName || t.wedGroom}</div>
-        {groomFamily && <div className="wedding-families">{groomFamily}</div>}
-        <div className="wedding-and">&amp; {t.wedAnd} &amp;</div>
-        <div className="wedding-bride-name">{brideName || t.wedBride}</div>
-        {brideFamily && <div className="wedding-families">{brideFamily}</div>}
+      {/* Family names header */}
+      <div className="wed-family-header">
+        <div className="wed-family-block">
+          {groomFamily && <div className="wed-family-name">{groomFamily}</div>}
+          <div className="wed-family-side">Groom's Family</div>
+        </div>
+        <div className="wed-family-separator">🤝</div>
+        <div className="wed-family-block">
+          {brideFamily && <div className="wed-family-name">{brideFamily}</div>}
+          <div className="wed-family-side">Bride's Family</div>
+        </div>
       </div>
 
-      <div className="wedding-divider">— ✦ 💍 ✦ —</div>
+      <div className="wed-invite-line">{t.wedTogetherLabel}</div>
+
+      {/* Couple names - hero */}
+      <div className="wed-couple-hero">
+        <div className="wed-name wed-groom">{groomName || t.wedGroom}</div>
+        <div className="wed-ampersand">
+          <span className="wed-amp-line" />
+          <span className="wed-amp-ring">💍</span>
+          <span className="wed-amp-line" />
+        </div>
+        <div className="wed-name wed-bride">{brideName || t.wedBride}</div>
+      </div>
+
+      {/* Tagline */}
+      <div className="wed-tagline">Two souls, One journey — Forever begins here</div>
+
+      {/* Decorative mandala divider */}
+      <div className="wed-mandala-divider">
+        <span className="wed-md-wing">✦ ─── ✦</span>
+        <span className="wed-md-center">❋</span>
+        <span className="wed-md-wing">✦ ─── ✦</span>
+      </div>
 
       {/* Wedding ceremony details */}
-      <div className="wedding-event-box">
-        <div className="wedding-event-section-title">💒 {t.wedCeremony}</div>
-        {weddingDate && (
-          <div className="wedding-event-row">
-            <span className="wedding-event-icon">📅</span>
-            <span><strong>{t.date}:</strong> {formatDate(weddingDate)}</span>
-          </div>
-        )}
-        {weddingTime && (
-          <div className="wedding-event-row">
-            <span className="wedding-event-icon">⏰</span>
-            <span><strong>{t.time}:</strong> {formatTime(weddingTime)}</span>
-          </div>
-        )}
-        {weddingVenue && (
-          <div className="wedding-event-row">
-            <span className="wedding-event-icon">📍</span>
-            <div>
-              <strong>{t.venue}:</strong> {weddingVenue}
-              {weddingVenueAddress && <><br /><span style={{ color: '#888', fontSize: '12px' }}>{weddingVenueAddress}</span></>}
+      <div className="wed-event-card wed-ceremony-card">
+        <div className="wed-event-header">
+          <span className="wed-event-emoji">💒</span>
+          <span className="wed-event-title">{t.wedCeremony}</span>
+        </div>
+        <div className="wed-event-details">
+          {weddingDate && (
+            <div className="wed-detail-row">
+              <span className="wed-detail-icon">📅</span>
+              <div>
+                <div className="wed-detail-label">{t.date}</div>
+                <div className="wed-detail-value">{formatDate(weddingDate)}</div>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+          {weddingTime && (
+            <div className="wed-detail-row">
+              <span className="wed-detail-icon">🕐</span>
+              <div>
+                <div className="wed-detail-label">{t.time}</div>
+                <div className="wed-detail-value">{formatTime(weddingTime)}</div>
+              </div>
+            </div>
+          )}
+          {weddingVenue && (
+            <div className="wed-detail-row">
+              <span className="wed-detail-icon">🏛️</span>
+              <div>
+                <div className="wed-detail-label">{t.venue}</div>
+                <div className="wed-detail-value">{weddingVenue}</div>
+                {weddingVenueAddress && <div className="wed-detail-address">{weddingVenueAddress}</div>}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Reception details (optional) */}
       {(receptionDate || receptionVenue) && (
-        <div className="wedding-event-box" style={{ marginTop: 10 }}>
-          <div className="wedding-event-section-title">🥂 {t.wedReception}</div>
-          {receptionDate && (
-            <div className="wedding-event-row">
-              <span className="wedding-event-icon">📅</span>
-              <span><strong>{t.date}:</strong> {formatDate(receptionDate)}</span>
-            </div>
-          )}
-          {receptionTime && (
-            <div className="wedding-event-row">
-              <span className="wedding-event-icon">⏰</span>
-              <span><strong>{t.time}:</strong> {formatTime(receptionTime)}</span>
-            </div>
-          )}
-          {receptionVenue && (
-            <div className="wedding-event-row">
-              <span className="wedding-event-icon">📍</span>
-              <span><strong>{t.venue}:</strong> {receptionVenue}</span>
-            </div>
-          )}
+        <div className="wed-event-card wed-reception-card">
+          <div className="wed-event-header">
+            <span className="wed-event-emoji">🥂</span>
+            <span className="wed-event-title">{t.wedReception}</span>
+          </div>
+          <div className="wed-event-details">
+            {receptionDate && (
+              <div className="wed-detail-row">
+                <span className="wed-detail-icon">📅</span>
+                <div>
+                  <div className="wed-detail-label">{t.date}</div>
+                  <div className="wed-detail-value">{formatDate(receptionDate)}</div>
+                </div>
+              </div>
+            )}
+            {receptionTime && (
+              <div className="wed-detail-row">
+                <span className="wed-detail-icon">🕐</span>
+                <div>
+                  <div className="wed-detail-label">{t.time}</div>
+                  <div className="wed-detail-value">{formatTime(receptionTime)}</div>
+                </div>
+              </div>
+            )}
+            {receptionVenue && (
+              <div className="wed-detail-row">
+                <span className="wed-detail-icon">🏛️</span>
+                <div>
+                  <div className="wed-detail-label">{t.venue}</div>
+                  <div className="wed-detail-value">{receptionVenue}</div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
-      {/* Guest invitation tag */}
+      {/* Guest invitation card */}
       {guestName && (
-        <div className="wedding-guest-tag">
-          <div className="wedding-guest-label">{t.wedInvitedGuest}</div>
-          <div className="wedding-guest-name">{guestName}</div>
-          <div className="wedding-guest-tagline">{t.wedGuestTagline}</div>
+        <div className="wed-guest-card">
+          <div className="wed-guest-header">{t.wedInvitedGuest}</div>
+          <div className="wed-guest-hero-name">{guestName}</div>
+          <div className="wed-guest-sub">{t.wedGuestTagline}</div>
         </div>
       )}
 
       {/* Custom message */}
-      {message && <div className="wedding-message">"{message}"</div>}
+      {message && (
+        <div className="wed-custom-msg">
+          <span className="wed-msg-quote">"</span>
+          {message}
+          <span className="wed-msg-quote">"</span>
+        </div>
+      )}
 
-      <div className="wedding-deco-bottom">🌸 ✿ 🌸</div>
-      <div className="wedding-footer-text">{t.wedFooter}</div>
+      {/* Kind RSVP & Invitation message */}
+      <div className="wed-invite-appeal">
+        <div className="wed-appeal-text">
+          Your gracious presence will be our family's greatest blessing.<br />
+          We humbly request the honour of your attendance.
+        </div>
+      </div>
+
+      {/* Footer decoration */}
+      <div className="wed-footer">
+        <div className="wed-footer-floral">🌺 ✿ 🪷 ✿ 🌺</div>
+        <div className="wed-footer-text">{t.wedFooter}</div>
+      </div>
+
+      {/* Ornamental bottom border */}
+      <div className="wed-ornament-bottom">
+        <div className="wed-ornament-line" />
+        <span className="wed-ornament-icon">🪷</span>
+        <div className="wed-ornament-line" />
+      </div>
     </div>
   );
 }
