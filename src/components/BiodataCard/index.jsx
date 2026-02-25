@@ -104,10 +104,11 @@ export default function BiodataCard({ onBack }) {
       <Particles icons={PARTICLES} count={20} />
       <p className="biodata-screen-title">💍 Marriage Biodata</p>
       <div className="lang-toggle-bar">
-        <button className="btn-lang-toggle" onClick={() => setLang(l => l === 'en' ? 'hi' : 'en')}>
-          <span className="lang-flag">{lang === 'en' ? '🇮🇳' : '🇬🇧'}</span>
-          {lang === 'en' ? 'हिन्दी में देखें' : 'View in English'}
-        </button>
+        <label className="lang-select-label">🌐 Language:</label>
+        <select className="lang-select" value={lang} onChange={e => setLang(e.target.value)}>
+          <option value="en">🇬🇧 English</option>
+          <option value="hi">🇮🇳 हिन्दी</option>
+        </select>
       </div>
       <div className="card-wrapper">
         <BiodataCardPreview data={data} lang={lang} />

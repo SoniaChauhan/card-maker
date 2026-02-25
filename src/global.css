@@ -122,36 +122,52 @@ body {
 .btn-download:hover  { transform: translateY(-2px); }
 .btn-download:disabled { opacity: .65; cursor: not-allowed; transform: none; }
 
-/* ---- Language toggle button ---- */
+/* ---- Language dropdown ---- */
 .lang-toggle-bar {
   display: flex;
+  align-items: center;
   justify-content: center;
+  gap: 10px;
   margin-top: 14px;
 }
 
-.btn-lang-toggle {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 22px;
+.lang-select-label {
+  color: rgba(255,255,255,.9);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.lang-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 8px 36px 8px 16px;
   border-radius: 50px;
   border: 2px solid rgba(255,255,255,.5);
-  background: rgba(255,255,255,.15);
+  background: rgba(255,255,255,.15) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='white' d='M6 8L0 0h12z'/%3E%3C/svg%3E") no-repeat right 14px center;
   color: #fff;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   backdrop-filter: blur(6px);
   transition: all .3s;
-  letter-spacing: 0.5px;
+  min-width: 150px;
+  text-align: center;
 }
-.btn-lang-toggle:hover {
-  background: rgba(255,255,255,.28);
+.lang-select:hover {
+  background-color: rgba(255,255,255,.25);
   border-color: rgba(255,255,255,.8);
-  transform: translateY(-2px);
 }
-.btn-lang-toggle .lang-flag { font-size: 18px; }
-.btn-lang-toggle .lang-label { font-size: 12px; opacity: .8; }
+.lang-select:focus {
+  outline: none;
+  border-color: #fff;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.25);
+}
+.lang-select option {
+  background: #333;
+  color: #fff;
+  font-size: 14px;
+}
 
 /* ---- Shared card elements ---- */
 .card-to-guest {
