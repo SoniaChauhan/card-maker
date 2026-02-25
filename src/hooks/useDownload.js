@@ -27,6 +27,17 @@ export default function useDownload(elementId, filename) {
     const wrapper = el.closest('.card-preview-locked');
     if (wrapper) wrapper.classList.remove('card-preview-locked');
 
+    /* Temporarily expand the card to a larger width for a high-quality download */
+    const prevMaxW = el.style.maxWidth;
+    const prevW    = el.style.width;
+    const prevMinW = el.style.minWidth;
+    el.style.maxWidth = 'none';
+    el.style.width    = '900px';
+    el.style.minWidth = '900px';
+
+    // Let the browser reflow before capturing
+    await new Promise(r => setTimeout(r, 100));
+
     try {
       const canvas = await html2canvas(el, {
         scale: 2,
@@ -50,6 +61,10 @@ export default function useDownload(elementId, filename) {
     } catch {
       showToast('⚠️ Download failed. Please try again.');
     } finally {
+      // Restore original dimensions
+      el.style.maxWidth = prevMaxW;
+      el.style.width    = prevW;
+      el.style.minWidth = prevMinW;
       // Restore watermark
       if (wrapper) wrapper.classList.add('card-preview-locked');
       setDownloading(false);
