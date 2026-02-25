@@ -28,6 +28,11 @@ export default function useDownload(elementId, filename) {
         useCORS: true,
         backgroundColor: null,
         logging: false,
+        width: el.offsetWidth,
+        height: el.offsetHeight,
+        windowWidth: el.offsetWidth,
+        scrollX: 0,
+        scrollY: 0,
       });
 
       const link = document.createElement('a');

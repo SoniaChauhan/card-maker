@@ -67,11 +67,20 @@
   background: linear-gradient(135deg, #c0392b 0%, #8e1011 40%, #d4af37 100%);
   min-height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 40px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+}
+
+/* Scrollable wrapper so 500px card never clips on small screens */
+.biodata-card-screen .card-wrapper {
+  overflow-x: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .biodata-screen-title {
@@ -87,8 +96,8 @@
 .biodata-card {
   background: linear-gradient(160deg, #fff8f0 0%, #fffdf7 100%);
   border-radius: 4px;
-  width: 100%;
-  max-width: 500px;
+  width: 500px;
+  min-width: 500px;
   padding: 0 0 24px;
   box-shadow: 0 30px 80px rgba(0,0,0,.45);
   font-family: 'Georgia', 'Times New Roman', serif;
