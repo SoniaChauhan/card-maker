@@ -25,7 +25,7 @@ import emailjs from '@emailjs/browser';
 const SERVICE_ID        = 'service_sicr4dp';
 const OTP_TEMPLATE_ID   = 'template_fli9nef';
 const NOTIFY_TEMPLATE_ID= 'template_n3scahd';
-const PUBLIC_KEY        = 'veryFjXyXWyfliXTT';
+const PUBLIC_KEY        = 'veryFjXyXWyfIiXTT';
 
 import { ADMIN_EMAIL, ADMIN_NAME } from './authService';
 
