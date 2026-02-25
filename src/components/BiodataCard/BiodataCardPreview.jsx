@@ -38,10 +38,8 @@ export default function BiodataCardPreview({ data, lang = 'en' }) {
 
       {/* Photo + Name Section */}
       <div className="bio-top-section">
-        {photoPreview ? (
+        {photoPreview && (
           <img src={photoPreview} alt={fullName} className="bio-photo" />
-        ) : (
-          <div className="bio-photo-placeholder">👤</div>
         )}
         <div className="bio-name-block">
           <div className="bio-full-name">{fullName || 'Candidate Name'}</div>
