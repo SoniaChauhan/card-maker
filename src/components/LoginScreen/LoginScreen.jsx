@@ -33,7 +33,7 @@ export default function LoginScreen() {
       setStep('otp');
     } catch (err) {
       console.error(err);
-      setError('Failed to send OTP. Please try again.');
+      setError('Error: ' + (err?.text || err?.message || JSON.stringify(err)));
     } finally {
       setLoading(false);
     }
