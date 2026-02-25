@@ -64,23 +64,25 @@ export default function BirthdayCard({ onBack, userEmail, isSuperAdmin }) {
   return (
     <div className="birthday-card-screen">
       <Particles icons={PARTICLES} count={24} />
-      <p className="birthday-screen-title">� Your Birthday Invitation</p>
-      <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-      <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
-        <BirthdayCardPreview data={data} lang={lang} />
+      <div className="card-screen-container">
+        <p className="birthday-screen-title">� Your Birthday Invitation</p>
+        <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
+        <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
+          <BirthdayCardPreview data={data} lang={lang} />
+        </div>
+        <CardActions
+          onEdit={() => setStep('form')}
+          onBack={onBack}
+          onDownload={handleDownload}
+          downloading={downloading}
+          locked={!isSuperAdmin}
+          cardId="birthday"
+          cardLabel="Birthday Invitation"
+          userEmail={userEmail}
+          isSuperAdmin={isSuperAdmin}
+          dlBtnStyle={{ background: 'linear-gradient(135deg,#ff6b6b,#feca57)', color: '#fff', boxShadow: '0 6px 20px rgba(255,107,107,.45)' }}
+        />
       </div>
-      <CardActions
-        onEdit={() => setStep('form')}
-        onBack={onBack}
-        onDownload={handleDownload}
-        downloading={downloading}
-        locked={!isSuperAdmin}
-        cardId="birthday"
-        cardLabel="Birthday Invitation"
-        userEmail={userEmail}
-        isSuperAdmin={isSuperAdmin}
-        dlBtnStyle={{ background: 'linear-gradient(135deg,#ff6b6b,#feca57)', color: '#fff', boxShadow: '0 6px 20px rgba(255,107,107,.45)' }}
-      />
       <Toast text={toast.text} show={toast.show} />
     </div>
   );

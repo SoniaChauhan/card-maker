@@ -57,23 +57,25 @@ export default function AnniversaryCard({ onBack, userEmail, isSuperAdmin }) {
   return (
     <div className="anniversary-card-screen">
       <Particles icons={PARTICLES} count={24} />
-      <p className="anniversary-screen-title">💍 Your Anniversary Card</p>
-      <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-      <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
-        <AnniversaryCardPreview data={data} lang={lang} />
+      <div className="card-screen-container">
+        <p className="anniversary-screen-title">💍 Your Anniversary Card</p>
+        <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
+        <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
+          <AnniversaryCardPreview data={data} lang={lang} />
+        </div>
+        <CardActions
+          onEdit={() => setStep('form')}
+          onBack={onBack}
+          onDownload={handleDownload}
+          downloading={downloading}
+          locked={!isSuperAdmin}
+          cardId="anniversary"
+          cardLabel="Anniversary Card"
+          userEmail={userEmail}
+          isSuperAdmin={isSuperAdmin}
+          dlBtnStyle={{ background: 'linear-gradient(135deg,#dc3c64,#a18cd1)', color: '#fff', boxShadow: '0 6px 20px rgba(220,60,100,.4)' }}
+        />
       </div>
-      <CardActions
-        onEdit={() => setStep('form')}
-        onBack={onBack}
-        onDownload={handleDownload}
-        downloading={downloading}
-        locked={!isSuperAdmin}
-        cardId="anniversary"
-        cardLabel="Anniversary Card"
-        userEmail={userEmail}
-        isSuperAdmin={isSuperAdmin}
-        dlBtnStyle={{ background: 'linear-gradient(135deg,#dc3c64,#a18cd1)', color: '#fff', boxShadow: '0 6px 20px rgba(220,60,100,.4)' }}
-      />
       <Toast text={toast.text} show={toast.show} />
     </div>
   );

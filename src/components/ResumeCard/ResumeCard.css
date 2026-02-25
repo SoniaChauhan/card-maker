@@ -29,6 +29,11 @@
   justify-content: flex-start;
 }
 
+/* Wider container to fit 600px resume card */
+.resume-card-screen .card-screen-container {
+  max-width: 720px;
+}
+
 .resume-screen-title {
   color: #fff;
   font-size: 20px;

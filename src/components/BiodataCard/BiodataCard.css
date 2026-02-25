@@ -83,6 +83,11 @@
   justify-content: center;
 }
 
+/* Wider container to match the biodata form width */
+.biodata-card-screen .card-screen-container {
+  max-width: 780px;
+}
+
 .biodata-screen-title {
   font-size: 22px;
   font-weight: 800;

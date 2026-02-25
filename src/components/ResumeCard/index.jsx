@@ -66,23 +66,25 @@ export default function ResumeCard({ onBack, userEmail, isSuperAdmin }) {
   return (
     <div className="resume-card-screen">
       <Particles icons={PARTICLES} count={20} />
-      <p className="resume-screen-title">📄 Your Resume</p>
-      <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
-        <ResumeCardPreview data={data} />
+      <div className="card-screen-container">
+        <p className="resume-screen-title">📄 Your Resume</p>
+        <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
+          <ResumeCardPreview data={data} />
+        </div>
+        <CardActions
+          onEdit={() => setStep('form')}
+          onBack={onBack}
+          onDownload={handleDownload}
+          downloading={downloading}
+          locked={!isSuperAdmin}
+          cardId="resume"
+          cardLabel="Resume / CV"
+          userEmail={userEmail}
+          isSuperAdmin={isSuperAdmin}
+          dlLabel="📥 Download PDF"
+          dlBtnStyle={{ background: 'linear-gradient(135deg,#1a73e8,#2d3748)', color: '#fff', boxShadow: '0 6px 20px rgba(26,115,232,.45)' }}
+        />
       </div>
-      <CardActions
-        onEdit={() => setStep('form')}
-        onBack={onBack}
-        onDownload={handleDownload}
-        downloading={downloading}
-        locked={!isSuperAdmin}
-        cardId="resume"
-        cardLabel="Resume / CV"
-        userEmail={userEmail}
-        isSuperAdmin={isSuperAdmin}
-        dlLabel="📥 Download PDF"
-        dlBtnStyle={{ background: 'linear-gradient(135deg,#1a73e8,#2d3748)', color: '#fff', boxShadow: '0 6px 20px rgba(26,115,232,.45)' }}
-      />
       <Toast text={toast.text} show={toast.show} />
     </div>
   );

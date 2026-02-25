@@ -70,23 +70,25 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin }) {
   return (
     <div className="wedding-card-screen">
       <Particles icons={PARTICLES} count={24} />
-      <p className="wedding-screen-title">💍 Your Wedding Invitation</p>
-      <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-      <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
-        <WeddingCardPreview data={data} lang={lang} />
+      <div className="card-screen-container">
+        <p className="wedding-screen-title">💍 Your Wedding Invitation</p>
+        <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
+        <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
+          <WeddingCardPreview data={data} lang={lang} />
+        </div>
+        <CardActions
+          onEdit={() => setStep('form')}
+          onBack={onBack}
+          onDownload={handleDownload}
+          downloading={downloading}
+          locked={!isSuperAdmin}
+          cardId="wedding"
+          cardLabel="Wedding Invitation"
+          userEmail={userEmail}
+          isSuperAdmin={isSuperAdmin}
+          dlBtnStyle={{ background: 'linear-gradient(135deg,#7b1c1c,#c9963e)', color: '#fff', boxShadow: '0 6px 20px rgba(123,28,28,.45)' }}
+        />
       </div>
-      <CardActions
-        onEdit={() => setStep('form')}
-        onBack={onBack}
-        onDownload={handleDownload}
-        downloading={downloading}
-        locked={!isSuperAdmin}
-        cardId="wedding"
-        cardLabel="Wedding Invitation"
-        userEmail={userEmail}
-        isSuperAdmin={isSuperAdmin}
-        dlBtnStyle={{ background: 'linear-gradient(135deg,#7b1c1c,#c9963e)', color: '#fff', boxShadow: '0 6px 20px rgba(123,28,28,.45)' }}
-      />
       <Toast text={toast.text} show={toast.show} />
     </div>
   );

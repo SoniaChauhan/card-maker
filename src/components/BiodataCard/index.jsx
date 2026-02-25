@@ -104,23 +104,25 @@ export default function BiodataCard({ onBack, userEmail, isSuperAdmin }) {
   return (
     <div className="biodata-card-screen">
       <Particles icons={PARTICLES} count={20} />
-      <p className="biodata-screen-title">💍 Marriage Biodata</p>
-      <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-      <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
-        <BiodataCardPreview data={data} lang={lang} />
+      <div className="card-screen-container">
+        <p className="biodata-screen-title">💍 Marriage Biodata</p>
+        <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
+        <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
+          <BiodataCardPreview data={data} lang={lang} />
+        </div>
+        <CardActions
+          onEdit={() => setStep('form')}
+          onBack={onBack}
+          onDownload={handleDownload}
+          downloading={downloading}
+          locked={!isSuperAdmin}
+          cardId="biodata"
+          cardLabel="Marriage Biodata"
+          userEmail={userEmail}
+          isSuperAdmin={isSuperAdmin}
+          dlBtnStyle={{ background: 'linear-gradient(135deg,#d4af37,#c0392b)', boxShadow: '0 8px 24px rgba(212,175,55,.4)' }}
+        />
       </div>
-      <CardActions
-        onEdit={() => setStep('form')}
-        onBack={onBack}
-        onDownload={handleDownload}
-        downloading={downloading}
-        locked={!isSuperAdmin}
-        cardId="biodata"
-        cardLabel="Marriage Biodata"
-        userEmail={userEmail}
-        isSuperAdmin={isSuperAdmin}
-        dlBtnStyle={{ background: 'linear-gradient(135deg,#d4af37,#c0392b)', boxShadow: '0 8px 24px rgba(212,175,55,.4)' }}
-      />
       {toast && <Toast message={toast.message} type={toast.type} />}
     </div>
   );

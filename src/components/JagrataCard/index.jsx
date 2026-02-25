@@ -51,23 +51,25 @@ export default function JagrataCard({ onBack, userEmail, isSuperAdmin }) {
   return (
     <div className="jagrata-card-screen">
       <Particles icons={PARTICLES} count={24} />
-      <p className="jagrata-screen-title">🪔 Your Jagrata Invitation</p>
-      <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-      <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
-        <JagrataCardPreview data={data} lang={lang} />
+      <div className="card-screen-container">
+        <p className="jagrata-screen-title">🪔 Your Jagrata Invitation</p>
+        <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
+        <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
+          <JagrataCardPreview data={data} lang={lang} />
+        </div>
+        <CardActions
+          onEdit={() => setStep('form')}
+          onBack={onBack}
+          onDownload={handleDownload}
+          downloading={downloading}
+          locked={!isSuperAdmin}
+          cardId="jagrata"
+          cardLabel="Jagrata Invitation"
+          userEmail={userEmail}
+          isSuperAdmin={isSuperAdmin}
+          dlBtnStyle={{ background: 'linear-gradient(135deg,#f7971e,#ffd200)', color: '#7a3e00', boxShadow: '0 6px 20px rgba(247,151,30,.5)' }}
+        />
       </div>
-      <CardActions
-        onEdit={() => setStep('form')}
-        onBack={onBack}
-        onDownload={handleDownload}
-        downloading={downloading}
-        locked={!isSuperAdmin}
-        cardId="jagrata"
-        cardLabel="Jagrata Invitation"
-        userEmail={userEmail}
-        isSuperAdmin={isSuperAdmin}
-        dlBtnStyle={{ background: 'linear-gradient(135deg,#f7971e,#ffd200)', color: '#7a3e00', boxShadow: '0 6px 20px rgba(247,151,30,.5)' }}
-      />
       <Toast text={toast.text} show={toast.show} />
     </div>
   );
