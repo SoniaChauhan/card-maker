@@ -10,8 +10,10 @@ export default function BirthdayCardPreview({ data, lang = 'en' }) {
       <div className="bday-deco-top">🌟 ✨ 🌟</div>
 
       {guestName && (
-        <div className="bday-guest-intro">
-          {t.to}: <span className="bday-guest-name">{guestName}</span>
+        <div className="bday-recipient-tag">
+          <div className="bday-recipient-label">{t.bdayWishLine}</div>
+          <div className="bday-recipient-name">{guestName}</div>
+          <div className="bday-recipient-tagline">{t.bdayTagline}</div>
         </div>
       )}
 
