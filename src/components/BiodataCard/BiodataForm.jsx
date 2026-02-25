@@ -1,4 +1,5 @@
 import FormField from '../shared/FormField';
+import DobPicker from '../shared/DobPicker';
 
 const COMPLEXION_OPTIONS = [
   { value: 'Very Fair', label: 'Very Fair' },
@@ -25,6 +26,10 @@ const RASHI_OPTIONS = [
 export default function BiodataForm({ data, errors, onChange, onBack, onGenerate }) {
   const today = new Date().toISOString().split('T')[0];
   const minDob = '1940-01-01';
+
+  function onAgeChange(ageStr) {
+    onChange({ target: { name: 'age', value: ageStr } });
+  }
   return (
     <div className="form-screen biodata-form-screen">
       <div className="form-card biodata-form-card">
@@ -41,13 +46,17 @@ export default function BiodataForm({ data, errors, onChange, onBack, onGenerate
             value={data.fullName} onChange={onChange}
             placeholder="e.g. Priya Sharma" required error={errors.fullName} />
 
-          <FormField label="Date of Birth" name="dob"
-            type="date" value={data.dob} onChange={onChange}
-            required error={errors.dob} min={minDob} max={today} />
+          <DobPicker
+            value={data.dob}
+            onChange={onChange}
+            onAgeChange={onAgeChange}
+            required
+            error={errors.dob}
+          />
 
           <FormField label="Age" name="age"
             type="number" value={data.age} onChange={onChange}
-            placeholder="e.g. 25" min="18" max="60" />
+            placeholder="Auto-calculated or enter manually" min="18" max="60" />
 
           <FormField label="Height" name="height"
             value={data.height} onChange={onChange}
