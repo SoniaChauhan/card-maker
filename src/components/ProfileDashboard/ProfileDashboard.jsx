@@ -1,9 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './ProfileDashboard.css';
 import { useAuth } from '../../contexts/AuthContext';
-import { getUserSubscriptions } from '../../services/subscriptionService';
-import { notifyAdmin } from '../../services/notificationService';
-import SubscriptionPopup from '../SubscriptionPopup/SubscriptionPopup';
 import AdminPanel from '../AdminPanel/AdminPanel';
 import MyTemplates from '../MyTemplates/MyTemplates';
 import DownloadHistory from '../DownloadHistory/DownloadHistory';
@@ -13,30 +10,10 @@ import { CATEGORIES } from '../SelectionScreen/SelectionScreen';
 export default function ProfileDashboard({ onSelect, onEditTemplate }) {
   const { user, logout, isSuperAdmin } = useAuth();
   const [tab, setTab]       = useState('dashboard');
-  const [subs, setSubs]     = useState({});
-  const [popup, setPopup]   = useState(null);   // card object or null
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [toast, setToast]   = useState({ show: false, text: '' });
 
-  /* Fetch user subscriptions on mount */
-  useEffect(() => {
-    if (!isSuperAdmin && user) {
-      getUserSubscriptions(user.email)
-        .then(s => { setSubs(s); setLoading(false); })
-        .catch(() => setLoading(false));
-    } else {
-      setLoading(false);
-    }
-  }, [user, isSuperAdmin]);
-
-  /* Refresh subs when popup closes */
-  function refreshSubs() {
-    if (!isSuperAdmin && user) {
-      getUserSubscriptions(user.email).then(setSubs).catch(() => {});
-    }
-  }
-
-  /* Handle card click */
+  /* Handle card click — all users can access non-coming-soon cards */
   function handleCardClick(card) {
     if (card.comingSoon) {
       setToast({ show: true, text: `🚀 "${card.label}" is coming soon! Stay tuned.` });
@@ -44,23 +21,7 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
       return;
     }
 
-    if (isSuperAdmin) {
-      onSelect(card.id);
-      return;
-    }
-
-    const status = subs[card.id];
-    if (status === 'approved') {
-      onSelect(card.id);
-      return;
-    }
-
-    notifyAdmin(
-      `Card Click Alert — ${card.label}`,
-      `User ${user.email} tried to access "${card.label}" card at ${new Date().toLocaleString()}.`
-    ).catch(() => {});
-
-    setPopup(card);
+    onSelect(card.id);
   }
 
   /* Total available cards count (non-coming-soon) */
@@ -133,7 +94,7 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
                 <span className="pd-info-icon">🎨</span>
                 <div>
                   <div className="pd-info-label">Templates</div>
-                  <div className="pd-info-value">{isSuperAdmin ? `${totalActive} (All Access)` : `${Object.values(subs).filter(s => s === 'approved').length} Approved`}</div>
+                  <div className="pd-info-value">{`${totalActive} Available`}</div>
                 </div>
               </div>
             </div>
@@ -142,7 +103,7 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
             <div className="pd-profile-msg">
               {isSuperAdmin
                 ? '🚀 You have full access to all templates and the admin panel.'
-                : '💡 Go to the Dashboard tab to explore and request card templates.'}
+                : '💡 Go to the Dashboard tab to explore and create card templates.'}
             </div>
           </div>
         </div>
@@ -156,7 +117,6 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
               <h2 className="pd-category-title">{cat.title}</h2>
               <div className="pd-cards-grid">
                 {cat.cards.map(card => {
-                  const status = subs[card.id];
                   return (
                     <div
                       key={card.id}
@@ -167,16 +127,6 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
                       onKeyDown={e => e.key === 'Enter' && handleCardClick(card)}
                     >
                       {card.comingSoon && <span className="pd-coming-soon-tag">🔒 Coming Soon</span>}
-
-                      {/* Lock icon for non-admin users without approval */}
-                      {!card.comingSoon && !isSuperAdmin && status !== 'approved' && (
-                        <span className="pd-card-lock">🔒</span>
-                      )}
-
-                      {/* Status badge */}
-                      {!card.comingSoon && !isSuperAdmin && status && (
-                        <span className={`pd-card-status ${status}`}>{status}</span>
-                      )}
 
                       <span className="pd-card-icon">{card.icon}</span>
                       <h3>{card.label}</h3>
@@ -202,16 +152,6 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
       {/* Download History tab */}
       {tab === 'downloads' && (
         <DownloadHistory userEmail={user.email} />
-      )}
-
-      {/* Subscription popup */}
-      {popup && (
-        <SubscriptionPopup
-          card={popup}
-          userEmail={user.email}
-          existingStatus={subs[popup.id] || null}
-          onClose={() => { setPopup(null); refreshSubs(); }}
-        />
       )}
 
       <Toast text={toast.text} show={toast.show} />

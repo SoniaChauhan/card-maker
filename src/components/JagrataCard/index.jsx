@@ -14,7 +14,7 @@ import { logDownload } from '../../services/downloadHistoryService';
 const INIT = { religion: 'hindu', guestName: '', organizerName: '', jagrataTitle: '', purpose: '', date: '', startTime: '', venue: '', venueAddress: '', prasad: '', message: '' };
 const PARTICLES = ['🪔', '🙏', '🕉️', '✨', '🌸', '🌺', '⭐', '💛'];
 
-export default function JagrataCard({ onBack, userEmail, isSuperAdmin }) {
+export default function JagrataCard({ onBack, userEmail }) {
   const [step, setStep]     = useState('form');
   const [data, setData]     = useState(INIT);
   const [errors, setErrors] = useState({});
@@ -78,7 +78,7 @@ export default function JagrataCard({ onBack, userEmail, isSuperAdmin }) {
       <div className="card-screen-container">
         <p className="jagrata-screen-title">🪔 Your Spiritual Event Invitation</p>
         <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-        <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
+        <div className="card-wrapper screenshot-protected">
           <JagrataCardPreview data={data} lang={lang} />
         </div>
         <CardActions
@@ -86,11 +86,6 @@ export default function JagrataCard({ onBack, userEmail, isSuperAdmin }) {
           onBack={onBack}
           onDownload={handleDownload}
           downloading={downloading}
-          locked={!isSuperAdmin}
-          cardId="jagrata"
-          cardLabel="Spiritual Event Invitation"
-          userEmail={userEmail}
-          isSuperAdmin={isSuperAdmin}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#f7971e,#ffd200)', color: '#7a3e00', boxShadow: '0 6px 20px rgba(247,151,30,.5)' }}
         />
         <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>

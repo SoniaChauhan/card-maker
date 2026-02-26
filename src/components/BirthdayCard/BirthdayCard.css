@@ -253,6 +253,20 @@
 .bday-theme-6 .bday-photo       { border-color: #ff8a65; }
 
 /* ═══════════════════════════════════════
+   Birthday Screen — background & layout
+   ═══════════════════════════════════════ */
+.birthday-card-screen {
+  background: linear-gradient(160deg, #1a0a2e 0%, #2d1b4e 40%, #0f0518 100%);
+  min-height: 100vh;
+  overflow-y: auto;
+  padding: 48px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* ═══════════════════════════════════════
    Birthday Screen — transparent container
    ═══════════════════════════════════════ */
 .birthday-card-screen .card-screen-container {
@@ -261,6 +275,17 @@
   -webkit-backdrop-filter: none;
   box-shadow: none;
   border: none;
+}
+
+.birthday-screen-title {
+  color: #feca57;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+  text-align: center;
+  text-shadow: 0 2px 12px rgba(0,0,0,.7);
+  font-family: 'Quicksand', sans-serif;
 }
 
 /* ═══════════════════════════════════════
@@ -596,6 +621,9 @@
    Responsive
    ═══════════════════════════════════════ */
 @media (max-width: 480px) {
+  .birthday-card-screen {
+    padding: 30px 10px;
+  }
   .bday-card {
     width: 100%;
     min-width: 320px;

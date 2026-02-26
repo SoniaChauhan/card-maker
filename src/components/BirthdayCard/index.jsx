@@ -29,7 +29,7 @@ const BG_SWATCHES = [
   { color: '#263238', label: 'Charcoal' },
 ];
 
-export default function BirthdayCard({ onBack, userEmail, isSuperAdmin, initialData, templateId: initTplId }) {
+export default function BirthdayCard({ onBack, userEmail, initialData, templateId: initTplId }) {
   const [step, setStep]     = useState('form');
   const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
   const [errors, setErrors] = useState({});
@@ -137,7 +137,7 @@ export default function BirthdayCard({ onBack, userEmail, isSuperAdmin, initialD
           </div>
         </div>
 
-        <div id="bday-card-print" className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
+        <div id="bday-card-print" className="card-wrapper screenshot-protected">
           <BirthdayCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} bgColor={data.bgColor} />
         </div>
         <CardActions
@@ -145,11 +145,6 @@ export default function BirthdayCard({ onBack, userEmail, isSuperAdmin, initialD
           onBack={onBack}
           onDownload={handleDownload}
           downloading={downloading}
-          locked={!isSuperAdmin}
-          cardId="birthday"
-          cardLabel="Birthday Invite Designer"
-          userEmail={userEmail}
-          isSuperAdmin={isSuperAdmin}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#ff6b6b,#feca57)', color: '#fff', boxShadow: '0 6px 20px rgba(255,107,107,.45)' }}
         />
         <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>

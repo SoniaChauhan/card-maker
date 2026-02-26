@@ -26,10 +26,6 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
 
     setDownloading(true);
 
-    // Temporarily remove watermark for clean download
-    const wrapper = el.closest('.card-preview-locked');
-    if (wrapper) wrapper.classList.remove('card-preview-locked');
-
     /* Temporarily expand the card to a fixed width for a high-quality download */
     const prevMaxW = el.style.maxWidth;
     const prevW    = el.style.width;
@@ -94,8 +90,6 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
       el.style.maxWidth = prevMaxW;
       el.style.width    = prevW;
       el.style.minWidth = prevMinW;
-      // Restore watermark
-      if (wrapper) wrapper.classList.add('card-preview-locked');
       setDownloading(false);
     }
   }

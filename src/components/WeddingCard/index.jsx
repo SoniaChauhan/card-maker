@@ -24,7 +24,7 @@ const INIT = {
 };
 const PARTICLES = ['🌸', '🪷', '✨', '🌺', '💐', '🎊', '🌟', '💖', '🪷', '✿'];
 
-export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialData, templateId: initTplId }) {
+export default function WeddingCard({ onBack, userEmail, initialData, templateId: initTplId }) {
   const [step, setStep]     = useState('form');
   const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
   const [errors, setErrors] = useState({});
@@ -134,7 +134,7 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialDa
           </button>
         </div>
 
-        <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
+        <div className="card-wrapper screenshot-protected">
           <WeddingCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} />
         </div>
         <CardActions
@@ -142,11 +142,6 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialDa
           onBack={onBack}
           onDownload={handleDownload}
           downloading={downloading}
-          locked={!isSuperAdmin}
-          cardId="wedding"
-          cardLabel="Wedding Invite Designer"
-          userEmail={userEmail}
-          isSuperAdmin={isSuperAdmin}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#6b1520,#b8860b)', color: '#fff', boxShadow: '0 6px 20px rgba(107,21,32,.45)' }}
         />
         <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>

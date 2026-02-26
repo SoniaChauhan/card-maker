@@ -15,7 +15,7 @@ import { logDownload } from '../../services/downloadHistoryService';
 const INIT = { guestName: '', partner1: '', partner2: '', years: '', date: '', time: '', venue: '', venueAddress: '', message: '', photo: null, photoPreview: '' };
 const PARTICLES = ['🌹', '💕', '❤️', '💍', '✨', '🌸', '💖', '🌺'];
 
-export default function AnniversaryCard({ onBack, userEmail, isSuperAdmin, initialData, templateId: initTplId }) {
+export default function AnniversaryCard({ onBack, userEmail, initialData, templateId: initTplId }) {
   const [step, setStep]     = useState('form');
   const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
   const [errors, setErrors] = useState({});
@@ -87,7 +87,7 @@ export default function AnniversaryCard({ onBack, userEmail, isSuperAdmin, initi
       <div className="card-screen-container">
         <p className="anniversary-screen-title">💍 Your Anniversary Greeting</p>
         <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-        <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
+        <div className="card-wrapper screenshot-protected">
           <AnniversaryCardPreview data={data} lang={lang} />
         </div>
         <CardActions
@@ -95,11 +95,6 @@ export default function AnniversaryCard({ onBack, userEmail, isSuperAdmin, initi
           onBack={onBack}
           onDownload={handleDownload}
           downloading={downloading}
-          locked={!isSuperAdmin}
-          cardId="anniversary"
-          cardLabel="Anniversary Greeting Designer"
-          userEmail={userEmail}
-          isSuperAdmin={isSuperAdmin}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#dc3c64,#a18cd1)', color: '#fff', boxShadow: '0 6px 20px rgba(220,60,100,.4)' }}
         />
         <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
