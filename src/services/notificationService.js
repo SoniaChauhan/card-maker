@@ -34,9 +34,9 @@ export async function sendOTPEmail(toEmail, otp) {
   return emailjs.send(SERVICE_ID, OTP_TEMPLATE_ID, {
     to_email:   toEmail,
     otp_code:   otp,
-    from_name:  ADMIN_NAME,
-    from_email: ADMIN_EMAIL,
-    name:       ADMIN_NAME,
+    from_name:  'Card Maker',
+    from_email: 'noreply@cardmaker.app',
+    name:       'Card Maker',
     email:      toEmail,
   }, PUBLIC_KEY);
 }

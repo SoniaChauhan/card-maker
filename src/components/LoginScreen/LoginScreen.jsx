@@ -57,11 +57,13 @@ export default function LoginScreen() {
 
     setLoading(true);
     try {
-      if (await isUserBlocked(trimmedEmail)) {
-        setError('Your account has been blocked. Contact the admin for assistance.');
-        setLoading(false);
-        return;
-      }
+      try {
+        if (await isUserBlocked(trimmedEmail)) {
+          setError('Your account has been blocked. Contact the admin for assistance.');
+          setLoading(false);
+          return;
+        }
+      } catch (_) { /* block-check failed — allow login */ }
       const user = await signInUser(trimmedEmail, password);
       login(user);
       notifyAdmin('🔑 User Login — Card Maker',
@@ -108,11 +110,13 @@ export default function LoginScreen() {
       const valid = await verifyOTP(trimmedEmail, otp);
       if (!valid) { setError('Invalid or expired OTP.'); setLoading(false); return; }
 
-      if (await isUserBlocked(trimmedEmail)) {
-        setError('This email has been blocked. Contact the admin for assistance.');
-        setLoading(false);
-        return;
-      }
+      try {
+        if (await isUserBlocked(trimmedEmail)) {
+          setError('This email has been blocked. Contact the admin for assistance.');
+          setLoading(false);
+          return;
+        }
+      } catch (_) { /* block-check failed — allow sign-up */ }
       const user = await signUpUser(name, trimmedEmail, password);
       login(user);
       notifyAdmin('🆕 New Sign-Up — Card Maker',
@@ -210,11 +214,13 @@ export default function LoginScreen() {
       const valid = await verifyOTP(trimmedEmail, otp);
       if (!valid) { setError('Invalid or expired OTP.'); setLoading(false); return; }
 
-      if (await isUserBlocked(trimmedEmail)) {
-        setError('Your account has been blocked. Contact the admin for assistance.');
-        setLoading(false);
-        return;
-      }
+      try {
+        if (await isUserBlocked(trimmedEmail)) {
+          setError('Your account has been blocked. Contact the admin for assistance.');
+          setLoading(false);
+          return;
+        }
+      } catch (_) { /* block-check failed — allow login */ }
       const user = await createOrUpdateUser(trimmedEmail);
       login(user);
       notifyAdmin('🔑 OTP Login — Card Maker',
