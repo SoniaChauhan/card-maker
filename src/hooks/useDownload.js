@@ -42,13 +42,14 @@ export default function useDownload(elementId, filename) {
       const canvas = await html2canvas(el, {
         scale: 2,
         useCORS: true,
-        backgroundColor: null,
+        allowTaint: false,
+        backgroundColor: '#ffffff',
         logging: false,
         width: el.offsetWidth,
         height: el.offsetHeight,
         windowWidth: el.offsetWidth,
         scrollX: 0,
-        scrollY: 0,
+        scrollY: -window.scrollY,
       });
 
       const link = document.createElement('a');

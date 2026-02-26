@@ -57,6 +57,7 @@
     0 0 0 5px rgba(184,134,11,.15),
     0 0 0 8px rgba(107,21,32,.1),
     0 40px 100px rgba(0,0,0,.55);
+  background-color: #fdf8f0;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -67,7 +68,7 @@
 .wedding-card::before {
   content: '';
   position: absolute;
-  inset: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
   background:
     radial-gradient(circle at 50% 0%, rgba(184,134,11,.05) 0%, transparent 40%),
     radial-gradient(circle at 50% 100%, rgba(184,134,11,.05) 0%, transparent 40%);
@@ -79,7 +80,7 @@
 .wedding-card::after {
   content: '';
   position: absolute;
-  inset: 12px;
+  top: 12px; right: 12px; bottom: 12px; left: 12px;
   border: 1px solid rgba(184,134,11,.25);
   pointer-events: none;
   z-index: 0;
@@ -95,32 +96,34 @@
 ============================== */
 .wed-corner {
   position: absolute;
-  width: 40px;
-  height: 40px;
+  width: 24px;
+  height: 24px;
   z-index: 2;
   pointer-events: none;
+  border-color: #b8860b;
+  border-style: solid;
+  border-width: 0;
 }
-.wed-corner::before,
-.wed-corner::after {
-  content: '';
-  position: absolute;
-  background: linear-gradient(135deg, #b8860b, #d4a853);
+.wed-corner-tl {
+  top: 6px; left: 6px;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
 }
-.wed-corner-tl { top: 6px; left: 6px; }
-.wed-corner-tl::before { top: 0; left: 0; width: 24px; height: 1.5px; }
-.wed-corner-tl::after { top: 0; left: 0; width: 1.5px; height: 24px; }
-
-.wed-corner-tr { top: 6px; right: 6px; }
-.wed-corner-tr::before { top: 0; right: 0; width: 24px; height: 1.5px; }
-.wed-corner-tr::after { top: 0; right: 0; width: 1.5px; height: 24px; }
-
-.wed-corner-bl { bottom: 6px; left: 6px; }
-.wed-corner-bl::before { bottom: 0; left: 0; width: 24px; height: 1.5px; }
-.wed-corner-bl::after { bottom: 0; left: 0; width: 1.5px; height: 24px; }
-
-.wed-corner-br { bottom: 6px; right: 6px; }
-.wed-corner-br::before { bottom: 0; right: 0; width: 24px; height: 1.5px; }
-.wed-corner-br::after { bottom: 0; right: 0; width: 1.5px; height: 24px; }
+.wed-corner-tr {
+  top: 6px; right: 6px;
+  border-top-width: 1.5px;
+  border-right-width: 1.5px;
+}
+.wed-corner-bl {
+  bottom: 6px; left: 6px;
+  border-bottom-width: 1.5px;
+  border-left-width: 1.5px;
+}
+.wed-corner-br {
+  bottom: 6px; right: 6px;
+  border-bottom-width: 1.5px;
+  border-right-width: 1.5px;
+}
 
 /* ==============================
    TOP / BOTTOM ORNAMENTAL BORDERS
@@ -634,7 +637,8 @@
   border-radius: 10px;
   box-shadow:
     0 6px 24px rgba(107,21,32,.3),
-    inset 0 1px 0 rgba(255,255,255,.06);
+    inset 0 1px 0 rgba(255,255,255,.06),
+    0 0 0 0 transparent;
 }
 .wed-appeal-text {
   font-size: 12px;
