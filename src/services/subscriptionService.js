@@ -65,11 +65,18 @@ export async function rejectSubscription(docId) {
   });
 }
 
-/** Check if user has a paid/approved download for a card */
+/** Check if user has a paid/approved download for a card.
+ *  Super-admin always gets free access. */
 export async function hasUserPaid(email, cardId) {
+  const key = email.toLowerCase().trim();
+
+  // Super-admin bypasses payment entirely
+  const { isAdmin } = await import('./authService');
+  if (isAdmin(key)) return true;
+
   const q = query(
     collection(db, 'subscriptions'),
-    where('email', '==', email.toLowerCase().trim()),
+    where('email', '==', key),
     where('cardId', '==', cardId),
     where('status', '==', 'approved'),
   );

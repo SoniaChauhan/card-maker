@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { isAdmin }     from './services/authService';
 import LoginScreen     from './components/LoginScreen/LoginScreen';
 import ProfileDashboard from './components/ProfileDashboard/ProfileDashboard';
 import BirthdayCard    from './components/BirthdayCard';
@@ -34,7 +35,7 @@ function AppContent() {
 
   /* ---------- card screens ---------- */
   function handleBack() { setSelected(null); }
-  const cardProps = { onBack: handleBack, userEmail: user.email, isSuperAdmin: user.role === 'superadmin' };
+  const cardProps = { onBack: handleBack, userEmail: user.email, isSuperAdmin: isAdmin(user.email) };
 
   if (selected === 'birthday')    return <BirthdayCard    {...cardProps} />;
   if (selected === 'anniversary') return <AnniversaryCard {...cardProps} />;
