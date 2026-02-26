@@ -231,4 +231,67 @@
   .admin-btn-unblock {
     align-self: flex-end;
   }
+  .admin-req-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .admin-req-actions {
+    align-self: flex-end;
+  }
+}
+
+/* ---- Subscription Request Cards ---- */
+.admin-req-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(102,126,234,.08);
+  border: 1px solid rgba(102,126,234,.22);
+  border-radius: 12px;
+  padding: 14px 16px;
+  transition: background .2s;
+}
+.admin-req-card:hover {
+  background: rgba(102,126,234,.14);
+}
+
+.admin-req-card-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #e8d5a0;
+}
+
+.admin-req-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.admin-btn-approve {
+  background: rgba(46,204,113,.12);
+  border: 1.5px solid rgba(46,204,113,.35);
+  color: #2ecc71;
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.admin-btn-approve:hover:not(:disabled) {
+  background: rgba(46,204,113,.22);
+  border-color: #2ecc71;
+}
+
+.admin-btn-reject {
+  background: rgba(231,76,60,.08);
+  border: 1.5px solid rgba(231,76,60,.25);
+  color: #e74c3c;
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.admin-btn-reject:hover:not(:disabled) {
+  background: rgba(231,76,60,.18);
+  border-color: #e74c3c;
 }

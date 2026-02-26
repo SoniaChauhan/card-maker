@@ -243,6 +243,34 @@
 }
 .pd-card.pd-coming-soon:hover { transform: translateY(-4px) scale(1.01); }
 
+/* Locked cards (subscription required) */
+.pd-card.pd-locked {
+  opacity: .75;
+  position: relative;
+}
+.pd-card.pd-locked::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(0,0,0,.15);
+  pointer-events: none;
+}
+
+.pd-lock-tag {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 9px;
+  font-weight: 800;
+  color: #fff;
+  background: rgba(0,0,0,.55);
+  padding: 3px 9px;
+  border-radius: 50px;
+  backdrop-filter: blur(6px);
+  z-index: 2;
+}
+
 .pd-coming-soon-tag {
   position: absolute;
   top: 8px;

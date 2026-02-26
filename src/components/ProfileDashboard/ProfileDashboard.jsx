@@ -1,19 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './ProfileDashboard.css';
 import { useAuth } from '../../contexts/AuthContext';
 import AdminPanel from '../AdminPanel/AdminPanel';
 import MyTemplates from '../MyTemplates/MyTemplates';
 import DownloadHistory from '../DownloadHistory/DownloadHistory';
+import SubscriptionPopup from '../SubscriptionPopup/SubscriptionPopup';
 import Toast from '../shared/Toast';
 import { CATEGORIES } from '../SelectionScreen/SelectionScreen';
+import { getUserSubscriptions } from '../../services/subscriptionService';
 
 export default function ProfileDashboard({ onSelect, onEditTemplate }) {
   const { user, logout, isSuperAdmin } = useAuth();
   const [tab, setTab]       = useState('dashboard');
   const [loading, setLoading] = useState(false);
   const [toast, setToast]   = useState({ show: false, text: '' });
+  const [subs, setSubs]     = useState({});       // { [cardId]: 'pending'|'approved'|'rejected' }
+  const [subPopup, setSubPopup] = useState(null); // card object to show popup for
 
-  /* Handle card click — all users can access non-coming-soon cards */
+  /* Load user subscriptions on mount */
+  useEffect(() => {
+    if (user?.email && !isSuperAdmin) {
+      getUserSubscriptions(user.email).then(setSubs).catch(() => {});
+    }
+  }, [user?.email, isSuperAdmin]);
+
+  /* Handle card click — check subscription before allowing access */
   function handleCardClick(card) {
     if (card.comingSoon) {
       setToast({ show: true, text: `🚀 "${card.label}" is coming soon! Stay tuned.` });
@@ -21,7 +32,20 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
       return;
     }
 
-    onSelect(card.id);
+    // Superadmin bypasses subscription check
+    if (isSuperAdmin) {
+      onSelect(card.id);
+      return;
+    }
+
+    // Check subscription status
+    const status = subs[card.id];
+    if (status === 'approved') {
+      onSelect(card.id);
+    } else {
+      // Show subscription popup (pending, rejected, or not requested yet)
+      setSubPopup(card);
+    }
   }
 
   /* Total available cards count (non-coming-soon) */
@@ -117,16 +141,23 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
               <h2 className="pd-category-title">{cat.title}</h2>
               <div className="pd-cards-grid">
                 {cat.cards.map(card => {
+                  const subStatus = subs[card.id];
+                  const isLocked = !isSuperAdmin && !card.comingSoon && subStatus !== 'approved';
                   return (
                     <div
                       key={card.id}
-                      className={`pd-card ${card.id}${card.comingSoon ? ' pd-coming-soon' : ''}`}
+                      className={`pd-card ${card.id}${card.comingSoon ? ' pd-coming-soon' : ''}${isLocked ? ' pd-locked' : ''}`}
                       role="button"
                       tabIndex={0}
                       onClick={() => handleCardClick(card)}
                       onKeyDown={e => e.key === 'Enter' && handleCardClick(card)}
                     >
                       {card.comingSoon && <span className="pd-coming-soon-tag">🔒 Coming Soon</span>}
+                      {isLocked && !card.comingSoon && (
+                        <span className="pd-lock-tag">
+                          {subStatus === 'pending' ? '⏳ Pending' : subStatus === 'rejected' ? '❌ Rejected' : '🔒 Request Access'}
+                        </span>
+                      )}
 
                       <span className="pd-card-icon">{card.icon}</span>
                       <h3>{card.label}</h3>
@@ -155,6 +186,20 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
       )}
 
       <Toast text={toast.text} show={toast.show} />
+
+      {/* ── Subscription Request Popup ── */}
+      {subPopup && (
+        <SubscriptionPopup
+          card={subPopup}
+          userEmail={user.email}
+          existingStatus={subs[subPopup.id] || null}
+          onClose={() => {
+            setSubPopup(null);
+            // Refresh subs after closing popup
+            getUserSubscriptions(user.email).then(setSubs).catch(() => {});
+          }}
+        />
+      )}
     </div>
   );
 }
