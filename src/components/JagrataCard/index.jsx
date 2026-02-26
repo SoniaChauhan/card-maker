@@ -21,9 +21,9 @@ export default function JagrataCard({ onBack, userEmail, isSuperAdmin }) {
   const [lang, setLang]     = useState('hi');
 
   const filename = `jagrata-${toFilename(data.jagrataTitle || 'invite')}.png`;
-  const dlTitle = data.jagrataTitle || 'Jagrata Invitation';
+  const dlTitle = data.jagrataTitle || 'Spiritual Event Invitation';
   const { downloading, handleDownload, toast } = useDownload('jagrata-card-print', filename, {
-    onSuccess: () => logDownload(userEmail, 'jagrata', 'Jagrata Invitation', dlTitle, filename, data).catch(() => {}),
+    onSuccess: () => logDownload(userEmail, 'jagrata', 'Spiritual Event Invitation', dlTitle, filename, data).catch(() => {}),
   });
 
   function onChange(e) {
@@ -76,7 +76,7 @@ export default function JagrataCard({ onBack, userEmail, isSuperAdmin }) {
     <div className="jagrata-card-screen">
       <Particles icons={PARTICLES} count={24} />
       <div className="card-screen-container">
-        <p className="jagrata-screen-title">🪔 Your Jagrata Invitation</p>
+        <p className="jagrata-screen-title">🪔 Your Spiritual Event Invitation</p>
         <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
         <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
           <JagrataCardPreview data={data} lang={lang} />
@@ -88,7 +88,7 @@ export default function JagrataCard({ onBack, userEmail, isSuperAdmin }) {
           downloading={downloading}
           locked={!isSuperAdmin}
           cardId="jagrata"
-          cardLabel="Jagrata Invitation"
+          cardLabel="Spiritual Event Invitation"
           userEmail={userEmail}
           isSuperAdmin={isSuperAdmin}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#f7971e,#ffd200)', color: '#7a3e00', boxShadow: '0 6px 20px rgba(247,151,30,.5)' }}

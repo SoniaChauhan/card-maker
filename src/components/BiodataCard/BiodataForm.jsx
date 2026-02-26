@@ -35,8 +35,8 @@ export default function BiodataForm({ data, errors, onChange, onBack, onGenerate
       <div className="form-card biodata-form-card">
         <div className="form-header biodata-form-header">
           <span className="form-header-icon">💍</span>
-          <h2>Marriage Biodata</h2>
-          <p>Fill in the details to generate a beautiful marriage biodata card.</p>
+          <h2>Marriage Profile Card</h2>
+          <p>Fill in the details to generate a beautiful marriage profile card.</p>
         </div>
 
         {/* — Personal Information — */}

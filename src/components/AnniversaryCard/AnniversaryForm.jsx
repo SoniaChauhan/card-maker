@@ -7,8 +7,8 @@ export default function AnniversaryForm({ data, errors, onChange, onBack, onGene
       <div className="form-card">
         <div className="form-header">
           <span className="form-header-icon">💍</span>
-          <h2>Anniversary Card Details</h2>
-          <p>Celebrate a beautiful love story with a romantic personalised card.</p>
+          <h2>Anniversary Greeting Details</h2>
+          <p>Celebrate a beautiful love story with a romantic personalised greeting.</p>
         </div>
 
         <div className="form-grid">

@@ -41,7 +41,7 @@ export default function BirthdayCard({ onBack, userEmail, isSuperAdmin, initialD
   const filename = `birthday-${toFilename(data.birthdayPerson || 'card')}.png`;
   const dlTitle = data.birthdayPerson ? `${data.birthdayPerson}'s Birthday` : 'Birthday Card';
   const { downloading, handleDownload, toast } = useDownload('bday-card-print', filename, {
-    onSuccess: () => logDownload(userEmail, 'birthday', 'Birthday Invitation', dlTitle, filename, data).catch(() => {}),
+    onSuccess: () => logDownload(userEmail, 'birthday', 'Birthday Invite Designer', dlTitle, filename, data).catch(() => {}),
   });
 
   function onChange(e) {
@@ -147,7 +147,7 @@ export default function BirthdayCard({ onBack, userEmail, isSuperAdmin, initialD
           downloading={downloading}
           locked={!isSuperAdmin}
           cardId="birthday"
-          cardLabel="Birthday Invitation"
+          cardLabel="Birthday Invite Designer"
           userEmail={userEmail}
           isSuperAdmin={isSuperAdmin}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#ff6b6b,#feca57)', color: '#fff', boxShadow: '0 6px 20px rgba(255,107,107,.45)' }}

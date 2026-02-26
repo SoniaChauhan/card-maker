@@ -62,9 +62,9 @@ export default function BiodataCard({ onBack, userEmail, isSuperAdmin, initialDa
   const [templateId, setTemplateId] = useState(initTplId || null);
 
   const filename = `biodata-${toFilename(data.fullName || 'card')}.png`;
-  const dlTitle = data.fullName ? `${data.fullName} Biodata` : 'Marriage Biodata';
+  const dlTitle = data.fullName ? `${data.fullName} Profile` : 'Marriage Profile';
   const { downloading, handleDownload, toast } = useDownload('biodata-print', filename, {
-    onSuccess: () => logDownload(userEmail, 'biodata', 'Marriage Biodata', dlTitle, filename, data).catch(() => {}),
+    onSuccess: () => logDownload(userEmail, 'biodata', 'Marriage Profile Card', dlTitle, filename, data).catch(() => {}),
   });
 
   function onChange(e) {
@@ -132,7 +132,7 @@ export default function BiodataCard({ onBack, userEmail, isSuperAdmin, initialDa
     <div className="biodata-card-screen">
       <Particles icons={PARTICLES} count={20} />
       <div className="card-screen-container">
-        <p className="biodata-screen-title">💍 Marriage Biodata</p>
+        <p className="biodata-screen-title">💍 Marriage Profile Card</p>
         <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
         <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
           <BiodataCardPreview data={data} lang={lang} />
@@ -144,7 +144,7 @@ export default function BiodataCard({ onBack, userEmail, isSuperAdmin, initialDa
           downloading={downloading}
           locked={!isSuperAdmin}
           cardId="biodata"
-          cardLabel="Marriage Biodata"
+          cardLabel="Marriage Profile Card"
           userEmail={userEmail}
           isSuperAdmin={isSuperAdmin}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#d4af37,#c0392b)', boxShadow: '0 8px 24px rgba(212,175,55,.4)' }}

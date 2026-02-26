@@ -16,7 +16,7 @@ export const T = {
   /* ===================== ENGLISH ===================== */
   en: {
     to: 'To', date: 'Date', time: 'Time', venue: 'Venue',
-    bdayInviteBadge: '🎈 Birthday Invitation 🎈',
+    bdayInviteBadge: '🎈 Birthday Invite 🎈',
     bdayJoinUs: 'Please join us for',
     bdayCelebrate: 'Join us to celebrate',
     bdayTitle: 'Birthday',
@@ -47,7 +47,7 @@ export const T = {
     bioContact: '📞 Contact Details', bioContactPerson: 'Contact Person',
     bioPhone: 'Phone', bioAddress: 'Address', bioFooter: 'With Family Blessings',
     bioYears: 'Years',
-    wedInviteBadge: '💍 Wedding Invitation 💍',
+    wedInviteBadge: '💍 Wedding Invite 💍',
     wedBlessing: '— With the blessings of our families, we joyfully invite you —',
     wedTogetherLabel: 'Together Forever',
     wedGroom: 'Groom',

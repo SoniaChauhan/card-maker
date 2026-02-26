@@ -34,8 +34,8 @@ export default function WeddingForm({ data, errors, onChange, onBack, onGenerate
       <div className="form-card">
         <div className="form-header">
           <span className="form-header-icon">🪷</span>
-          <h2>Wedding Invitation Details</h2>
-          <p>Fill in the details and we'll create a beautiful wedding invitation card!</p>
+          <h2>Wedding Invite Details</h2>
+          <p>Fill in the details and we'll create a beautiful wedding invite card!</p>
         </div>
 
         <div className="form-grid">

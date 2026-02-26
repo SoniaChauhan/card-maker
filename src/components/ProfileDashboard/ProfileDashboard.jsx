@@ -9,12 +9,12 @@ import MyTemplates from '../MyTemplates/MyTemplates';
 import DownloadHistory from '../DownloadHistory/DownloadHistory';
 
 const CARDS = [
-  { id: 'birthday',    label: 'Birthday Invitation',  desc: 'Create personalised birthday party invitations.',   icon: '🎂', badge: '🎉 Festive & Fun' },
-  { id: 'anniversary', label: 'Anniversary Card',      desc: 'Honour a love story with a romantic card.',         icon: '💍', badge: '❤️ Romantic' },
-  { id: 'jagrata',     label: 'Jagrata Invitation',    desc: 'Beautiful divine invitation for Khatushyam Ji.',   icon: '🪔', badge: '🙏 Divine Blessing' },
-  { id: 'biodata',     label: 'Marriage Biodata',       desc: 'Traditional Indian marriage biodata with details.', icon: '💍', badge: '🌸 Traditional' },
-  { id: 'wedding',     label: 'Wedding Invitation',    desc: 'Royal invitation for your wedding ceremony.',       icon: '💐', badge: '🌸 Royal & Classic' },
-  { id: 'resume',      label: 'Resume / CV',            desc: 'Build a professional resume & download PDF.',       icon: '📄', badge: '💼 Professional' },
+  { id: 'birthday',    label: 'Birthday Invite Designer',       desc: 'Create personalised and stylish birthday party invitations with ease.',           icon: '🎂', badge: '🎉 Festive & Fun' },
+  { id: 'anniversary', label: 'Anniversary Greeting Designer',  desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.',        icon: '💍', badge: '❤️ Romantic' },
+  { id: 'jagrata',     label: 'Spiritual Event Invitation',    desc: 'Design serene and devotional invitations for spiritual gatherings.',              icon: '🪔', badge: '🙏 Divine Blessing' },
+  { id: 'biodata',     label: 'Marriage Profile Card',          desc: 'Build a traditional and detailed marriage biodata with a clean layout.',          icon: '💍', badge: '🌸 Traditional' },
+  { id: 'wedding',     label: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',             icon: '💐', badge: '🌸 Royal & Classic' },
+  { id: 'resume',      label: 'Professional Resume Builder',   desc: 'Design a polished resume and download it instantly in PDF format.',               icon: '📄', badge: '💼 Professional' },
 ];
 
 export default function ProfileDashboard({ onSelect, onEditTemplate }) {

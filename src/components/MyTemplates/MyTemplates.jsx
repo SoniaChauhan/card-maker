@@ -4,12 +4,12 @@ import { getUserTemplates, deleteTemplate } from '../../services/templateService
 import Toast from '../shared/Toast';
 
 const CARD_META = {
-  birthday:    { icon: '🎂', label: 'Birthday Invitation',  color: 'linear-gradient(135deg,#ff6b6b,#feca57)' },
-  anniversary: { icon: '💍', label: 'Anniversary Card',      color: 'linear-gradient(135deg,#dc3c64,#ff9a9e)' },
-  jagrata:     { icon: '🪔', label: 'Jagrata Invitation',    color: 'linear-gradient(135deg,#f7971e,#ffd200)' },
-  biodata:     { icon: '💍', label: 'Marriage Biodata',       color: 'linear-gradient(135deg,#c0392b,#d4af37)' },
-  wedding:     { icon: '💐', label: 'Wedding Invitation',    color: 'linear-gradient(135deg,#7b1c1c,#c9963e)' },
-  resume:      { icon: '📄', label: 'Resume / CV',            color: 'linear-gradient(135deg,#1a73e8,#2d3748)' },
+  birthday:    { icon: '🎂', label: 'Birthday Invite Designer',       color: 'linear-gradient(135deg,#ff6b6b,#feca57)' },
+  anniversary: { icon: '💍', label: 'Anniversary Greeting Designer',  color: 'linear-gradient(135deg,#dc3c64,#ff9a9e)' },
+  jagrata:     { icon: '🪔', label: 'Spiritual Event Invitation',    color: 'linear-gradient(135deg,#f7971e,#ffd200)' },
+  biodata:     { icon: '💍', label: 'Marriage Profile Card',          color: 'linear-gradient(135deg,#c0392b,#d4af37)' },
+  wedding:     { icon: '💐', label: 'Wedding Invite Designer',       color: 'linear-gradient(135deg,#7b1c1c,#c9963e)' },
+  resume:      { icon: '📄', label: 'Professional Resume Builder',   color: 'linear-gradient(135deg,#1a73e8,#2d3748)' },
 };
 
 export default function MyTemplates({ userEmail, onEditTemplate }) {

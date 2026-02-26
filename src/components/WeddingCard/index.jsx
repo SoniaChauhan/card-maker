@@ -35,9 +35,9 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialDa
   const [showSaved, setShowSaved]     = useState(false);
 
   const filename = `wedding-${toFilename(data.groomName || 'invitation')}.png`;
-  const dlTitle = data.groomName && data.brideName ? `${data.groomName} & ${data.brideName} Wedding` : 'Wedding Invitation';
+  const dlTitle = data.groomName && data.brideName ? `${data.groomName} & ${data.brideName} Wedding` : 'Wedding Invite';
   const { downloading, handleDownload, toast } = useDownload('wedding-card-print', filename, {
-    onSuccess: () => logDownload(userEmail, 'wedding', 'Wedding Invitation', dlTitle, filename, data).catch(() => {}),
+    onSuccess: () => logDownload(userEmail, 'wedding', 'Wedding Invite Designer', dlTitle, filename, data).catch(() => {}),
   });
 
   function onChange(e) {
@@ -121,7 +121,7 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialDa
     <div className="wedding-card-screen">
       <Particles icons={PARTICLES} count={24} />
       <div className="card-screen-container">
-        <p className="wedding-screen-title">💍 Your Wedding Invitation</p>
+        <p className="wedding-screen-title">💍 Your Wedding Invite</p>
         <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
 
         {/* Action buttons */}
@@ -144,7 +144,7 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialDa
           downloading={downloading}
           locked={!isSuperAdmin}
           cardId="wedding"
-          cardLabel="Wedding Invitation"
+          cardLabel="Wedding Invite Designer"
           userEmail={userEmail}
           isSuperAdmin={isSuperAdmin}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#6b1520,#b8860b)', color: '#fff', boxShadow: '0 6px 20px rgba(107,21,32,.45)' }}

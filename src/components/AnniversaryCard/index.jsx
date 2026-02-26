@@ -26,7 +26,7 @@ export default function AnniversaryCard({ onBack, userEmail, isSuperAdmin, initi
   const filename = `anniversary-${toFilename(data.partner1 || 'card')}.png`;
   const dlTitle = data.partner1 && data.partner2 ? `${data.partner1} & ${data.partner2} Anniversary` : 'Anniversary Card';
   const { downloading, handleDownload, toast } = useDownload('anniv-card-print', filename, {
-    onSuccess: () => logDownload(userEmail, 'anniversary', 'Anniversary Card', dlTitle, filename, data).catch(() => {}),
+    onSuccess: () => logDownload(userEmail, 'anniversary', 'Anniversary Greeting Designer', dlTitle, filename, data).catch(() => {}),
   });
 
   function onChange(e) {
@@ -85,7 +85,7 @@ export default function AnniversaryCard({ onBack, userEmail, isSuperAdmin, initi
     <div className="anniversary-card-screen">
       <Particles icons={PARTICLES} count={24} />
       <div className="card-screen-container">
-        <p className="anniversary-screen-title">💍 Your Anniversary Card</p>
+        <p className="anniversary-screen-title">💍 Your Anniversary Greeting</p>
         <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
         <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
           <AnniversaryCardPreview data={data} lang={lang} />
@@ -97,7 +97,7 @@ export default function AnniversaryCard({ onBack, userEmail, isSuperAdmin, initi
           downloading={downloading}
           locked={!isSuperAdmin}
           cardId="anniversary"
-          cardLabel="Anniversary Card"
+          cardLabel="Anniversary Greeting Designer"
           userEmail={userEmail}
           isSuperAdmin={isSuperAdmin}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#dc3c64,#a18cd1)', color: '#fff', boxShadow: '0 6px 20px rgba(220,60,100,.4)' }}

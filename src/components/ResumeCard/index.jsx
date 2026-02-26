@@ -30,7 +30,7 @@ export default function ResumeCard({ onBack, userEmail, isSuperAdmin, initialDat
   const filename = `resume-${toFilename(data.fullName || 'document')}.pdf`;
   const dlTitle = data.fullName ? `${data.fullName} Resume` : 'Resume';
   const { downloading, handleDownload, toast } = usePdfDownload('resume-card-print', filename, {
-    onSuccess: () => logDownload(userEmail, 'resume', 'Resume / CV', dlTitle, filename, data).catch(() => {}),
+    onSuccess: () => logDownload(userEmail, 'resume', 'Professional Resume Builder', dlTitle, filename, data).catch(() => {}),
   });
 
   function onChange(e) {
@@ -105,7 +105,7 @@ export default function ResumeCard({ onBack, userEmail, isSuperAdmin, initialDat
           downloading={downloading}
           locked={!isSuperAdmin}
           cardId="resume"
-          cardLabel="Resume / CV"
+          cardLabel="Professional Resume Builder"
           userEmail={userEmail}
           isSuperAdmin={isSuperAdmin}
           dlLabel="📥 Download PDF"

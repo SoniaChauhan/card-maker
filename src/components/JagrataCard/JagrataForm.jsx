@@ -9,7 +9,7 @@ export default function JagrataForm({ data, errors, onChange, onBack, onGenerate
       <div className="form-card">
         <div className="form-header">
           <span className="form-header-icon">{selectedReligion.label.split(' ')[0]}</span>
-          <h2>Jagrata Invitation Details</h2>
+          <h2>Spiritual Event Invitation Details</h2>
           <p>Create a beautiful divine invitation &mdash; choose your religion for a personalised card!</p>
         </div>
 
