@@ -63,8 +63,13 @@ export default function BirthdayCard({ onBack, userEmail, isSuperAdmin, initialD
         setTemplateId(id);
       }
       alert(templateId ? 'Template updated!' : 'Template saved!');
-    } catch (e) { console.error(e); alert('Failed to save template.'); }
-    finally { setSaving(false); }
+    } catch (e) {
+      console.error('Save template error:', e);
+      const msg = e?.code === 'permission-denied'
+        ? 'Firestore permission denied. Please update your Firestore rules to allow the "templates" collection.'
+        : `Failed to save template: ${e.message || e}`;
+      alert(msg);
+    } finally { setSaving(false); }
   }
 
   if (step === 'form') {

@@ -18,11 +18,13 @@ import {
 
 const COL = 'templates';
 
-/** Strip non-serializable fields (File objects) before saving. */
+/** Strip non-serializable / oversized fields before saving to Firestore. */
 function sanitizeFormData(data) {
   const clean = {};
   for (const [k, v] of Object.entries(data)) {
-    if (v instanceof File) continue;            // skip File objects
+    if (v instanceof File) continue;                          // skip File objects
+    if (k === 'photo') continue;                              // skip File reference
+    if (typeof v === 'string' && v.startsWith('data:')) continue; // skip base64 data URLs (photoPreview etc.)
     clean[k] = v;
   }
   return clean;
