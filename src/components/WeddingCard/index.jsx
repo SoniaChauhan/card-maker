@@ -12,6 +12,7 @@ import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
+import { logDownload } from '../../services/downloadHistoryService';
 
 const INIT = {
   groomName: '', brideName: '', groomFamily: '', brideFamily: '',
@@ -34,7 +35,10 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialDa
   const [showSaved, setShowSaved]     = useState(false);
 
   const filename = `wedding-${toFilename(data.groomName || 'invitation')}.png`;
-  const { downloading, handleDownload, toast } = useDownload('wedding-card-print', filename);
+  const dlTitle = data.groomName && data.brideName ? `${data.groomName} & ${data.brideName} Wedding` : 'Wedding Invitation';
+  const { downloading, handleDownload, toast } = useDownload('wedding-card-print', filename, {
+    onSuccess: () => logDownload(userEmail, 'wedding', 'Wedding Invitation', dlTitle, filename, data).catch(() => {}),
+  });
 
   function onChange(e) {
     const { name, value, files } = e.target;

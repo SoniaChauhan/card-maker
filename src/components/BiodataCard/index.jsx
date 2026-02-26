@@ -10,6 +10,7 @@ import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
+import { logDownload } from '../../services/downloadHistoryService';
 
 const INIT = {
   // Personal
@@ -61,7 +62,10 @@ export default function BiodataCard({ onBack, userEmail, isSuperAdmin, initialDa
   const [templateId, setTemplateId] = useState(initTplId || null);
 
   const filename = `biodata-${toFilename(data.fullName || 'card')}.png`;
-  const { downloading, handleDownload, toast } = useDownload('biodata-print', filename);
+  const dlTitle = data.fullName ? `${data.fullName} Biodata` : 'Marriage Biodata';
+  const { downloading, handleDownload, toast } = useDownload('biodata-print', filename, {
+    onSuccess: () => logDownload(userEmail, 'biodata', 'Marriage Biodata', dlTitle, filename, data).catch(() => {}),
+  });
 
   function onChange(e) {
     const { name, value, files } = e.target;

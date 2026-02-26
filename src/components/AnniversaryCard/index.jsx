@@ -10,6 +10,7 @@ import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
+import { logDownload } from '../../services/downloadHistoryService';
 
 const INIT = { guestName: '', partner1: '', partner2: '', years: '', date: '', time: '', venue: '', venueAddress: '', message: '', photo: null, photoPreview: '' };
 const PARTICLES = ['🌹', '💕', '❤️', '💍', '✨', '🌸', '💖', '🌺'];
@@ -23,7 +24,10 @@ export default function AnniversaryCard({ onBack, userEmail, isSuperAdmin, initi
   const [templateId, setTemplateId] = useState(initTplId || null);
 
   const filename = `anniversary-${toFilename(data.partner1 || 'card')}.png`;
-  const { downloading, handleDownload, toast } = useDownload('anniv-card-print', filename);
+  const dlTitle = data.partner1 && data.partner2 ? `${data.partner1} & ${data.partner2} Anniversary` : 'Anniversary Card';
+  const { downloading, handleDownload, toast } = useDownload('anniv-card-print', filename, {
+    onSuccess: () => logDownload(userEmail, 'anniversary', 'Anniversary Card', dlTitle, filename, data).catch(() => {}),
+  });
 
   function onChange(e) {
     const { name, value, files } = e.target;

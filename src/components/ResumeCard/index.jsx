@@ -8,6 +8,7 @@ import Toast from '../shared/Toast';
 import usePdfDownload from '../../hooks/usePdfDownload';
 import { toFilename } from '../../utils/helpers';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
+import { logDownload } from '../../services/downloadHistoryService';
 
 const INIT = {
   fullName: '', jobTitle: '', email: '', phone: '', location: '', linkedin: '',
@@ -27,7 +28,10 @@ export default function ResumeCard({ onBack, userEmail, isSuperAdmin, initialDat
   const [templateId, setTemplateId] = useState(initTplId || null);
 
   const filename = `resume-${toFilename(data.fullName || 'document')}.pdf`;
-  const { downloading, handleDownload, toast } = usePdfDownload('resume-card-print', filename);
+  const dlTitle = data.fullName ? `${data.fullName} Resume` : 'Resume';
+  const { downloading, handleDownload, toast } = usePdfDownload('resume-card-print', filename, {
+    onSuccess: () => logDownload(userEmail, 'resume', 'Resume / CV', dlTitle, filename, data).catch(() => {}),
+  });
 
   function onChange(e) {
     const { name, value, files } = e.target;

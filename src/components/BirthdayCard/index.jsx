@@ -10,6 +10,7 @@ import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
+import { logDownload } from '../../services/downloadHistoryService';
 
 const INIT = { guestName: '', birthdayPerson: '', age: '', date: '', time: '', venue: '', venueAddress: '', hostName: '', message: '', photo: null, photoPreview: '' };
 const PARTICLES = ['🎈', '🎉', '🎊', '⭐', '✨', '🎁', '🌟', '🎂'];
@@ -23,7 +24,10 @@ export default function BirthdayCard({ onBack, userEmail, isSuperAdmin, initialD
   const [templateId, setTemplateId] = useState(initTplId || null);
 
   const filename = `birthday-${toFilename(data.birthdayPerson || 'card')}.png`;
-  const { downloading, handleDownload, toast } = useDownload('bday-card-print', filename);
+  const dlTitle = data.birthdayPerson ? `${data.birthdayPerson}'s Birthday` : 'Birthday Card';
+  const { downloading, handleDownload, toast } = useDownload('bday-card-print', filename, {
+    onSuccess: () => logDownload(userEmail, 'birthday', 'Birthday Invitation', dlTitle, filename, data).catch(() => {}),
+  });
 
   function onChange(e) {
     const { name, value, files } = e.target;

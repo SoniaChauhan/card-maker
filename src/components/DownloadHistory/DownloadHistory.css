@@ -1,0 +1,170 @@
+/* ---- Download History ---- */
+
+.download-history {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.dh-subtitle {
+  text-align: center;
+  color: rgba(255,255,255,.85);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Grid */
+.dh-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* Card */
+.dh-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(0,0,0,.12);
+  transition: transform .25s, box-shadow .25s;
+}
+.dh-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(0,0,0,.18);
+}
+
+/* Badge strip */
+.dh-card-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  color: #fff;
+}
+.dh-card-badge-icon {
+  font-size: 22px;
+}
+.dh-card-badge-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .4px;
+}
+
+/* Body */
+.dh-card-body {
+  padding: 16px 18px 10px;
+}
+.dh-card-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a202c;
+  margin-bottom: 8px;
+}
+.dh-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 10px;
+}
+.dh-meta-file {
+  font-size: 12px;
+  color: #667eea;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dh-meta-date {
+  font-size: 11px;
+  color: #a0aec0;
+}
+
+/* Field chips */
+.dh-card-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.dh-field-chip {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 3px 10px;
+  font-size: 11px;
+  color: #4a5568;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Action buttons */
+.dh-card-actions {
+  display: flex;
+  gap: 8px;
+  padding: 12px 18px 16px;
+}
+.dh-btn {
+  padding: 9px 18px;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity .2s, transform .15s;
+}
+.dh-btn:hover { opacity: .88; transform: scale(1.02); }
+.dh-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.dh-btn-delete {
+  background: #fff;
+  color: #e53e3e;
+  border: 1.5px solid #fed7d7;
+}
+.dh-btn-delete:hover { background: #fff5f5; }
+
+/* Empty state */
+.dh-empty {
+  text-align: center;
+  padding: 60px 24px;
+}
+.dh-empty-icon {
+  font-size: 56px;
+  display: block;
+  margin-bottom: 16px;
+}
+.dh-empty h3 {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.dh-empty p {
+  color: rgba(255,255,255,.7);
+  font-size: 14px;
+  max-width: 360px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Loading */
+.dh-loading {
+  text-align: center;
+  padding: 60px 24px;
+  color: rgba(255,255,255,.8);
+}
+.dh-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(255,255,255,.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  animation: dh-spin .7s linear infinite;
+}
+@keyframes dh-spin { to { transform: rotate(360deg); } }
+
+/* Responsive */
+@media (max-width: 480px) {
+  .dh-grid { grid-template-columns: 1fr; }
+  .dh-card-actions { flex-direction: column; }
+}

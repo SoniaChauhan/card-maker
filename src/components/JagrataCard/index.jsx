@@ -9,6 +9,7 @@ import LanguagePicker from '../shared/LanguagePicker';
 import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
+import { logDownload } from '../../services/downloadHistoryService';
 
 const INIT = { religion: 'hindu', guestName: '', organizerName: '', jagrataTitle: '', purpose: '', date: '', startTime: '', venue: '', venueAddress: '', prasad: '', message: '' };
 const PARTICLES = ['🪔', '🙏', '🕉️', '✨', '🌸', '🌺', '⭐', '💛'];
@@ -20,7 +21,10 @@ export default function JagrataCard({ onBack, userEmail, isSuperAdmin }) {
   const [lang, setLang]     = useState('hi');
 
   const filename = `jagrata-${toFilename(data.jagrataTitle || 'invite')}.png`;
-  const { downloading, handleDownload, toast } = useDownload('jagrata-card-print', filename);
+  const dlTitle = data.jagrataTitle || 'Jagrata Invitation';
+  const { downloading, handleDownload, toast } = useDownload('jagrata-card-print', filename, {
+    onSuccess: () => logDownload(userEmail, 'jagrata', 'Jagrata Invitation', dlTitle, filename, data).catch(() => {}),
+  });
 
   function onChange(e) {
     const { name, value } = e.target;

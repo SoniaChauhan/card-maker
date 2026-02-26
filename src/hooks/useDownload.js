@@ -8,7 +8,7 @@ import html2canvas from 'html2canvas';
  * @param {string} filename   - desired download filename (should end in .png)
  * @returns {{ downloading, handleDownload, toast }}
  */
-export default function useDownload(elementId, filename) {
+export default function useDownload(elementId, filename, { onSuccess } = {}) {
   const [downloading, setDownloading] = useState(false);
   const [toast, setToast] = useState({ text: '', show: false });
 
@@ -85,6 +85,7 @@ export default function useDownload(elementId, filename) {
       link.click();
       document.body.removeChild(link);
       showToast(`✅ Card downloaded as "${filename}"!`);
+      if (onSuccess) { try { onSuccess(); } catch (_) {} }
     } catch (err) {
       console.error('Download failed:', err);
       showToast('⚠️ Download failed. Please try again.');

@@ -6,6 +6,7 @@ import { notifyAdmin } from '../../services/notificationService';
 import SubscriptionPopup from '../SubscriptionPopup/SubscriptionPopup';
 import AdminPanel from '../AdminPanel/AdminPanel';
 import MyTemplates from '../MyTemplates/MyTemplates';
+import DownloadHistory from '../DownloadHistory/DownloadHistory';
 
 const CARDS = [
   { id: 'birthday',    label: 'Birthday Invitation',  desc: 'Create personalised birthday party invitations.',   icon: '🎂', badge: '🎉 Festive & Fun' },
@@ -81,6 +82,7 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
         <button className={`pd-tab ${tab === 'profile' ? 'active' : ''}`} onClick={() => setTab('profile')}>👤 Profile</button>
         <button className={`pd-tab ${tab === 'dashboard' ? 'active' : ''}`} onClick={() => setTab('dashboard')}>🏠 Dashboard</button>
         <button className={`pd-tab ${tab === 'templates' ? 'active' : ''}`} onClick={() => setTab('templates')}>📋 My Templates</button>
+        <button className={`pd-tab ${tab === 'downloads' ? 'active' : ''}`} onClick={() => setTab('downloads')}>📥 Downloads</button>
         {isSuperAdmin && (
           <button className={`pd-tab ${tab === 'admin' ? 'active' : ''}`} onClick={() => setTab('admin')}>⚙️ Admin</button>
         )}
@@ -186,6 +188,11 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
       {/* My Templates tab */}
       {tab === 'templates' && (
         <MyTemplates userEmail={user.email} onEditTemplate={onEditTemplate} />
+      )}
+
+      {/* Download History tab */}
+      {tab === 'downloads' && (
+        <DownloadHistory userEmail={user.email} />
       )}
 
       {/* Subscription popup */}

@@ -7,7 +7,7 @@ import { useState } from 'react';
  * @param {string} filename   - desired download filename (should end in .pdf)
  * @returns {{ downloading, handleDownload, toast }}
  */
-export default function usePdfDownload(elementId, filename) {
+export default function usePdfDownload(elementId, filename, { onSuccess } = {}) {
   const [downloading, setDownloading] = useState(false);
   const [toast, setToast] = useState({ text: '', show: false });
 
@@ -43,6 +43,7 @@ export default function usePdfDownload(elementId, filename) {
       };
       await html2pdf().set(opt).from(el).save();
       showToast('✅ PDF downloaded!');
+      if (onSuccess) { try { onSuccess(); } catch (_) {} }
     } catch {
       showToast('❌ Download failed — try again.');
     } finally {
