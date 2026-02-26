@@ -7,6 +7,8 @@ const TEMPLATES = [
   { id: 3, name: 'Garden Floral',   desc: 'Mint green with botanical leaf wreath',             icon: '🌿', accent: '#3a7a4a' },
   { id: 4, name: 'Warm Peach',      desc: 'Soft peach & blush, romantic warmth',               icon: '🌸', accent: '#c4756a' },
   { id: 5, name: 'Royal Maroon',    desc: 'Deep maroon with luxurious gold text',              icon: '🏛️', accent: '#3d0a12' },
+  { id: 6, name: 'Divine Love',     desc: 'Centered layout with divine couple art',            icon: '🙏', accent: '#c9976a' },
+  { id: 7, name: 'Sacred Border',   desc: 'Bold dark frame with rich gold accents',            icon: '🪷', accent: '#8b6914' },
 ];
 
 export default function TemplateChooser({ data, lang, selected, onSelect, onClose }) {

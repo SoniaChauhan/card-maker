@@ -20,9 +20,23 @@ const INIT = {
   receptionDate: '', receptionTime: '', receptionVenue: '',
   guestName: '', message: '', familyMembers: '', photo: null, photoPreview: '',
   customPrograms: [],   // [{ name, date, time, venue }]
-  selectedTemplate: 1,  // 1-5 template choice
+  selectedTemplate: 1,  // 1-7 template choice
+  bgColor: '',          // custom background color
 };
 const PARTICLES = ['🌸', '🪷', '✨', '🌺', '💐', '🎊', '🌟', '💖', '🪷', '✿'];
+
+const BG_SWATCHES = [
+  { color: '',        label: 'Default' },
+  { color: '#fdf8f0', label: 'Ivory' },
+  { color: '#fce4ec', label: 'Blush Pink' },
+  { color: '#fff8e1', label: 'Champagne' },
+  { color: '#f3e5f5', label: 'Lavender' },
+  { color: '#e8f5e9', label: 'Sage' },
+  { color: '#e3f2fd', label: 'Sky Blue' },
+  { color: '#ffffff', label: 'White' },
+  { color: '#2a0608', label: 'Dark Maroon' },
+  { color: '#1a0a2e', label: 'Deep Purple' },
+];
 
 export default function WeddingCard({ onBack, userEmail, initialData, templateId: initTplId }) {
   const [step, setStep]     = useState('form');
@@ -134,8 +148,29 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
           </button>
         </div>
 
+        {/* Background Color Picker */}
+        <div className="wed-bg-picker">
+          <span className="wed-bg-picker-label">🎨 Card Background:</span>
+          <div className="wed-bg-swatches">
+            {BG_SWATCHES.map(s => (
+              <button key={s.color || 'default'} className={`wed-bg-swatch ${data.bgColor === s.color ? 'active' : ''}`}
+                style={{ background: s.color || 'linear-gradient(135deg,#ccc,#eee)' }}
+                title={s.label}
+                onClick={() => setData(d => ({ ...d, bgColor: s.color }))} />
+            ))}
+            <input type="color" className="wed-bg-custom-input" title="Pick custom color"
+              value={data.bgColor || '#fdf8f0'}
+              onChange={e => setData(d => ({ ...d, bgColor: e.target.value }))} />
+            {data.bgColor && (
+              <button className="wed-bg-reset" onClick={() => setData(d => ({ ...d, bgColor: '' }))}>
+                ↺ Reset
+              </button>
+            )}
+          </div>
+        </div>
+
         <div className="card-wrapper screenshot-protected">
-          <WeddingCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} />
+          <WeddingCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} bgColor={data.bgColor} />
         </div>
         <CardActions
           onEdit={() => setStep('form')}

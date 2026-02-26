@@ -548,6 +548,250 @@
 
 
 /* ============================================================
+   CENTERED LAYOUT (Templates 6 & 7) — Single-column header + split info
+============================================================ */
+.wed-centered {
+  text-align: center;
+}
+
+/* Divine couple SVG */
+.wed-divine-section {
+  padding: 24px 20px 0;
+  display: flex;
+  justify-content: center;
+}
+.wed-divine-svg {
+  width: 140px;
+  height: 126px;
+}
+.wed-svg-divine-stroke { stroke: #b8860b; fill: none; }
+.wed-svg-divine-fill { fill: #b8860b; }
+.wed-svg-divine-arch { stroke: #b8860b; }
+.wed-svg-divine-accent { stroke: #d4766a; }
+.wed-svg-divine-flower { fill: #e8a090; }
+
+/* Couple avatars */
+.wed-avatars {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin: 10px 0 6px;
+}
+.wed-avatar-icon {
+  font-size: 32px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.15));
+}
+
+/* Centered couple names */
+.wed-couple-center {
+  padding: 0 20px;
+  margin-bottom: 4px;
+}
+.wed-name-center {
+  font-size: 32px;
+  font-weight: 900;
+  color: #6b1520;
+  letter-spacing: 1.5px;
+  line-height: 1.2;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.wed-amp-center {
+  font-size: 28px;
+  font-weight: 300;
+  color: #b8860b;
+  font-style: italic;
+  margin: 2px 0;
+}
+
+/* Tagline */
+.wed-tagline {
+  font-size: 13px;
+  font-style: italic;
+  color: #8a6830;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+
+/* Photo centered */
+.wed-photo-center {
+  margin: 0 auto 12px;
+}
+
+/* Leaf divider */
+.wed-leaf-divider {
+  padding: 0 30px;
+  margin-bottom: 16px;
+}
+.wed-leaf-divider-svg {
+  width: 100%;
+  height: 16px;
+}
+
+/* Split info section */
+.wed-split-info {
+  display: flex;
+  padding: 0 20px 16px;
+  gap: 0;
+  text-align: left;
+}
+.wed-split-left {
+  flex: 0 0 42%;
+  padding-right: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.wed-split-right {
+  flex: 1;
+  padding-left: 14px;
+}
+.wed-split-divider {
+  width: 1px;
+  background: linear-gradient(180deg, transparent, #b8860b 10%, #b8860b 90%, transparent);
+  flex-shrink: 0;
+  opacity: .5;
+  align-self: stretch;
+}
+.wed-split-heading {
+  font-size: 14px;
+  font-weight: 800;
+  color: #b8860b;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.wed-split-sub {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8a6830;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.wed-split-family {
+  font-size: 15px;
+  font-weight: 800;
+  color: #4a2808;
+  letter-spacing: 1px;
+  line-height: 1.5;
+}
+
+/* With-love centered */
+.wed-with-love-center {
+  text-align: center;
+  padding: 0 20px 8px;
+}
+.wed-with-love-center .wed-wl-names {
+  align-items: center;
+}
+
+/* Message centered */
+.wed-message-center {
+  text-align: center;
+  margin: 0 20px 8px;
+}
+
+
+/* ============================================================
+   THEME 6 — Divine Love (warm cream + rose-gold accents)
+============================================================ */
+.wed-theme-6 {
+  background: linear-gradient(180deg, #fef9f0 0%, #fdf3e2 50%, #fef9f0 100%);
+  box-shadow:
+    0 0 0 2px #c9976a,
+    0 0 0 5px rgba(201,151,106,.12),
+    0 40px 80px rgba(0,0,0,.45);
+}
+.wed-theme-6 .wed-inner-frame { border-color: rgba(201,151,106,.25); }
+.wed-theme-6 .wed-svg-divine-stroke { stroke: #c9976a; }
+.wed-theme-6 .wed-svg-divine-fill { fill: #c9976a; }
+.wed-theme-6 .wed-svg-divine-arch { stroke: #c9976a; }
+.wed-theme-6 .wed-svg-divine-accent { stroke: #d4867a; }
+.wed-theme-6 .wed-svg-divine-flower { fill: #e8a8a0; }
+.wed-theme-6 .wed-name-center { color: #7a3028; }
+.wed-theme-6 .wed-amp-center { color: #c9976a; }
+.wed-theme-6 .wed-tagline { color: #9a7a50; }
+.wed-theme-6 .wed-photo-frame { background: linear-gradient(145deg, #c9976a, #e8c8a0, #c9976a); }
+.wed-theme-6 .wed-split-heading { color: #c9976a; }
+.wed-theme-6 .wed-split-sub { color: #9a7a50; }
+.wed-theme-6 .wed-split-family { color: #5a2818; }
+.wed-theme-6 .wed-split-divider { background: linear-gradient(180deg, transparent, #c9976a 10%, #c9976a 90%, transparent); }
+.wed-theme-6 .wed-event-heading { color: #c9976a; }
+.wed-theme-6 .wed-program-name { color: #7a3028; }
+.wed-theme-6 .wed-detail { color: #4a2a18; }
+.wed-theme-6 .wed-wl-label { color: #9a7a50; }
+.wed-theme-6 .wed-wl-name { color: #5a2818; }
+.wed-theme-6 .wed-message { color: #9a7a50; border-top-color: rgba(201,151,106,.18); }
+.wed-theme-6 .wed-svg-orn-center { fill: #c9976a; }
+.wed-theme-6 .wed-svg-orn-stem { stroke: #c9976a; }
+.wed-theme-6 .wed-svg-orn-leaf { fill: #8a9a6a; }
+
+
+/* ============================================================
+   THEME 7 — Sacred Border (dark frame, ivory center, rich gold)
+============================================================ */
+.wed-theme-7 {
+  background: #fdf8f0;
+  box-shadow:
+    0 0 0 8px #1a0508,
+    0 0 0 10px #c9a84c,
+    0 0 0 13px rgba(201,168,76,.2),
+    0 40px 80px rgba(0,0,0,.55);
+}
+.wed-theme-7 .wed-inner-frame {
+  border: 2px solid rgba(26,5,8,.6);
+  top: 4px; right: 4px; bottom: 4px; left: 4px;
+}
+.wed-theme-7 .wed-svg-divine-stroke { stroke: #8b6914; }
+.wed-theme-7 .wed-svg-divine-fill { fill: #8b6914; }
+.wed-theme-7 .wed-svg-divine-arch { stroke: #8b6914; }
+.wed-theme-7 .wed-svg-divine-accent { stroke: #b8445a; }
+.wed-theme-7 .wed-svg-divine-flower { fill: #d47080; }
+.wed-theme-7 .wed-name-center { color: #3d0a12; }
+.wed-theme-7 .wed-amp-center { color: #8b6914; }
+.wed-theme-7 .wed-tagline { color: #6a5020; }
+.wed-theme-7 .wed-photo-frame { background: linear-gradient(145deg, #8b6914, #c9a84c, #8b6914); }
+.wed-theme-7 .wed-split-heading { color: #8b6914; }
+.wed-theme-7 .wed-split-sub { color: #6a5020; }
+.wed-theme-7 .wed-split-family { color: #3d0a12; }
+.wed-theme-7 .wed-split-divider { background: linear-gradient(180deg, transparent, #8b6914 10%, #8b6914 90%, transparent); }
+.wed-theme-7 .wed-event-heading { color: #8b6914; }
+.wed-theme-7 .wed-program-name { color: #3d0a12; }
+.wed-theme-7 .wed-detail { color: #3a2008; }
+.wed-theme-7 .wed-wl-label { color: #6a5020; }
+.wed-theme-7 .wed-wl-name { color: #3d0a12; }
+.wed-theme-7 .wed-message { color: #6a5020; border-top-color: rgba(139,105,20,.2); }
+.wed-theme-7 .wed-svg-orn-center { fill: #8b6914; }
+.wed-theme-7 .wed-svg-orn-stem { stroke: #8b6914; }
+.wed-theme-7 .wed-svg-orn-leaf { fill: #5a7a4a; }
+
+
+/* ============================================================
+   RESPONSIVE — Centered layout
+============================================================ */
+@media (max-width: 560px) {
+  .wed-centered .wed-divine-svg { width: 110px; height: 100px; }
+  .wed-name-center { font-size: 26px; }
+  .wed-amp-center { font-size: 22px; }
+  .wed-split-info {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .wed-split-left {
+    flex: none;
+    padding-right: 0;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(184,134,11,.18);
+    text-align: center;
+  }
+  .wed-split-right { padding-left: 0; }
+  .wed-split-divider { display: none; }
+}
+
+
+/* ============================================================
    RESPONSIVE — Card Layout
 ============================================================ */
 @media (max-width: 560px) {
@@ -573,6 +817,81 @@
   .wed-event-heading { font-size: 16px; }
 }
 
+
+/* ============================================================
+   BACKGROUND COLOR PICKER
+============================================================ */
+.wed-bg-picker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 18px;
+  padding: 12px 18px;
+  background: rgba(184,134,11,.06);
+  border: 1px solid rgba(184,134,11,.18);
+  border-radius: 14px;
+  max-width: 520px;
+  width: 100%;
+}
+.wed-bg-picker-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #d4a853;
+  white-space: nowrap;
+}
+.wed-bg-swatches {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+.wed-bg-swatch {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.15);
+  cursor: pointer;
+  transition: all .2s;
+  padding: 0;
+  outline: none;
+}
+.wed-bg-swatch:hover {
+  transform: scale(1.18);
+  border-color: rgba(212,168,83,.5);
+}
+.wed-bg-swatch.active {
+  border-color: #d4a853;
+  box-shadow: 0 0 0 2px rgba(212,168,83,.45);
+  transform: scale(1.15);
+}
+.wed-bg-custom-input {
+  width: 26px;
+  height: 26px;
+  border: 2px solid rgba(255,255,255,.15);
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  background: transparent;
+  -webkit-appearance: none;
+}
+.wed-bg-custom-input::-webkit-color-swatch-wrapper { padding: 0; }
+.wed-bg-custom-input::-webkit-color-swatch { border: none; border-radius: 50%; }
+.wed-bg-reset {
+  background: rgba(212,168,83,.12);
+  border: 1px solid rgba(212,168,83,.3);
+  color: #d4a853;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.wed-bg-reset:hover {
+  background: rgba(212,168,83,.22);
+}
 
 /* ============================================================
    CHANGE DESIGN TEMPLATE BUTTON
