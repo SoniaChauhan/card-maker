@@ -56,11 +56,23 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
           // Ensure the clone has proper dimensions and no overflow clipping
           clonedEl.style.overflow = 'visible';
           clonedEl.style.position = 'relative';
+          clonedEl.style.height = 'auto';
+
+          // Also fix overflow on all children so nothing gets cropped
+          clonedEl.querySelectorAll('*').forEach(child => {
+            const cs = child.ownerDocument.defaultView.getComputedStyle(child);
+            if (cs.overflow === 'hidden') child.style.overflow = 'visible';
+          });
 
           // Remove pseudo-elements html2canvas can't render &
           // freeze all CSS animations so we capture a clean frame.
           const style = clonedDoc.createElement('style');
           style.textContent = `
+            #${elementId},
+            #${elementId} * {
+              overflow: visible !important;
+              max-height: none !important;
+            }
             #${elementId}::before,
             #${elementId}::after {
               display: none !important;
