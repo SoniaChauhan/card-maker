@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { getSession, setSession, clearSession, isAdmin } from '../services/authService';
+import { isUserBlocked } from '../services/blockService';
 
 const AuthContext = createContext(null);
 
@@ -8,9 +9,23 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const session = getSession();
-    if (session) setUser(session);
-    setLoading(false);
+    async function restoreSession() {
+      const session = getSession();
+      if (session) {
+        try {
+          const blocked = await isUserBlocked(session.email);
+          if (blocked) {
+            clearSession();
+          } else {
+            setUser(session);
+          }
+        } catch {
+          setUser(session); // allow login if block-check fails
+        }
+      }
+      setLoading(false);
+    }
+    restoreSession();
   }, []);
 
   function login(userData) {

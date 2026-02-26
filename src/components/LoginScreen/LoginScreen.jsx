@@ -7,6 +7,7 @@ import {
   createOrUpdateUser, userExists,
 } from '../../services/authService';
 import { sendOTPEmail, notifyAdmin } from '../../services/notificationService';
+import { isUserBlocked } from '../../services/blockService';
 
 /*
   Modes:
@@ -56,6 +57,11 @@ export default function LoginScreen() {
 
     setLoading(true);
     try {
+      if (await isUserBlocked(trimmedEmail)) {
+        setError('Your account has been blocked. Contact the admin for assistance.');
+        setLoading(false);
+        return;
+      }
       const user = await signInUser(trimmedEmail, password);
       login(user);
       notifyAdmin('🔑 User Login — Card Maker',
@@ -102,6 +108,11 @@ export default function LoginScreen() {
       const valid = await verifyOTP(trimmedEmail, otp);
       if (!valid) { setError('Invalid or expired OTP.'); setLoading(false); return; }
 
+      if (await isUserBlocked(trimmedEmail)) {
+        setError('This email has been blocked. Contact the admin for assistance.');
+        setLoading(false);
+        return;
+      }
       const user = await signUpUser(name, trimmedEmail, password);
       login(user);
       notifyAdmin('🆕 New Sign-Up — Card Maker',
@@ -199,6 +210,11 @@ export default function LoginScreen() {
       const valid = await verifyOTP(trimmedEmail, otp);
       if (!valid) { setError('Invalid or expired OTP.'); setLoading(false); return; }
 
+      if (await isUserBlocked(trimmedEmail)) {
+        setError('Your account has been blocked. Contact the admin for assistance.');
+        setLoading(false);
+        return;
+      }
       const user = await createOrUpdateUser(trimmedEmail);
       login(user);
       notifyAdmin('🔑 OTP Login — Card Maker',

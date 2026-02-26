@@ -19,6 +19,170 @@
   margin-top: 30px;
 }
 
+/* ---- Section titles ---- */
+.admin-section-title {
+  color: #e8d5a0;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-block-section {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* ---- Block Form ---- */
+.admin-block-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-input {
+  background: rgba(255,255,255,.08);
+  border: 1.5px solid rgba(255,255,255,.15);
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 14px;
+  color: #fff;
+  outline: none;
+  transition: border-color .2s;
+}
+.admin-input::placeholder { color: rgba(255,255,255,.35); }
+.admin-input:focus { border-color: rgba(212,168,83,.5); }
+
+.admin-input-reason { font-size: 13px; }
+
+/* ---- Buttons ---- */
+.admin-btn {
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .25s ease;
+}
+.admin-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.admin-btn-block {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: #fff;
+  align-self: flex-start;
+  padding: 10px 22px;
+  border-radius: 24px;
+  letter-spacing: .5px;
+}
+.admin-btn-block:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(231,76,60,.4);
+}
+
+.admin-btn-unblock {
+  background: rgba(46,204,113,.12);
+  border: 1.5px solid rgba(46,204,113,.35);
+  color: #2ecc71;
+  padding: 7px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.admin-btn-unblock:hover:not(:disabled) {
+  background: rgba(46,204,113,.22);
+  border-color: #2ecc71;
+}
+
+/* ---- Refresh ---- */
+.admin-refresh-sm {
+  background: none;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 2px;
+  opacity: .6;
+  transition: opacity .2s;
+}
+.admin-refresh-sm:hover { opacity: 1; }
+
+/* ---- Blocked Users List ---- */
+.admin-blocked-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-blocked-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(231,76,60,.06);
+  border: 1px solid rgba(231,76,60,.18);
+  border-radius: 12px;
+  padding: 14px 16px;
+  transition: background .2s;
+}
+.admin-blocked-card:hover {
+  background: rgba(231,76,60,.1);
+}
+
+.admin-blocked-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.admin-blocked-email {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-blocked-reason {
+  font-size: 12px;
+  color: rgba(255,255,255,.5);
+  font-style: italic;
+}
+
+.admin-blocked-date {
+  font-size: 11px;
+  color: rgba(255,255,255,.35);
+}
+
+/* ---- Toast ---- */
+.admin-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,.85);
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 9999;
+  animation: admin-toast-in .3s ease;
+  box-shadow: 0 6px 20px rgba(0,0,0,.5);
+}
+@keyframes admin-toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ---- Old table styles (kept for compatibility) ---- */
 .admin-table {
   width: 100%;
   border-collapse: separate;
@@ -44,27 +208,6 @@
 .admin-table tr td:first-child { border-radius: 12px 0 0 12px; }
 .admin-table tr td:last-child  { border-radius: 0 12px 12px 0; }
 
-.admin-btn {
-  padding: 6px 14px;
-  font-size: 12px;
-  font-weight: 700;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-right: 6px;
-  transition: opacity .2s;
-}
-.admin-btn:disabled { opacity: .5; cursor: not-allowed; }
-
-.admin-btn.approve {
-  background: #10b981;
-  color: #fff;
-}
-.admin-btn.reject {
-  background: #ef4444;
-  color: #fff;
-}
-
 .admin-refresh {
   display: block;
   margin: 0 auto 16px;
@@ -78,3 +221,14 @@
   cursor: pointer;
 }
 .admin-refresh:hover { background: rgba(255,255,255,.3); }
+
+/* ---- Responsive ---- */
+@media (max-width: 480px) {
+  .admin-blocked-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .admin-btn-unblock {
+    align-self: flex-end;
+  }
+}
