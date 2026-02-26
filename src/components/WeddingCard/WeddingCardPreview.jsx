@@ -1,6 +1,63 @@
 import { formatDate, formatTime } from '../../utils/helpers';
 import { T } from '../../utils/translations';
 
+/* Elegant watercolor-style floral corner — SVG art for cover page */
+function FloralCorner() {
+  return (
+    <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      {/* Background leaves */}
+      <ellipse cx="350" cy="210" rx="88" ry="20" transform="rotate(-30 350 210)" className="wed-svg-leaf" opacity=".4" />
+      <ellipse cx="390" cy="270" rx="72" ry="17" transform="rotate(-55 390 270)" className="wed-svg-leaf" opacity=".35" />
+      <ellipse cx="265" cy="50" rx="78" ry="18" transform="rotate(-12 265 50)" className="wed-svg-leaf" opacity=".35" />
+      <ellipse cx="55" cy="270" rx="68" ry="16" transform="rotate(20 55 270)" className="wed-svg-leaf-dk" opacity=".3" />
+      <ellipse cx="115" cy="335" rx="62" ry="14" transform="rotate(40 115 335)" className="wed-svg-leaf-dk" opacity=".25" />
+      <ellipse cx="390" cy="85" rx="58" ry="16" transform="rotate(-42 390 85)" className="wed-svg-leaf" opacity=".35" />
+      <ellipse cx="200" cy="350" rx="60" ry="14" transform="rotate(12 200 350)" className="wed-svg-leaf-dk" opacity=".22" />
+      <ellipse cx="450" cy="170" rx="48" ry="13" transform="rotate(-62 450 170)" className="wed-svg-leaf" opacity=".3" />
+
+      {/* Rose 1 — large, primary */}
+      <circle cx="170" cy="150" r="85" className="wed-svg-petal" opacity=".18" />
+      <circle cx="163" cy="142" r="68" className="wed-svg-petal" opacity=".28" />
+      <circle cx="175" cy="138" r="55" className="wed-svg-pm" opacity=".33" />
+      <circle cx="168" cy="148" r="43" className="wed-svg-pm" opacity=".42" />
+      <circle cx="171" cy="143" r="32" className="wed-svg-pi" opacity=".48" />
+      <circle cx="169" cy="147" r="22" className="wed-svg-pc" opacity=".52" />
+      <circle cx="170" cy="146" r="11" className="wed-svg-pc" opacity=".58" />
+
+      {/* Rose 2 — upper-right */}
+      <circle cx="340" cy="105" r="70" className="wed-svg-petal" opacity=".18" />
+      <circle cx="335" cy="99" r="56" className="wed-svg-petal" opacity=".28" />
+      <circle cx="342" cy="97" r="45" className="wed-svg-pm" opacity=".33" />
+      <circle cx="338" cy="103" r="35" className="wed-svg-pm" opacity=".42" />
+      <circle cx="340" cy="100" r="25" className="wed-svg-pi" opacity=".48" />
+      <circle cx="339" cy="103" r="15" className="wed-svg-pc" opacity=".52" />
+
+      {/* Rose 3 — lower-left */}
+      <circle cx="110" cy="270" r="62" className="wed-svg-petal" opacity=".18" />
+      <circle cx="106" cy="264" r="50" className="wed-svg-petal" opacity=".28" />
+      <circle cx="112" cy="262" r="40" className="wed-svg-pm" opacity=".33" />
+      <circle cx="109" cy="268" r="31" className="wed-svg-pm" opacity=".42" />
+      <circle cx="110" cy="266" r="22" className="wed-svg-pi" opacity=".48" />
+      <circle cx="110" cy="267" r="12" className="wed-svg-pc" opacity=".52" />
+
+      {/* Small buds */}
+      <circle cx="435" cy="55" r="30" className="wed-svg-petal" opacity=".2" />
+      <circle cx="433" cy="52" r="22" className="wed-svg-pm" opacity=".3" />
+      <circle cx="435" cy="53" r="13" className="wed-svg-pc" opacity=".38" />
+      <circle cx="50" cy="190" r="34" className="wed-svg-petal" opacity=".18" />
+      <circle cx="48" cy="186" r="24" className="wed-svg-pm" opacity=".28" />
+      <circle cx="50" cy="188" r="14" className="wed-svg-pc" opacity=".36" />
+
+      {/* Front accent leaves */}
+      <ellipse cx="290" cy="230" rx="52" ry="12" transform="rotate(-22 290 230)" className="wed-svg-leaf" opacity=".32" />
+      <ellipse cx="155" cy="315" rx="56" ry="13" transform="rotate(28 155 315)" className="wed-svg-leaf-dk" opacity=".28" />
+      <ellipse cx="245" cy="160" rx="42" ry="10" transform="rotate(-8 245 160)" className="wed-svg-leaf" opacity=".25" />
+      <ellipse cx="468" cy="120" rx="28" ry="9" transform="rotate(-55 468 120)" className="wed-svg-leaf" opacity=".28" />
+      <ellipse cx="30" cy="330" rx="30" ry="9" transform="rotate(22 30 330)" className="wed-svg-leaf-dk" opacity=".2" />
+    </svg>
+  );
+}
+
 export default function WeddingCardPreview({ data, lang = 'en', template = 1 }) {
   const t = T[lang];
   const {
@@ -17,6 +74,30 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1 }) 
 
   return (
     <div id="wedding-card-print" className={`wedding-card ${themeClass}`}>
+
+      {/* ═══ COVER PAGE ═══ */}
+      <div className="wed-cover-page">
+        <div className="wed-cover-floral wed-cover-floral-tl"><FloralCorner /></div>
+        <div className="wed-cover-floral wed-cover-floral-br"><FloralCorner /></div>
+        <div className="wed-cover-content">
+          <h1 className="wed-cover-title">WEDDING</h1>
+          <h1 className="wed-cover-title wed-cover-title-sub">INVITATION</h1>
+          <div className="wed-cover-divider">
+            <span className="wed-cd-line" />
+            <span className="wed-cd-diamond">◆</span>
+            <span className="wed-cd-line" />
+          </div>
+          {(groomName || brideName) && (
+            <div className="wed-cover-names">
+              {groomName || 'Groom'} &amp; {brideName || 'Bride'}
+            </div>
+          )}
+          {weddingDate && (
+            <div className="wed-cover-date">{formatDate(weddingDate)}</div>
+          )}
+        </div>
+      </div>
+      <div className="wed-page-break" />
 
       {/* ═══ CORNER ORNAMENTS ═══ */}
       <div className="wed-corner wed-corner-tl" />

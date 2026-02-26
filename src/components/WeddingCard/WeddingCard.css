@@ -92,6 +92,113 @@
 }
 
 /* ==============================
+   COVER PAGE
+============================== */
+.wed-cover-page {
+  position: relative;
+  width: 100%;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.wed-cover-floral {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+.wed-cover-floral svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.wed-cover-floral-tl {
+  top: -30px;
+  left: -30px;
+  width: 55%;
+  height: 55%;
+}
+.wed-cover-floral-br {
+  bottom: -30px;
+  right: -30px;
+  width: 55%;
+  height: 55%;
+  transform: rotate(180deg);
+}
+
+/* SVG fill colors — default (Classic Royal) */
+.wed-svg-petal    { fill: #E8CEB5; }
+.wed-svg-pm       { fill: #DEB096; }
+.wed-svg-pi       { fill: #D4A280; }
+.wed-svg-pc       { fill: #CC9470; }
+.wed-svg-leaf     { fill: #8B9B6A; }
+.wed-svg-leaf-dk  { fill: #748A58; }
+
+.wed-cover-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 40px 20px;
+}
+.wed-cover-title {
+  font-size: 52px;
+  font-weight: 400;
+  color: #8a6830;
+  letter-spacing: 14px;
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1.35;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.wed-cover-title-sub {
+  font-size: 46px;
+  letter-spacing: 10px;
+  font-style: italic;
+  margin-top: 6px;
+}
+.wed-cover-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 24px auto;
+  width: 200px;
+}
+.wed-cd-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #b8860b, transparent);
+}
+.wed-cd-diamond {
+  color: #b8860b;
+  font-size: 9px;
+  opacity: .6;
+}
+.wed-cover-names {
+  font-size: 20px;
+  color: #6b1520;
+  font-weight: 700;
+  letter-spacing: 4px;
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+.wed-cover-date {
+  font-size: 14px;
+  color: #8a6830;
+  letter-spacing: 3px;
+  margin-top: 10px;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+/* Page break between cover and main content */
+.wed-page-break {
+  height: 2px;
+  margin: 4px 30px 0;
+  background: linear-gradient(90deg, transparent 5%, rgba(184,134,11,.2) 20%, rgba(184,134,11,.4) 50%, rgba(184,134,11,.2) 80%, transparent 95%);
+}
+
+/* ==============================
    CORNER ORNAMENTS
 ============================== */
 .wed-corner {
@@ -788,6 +895,11 @@
 ============================== */
 @media (max-width: 700px) {
   .wedding-card { max-width: 100%; }
+  .wed-cover-page { min-height: 380px; }
+  .wed-cover-title { font-size: 34px; letter-spacing: 8px; }
+  .wed-cover-title-sub { font-size: 30px; letter-spacing: 6px; }
+  .wed-cover-names { font-size: 16px; letter-spacing: 2px; }
+  .wed-cover-floral-tl, .wed-cover-floral-br { width: 65%; height: 65%; }
   .wed-landscape-body { flex-direction: column; }
   .wed-col-left { border-right: none; padding-right: 0; border-bottom: 1px solid rgba(184,134,11,.18); padding-bottom: 14px; margin-bottom: 14px; }
   .wed-col-right { padding-left: 0; }
@@ -1105,6 +1217,69 @@
 .wed-theme-5 .wed-fo-diamond { color: #2d7a4a; }
 .wed-theme-5 .wed-footer-text { color: #5a8a6a; }
 .wed-theme-5 .wed-footer-quote { color: #2d7a4a; }
+
+/* ============================================================
+   COVER PAGE — THEME OVERRIDES
+============================================================ */
+/* Theme 2 — Elegant Floral */
+.wed-theme-2 .wed-svg-petal { fill: #F0C8D0; }
+.wed-theme-2 .wed-svg-pm { fill: #E8B0BA; }
+.wed-theme-2 .wed-svg-pi { fill: #E098A2; }
+.wed-theme-2 .wed-svg-pc { fill: #D88890; }
+.wed-theme-2 .wed-svg-leaf { fill: #9A8B78; }
+.wed-theme-2 .wed-svg-leaf-dk { fill: #887A68; }
+.wed-theme-2 .wed-cover-title,
+.wed-theme-2 .wed-cover-title-sub { color: #8a4050; }
+.wed-theme-2 .wed-cover-names { color: #8a2040; }
+.wed-theme-2 .wed-cover-date { color: #8a4050; }
+.wed-theme-2 .wed-cd-line { background: linear-gradient(90deg, transparent, #b76e8a, transparent); }
+.wed-theme-2 .wed-cd-diamond { color: #b76e8a; }
+.wed-theme-2 .wed-page-break { background: linear-gradient(90deg, transparent 5%, rgba(183,110,138,.2) 20%, rgba(183,110,138,.4) 50%, rgba(183,110,138,.2) 80%, transparent 95%); }
+
+/* Theme 3 — Modern Minimal */
+.wed-theme-3 .wed-svg-petal { fill: #D5D5D5; }
+.wed-theme-3 .wed-svg-pm { fill: #C5C5C5; }
+.wed-theme-3 .wed-svg-pi { fill: #B5B5B5; }
+.wed-theme-3 .wed-svg-pc { fill: #A5A5A5; }
+.wed-theme-3 .wed-svg-leaf { fill: #A0A090; }
+.wed-theme-3 .wed-svg-leaf-dk { fill: #909078; }
+.wed-theme-3 .wed-cover-title,
+.wed-theme-3 .wed-cover-title-sub { color: #2c2c2c; }
+.wed-theme-3 .wed-cover-names { color: #1a1a1a; }
+.wed-theme-3 .wed-cover-date { color: #555; }
+.wed-theme-3 .wed-cd-line { background: linear-gradient(90deg, transparent, #999, transparent); }
+.wed-theme-3 .wed-cd-diamond { color: #999; }
+.wed-theme-3 .wed-page-break { background: linear-gradient(90deg, transparent 5%, rgba(0,0,0,.08) 20%, rgba(0,0,0,.15) 50%, rgba(0,0,0,.08) 80%, transparent 95%); }
+
+/* Theme 4 — Royal Navy */
+.wed-theme-4 .wed-svg-petal { fill: #E8D0A0; }
+.wed-theme-4 .wed-svg-pm { fill: #D8C090; }
+.wed-theme-4 .wed-svg-pi { fill: #C8B080; }
+.wed-theme-4 .wed-svg-pc { fill: #B8A070; }
+.wed-theme-4 .wed-svg-leaf { fill: #6A8A5A; }
+.wed-theme-4 .wed-svg-leaf-dk { fill: #587848; }
+.wed-theme-4 .wed-cover-title,
+.wed-theme-4 .wed-cover-title-sub { color: #e8d5a0; }
+.wed-theme-4 .wed-cover-names { color: #c9a84c; }
+.wed-theme-4 .wed-cover-date { color: #a89a70; }
+.wed-theme-4 .wed-cd-line { background: linear-gradient(90deg, transparent, #c9a84c, transparent); }
+.wed-theme-4 .wed-cd-diamond { color: #c9a84c; }
+.wed-theme-4 .wed-page-break { background: linear-gradient(90deg, transparent 5%, rgba(201,168,76,.2) 20%, rgba(201,168,76,.4) 50%, rgba(201,168,76,.2) 80%, transparent 95%); }
+
+/* Theme 5 — Garden Fresh */
+.wed-theme-5 .wed-svg-petal { fill: #C5E0BB; }
+.wed-theme-5 .wed-svg-pm { fill: #ADD0A2; }
+.wed-theme-5 .wed-svg-pi { fill: #95C088; }
+.wed-theme-5 .wed-svg-pc { fill: #7DB070; }
+.wed-theme-5 .wed-svg-leaf { fill: #5A9A4A; }
+.wed-theme-5 .wed-svg-leaf-dk { fill: #488838; }
+.wed-theme-5 .wed-cover-title,
+.wed-theme-5 .wed-cover-title-sub { color: #1a5c3a; }
+.wed-theme-5 .wed-cover-names { color: #1a4a2e; }
+.wed-theme-5 .wed-cover-date { color: #5a8a6a; }
+.wed-theme-5 .wed-cd-line { background: linear-gradient(90deg, transparent, #2d7a4a, transparent); }
+.wed-theme-5 .wed-cd-diamond { color: #2d7a4a; }
+.wed-theme-5 .wed-page-break { background: linear-gradient(90deg, transparent 5%, rgba(45,122,74,.2) 20%, rgba(45,122,74,.4) 50%, rgba(45,122,74,.2) 80%, transparent 95%); }
 
 /* ============================================================
    CHANGE DESIGN TEMPLATE BUTTON
