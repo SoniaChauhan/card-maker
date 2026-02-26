@@ -2,11 +2,11 @@ import { useState } from 'react';
 import WeddingCardPreview from './WeddingCardPreview';
 
 const TEMPLATES = [
-  { id: 1, name: 'Classic Royal',   desc: 'Maroon & gold, traditional Indian elegance',        icon: '👑', accent: '#6b1520' },
-  { id: 2, name: 'Elegant Floral',  desc: 'Soft rose-pink with floral grace',                  icon: '🌸', accent: '#b5547a' },
-  { id: 3, name: 'Modern Minimal',  desc: 'Clean black & white, contemporary style',           icon: '◼️', accent: '#2c2c2c' },
-  { id: 4, name: 'Royal Navy',      desc: 'Deep navy blue with rich gold accents',              icon: '🏛️', accent: '#1a2744' },
-  { id: 5, name: 'Garden Fresh',    desc: 'Emerald green with botanical charm',                 icon: '🌿', accent: '#1a5c3a' },
+  { id: 1, name: 'Classic Gold',    desc: 'Ivory & gold, timeless Indian elegance',            icon: '👑', accent: '#b8860b' },
+  { id: 2, name: 'Gold Ornate',     desc: 'Warm ivory with rich golden accents',               icon: '✨', accent: '#c9a84c' },
+  { id: 3, name: 'Garden Floral',   desc: 'Mint green with botanical leaf wreath',             icon: '🌿', accent: '#3a7a4a' },
+  { id: 4, name: 'Warm Peach',      desc: 'Soft peach & blush, romantic warmth',               icon: '🌸', accent: '#c4756a' },
+  { id: 5, name: 'Royal Maroon',    desc: 'Deep maroon with luxurious gold text',              icon: '🏛️', accent: '#3d0a12' },
 ];
 
 export default function TemplateChooser({ data, lang, selected, onSelect, onClose }) {

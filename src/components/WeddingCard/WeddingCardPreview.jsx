@@ -1,59 +1,92 @@
 import { formatDate, formatTime } from '../../utils/helpers';
 import { T } from '../../utils/translations';
 
-/* Elegant watercolor-style floral corner — SVG art for cover page */
-function FloralCorner() {
+/* ── SVG art: Jaimala couple illustration (line art style) ── */
+function JaimalaArt() {
   return (
-    <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      {/* Background leaves */}
-      <ellipse cx="350" cy="210" rx="88" ry="20" transform="rotate(-30 350 210)" className="wed-svg-leaf" opacity=".4" />
-      <ellipse cx="390" cy="270" rx="72" ry="17" transform="rotate(-55 390 270)" className="wed-svg-leaf" opacity=".35" />
-      <ellipse cx="265" cy="50" rx="78" ry="18" transform="rotate(-12 265 50)" className="wed-svg-leaf" opacity=".35" />
-      <ellipse cx="55" cy="270" rx="68" ry="16" transform="rotate(20 55 270)" className="wed-svg-leaf-dk" opacity=".3" />
-      <ellipse cx="115" cy="335" rx="62" ry="14" transform="rotate(40 115 335)" className="wed-svg-leaf-dk" opacity=".25" />
-      <ellipse cx="390" cy="85" rx="58" ry="16" transform="rotate(-42 390 85)" className="wed-svg-leaf" opacity=".35" />
-      <ellipse cx="200" cy="350" rx="60" ry="14" transform="rotate(12 200 350)" className="wed-svg-leaf-dk" opacity=".22" />
-      <ellipse cx="450" cy="170" rx="48" ry="13" transform="rotate(-62 450 170)" className="wed-svg-leaf" opacity=".3" />
+    <svg viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="wed-jaimala-svg" aria-hidden="true">
+      {/* Groom */}
+      <circle cx="38" cy="22" r="10" className="wed-svg-stroke" strokeWidth="1.5" />
+      <path d="M38 12 C34 8 28 10 28 16 L28 18 C28 14 34 10 38 12Z" className="wed-svg-fill" opacity=".6" />
+      <path d="M38 12 C42 8 48 10 48 16 L48 18 C48 14 42 10 38 12Z" className="wed-svg-fill" opacity=".6" />
+      <line x1="38" y1="32" x2="38" y2="60" className="wed-svg-stroke" strokeWidth="1.5" />
+      <line x1="38" y1="38" x2="28" y2="52" className="wed-svg-stroke" strokeWidth="1.5" />
+      <line x1="38" y1="38" x2="48" y2="48" className="wed-svg-stroke" strokeWidth="1.5" />
+      <line x1="38" y1="60" x2="30" y2="80" className="wed-svg-stroke" strokeWidth="1.5" />
+      <line x1="38" y1="60" x2="46" y2="80" className="wed-svg-stroke" strokeWidth="1.5" />
+      {/* Bride */}
+      <circle cx="82" cy="22" r="10" className="wed-svg-stroke" strokeWidth="1.5" />
+      <path d="M82 12 C74 6 68 14 70 22 L72 28 C72 20 76 12 82 12Z" className="wed-svg-fill" opacity=".4" />
+      <path d="M82 12 C90 6 96 14 94 22 L92 28 C92 20 88 12 82 12Z" className="wed-svg-fill" opacity=".4" />
+      <line x1="82" y1="32" x2="82" y2="60" className="wed-svg-stroke" strokeWidth="1.5" />
+      <line x1="82" y1="38" x2="72" y2="48" className="wed-svg-stroke" strokeWidth="1.5" />
+      <line x1="82" y1="38" x2="92" y2="52" className="wed-svg-stroke" strokeWidth="1.5" />
+      <line x1="82" y1="60" x2="74" y2="80" className="wed-svg-stroke" strokeWidth="1.5" />
+      <line x1="82" y1="60" x2="90" y2="80" className="wed-svg-stroke" strokeWidth="1.5" />
+      {/* Garland between them */}
+      <path d="M48 48 Q60 38 72 48" className="wed-svg-stroke" strokeWidth="1.2" strokeDasharray="3 2" />
+      <path d="M48 48 Q60 58 72 48" className="wed-svg-stroke" strokeWidth="1.2" strokeDasharray="3 2" />
+    </svg>
+  );
+}
 
-      {/* Rose 1 — large, primary */}
-      <circle cx="170" cy="150" r="85" className="wed-svg-petal" opacity=".18" />
-      <circle cx="163" cy="142" r="68" className="wed-svg-petal" opacity=".28" />
-      <circle cx="175" cy="138" r="55" className="wed-svg-pm" opacity=".33" />
-      <circle cx="168" cy="148" r="43" className="wed-svg-pm" opacity=".42" />
-      <circle cx="171" cy="143" r="32" className="wed-svg-pi" opacity=".48" />
-      <circle cx="169" cy="147" r="22" className="wed-svg-pc" opacity=".52" />
-      <circle cx="170" cy="146" r="11" className="wed-svg-pc" opacity=".58" />
+/* ── SVG art: Floral leaf wreath around photo (for theme 3) ── */
+function PhotoWreath() {
+  return (
+    <svg viewBox="0 0 200 200" className="wed-photo-wreath-svg" aria-hidden="true">
+      {/* Left branch */}
+      <path d="M100 185 Q60 170 40 140 Q25 115 30 85 Q35 60 55 45" fill="none" className="wed-svg-wreath" strokeWidth="2" />
+      {[45, 60, 75, 90, 110, 130, 150].map((angle, i) => {
+        const t = i / 6;
+        const cx = 100 - 55 * Math.sin(t * 2.5) + (i % 2 ? 8 : -8);
+        const cy = 185 - t * 140;
+        const rot = -30 + i * 8;
+        return <ellipse key={`l${i}`} cx={cx} cy={cy} rx="14" ry="6" transform={`rotate(${rot} ${cx} ${cy})`} className="wed-svg-wreath-leaf" opacity={0.4 + i * 0.05} />;
+      })}
+      {/* Right branch */}
+      <path d="M100 185 Q140 170 160 140 Q175 115 170 85 Q165 60 145 45" fill="none" className="wed-svg-wreath" strokeWidth="2" />
+      {[45, 60, 75, 90, 110, 130, 150].map((angle, i) => {
+        const t = i / 6;
+        const cx = 100 + 55 * Math.sin(t * 2.5) + (i % 2 ? -8 : 8);
+        const cy = 185 - t * 140;
+        const rot = 30 - i * 8;
+        return <ellipse key={`r${i}`} cx={cx} cy={cy} rx="14" ry="6" transform={`rotate(${rot} ${cx} ${cy})`} className="wed-svg-wreath-leaf" opacity={0.4 + i * 0.05} />;
+      })}
+      {/* Small roses */}
+      {[[50, 140], [150, 140], [38, 100], [162, 100]].map(([x, y], i) => (
+        <g key={`rose${i}`}>
+          <circle cx={x} cy={y} r="8" className="wed-svg-wreath-rose" opacity=".35" />
+          <circle cx={x} cy={y} r="5" className="wed-svg-wreath-rose" opacity=".5" />
+          <circle cx={x} cy={y} r="2.5" className="wed-svg-wreath-rose-c" opacity=".6" />
+        </g>
+      ))}
+    </svg>
+  );
+}
 
-      {/* Rose 2 — upper-right */}
-      <circle cx="340" cy="105" r="70" className="wed-svg-petal" opacity=".18" />
-      <circle cx="335" cy="99" r="56" className="wed-svg-petal" opacity=".28" />
-      <circle cx="342" cy="97" r="45" className="wed-svg-pm" opacity=".33" />
-      <circle cx="338" cy="103" r="35" className="wed-svg-pm" opacity=".42" />
-      <circle cx="340" cy="100" r="25" className="wed-svg-pi" opacity=".48" />
-      <circle cx="339" cy="103" r="15" className="wed-svg-pc" opacity=".52" />
-
-      {/* Rose 3 — lower-left */}
-      <circle cx="110" cy="270" r="62" className="wed-svg-petal" opacity=".18" />
-      <circle cx="106" cy="264" r="50" className="wed-svg-petal" opacity=".28" />
-      <circle cx="112" cy="262" r="40" className="wed-svg-pm" opacity=".33" />
-      <circle cx="109" cy="268" r="31" className="wed-svg-pm" opacity=".42" />
-      <circle cx="110" cy="266" r="22" className="wed-svg-pi" opacity=".48" />
-      <circle cx="110" cy="267" r="12" className="wed-svg-pc" opacity=".52" />
-
-      {/* Small buds */}
-      <circle cx="435" cy="55" r="30" className="wed-svg-petal" opacity=".2" />
-      <circle cx="433" cy="52" r="22" className="wed-svg-pm" opacity=".3" />
-      <circle cx="435" cy="53" r="13" className="wed-svg-pc" opacity=".38" />
-      <circle cx="50" cy="190" r="34" className="wed-svg-petal" opacity=".18" />
-      <circle cx="48" cy="186" r="24" className="wed-svg-pm" opacity=".28" />
-      <circle cx="50" cy="188" r="14" className="wed-svg-pc" opacity=".36" />
-
-      {/* Front accent leaves */}
-      <ellipse cx="290" cy="230" rx="52" ry="12" transform="rotate(-22 290 230)" className="wed-svg-leaf" opacity=".32" />
-      <ellipse cx="155" cy="315" rx="56" ry="13" transform="rotate(28 155 315)" className="wed-svg-leaf-dk" opacity=".28" />
-      <ellipse cx="245" cy="160" rx="42" ry="10" transform="rotate(-8 245 160)" className="wed-svg-leaf" opacity=".25" />
-      <ellipse cx="468" cy="120" rx="28" ry="9" transform="rotate(-55 468 120)" className="wed-svg-leaf" opacity=".28" />
-      <ellipse cx="30" cy="330" rx="30" ry="9" transform="rotate(22 30 330)" className="wed-svg-leaf-dk" opacity=".2" />
+/* ── SVG art: Bottom floral ornament border ── */
+function BottomOrnament() {
+  return (
+    <svg viewBox="0 0 500 60" className="wed-bottom-ornament-svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      {/* Center symbol */}
+      <circle cx="250" cy="16" r="8" className="wed-svg-orn-center" opacity=".7" />
+      <circle cx="250" cy="16" r="4" className="wed-svg-orn-center" opacity=".9" />
+      {/* Left vine */}
+      <path d="M242 16 Q200 10 160 20 Q120 28 80 22 Q50 18 20 24" fill="none" className="wed-svg-orn-stem" strokeWidth="1.5" />
+      {[200, 170, 140, 110, 80, 55].map((x, i) => (
+        <g key={`lb${i}`}>
+          <ellipse cx={x} cy={i % 2 ? 12 : 28} rx="12" ry="5" transform={`rotate(${i % 2 ? -25 : 25} ${x} ${i % 2 ? 12 : 28})`} className="wed-svg-orn-leaf" opacity={.45 + i * .04} />
+          <ellipse cx={x - 8} cy={i % 2 ? 16 : 24} rx="10" ry="4" transform={`rotate(${i % 2 ? -40 : 40} ${x - 8} ${i % 2 ? 16 : 24})`} className="wed-svg-orn-leaf" opacity={.35 + i * .03} />
+        </g>
+      ))}
+      {/* Right vine */}
+      <path d="M258 16 Q300 10 340 20 Q380 28 420 22 Q450 18 480 24" fill="none" className="wed-svg-orn-stem" strokeWidth="1.5" />
+      {[300, 330, 360, 390, 420, 445].map((x, i) => (
+        <g key={`rb${i}`}>
+          <ellipse cx={x} cy={i % 2 ? 12 : 28} rx="12" ry="5" transform={`rotate(${i % 2 ? 25 : -25} ${x} ${i % 2 ? 12 : 28})`} className="wed-svg-orn-leaf" opacity={.45 + i * .04} />
+          <ellipse cx={x + 8} cy={i % 2 ? 16 : 24} rx="10" ry="4" transform={`rotate(${i % 2 ? 40 : -40} ${x + 8} ${i % 2 ? 16 : 24})`} className="wed-svg-orn-leaf" opacity={.35 + i * .03} />
+        </g>
+      ))}
     </svg>
   );
 }
@@ -75,310 +108,148 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1 }) 
   return (
     <div id="wedding-card-print" className={`wedding-card ${themeClass}`}>
 
-      {/* ═══ COVER PAGE ═══ */}
-      <div className="wed-cover-page">
-        <div className="wed-cover-floral wed-cover-floral-tl"><FloralCorner /></div>
-        <div className="wed-cover-floral wed-cover-floral-br"><FloralCorner /></div>
-        <div className="wed-cover-content">
-          <h1 className="wed-cover-title">WEDDING</h1>
-          <h1 className="wed-cover-title wed-cover-title-sub">INVITATION</h1>
-          <div className="wed-cover-divider">
-            <span className="wed-cd-line" />
-            <span className="wed-cd-diamond">◆</span>
-            <span className="wed-cd-line" />
-          </div>
-          {(groomName || brideName) && (
-            <div className="wed-cover-names">
-              {groomName || 'Groom'} &amp; {brideName || 'Bride'}
-            </div>
-          )}
-          {weddingDate && (
-            <div className="wed-cover-date">{formatDate(weddingDate)}</div>
-          )}
-        </div>
-      </div>
-      <div className="wed-page-break" />
+      {/* ══ Inner border frame ══ */}
+      <div className="wed-inner-frame" />
 
-      {/* ═══ CORNER ORNAMENTS ═══ */}
-      <div className="wed-corner wed-corner-tl" />
-      <div className="wed-corner wed-corner-tr" />
-      <div className="wed-corner wed-corner-bl" />
-      <div className="wed-corner wed-corner-br" />
+      {/* ══ TWO-COLUMN BODY ══ */}
+      <div className="wed-body">
 
-      {/* ═══ TOP ORNAMENTAL BORDER ═══ */}
-      <div className="wed-top-border">
-        <span className="wed-ornament-line" />
-        <span className="wed-ornament-diamond">◆</span>
-        <span className="wed-ornament-line" />
-      </div>
-
-      {/* ═══ AUSPICIOUS HEADER (full width) ═══ */}
-      <div className="wed-auspicious">
-        <div className="wed-om">ॐ</div>
-        <div className="wed-shubh">॥ शुभ विवाह ॥</div>
-        <div className="wed-header-divider">
-          <span className="wed-hd-wing" />
-          <span className="wed-hd-icon">✦</span>
-          <span className="wed-hd-wing" />
-        </div>
-      </div>
-
-      {/* ═══════════════ LANDSCAPE TWO-COLUMN BODY ═══════════════ */}
-      <div className="wed-landscape-body">
-
-        {/* ---- LEFT COLUMN: Couple Info ---- */}
+        {/* ────── LEFT COLUMN ────── */}
         <div className="wed-col wed-col-left">
 
-          {/* SANSKRIT SHLOK */}
+          {/* Sanskrit Shlok */}
           <div className="wed-shlok">
-            <div className="wed-shlok-text">
-              ॥ मांगल्यं तन्तुनानेन मम जीवन हेतुना ।<br />
-              कण्ठे बध्नामि सुभगे संजीव शरदः शतम् ॥
-            </div>
-            <div className="wed-shlok-meaning">
-              "I tie this sacred thread around your neck, O beautiful one,
-              may we live a hundred years together in happiness."
-            </div>
+            तेनु सुपती प्राप्त
           </div>
 
-          {/* JAIMALA SCENE */}
+          {/* Jaimala illustration */}
           <div className="wed-jaimala">
-            <div className="wed-jm-couple">
-              <span className="wed-jm-groom">🤵</span>
-              <span className="wed-jm-heart">❤️</span>
-              <span className="wed-jm-bride">👰</span>
-            </div>
+            <JaimalaArt />
           </div>
 
-          {/* COUPLE PHOTO */}
+          {/* Couple Photo */}
           {photoPreview && (
-            <div className="wed-photo-section">
+            <div className="wed-photo-wrap">
+              {template === 3 && <PhotoWreath />}
               <div className="wed-photo-frame">
                 <img src={photoPreview} alt="Couple" className="wed-photo" />
               </div>
             </div>
           )}
 
-          {/* COUPLE HERO NAMES */}
-          <div className="wed-section-label">{t.wedTogetherLabel}</div>
-          <div className="wed-couple-hero">
-            <div className="wed-name wed-groom-name">{groomName || t.wedGroom}</div>
-            <div className="wed-ampersand">
-              <span className="wed-amp-line" />
-              <span className="wed-amp-symbol">&amp;</span>
-              <span className="wed-amp-line" />
-            </div>
-            <div className="wed-name wed-bride-name">{brideName || t.wedBride}</div>
+          {/* Couple Names */}
+          <div className="wed-couple">
+            <div className="wed-name wed-groom-name">{groomName || 'Groom'}</div>
+            <div className="wed-amp">&amp;</div>
+            <div className="wed-name wed-bride-name">{brideName || 'Bride'}</div>
           </div>
 
-          {/* TAGLINE */}
-          <div className="wed-tagline">
-            Two hearts · One soul · An eternal bond of love
-          </div>
+          {/* Together line */}
+          <div className="wed-together">TOGETHER WITH THEIR FAMILIES</div>
 
-          {/* FAMILY NAMES */}
+          {/* Family Names */}
           <div className="wed-families">
-            <div className="wed-families-row">
-              <div className="wed-family-block">
-                {groomFamily && <div className="wed-family-name">{groomFamily}</div>}
-                <div className="wed-family-label">Groom's Family</div>
-              </div>
-              <div className="wed-family-sep-v">
-                <span className="wed-sep-dot">✦</span>
-              </div>
-              <div className="wed-family-block">
-                {brideFamily && <div className="wed-family-name">{brideFamily}</div>}
-                <div className="wed-family-label">Bride's Family</div>
-              </div>
-            </div>
+            <span className="wed-family-name">{groomFamily || 'THE GROOM\'S FAMILY'}</span>
+            <span className="wed-family-sep">⠀⠀</span>
+            <span className="wed-family-name">{brideFamily || 'THE BRIDE\'S FAMILY'}</span>
           </div>
 
-          {/* BLESSING */}
+          {/* Blessing */}
           <div className="wed-blessing">
-            <div className="wed-blessing-text">{t.wedBlessing}</div>
+            <em>Please bless the couple<br />with your presence.</em>
           </div>
         </div>
 
-        {/* ---- RIGHT COLUMN: Events & Details ---- */}
+        {/* ────── DIVIDER ────── */}
+        <div className="wed-divider-line" />
+
+        {/* ────── RIGHT COLUMN ────── */}
         <div className="wed-col wed-col-right">
 
           {/* WEDDING CEREMONY */}
-          <div className="wed-event wed-event-ceremony">
-            <div className="wed-event-header">
-              <span className="wed-event-title">{t.wedCeremony}</span>
-            </div>
-            <div className="wed-event-body">
-              {weddingDate && (
-                <div className="wed-detail-row">
-                  <span className="wed-detail-icon">📅</span>
-                  <div>
-                    <div className="wed-detail-label">{t.date}</div>
-                    <div className="wed-detail-value">{formatDate(weddingDate)}</div>
-                  </div>
-                </div>
-              )}
-              {weddingTime && (
-                <div className="wed-detail-row">
-                  <span className="wed-detail-icon">🕐</span>
-                  <div>
-                    <div className="wed-detail-label">{t.time}</div>
-                    <div className="wed-detail-value">{formatTime(weddingTime)}</div>
-                  </div>
-                </div>
-              )}
-              {weddingVenue && (
-                <div className="wed-detail-row">
-                  <span className="wed-detail-icon">📍</span>
-                  <div>
-                    <div className="wed-detail-label">{t.venue}</div>
-                    <div className="wed-detail-value">{weddingVenue}</div>
-                    {weddingVenueAddress && <div className="wed-detail-address">{weddingVenueAddress}</div>}
-                  </div>
-                </div>
-              )}
+          <div className="wed-event-section">
+            <h3 className="wed-event-heading">WEDDING<br />CEREMONY</h3>
+            <div className="wed-event-details">
+              {weddingDate && <div className="wed-detail">{formatDate(weddingDate)}</div>}
+              {weddingTime && <div className="wed-detail">{formatTime(weddingTime)}</div>}
+              {weddingVenue && <div className="wed-detail">{weddingVenue}</div>}
+              {weddingVenueAddress && <div className="wed-detail wed-detail-sub">{weddingVenueAddress}</div>}
             </div>
           </div>
 
           {/* RECEPTION */}
           {hasReception && (
-            <div className="wed-event wed-event-reception">
-              <div className="wed-event-header wed-event-header-alt">
-                <span className="wed-event-title">{t.wedReception}</span>
-              </div>
-              <div className="wed-event-body">
-                {receptionDate && (
-                  <div className="wed-detail-row">
-                    <span className="wed-detail-icon">📅</span>
-                    <div>
-                      <div className="wed-detail-label">{t.date}</div>
-                      <div className="wed-detail-value">{formatDate(receptionDate)}</div>
-                    </div>
-                  </div>
-                )}
-                {receptionTime && (
-                  <div className="wed-detail-row">
-                    <span className="wed-detail-icon">🕐</span>
-                    <div>
-                      <div className="wed-detail-label">{t.time}</div>
-                      <div className="wed-detail-value">{formatTime(receptionTime)}</div>
-                    </div>
-                  </div>
-                )}
-                {receptionVenue && (
-                  <div className="wed-detail-row">
-                    <span className="wed-detail-icon">📍</span>
-                    <div>
-                      <div className="wed-detail-label">{t.venue}</div>
-                      <div className="wed-detail-value">{receptionVenue}</div>
-                    </div>
-                  </div>
-                )}
+            <div className="wed-event-section">
+              <h3 className="wed-event-heading">RECEPTION</h3>
+              <div className="wed-event-details">
+                {receptionDate && <div className="wed-detail">{formatDate(receptionDate)}</div>}
+                {receptionTime && <div className="wed-detail">{formatTime(receptionTime)}</div>}
+                {receptionVenue && <div className="wed-detail">{receptionVenue}</div>}
               </div>
             </div>
           )}
 
-          {/* CUSTOM PROGRAMS / EVENTS */}
-          {validPrograms.map((prog, idx) => (
-            <div key={idx} className="wed-event wed-event-custom">
-              <div className="wed-event-header wed-event-header-custom">
-                <span className="wed-event-title">{prog.name}</span>
+          {/* CUSTOM PROGRAMS (Mehendi, Haldi, Sangeet etc.) */}
+          {validPrograms.length > 0 && (
+            <div className="wed-event-section">
+              <div className="wed-programs-list">
+                {validPrograms.map((prog, idx) => (
+                  <h3 key={idx} className="wed-program-name">{prog.name}</h3>
+                ))}
               </div>
-              <div className="wed-event-body">
-                {prog.date && (
-                  <div className="wed-detail-row">
-                    <span className="wed-detail-icon">📅</span>
-                    <div>
-                      <div className="wed-detail-label">{t.date}</div>
-                      <div className="wed-detail-value">{formatDate(prog.date)}</div>
-                    </div>
-                  </div>
-                )}
-                {prog.time && (
-                  <div className="wed-detail-row">
-                    <span className="wed-detail-icon">🕐</span>
-                    <div>
-                      <div className="wed-detail-label">{t.time}</div>
-                      <div className="wed-detail-value">{formatTime(prog.time)}</div>
-                    </div>
-                  </div>
-                )}
-                {prog.venue && (
-                  <div className="wed-detail-row">
-                    <span className="wed-detail-icon">📍</span>
-                    <div>
-                      <div className="wed-detail-label">{t.venue}</div>
-                      <div className="wed-detail-value">{prog.venue}</div>
-                    </div>
-                  </div>
-                )}
-              </div>
+              {validPrograms.some(p => p.date || p.time || p.venue) && (
+                <div className="wed-event-details wed-programs-details">
+                  {validPrograms.map((prog, idx) => (
+                    (prog.date || prog.time || prog.venue) && (
+                      <div key={idx} className="wed-prog-detail-row">
+                        <span className="wed-prog-detail-label">{prog.name}:</span>
+                        {prog.date && <span>{formatDate(prog.date)}</span>}
+                        {prog.time && <span>, {formatTime(prog.time)}</span>}
+                        {prog.venue && <span> — {prog.venue}</span>}
+                      </div>
+                    )
+                  ))}
+                </div>
+              )}
             </div>
-          ))}
+          )}
 
-          {/* GUEST CARD */}
+          {/* Guest Invitation */}
           {guestName && (
-            <div className="wed-guest">
-              <div className="wed-guest-label">{t.wedInvitedGuest}</div>
-              <div className="wed-guest-name">{guestName}</div>
-              <div className="wed-guest-tagline">{t.wedGuestTagline}</div>
+            <div className="wed-guest-section">
+              <div className="wed-guest-invite">
+                Be our guest for<br />
+                a joyous celebration.<br />
+                Dine &amp; dance following<br />
+                our wedding vows.
+              </div>
             </div>
           )}
 
-          {/* CUSTOM MESSAGE */}
+          {/* With Love / Family Members */}
+          {familyMembers && familyMembers.trim() && (
+            <div className="wed-with-love">
+              <div className="wed-wl-label">With love,</div>
+              <div className="wed-wl-names">
+                {familyMembers.split('\n').filter(n => n.trim()).map((name, i) => (
+                  <div key={i} className="wed-wl-name">{name.trim()}</div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Custom Message */}
           {message && (
             <div className="wed-message">
-              <span className="wed-msg-mark">"</span>
-              <span className="wed-msg-text">{message}</span>
-              <span className="wed-msg-mark">"</span>
+              <em>{message}</em>
             </div>
           )}
         </div>
       </div>
-      {/* ═══════════════ END TWO-COLUMN BODY ═══════════════ */}
 
-      {/* ═══ FULL-WIDTH BOTTOM SECTIONS ═══ */}
-
-      {/* INVITATION APPEAL */}
-      <div className="wed-appeal">
-        <div className="wed-appeal-text">
-          With folded hands and hearts full of love,
-          we humbly request the honour of your gracious presence.
-          Your blessings will make our celebration truly divine.
-        </div>
-      </div>
-
-      {/* FAMILY MEMBERS */}
-      {familyMembers && familyMembers.trim() && (
-        <div className="wed-family-members">
-          <div className="wed-fm-header">
-            <span className="wed-fm-title">With Love From Our Family</span>
-          </div>
-          <div className="wed-fm-list">
-            {familyMembers.split('\n').filter(n => n.trim()).map((name, i) => (
-              <div key={i} className="wed-fm-name">
-                <span className="wed-fm-bullet">✦</span> {name.trim()}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* FOOTER */}
-      <div className="wed-footer">
-        <div className="wed-footer-ornament">
-          <span className="wed-fo-line" />
-          <span className="wed-fo-diamond">◆</span>
-          <span className="wed-fo-line" />
-        </div>
-        <div className="wed-footer-text">{t.wedFooter}</div>
-        <div className="wed-footer-quote">❝ Vasudhaiva Kutumbakam — The World is One Family ❞</div>
-      </div>
-
-      {/* BOTTOM ORNAMENTAL BORDER */}
-      <div className="wed-bottom-border">
-        <span className="wed-ornament-line" />
-        <span className="wed-ornament-diamond">◆</span>
-        <span className="wed-ornament-line" />
+      {/* ══ BOTTOM ORNAMENT ══ */}
+      <div className="wed-bottom-ornament">
+        <BottomOrnament />
       </div>
     </div>
   );

@@ -30,13 +30,13 @@ export default function useDownload(elementId, filename) {
     const wrapper = el.closest('.card-preview-locked');
     if (wrapper) wrapper.classList.remove('card-preview-locked');
 
-    /* Temporarily expand the card to a larger width for a high-quality download */
+    /* Temporarily expand the card to a fixed width for a high-quality download */
     const prevMaxW = el.style.maxWidth;
     const prevW    = el.style.width;
     const prevMinW = el.style.minWidth;
     el.style.maxWidth = 'none';
-    el.style.width    = '1200px';
-    el.style.minWidth = '1200px';
+    el.style.width    = '600px';
+    el.style.minWidth = '600px';
 
     // Let the browser reflow before capturing
     await new Promise(r => setTimeout(r, 300));
