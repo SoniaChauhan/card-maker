@@ -86,7 +86,7 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin }) {
           cardLabel="Wedding Invitation"
           userEmail={userEmail}
           isSuperAdmin={isSuperAdmin}
-          dlBtnStyle={{ background: 'linear-gradient(135deg,#7b1c1c,#c9963e)', color: '#fff', boxShadow: '0 6px 20px rgba(123,28,28,.45)' }}
+          dlBtnStyle={{ background: 'linear-gradient(135deg,#6b1520,#b8860b)', color: '#fff', boxShadow: '0 6px 20px rgba(107,21,32,.45)' }}
         />
       </div>
       <Toast text={toast.text} show={toast.show} />

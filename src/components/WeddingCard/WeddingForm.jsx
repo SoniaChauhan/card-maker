@@ -103,7 +103,7 @@ export default function WeddingForm({ data, errors, onChange, onBack, onGenerate
         <div className="form-actions">
           <button className="btn-back-form" onClick={onBack}>← Back</button>
           <button className="btn-generate" onClick={onGenerate}
-            style={{ background: 'linear-gradient(135deg,#7b1c1c,#c9963e)', color: '#fff', boxShadow: '0 8px 24px rgba(123,28,28,.4)' }}>
+            style={{ background: 'linear-gradient(135deg,#6b1520,#b8860b)', color: '#fff', boxShadow: '0 8px 24px rgba(107,21,32,.4)' }}>
             🪷 Generate Invitation
           </button>
         </div>
