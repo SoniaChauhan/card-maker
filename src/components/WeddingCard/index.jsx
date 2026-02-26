@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './WeddingCard.css';
 import WeddingForm from './WeddingForm';
 import WeddingCardPreview from './WeddingCardPreview';
+import TemplateChooser from './TemplateChooser';
 import CardActions from '../shared/CardActions';
 import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
@@ -16,6 +17,8 @@ const INIT = {
   weddingDate: '', weddingTime: '', weddingVenue: '', weddingVenueAddress: '',
   receptionDate: '', receptionTime: '', receptionVenue: '',
   guestName: '', message: '', familyMembers: '', photo: null, photoPreview: '',
+  customPrograms: [],   // [{ name, date, time, venue }]
+  selectedTemplate: 1,  // 1-5 template choice
 };
 const PARTICLES = ['🌸', '🪷', '✨', '🌺', '💐', '🎊', '🌟', '💖', '🪷', '✿'];
 
@@ -26,6 +29,7 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialDa
   const [lang, setLang]     = useState('en');
   const [saving, setSaving] = useState(false);
   const [templateId, setTemplateId] = useState(initTplId || null);
+  const [showChooser, setShowChooser] = useState(false);
 
   const filename = `wedding-${toFilename(data.groomName || 'invitation')}.png`;
   const { downloading, handleDownload, toast } = useDownload('wedding-card-print', filename);
@@ -58,6 +62,14 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialDa
     setStep('card');
   }
 
+  function onProgramChange(programs) {
+    setData(d => ({ ...d, customPrograms: programs }));
+  }
+
+  function onTemplateSelect(id) {
+    setData(d => ({ ...d, selectedTemplate: id }));
+  }
+
   async function handleSaveTemplate() {
     setSaving(true);
     try {
@@ -86,6 +98,7 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialDa
         onChange={onChange}
         onBack={onBack}
         onGenerate={onGenerate}
+        onProgramChange={onProgramChange}
       />
     );
   }
@@ -96,8 +109,14 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialDa
       <div className="card-screen-container">
         <p className="wedding-screen-title">💍 Your Wedding Invitation</p>
         <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
+
+        {/* Template chooser button */}
+        <button className="btn-choose-template" onClick={() => setShowChooser(true)}>
+          🎨 Change Design Template
+        </button>
+
         <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
-          <WeddingCardPreview data={data} lang={lang} />
+          <WeddingCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} />
         </div>
         <CardActions
           onEdit={() => setStep('form')}
@@ -116,6 +135,17 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialDa
         </button>
       </div>
       <Toast text={toast.text} show={toast.show} />
+
+      {/* Template Chooser Modal */}
+      {showChooser && (
+        <TemplateChooser
+          data={data}
+          lang={lang}
+          selected={data.selectedTemplate || 1}
+          onSelect={onTemplateSelect}
+          onClose={() => setShowChooser(false)}
+        />
+      )}
     </div>
   );
 }

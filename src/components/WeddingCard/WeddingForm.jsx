@@ -1,7 +1,34 @@
 import FormField from '../shared/FormField';
 
-export default function WeddingForm({ data, errors, onChange, onBack, onGenerate }) {
+const PRESET_PROGRAMS = [
+  { name: 'Mehendi', icon: '🌿' },
+  { name: 'Haldi', icon: '🟡' },
+  { name: 'Sangeet', icon: '🎵' },
+  { name: 'Ring Ceremony', icon: '💍' },
+  { name: 'Tilak', icon: '🔴' },
+  { name: 'Baraat', icon: '🐎' },
+  { name: 'Sagai / Engagement', icon: '💞' },
+  { name: 'Ladies Sangeet', icon: '💃' },
+];
+
+export default function WeddingForm({ data, errors, onChange, onBack, onGenerate, onProgramChange }) {
   const today = new Date().toISOString().split('T')[0];
+  const programs = data.customPrograms || [];
+
+  function addProgram(preset) {
+    const newProg = { name: preset || '', date: '', time: '', venue: '' };
+    onProgramChange([...programs, newProg]);
+  }
+
+  function removeProgram(idx) {
+    onProgramChange(programs.filter((_, i) => i !== idx));
+  }
+
+  function updateProgram(idx, field, value) {
+    const updated = programs.map((p, i) => i === idx ? { ...p, [field]: value } : p);
+    onProgramChange(updated);
+  }
+
   return (
     <div className="form-screen wedding-form-screen">
       <div className="form-card">
@@ -69,6 +96,71 @@ export default function WeddingForm({ data, errors, onChange, onBack, onGenerate
           <FormField label="Special Message / RSVP Note" name="message"
             value={data.message} onChange={onChange}
             placeholder="e.g. Your presence will bless our union…" rows={3} span />
+        </div>
+
+        {/* ═══ CUSTOM PROGRAMS / EVENTS ═══ */}
+        <div className="form-stack wed-programs-section">
+          <div className="wed-programs-header">
+            <label className="form-label">🎊 Additional Programs / Events</label>
+            <p className="wed-programs-hint">Add ceremonies like Mehendi, Haldi, Ring Ceremony, etc.</p>
+          </div>
+
+          {/* Preset quick-add chips */}
+          <div className="wed-preset-chips">
+            {PRESET_PROGRAMS.map(p => {
+              const alreadyAdded = programs.some(pr => pr.name === p.name);
+              return (
+                <button key={p.name} type="button"
+                  className={`wed-preset-chip ${alreadyAdded ? 'wed-preset-chip--added' : ''}`}
+                  onClick={() => !alreadyAdded && addProgram(p.name)}
+                  disabled={alreadyAdded}>
+                  <span className="wed-chip-icon">{p.icon}</span> {p.name}
+                  {alreadyAdded && <span className="wed-chip-check">✓</span>}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Added program entries */}
+          {programs.map((prog, idx) => (
+            <div key={idx} className="wed-program-entry">
+              <div className="wed-program-entry-header">
+                <span className="wed-program-num">#{idx + 1}</span>
+                <input
+                  type="text"
+                  className="form-input wed-program-name-input"
+                  value={prog.name}
+                  onChange={e => updateProgram(idx, 'name', e.target.value)}
+                  placeholder="Program name"
+                />
+                <button type="button" className="wed-program-remove" onClick={() => removeProgram(idx)}
+                  title="Remove program">✕</button>
+              </div>
+              <div className="wed-program-fields">
+                <div className="wed-program-field">
+                  <label>📅 Date</label>
+                  <input type="date" className="form-input" value={prog.date}
+                    onChange={e => updateProgram(idx, 'date', e.target.value)} min={today} />
+                </div>
+                <div className="wed-program-field">
+                  <label>🕐 Time</label>
+                  <input type="time" className="form-input" value={prog.time}
+                    onChange={e => updateProgram(idx, 'time', e.target.value)} />
+                </div>
+                <div className="wed-program-field wed-program-field--full">
+                  <label>📍 Venue</label>
+                  <input type="text" className="form-input" value={prog.venue}
+                    onChange={e => updateProgram(idx, 'venue', e.target.value)}
+                    placeholder="Venue / location" />
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {/* Add custom program button */}
+          <button type="button" className="wed-add-program-btn" onClick={() => addProgram('')}>
+            <span className="wed-add-icon">＋</span> Add Custom Program
+          </button>
         </div>
 
         {/* — Family Members — */}

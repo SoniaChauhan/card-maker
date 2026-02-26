@@ -746,3 +746,723 @@
   .wed-jm-groom,
   .wed-jm-bride { font-size: 38px; }
 }
+
+/* ============================================================
+   CUSTOM PROGRAM EVENT CARDS
+============================================================ */
+.wed-event-custom {
+  background: linear-gradient(145deg, #fdf8f0, #f8f0e0);
+}
+.wed-event-header-custom {
+  background: linear-gradient(135deg, #5c3d1a, #8a6830);
+}
+
+/* ============================================================
+   TEMPLATE 1 — Classic Royal (DEFAULT — no overrides needed)
+============================================================ */
+/* .wed-theme-1 uses all base styles above */
+
+/* ============================================================
+   TEMPLATE 2 — Elegant Floral (rose-pink + rose-gold)
+============================================================ */
+.wed-theme-2 {
+  background:
+    radial-gradient(ellipse at 30% 15%, rgba(181,84,122,.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 85%, rgba(181,84,122,.04) 0%, transparent 50%),
+    linear-gradient(180deg, #fef8f8 0%, #fdf2f4 25%, #fef8f8 50%, #fce8ed 75%, #fef8f8 100%);
+  background-color: #fef8f8;
+  box-shadow:
+    0 0 0 2px #c77d97,
+    0 0 0 5px rgba(199,125,151,.15),
+    0 0 0 8px rgba(181,84,122,.1),
+    0 40px 100px rgba(0,0,0,.55);
+}
+.wed-theme-2 .wed-corner { border-color: #c77d97; }
+.wed-theme-2 .wed-ornament-line { background: linear-gradient(90deg, transparent, #c77d97 30%, #c77d97 70%, transparent); }
+.wed-theme-2 .wed-ornament-diamond { color: #c77d97; }
+.wed-theme-2 .wed-om { color: #b5547a; text-shadow: 0 2px 8px rgba(181,84,122,.4); }
+.wed-theme-2 .wed-shubh { color: #8a2050; }
+.wed-theme-2 .wed-hd-wing { background: linear-gradient(90deg, transparent, rgba(199,125,151,.5), transparent); }
+.wed-theme-2 .wed-hd-icon { color: #c77d97; }
+.wed-theme-2 .wed-shlok { background: linear-gradient(135deg, #fef8f8, #fce8ed); border-left-color: #c77d97; border-right-color: #c77d97; }
+.wed-theme-2 .wed-shlok-text { color: #8a2050; }
+.wed-theme-2 .wed-shlok-meaning { color: #a06080; border-top-color: rgba(199,125,151,.2); }
+.wed-theme-2 .wed-jm-decor { color: #c77d97; }
+.wed-theme-2 .wed-jm-title { color: #b5547a; }
+.wed-theme-2 .wed-blessing { background: rgba(181,84,122,.04); border-color: rgba(181,84,122,.15); }
+.wed-theme-2 .wed-blessing-text { color: #a06080; }
+.wed-theme-2 .wed-photo-frame { background: linear-gradient(145deg, #c77d97, #e8a8be, #c77d97); box-shadow: 0 0 0 6px rgba(199,125,151,.08), 0 0 30px rgba(181,84,122,.25), 0 10px 40px rgba(0,0,0,.15); }
+.wed-theme-2 .wed-families { background: linear-gradient(135deg, rgba(181,84,122,.05), rgba(199,125,151,.03)); border-top-color: rgba(199,125,151,.2); border-bottom-color: rgba(199,125,151,.2); }
+.wed-theme-2 .wed-family-label { color: #b5547a; }
+.wed-theme-2 .wed-sep-line { background: linear-gradient(90deg, transparent, rgba(199,125,151,.4), transparent); }
+.wed-theme-2 .wed-sep-dot { color: #c77d97; }
+.wed-theme-2 .wed-verse { border-color: rgba(199,125,151,.18); background: linear-gradient(135deg, #fef8f8, #fce8ed); }
+.wed-theme-2 .wed-verse-text { color: #7a2850; }
+.wed-theme-2 .wed-section-label { color: #b5547a; }
+.wed-theme-2 .wed-groom-name,
+.wed-theme-2 .wed-bride-name { color: #8a2050; text-shadow: 0 1px 3px rgba(138,32,80,.15); }
+.wed-theme-2 .wed-amp-line { background: linear-gradient(90deg, transparent, #c77d97, transparent); }
+.wed-theme-2 .wed-amp-symbol { color: #c77d97; }
+.wed-theme-2 .wed-tagline { color: #a06080; }
+.wed-theme-2 .wed-div-line { background: linear-gradient(90deg, transparent, rgba(199,125,151,.35), transparent); }
+.wed-theme-2 .wed-div-ornament { color: #c77d97; }
+.wed-theme-2 .wed-event { border-color: rgba(199,125,151,.25); }
+.wed-theme-2 .wed-event-ceremony,
+.wed-theme-2 .wed-event-reception,
+.wed-theme-2 .wed-event-custom { background: linear-gradient(145deg, #fef8f8, #fce8ed); }
+.wed-theme-2 .wed-event-header { background: linear-gradient(135deg, #8a2050, #b5547a); }
+.wed-theme-2 .wed-event-header-alt { background: linear-gradient(135deg, #6a3050, #8a5070); }
+.wed-theme-2 .wed-event-header-custom { background: linear-gradient(135deg, #7a3060, #a06080); }
+.wed-theme-2 .wed-detail-label { color: #b5547a; }
+.wed-theme-2 .wed-celebration-verse { border-color: rgba(181,84,122,.25); background: linear-gradient(135deg, #fef5f9, #fce8ed); }
+.wed-theme-2 .wed-cv-text { color: #7a2850; }
+.wed-theme-2 .wed-guest { background: linear-gradient(145deg, rgba(181,84,122,.05), rgba(199,125,151,.03)); border-color: rgba(199,125,151,.4); }
+.wed-theme-2 .wed-guest-label { color: #b5547a; }
+.wed-theme-2 .wed-guest-name { color: #8a2050; }
+.wed-theme-2 .wed-message { background: rgba(181,84,122,.04); border-left-color: #c77d97; }
+.wed-theme-2 .wed-msg-mark { color: #c77d97; }
+.wed-theme-2 .wed-appeal { background: linear-gradient(135deg, #8a2050, #a0305a, #8a2050); box-shadow: 0 6px 24px rgba(138,32,80,.3); }
+.wed-theme-2 .wed-appeal-text { color: #fce8ed; }
+.wed-theme-2 .wed-family-members { border-color: rgba(199,125,151,.25); background: linear-gradient(145deg, #fef8f8, #fce8ed); }
+.wed-theme-2 .wed-fm-header { background: linear-gradient(135deg, rgba(181,84,122,.08), rgba(199,125,151,.04)); border-bottom-color: rgba(199,125,151,.18); }
+.wed-theme-2 .wed-fm-title { color: #8a2050; }
+.wed-theme-2 .wed-fm-bullet { color: #c77d97; }
+.wed-theme-2 .wed-fo-line { background: linear-gradient(90deg, transparent, rgba(199,125,151,.3), transparent); }
+.wed-theme-2 .wed-fo-diamond { color: #c77d97; }
+.wed-theme-2 .wed-footer-text { color: #a06080; }
+.wed-theme-2 .wed-footer-quote { color: #c77d97; }
+
+/* ============================================================
+   TEMPLATE 3 — Modern Minimal (black + off-white)
+============================================================ */
+.wed-theme-3 {
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f8f8f8 50%, #ffffff 100%);
+  background-color: #ffffff;
+  box-shadow:
+    0 0 0 2px #2c2c2c,
+    0 0 0 5px rgba(44,44,44,.1),
+    0 40px 100px rgba(0,0,0,.55);
+  font-family: 'Segoe UI', -apple-system, Helvetica, Arial, sans-serif;
+}
+.wed-theme-3 .wed-corner { border-color: #2c2c2c; }
+.wed-theme-3 .wed-ornament-line { background: linear-gradient(90deg, transparent, #2c2c2c 30%, #2c2c2c 70%, transparent); }
+.wed-theme-3 .wed-ornament-diamond { color: #2c2c2c; }
+.wed-theme-3 .wed-om { color: #2c2c2c; text-shadow: none; font-size: 42px; }
+.wed-theme-3 .wed-shubh { color: #2c2c2c; letter-spacing: 8px; font-size: 18px; font-weight: 400; text-transform: uppercase; }
+.wed-theme-3 .wed-hd-wing { background: linear-gradient(90deg, transparent, rgba(44,44,44,.3), transparent); }
+.wed-theme-3 .wed-hd-icon { color: #666; }
+.wed-theme-3 .wed-shlok { background: #f5f5f5; border-left-color: #2c2c2c; border-right-color: #2c2c2c; border-radius: 0; }
+.wed-theme-3 .wed-shlok-text { color: #333; }
+.wed-theme-3 .wed-shlok-meaning { color: #777; border-top-color: rgba(0,0,0,.1); }
+.wed-theme-3 .wed-jm-decor { color: #999; }
+.wed-theme-3 .wed-jm-title { color: #555; }
+.wed-theme-3 .wed-blessing { background: #f9f9f9; border-color: rgba(0,0,0,.08); }
+.wed-theme-3 .wed-blessing-text { color: #555; }
+.wed-theme-3 .wed-photo-frame { background: linear-gradient(145deg, #2c2c2c, #555, #2c2c2c); box-shadow: 0 0 0 6px rgba(0,0,0,.05), 0 0 30px rgba(0,0,0,.15), 0 10px 40px rgba(0,0,0,.1); }
+.wed-theme-3 .wed-families { background: #f5f5f5; border-top-color: rgba(0,0,0,.1); border-bottom-color: rgba(0,0,0,.1); }
+.wed-theme-3 .wed-family-name { color: #2c2c2c; }
+.wed-theme-3 .wed-family-label { color: #888; }
+.wed-theme-3 .wed-sep-line { background: linear-gradient(90deg, transparent, rgba(0,0,0,.2), transparent); }
+.wed-theme-3 .wed-sep-dot { color: #999; }
+.wed-theme-3 .wed-verse { border-color: rgba(0,0,0,.08); background: #f9f9f9; }
+.wed-theme-3 .wed-verse-text { color: #444; }
+.wed-theme-3 .wed-section-label { color: #888; }
+.wed-theme-3 .wed-groom-name,
+.wed-theme-3 .wed-bride-name { color: #1a1a1a; text-shadow: none; }
+.wed-theme-3 .wed-amp-line { background: linear-gradient(90deg, transparent, #2c2c2c, transparent); }
+.wed-theme-3 .wed-amp-symbol { color: #999; }
+.wed-theme-3 .wed-tagline { color: #888; }
+.wed-theme-3 .wed-div-line { background: linear-gradient(90deg, transparent, rgba(0,0,0,.15), transparent); }
+.wed-theme-3 .wed-div-ornament { color: #999; }
+.wed-theme-3 .wed-event { border-color: rgba(0,0,0,.1); }
+.wed-theme-3 .wed-event-ceremony,
+.wed-theme-3 .wed-event-reception,
+.wed-theme-3 .wed-event-custom { background: #f9f9f9; }
+.wed-theme-3 .wed-event-header { background: #2c2c2c; }
+.wed-theme-3 .wed-event-header-alt { background: #444; }
+.wed-theme-3 .wed-event-header-custom { background: #555; }
+.wed-theme-3 .wed-event-title { color: #fff; }
+.wed-theme-3 .wed-detail-label { color: #888; }
+.wed-theme-3 .wed-detail-value { color: #1a1a1a; }
+.wed-theme-3 .wed-celebration-verse { border-color: rgba(0,0,0,.08); background: #f9f9f9; }
+.wed-theme-3 .wed-cv-text { color: #444; }
+.wed-theme-3 .wed-cv-sub { color: #777; }
+.wed-theme-3 .wed-guest { background: #f5f5f5; border-color: rgba(0,0,0,.15); }
+.wed-theme-3 .wed-guest-label { color: #888; }
+.wed-theme-3 .wed-guest-name { color: #1a1a1a; }
+.wed-theme-3 .wed-message { background: #f5f5f5; border-left-color: #2c2c2c; }
+.wed-theme-3 .wed-msg-mark { color: #999; }
+.wed-theme-3 .wed-msg-text { color: #333; }
+.wed-theme-3 .wed-appeal { background: #2c2c2c; box-shadow: 0 6px 24px rgba(0,0,0,.2); }
+.wed-theme-3 .wed-appeal-text { color: #e8e8e8; }
+.wed-theme-3 .wed-family-members { border-color: rgba(0,0,0,.1); background: #f9f9f9; }
+.wed-theme-3 .wed-fm-header { background: rgba(0,0,0,.03); border-bottom-color: rgba(0,0,0,.08); }
+.wed-theme-3 .wed-fm-title { color: #2c2c2c; }
+.wed-theme-3 .wed-fm-name { color: #333; }
+.wed-theme-3 .wed-fm-bullet { color: #999; }
+.wed-theme-3 .wed-fo-line { background: linear-gradient(90deg, transparent, rgba(0,0,0,.15), transparent); }
+.wed-theme-3 .wed-fo-diamond { color: #999; }
+.wed-theme-3 .wed-footer-text { color: #888; }
+.wed-theme-3 .wed-footer-quote { color: #aaa; }
+
+/* ============================================================
+   TEMPLATE 4 — Royal Navy (deep navy + gold)
+============================================================ */
+.wed-theme-4 {
+  background:
+    radial-gradient(ellipse at 30% 15%, rgba(212,180,100,.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 85%, rgba(212,180,100,.06) 0%, transparent 50%),
+    linear-gradient(180deg, #0d1a2e 0%, #142240 25%, #0d1a2e 50%, #0f1d35 75%, #0d1a2e 100%);
+  background-color: #0d1a2e;
+  box-shadow:
+    0 0 0 2px #c9a84c,
+    0 0 0 5px rgba(201,168,76,.2),
+    0 0 0 8px rgba(13,26,46,.3),
+    0 40px 100px rgba(0,0,0,.7);
+}
+.wed-theme-4 .wed-corner { border-color: #c9a84c; }
+.wed-theme-4 .wed-ornament-line { background: linear-gradient(90deg, transparent, #c9a84c 30%, #c9a84c 70%, transparent); }
+.wed-theme-4 .wed-ornament-diamond { color: #c9a84c; }
+.wed-theme-4 .wed-om { color: #c9a84c; text-shadow: 0 2px 8px rgba(201,168,76,.5); }
+.wed-theme-4 .wed-shubh { color: #e8d5a0; }
+.wed-theme-4 .wed-hd-wing { background: linear-gradient(90deg, transparent, rgba(201,168,76,.4), transparent); }
+.wed-theme-4 .wed-hd-icon { color: #c9a84c; }
+.wed-theme-4 .wed-shlok { background: rgba(201,168,76,.06); border-left-color: #c9a84c; border-right-color: #c9a84c; }
+.wed-theme-4 .wed-shlok-text { color: #e8d5a0; }
+.wed-theme-4 .wed-shlok-meaning { color: #a89a70; border-top-color: rgba(201,168,76,.2); }
+.wed-theme-4 .wed-jm-decor { color: #c9a84c; }
+.wed-theme-4 .wed-jm-title { color: #c9a84c; }
+.wed-theme-4 .wed-blessing { background: rgba(201,168,76,.05); border-color: rgba(201,168,76,.15); }
+.wed-theme-4 .wed-blessing-text { color: #b0a070; }
+.wed-theme-4 .wed-photo-frame { background: linear-gradient(145deg, #c9a84c, #e8d5a0, #c9a84c); box-shadow: 0 0 0 6px rgba(201,168,76,.1), 0 0 30px rgba(201,168,76,.3), 0 10px 40px rgba(0,0,0,.3); }
+.wed-theme-4 .wed-photo { border-color: #0d1a2e; }
+.wed-theme-4 .wed-families { background: rgba(201,168,76,.06); border-top-color: rgba(201,168,76,.2); border-bottom-color: rgba(201,168,76,.2); }
+.wed-theme-4 .wed-family-name { color: #e8d5a0; }
+.wed-theme-4 .wed-family-label { color: #c9a84c; }
+.wed-theme-4 .wed-sep-line { background: linear-gradient(90deg, transparent, rgba(201,168,76,.3), transparent); }
+.wed-theme-4 .wed-sep-dot { color: #c9a84c; }
+.wed-theme-4 .wed-verse { border-color: rgba(201,168,76,.18); background: rgba(201,168,76,.05); }
+.wed-theme-4 .wed-verse-text { color: #c0b080; }
+.wed-theme-4 .wed-section-label { color: #c9a84c; }
+.wed-theme-4 .wed-groom-name,
+.wed-theme-4 .wed-bride-name { color: #e8d5a0; text-shadow: 0 1px 4px rgba(201,168,76,.3); }
+.wed-theme-4 .wed-amp-line { background: linear-gradient(90deg, transparent, #c9a84c, transparent); }
+.wed-theme-4 .wed-amp-symbol { color: #c9a84c; }
+.wed-theme-4 .wed-tagline { color: #a89a70; }
+.wed-theme-4 .wed-div-line { background: linear-gradient(90deg, transparent, rgba(201,168,76,.3), transparent); }
+.wed-theme-4 .wed-div-ornament { color: #c9a84c; }
+.wed-theme-4 .wed-event { border-color: rgba(201,168,76,.25); }
+.wed-theme-4 .wed-event-ceremony,
+.wed-theme-4 .wed-event-reception,
+.wed-theme-4 .wed-event-custom { background: rgba(201,168,76,.06); }
+.wed-theme-4 .wed-event-header { background: linear-gradient(135deg, #c9a84c, #a88c3c); }
+.wed-theme-4 .wed-event-header-alt { background: linear-gradient(135deg, #8a7a3c, #6a5a2c); }
+.wed-theme-4 .wed-event-header-custom { background: linear-gradient(135deg, #a08a40, #7a6a30); }
+.wed-theme-4 .wed-event-title { color: #0d1a2e; }
+.wed-theme-4 .wed-detail-label { color: #c9a84c; }
+.wed-theme-4 .wed-detail-value { color: #e8d5a0; }
+.wed-theme-4 .wed-detail-address { color: #8a8060; }
+.wed-theme-4 .wed-celebration-verse { border-color: rgba(201,168,76,.15); background: rgba(201,168,76,.04); }
+.wed-theme-4 .wed-cv-text { color: #c9a84c; }
+.wed-theme-4 .wed-cv-sub { color: #a89a70; }
+.wed-theme-4 .wed-guest { background: rgba(201,168,76,.06); border-color: rgba(201,168,76,.3); }
+.wed-theme-4 .wed-guest-label { color: #c9a84c; }
+.wed-theme-4 .wed-guest-name { color: #e8d5a0; }
+.wed-theme-4 .wed-guest-tagline { color: #8a8060; }
+.wed-theme-4 .wed-message { background: rgba(201,168,76,.04); border-left-color: #c9a84c; color: #c0b080; }
+.wed-theme-4 .wed-msg-mark { color: #c9a84c; }
+.wed-theme-4 .wed-msg-text { color: #c0b080; }
+.wed-theme-4 .wed-appeal { background: linear-gradient(135deg, #c9a84c, #b89840, #c9a84c); box-shadow: 0 6px 24px rgba(201,168,76,.3); }
+.wed-theme-4 .wed-appeal-text { color: #0d1a2e; }
+.wed-theme-4 .wed-family-members { border-color: rgba(201,168,76,.25); background: rgba(201,168,76,.06); }
+.wed-theme-4 .wed-fm-header { background: rgba(201,168,76,.08); border-bottom-color: rgba(201,168,76,.18); }
+.wed-theme-4 .wed-fm-title { color: #c9a84c; }
+.wed-theme-4 .wed-fm-name { color: #d0c090; }
+.wed-theme-4 .wed-fm-bullet { color: #c9a84c; }
+.wed-theme-4 .wed-fo-line { background: linear-gradient(90deg, transparent, rgba(201,168,76,.3), transparent); }
+.wed-theme-4 .wed-fo-diamond { color: #c9a84c; }
+.wed-theme-4 .wed-footer-text { color: #a89a70; }
+.wed-theme-4 .wed-footer-quote { color: #c9a84c; }
+
+/* ============================================================
+   TEMPLATE 5 — Garden Fresh (emerald green + ivory)
+============================================================ */
+.wed-theme-5 {
+  background:
+    radial-gradient(ellipse at 30% 15%, rgba(26,92,58,.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 85%, rgba(26,92,58,.04) 0%, transparent 50%),
+    linear-gradient(180deg, #f5faf5 0%, #eef6ee 25%, #f5faf5 50%, #e8f2e8 75%, #f5faf5 100%);
+  background-color: #f5faf5;
+  box-shadow:
+    0 0 0 2px #2d7a4a,
+    0 0 0 5px rgba(45,122,74,.15),
+    0 0 0 8px rgba(26,92,58,.1),
+    0 40px 100px rgba(0,0,0,.55);
+}
+.wed-theme-5 .wed-corner { border-color: #2d7a4a; }
+.wed-theme-5 .wed-ornament-line { background: linear-gradient(90deg, transparent, #2d7a4a 30%, #2d7a4a 70%, transparent); }
+.wed-theme-5 .wed-ornament-diamond { color: #2d7a4a; }
+.wed-theme-5 .wed-om { color: #1a5c3a; text-shadow: 0 2px 8px rgba(26,92,58,.4); }
+.wed-theme-5 .wed-shubh { color: #1a4a2e; }
+.wed-theme-5 .wed-hd-wing { background: linear-gradient(90deg, transparent, rgba(45,122,74,.4), transparent); }
+.wed-theme-5 .wed-hd-icon { color: #2d7a4a; }
+.wed-theme-5 .wed-shlok { background: linear-gradient(135deg, #f5faf5, #e8f2e8); border-left-color: #2d7a4a; border-right-color: #2d7a4a; }
+.wed-theme-5 .wed-shlok-text { color: #1a4a2e; }
+.wed-theme-5 .wed-shlok-meaning { color: #5a8a6a; border-top-color: rgba(45,122,74,.2); }
+.wed-theme-5 .wed-jm-decor { color: #2d7a4a; }
+.wed-theme-5 .wed-jm-title { color: #2d7a4a; }
+.wed-theme-5 .wed-blessing { background: rgba(45,122,74,.04); border-color: rgba(45,122,74,.15); }
+.wed-theme-5 .wed-blessing-text { color: #5a8a6a; }
+.wed-theme-5 .wed-photo-frame { background: linear-gradient(145deg, #2d7a4a, #4aa86a, #2d7a4a); box-shadow: 0 0 0 6px rgba(45,122,74,.08), 0 0 30px rgba(26,92,58,.25), 0 10px 40px rgba(0,0,0,.15); }
+.wed-theme-5 .wed-families { background: linear-gradient(135deg, rgba(45,122,74,.05), rgba(26,92,58,.03)); border-top-color: rgba(45,122,74,.2); border-bottom-color: rgba(45,122,74,.2); }
+.wed-theme-5 .wed-family-name { color: #1a4a2e; }
+.wed-theme-5 .wed-family-label { color: #2d7a4a; }
+.wed-theme-5 .wed-sep-line { background: linear-gradient(90deg, transparent, rgba(45,122,74,.3), transparent); }
+.wed-theme-5 .wed-sep-dot { color: #2d7a4a; }
+.wed-theme-5 .wed-verse { border-color: rgba(45,122,74,.18); background: linear-gradient(135deg, #f5faf5, #e8f2e8); }
+.wed-theme-5 .wed-verse-text { color: #2a5a3a; }
+.wed-theme-5 .wed-section-label { color: #2d7a4a; }
+.wed-theme-5 .wed-groom-name,
+.wed-theme-5 .wed-bride-name { color: #1a4a2e; text-shadow: 0 1px 3px rgba(26,92,58,.15); }
+.wed-theme-5 .wed-amp-line { background: linear-gradient(90deg, transparent, #2d7a4a, transparent); }
+.wed-theme-5 .wed-amp-symbol { color: #2d7a4a; }
+.wed-theme-5 .wed-tagline { color: #5a8a6a; }
+.wed-theme-5 .wed-div-line { background: linear-gradient(90deg, transparent, rgba(45,122,74,.3), transparent); }
+.wed-theme-5 .wed-div-ornament { color: #2d7a4a; }
+.wed-theme-5 .wed-event { border-color: rgba(45,122,74,.25); }
+.wed-theme-5 .wed-event-ceremony,
+.wed-theme-5 .wed-event-reception,
+.wed-theme-5 .wed-event-custom { background: linear-gradient(145deg, #f5faf5, #e8f2e8); }
+.wed-theme-5 .wed-event-header { background: linear-gradient(135deg, #1a5c3a, #2d7a4a); }
+.wed-theme-5 .wed-event-header-alt { background: linear-gradient(135deg, #2a5a3a, #3a6a4a); }
+.wed-theme-5 .wed-event-header-custom { background: linear-gradient(135deg, #2d6a3e, #3a7a4e); }
+.wed-theme-5 .wed-detail-label { color: #2d7a4a; }
+.wed-theme-5 .wed-celebration-verse { border-color: rgba(45,122,74,.2); background: linear-gradient(135deg, #f0faf0, #e5f5e5); }
+.wed-theme-5 .wed-cv-text { color: #2a5a3a; }
+.wed-theme-5 .wed-cv-sub { color: #5a8a6a; }
+.wed-theme-5 .wed-guest { background: linear-gradient(145deg, rgba(45,122,74,.05), rgba(26,92,58,.03)); border-color: rgba(45,122,74,.35); }
+.wed-theme-5 .wed-guest-label { color: #2d7a4a; }
+.wed-theme-5 .wed-guest-name { color: #1a4a2e; }
+.wed-theme-5 .wed-message { background: rgba(45,122,74,.04); border-left-color: #2d7a4a; }
+.wed-theme-5 .wed-msg-mark { color: #2d7a4a; }
+.wed-theme-5 .wed-appeal { background: linear-gradient(135deg, #1a5c3a, #2d7a4a, #1a5c3a); box-shadow: 0 6px 24px rgba(26,92,58,.3); }
+.wed-theme-5 .wed-appeal-text { color: #e8f2e8; }
+.wed-theme-5 .wed-family-members { border-color: rgba(45,122,74,.25); background: linear-gradient(145deg, #f5faf5, #e8f2e8); }
+.wed-theme-5 .wed-fm-header { background: linear-gradient(135deg, rgba(45,122,74,.08), rgba(26,92,58,.04)); border-bottom-color: rgba(45,122,74,.18); }
+.wed-theme-5 .wed-fm-title { color: #1a5c3a; }
+.wed-theme-5 .wed-fm-bullet { color: #2d7a4a; }
+.wed-theme-5 .wed-fo-line { background: linear-gradient(90deg, transparent, rgba(45,122,74,.3), transparent); }
+.wed-theme-5 .wed-fo-diamond { color: #2d7a4a; }
+.wed-theme-5 .wed-footer-text { color: #5a8a6a; }
+.wed-theme-5 .wed-footer-quote { color: #2d7a4a; }
+
+/* ============================================================
+   CHANGE DESIGN TEMPLATE BUTTON
+============================================================ */
+.btn-choose-template {
+  background: linear-gradient(135deg, rgba(184,134,11,.15), rgba(107,21,32,.1));
+  color: #d4a853;
+  border: 1.5px solid rgba(212,168,83,.4);
+  padding: 10px 24px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all .3s ease;
+  margin-bottom: 16px;
+}
+.btn-choose-template:hover {
+  background: linear-gradient(135deg, rgba(184,134,11,.25), rgba(107,21,32,.15));
+  box-shadow: 0 4px 16px rgba(184,134,11,.25);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   TEMPLATE CHOOSER MODAL
+============================================================ */
+.tpl-chooser-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,.7);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+.tpl-chooser-modal {
+  background: #1a0508;
+  border: 1px solid rgba(184,134,11,.3);
+  border-radius: 20px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 28px;
+  position: relative;
+}
+.tpl-chooser-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.tpl-chooser-header h3 {
+  color: #d4a853;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.tpl-chooser-header p {
+  color: rgba(212,168,83,.6);
+  font-size: 14px;
+  margin: 0;
+}
+.tpl-chooser-close {
+  position: absolute;
+  top: 16px; right: 20px;
+  background: none;
+  border: 1px solid rgba(255,255,255,.15);
+  color: #fff;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.tpl-chooser-close:hover { background: rgba(255,255,255,.1); }
+
+.tpl-chooser-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 18px;
+}
+
+.tpl-chooser-card {
+  background: rgba(255,255,255,.04);
+  border: 2px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all .3s ease;
+  text-align: center;
+}
+.tpl-chooser-card:hover {
+  border-color: rgba(212,168,83,.4);
+  background: rgba(255,255,255,.07);
+  transform: translateY(-3px);
+}
+.tpl-chooser-card--selected {
+  border-color: #d4a853 !important;
+  background: rgba(212,168,83,.1) !important;
+  box-shadow: 0 0 20px rgba(212,168,83,.2);
+}
+
+.tpl-thumb {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  border: 2px solid rgba(255,255,255,.1);
+}
+.tpl-thumb-inner {
+  transform: scale(0.28);
+  transform-origin: top left;
+  width: 360%;
+  height: 360%;
+  pointer-events: none;
+}
+
+.tpl-card-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.tpl-card-icon { font-size: 16px; }
+.tpl-card-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #e8d5a0;
+}
+.tpl-card-check {
+  background: #2d7a4a;
+  color: #fff;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tpl-card-desc {
+  font-size: 11px;
+  color: rgba(255,255,255,.4);
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+.tpl-preview-btn {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.15);
+  color: #d4a853;
+  padding: 5px 14px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+.tpl-preview-btn:hover {
+  background: rgba(212,168,83,.15);
+  border-color: rgba(212,168,83,.3);
+}
+
+.tpl-chooser-footer {
+  text-align: center;
+  margin-top: 24px;
+}
+.tpl-btn-confirm {
+  background: linear-gradient(135deg, #b8860b, #d4a853);
+  color: #1a0508;
+  border: none;
+  padding: 12px 36px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all .3s;
+}
+.tpl-btn-confirm:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(184,134,11,.4);
+}
+
+/* Full-size preview overlay */
+.tpl-fullpreview-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,.85);
+  z-index: 9500;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 30px 20px;
+  overflow-y: auto;
+}
+.tpl-fullpreview-wrap {
+  max-width: 520px;
+  width: 100%;
+  position: relative;
+}
+.tpl-fullpreview-close {
+  position: absolute;
+  top: -14px; right: -14px;
+  background: #d4a853;
+  color: #1a0508;
+  border: none;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0,0,0,.4);
+}
+.tpl-fullpreview-card {
+  pointer-events: none;
+}
+.tpl-fullpreview-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.tpl-btn-select {
+  background: linear-gradient(135deg, #2d7a4a, #1a5c3a);
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .3s;
+}
+.tpl-btn-select:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(45,122,74,.4); }
+.tpl-btn-back {
+  background: rgba(255,255,255,.08);
+  color: #d4a853;
+  border: 1px solid rgba(212,168,83,.3);
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+}
+.tpl-btn-back:hover { background: rgba(255,255,255,.12); }
+
+/* ============================================================
+   CUSTOM PROGRAMS FORM (inside WeddingForm)
+============================================================ */
+.wed-programs-section {
+  margin-top: 24px;
+}
+.wed-programs-header {
+  margin-bottom: 14px;
+}
+.wed-programs-header .form-label {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.wed-programs-hint {
+  font-size: 12px;
+  color: #888;
+  margin: 0;
+}
+
+/* Preset chips */
+.wed-preset-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.wed-preset-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(107,21,32,.25);
+  background: linear-gradient(135deg, rgba(107,21,32,.06), rgba(184,134,11,.04));
+  color: #6b1520;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .25s ease;
+}
+.wed-preset-chip:hover:not(:disabled) {
+  border-color: #6b1520;
+  background: linear-gradient(135deg, rgba(107,21,32,.12), rgba(184,134,11,.08));
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(107,21,32,.15);
+}
+.wed-preset-chip--added {
+  border-color: #2d7a4a;
+  background: rgba(45,122,74,.08);
+  color: #2d7a4a;
+  cursor: default;
+  opacity: .7;
+}
+.wed-chip-icon { font-size: 14px; }
+.wed-chip-check { font-size: 11px; font-weight: 800; }
+
+/* Program entry card */
+.wed-program-entry {
+  background: rgba(107,21,32,.03);
+  border: 1px solid rgba(184,134,11,.2);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.wed-program-entry-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.wed-program-num {
+  font-size: 12px;
+  font-weight: 800;
+  color: #b8860b;
+  background: rgba(184,134,11,.1);
+  padding: 3px 8px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+.wed-program-name-input {
+  flex: 1;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+}
+.wed-program-remove {
+  background: rgba(200,50,50,.08);
+  border: 1px solid rgba(200,50,50,.2);
+  color: #c83232;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.wed-program-remove:hover {
+  background: rgba(200,50,50,.15);
+  border-color: #c83232;
+}
+
+/* Program fields grid */
+.wed-program-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.wed-program-field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 4px;
+}
+.wed-program-field .form-input {
+  font-size: 13px !important;
+  padding: 8px 10px !important;
+}
+.wed-program-field--full {
+  grid-column: 1 / -1;
+}
+
+/* Add program button */
+.wed-add-program-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 2px dashed rgba(107,21,32,.3);
+  background: transparent;
+  color: #6b1520;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .25s ease;
+  margin-top: 4px;
+}
+.wed-add-program-btn:hover {
+  border-color: #6b1520;
+  background: rgba(107,21,32,.05);
+  transform: translateY(-1px);
+}
+.wed-add-icon {
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+/* Responsive template chooser */
+@media (max-width: 600px) {
+  .tpl-chooser-modal { padding: 16px; }
+  .tpl-chooser-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .tpl-chooser-card { padding: 8px; }
+  .tpl-card-name { font-size: 11px; }
+  .tpl-card-desc { font-size: 10px; }
+  .wed-program-fields { grid-template-columns: 1fr; }
+}

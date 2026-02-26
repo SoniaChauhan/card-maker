@@ -1,17 +1,20 @@
 import { formatDate, formatTime } from '../../utils/helpers';
 import { T } from '../../utils/translations';
 
-export default function WeddingCardPreview({ data, lang = 'en' }) {
+export default function WeddingCardPreview({ data, lang = 'en', template = 1 }) {
   const t = T[lang];
   const {
     groomName, brideName, groomFamily, brideFamily,
     weddingDate, weddingTime, weddingVenue, weddingVenueAddress,
     receptionDate, receptionTime, receptionVenue,
     guestName, message, photoPreview, familyMembers,
+    customPrograms = [],
   } = data;
 
+  const themeClass = `wed-theme-${template}`;
+
   return (
-    <div id="wedding-card-print" className="wedding-card">
+    <div id="wedding-card-print" className={`wedding-card ${themeClass}`}>
 
       {/* ═══ CORNER ORNAMENTS ═══ */}
       <div className="wed-corner wed-corner-tl" />
@@ -197,6 +200,44 @@ export default function WeddingCardPreview({ data, lang = 'en' }) {
           </div>
         </div>
       )}
+
+      {/* ═══ CUSTOM PROGRAMS / EVENTS ═══ */}
+      {customPrograms.filter(p => p.name && p.name.trim()).map((prog, idx) => (
+        <div key={idx} className="wed-event wed-event-custom">
+          <div className="wed-event-header wed-event-header-custom">
+            <span className="wed-event-title">{prog.name}</span>
+          </div>
+          <div className="wed-event-body">
+            {prog.date && (
+              <div className="wed-detail-row">
+                <span className="wed-detail-icon">📅</span>
+                <div>
+                  <div className="wed-detail-label">{t.date}</div>
+                  <div className="wed-detail-value">{formatDate(prog.date)}</div>
+                </div>
+              </div>
+            )}
+            {prog.time && (
+              <div className="wed-detail-row">
+                <span className="wed-detail-icon">🕐</span>
+                <div>
+                  <div className="wed-detail-label">{t.time}</div>
+                  <div className="wed-detail-value">{formatTime(prog.time)}</div>
+                </div>
+              </div>
+            )}
+            {prog.venue && (
+              <div className="wed-detail-row">
+                <span className="wed-detail-icon">📍</span>
+                <div>
+                  <div className="wed-detail-label">{t.venue}</div>
+                  <div className="wed-detail-value">{prog.venue}</div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
 
       {/* ═══ CELEBRATION VERSE ═══ */}
       <div className="wed-celebration-verse">
