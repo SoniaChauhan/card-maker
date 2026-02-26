@@ -100,7 +100,13 @@ export default function LoginScreen() {
       setInfo(`OTP sent to ${trimmedEmail} — check your inbox.`);
       setMode('signup-otp');
     } catch (err) {
-      setError(err?.text || err?.message || 'Failed to send OTP.');
+      console.error('OTP send error:', err);
+      const msg = err?.text || err?.message || '';
+      if (msg.toLowerCase().includes('fetch')) {
+        setError('Email service is temporarily unavailable. Please try again in a moment.');
+      } else {
+        setError(msg || 'Failed to send OTP.');
+      }
     } finally { setLoading(false); }
   }
 
@@ -155,7 +161,13 @@ export default function LoginScreen() {
       setInfo(`OTP sent to ${trimmedEmail}`);
       setMode('forgot-otp');
     } catch (err) {
-      setError(err?.text || err?.message || 'Failed to send OTP.');
+      console.error('OTP send error:', err);
+      const msg = err?.text || err?.message || '';
+      if (msg.toLowerCase().includes('fetch')) {
+        setError('Email service is temporarily unavailable. Please try again in a moment.');
+      } else {
+        setError(msg || 'Failed to send OTP.');
+      }
     } finally { setLoading(false); }
   }
 
@@ -209,7 +221,13 @@ export default function LoginScreen() {
       setInfo(`OTP sent to ${trimmedEmail}`);
       setMode('otp-login-verify');
     } catch (err) {
-      setError(err?.text || err?.message || 'Failed to send OTP.');
+      console.error('OTP send error:', err);
+      const msg = err?.text || err?.message || '';
+      if (msg.toLowerCase().includes('fetch')) {
+        setError('Email service is temporarily unavailable. Please try again in a moment or use password login.');
+      } else {
+        setError(msg || 'Failed to send OTP.');
+      }
     } finally { setLoading(false); }
   }
 
