@@ -9,15 +9,18 @@ import LanguagePicker from '../shared/LanguagePicker';
 import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
+import { saveTemplate, updateTemplate } from '../../services/templateService';
 
 const INIT = { guestName: '', partner1: '', partner2: '', years: '', date: '', time: '', venue: '', venueAddress: '', message: '', photo: null, photoPreview: '' };
 const PARTICLES = ['🌹', '💕', '❤️', '💍', '✨', '🌸', '💖', '🌺'];
 
-export default function AnniversaryCard({ onBack, userEmail, isSuperAdmin }) {
+export default function AnniversaryCard({ onBack, userEmail, isSuperAdmin, initialData, templateId: initTplId }) {
   const [step, setStep]     = useState('form');
-  const [data, setData]     = useState(INIT);
+  const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
   const [errors, setErrors] = useState({});
   const [lang, setLang]     = useState('en');
+  const [saving, setSaving] = useState(false);
+  const [templateId, setTemplateId] = useState(initTplId || null);
 
   const filename = `anniversary-${toFilename(data.partner1 || 'card')}.png`;
   const { downloading, handleDownload, toast } = useDownload('anniv-card-print', filename);
@@ -50,6 +53,21 @@ export default function AnniversaryCard({ onBack, userEmail, isSuperAdmin }) {
     setStep('card');
   }
 
+  async function handleSaveTemplate() {
+    setSaving(true);
+    try {
+      const name = data.partner1 && data.partner2 ? `${data.partner1} & ${data.partner2} Anniversary` : 'Anniversary Template';
+      if (templateId) {
+        await updateTemplate(templateId, name, data);
+      } else {
+        const id = await saveTemplate(userEmail, 'anniversary', name, data);
+        setTemplateId(id);
+      }
+      alert(templateId ? 'Template updated!' : 'Template saved!');
+    } catch (e) { console.error(e); alert('Failed to save template.'); }
+    finally { setSaving(false); }
+  }
+
   if (step === 'form') {
     return <AnniversaryForm data={data} errors={errors} onChange={onChange} onBack={onBack} onGenerate={onGenerate} />;
   }
@@ -75,6 +93,9 @@ export default function AnniversaryCard({ onBack, userEmail, isSuperAdmin }) {
           isSuperAdmin={isSuperAdmin}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#dc3c64,#a18cd1)', color: '#fff', boxShadow: '0 6px 20px rgba(220,60,100,.4)' }}
         />
+        <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
+          {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
+        </button>
       </div>
       <Toast text={toast.text} show={toast.show} />
     </div>

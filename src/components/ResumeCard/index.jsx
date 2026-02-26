@@ -7,6 +7,7 @@ import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import usePdfDownload from '../../hooks/usePdfDownload';
 import { toFilename } from '../../utils/helpers';
+import { saveTemplate, updateTemplate } from '../../services/templateService';
 
 const INIT = {
   fullName: '', jobTitle: '', email: '', phone: '', location: '', linkedin: '',
@@ -18,10 +19,12 @@ const INIT = {
 };
 const PARTICLES = ['📄', '✨', '💼', '🎓', '⭐', '🌟', '🖊️', '💡'];
 
-export default function ResumeCard({ onBack, userEmail, isSuperAdmin }) {
+export default function ResumeCard({ onBack, userEmail, isSuperAdmin, initialData, templateId: initTplId }) {
   const [step, setStep]     = useState('form');
-  const [data, setData]     = useState(INIT);
+  const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
   const [errors, setErrors] = useState({});
+  const [saving, setSaving] = useState(false);
+  const [templateId, setTemplateId] = useState(initTplId || null);
 
   const filename = `resume-${toFilename(data.fullName || 'document')}.pdf`;
   const { downloading, handleDownload, toast } = usePdfDownload('resume-card-print', filename);
@@ -49,6 +52,21 @@ export default function ResumeCard({ onBack, userEmail, isSuperAdmin }) {
     const err = validate();
     if (Object.keys(err).length) { setErrors(err); return; }
     setStep('card');
+  }
+
+  async function handleSaveTemplate() {
+    setSaving(true);
+    try {
+      const name = data.fullName ? `${data.fullName} Resume` : 'Resume Template';
+      if (templateId) {
+        await updateTemplate(templateId, name, data);
+      } else {
+        const id = await saveTemplate(userEmail, 'resume', name, data);
+        setTemplateId(id);
+      }
+      alert(templateId ? 'Template updated!' : 'Template saved!');
+    } catch (e) { console.error(e); alert('Failed to save template.'); }
+    finally { setSaving(false); }
   }
 
   if (step === 'form') {
@@ -84,6 +102,9 @@ export default function ResumeCard({ onBack, userEmail, isSuperAdmin }) {
           dlLabel="📥 Download PDF"
           dlBtnStyle={{ background: 'linear-gradient(135deg,#1a73e8,#2d3748)', color: '#fff', boxShadow: '0 6px 20px rgba(26,115,232,.45)' }}
         />
+        <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
+          {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
+        </button>
       </div>
       <Toast text={toast.text} show={toast.show} />
     </div>

@@ -9,6 +9,7 @@ import LanguagePicker from '../shared/LanguagePicker';
 import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
+import { saveTemplate, updateTemplate } from '../../services/templateService';
 
 const INIT = {
   // Personal
@@ -51,11 +52,13 @@ const INIT = {
 
 const PARTICLES = ['🌸', '💐', '🌺', '✨', '💖', '🕉️', '🌼', '💍'];
 
-export default function BiodataCard({ onBack, userEmail, isSuperAdmin }) {
+export default function BiodataCard({ onBack, userEmail, isSuperAdmin, initialData, templateId: initTplId }) {
   const [step, setStep]     = useState('form');
-  const [data, setData]     = useState(INIT);
+  const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
   const [errors, setErrors] = useState({});
   const [lang, setLang]     = useState('en');
+  const [saving, setSaving] = useState(false);
+  const [templateId, setTemplateId] = useState(initTplId || null);
 
   const filename = `biodata-${toFilename(data.fullName || 'card')}.png`;
   const { downloading, handleDownload, toast } = useDownload('biodata-print', filename);
@@ -87,6 +90,21 @@ export default function BiodataCard({ onBack, userEmail, isSuperAdmin }) {
     const err = validate();
     if (Object.keys(err).length) { setErrors(err); return; }
     setStep('card');
+  }
+
+  async function handleSaveTemplate() {
+    setSaving(true);
+    try {
+      const name = data.fullName ? `${data.fullName} Biodata` : 'Biodata Template';
+      if (templateId) {
+        await updateTemplate(templateId, name, data);
+      } else {
+        const id = await saveTemplate(userEmail, 'biodata', name, data);
+        setTemplateId(id);
+      }
+      alert(templateId ? 'Template updated!' : 'Template saved!');
+    } catch (e) { console.error(e); alert('Failed to save template.'); }
+    finally { setSaving(false); }
   }
 
   if (step === 'form') {
@@ -122,6 +140,9 @@ export default function BiodataCard({ onBack, userEmail, isSuperAdmin }) {
           isSuperAdmin={isSuperAdmin}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#d4af37,#c0392b)', boxShadow: '0 8px 24px rgba(212,175,55,.4)' }}
         />
+        <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
+          {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
+        </button>
       </div>
       {toast && <Toast message={toast.message} type={toast.type} />}
     </div>

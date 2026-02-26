@@ -9,15 +9,18 @@ import LanguagePicker from '../shared/LanguagePicker';
 import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
+import { saveTemplate, updateTemplate } from '../../services/templateService';
 
 const INIT = { guestName: '', birthdayPerson: '', age: '', date: '', time: '', venue: '', venueAddress: '', hostName: '', message: '', photo: null, photoPreview: '' };
 const PARTICLES = ['🎈', '🎉', '🎊', '⭐', '✨', '🎁', '🌟', '🎂'];
 
-export default function BirthdayCard({ onBack, userEmail, isSuperAdmin }) {
+export default function BirthdayCard({ onBack, userEmail, isSuperAdmin, initialData, templateId: initTplId }) {
   const [step, setStep]     = useState('form');
-  const [data, setData]     = useState(INIT);
+  const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
   const [errors, setErrors] = useState({});
   const [lang, setLang]     = useState('en');
+  const [saving, setSaving] = useState(false);
+  const [templateId, setTemplateId] = useState(initTplId || null);
 
   const filename = `birthday-${toFilename(data.birthdayPerson || 'card')}.png`;
   const { downloading, handleDownload, toast } = useDownload('bday-card-print', filename);
@@ -47,6 +50,21 @@ export default function BirthdayCard({ onBack, userEmail, isSuperAdmin }) {
     const err = validate();
     if (Object.keys(err).length) { setErrors(err); return; }
     setStep('card');
+  }
+
+  async function handleSaveTemplate() {
+    setSaving(true);
+    try {
+      const name = data.birthdayPerson ? `${data.birthdayPerson}'s Birthday` : 'Birthday Template';
+      if (templateId) {
+        await updateTemplate(templateId, name, data);
+      } else {
+        const id = await saveTemplate(userEmail, 'birthday', name, data);
+        setTemplateId(id);
+      }
+      alert(templateId ? 'Template updated!' : 'Template saved!');
+    } catch (e) { console.error(e); alert('Failed to save template.'); }
+    finally { setSaving(false); }
   }
 
   if (step === 'form') {
@@ -82,6 +100,9 @@ export default function BirthdayCard({ onBack, userEmail, isSuperAdmin }) {
           isSuperAdmin={isSuperAdmin}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#ff6b6b,#feca57)', color: '#fff', boxShadow: '0 6px 20px rgba(255,107,107,.45)' }}
         />
+        <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
+          {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
+        </button>
       </div>
       <Toast text={toast.text} show={toast.show} />
     </div>

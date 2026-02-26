@@ -44,6 +44,21 @@ export default function JagrataCard({ onBack, userEmail, isSuperAdmin }) {
     setStep('card');
   }
 
+  async function handleSaveTemplate() {
+    setSaving(true);
+    try {
+      const name = data.jagrataTitle || 'Jagrata Template';
+      if (templateId) {
+        await updateTemplate(templateId, name, data);
+      } else {
+        const id = await saveTemplate(userEmail, 'jagrata', name, data);
+        setTemplateId(id);
+      }
+      alert(templateId ? 'Template updated!' : 'Template saved!');
+    } catch (e) { console.error(e); alert('Failed to save template.'); }
+    finally { setSaving(false); }
+  }
+
   if (step === 'form') {
     return <JagrataForm data={data} errors={errors} onChange={onChange} onBack={onBack} onGenerate={onGenerate} />;
   }
@@ -69,6 +84,9 @@ export default function JagrataCard({ onBack, userEmail, isSuperAdmin }) {
           isSuperAdmin={isSuperAdmin}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#f7971e,#ffd200)', color: '#7a3e00', boxShadow: '0 6px 20px rgba(247,151,30,.5)' }}
         />
+        <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
+          {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
+        </button>
       </div>
       <Toast text={toast.text} show={toast.show} />
     </div>

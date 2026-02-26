@@ -14,6 +14,7 @@ import useScreenshotProtection from './hooks/useScreenshotProtection';
 function AppContent() {
   const { user, loading } = useAuth();
   const [selected, setSelected] = useState(null);
+  const [editingTemplate, setEditingTemplate] = useState(null); // template object or null
 
   /* Activate screenshot protection globally */
   useScreenshotProtection();
@@ -34,8 +35,20 @@ function AppContent() {
   if (!user) return <LoginScreen />;
 
   /* ---------- card screens ---------- */
-  function handleBack() { setSelected(null); }
-  const cardProps = { onBack: handleBack, userEmail: user.email, isSuperAdmin: isAdmin(user.email) };
+  function handleBack() { setSelected(null); setEditingTemplate(null); }
+
+  /** Called from MyTemplates when user clicks "Edit & Generate" */
+  function handleEditTemplate(tpl) {
+    setEditingTemplate(tpl);
+    setSelected(tpl.cardType);
+  }
+
+  const cardProps = {
+    onBack: handleBack,
+    userEmail: user.email,
+    isSuperAdmin: isAdmin(user.email),
+    ...(editingTemplate ? { initialData: editingTemplate.formData, templateId: editingTemplate.id } : {}),
+  };
 
   if (selected === 'birthday')    return <BirthdayCard    {...cardProps} />;
   if (selected === 'anniversary') return <AnniversaryCard {...cardProps} />;
@@ -45,7 +58,7 @@ function AppContent() {
   if (selected === 'resume')      return <ResumeCard      {...cardProps} />;
 
   /* ---------- main dashboard ---------- */
-  return <ProfileDashboard onSelect={setSelected} />;
+  return <ProfileDashboard onSelect={setSelected} onEditTemplate={handleEditTemplate} />;
 }
 
 export default function App() {

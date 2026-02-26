@@ -9,6 +9,7 @@ import LanguagePicker from '../shared/LanguagePicker';
 import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
+import { saveTemplate, updateTemplate } from '../../services/templateService';
 
 const INIT = {
   groomName: '', brideName: '', groomFamily: '', brideFamily: '',
@@ -18,11 +19,13 @@ const INIT = {
 };
 const PARTICLES = ['🌸', '🪷', '✨', '🌺', '💐', '🎊', '🌟', '💖', '🪷', '✿'];
 
-export default function WeddingCard({ onBack, userEmail, isSuperAdmin }) {
+export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialData, templateId: initTplId }) {
   const [step, setStep]     = useState('form');
-  const [data, setData]     = useState(INIT);
+  const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
   const [errors, setErrors] = useState({});
   const [lang, setLang]     = useState('en');
+  const [saving, setSaving] = useState(false);
+  const [templateId, setTemplateId] = useState(initTplId || null);
 
   const filename = `wedding-${toFilename(data.groomName || 'invitation')}.png`;
   const { downloading, handleDownload, toast } = useDownload('wedding-card-print', filename);
@@ -53,6 +56,21 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin }) {
     const err = validate();
     if (Object.keys(err).length) { setErrors(err); return; }
     setStep('card');
+  }
+
+  async function handleSaveTemplate() {
+    setSaving(true);
+    try {
+      const name = data.groomName && data.brideName ? `${data.groomName} & ${data.brideName} Wedding` : 'Wedding Template';
+      if (templateId) {
+        await updateTemplate(templateId, name, data);
+      } else {
+        const id = await saveTemplate(userEmail, 'wedding', name, data);
+        setTemplateId(id);
+      }
+      alert(templateId ? 'Template updated!' : 'Template saved!');
+    } catch (e) { console.error(e); alert('Failed to save template.'); }
+    finally { setSaving(false); }
   }
 
   if (step === 'form') {
@@ -88,6 +106,9 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin }) {
           isSuperAdmin={isSuperAdmin}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#6b1520,#b8860b)', color: '#fff', boxShadow: '0 6px 20px rgba(107,21,32,.45)' }}
         />
+        <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
+          {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
+        </button>
       </div>
       <Toast text={toast.text} show={toast.show} />
     </div>

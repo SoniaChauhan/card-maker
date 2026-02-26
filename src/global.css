@@ -144,6 +144,32 @@ body {
 .btn-download:hover  { transform: translateY(-2px); }
 .btn-download:disabled { opacity: .65; cursor: not-allowed; transform: none; }
 
+/* ---- Save Template button ---- */
+.btn-save-template {
+  display: block;
+  margin: 12px auto 0;
+  padding: 10px 28px;
+  border-radius: 50px;
+  border: 2px solid rgba(255,255,255,.35);
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .25s;
+  backdrop-filter: blur(6px);
+}
+.btn-save-template:hover {
+  background: rgba(255,255,255,.22);
+  border-color: rgba(255,255,255,.6);
+  transform: translateY(-2px);
+}
+.btn-save-template:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* ---- Language dropdown ---- */
 .lang-toggle-bar {
   display: flex;

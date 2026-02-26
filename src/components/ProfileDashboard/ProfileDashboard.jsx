@@ -5,6 +5,7 @@ import { getUserSubscriptions } from '../../services/subscriptionService';
 import { notifyAdmin } from '../../services/notificationService';
 import SubscriptionPopup from '../SubscriptionPopup/SubscriptionPopup';
 import AdminPanel from '../AdminPanel/AdminPanel';
+import MyTemplates from '../MyTemplates/MyTemplates';
 
 const CARDS = [
   { id: 'birthday',    label: 'Birthday Invitation',  desc: 'Create personalised birthday party invitations.',   icon: '🎂', badge: '🎉 Festive & Fun' },
@@ -15,7 +16,7 @@ const CARDS = [
   { id: 'resume',      label: 'Resume / CV',            desc: 'Build a professional resume & download PDF.',       icon: '📄', badge: '💼 Professional' },
 ];
 
-export default function ProfileDashboard({ onSelect }) {
+export default function ProfileDashboard({ onSelect, onEditTemplate }) {
   const { user, logout, isSuperAdmin } = useAuth();
   const [tab, setTab]       = useState('dashboard');
   const [subs, setSubs]     = useState({});
@@ -79,6 +80,7 @@ export default function ProfileDashboard({ onSelect }) {
       <div className="pd-tabs">
         <button className={`pd-tab ${tab === 'profile' ? 'active' : ''}`} onClick={() => setTab('profile')}>👤 Profile</button>
         <button className={`pd-tab ${tab === 'dashboard' ? 'active' : ''}`} onClick={() => setTab('dashboard')}>🏠 Dashboard</button>
+        <button className={`pd-tab ${tab === 'templates' ? 'active' : ''}`} onClick={() => setTab('templates')}>📋 My Templates</button>
         {isSuperAdmin && (
           <button className={`pd-tab ${tab === 'admin' ? 'active' : ''}`} onClick={() => setTab('admin')}>⚙️ Admin</button>
         )}
@@ -180,6 +182,11 @@ export default function ProfileDashboard({ onSelect }) {
 
       {/* Admin panel tab */}
       {tab === 'admin' && isSuperAdmin && <AdminPanel />}
+
+      {/* My Templates tab */}
+      {tab === 'templates' && (
+        <MyTemplates userEmail={user.email} onEditTemplate={onEditTemplate} />
+      )}
 
       {/* Subscription popup */}
       {popup && (
