@@ -43,13 +43,20 @@ export default function useDownload(elementId, filename) {
         scale: 2,
         useCORS: true,
         allowTaint: false,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#fdf8f0',
         logging: false,
-        width: el.offsetWidth,
-        height: el.offsetHeight,
-        windowWidth: el.offsetWidth,
+        width: el.scrollWidth,
+        height: el.scrollHeight,
+        windowWidth: el.scrollWidth,
         scrollX: 0,
-        scrollY: -window.scrollY,
+        scrollY: 0,
+        onclone: (clonedDoc) => {
+          const clonedEl = clonedDoc.getElementById(elementId);
+          if (clonedEl) {
+            // Remove pseudo-element effects that html2canvas can't render
+            clonedEl.style.overflow = 'visible';
+          }
+        },
       });
 
       const link = document.createElement('a');
@@ -59,7 +66,8 @@ export default function useDownload(elementId, filename) {
       link.click();
       document.body.removeChild(link);
       showToast(`✅ Card downloaded as "${filename}"!`);
-    } catch {
+    } catch (err) {
+      console.error('Download failed:', err);
       showToast('⚠️ Download failed. Please try again.');
     } finally {
       // Restore original dimensions

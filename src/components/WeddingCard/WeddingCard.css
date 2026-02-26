@@ -161,7 +161,7 @@
   font-size: 44px;
   color: #b8860b;
   display: block;
-  filter: drop-shadow(0 2px 8px rgba(184,134,11,.4));
+  text-shadow: 0 2px 8px rgba(184,134,11,.4);
   animation: omPulse 4s ease-in-out infinite;
 }
 .wed-shubh {
@@ -246,7 +246,6 @@
 .wed-jm-groom,
 .wed-jm-bride {
   font-size: 38px;
-  filter: drop-shadow(0 3px 8px rgba(0,0,0,.12));
 }
 .wed-jm-heart {
   font-size: 22px;
@@ -636,9 +635,7 @@
   background: linear-gradient(135deg, #6b1520, #7a1a28, #6b1520);
   border-radius: 10px;
   box-shadow:
-    0 6px 24px rgba(107,21,32,.3),
-    inset 0 1px 0 rgba(255,255,255,.06),
-    0 0 0 0 transparent;
+    0 6px 24px rgba(107,21,32,.3);
 }
 .wed-appeal-text {
   font-size: 12px;
