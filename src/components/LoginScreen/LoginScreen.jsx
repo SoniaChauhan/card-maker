@@ -2,11 +2,11 @@ import { useState } from 'react';
 import './LoginScreen.css';
 import { useAuth } from '../../contexts/AuthContext';
 import {
-  generateOTP, storeOTP, verifyOTP,
+  verifyOTP,
   signUpUser, signInUser, resetPassword,
   createOrUpdateUser, userExists,
 } from '../../services/authService';
-import { sendOTPEmail, notifyAdmin } from '../../services/notificationService';
+import { requestOTP, notifyAdmin } from '../../services/notificationService';
 import { isUserBlocked } from '../../services/blockService';
 
 /*
@@ -94,9 +94,7 @@ export default function LoginScreen() {
       const exists = await userExists(trimmedEmail);
       if (exists) { setError('Account already exists. Please sign in.'); setLoading(false); return; }
 
-      const code = generateOTP();
-      await storeOTP(trimmedEmail, code);
-      await sendOTPEmail(trimmedEmail, code);
+      await requestOTP(trimmedEmail);
       setInfo(`OTP sent to ${trimmedEmail} — check your inbox.`);
       setMode('signup-otp');
     } catch (err) {
@@ -155,9 +153,7 @@ export default function LoginScreen() {
       const exists = await userExists(trimmedEmail);
       if (!exists) { setError('No account found with this email.'); setLoading(false); return; }
 
-      const code = generateOTP();
-      await storeOTP(trimmedEmail, code);
-      await sendOTPEmail(trimmedEmail, code);
+      await requestOTP(trimmedEmail);
       setInfo(`OTP sent to ${trimmedEmail}`);
       setMode('forgot-otp');
     } catch (err) {
@@ -215,9 +211,7 @@ export default function LoginScreen() {
 
     setLoading(true);
     try {
-      const code = generateOTP();
-      await storeOTP(trimmedEmail, code);
-      await sendOTPEmail(trimmedEmail, code);
+      await requestOTP(trimmedEmail);
       setInfo(`OTP sent to ${trimmedEmail}`);
       setMode('otp-login-verify');
     } catch (err) {
@@ -270,9 +264,7 @@ export default function LoginScreen() {
     setError(''); setInfo('');
     setLoading(true);
     try {
-      const code = generateOTP();
-      await storeOTP(trimmedEmail, code);
-      await sendOTPEmail(trimmedEmail, code);
+      await requestOTP(trimmedEmail);
       setInfo('New OTP sent!');
     } catch {
       setError('Failed to resend OTP.');

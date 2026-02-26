@@ -1,65 +1,38 @@
 /**
- * Notification service — sends emails via EmailJS.
+ * Notification service — all emails are sent via Firebase Cloud Functions.
  *
- * ⚠️  SETUP REQUIRED — Replace the placeholder values below.
+ * The Cloud Functions (in /functions/index.js) handle EmailJS server-side
+ * so that credentials, OTP codes, and admin email are NEVER visible in
+ * the browser's Network tab.
  *
- *  1. Go to https://www.emailjs.com/ and create a free account
- *  2. Connect your Gmail service (Email Services → Add → Gmail)
- *  3. Create two email templates:
- *
- *     Template 1 — "OTP" (id: template_otp)
- *       Subject: Your Card Maker Login OTP
- *       Body:    Hello! Your one-time login code is: {{otp_code}}
- *                Valid for 5 minutes. Do not share it with anyone.
- *       To:      {{to_email}}
- *
- *     Template 2 — "Notification" (id: template_notify)
- *       Subject: {{subject}}
- *       Body:    {{message}}
- *       To:      {{to_email}}
- *
- *  4. Copy your Service ID, Template IDs, and Public Key below
+ * Deploy the functions first:
+ *   cd functions && npm install
+ *   firebase deploy --only functions
  */
-import emailjs from '@emailjs/browser';
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '../firebase';
 
-const SERVICE_ID        = 'service_sicr4dp';
-const OTP_TEMPLATE_ID   = 'template_fil9nef';
-const NOTIFY_TEMPLATE_ID= 'template_n3scahd';
-const PUBLIC_KEY        = 'veryFjXyXWyfIiXTT';
+/* Callable Cloud Functions */
+const sendOTPFn         = httpsCallable(functions, 'sendOTP');
+const notifyAdminFn     = httpsCallable(functions, 'notifyAdmin');
+const sendNotificationFn = httpsCallable(functions, 'sendNotification');
 
-import { ADMIN_EMAIL, ADMIN_NAME } from './authService';
-
-/** Send OTP to user's email */
-export async function sendOTPEmail(toEmail, otp) {
-  return emailjs.send(SERVICE_ID, OTP_TEMPLATE_ID, {
-    to_email:   toEmail,
-    otp_code:   otp,
-    from_name:  'Card Maker',
-    from_email: 'noreply@cardmaker.app',
-    name:       'Card Maker',
-    email:      toEmail,
-  }, PUBLIC_KEY);
+/**
+ * Request OTP — the Cloud Function generates the code, stores it in
+ * Firestore, and sends the email. The client NEVER sees the OTP or
+ * EmailJS credentials.
+ */
+export async function requestOTP(email) {
+  const result = await sendOTPFn({ email });
+  return result.data;
 }
 
-/** Notify super-admin about an event */
+/** Notify super-admin about an event (admin email is server-side) */
 export async function notifyAdmin(subject, message, senderEmail = '') {
-  return emailjs.send(SERVICE_ID, NOTIFY_TEMPLATE_ID, {
-    to_email:     ADMIN_EMAIL,
-    to_name:      ADMIN_NAME,
-    subject,
-    message,
-    sender_email: senderEmail,
-    name:         senderEmail || 'Card Maker',
-    email:        senderEmail || ADMIN_EMAIL,
-  }, PUBLIC_KEY);
+  return notifyAdminFn({ subject, message, senderEmail });
 }
 
 /** Notify a user (e.g. subscription approved) */
 export async function notifyUser(toEmail, subject, message) {
-  return emailjs.send(SERVICE_ID, NOTIFY_TEMPLATE_ID, {
-    to_email: toEmail,
-    to_name:  toEmail,
-    subject,
-    message,
-  }, PUBLIC_KEY);
+  return sendNotificationFn({ toEmail, subject, message });
 }
