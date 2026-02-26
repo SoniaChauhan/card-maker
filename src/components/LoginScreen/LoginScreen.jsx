@@ -71,7 +71,12 @@ export default function LoginScreen() {
         user.email
       ).catch(() => {});
     } catch (err) {
-      setError(err.message || 'Sign-in failed.');
+      const msg = err?.message || '';
+      if (msg.toLowerCase().includes('permission')) {
+        setError('Server configuration error. Please contact the admin.');
+      } else {
+        setError(msg || 'Sign-in failed.');
+      }
     } finally { setLoading(false); }
   }
 
@@ -124,7 +129,12 @@ export default function LoginScreen() {
         user.email
       ).catch(() => {});
     } catch (err) {
-      setError(err.message || 'Sign-up failed.');
+      const msg = err?.message || '';
+      if (msg.toLowerCase().includes('permission')) {
+        setError('Server configuration error. Please contact the admin.');
+      } else {
+        setError(msg || 'Sign-up failed.');
+      }
     } finally { setLoading(false); }
   }
 
@@ -228,7 +238,12 @@ export default function LoginScreen() {
         user.email
       ).catch(() => {});
     } catch (err) {
-      setError('Verification failed.');
+      const msg = err?.message || '';
+      if (msg.toLowerCase().includes('permission')) {
+        setError('Server configuration error. Please contact the admin.');
+      } else {
+        setError(msg || 'Verification failed.');
+      }
     } finally { setLoading(false); }
   }
 
