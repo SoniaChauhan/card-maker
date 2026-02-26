@@ -17,10 +17,10 @@ export const T = {
   en: {
     to: 'To', date: 'Date', time: 'Time', venue: 'Venue',
     bdayInviteBadge: '🎈 Birthday Invitation 🎈',
-    bdayJoinUs: '— You Are Cordially Invited —',
+    bdayJoinUs: 'Please join us for',
     bdayCelebrate: 'Join us to celebrate',
-    bdayTitle: 'Happy Birthday!',
-    bdayMilestone: (n) => `🎂 Turning ${n}! 🎂`,
+    bdayTitle: 'Birthday',
+    bdayMilestone: (n) => `Turning ${n}!`,
     bdayHostedBy: 'Hosted By',
     bdayWishLine: '✨ A Special Invitation For ✨',
     bdayTagline: 'Your presence will make our celebration complete 🌟',

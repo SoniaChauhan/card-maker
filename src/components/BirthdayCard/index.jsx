@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './BirthdayCard.css';
 import BirthdayForm from './BirthdayForm';
 import BirthdayCardPreview from './BirthdayCardPreview';
+import BirthdayTemplateChooser from './BirthdayTemplateChooser';
 import CardActions from '../shared/CardActions';
 import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
@@ -12,7 +13,7 @@ import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
 import { logDownload } from '../../services/downloadHistoryService';
 
-const INIT = { guestName: '', birthdayPerson: '', age: '', date: '', time: '', venue: '', venueAddress: '', hostName: '', message: '', photo: null, photoPreview: '' };
+const INIT = { guestName: '', birthdayPerson: '', age: '', date: '', time: '', venue: '', venueAddress: '', hostName: '', message: '', photo: null, photoPreview: '', selectedTemplate: 1 };
 const PARTICLES = ['🎈', '🎉', '🎊', '⭐', '✨', '🎁', '🌟', '🎂'];
 
 export default function BirthdayCard({ onBack, userEmail, isSuperAdmin, initialData, templateId: initTplId }) {
@@ -22,6 +23,7 @@ export default function BirthdayCard({ onBack, userEmail, isSuperAdmin, initialD
   const [lang, setLang]     = useState('en');
   const [saving, setSaving] = useState(false);
   const [templateId, setTemplateId] = useState(initTplId || null);
+  const [showChooser, setShowChooser] = useState(false);
 
   const filename = `birthday-${toFilename(data.birthdayPerson || 'card')}.png`;
   const dlTitle = data.birthdayPerson ? `${data.birthdayPerson}'s Birthday` : 'Birthday Card';
@@ -94,8 +96,15 @@ export default function BirthdayCard({ onBack, userEmail, isSuperAdmin, initialD
       <div className="card-screen-container">
         <p className="birthday-screen-title">� Your Birthday Invitation</p>
         <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-        <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
-          <BirthdayCardPreview data={data} lang={lang} />
+
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '12px' }}>
+          <button className="btn-choose-template" onClick={() => setShowChooser(true)}>
+            🎨 Change Design Template
+          </button>
+        </div>
+
+        <div id="bday-card-print" className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
+          <BirthdayCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} />
         </div>
         <CardActions
           onEdit={() => setStep('form')}
@@ -114,6 +123,17 @@ export default function BirthdayCard({ onBack, userEmail, isSuperAdmin, initialD
         </button>
       </div>
       <Toast text={toast.text} show={toast.show} />
+
+      {/* Template Chooser Modal */}
+      {showChooser && (
+        <BirthdayTemplateChooser
+          data={data}
+          lang={lang}
+          selected={data.selectedTemplate || 1}
+          onSelect={id => setData(d => ({ ...d, selectedTemplate: id }))}
+          onClose={() => setShowChooser(false)}
+        />
+      )}
     </div>
   );
 }
