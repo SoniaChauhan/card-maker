@@ -586,7 +586,7 @@ function AnimalBottomDecor() {
 
 /* ─── Main Preview Component ─── */
 const BirthdayCardPreview = forwardRef(function BirthdayCardPreview({ data, lang, template = 1 }, ref) {
-  const t = (k) => T(lang, k);
+  const t = T[lang] || T.en;
   const tpl = template || 1;
   const themeClass = `bday-theme-${tpl}`;
 
@@ -602,14 +602,14 @@ const BirthdayCardPreview = forwardRef(function BirthdayCardPreview({ data, lang
       {tpl === 6 && <AnimalBunting />}
 
       {/* Subtitle */}
-      <p className="bday-subtitle">{t('bdayJoinUs')}</p>
+      <p className="bday-subtitle">{t.bdayJoinUs}</p>
 
       {/* Hero name */}
       <h1 className="bday-hero-name">{data.birthdayPerson || 'Name'}</h1>
-      <p className="bday-hero-title">{t('bdayTitle')}</p>
+      <p className="bday-hero-title">{t.bdayTitle}</p>
 
       {/* Age badge */}
-      {data.age && <div className="bday-age-badge">{t('bdayMilestone')(data.age)}</div>}
+      {data.age && <div className="bday-age-badge">{t.bdayMilestone(data.age)}</div>}
 
       {/* Center illustration */}
       {tpl === 1 && <SpaceAstronaut />}
@@ -633,12 +633,12 @@ const BirthdayCardPreview = forwardRef(function BirthdayCardPreview({ data, lang
       {data.venueAddress && <p className="bday-address-line">{data.venueAddress}</p>}
 
       {/* Host */}
-      {data.hostName && <p className="bday-event-line">{t('bdayHostedBy')}: {data.hostName}</p>}
+      {data.hostName && <p className="bday-event-line">{t.bdayHostedBy}: {data.hostName}</p>}
 
       {/* Guest */}
       {data.guestName && (
         <p className="bday-guest-tag">
-          {t('bdayWishLine')}: <span className="bday-guest-name">{data.guestName}</span>
+          {t.bdayWishLine}: <span className="bday-guest-name">{data.guestName}</span>
         </p>
       )}
 
