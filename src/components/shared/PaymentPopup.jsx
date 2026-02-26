@@ -6,12 +6,32 @@ import { recordPayment } from '../../services/subscriptionService';
 
 /*  Card pricing (₹)  */
 const CARD_PRICES = {
-  birthday:    49,
-  anniversary: 49,
-  jagrata:     49,
-  biodata:     99,
-  wedding:     99,
-  resume:      79,
+  birthday:        49,
+  anniversary:     49,
+  jagrata:         49,
+  biodata:         99,
+  wedding:         99,
+  resume:          79,
+  babyshower:      49,
+  namingceremony:  49,
+  housewarming:    49,
+  graduation:      49,
+  haldi:           49,
+  mehendi:         49,
+  sangeet:         49,
+  reception:       49,
+  savethedate:     49,
+  satyanarayan:    49,
+  garba:           49,
+  visitingcard:    49,
+  businessdocs:    79,
+  thankyou:        29,
+  congratulations: 29,
+  goodluck:        29,
+  festivalcards:   29,
+  whatsappinvites: 29,
+  instagramstory:  29,
+  socialevent:     29,
 };
 
 /* UPI ID for receiving payments */

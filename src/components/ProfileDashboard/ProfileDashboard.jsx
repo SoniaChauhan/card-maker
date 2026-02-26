@@ -7,15 +7,8 @@ import SubscriptionPopup from '../SubscriptionPopup/SubscriptionPopup';
 import AdminPanel from '../AdminPanel/AdminPanel';
 import MyTemplates from '../MyTemplates/MyTemplates';
 import DownloadHistory from '../DownloadHistory/DownloadHistory';
-
-const CARDS = [
-  { id: 'birthday',    label: 'Birthday Invite Designer',       desc: 'Create personalised and stylish birthday party invitations with ease.',           icon: '🎂', badge: '🎉 Festive & Fun' },
-  { id: 'anniversary', label: 'Anniversary Greeting Designer',  desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.',        icon: '💍', badge: '❤️ Romantic' },
-  { id: 'jagrata',     label: 'Spiritual Event Invitation',    desc: 'Design serene and devotional invitations for spiritual gatherings.',              icon: '🪔', badge: '🙏 Divine Blessing' },
-  { id: 'biodata',     label: 'Marriage Profile Card',          desc: 'Build a traditional and detailed marriage biodata with a clean layout.',          icon: '💍', badge: '🌸 Traditional' },
-  { id: 'wedding',     label: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',             icon: '💐', badge: '🌸 Royal & Classic' },
-  { id: 'resume',      label: 'Professional Resume Builder',   desc: 'Design a polished resume and download it instantly in PDF format.',               icon: '📄', badge: '💼 Professional' },
-];
+import Toast from '../shared/Toast';
+import { CATEGORIES } from '../SelectionScreen/SelectionScreen';
 
 export default function ProfileDashboard({ onSelect, onEditTemplate }) {
   const { user, logout, isSuperAdmin } = useAuth();
@@ -23,6 +16,7 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
   const [subs, setSubs]     = useState({});
   const [popup, setPopup]   = useState(null);   // card object or null
   const [loading, setLoading] = useState(true);
+  const [toast, setToast]   = useState({ show: false, text: '' });
 
   /* Fetch user subscriptions on mount */
   useEffect(() => {
@@ -44,8 +38,13 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
 
   /* Handle card click */
   function handleCardClick(card) {
+    if (card.comingSoon) {
+      setToast({ show: true, text: `🚀 "${card.label}" is coming soon! Stay tuned.` });
+      setTimeout(() => setToast({ show: false, text: '' }), 2500);
+      return;
+    }
+
     if (isSuperAdmin) {
-      /* Admin — direct access */
       onSelect(card.id);
       return;
     }
@@ -56,15 +55,16 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
       return;
     }
 
-    /* Notify admin that user tried to click a card */
     notifyAdmin(
       `Card Click Alert — ${card.label}`,
       `User ${user.email} tried to access "${card.label}" card at ${new Date().toLocaleString()}.`
     ).catch(() => {});
 
-    /* Show subscription popup */
     setPopup(card);
   }
+
+  /* Total available cards count (non-coming-soon) */
+  const totalActive = CATEGORIES.flatMap(c => c.cards).filter(c => !c.comingSoon).length;
 
   const displayName = user?.name || user?.email || '?';
   const initial = displayName.charAt(0).toUpperCase();
@@ -133,7 +133,7 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
                 <span className="pd-info-icon">🎨</span>
                 <div>
                   <div className="pd-info-label">Templates</div>
-                  <div className="pd-info-value">{isSuperAdmin ? `${CARDS.length} (All Access)` : `${Object.values(subs).filter(s => s === 'approved').length} Approved`}</div>
+                  <div className="pd-info-value">{isSuperAdmin ? `${totalActive} (All Access)` : `${Object.values(subs).filter(s => s === 'approved').length} Approved`}</div>
                 </div>
               </div>
             </div>
@@ -150,35 +150,44 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
 
       {/* Dashboard tab */}
       {tab === 'dashboard' && (
-        <div className="pd-cards-grid">
-          {CARDS.map(card => {
-            const status = subs[card.id];
-            return (
-              <div
-                key={card.id}
-                className={`pd-card ${card.id}`}
-                role="button"
-                tabIndex={0}
-                onClick={() => handleCardClick(card)}
-                onKeyDown={e => e.key === 'Enter' && handleCardClick(card)}
-              >
-                {/* Lock icon for non-admin users without approval */}
-                {!isSuperAdmin && status !== 'approved' && (
-                  <span className="pd-card-lock">🔒</span>
-                )}
+        <div className="pd-categories-wrapper">
+          {CATEGORIES.map(cat => (
+            <section key={cat.id} className="pd-category">
+              <h2 className="pd-category-title">{cat.title}</h2>
+              <div className="pd-cards-grid">
+                {cat.cards.map(card => {
+                  const status = subs[card.id];
+                  return (
+                    <div
+                      key={card.id}
+                      className={`pd-card ${card.id}${card.comingSoon ? ' pd-coming-soon' : ''}`}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => handleCardClick(card)}
+                      onKeyDown={e => e.key === 'Enter' && handleCardClick(card)}
+                    >
+                      {card.comingSoon && <span className="pd-coming-soon-tag">🔒 Coming Soon</span>}
 
-                {/* Status badge */}
-                {!isSuperAdmin && status && (
-                  <span className={`pd-card-status ${status}`}>{status}</span>
-                )}
+                      {/* Lock icon for non-admin users without approval */}
+                      {!card.comingSoon && !isSuperAdmin && status !== 'approved' && (
+                        <span className="pd-card-lock">🔒</span>
+                      )}
 
-                <span className="pd-card-icon">{card.icon}</span>
-                <h3>{card.label}</h3>
-                <p>{card.desc}</p>
-                <span className="pd-card-badge">{card.badge}</span>
+                      {/* Status badge */}
+                      {!card.comingSoon && !isSuperAdmin && status && (
+                        <span className={`pd-card-status ${status}`}>{status}</span>
+                      )}
+
+                      <span className="pd-card-icon">{card.icon}</span>
+                      <h3>{card.label}</h3>
+                      <p>{card.desc}</p>
+                      <span className="pd-card-badge">{card.badge}</span>
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })}
+            </section>
+          ))}
         </div>
       )}
 
@@ -204,6 +213,8 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
           onClose={() => { setPopup(null); refreshSubs(); }}
         />
       )}
+
+      <Toast text={toast.text} show={toast.show} />
     </div>
   );
 }
