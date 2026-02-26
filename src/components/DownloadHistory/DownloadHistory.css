@@ -25,6 +25,8 @@
   overflow: hidden;
   box-shadow: 0 8px 28px rgba(0,0,0,.12);
   transition: transform .25s, box-shadow .25s;
+  display: flex;
+  flex-direction: column;
 }
 .dh-card:hover {
   transform: translateY(-4px);
@@ -51,6 +53,7 @@
 /* Body */
 .dh-card-body {
   padding: 16px 18px 10px;
+  flex: 1;
 }
 .dh-card-title {
   font-size: 16px;
@@ -97,23 +100,39 @@
   text-overflow: ellipsis;
 }
 
-/* Action buttons */
+/* ─── Action buttons ─── */
 .dh-card-actions {
   display: flex;
   gap: 8px;
   padding: 12px 18px 16px;
+  flex-wrap: wrap;
 }
 .dh-btn {
-  padding: 9px 18px;
+  padding: 9px 16px;
   border: none;
   border-radius: 10px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   transition: opacity .2s, transform .15s;
+  white-space: nowrap;
 }
 .dh-btn:hover { opacity: .88; transform: scale(1.02); }
-.dh-btn:disabled { opacity: .5; cursor: not-allowed; }
+.dh-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+.dh-btn-preview {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(102,126,234,.35);
+}
+.dh-btn-preview:hover { box-shadow: 0 6px 18px rgba(102,126,234,.5); }
+
+.dh-btn-download {
+  background: linear-gradient(135deg, #00b894, #55efc4);
+  color: #1a3a2a;
+  box-shadow: 0 4px 12px rgba(0,184,148,.35);
+}
+.dh-btn-download:hover { box-shadow: 0 6px 18px rgba(0,184,148,.5); }
 
 .dh-btn-delete {
   background: #fff;
@@ -121,6 +140,92 @@
   border: 1.5px solid #fed7d7;
 }
 .dh-btn-delete:hover { background: #fff5f5; }
+
+.dh-btn-close-modal {
+  background: rgba(255,255,255,.15);
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,.3);
+}
+.dh-btn-close-modal:hover { background: rgba(255,255,255,.25); }
+
+/* ─── Preview Modal Overlay ─── */
+.dh-preview-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: dh-fadeIn .25s ease;
+}
+
+.dh-preview-modal {
+  background: #1a1a2e;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 30px 80px rgba(0,0,0,.5);
+  overflow: hidden;
+  animation: dh-slideUp .3s ease;
+}
+
+.dh-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.dh-preview-header h3 {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dh-preview-close {
+  background: rgba(255,255,255,.12);
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s;
+  flex-shrink: 0;
+}
+.dh-preview-close:hover { background: rgba(255,255,255,.25); }
+
+.dh-preview-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+.dh-preview-body > * {
+  max-width: 100%;
+}
+
+.dh-preview-footer {
+  display: flex;
+  gap: 10px;
+  padding: 16px 24px 20px;
+  border-top: 1px solid rgba(255,255,255,.1);
+  justify-content: center;
+}
 
 /* Empty state */
 .dh-empty {
@@ -163,8 +268,20 @@
 }
 @keyframes dh-spin { to { transform: rotate(360deg); } }
 
+@keyframes dh-fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes dh-slideUp {
+  from { opacity: 0; transform: translateY(30px) scale(.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 /* Responsive */
 @media (max-width: 480px) {
   .dh-grid { grid-template-columns: 1fr; }
   .dh-card-actions { flex-direction: column; }
+  .dh-card-actions .dh-btn { width: 100%; text-align: center; }
+  .dh-preview-modal { max-width: 100%; border-radius: 14px; }
+  .dh-preview-body { padding: 16px; }
 }

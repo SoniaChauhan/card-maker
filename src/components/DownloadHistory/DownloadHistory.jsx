@@ -1,7 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import './DownloadHistory.css';
 import { getUserDownloads, deleteDownloadRecord } from '../../services/downloadHistoryService';
 import Toast from '../shared/Toast';
+import html2canvas from 'html2canvas';
+
+/* Lazy-load card preview components so this module stays light */
+const BirthdayCardPreview    = lazy(() => import('../BirthdayCard/BirthdayCardPreview'));
+const WeddingCardPreview     = lazy(() => import('../WeddingCard/WeddingCardPreview'));
+const AnniversaryCardPreview = lazy(() => import('../AnniversaryCard/AnniversaryCardPreview'));
+const JagrataCardPreview     = lazy(() => import('../JagrataCard/JagrataCardPreview'));
+const BiodataCardPreview     = lazy(() => import('../BiodataCard/BiodataCardPreview'));
+const ResumeCardPreview      = lazy(() => import('../ResumeCard/ResumeCardPreview'));
 
 const CARD_META = {
   birthday:        { icon: '🎂', label: 'Birthday Invite Designer',       color: 'linear-gradient(135deg,#ff6b6b,#feca57)' },
@@ -32,11 +41,33 @@ const CARD_META = {
   socialevent:     { icon: '🌐', label: 'Social Event Cards',            color: 'linear-gradient(135deg,#0984e3,#6c5ce7)' },
 };
 
+/* Map cardType ➜ preview element id (matches what useDownload uses) */
+const PRINT_IDS = {
+  birthday: 'birthday-card-print', wedding: 'wedding-card-print',
+  anniversary: 'anniversary-card-print', jagrata: 'jagrata-card-print',
+  biodata: 'biodata-print', resume: 'resume-print',
+};
+
+/* Card type ➜ preview component */
+function PreviewRenderer({ cardType, data }) {
+  switch (cardType) {
+    case 'birthday':    return <BirthdayCardPreview    data={data} lang={data._lang || 'en'} template={data._template || 1} />;
+    case 'wedding':     return <WeddingCardPreview     data={data} lang={data._lang || 'en'} template={data._template || 1} />;
+    case 'anniversary': return <AnniversaryCardPreview data={data} lang={data._lang || 'en'} />;
+    case 'jagrata':     return <JagrataCardPreview     data={data} lang={data._lang || 'hi'} />;
+    case 'biodata':     return <BiodataCardPreview     data={data} lang={data._lang || 'en'} />;
+    case 'resume':      return <ResumeCardPreview      data={data} />;
+    default:            return <p style={{ color: '#888', textAlign: 'center', padding: 40 }}>Preview not available for this card type.</p>;
+  }
+}
+
 export default function DownloadHistory({ userEmail }) {
   const [downloads, setDownloads] = useState([]);
   const [loading, setLoading]     = useState(true);
   const [deleting, setDeleting]   = useState(null);
   const [toast, setToast]         = useState({ show: false, text: '' });
+  const [preview, setPreview]     = useState(null);   // download object being previewed
+  const [downloading, setDownloading] = useState(null); // id of card being re-downloaded
 
   useEffect(() => {
     loadDownloads();
@@ -66,6 +97,52 @@ export default function DownloadHistory({ userEmail }) {
       showToast('Failed to remove record.');
     } finally {
       setDeleting(null);
+    }
+  }
+
+  /* Re-download from the preview modal */
+  async function handleRedownload(dl) {
+    const printId = PRINT_IDS[dl.cardType];
+    if (!printId) {
+      showToast('⚠️ Re-download not available for this card type.');
+      return;
+    }
+    setDownloading(dl.id);
+    await new Promise(r => setTimeout(r, 400)); // let the preview render
+
+    const el = document.getElementById(printId);
+    if (!el) { showToast('⚠️ Card element not found.'); setDownloading(null); return; }
+
+    try {
+      const prevMaxW = el.style.maxWidth;
+      const prevW    = el.style.width;
+      const prevMinW = el.style.minWidth;
+      el.style.maxWidth = 'none';
+      el.style.width    = '600px';
+      el.style.minWidth = '600px';
+      await new Promise(r => setTimeout(r, 300));
+
+      const canvas = await html2canvas(el, {
+        scale: 2, useCORS: true, allowTaint: true,
+        backgroundColor: null, logging: false,
+        width: el.scrollWidth, height: el.scrollHeight,
+        windowWidth: el.scrollWidth + 100, scrollX: 0, scrollY: 0,
+      });
+
+      el.style.maxWidth = prevMaxW;
+      el.style.width    = prevW;
+      el.style.minWidth = prevMinW;
+
+      const link = document.createElement('a');
+      link.download = dl.filename || 'card.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast('✅ Card downloaded!');
+    } catch (err) {
+      console.error('Re-download failed:', err);
+      showToast('❌ Download failed.');
+    } finally {
+      setDownloading(null);
     }
   }
 
@@ -113,6 +190,7 @@ export default function DownloadHistory({ userEmail }) {
       <div className="dh-grid">
         {downloads.map(dl => {
           const meta = CARD_META[dl.cardType] || { icon: '🃏', label: dl.cardType, color: '#555' };
+          const hasPreview = !!PRINT_IDS[dl.cardType];
           return (
             <div className="dh-card" key={dl.id}>
               {/* colour badge */}
@@ -131,7 +209,7 @@ export default function DownloadHistory({ userEmail }) {
                 {/* snapshot preview chips */}
                 <div className="dh-card-fields">
                   {Object.entries(dl.formSnapshot || {}).slice(0, 4).map(([k, v]) => {
-                    if (!v || k === 'photoPreview') return null;
+                    if (!v || k === 'photoPreview' || k.startsWith('_')) return null;
                     const label = k.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
                     const display = typeof v === 'string' ? v : Array.isArray(v) ? `${v.length} items` : '';
                     if (!display) return null;
@@ -145,6 +223,20 @@ export default function DownloadHistory({ userEmail }) {
               </div>
 
               <div className="dh-card-actions">
+                {hasPreview && (
+                  <button className="dh-btn dh-btn-preview" onClick={() => setPreview(dl)}>
+                    👁️ Preview
+                  </button>
+                )}
+                {hasPreview && (
+                  <button
+                    className="dh-btn dh-btn-download"
+                    onClick={() => { setPreview(dl); setTimeout(() => handleRedownload(dl), 500); }}
+                    disabled={downloading === dl.id}
+                  >
+                    {downloading === dl.id ? '⏳ Downloading…' : '⬇️ Download'}
+                  </button>
+                )}
                 <button
                   className="dh-btn dh-btn-delete"
                   onClick={() => handleDelete(dl)}
@@ -157,6 +249,36 @@ export default function DownloadHistory({ userEmail }) {
           );
         })}
       </div>
+
+      {/* ─── Preview Modal ─── */}
+      {preview && (
+        <div className="dh-preview-overlay" onClick={() => setPreview(null)}>
+          <div className="dh-preview-modal" onClick={e => e.stopPropagation()}>
+            <div className="dh-preview-header">
+              <h3>{preview.title}</h3>
+              <button className="dh-preview-close" onClick={() => setPreview(null)}>✕</button>
+            </div>
+            <div className="dh-preview-body">
+              <Suspense fallback={<div className="dh-loading"><div className="dh-spinner" /><p>Loading preview…</p></div>}>
+                <PreviewRenderer cardType={preview.cardType} data={preview.formSnapshot || {}} />
+              </Suspense>
+            </div>
+            <div className="dh-preview-footer">
+              <button
+                className="dh-btn dh-btn-download"
+                onClick={() => handleRedownload(preview)}
+                disabled={downloading === preview.id}
+              >
+                {downloading === preview.id ? '⏳ Downloading…' : '⬇️ Download Again'}
+              </button>
+              <button className="dh-btn dh-btn-close-modal" onClick={() => setPreview(null)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Toast text={toast.text} show={toast.show} />
     </div>
   );
