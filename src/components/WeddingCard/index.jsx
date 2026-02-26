@@ -3,6 +3,7 @@ import './WeddingCard.css';
 import WeddingForm from './WeddingForm';
 import WeddingCardPreview from './WeddingCardPreview';
 import TemplateChooser from './TemplateChooser';
+import SavedWeddingCards from './SavedWeddingCards';
 import CardActions from '../shared/CardActions';
 import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
@@ -30,6 +31,7 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialDa
   const [saving, setSaving] = useState(false);
   const [templateId, setTemplateId] = useState(initTplId || null);
   const [showChooser, setShowChooser] = useState(false);
+  const [showSaved, setShowSaved]     = useState(false);
 
   const filename = `wedding-${toFilename(data.groomName || 'invitation')}.png`;
   const { downloading, handleDownload, toast } = useDownload('wedding-card-print', filename);
@@ -68,6 +70,14 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialDa
 
   function onTemplateSelect(id) {
     setData(d => ({ ...d, selectedTemplate: id }));
+  }
+
+  function handleLoadSavedTemplate(tpl) {
+    const fd = tpl.formData || {};
+    setData({ ...INIT, ...fd });
+    setTemplateId(tpl.id);
+    setShowSaved(false);
+    setStep('form');
   }
 
   async function handleSaveTemplate() {
@@ -110,10 +120,15 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialDa
         <p className="wedding-screen-title">💍 Your Wedding Invitation</p>
         <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
 
-        {/* Template chooser button */}
-        <button className="btn-choose-template" onClick={() => setShowChooser(true)}>
-          🎨 Change Design Template
-        </button>
+        {/* Action buttons */}
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <button className="btn-choose-template" onClick={() => setShowChooser(true)}>
+            🎨 Change Design Template
+          </button>
+          <button className="btn-saved-cards" onClick={() => setShowSaved(true)}>
+            📋 My Saved Cards
+          </button>
+        </div>
 
         <div className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
           <WeddingCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} />
@@ -144,6 +159,15 @@ export default function WeddingCard({ onBack, userEmail, isSuperAdmin, initialDa
           selected={data.selectedTemplate || 1}
           onSelect={onTemplateSelect}
           onClose={() => setShowChooser(false)}
+        />
+      )}
+
+      {/* Saved Wedding Cards Modal */}
+      {showSaved && (
+        <SavedWeddingCards
+          userEmail={userEmail}
+          onLoadTemplate={handleLoadSavedTemplate}
+          onClose={() => setShowSaved(false)}
         />
       )}
     </div>
