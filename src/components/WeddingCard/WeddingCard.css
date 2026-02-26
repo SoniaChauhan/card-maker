@@ -50,7 +50,7 @@
     radial-gradient(ellipse at 70% 85%, rgba(184,134,11,.04) 0%, transparent 50%),
     linear-gradient(180deg, #fdf8f0 0%, #faf3e6 25%, #fdf8f0 50%, #f8f0e0 75%, #fdf8f0 100%);
   width: 100%;
-  max-width: 480px;
+  max-width: 900px;
   padding: 0;
   box-shadow:
     0 0 0 2px #b8860b,
@@ -154,6 +154,52 @@
 /* ==============================
    AUSPICIOUS HEADER
 ============================== */
+/* ==============================
+   LANDSCAPE TWO-COLUMN BODY
+============================== */
+.wed-landscape-body {
+  display: flex;
+  gap: 0;
+  padding: 0 20px 16px;
+}
+.wed-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.wed-col-left {
+  flex: 1;
+  border-right: 1px solid rgba(184,134,11,.18);
+  padding-right: 18px;
+}
+.wed-col-right {
+  flex: 1;
+  padding-left: 18px;
+}
+
+/* Column-specific families row layout */
+.wed-families-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.wed-families-row .wed-family-block {
+  flex: 1;
+}
+.wed-family-sep-v {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.wed-family-sep-v .wed-sep-dot {
+  color: #b8860b;
+  font-size: 10px;
+  opacity: .5;
+}
+
 .wed-auspicious {
   padding: 8px 0 6px;
 }
@@ -199,22 +245,22 @@
    SANSKRIT SHLOK
 ============================== */
 .wed-shlok {
-  margin: 10px 28px;
-  padding: 16px 20px;
+  margin: 0 0 8px;
+  padding: 12px 14px;
   background: linear-gradient(135deg, #fdf8f0, #f8f0e0);
   border-radius: 8px;
   border-left: 3px solid #b8860b;
   border-right: 3px solid #b8860b;
 }
 .wed-shlok-text {
-  font-size: 16px;
+  font-size: 13px;
   color: #6b1520;
   font-style: italic;
   line-height: 1.85;
   letter-spacing: .5px;
 }
 .wed-shlok-meaning {
-  font-size: 14px;
+  font-size: 12px;
   color: #8a6830;
   font-style: italic;
   line-height: 1.65;
@@ -228,7 +274,7 @@
    JAIMALA SCENE
 ============================== */
 .wed-jaimala {
-  padding: 14px 20px 8px;
+  padding: 6px 10px 4px;
 }
 .wed-jm-decor {
   font-size: 18px;
@@ -245,7 +291,7 @@
 }
 .wed-jm-groom,
 .wed-jm-bride {
-  font-size: 48px;
+  font-size: 36px;
 }
 .wed-jm-heart {
   font-size: 28px;
@@ -270,14 +316,14 @@
    BLESSING
 ============================== */
 .wed-blessing {
-  margin: 8px 28px 12px;
-  padding: 14px 20px;
+  margin: 0 0 8px;
+  padding: 10px 14px;
   background: rgba(184,134,11,.04);
   border-radius: 8px;
   border: 1px solid rgba(184,134,11,.15);
 }
 .wed-blessing-text {
-  font-size: 15px;
+  font-size: 13px;
   color: #8a6830;
   font-style: italic;
   line-height: 1.75;
@@ -295,8 +341,8 @@
 }
 .wed-photo-frame {
   position: relative;
-  width: 140px;
-  height: 140px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   padding: 4px;
   background: linear-gradient(145deg, #b8860b, #d4a853, #b8860b);
@@ -317,8 +363,8 @@
    FAMILY NAMES
 ============================== */
 .wed-families {
-  margin: 12px 24px;
-  padding: 16px 20px;
+  margin: 8px 0;
+  padding: 12px 14px;
   background: linear-gradient(135deg, rgba(184,134,11,.05), rgba(107,21,32,.03));
   border-top: 1px solid rgba(184,134,11,.2);
   border-bottom: 1px solid rgba(184,134,11,.2);
@@ -364,14 +410,14 @@
    LOVE VERSE
 ============================== */
 .wed-verse {
-  margin: 10px 30px;
-  padding: 14px 18px;
+  margin: 0 0 8px;
+  padding: 10px 14px;
   border-radius: 8px;
   border: 1px solid rgba(184,134,11,.18);
   background: linear-gradient(135deg, #fdf8f0, #f9f1e2);
 }
 .wed-verse-text {
-  font-size: 16px;
+  font-size: 14px;
   color: #6a3a18;
   font-style: italic;
   line-height: 1.8;
@@ -395,10 +441,10 @@
    COUPLE HERO NAMES
 ============================== */
 .wed-couple-hero {
-  padding: 4px 24px 14px;
+  padding: 4px 10px 10px;
 }
 .wed-name {
-  font-size: 42px;
+  font-size: 36px;
   font-weight: 900;
   line-height: 1.2;
   letter-spacing: 1.5px;
@@ -436,13 +482,13 @@
    TAGLINE
 ============================== */
 .wed-tagline {
-  font-size: 14px;
+  font-size: 13px;
   color: #9a7a50;
   font-style: italic;
   letter-spacing: 1px;
-  margin-bottom: 14px;
-  line-height: 1.6;
-  padding: 0 32px;
+  margin-bottom: 8px;
+  line-height: 1.5;
+  padding: 0 10px;
   font-family: 'Segoe UI', Tahoma, sans-serif;
 }
 
@@ -471,7 +517,7 @@
    EVENT CARDS (Ceremony / Reception)
 ============================== */
 .wed-event {
-  margin: 10px 24px;
+  margin: 0 0 10px;
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid rgba(184,134,11,.25);
@@ -527,7 +573,7 @@
   font-family: 'Segoe UI', Tahoma, sans-serif;
 }
 .wed-detail-value {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 700;
   color: #3a1808;
   line-height: 1.4;
@@ -569,7 +615,7 @@
    GUEST CARD
 ============================== */
 .wed-guest {
-  margin: 14px 24px 10px;
+  margin: 0 0 10px;
   padding: 18px 22px 16px;
   background: linear-gradient(145deg, rgba(184,134,11,.05), rgba(107,21,32,.03));
   border: 1.5px dashed rgba(184,134,11,.4);
@@ -585,7 +631,7 @@
   font-family: 'Segoe UI', Tahoma, sans-serif;
 }
 .wed-guest-name {
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 900;
   color: #6b1520;
   line-height: 1.2;
@@ -603,11 +649,11 @@
    CUSTOM MESSAGE
 ============================== */
 .wed-message {
-  font-size: 17px;
+  font-size: 15px;
   color: #4a2808;
   font-style: italic;
   line-height: 1.7;
-  margin: 10px 28px;
+  margin: 0 0 10px;
   padding: 14px 20px;
   background: rgba(184,134,11,.04);
   border-left: 2px solid #b8860b;
@@ -630,7 +676,7 @@
    INVITATION APPEAL
 ============================== */
 .wed-appeal {
-  margin: 14px 24px;
+  margin: 0 20px 10px;
   padding: 20px 22px;
   background: linear-gradient(135deg, #6b1520, #7a1a28, #6b1520);
   border-radius: 10px;
@@ -650,7 +696,7 @@
    FAMILY MEMBERS SECTION
 ============================== */
 .wed-family-members {
-  margin: 14px 24px;
+  margin: 0 20px 10px;
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid rgba(184,134,11,.25);
@@ -740,11 +786,14 @@
 /* ==============================
    RESPONSIVE
 ============================== */
-@media (max-width: 480px) {
+@media (max-width: 700px) {
   .wedding-card { max-width: 100%; }
-  .wed-name { font-size: 32px; }
+  .wed-landscape-body { flex-direction: column; }
+  .wed-col-left { border-right: none; padding-right: 0; border-bottom: 1px solid rgba(184,134,11,.18); padding-bottom: 14px; margin-bottom: 14px; }
+  .wed-col-right { padding-left: 0; }
+  .wed-name { font-size: 28px; }
   .wed-jm-groom,
-  .wed-jm-bride { font-size: 38px; }
+  .wed-jm-bride { font-size: 30px; }
 }
 
 /* ============================================================
@@ -1162,17 +1211,17 @@
 
 .tpl-thumb {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 3;
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 10px;
   border: 2px solid rgba(255,255,255,.1);
 }
 .tpl-thumb-inner {
-  transform: scale(0.28);
+  transform: scale(0.16);
   transform-origin: top left;
-  width: 360%;
-  height: 360%;
+  width: 625%;
+  height: 625%;
   pointer-events: none;
 }
 
@@ -1255,7 +1304,7 @@
   overflow-y: auto;
 }
 .tpl-fullpreview-wrap {
-  max-width: 520px;
+  max-width: 920px;
   width: 100%;
   position: relative;
 }

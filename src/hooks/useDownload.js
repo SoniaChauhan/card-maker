@@ -35,8 +35,8 @@ export default function useDownload(elementId, filename) {
     const prevW    = el.style.width;
     const prevMinW = el.style.minWidth;
     el.style.maxWidth = 'none';
-    el.style.width    = '900px';
-    el.style.minWidth = '900px';
+    el.style.width    = '1200px';
+    el.style.minWidth = '1200px';
 
     // Let the browser reflow before capturing
     await new Promise(r => setTimeout(r, 300));
