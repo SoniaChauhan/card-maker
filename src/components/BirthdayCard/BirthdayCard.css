@@ -164,36 +164,41 @@
    Theme 1 — Space Adventure
    ═══════════════════════════════════════ */
 .bday-theme-1 {
-  background: #e8e3d5;
-  border-color: #c9c0ac;
+  background: linear-gradient(170deg, #0f1b3d 0%, #1a2d5e 40%, #2a4270 100%);
+  border-color: #3a5a8a;
 }
 .bday-theme-1 .bday-hero-name,
-.bday-theme-1 .bday-hero-title { color: #2c3e6b; }
-.bday-theme-1 .bday-subtitle    { color: #5fa8b6; }
+.bday-theme-1 .bday-hero-title { color: #f0d860; }
+.bday-theme-1 .bday-subtitle    { color: #8ecae6; }
 .bday-theme-1 .bday-age-badge   { background: #5fa8b6; }
-.bday-theme-1 .bday-event-line  { color: #2c3e6b; }
+.bday-theme-1 .bday-event-line  { color: #d0e8ff; }
+.bday-theme-1 .bday-venue-line  { color: #a0c4e8; }
+.bday-theme-1 .bday-address-line { color: #8ab0d0; }
+.bday-theme-1 .bday-guest-tag   { color: #a0c4e8; }
+.bday-theme-1 .bday-guest-name  { color: #f0d860; }
+.bday-theme-1 .bday-message     { color: #a0c4e8; }
 .bday-theme-1 .bday-photo       { border-color: #5fa8b6; }
 
 /* ═══════════════════════════════════════
    Theme 2 — Pastel Balloons
    ═══════════════════════════════════════ */
 .bday-theme-2 {
-  background: #f5ede6;
-  border-color: #e0d4c6;
+  background: linear-gradient(170deg, #fce4ec 0%, #f8d0da 50%, #f5c6d0 100%);
+  border-color: #e8a0b8;
 }
 .bday-theme-2 .bday-hero-name,
-.bday-theme-2 .bday-hero-title { color: #c4937f; }
-.bday-theme-2 .bday-subtitle    { color: #dec59b; }
+.bday-theme-2 .bday-hero-title { color: #b05070; }
+.bday-theme-2 .bday-subtitle    { color: #c9886e; }
 .bday-theme-2 .bday-age-badge   { background: #c4937f; }
-.bday-theme-2 .bday-event-line  { color: #c4937f; }
+.bday-theme-2 .bday-event-line  { color: #8a4060; }
 .bday-theme-2 .bday-photo       { border-color: #dec59b; }
 
 /* ═══════════════════════════════════════
    Theme 3 — Cute Stars
    ═══════════════════════════════════════ */
 .bday-theme-3 {
-  background: #f5f0e3;
-  border-color: #e0d8c5;
+  background: linear-gradient(170deg, #fffde7 0%, #fff9c4 50%, #fff59d 100%);
+  border-color: #e8d85a;
 }
 .bday-theme-3 .bday-hero-name,
 .bday-theme-3 .bday-hero-title { color: #c67a5c; }
@@ -206,27 +211,27 @@
    Theme 4 — Party Confetti
    ═══════════════════════════════════════ */
 .bday-theme-4 {
-  background: #f5f0e3;
-  border-color: #e0d8c5;
+  background: linear-gradient(170deg, #e8f5e9 0%, #c8e6c9 50%, #a5d6a7 100%);
+  border-color: #81c784;
 }
 .bday-theme-4 .bday-hero-name,
 .bday-theme-4 .bday-hero-title { color: #d98a4b; }
 .bday-theme-4 .bday-subtitle    { color: #e8985a; }
 .bday-theme-4 .bday-age-badge   { background: #e8985a; }
-.bday-theme-4 .bday-event-line  { color: #d98a4b; }
+.bday-theme-4 .bday-event-line  { color: #2e7d32; }
 .bday-theme-4 .bday-photo       { border-color: #e8985a; }
 
 /* ═══════════════════════════════════════
    Theme 5 — Sunshine Floral
    ═══════════════════════════════════════ */
 .bday-theme-5 {
-  background: #faf6f0;
-  border-color: #e8dcc8;
+  background: linear-gradient(170deg, #fce4ec 0%, #f3e5f5 50%, #e8eaf6 100%);
+  border-color: #ce93d8;
   padding-left: 75px;
   padding-right: 75px;
 }
 .bday-theme-5 .bday-hero-name,
-.bday-theme-5 .bday-hero-title { color: #b87f7f; }
+.bday-theme-5 .bday-hero-title { color: #8e3a80; }
 .bday-theme-5 .bday-subtitle    { color: #8ba888; }
 .bday-theme-5 .bday-age-badge   { background: #b87f7f; }
 .bday-theme-5 .bday-event-line  { color: #b87f7f; }
@@ -236,16 +241,104 @@
    Theme 6 — Animal Friends
    ═══════════════════════════════════════ */
 .bday-theme-6 {
-  background: #f5f0e3;
-  border-color: #d9c9a8;
+  background: linear-gradient(170deg, #fff3e0 0%, #ffe0b2 50%, #ffcc80 100%);
+  border-color: #ffb74d;
   border-radius: 24px;
 }
 .bday-theme-6 .bday-hero-name,
-.bday-theme-6 .bday-hero-title { color: #d98a4b; }
-.bday-theme-6 .bday-subtitle    { color: #9e7b5a; }
-.bday-theme-6 .bday-age-badge   { background: #9e7b5a; }
-.bday-theme-6 .bday-event-line  { color: #d98a4b; }
-.bday-theme-6 .bday-photo       { border-color: #9e7b5a; }
+.bday-theme-6 .bday-hero-title { color: #bf360c; }
+.bday-theme-6 .bday-subtitle    { color: #8d6e63; }
+.bday-theme-6 .bday-age-badge   { background: #e65100; }
+.bday-theme-6 .bday-event-line  { color: #bf360c; }
+.bday-theme-6 .bday-photo       { border-color: #ff8a65; }
+
+/* ═══════════════════════════════════════
+   Birthday Screen — transparent container
+   ═══════════════════════════════════════ */
+.birthday-card-screen .card-screen-container {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  border: none;
+}
+
+/* ═══════════════════════════════════════
+   Background Color Picker
+   ═══════════════════════════════════════ */
+.bday-bg-picker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.bday-bg-picker-label {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,.3);
+}
+.bday-bg-swatches {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.bday-bg-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.5);
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+  position: relative;
+}
+.bday-bg-swatch:hover {
+  transform: scale(1.15);
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+.bday-bg-swatch.active {
+  border-color: #fff;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.4);
+  transform: scale(1.15);
+}
+.bday-bg-swatch.active::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0,0,0,.5);
+}
+.bday-bg-custom-input {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px dashed rgba(255,255,255,.6);
+  cursor: pointer;
+  padding: 0;
+  background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+}
+.bday-bg-custom-input::-webkit-color-swatch-wrapper { padding: 0; }
+.bday-bg-custom-input::-webkit-color-swatch { border: none; border-radius: 50%; }
+.bday-bg-reset {
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+}
+.bday-bg-reset:hover { background: rgba(255,255,255,.25); }
 
 /* ═══════════════════════════════════════
    Template Chooser — Birthday scoped

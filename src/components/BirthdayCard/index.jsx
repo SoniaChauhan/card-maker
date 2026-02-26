@@ -13,8 +13,21 @@ import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
 import { logDownload } from '../../services/downloadHistoryService';
 
-const INIT = { guestName: '', birthdayPerson: '', age: '', date: '', time: '', venue: '', venueAddress: '', hostName: '', message: '', photo: null, photoPreview: '', selectedTemplate: 1 };
+const INIT = { guestName: '', birthdayPerson: '', age: '', date: '', time: '', venue: '', venueAddress: '', hostName: '', message: '', photo: null, photoPreview: '', selectedTemplate: 1, bgColor: '' };
 const PARTICLES = ['🎈', '🎉', '🎊', '⭐', '✨', '🎁', '🌟', '🎂'];
+
+const BG_SWATCHES = [
+  { color: '', label: 'Default' },
+  { color: '#0f1b3d', label: 'Deep Navy' },
+  { color: '#fce4ec', label: 'Blush Pink' },
+  { color: '#fffde7', label: 'Lemon' },
+  { color: '#e8f5e9', label: 'Mint' },
+  { color: '#e3f2fd', label: 'Sky Blue' },
+  { color: '#f3e5f5', label: 'Lavender' },
+  { color: '#fff3e0', label: 'Peach' },
+  { color: '#ffffff', label: 'White' },
+  { color: '#263238', label: 'Charcoal' },
+];
 
 export default function BirthdayCard({ onBack, userEmail, isSuperAdmin, initialData, templateId: initTplId }) {
   const [step, setStep]     = useState('form');
@@ -103,8 +116,29 @@ export default function BirthdayCard({ onBack, userEmail, isSuperAdmin, initialD
           </button>
         </div>
 
+        {/* Background Color Picker */}
+        <div className="bday-bg-picker">
+          <span className="bday-bg-picker-label">🎨 Card Background:</span>
+          <div className="bday-bg-swatches">
+            {BG_SWATCHES.map(s => (
+              <button key={s.color || 'default'} className={`bday-bg-swatch ${data.bgColor === s.color ? 'active' : ''}`}
+                style={{ background: s.color || 'linear-gradient(135deg,#ccc,#eee)' }}
+                title={s.label}
+                onClick={() => setData(d => ({ ...d, bgColor: s.color }))} />
+            ))}
+            <input type="color" className="bday-bg-custom-input" title="Pick custom color"
+              value={data.bgColor || '#ffffff'}
+              onChange={e => setData(d => ({ ...d, bgColor: e.target.value }))} />
+            {data.bgColor && (
+              <button className="bday-bg-reset" onClick={() => setData(d => ({ ...d, bgColor: '' }))}>
+                ↺ Reset
+              </button>
+            )}
+          </div>
+        </div>
+
         <div id="bday-card-print" className={`card-wrapper screenshot-protected ${!isSuperAdmin ? 'card-preview-locked' : ''}`}>
-          <BirthdayCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} />
+          <BirthdayCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} bgColor={data.bgColor} />
         </div>
         <CardActions
           onEdit={() => setStep('form')}
