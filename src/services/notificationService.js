@@ -1,38 +1,46 @@
 /**
- * Notification service — all emails are sent via Firebase Cloud Functions.
- *
- * The Cloud Functions (in /functions/index.js) handle EmailJS server-side
- * so that credentials, OTP codes, and admin email are NEVER visible in
- * the browser's Network tab.
- *
- * Deploy the functions first:
- *   cd functions && npm install
- *   firebase deploy --only functions
+ * Notification service — sends emails via EmailJS.
  */
-import { httpsCallable } from 'firebase/functions';
-import { functions } from '../firebase';
+import emailjs from '@emailjs/browser';
 
-/* Callable Cloud Functions */
-const sendOTPFn         = httpsCallable(functions, 'sendOTP');
-const notifyAdminFn     = httpsCallable(functions, 'notifyAdmin');
-const sendNotificationFn = httpsCallable(functions, 'sendNotification');
+const SERVICE_ID        = 'service_sicr4dp';
+const OTP_TEMPLATE_ID   = 'template_fil9nef';
+const NOTIFY_TEMPLATE_ID= 'template_n3scahd';
+const PUBLIC_KEY        = 'veryFjXyXWyfIiXTT';
 
-/**
- * Request OTP — the Cloud Function generates the code, stores it in
- * Firestore, and sends the email. The client NEVER sees the OTP or
- * EmailJS credentials.
- */
-export async function requestOTP(email) {
-  const result = await sendOTPFn({ email });
-  return result.data;
+import { ADMIN_EMAIL, ADMIN_NAME } from './authService';
+
+/** Send OTP to user's email */
+export async function sendOTPEmail(toEmail, otp) {
+  return emailjs.send(SERVICE_ID, OTP_TEMPLATE_ID, {
+    to_email:   toEmail,
+    otp_code:   otp,
+    from_name:  'Card Maker',
+    from_email: 'noreply@cardmaker.app',
+    name:       'Card Maker',
+    email:      toEmail,
+  }, PUBLIC_KEY);
 }
 
-/** Notify super-admin about an event (admin email is server-side) */
+/** Notify super-admin about an event */
 export async function notifyAdmin(subject, message, senderEmail = '') {
-  return notifyAdminFn({ subject, message, senderEmail });
+  return emailjs.send(SERVICE_ID, NOTIFY_TEMPLATE_ID, {
+    to_email:     ADMIN_EMAIL,
+    to_name:      ADMIN_NAME,
+    subject,
+    message,
+    sender_email: senderEmail,
+    name:         senderEmail || 'Card Maker',
+    email:        senderEmail || ADMIN_EMAIL,
+  }, PUBLIC_KEY);
 }
 
 /** Notify a user (e.g. subscription approved) */
 export async function notifyUser(toEmail, subject, message) {
-  return sendNotificationFn({ toEmail, subject, message });
+  return emailjs.send(SERVICE_ID, NOTIFY_TEMPLATE_ID, {
+    to_email: toEmail,
+    to_name:  toEmail,
+    subject,
+    message,
+  }, PUBLIC_KEY);
 }
