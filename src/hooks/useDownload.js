@@ -19,7 +19,10 @@ export default function useDownload(elementId, filename) {
 
   async function handleDownload() {
     const el = document.getElementById(elementId);
-    if (!el) return;
+    if (!el) {
+      showToast('⚠️ Card element not found.');
+      return;
+    }
 
     setDownloading(true);
 
@@ -36,26 +39,42 @@ export default function useDownload(elementId, filename) {
     el.style.minWidth = '900px';
 
     // Let the browser reflow before capturing
-    await new Promise(r => setTimeout(r, 100));
+    await new Promise(r => setTimeout(r, 300));
 
     try {
       const canvas = await html2canvas(el, {
         scale: 2,
         useCORS: true,
-        allowTaint: false,
-        backgroundColor: '#fdf8f0',
+        allowTaint: true,
+        backgroundColor: null,
         logging: false,
         width: el.scrollWidth,
         height: el.scrollHeight,
-        windowWidth: el.scrollWidth,
+        windowWidth: el.scrollWidth + 100,
         scrollX: 0,
         scrollY: 0,
         onclone: (clonedDoc) => {
           const clonedEl = clonedDoc.getElementById(elementId);
-          if (clonedEl) {
-            // Remove pseudo-element effects that html2canvas can't render
-            clonedEl.style.overflow = 'visible';
-          }
+          if (!clonedEl) return;
+
+          // Ensure the clone has proper dimensions and no overflow clipping
+          clonedEl.style.overflow = 'visible';
+          clonedEl.style.position = 'relative';
+
+          // Remove pseudo-elements html2canvas can't render &
+          // freeze all CSS animations so we capture a clean frame.
+          const style = clonedDoc.createElement('style');
+          style.textContent = `
+            #${elementId}::before,
+            #${elementId}::after {
+              display: none !important;
+            }
+            *, *::before, *::after {
+              animation: none !important;
+              transition: none !important;
+            }
+          `;
+          clonedDoc.head.appendChild(style);
         },
       });
 
