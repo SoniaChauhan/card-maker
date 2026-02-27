@@ -30,9 +30,25 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
     const prevMaxW = el.style.maxWidth;
     const prevW    = el.style.width;
     const prevMinW = el.style.minWidth;
+    const prevOverflow = el.style.overflow;
     el.style.maxWidth = 'none';
     el.style.width    = '600px';
     el.style.minWidth = '600px';
+    el.style.overflow = 'visible';
+
+    /* Also expand any direct child card so it fills the wrapper */
+    const directChildren = Array.from(el.children);
+    const childPrev = directChildren.map(c => ({
+      el: c,
+      maxWidth: c.style.maxWidth,
+      width: c.style.width,
+      overflow: c.style.overflow,
+    }));
+    directChildren.forEach(c => {
+      c.style.maxWidth = 'none';
+      c.style.width    = '100%';
+      c.style.overflow = 'visible';
+    });
 
     // Let the browser reflow before capturing
     await new Promise(r => setTimeout(r, 300));
@@ -73,6 +89,10 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
               overflow: visible !important;
               max-height: none !important;
             }
+            #${elementId} > * {
+              max-width: none !important;
+              min-width: 0 !important;
+            }
             #${elementId}::before,
             #${elementId}::after {
               display: none !important;
@@ -99,9 +119,18 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
       showToast('⚠️ Download failed. Please try again.');
     } finally {
       // Restore original dimensions
-      el.style.maxWidth = prevMaxW;
-      el.style.width    = prevW;
-      el.style.minWidth = prevMinW;
+      el.style.maxWidth  = prevMaxW;
+      el.style.width     = prevW;
+      el.style.minWidth  = prevMinW;
+      el.style.overflow  = prevOverflow;
+
+      // Restore direct children
+      childPrev.forEach(({ el: c, maxWidth, width, overflow }) => {
+        c.style.maxWidth = maxWidth;
+        c.style.width    = width;
+        c.style.overflow = overflow;
+      });
+
       setDownloading(false);
     }
   }

@@ -151,3 +151,27 @@
   padding: 0 8px;
 }
 .anniv-deco-bottom { font-size: 24px; letter-spacing: 5px; margin-top: 6px; }
+
+/* ---- Responsive ---- */
+@media (max-width: 480px) {
+  .anniversary-card-screen { padding: 24px 10px; }
+  .anniversary-card {
+    padding: 28px 20px 24px;
+    border-radius: 22px;
+    max-width: 100%;
+  }
+  .anniversary-screen-title { font-size: 20px; }
+  .anniv-couple { font-size: 18px; }
+  .anniv-title { font-size: 20px; }
+  .anniv-rings { font-size: 36px; }
+  .anniv-rose-row { font-size: 24px; }
+  .anniv-event-box { padding: 12px 14px; }
+  .anniv-photo { width: 90px; height: 90px; }
+  .card-photo-preview--heart { width: 90px; height: 90px; }
+}
+
+@media (max-width: 360px) {
+  .anniversary-card { padding: 22px 14px 20px; }
+  .anniv-couple { font-size: 16px; }
+  .anniv-title { font-size: 18px; }
+}

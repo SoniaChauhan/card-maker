@@ -319,9 +319,32 @@
 }
 
 /* ---- Responsive ---- */
-@media (max-width: 480px) {
+@media (max-width: 560px) {
+  .biodata-card-screen { padding: 20px 8px; }
+  .biodata-card {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .biodata-card-screen .card-screen-container { max-width: 100%; padding: 16px 8px; }
+  .biodata-card-screen .card-wrapper { justify-content: flex-start; }
   .bio-rows { grid-template-columns: 1fr; }
   .bio-full-name { font-size: 18px; }
-  .bio-header-title { font-size: 20px; }
+  .bio-header-title { font-size: 20px; letter-spacing: 1.5px; }
+  .bio-header { padding: 16px 14px 12px; }
   .bio-photo, .bio-photo-placeholder { width: 70px; height: 88px; }
+  .bio-top-section { padding: 14px 16px 10px; gap: 12px; }
+  .bio-section { padding: 10px 16px 6px; }
+  .bio-label { min-width: 70px; font-size: 11px; }
+  .bio-value { font-size: 11.5px; }
+  .biodata-screen-title { font-size: 18px; }
+  .biodata-form-card { max-width: 100%; }
+}
+
+@media (max-width: 400px) {
+  .bio-header-title { font-size: 17px; letter-spacing: 1px; }
+  .bio-header-deco { font-size: 18px; letter-spacing: 5px; }
+  .bio-full-name { font-size: 16px; }
+  .bio-top-section { flex-direction: column; text-align: center; }
+  .bio-photo, .bio-photo-placeholder { margin: 0 auto; }
 }

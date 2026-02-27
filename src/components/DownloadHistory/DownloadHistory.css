@@ -283,5 +283,12 @@
   .dh-card-actions { flex-direction: column; }
   .dh-card-actions .dh-btn { width: 100%; text-align: center; }
   .dh-preview-modal { max-width: 100%; border-radius: 14px; }
-  .dh-preview-body { padding: 16px; }
+  .dh-preview-body { padding: 14px; }
+  .dh-preview-header { padding: 14px 18px; }
+  .dh-preview-header h3 { font-size: 14px; }
+  .dh-preview-footer { padding: 14px 18px 16px; flex-wrap: wrap; }
+  .dh-subtitle { font-size: 13px; }
+  .dh-card-title { font-size: 15px; }
+  .dh-empty h3 { font-size: 18px; }
+  .dh-empty-icon { font-size: 46px; }
 }

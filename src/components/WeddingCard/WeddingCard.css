@@ -130,8 +130,8 @@
   margin-bottom: 14px;
 }
 .wed-jaimala-svg {
-  width: 180px;
-  height: 165px;
+  width: 140px;
+  height: 128px;
 }
 .wed-svg-stroke {
   stroke: #b8860b;
@@ -561,8 +561,8 @@
   justify-content: center;
 }
 .wed-divine-svg {
-  width: 200px;
-  height: 176px;
+  width: 155px;
+  height: 136px;
 }
 .wed-svg-divine-stroke { stroke: #b8860b; fill: none; }
 .wed-svg-divine-fill { fill: #b8860b; }
@@ -772,7 +772,7 @@
    RESPONSIVE — Centered layout
 ============================================================ */
 @media (max-width: 560px) {
-  .wed-centered .wed-divine-svg { width: 110px; height: 100px; }
+  .wed-centered .wed-divine-svg { width: 95px; height: 84px; }
   .wed-name-center { font-size: 26px; }
   .wed-amp-center { font-size: 22px; }
   .wed-split-info {
@@ -875,6 +875,7 @@
   padding: 0;
   background: transparent;
   -webkit-appearance: none;
+  appearance: none;
 }
 .wed-bg-custom-input::-webkit-color-swatch-wrapper { padding: 0; }
 .wed-bg-custom-input::-webkit-color-swatch { border: none; border-radius: 50%; }
@@ -1295,12 +1296,33 @@
 
 /* Responsive template chooser + programs form */
 @media (max-width: 600px) {
-  .tpl-chooser-modal { padding: 16px; }
-  .tpl-chooser-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .tpl-chooser-modal { padding: 14px; border-radius: 16px; }
+  .tpl-chooser-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .tpl-chooser-card { padding: 8px; }
   .tpl-card-name { font-size: 11px; }
   .tpl-card-desc { font-size: 10px; }
   .wed-program-fields { grid-template-columns: 1fr; }
+  .wedding-card-screen { padding: 24px 10px; }
+  .wedding-screen-title { font-size: 18px; letter-spacing: 1.5px; }
+  .wed-bg-picker { padding: 10px 12px; gap: 8px; }
+  .btn-choose-template { font-size: 13px; padding: 8px 18px; }
+  .tpl-fullpreview-wrap { max-width: 100%; }
+  .tpl-fullpreview-overlay { padding: 16px 10px; }
+  .swc-modal { padding: 14px; border-radius: 16px; }
+  .swc-grid { grid-template-columns: 1fr; }
+  .swc-header h3 { font-size: 18px; }
+  .swc-actions { flex-direction: column; gap: 8px; }
+  .swc-btn-load { text-align: center; }
+  .btn-saved-cards { font-size: 13px; padding: 8px 18px; }
+}
+
+@media (max-width: 400px) {
+  .tpl-chooser-grid { grid-template-columns: 1fr; gap: 12px; }
+  .wed-name { font-size: 22px; }
+  .wed-name-center { font-size: 24px; }
+  .wed-event-heading { font-size: 14px; letter-spacing: 1px; }
+  .wed-preset-chips { gap: 6px; }
+  .wed-preset-chip { font-size: 11px; padding: 5px 10px; }
 }
 
 /* ============================================================

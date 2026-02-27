@@ -281,6 +281,17 @@
 }
 
 @media (max-width: 480px) {
-  .pay-popup { padding: 24px 18px 20px; }
+  .pay-popup { padding: 22px 16px 18px; border-radius: 16px; max-width: 100%; }
   .pay-features { grid-template-columns: 1fr; }
+  .pay-popup h3 { font-size: 18px; }
+  .pay-icon { font-size: 40px; }
+  .pay-price-box { padding: 14px 16px; }
+  .pay-price-amount { font-size: 24px; }
+  .pay-qr-img { width: 150px; height: 150px; }
+  .pay-btn { font-size: 14px; padding: 12px; }
+}
+
+@media (max-width: 360px) {
+  .pay-popup { padding: 18px 12px 16px; }
+  .pay-qr-img { width: 130px; height: 130px; }
 }

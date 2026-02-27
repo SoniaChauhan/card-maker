@@ -163,4 +163,9 @@
 @media (max-width: 480px) {
   .mt-grid { grid-template-columns: 1fr; }
   .mt-card-actions { flex-direction: column; }
+  .mt-btn { text-align: center; }
+  .mt-card-name { font-size: 15px; }
+  .mt-subtitle { font-size: 13px; }
+  .mt-empty h3 { font-size: 18px; }
+  .mt-empty-icon { font-size: 46px; }
 }

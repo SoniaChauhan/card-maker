@@ -281,12 +281,28 @@
 
 /* ─── Responsive ─── */
 @media (max-width: 600px) {
+  .selection-screen { padding: 24px 14px 40px; }
+  .selection-header { margin-bottom: 28px; }
+  .selection-header p { font-size: 14px; }
   .cards-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
-  .category-title { font-size: 17px; }
+  .category-title { font-size: 16px; padding-left: 10px; }
+  .card-category { margin-bottom: 30px; }
+  .card-option { padding: 20px 14px 18px; border-radius: 18px; }
+  .card-option-icon { font-size: 38px; margin-bottom: 8px; }
+  .card-option h3 { font-size: 14px; }
+  .card-option p { font-size: 11px; margin-bottom: 10px; }
+  .card-option-badge { font-size: 10px; padding: 3px 10px; }
+  .selection-footer { margin-top: 30px; }
+}
+
+@media (max-width: 400px) {
+  .cards-grid { grid-template-columns: 1fr; gap: 14px; }
   .card-option { padding: 24px 16px 22px; }
+  .card-option-icon { font-size: 44px; }
+  .card-option h3 { font-size: 16px; }
 }
 
 @media (min-width: 601px) and (max-width: 860px) {

@@ -6,7 +6,8 @@
    ═══════════════════════════════════════ */
 .bday-card {
   position: relative;
-  width: 420px;
+  width: 100%;
+  max-width: 420px;
   min-height: 620px;
   margin: 0 auto;
   padding: 32px 28px 36px;
@@ -258,6 +259,7 @@
 .birthday-card-screen {
   background: linear-gradient(160deg, #1a0a2e 0%, #2d1b4e 40%, #0f0518 100%);
   min-height: 100vh;
+  overflow-x: hidden;
   overflow-y: auto;
   padding: 48px 20px;
   display: flex;
@@ -275,6 +277,13 @@
   -webkit-backdrop-filter: none;
   box-shadow: none;
   border: none;
+}
+
+/* Keep card-wrapper from scrolling horizontally — birthday card is fluid */
+.birthday-card-screen .card-wrapper {
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .birthday-screen-title {
@@ -622,22 +631,55 @@
    ═══════════════════════════════════════ */
 @media (max-width: 480px) {
   .birthday-card-screen {
-    padding: 30px 10px;
+    padding: 20px 8px;
+  }
+  .birthday-card-screen .card-wrapper {
+    overflow: hidden;
+    min-width: 0;
   }
   .bday-card {
     width: 100%;
-    min-width: 320px;
-    padding: 24px 18px 28px;
+    min-width: 0;
+    padding: 22px 16px 26px;
+    min-height: auto;
+    overflow: hidden;
   }
-  .bday-hero-name { font-size: 32px; }
-  .bday-hero-title { font-size: 22px; }
-  .bday-center-svg { width: 140px; }
-  .bday-animals-svg { width: 260px; }
-  .bday-theme-5 { padding-left: 55px; padding-right: 55px; }
+  .bday-hero-name { font-size: 30px; }
+  .bday-hero-title { font-size: 20px; }
+  .bday-subtitle { font-size: 13px; letter-spacing: 1.5px; }
+  .bday-center-svg { width: 130px; }
+  .bday-animals-svg { width: 240px; }
+  .bday-theme-5 { padding-left: 50px; padding-right: 50px; }
+  .bday-event-line { font-size: 14px; }
+  .bday-venue-line { font-size: 13px; }
+  .bday-photo { width: 72px; height: 72px; }
+  .birthday-screen-title { font-size: 18px; letter-spacing: 1px; }
+  .bday-bg-picker { gap: 6px; }
 
   .birthday-card-screen .tpl-chooser-grid {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     padding: 12px;
   }
+  .birthday-card-screen .tpl-chooser-modal {
+    max-width: 100%;
+    border-radius: 14px;
+  }
+  .birthday-card-screen .tpl-chooser-header {
+    padding: 14px 18px;
+  }
+  .birthday-card-screen .tpl-chooser-header h3 { font-size: 17px; }
+  .birthday-card-screen .tpl-fullpreview-wrap {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .bday-card { padding: 18px 12px 22px; overflow: hidden; }
+  .bday-hero-name { font-size: 26px; }
+  .bday-hero-title { font-size: 18px; }
+  .bday-theme-5 { padding-left: 40px; padding-right: 40px; }
+  .birthday-card-screen .tpl-chooser-grid { grid-template-columns: 1fr; }
 }

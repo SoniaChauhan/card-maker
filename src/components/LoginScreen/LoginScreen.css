@@ -190,6 +190,18 @@
 
 /* Responsive */
 @media (max-width: 480px) {
-  .login-card { padding: 28px 20px 24px; }
+  .login-screen { padding: 16px; }
+  .login-card { padding: 28px 18px 24px; border-radius: 20px; }
+  .login-icon { font-size: 40px; }
+  .login-card h2 { font-size: 20px; }
+  .login-title { font-size: 15px; }
+  .login-subtitle { font-size: 12px; }
+  .login-input { padding: 11px 12px; font-size: 14px; }
+  .login-btn { padding: 12px; font-size: 14px; }
   .login-links { flex-direction: column; gap: 8px; align-items: center; }
+}
+
+@media (max-width: 360px) {
+  .login-card { padding: 22px 14px 20px; }
+  .login-card h2 { font-size: 18px; }
 }
