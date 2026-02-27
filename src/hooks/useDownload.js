@@ -88,11 +88,10 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
     const prevMaxW = el.style.maxWidth;
     const prevW    = el.style.width;
     const prevMinW = el.style.minWidth;
-    const prevOverflow = el.style.overflow;
     el.style.maxWidth = 'none';
     el.style.width    = '600px';
     el.style.minWidth = '600px';
-    el.style.overflow = 'visible';
+    /* Keep overflow as-is — cards use overflow:hidden to clip SVG decorations */
 
     /* Also expand any direct child card so it fills the wrapper */
     const directChildren = Array.from(el.children);
@@ -100,12 +99,10 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
       el: c,
       maxWidth: c.style.maxWidth,
       width: c.style.width,
-      overflow: c.style.overflow,
     }));
     directChildren.forEach(c => {
       c.style.maxWidth = 'none';
       c.style.width    = '100%';
-      c.style.overflow = 'visible';
     });
 
     // Let the browser reflow before capturing
@@ -158,6 +155,12 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
     await new Promise(r => setTimeout(r, 300));
 
     try {
+      /* Use offsetHeight to get the actual rendered height (scrollHeight can
+         be inflated when overflow is removed and absolutely-positioned SVG
+         decorations extend beyond card bounds). */
+      const captureH = Math.max(el.offsetHeight, el.scrollHeight);
+      const safeH = Math.min(captureH, 2000); // cap at 2000px to prevent runaway captures
+
       const canvas = await html2canvas(el, {
         scale: 2,
         useCORS: true,
@@ -165,7 +168,7 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
         backgroundColor: null,
         logging: false,
         width: el.scrollWidth,
-        height: el.scrollHeight,
+        height: safeH,
         windowWidth: el.scrollWidth + 100,
         scrollX: 0,
         scrollY: 0,
@@ -173,22 +176,11 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
           const clonedEl = clonedDoc.getElementById(elementId);
           if (!clonedEl) return;
 
-          clonedEl.style.overflow = 'visible';
+          /* Keep overflow as-is to preserve SVG decoration clipping */
           clonedEl.style.position = 'relative';
-          clonedEl.style.height = 'auto';
-
-          clonedEl.querySelectorAll('*').forEach(child => {
-            const cs = child.ownerDocument.defaultView.getComputedStyle(child);
-            if (cs.overflow === 'hidden') child.style.overflow = 'visible';
-          });
 
           const style = clonedDoc.createElement('style');
           style.textContent = `
-            #${elementId},
-            #${elementId} * {
-              overflow: visible !important;
-              max-height: none !important;
-            }
             #${elementId} > * {
               max-width: none !important;
               min-width: 0 !important;
@@ -231,12 +223,10 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
       el.style.maxWidth  = prevMaxW;
       el.style.width     = prevW;
       el.style.minWidth  = prevMinW;
-      el.style.overflow  = prevOverflow;
 
-      childPrev.forEach(({ el: c, maxWidth, width, overflow }) => {
+      childPrev.forEach(({ el: c, maxWidth, width }) => {
         c.style.maxWidth = maxWidth;
         c.style.width    = width;
-        c.style.overflow = overflow;
       });
 
       setDownloading(false);
