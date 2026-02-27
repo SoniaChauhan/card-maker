@@ -4,6 +4,12 @@
  * POST /api/email  with { action, ...params }
  */
 import { NextResponse } from 'next/server';
+import https from 'https';
+
+// Corporate proxy / self-signed cert workaround for dev
+if (process.env.NODE_ENV === 'development') {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
 
 const SERVICE_ID   = process.env.EMAILJS_SERVICE_ID;
 const OTP_TPL      = process.env.EMAILJS_OTP_TEMPLATE_ID;
