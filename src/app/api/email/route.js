@@ -1,39 +1,34 @@
 /**
- * Email API route — sends OTP and notification emails via EmailJS REST API.
- * Runs server-side so credentials stay hidden from the client.
+ * Email API route — sends emails via Brevo SMTP (nodemailer).
+ * Runs server-side so SMTP credentials stay hidden from the client.
  * POST /api/email  with { action, ...params }
  */
 import { NextResponse } from 'next/server';
-import https from 'https';
+import nodemailer from 'nodemailer';
 
-// Corporate proxy / self-signed cert workaround for dev
-if (process.env.NODE_ENV === 'development') {
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+// Corporate proxy / self-signed cert workaround
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_NAME  = process.env.ADMIN_NAME;
+
+function getTransporter() {
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT) || 587,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
 }
 
-const SERVICE_ID   = process.env.EMAILJS_SERVICE_ID;
-const OTP_TPL      = process.env.EMAILJS_OTP_TEMPLATE_ID;
-const NOTIFY_TPL   = process.env.EMAILJS_NOTIFY_TEMPLATE_ID;
-const PUBLIC_KEY   = process.env.EMAILJS_PUBLIC_KEY;
-const ADMIN_EMAIL  = process.env.ADMIN_EMAIL;
-const ADMIN_NAME   = process.env.ADMIN_NAME;
+const fromAddress = () =>
+  `${process.env.SMTP_FROM_NAME || 'Card Maker'} <${process.env.SMTP_FROM_EMAIL}>`;
 
-async function sendEmailJS(templateId, templateParams) {
-  const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      service_id:      SERVICE_ID,
-      template_id:     templateId,
-      user_id:         PUBLIC_KEY,
-      template_params: templateParams,
-    }),
-  });
-  if (!res.ok) {
-    const text = await res.text();
-    console.error('EmailJS error:', res.status, text);
-    throw new Error('Failed to send email');
-  }
+async function sendMail(to, subject, html) {
+  const transporter = getTransporter();
+  await transporter.sendMail({ from: fromAddress(), to, subject, html });
 }
 
 export async function POST(req) {
@@ -44,39 +39,46 @@ export async function POST(req) {
     switch (action) {
       case 'sendOTP': {
         const { toEmail, otp } = body;
-        await sendEmailJS(OTP_TPL, {
-          to_email:   toEmail,
-          otp_code:   otp,
-          from_name:  'Card Maker',
-          from_email: 'noreply@cardmaker.app',
-          name:       'Card Maker',
-          email:      toEmail,
-        });
+        await sendMail(
+          toEmail,
+          'Your Card Maker OTP',
+          `<div style="font-family:Arial,sans-serif;max-width:480px;margin:0 auto;padding:24px;border:1px solid #e0e0e0;border-radius:12px">
+            <h2 style="color:#6c47ff;text-align:center">🎴 Card Maker</h2>
+            <p>Hello,</p>
+            <p>Your one-time password (OTP) is:</p>
+            <div style="text-align:center;margin:24px 0">
+              <span style="font-size:32px;font-weight:bold;letter-spacing:6px;color:#6c47ff;background:#f3f0ff;padding:12px 24px;border-radius:8px">${otp}</span>
+            </div>
+            <p style="color:#888;font-size:13px">This OTP expires in 5 minutes. Do not share it with anyone.</p>
+          </div>`,
+        );
         return NextResponse.json({ ok: true });
       }
 
       case 'notifyAdmin': {
         const { subject, message, senderEmail } = body;
-        await sendEmailJS(NOTIFY_TPL, {
-          to_email:     ADMIN_EMAIL,
-          to_name:      ADMIN_NAME,
-          subject,
-          message,
-          sender_email: senderEmail || '',
-          name:         senderEmail || 'Card Maker',
-          email:        senderEmail || ADMIN_EMAIL,
-        });
+        await sendMail(
+          ADMIN_EMAIL,
+          subject || 'Card Maker Notification',
+          `<div style="font-family:Arial,sans-serif;max-width:480px;margin:0 auto;padding:24px">
+            <h2 style="color:#6c47ff">Admin Notification</h2>
+            <p>${message}</p>
+            ${senderEmail ? `<p style="color:#888">From: ${senderEmail}</p>` : ''}
+          </div>`,
+        );
         return NextResponse.json({ ok: true });
       }
 
       case 'notifyUser': {
         const { toEmail, subject, message } = body;
-        await sendEmailJS(NOTIFY_TPL, {
-          to_email: toEmail,
-          to_name:  toEmail,
-          subject,
-          message,
-        });
+        await sendMail(
+          toEmail,
+          subject || 'Card Maker Notification',
+          `<div style="font-family:Arial,sans-serif;max-width:480px;margin:0 auto;padding:24px">
+            <h2 style="color:#6c47ff">🎴 Card Maker</h2>
+            <p>${message}</p>
+          </div>`,
+        );
         return NextResponse.json({ ok: true });
       }
 
