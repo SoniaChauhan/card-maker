@@ -1,6 +1,7 @@
 /**
  * Auth service — Email/Password + OTP flow via Next.js API routes + MongoDB.
  */
+import { encodePayload } from '../utils/payload';
 
 export const ADMIN_EMAIL = 'soniarajvansi9876@gmail.com';
 export const ADMIN_NAME  = 'Sonia Chauhan';
@@ -9,7 +10,7 @@ async function api(body) {
   const res = await fetch('/api/auth', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
+    body: JSON.stringify({ _p: encodePayload(body) }),
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || 'Request failed');

@@ -4,8 +4,9 @@
  */
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/mongodb';
+import { decodeRequest } from '@/utils/payload';
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'soniarajvansi9876@gmail.com';
+const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || '').toLowerCase().trim();
 
 /* Simple SHA-256 hash (matches the client-side approach) */
 async function hashPassword(pw) {
@@ -15,7 +16,7 @@ async function hashPassword(pw) {
 
 export async function POST(req) {
   try {
-    const body = await req.json();
+    const body = await decodeRequest(req);
     const { action } = body;
     const db = await getDb();
 

@@ -5,6 +5,7 @@
 import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 import { getDb } from '@/lib/mongodb';
+import { decodeRequest } from '@/utils/payload';
 
 /** Strip non-serializable / oversized fields before saving. */
 function sanitizeFormData(data) {
@@ -20,7 +21,7 @@ function sanitizeFormData(data) {
 
 export async function POST(req) {
   try {
-    const body = await req.json();
+    const body = await decodeRequest(req);
     const { action } = body;
     const db = await getDb();
     const col = db.collection('templates');

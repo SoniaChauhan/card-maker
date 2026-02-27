@@ -9,6 +9,7 @@ import SubscriptionPopup from '../SubscriptionPopup/SubscriptionPopup';
 import Toast from '../shared/Toast';
 import { CATEGORIES } from '../SelectionScreen/SelectionScreen';
 import { getUserSubscriptions } from '../../services/subscriptionService';
+import { maskEmail } from '../../utils/helpers';
 
 export default function ProfileDashboard({ onSelect, onEditTemplate }) {
   const { user, logout, isSuperAdmin } = useAuth();
@@ -98,7 +99,7 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
                 <span className="pd-info-icon">📧</span>
                 <div>
                   <div className="pd-info-label">Email</div>
-                  <div className="pd-info-value">{user.email}</div>
+                  <div className="pd-info-value">{maskEmail(user.email)}</div>
                 </div>
               </div>
               <div className="pd-info-item">

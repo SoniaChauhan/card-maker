@@ -4,10 +4,11 @@
  */
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/mongodb';
+import { decodeRequest } from '@/utils/payload';
 
 export async function POST(req) {
   try {
-    const body = await req.json();
+    const body = await decodeRequest(req);
     const { action } = body;
     const db = await getDb();
     const col = db.collection('blockedUsers');

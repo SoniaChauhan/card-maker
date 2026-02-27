@@ -43,3 +43,24 @@ export function formatTime(timeStr) {
 export function toFilename(str) {
   return str.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
 }
+
+/**
+ * Masks an email address for display / logs.
+ * "sonia@gmail.com" → "so***@gm***.com"
+ */
+export function maskEmail(email) {
+  if (!email || typeof email !== 'string') return '***';
+  const [local, domain] = email.split('@');
+  if (!domain) return '***';
+  const maskedLocal = local.length <= 2
+    ? local[0] + '***'
+    : local.slice(0, 2) + '***';
+  const dotIdx = domain.lastIndexOf('.');
+  if (dotIdx <= 0) return `${maskedLocal}@***`;
+  const domName = domain.slice(0, dotIdx);
+  const ext = domain.slice(dotIdx);
+  const maskedDom = domName.length <= 2
+    ? domName[0] + '***'
+    : domName.slice(0, 2) + '***';
+  return `${maskedLocal}@${maskedDom}${ext}`;
+}

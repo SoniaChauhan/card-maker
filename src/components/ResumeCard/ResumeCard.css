@@ -82,12 +82,16 @@
   font-weight: 900;
   letter-spacing: 0.5px;
   margin-bottom: 2px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .resume-jobtitle {
   font-size: 14px;
   font-weight: 600;
   color: rgba(255,255,255,.85);
   margin-bottom: 10px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .resume-contact-row {
   display: flex;
@@ -129,6 +133,8 @@
   font-size: 13px;
   color: #555;
   line-height: 1.7;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* ---- Experience & Education entries ---- */
@@ -148,6 +154,8 @@
   font-size: 14px;
   font-weight: 700;
   color: #2d3748;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .resume-entry-date {
   font-size: 11px;
@@ -166,6 +174,8 @@
   color: #555;
   margin-top: 4px;
   line-height: 1.6;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* ---- Skills ---- */

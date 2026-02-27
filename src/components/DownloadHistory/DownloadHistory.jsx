@@ -16,7 +16,7 @@ const ResumeCardPreview      = lazy(() => import('../ResumeCard/ResumeCardPrevie
 const CARD_META = {
   birthday:        { icon: '🎂', label: 'Birthday Invite Designer',       color: 'linear-gradient(135deg,#ff6b6b,#feca57)' },
   wedding:         { icon: '💐', label: 'Wedding Invite Designer',       color: 'linear-gradient(135deg,#7b1c1c,#c9963e)' },
-  anniversary:     { icon: '💍', label: 'Anniversary Greeting Designer',  color: 'linear-gradient(135deg,#dc3c64,#ff9a9e)' },
+  anniversary:     { icon: '💍', label: 'Anniversary Greeting Designer',  color: 'linear-gradient(135deg,#1a2a5e,#c9a84c)' },
   babyshower:      { icon: '🍼', label: 'Baby Shower',                   color: 'linear-gradient(135deg,#f8a5c2,#f7d794)' },
   namingceremony:  { icon: '🪷', label: 'Naming Ceremony',               color: 'linear-gradient(135deg,#e056a0,#f0a3ef)' },
   housewarming:    { icon: '🏠', label: 'Housewarming',                  color: 'linear-gradient(135deg,#e17055,#fdcb6e)' },
@@ -42,19 +42,20 @@ const CARD_META = {
   socialevent:     { icon: '🌐', label: 'Social Event Cards',            color: 'linear-gradient(135deg,#0984e3,#6c5ce7)' },
 };
 
-/* Map cardType ➜ preview element id (matches what useDownload uses) */
-const PRINT_IDS = {
-  birthday: 'birthday-card-print', wedding: 'wedding-card-print',
-  anniversary: 'anniversary-card-print', jagrata: 'jagrata-card-print',
-  biodata: 'biodata-print', resume: 'resume-print',
-};
+/* Fixed id used by the preview wrapper in the modal */
+const DH_PRINT_ID = 'dh-redownload-target';
+
+/* Card types that have a preview component */
+const SUPPORTED_PREVIEWS = new Set([
+  'birthday', 'wedding', 'anniversary', 'jagrata', 'biodata', 'resume',
+]);
 
 /* Card type ➜ preview component */
 function PreviewRenderer({ cardType, data }) {
   switch (cardType) {
     case 'birthday':    return <BirthdayCardPreview    data={data} lang={data._lang || 'en'} template={data._template || 1} />;
     case 'wedding':     return <WeddingCardPreview     data={data} lang={data._lang || 'en'} template={data._template || 1} />;
-    case 'anniversary': return <AnniversaryCardPreview data={data} lang={data._lang || 'en'} />;
+    case 'anniversary': return <AnniversaryCardPreview data={data} lang={data._lang || 'en'} template={data.selectedTemplate || data._template || 1} bgColor={data.bgColor} />;
     case 'jagrata':     return <JagrataCardPreview     data={data} lang={data._lang || 'hi'} />;
     case 'biodata':     return <BiodataCardPreview     data={data} lang={data._lang || 'en'} />;
     case 'resume':      return <ResumeCardPreview      data={data} />;
@@ -103,46 +104,130 @@ export default function DownloadHistory({ userEmail }) {
 
   /* Re-download from the preview modal */
   async function handleRedownload(dl) {
-    const printId = PRINT_IDS[dl.cardType];
-    if (!printId) {
+    if (!SUPPORTED_PREVIEWS.has(dl.cardType)) {
       showToast('⚠️ Re-download not available for this card type.');
       return;
     }
     setDownloading(dl.id);
-    await new Promise(r => setTimeout(r, 400)); // let the preview render
+    // Let the preview modal render fully
+    await new Promise(r => setTimeout(r, 600));
 
-    const el = document.getElementById(printId);
+    const el = document.getElementById(DH_PRINT_ID);
     if (!el) { showToast('⚠️ Card element not found.'); setDownloading(null); return; }
 
     try {
+      /* Temporarily expand the card for high-quality capture */
       const prevMaxW = el.style.maxWidth;
       const prevW    = el.style.width;
       const prevMinW = el.style.minWidth;
+      const prevOverflow = el.style.overflow;
       el.style.maxWidth = 'none';
       el.style.width    = '600px';
       el.style.minWidth = '600px';
+      el.style.overflow = 'visible';
+
+      const directChildren = Array.from(el.children);
+      const childPrev = directChildren.map(c => ({
+        el: c, maxWidth: c.style.maxWidth, width: c.style.width, overflow: c.style.overflow,
+      }));
+      directChildren.forEach(c => {
+        c.style.maxWidth = 'none';
+        c.style.width = '100%';
+        c.style.overflow = 'visible';
+      });
+
+      await new Promise(r => setTimeout(r, 300));
+
+      /* ── Pre-convert inline SVGs to <img> for html2canvas ── */
+      const svgRestore = [];
+      el.querySelectorAll('svg').forEach(svg => {
+        try {
+          const rect = svg.getBoundingClientRect();
+          const w = Math.round(rect.width)  || svg.clientWidth  || 170;
+          const h = Math.round(rect.height) || svg.clientHeight || 90;
+
+          const svgClone = svg.cloneNode(true);
+          svgClone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+          svgClone.setAttribute('width', w);
+          svgClone.setAttribute('height', h);
+          if (!svgClone.getAttribute('viewBox')) {
+            svgClone.setAttribute('viewBox', `0 0 ${w} ${h}`);
+          }
+
+          const svgData = new XMLSerializer().serializeToString(svgClone);
+          const encoded = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+
+          const img = document.createElement('img');
+          img.src = encoded;
+          img.style.width   = w + 'px';
+          img.style.height  = h + 'px';
+          img.style.display = 'block';
+
+          const computed = window.getComputedStyle(svg);
+          img.style.margin = computed.margin || '0 auto';
+          img.className = svg.className?.baseVal || '';
+
+          svg.parentNode.insertBefore(img, svg);
+          svg.style.display = 'none';
+          svgRestore.push({ svg, img });
+        } catch (_) { /* leave SVG in place */ }
+      });
+
       await new Promise(r => setTimeout(r, 300));
 
       const canvas = await html2canvas(el, {
-        scale: 2, useCORS: true, allowTaint: true,
+        scale: 2, useCORS: true, allowTaint: false,
         backgroundColor: null, logging: false,
         width: el.scrollWidth, height: el.scrollHeight,
         windowWidth: el.scrollWidth + 100, scrollX: 0, scrollY: 0,
       });
 
+      /* Restore SVGs */
+      svgRestore.forEach(({ svg, img }) => {
+        try {
+          svg.style.display = '';
+          if (img.parentNode) img.parentNode.removeChild(img);
+        } catch (_) {}
+      });
+
+      /* Restore dimensions */
       el.style.maxWidth = prevMaxW;
       el.style.width    = prevW;
       el.style.minWidth = prevMinW;
+      el.style.overflow = prevOverflow;
+      childPrev.forEach(({ el: c, maxWidth, width, overflow }) => {
+        c.style.maxWidth = maxWidth;
+        c.style.width    = width;
+        c.style.overflow = overflow;
+      });
 
-      const link = document.createElement('a');
-      link.download = dl.filename || 'card.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-      showToast('✅ Card downloaded!');
+      if (!canvas || canvas.width === 0 || canvas.height === 0) {
+        showToast('⚠️ Could not capture card. Please try again.');
+        setDownloading(null);
+        return;
+      }
+
+      /* Download via blob URL */
+      canvas.toBlob((blob) => {
+        if (!blob) { showToast('⚠️ Download failed.'); setDownloading(null); return; }
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = dl.filename || 'card.png';
+        document.body.appendChild(a);
+        setTimeout(() => {
+          a.click();
+          setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            setDownloading(null);
+          }, 1500);
+        }, 100);
+        showToast('✅ Card downloaded!');
+      }, 'image/png');
     } catch (err) {
       console.error('Re-download failed:', err);
-      showToast('❌ Download failed.');
-    } finally {
+      showToast('❌ Download failed. Please try again.');
       setDownloading(null);
     }
   }
@@ -191,7 +276,7 @@ export default function DownloadHistory({ userEmail }) {
       <div className="dh-grid">
         {downloads.map(dl => {
           const meta = CARD_META[dl.cardType] || { icon: '🃏', label: dl.cardType, color: '#555' };
-          const hasPreview = !!PRINT_IDS[dl.cardType];
+          const hasPreview = SUPPORTED_PREVIEWS.has(dl.cardType);
           return (
             <div className="dh-card" key={dl.id}>
               {/* colour badge */}
@@ -259,7 +344,7 @@ export default function DownloadHistory({ userEmail }) {
               <h3>{preview.title}</h3>
               <button className="dh-preview-close" onClick={() => setPreview(null)}>✕</button>
             </div>
-            <div className="dh-preview-body">
+            <div className="dh-preview-body" id={DH_PRINT_ID}>
               <Suspense fallback={<div className="dh-loading"><div className="dh-spinner" /><p>Loading preview…</p></div>}>
                 <PreviewRenderer cardType={preview.cardType} data={preview.formSnapshot || {}} />
               </Suspense>

@@ -1,177 +1,691 @@
 /* ============================================================
-   Anniversary Card — themed styles
-   Colors: #dc3c64 / #ff9a9e / #a18cd1
+   Anniversary Greeting Card — Premium Redesign
+   6 templates, background picker, elegant SVG decorations
 ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
 
+/* ── Form Screen ── */
 .anniversary-form-screen {
-  background: linear-gradient(135deg, #dc3c64 0%, #a18cd1 100%);
+  background: linear-gradient(135deg, #1a2a5e 0%, #0d1a3a 60%, #c9a84c 100%);
 }
-.anniversary-form-screen .form-header h2 { color: #dc3c64; }
+.anniversary-form-screen .form-header h2 { color: #1a2a5e; }
 .anniversary-form-screen .btn-generate {
-  background: linear-gradient(135deg, #dc3c64, #a18cd1);
+  background: linear-gradient(135deg, #1a2a5e, #c9a84c);
   color: #fff;
-  box-shadow: 0 8px 24px rgba(220,60,100,.4);
+  box-shadow: 0 8px 24px rgba(201,168,76,.4);
 }
-.anniversary-form-screen .btn-generate:hover { box-shadow: 0 12px 32px rgba(220,60,100,.55); }
-
-/* ---- Photo upload in anniversary form ---- */
+.anniversary-form-screen .btn-generate:hover { box-shadow: 0 12px 32px rgba(201,168,76,.55); }
 .anniversary-form-screen .card-photo-upload input[type="file"] {
-  border: 2px dashed #dc3c64;
-  background: #fff5f8;
+  border: 2px dashed #c9a84c;
+  background: #fffdf5;
 }
 .card-photo-preview--heart {
   width: 110px;
   height: 110px;
   border-radius: 50%;
-  border: 4px solid #dc3c64;
+  border: 4px solid #c9a84c;
   object-fit: cover;
   margin-top: 8px;
 }
 
-/* ---- Photo on anniversary card ---- */
-.anniv-photo-frame {
-  display: flex;
-  justify-content: center;
-  margin: 8px 0 10px;
-}
-.anniv-photo {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #dc3c64;
-  box-shadow: 0 4px 18px rgba(220,60,100,.4);
-}
-
-/* ---- Card screen ---- */
+/* ── Card Screen (background behind card) ── */
 .anniversary-card-screen {
-  background: linear-gradient(135deg, #1a0010 0%, #3d0029 40%, #6a0040 100%);
+  background: linear-gradient(160deg, #0d1a3a 0%, #1a2a5e 40%, #0a1228 100%);
   min-height: 100vh;
+  overflow-x: hidden;
   overflow-y: auto;
-  padding: 40px 20px;
+  padding: 48px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
 }
-
 .anniversary-screen-title {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 800;
-  color: #ff9a9e;
-  text-shadow: 0 2px 10px rgba(0,0,0,.4);
-  margin-bottom: 22px;
-  letter-spacing: .5px;
+  color: #c9a84c;
+  text-shadow: 0 2px 10px rgba(0,0,0,.5);
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  font-family: 'Playfair Display', serif;
 }
 
-/* ---- The printable card ---- */
-.anniversary-card {
-  background: linear-gradient(160deg, #fff0f5 0%, #fce4ec 60%, #f8bbd0 100%);
-  border-radius: 28px;
+/* ─── transparent container ─── */
+.anniversary-card-screen .card-screen-container {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  border: none;
+}
+.anniversary-card-screen .card-wrapper {
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* ================================================================
+   THE PRINTABLE CARD — BASE
+================================================================ */
+.anniv-card {
+  position: relative;
   width: 100%;
   max-width: 420px;
-  padding: 36px 32px 30px;
-  box-shadow: 0 30px 80px rgba(220,60,100,.45);
+  min-height: 580px;
+  margin: 0 auto;
+  padding: 48px 36px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  position: relative;
   overflow: hidden;
+  font-family: 'Lora', Georgia, serif;
 }
-.anniversary-card::before {
-  content: '';
+
+/* Inner gold border (for template 1) */
+.anniv-inner-border {
   position: absolute;
-  top: -50%;
-  left: -30%;
-  width: 160%;
-  height: 80%;
-  background: radial-gradient(circle, rgba(220,60,100,.1), transparent 70%);
+  top: 10px; right: 10px; bottom: 10px; left: 10px;
+  border: 1.5px solid rgba(201,168,76,.35);
+  pointer-events: none;
+  z-index: 0;
+}
+.anniv-card > * { position: relative; z-index: 1; }
+
+/* ─── Content wrapper ─── */
+.anniv-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  flex: 1;
+}
+
+/* ─── SVG DECORATION POSITIONING ─── */
+
+/* Corners for template 1 */
+.anniv-corner {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  pointer-events: none;
+  z-index: 2;
+}
+.anniv-flip-none { top: 0; left: 0; }
+.anniv-flip-h    { top: 0; right: 0; transform: scaleX(-1); }
+.anniv-flip-v    { bottom: 0; left: 0; transform: scaleY(-1); }
+.anniv-flip-hv   { bottom: 0; right: 0; transform: scale(-1, -1); }
+
+/* Side vines for template 1 */
+.anniv-side-vine {
+  position: absolute;
+  width: 22px;
+  top: 110px;
+  bottom: 110px;
+  pointer-events: none;
+  z-index: 2;
+}
+.anniv-side-vine-l { left: 2px; }
+.anniv-side-vine-r { right: 2px; }
+
+/* Top/bottom strips for templates 2-6 */
+.anniv-top-strip {
+  width: 100%;
+  max-height: 70px;
+  margin: -8px auto 4px;
+  display: block;
+}
+.anniv-bot-strip {
+  width: 100%;
+  max-height: 40px;
+  margin: 8px auto -8px;
+  display: block;
+}
+
+/* Vintage frame overlay (template 5) */
+.anniv-vintage-frame-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.anniv-vintage-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── TYPOGRAPHY ─── */
+.anniv-title-main {
+  font-family: 'Great Vibes', cursive;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 1.1;
+  margin: 8px 0 6px;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.anniv-couple-names {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin: 6px 0 8px;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.anniv-amp {
+  font-weight: 400;
+  opacity: .7;
+  margin: 0 4px;
+}
+.anniv-years-badge {
+  display: inline-block;
+  padding: 5px 20px;
+  border-radius: 50px;
+  font-family: 'Playfair Display', serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin: 8px 0 12px;
+}
+.anniv-message-text {
+  font-family: 'Lora', serif;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.7;
+  margin: 6px 10px 10px;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.anniv-date-line {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin: 6px 0 14px;
+}
+
+/* ─── PHOTO ─── */
+.anniv-photo-wrap {
+  margin: 8px auto 0;
+}
+.anniv-photo-frame {
+  padding: 5px;
+  border: 2px solid rgba(201,168,76,.5);
+  display: inline-block;
+}
+.anniv-photo-img {
+  width: 180px;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+/* ================================================================
+   THEME 1 — Royal Gold Floral (like the reference image)
+================================================================ */
+.anniv-theme-1 {
+  background: linear-gradient(170deg, #14264a 0%, #1a2f5a 40%, #0f1e3e 100%);
+}
+.anniv-theme-1 .anniv-title-main     { color: #c9a84c; }
+.anniv-theme-1 .anniv-couple-names   { color: #c9a84c; }
+.anniv-theme-1 .anniv-amp            { color: #c9a84c; }
+.anniv-theme-1 .anniv-years-badge    { background: rgba(201,168,76,.2); color: #c9a84c; border: 1px solid rgba(201,168,76,.4); }
+.anniv-theme-1 .anniv-message-text   { color: rgba(255,255,255,.8); }
+.anniv-theme-1 .anniv-date-line      { color: #c9a84c; }
+.anniv-theme-1 .anniv-photo-frame    { border-color: #c9a84c; }
+
+/* ================================================================
+   THEME 2 — Rose Gold Romance
+================================================================ */
+.anniv-theme-2 {
+  background: linear-gradient(170deg, #2a1520 0%, #3d1e2e 40%, #1a0e15 100%);
+}
+.anniv-theme-2 .anniv-title-main     { color: #d4a373; }
+.anniv-theme-2 .anniv-couple-names   { color: #e8c9a8; }
+.anniv-theme-2 .anniv-amp            { color: #d4a373; }
+.anniv-theme-2 .anniv-years-badge    { background: rgba(212,163,115,.2); color: #d4a373; border: 1px solid rgba(212,163,115,.4); }
+.anniv-theme-2 .anniv-message-text   { color: rgba(255,220,220,.8); }
+.anniv-theme-2 .anniv-date-line      { color: #d4a373; }
+.anniv-theme-2 .anniv-photo-frame    { border-color: #d4a373; }
+
+/* ================================================================
+   THEME 3 — Emerald & Gold Laurels
+================================================================ */
+.anniv-theme-3 {
+  background: linear-gradient(170deg, #f8f5ee 0%, #f0ece0 50%, #e8e2d0 100%);
+}
+.anniv-theme-3 .anniv-title-main     { color: #2a5a28; }
+.anniv-theme-3 .anniv-couple-names   { color: #4a3008; }
+.anniv-theme-3 .anniv-amp            { color: #b8860b; }
+.anniv-theme-3 .anniv-years-badge    { background: #2a5a28; color: #fff; border: none; }
+.anniv-theme-3 .anniv-message-text   { color: #555; }
+.anniv-theme-3 .anniv-date-line      { color: #2a5a28; }
+.anniv-theme-3 .anniv-photo-frame    { border-color: #b8860b; }
+.anniv-theme-3 .anniv-inner-border   { border-color: rgba(184,134,11,.2); }
+
+/* ================================================================
+   THEME 4 — Royal Purple & Gold Mandala
+================================================================ */
+.anniv-theme-4 {
+  background: linear-gradient(170deg, #1a0a2e 0%, #2d1b4e 40%, #0f0518 100%);
+}
+.anniv-theme-4 .anniv-title-main     { color: #d4af37; }
+.anniv-theme-4 .anniv-couple-names   { color: #e0c868; }
+.anniv-theme-4 .anniv-amp            { color: #d4af37; }
+.anniv-theme-4 .anniv-years-badge    { background: rgba(212,175,55,.2); color: #d4af37; border: 1px solid rgba(212,175,55,.4); }
+.anniv-theme-4 .anniv-message-text   { color: rgba(220,200,255,.8); }
+.anniv-theme-4 .anniv-date-line      { color: #d4af37; }
+.anniv-theme-4 .anniv-photo-frame    { border-color: #d4af37; }
+
+/* ================================================================
+   THEME 5 — Vintage Parchment
+================================================================ */
+.anniv-theme-5 {
+  background: linear-gradient(170deg, #fdf8f0 0%, #f5eed8 50%, #ece0c0 100%);
+}
+.anniv-theme-5 .anniv-title-main     { color: #6b3a10; }
+.anniv-theme-5 .anniv-couple-names   { color: #4a2808; }
+.anniv-theme-5 .anniv-amp            { color: #b8860b; }
+.anniv-theme-5 .anniv-years-badge    { background: #b8860b; color: #fff; border: none; }
+.anniv-theme-5 .anniv-message-text   { color: #6a5a38; }
+.anniv-theme-5 .anniv-date-line      { color: #6b3a10; }
+.anniv-theme-5 .anniv-photo-frame    { border-color: #b8860b; }
+
+/* ================================================================
+   THEME 6 — Minimal Slate & Gold
+================================================================ */
+.anniv-theme-6 {
+  background: linear-gradient(170deg, #2d3436 0%, #3a3f41 40%, #1e2122 100%);
+}
+.anniv-theme-6 .anniv-title-main     { color: #c9a84c; }
+.anniv-theme-6 .anniv-couple-names   { color: #e0d8c0; }
+.anniv-theme-6 .anniv-amp            { color: #c9a84c; }
+.anniv-theme-6 .anniv-years-badge    { background: rgba(201,168,76,.15); color: #c9a84c; border: 1px solid rgba(201,168,76,.35); }
+.anniv-theme-6 .anniv-message-text   { color: rgba(255,255,255,.7); }
+.anniv-theme-6 .anniv-date-line      { color: #c9a84c; }
+.anniv-theme-6 .anniv-photo-frame    { border-color: #c9a84c; }
+
+/* ================================================================
+   Background Color Picker
+================================================================ */
+.anniv-bg-picker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.anniv-bg-picker-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #c9a84c;
+  text-shadow: 0 1px 3px rgba(0,0,0,.4);
+}
+.anniv-bg-swatches {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.anniv-bg-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid rgba(201,168,76,.5);
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+  position: relative;
+}
+.anniv-bg-swatch:hover {
+  transform: scale(1.15);
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+.anniv-bg-swatch.active {
+  border-color: #c9a84c;
+  box-shadow: 0 0 0 3px rgba(201,168,76,.4);
+  transform: scale(1.15);
+}
+.anniv-bg-swatch.active::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0,0,0,.6);
+}
+.anniv-bg-custom-input {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px dashed rgba(201,168,76,.6);
+  cursor: pointer;
+  padding: 0;
+  background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+}
+.anniv-bg-custom-input::-webkit-color-swatch-wrapper { padding: 0; }
+.anniv-bg-custom-input::-webkit-color-swatch { border: none; border-radius: 50%; }
+.anniv-bg-reset {
+  background: rgba(201,168,76,.15);
+  border: 1px solid rgba(201,168,76,.35);
+  color: #c9a84c;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+}
+.anniv-bg-reset:hover { background: rgba(201,168,76,.25); }
+
+/* ================================================================
+   Template Chooser — Anniversary scoped
+================================================================ */
+.anniversary-card-screen .btn-choose-template {
+  background: linear-gradient(135deg, #1a2a5e 0%, #c9a84c 100%);
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 10px auto 14px;
+  display: block;
+  box-shadow: 0 2px 8px rgba(201,168,76,.3);
+  transition: transform .15s, box-shadow .15s;
+}
+.anniversary-card-screen .btn-choose-template:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(201,168,76,.4);
+}
+
+/* Overlay + modal */
+.anniversary-card-screen .tpl-chooser-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.anniversary-card-screen .tpl-chooser-modal {
+  background: #fff;
+  border-radius: 18px;
+  max-width: 920px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 12px 40px rgba(0,0,0,.3);
+  position: relative;
+}
+.anniversary-card-screen .tpl-chooser-header {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(135deg, #1a2a5e 0%, #c9a84c 100%);
+  color: #fff;
+  padding: 18px 24px;
+  border-radius: 18px 18px 0 0;
+  z-index: 2;
+}
+.anniversary-card-screen .tpl-chooser-header h3 {
+  margin: 0 0 4px;
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+}
+.anniversary-card-screen .tpl-chooser-header p {
+  margin: 0;
+  font-size: 13px;
+  opacity: .85;
+}
+.anniversary-card-screen .tpl-chooser-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: rgba(255,255,255,.2);
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.anniversary-card-screen .tpl-chooser-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 18px;
+  padding: 22px;
+}
+.anniversary-card-screen .tpl-chooser-card {
+  border: 2px solid #eee;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s, transform .15s;
+  background: #fafafa;
+}
+.anniversary-card-screen .tpl-chooser-card:hover {
+  border-color: #c9a84c;
+  box-shadow: 0 4px 16px rgba(201,168,76,.2);
+  transform: translateY(-2px);
+}
+.anniversary-card-screen .tpl-chooser-card--selected {
+  border-color: #c9a84c;
+  box-shadow: 0 0 0 3px rgba(201,168,76,.3);
+}
+.anniversary-card-screen .tpl-thumb {
+  border-bottom: 2px solid #f0e8d8;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  background: #f8f5f0;
+}
+.anniversary-card-screen .tpl-thumb-inner {
+  transform: scale(.38);
+  transform-origin: center center;
   pointer-events: none;
 }
-
-.anniv-rose-row   { font-size: 30px; letter-spacing: 5px; margin-bottom: 12px; }
-.anniv-rings      { font-size: 44px; margin-bottom: 10px; animation: pulse 2.5s ease-in-out infinite; }
-.anniv-guest-intro { font-size: 13px; color: #aaa; font-style: italic; margin-bottom: 14px; }
-.anniv-guest-name  { font-size: 17px; font-weight: 800; color: #dc3c64; }
-
-.anniv-couple {
-  font-size: 22px;
-  font-weight: 900;
-  background: linear-gradient(135deg, #dc3c64, #a18cd1);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin: 8px 0 14px;
-}
-
-.anniv-badge {
-  display: inline-block;
-  background: linear-gradient(135deg, #dc3c64, #a18cd1);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 5px 18px;
-  border-radius: 50px;
-  margin-bottom: 14px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  box-shadow: 0 4px 14px rgba(220,60,100,.4);
-}
-
-.anniv-title {
-  font-size: 24px;
-  font-weight: 900;
-  color: #dc3c64;
-  margin-bottom: 10px;
-}
-
-.anniv-event-box {
-  background: linear-gradient(135deg, rgba(220,60,100,.07), rgba(161,140,209,.1));
-  border: 1.5px solid rgba(220,60,100,.2);
-  border-radius: 14px;
-  padding: 14px 16px;
-  margin: 14px 0;
-  text-align: left;
-}
-.anniv-event-row {
+.anniversary-card-screen .tpl-card-info {
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px 0;
+  font-family: 'Playfair Display', serif;
+}
+.anniversary-card-screen .tpl-card-icon {
+  font-size: 22px;
+}
+.anniversary-card-screen .tpl-card-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: #333;
+}
+.anniversary-card-screen .tpl-card-check {
+  margin-left: auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #c9a84c;
+  color: #fff;
   font-size: 13px;
-  color: #444;
-  margin: 5px 0;
-  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.anniv-event-icon { font-size: 15px; flex-shrink: 0; }
+.anniversary-card-screen .tpl-card-desc {
+  font-size: 12px;
+  color: #888;
+  padding: 2px 14px 6px;
+  margin: 0;
+}
+.anniversary-card-screen .tpl-preview-btn {
+  display: block;
+  width: calc(100% - 20px);
+  margin: 0 10px 10px;
+  padding: 8px;
+  border: 1px solid #c9a84c;
+  border-radius: 8px;
+  background: #fff;
+  color: #c9a84c;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background .15s;
+}
+.anniversary-card-screen .tpl-preview-btn:hover {
+  background: #fffbf0;
+}
+.anniversary-card-screen .tpl-chooser-footer {
+  padding: 14px 22px 18px;
+  text-align: center;
+  border-top: 1px solid #f0e8d8;
+}
+.anniversary-card-screen .tpl-btn-confirm {
+  background: linear-gradient(135deg, #1a2a5e 0%, #c9a84c 100%);
+  color: #fff;
+  border: none;
+  padding: 12px 36px;
+  border-radius: 12px;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(201,168,76,.3);
+  transition: transform .15s;
+}
+.anniversary-card-screen .tpl-btn-confirm:hover {
+  transform: translateY(-1px);
+}
 
-.anniv-message {
+/* Full preview overlay */
+.anniversary-card-screen .tpl-fullpreview-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.anniversary-card-screen .tpl-fullpreview-wrap {
+  background: #fff;
+  border-radius: 18px;
+  max-width: 520px;
+  width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 20px;
+}
+.anniversary-card-screen .tpl-fullpreview-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: #f5f5f5;
+  border: none;
+  font-size: 18px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.anniversary-card-screen .tpl-fullpreview-card {
+  display: flex;
+  justify-content: center;
+}
+.anniversary-card-screen .tpl-fullpreview-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.anniversary-card-screen .tpl-btn-select {
+  background: linear-gradient(135deg, #1a2a5e 0%, #c9a84c 100%);
+  color: #fff;
+  border: none;
+  padding: 10px 28px;
+  border-radius: 10px;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
   font-size: 14px;
-  color: #774;
-  font-style: italic;
-  line-height: 1.6;
-  margin: 12px 0 8px;
-  padding: 0 8px;
+  cursor: pointer;
 }
-.anniv-deco-bottom { font-size: 24px; letter-spacing: 5px; margin-top: 6px; }
+.anniversary-card-screen .tpl-btn-back {
+  background: #f5f5f5;
+  color: #666;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
 
-/* ---- Responsive ---- */
+/* ================================================================
+   Responsive
+================================================================ */
 @media (max-width: 480px) {
-  .anniversary-card-screen { padding: 24px 10px; }
-  .anniversary-card {
-    padding: 28px 20px 24px;
-    border-radius: 22px;
-    max-width: 100%;
+  .anniversary-card-screen { padding: 20px 8px; }
+  .anniversary-card-screen .card-wrapper {
+    overflow: hidden;
+    min-width: 0;
   }
-  .anniversary-screen-title { font-size: 20px; }
-  .anniv-couple { font-size: 18px; }
-  .anniv-title { font-size: 20px; }
-  .anniv-rings { font-size: 36px; }
-  .anniv-rose-row { font-size: 24px; }
-  .anniv-event-box { padding: 12px 14px; }
-  .anniv-photo { width: 90px; height: 90px; }
-  .card-photo-preview--heart { width: 90px; height: 90px; }
+  .anniv-card {
+    width: 100%;
+    min-width: 0;
+    padding: 36px 22px 30px;
+    min-height: auto;
+    overflow: hidden;
+  }
+  .anniv-title-main { font-size: 36px; }
+  .anniv-couple-names { font-size: 15px; letter-spacing: 1.5px; }
+  .anniv-corner { width: 85px; height: 85px; }
+  .anniv-photo-img { width: 150px; height: 170px; }
+  .anniversary-screen-title { font-size: 19px; }
+  .anniv-bg-picker { gap: 6px; }
+
+  .anniversary-card-screen .tpl-chooser-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 12px;
+  }
+  .anniversary-card-screen .tpl-chooser-modal {
+    max-width: 100%;
+    border-radius: 14px;
+  }
+  .anniversary-card-screen .tpl-chooser-header { padding: 14px 18px; }
+  .anniversary-card-screen .tpl-chooser-header h3 { font-size: 17px; }
+  .anniversary-card-screen .tpl-fullpreview-wrap {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+  }
 }
 
 @media (max-width: 360px) {
-  .anniversary-card { padding: 22px 14px 20px; }
-  .anniv-couple { font-size: 16px; }
-  .anniv-title { font-size: 18px; }
+  .anniv-card { padding: 28px 16px 24px; overflow: hidden; }
+  .anniv-title-main { font-size: 30px; }
+  .anniv-couple-names { font-size: 13px; }
+  .anniv-corner { width: 70px; height: 70px; }
+  .anniv-photo-img { width: 130px; height: 150px; }
+  .anniversary-card-screen .tpl-chooser-grid { grid-template-columns: 1fr; }
 }

@@ -9,6 +9,7 @@ import {
 } from '../../services/authService';
 import { sendOTPEmail, notifyAdmin } from '../../services/notificationService';
 import { isUserBlocked } from '../../services/blockService';
+import { maskEmail } from '../../utils/helpers';
 
 /*
   Modes:
@@ -68,7 +69,7 @@ export default function LoginScreen() {
       const user = await signInUser(trimmedEmail, password);
       login(user);
       notifyAdmin('🔑 User Login — Card Maker',
-        `Sender: ${user.email}\nName: ${user.name}\nRole: ${user.role}\nLogged in at ${new Date().toLocaleString()}.`,
+        `Sender: ${maskEmail(user.email)}\nName: ${user.name}\nRole: ${user.role}\nLogged in at ${new Date().toLocaleString()}.`,
         user.email
       ).catch(() => {});
     } catch (err) {
@@ -98,16 +99,12 @@ export default function LoginScreen() {
       const code = generateOTP();
       await storeOTP(trimmedEmail, code);
       await sendOTPEmail(trimmedEmail, code);
-      setInfo(`OTP sent to ${trimmedEmail} — check your inbox.`);
+      setInfo(`OTP sent to ${maskEmail(trimmedEmail)} — check your inbox.`);
       setMode('signup-otp');
     } catch (err) {
       console.error('OTP send error:', err);
       const msg = err?.text || err?.message || '';
-      if (msg.toLowerCase().includes('fetch')) {
-        setError('Email service is temporarily unavailable. Please try again in a moment.');
-      } else {
-        setError(msg || 'Failed to send OTP.');
-      }
+      setError(msg || 'Failed to send OTP. Please try again.');
     } finally { setLoading(false); }
   }
 
@@ -132,7 +129,7 @@ export default function LoginScreen() {
       const user = await signUpUser(name, trimmedEmail, password);
       login(user);
       notifyAdmin('🆕 New Sign-Up — Card Maker',
-        `Sender: ${user.email}\nName: ${user.name}\nRole: ${user.role}\nSigned up at ${new Date().toLocaleString()}.`,
+        `Sender: ${maskEmail(user.email)}\nName: ${user.name}\nRole: ${user.role}\nSigned up at ${new Date().toLocaleString()}.`,
         user.email
       ).catch(() => {});
     } catch (err) {
@@ -159,16 +156,12 @@ export default function LoginScreen() {
       const code = generateOTP();
       await storeOTP(trimmedEmail, code);
       await sendOTPEmail(trimmedEmail, code);
-      setInfo(`OTP sent to ${trimmedEmail}`);
+      setInfo(`OTP sent to ${maskEmail(trimmedEmail)}`);
       setMode('forgot-otp');
     } catch (err) {
       console.error('OTP send error:', err);
       const msg = err?.text || err?.message || '';
-      if (msg.toLowerCase().includes('fetch')) {
-        setError('Email service is temporarily unavailable. Please try again in a moment.');
-      } else {
-        setError(msg || 'Failed to send OTP.');
-      }
+      setError(msg || 'Failed to send OTP. Please try again.');
     } finally { setLoading(false); }
   }
 
@@ -219,16 +212,12 @@ export default function LoginScreen() {
       const code = generateOTP();
       await storeOTP(trimmedEmail, code);
       await sendOTPEmail(trimmedEmail, code);
-      setInfo(`OTP sent to ${trimmedEmail}`);
+      setInfo(`OTP sent to ${maskEmail(trimmedEmail)}`);
       setMode('otp-login-verify');
     } catch (err) {
       console.error('OTP send error:', err);
       const msg = err?.text || err?.message || '';
-      if (msg.toLowerCase().includes('fetch')) {
-        setError('Email service is temporarily unavailable. Please try again in a moment or use password login.');
-      } else {
-        setError(msg || 'Failed to send OTP.');
-      }
+      setError(msg || 'Failed to send OTP. Please try again.');
     } finally { setLoading(false); }
   }
 
@@ -253,7 +242,7 @@ export default function LoginScreen() {
       const user = await createOrUpdateUser(trimmedEmail);
       login(user);
       notifyAdmin('🔑 OTP Login — Card Maker',
-        `Sender: ${user.email}\nRole: ${user.role}\nLogged in via OTP at ${new Date().toLocaleString()}.`,
+        `Sender: ${maskEmail(user.email)}\nRole: ${user.role}\nLogged in via OTP at ${new Date().toLocaleString()}.`,
         user.email
       ).catch(() => {});
     } catch (err) {
@@ -295,12 +284,12 @@ export default function LoginScreen() {
   const subtitles = {
     'signin':           'Sign in with your email & password',
     'signup':           'Fill in your details to get started',
-    'signup-otp':       `Enter the 6-digit OTP sent to ${email}`,
+    'signup-otp':       `Enter the 6-digit OTP sent to ${maskEmail(email)}`,
     'forgot':           'Enter your email to receive a reset OTP',
-    'forgot-otp':       `Enter the OTP sent to ${email}`,
+    'forgot-otp':       `Enter the OTP sent to ${maskEmail(email)}`,
     'forgot-newpw':     'Choose a strong new password',
     'otp-login':        'We\'ll send a one-time code to your email',
-    'otp-login-verify': `Enter the OTP sent to ${email}`,
+    'otp-login-verify': `Enter the OTP sent to ${maskEmail(email)}`,
   };
 
   return (

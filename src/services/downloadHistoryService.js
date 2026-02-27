@@ -1,12 +1,13 @@
 /**
  * Download History service — tracks card downloads via Next.js API + MongoDB.
  */
+import { encodePayload } from '../utils/payload';
 
 async function api(body) {
   const res = await fetch('/api/downloads', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
+    body: JSON.stringify({ _p: encodePayload(body) }),
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || 'Request failed');

@@ -2,12 +2,13 @@
  * Block Service — Superadmin can block / unblock users.
  * Uses Next.js API route /api/block backed by MongoDB.
  */
+import { encodePayload } from '../utils/payload';
 
 async function api(body) {
   const res = await fetch('/api/block', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
+    body: JSON.stringify({ _p: encodePayload(body) }),
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || 'Request failed');

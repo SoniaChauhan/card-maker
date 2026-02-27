@@ -204,6 +204,9 @@
   font-weight: 900;
   line-height: 1.15;
   letter-spacing: 1px;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .wed-groom-name {
   color: #6b1520;
@@ -246,6 +249,8 @@
   font-weight: 700;
   color: #4a2808;
   display: inline;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .wed-family-sep {
   display: inline;
@@ -263,6 +268,8 @@
   line-height: 1.6;
   margin-top: auto;
   padding-top: 10px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* ==============================
@@ -280,6 +287,8 @@
   margin: 0 0 8px;
   line-height: 1.25;
   font-family: Georgia, 'Times New Roman', serif;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .wed-event-details {
   margin-bottom: 4px;
@@ -289,6 +298,8 @@
   color: #3a2008;
   line-height: 1.65;
   font-family: 'Segoe UI', Tahoma, sans-serif;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .wed-detail-sub {
   font-size: 12px;
@@ -308,6 +319,8 @@
   color: #6b1520;
   margin: 0 0 3px;
   letter-spacing: .5px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .wed-programs-details {
   margin-top: 6px;
@@ -358,6 +371,8 @@
   font-weight: 600;
   color: #4a2808;
   line-height: 1.5;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* ==============================
@@ -371,6 +386,8 @@
   margin-top: auto;
   padding-top: 8px;
   border-top: 1px solid rgba(184,134,11,.15);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* ==============================
@@ -594,6 +611,9 @@
   letter-spacing: 1.5px;
   line-height: 1.2;
   font-family: Georgia, 'Times New Roman', serif;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .wed-amp-center {
   font-size: 28px;
@@ -676,6 +696,8 @@
   color: #4a2808;
   letter-spacing: 1px;
   line-height: 1.5;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* With-love centered */

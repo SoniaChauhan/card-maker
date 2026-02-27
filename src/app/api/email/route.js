@@ -5,6 +5,7 @@
  */
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { decodeRequest } from '@/utils/payload';
 
 // Corporate proxy / self-signed cert workaround
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -16,10 +17,12 @@ function getTransporter() {
   return nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT) || 587,
+    secure: false,
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
+    tls: { rejectUnauthorized: false },
   });
 }
 
@@ -33,7 +36,7 @@ async function sendMail(to, subject, html) {
 
 export async function POST(req) {
   try {
-    const body = await req.json();
+    const body = await decodeRequest(req);
     const { action } = body;
 
     switch (action) {

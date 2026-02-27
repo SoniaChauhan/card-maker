@@ -2,12 +2,13 @@
  * Notification service — sends emails via Brevo SMTP through the /api/email route.
  * All SMTP credentials are server-side only.
  */
+import { encodePayload } from '../utils/payload';
 
 async function api(body) {
   const res = await fetch('/api/email', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
+    body: JSON.stringify({ _p: encodePayload(body) }),
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || 'Failed to send email');
