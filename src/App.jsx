@@ -13,7 +13,7 @@ import ResumeCard      from './components/ResumeCard';
 import useScreenshotProtection from './hooks/useScreenshotProtection';
 
 function AppContent() {
-  const { user, loading } = useAuth();
+  const { user, loading, isGuest } = useAuth();
   const [selected, setSelected] = useState(null);
   const [editingTemplate, setEditingTemplate] = useState(null); // template object or null
 
@@ -46,8 +46,8 @@ function AppContent() {
 
   const cardProps = {
     onBack: handleBack,
-    userEmail: user.email,
-    isSuperAdmin: isAdmin(user.email),
+    userEmail: isGuest ? '' : user.email,
+    isSuperAdmin: !isGuest && isAdmin(user.email),
     ...(editingTemplate ? { initialData: editingTemplate.formData, templateId: editingTemplate.id } : {}),
   };
 

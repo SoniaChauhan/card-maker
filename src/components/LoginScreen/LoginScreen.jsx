@@ -24,7 +24,7 @@ import { maskEmail } from '../../utils/helpers';
 */
 
 export default function LoginScreen() {
-  const { login } = useAuth();
+  const { login, loginAsGuest } = useAuth();
 
   const [mode, setMode]           = useState('signin');
   const [name, setName]           = useState('');
@@ -326,6 +326,10 @@ export default function LoginScreen() {
               Don't have an account?{' '}
               <button type="button" onClick={() => switchMode('signup')}>Sign Up</button>
             </div>
+            <div className="login-guest-divider"><span>or</span></div>
+            <button type="button" className="login-guest-btn" onClick={loginAsGuest}>
+              👤 Continue as Guest
+            </button>
           </form>
         )}
 
@@ -352,6 +356,10 @@ export default function LoginScreen() {
               Already have an account?{' '}
               <button type="button" onClick={() => switchMode('signin')}>Sign In</button>
             </div>
+            <div className="login-guest-divider"><span>or</span></div>
+            <button type="button" className="login-guest-btn" onClick={loginAsGuest}>
+              👤 Continue as Guest
+            </button>
           </form>
         )}
 

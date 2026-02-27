@@ -34,17 +34,26 @@ export function AuthProvider({ children }) {
     setUser(userData);
   }
 
+  function loginAsGuest() {
+    const guest = { name: 'Guest', email: 'guest@cardmaker.app', role: 'guest', isGuest: true };
+    setUser(guest);
+  }
+
   function logout() {
     clearSession();
     setUser(null);
   }
 
+  const isGuest = !!user?.isGuest;
+
   const value = {
     user,
     login,
+    loginAsGuest,
     logout,
     loading,
-    isSuperAdmin: user ? isAdmin(user.email) : false,
+    isGuest,
+    isSuperAdmin: user && !isGuest ? isAdmin(user.email) : false,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

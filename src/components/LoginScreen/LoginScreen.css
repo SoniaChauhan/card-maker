@@ -173,6 +173,44 @@
 }
 .login-switch button:hover { color: #764ba2; }
 
+/* Guest mode divider & button */
+.login-guest-divider {
+  display: flex;
+  align-items: center;
+  margin: 16px 0 10px;
+  gap: 12px;
+}
+.login-guest-divider::before,
+.login-guest-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ddd, transparent);
+}
+.login-guest-divider span {
+  font-size: 12px;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.login-guest-btn {
+  width: 100%;
+  padding: 12px;
+  border: 2px dashed #d0d0d0;
+  border-radius: 12px;
+  background: #fafafa;
+  color: #666;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+.login-guest-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+  background: #f0f0ff;
+}
+
 /* Resend */
 .login-resend {
   margin-top: 14px;
