@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import './LoginScreen.css';
 import { useAuth } from '../../contexts/AuthContext';

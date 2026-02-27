@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import './SubscriptionPopup.css';
 import { requestSubscription } from '../../services/subscriptionService';

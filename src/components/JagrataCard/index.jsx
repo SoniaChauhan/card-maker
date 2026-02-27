@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import './JagrataCard.css';
 import JagrataForm from './JagrataForm';

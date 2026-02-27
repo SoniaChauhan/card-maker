@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect } from 'react';
 import './MyTemplates.css';
 import { getUserTemplates, deleteTemplate } from '../../services/templateService';

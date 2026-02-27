@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect } from 'react';
 import './AdminPanel.css';
 import { blockUser, unblockUser, getBlockedUsers } from '../../services/blockService';

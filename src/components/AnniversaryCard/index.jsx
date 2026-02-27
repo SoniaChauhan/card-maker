@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import './AnniversaryCard.css';
 import AnniversaryForm from './AnniversaryForm';

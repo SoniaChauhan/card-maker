@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import './SelectionScreen.css';
 import Particles from '../shared/Particles';

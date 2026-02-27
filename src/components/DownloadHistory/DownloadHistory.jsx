@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect, lazy, Suspense } from 'react';
 import './DownloadHistory.css';
 import { getUserDownloads, deleteDownloadRecord } from '../../services/downloadHistoryService';

@@ -1,3 +1,4 @@
+'use client';
 import { createContext, useContext, useState, useEffect } from 'react';
 import { getSession, setSession, clearSession, isAdmin } from '../services/authService';
 import { isUserBlocked } from '../services/blockService';

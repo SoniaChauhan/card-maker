@@ -1,3 +1,4 @@
+'use client';
 /**
  * Particles — renders floating emoji icons as background decoration.
  * @param {{ icons: string[], count?: number, style?: object }} props

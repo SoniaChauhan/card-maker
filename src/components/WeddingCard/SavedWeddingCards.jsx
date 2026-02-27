@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect } from 'react';
 import { getUserTemplates, deleteTemplate } from '../../services/templateService';
 import WeddingCardPreview from './WeddingCardPreview';

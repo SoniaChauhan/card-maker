@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import './ResumeCard.css';
 import ResumeForm from './ResumeForm';

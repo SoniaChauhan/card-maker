@@ -1,32 +1,26 @@
 /**
- * Download History service — Firestore CRUD for tracking card downloads.
- *
- * Collection: "downloads"
- * Document shape:
- *   email        – user email (lowercase)
- *   cardType     – card id (birthday, anniversary, wedding, etc.)
- *   cardLabel    – human-readable card label
- *   title        – summary title (e.g. "Rahul & Priya Wedding")
- *   filename     – downloaded filename
- *   formSnapshot – condensed snapshot of key form fields (no base64/files)
- *   downloadedAt – Firestore Timestamp
+ * Download History service — tracks card downloads via Next.js API + MongoDB.
  */
-import { db } from '../firebase';
-import {
-  collection, addDoc, query, where, getDocs, orderBy,
-  deleteDoc, doc, Timestamp,
-} from 'firebase/firestore';
 
-const COL = 'downloads';
+async function api(body) {
+  const res = await fetch('/api/downloads', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
 
 /** Strip non-serializable / oversized fields before saving snapshot. */
 function sanitizeSnapshot(data) {
   const clean = {};
-  for (const [k, v] of Object.entries(data)) {
+  for (const [k, v] of Object.entries(data || {})) {
     if (v instanceof File) continue;
     if (k === 'photo') continue;
     if (typeof v === 'string' && v.startsWith('data:')) continue;
-    if (Array.isArray(v) && v.length > 10) continue; // skip very large arrays
+    if (Array.isArray(v) && v.length > 10) continue;
     clean[k] = v;
   }
   return clean;
@@ -34,47 +28,20 @@ function sanitizeSnapshot(data) {
 
 /** Log a new download event. Returns the doc id. */
 export async function logDownload(email, cardType, cardLabel, title, filename, formData = {}) {
-  const ref = await addDoc(collection(db, COL), {
-    email: email.toLowerCase().trim(),
-    cardType,
-    cardLabel,
-    title: title || `${cardType} card`,
-    filename,
-    formSnapshot: sanitizeSnapshot(formData),
-    downloadedAt: Timestamp.now(),
+  const data = await api({
+    action: 'log', email, cardType, cardLabel, title, filename,
+    formData: sanitizeSnapshot(formData),
   });
-  return ref.id;
+  return data.id;
 }
 
 /** Get all downloads for a user, newest first. */
 export async function getUserDownloads(email) {
-  try {
-    const q = query(
-      collection(db, COL),
-      where('email', '==', email.toLowerCase().trim()),
-      orderBy('downloadedAt', 'desc'),
-    );
-    const snap = await getDocs(q);
-    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  } catch (err) {
-    // Fallback: fetch without orderBy (works before composite index is created)
-    console.warn('Downloads orderBy failed — falling back to client sort.', err.message);
-    const q = query(
-      collection(db, COL),
-      where('email', '==', email.toLowerCase().trim()),
-    );
-    const snap = await getDocs(q);
-    const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    list.sort((a, b) => {
-      const ta = a.downloadedAt?.toMillis?.() || 0;
-      const tb = b.downloadedAt?.toMillis?.() || 0;
-      return tb - ta;
-    });
-    return list;
-  }
+  const data = await api({ action: 'getByUser', email });
+  return data.downloads;
 }
 
 /** Delete a download history record. */
 export async function deleteDownloadRecord(docId) {
-  await deleteDoc(doc(db, COL, docId));
+  await api({ action: 'delete', docId });
 }

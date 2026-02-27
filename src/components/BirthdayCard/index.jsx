@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import './BirthdayCard.css';
 import BirthdayForm from './BirthdayForm';
