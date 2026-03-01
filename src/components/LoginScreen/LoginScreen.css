@@ -376,6 +376,19 @@
   border-radius: 18px;
   padding: 16px 20px;
 }
+.lp-fb-tagline {
+  color: #e0e0e0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  margin: 4px 0 2px;
+  text-align: center;
+}
+.lp-fb-signup-note {
+  color: #ffc107;
+  font-size: 12.5px;
+  text-align: center;
+  margin-bottom: 6px;
+}
 .lp-feedback-form {
   display: flex;
   flex-direction: column;

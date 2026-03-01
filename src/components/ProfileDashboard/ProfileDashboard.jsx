@@ -285,7 +285,10 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
       {tab === 'feedback' && !isGuest && (
         <div className="pd-feedback-section">
           <h2>⭐ Rate & Review</h2>
-          <p className="pd-feedback-desc">We'd love to hear your thoughts! Your feedback helps us improve.</p>
+          <p className="pd-feedback-desc">
+            💬 Your feedback is incredibly valuable to us! Share your experience, rate our service,
+            and leave a comment so we can keep improving. Every review counts!
+          </p>
           <form className="pd-feedback-form" onSubmit={handleFeedbackSubmit}>
             <div className="pd-fb-stars">
               {[1, 2, 3, 4, 5].map(s => (

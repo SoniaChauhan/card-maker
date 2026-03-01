@@ -282,6 +282,14 @@ export default function LoginScreen() {
   async function handleFeedbackSubmit(e) {
     e.preventDefault();
     setFbMsg('');
+    if (!fbName.trim()) { setFbMsg('⚠️ Please enter your name.'); return; }
+    if (!fbEmail.trim()) { setFbMsg('⚠️ Please enter your email.'); return; }
+    if (!emailRegex.test(fbEmail.trim().toLowerCase())) { setFbMsg('⚠️ Please enter a valid email address.'); return; }
+    const domain = fbEmail.trim().split('@')[1]?.toLowerCase();
+    const blockedDomains = ['test.com', 'fake.com', 'example.com', 'temp.com', 'xxx.com'];
+    if (!domain || domain.split('.').length < 2 || domain.split('.').pop().length < 2 || blockedDomains.includes(domain)) {
+      setFbMsg('⚠️ Please use a valid email with a real domain (e.g. gmail.com, yahoo.com).'); return;
+    }
     if (!fbRating) { setFbMsg('⚠️ Please select a star rating.'); return; }
     if (!fbComment.trim()) { setFbMsg('⚠️ Please write a comment.'); return; }
     setFbSending(true);
@@ -497,7 +505,7 @@ export default function LoginScreen() {
                 <h3 className="lp-heading">🎨 About Card Maker</h3>
                 <p className="lp-text">
                   We fulfil all your online card creation needs — beautifully designed,
-                  easy to customize, and free to download!
+                  easy to customize, and ready to download!
                 </p>
                 <h4 className="lp-subheading" style={{ marginTop: 14 }}>📌 Available Cards</h4>
                 <div className="lp-card-grid">
@@ -535,6 +543,13 @@ export default function LoginScreen() {
             {/* ── Rate & Review — full-width bottom row ── */}
             <div className="lp-feedback-section lp-full-row">
               <h4 className="lp-subheading">⭐ Rate &amp; Review</h4>
+              <p className="lp-fb-tagline">
+                💬 Your feedback matters! Help us improve by sharing your thoughts.
+                Rate your experience and leave a comment — every review helps us serve you better.
+              </p>
+              <p className="lp-fb-signup-note">
+                📝 <strong>Sign up</strong> to share your feedback. We value genuine reviews from our community!
+              </p>
               <form className="lp-feedback-form" onSubmit={handleFeedbackSubmit}>
                 <div className="login-stars">
                   {[1, 2, 3, 4, 5].map(star => (
@@ -551,10 +566,10 @@ export default function LoginScreen() {
                   {fbRating > 0 && <span className="login-star-label">{fbRating}/5</span>}
                 </div>
                 <div className="lp-fb-row">
-                  <input className="lp-fb-input" type="text" placeholder="Your name (optional)"
-                    value={fbName} onChange={e => setFbName(e.target.value)} autoComplete="off" />
-                  <input className="lp-fb-input" type="email" placeholder="Your email (optional)"
-                    value={fbEmail} onChange={e => setFbEmail(e.target.value)} autoComplete="off" />
+                  <input className="lp-fb-input" type="text" placeholder="Your name *"
+                    value={fbName} onChange={e => setFbName(e.target.value)} autoComplete="off" required />
+                  <input className="lp-fb-input" type="email" placeholder="Your email *"
+                    value={fbEmail} onChange={e => setFbEmail(e.target.value)} autoComplete="off" required />
                   <textarea className="lp-fb-textarea" placeholder="Write your feedback…"
                     rows={2} value={fbComment} onChange={e => setFbComment(e.target.value)} autoComplete="off" />
                   <button className="login-btn lp-fb-btn" disabled={fbSending}>
