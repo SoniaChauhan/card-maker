@@ -326,38 +326,41 @@ export default function LoginScreen() {
   };
 
   const cardTypes = [
-    { icon: '🎂', name: 'Birthday', desc: 'Vibrant celebration templates', grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)' },
-    { icon: '💍', name: 'Wedding', desc: 'Elegant invitation designs', grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
-    { icon: '💕', name: 'Anniversary', desc: 'Mark special milestones', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
+    { icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',       grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)' },
+    { icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',          grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
+    { icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.',     grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
   ];
 
   const comingSoonCards = [
     /* Spiritual & Religious */
-    { icon: '🪔', name: 'Jagrata',           grad: 'linear-gradient(135deg, #f857a6, #ff5858)' },
-    { icon: '🙏', name: 'Satyanarayan Katha',grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
-    { icon: '💃', name: 'Garba / Navratri',  grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
+    { icon: '🪔', name: 'Jagrata',            desc: 'Design serene and devotional invitations for Jagrata gatherings.',     grad: 'linear-gradient(135deg, #f857a6, #ff5858)' },
+    { icon: '🙏', name: 'Satyanarayan Katha', desc: 'Create sacred invitations for Satyanarayan Katha pooja.',             grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
+    { icon: '💃', name: 'Garba / Navratri',   desc: 'Colourful Garba and Navratri celebration invitation cards.',           grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
     /* Wedding Functions */
-    { icon: '💛', name: 'Haldi',             grad: 'linear-gradient(135deg, #f9d423, #f7971e)' },
-    { icon: '🌿', name: 'Mehendi',           grad: 'linear-gradient(135deg, #38b2ac, #69f0ae)' },
-    { icon: '🎶', name: 'Sangeet',           grad: 'linear-gradient(135deg, #667eea, #764ba2)' },
-    { icon: '🥂', name: 'Reception',         grad: 'linear-gradient(135deg, #c471f5, #fa71cd)' },
-    { icon: '📅', name: 'Save the Date',     grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
+    { icon: '💛', name: 'Haldi',              desc: 'Bright and cheerful Haldi ceremony invitation cards.',                 grad: 'linear-gradient(135deg, #f9d423, #f7971e)' },
+    { icon: '🌿', name: 'Mehendi',            desc: 'Beautiful Mehendi night invitation with intricate design vibes.',      grad: 'linear-gradient(135deg, #38b2ac, #69f0ae)' },
+    { icon: '🎶', name: 'Sangeet',            desc: 'Create fun and musical Sangeet night invitation cards.',              grad: 'linear-gradient(135deg, #667eea, #764ba2)' },
+    { icon: '🥂', name: 'Reception',          desc: 'Design elegant reception party invitations for the big day.',         grad: 'linear-gradient(135deg, #c471f5, #fa71cd)' },
+    { icon: '📅', name: 'Save the Date',      desc: 'Send gorgeous Save the Date cards to your loved ones.',               grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
     /* Family & Life Events */
-    { icon: '🍼', name: 'Baby Shower',       grad: 'linear-gradient(135deg, #fda085, #f6d365)' },
-    { icon: '🪷', name: 'Naming Ceremony',   grad: 'linear-gradient(135deg, #a18cd1, #fbc2eb)' },
-    { icon: '🏠', name: 'Housewarming',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
-    { icon: '🎓', name: 'Graduation',        grad: 'linear-gradient(135deg, #667eea, #764ba2)' },
+    { icon: '🍼', name: 'Baby Shower',        desc: 'Design adorable invitations for a joyful baby shower celebration.',   grad: 'linear-gradient(135deg, #fda085, #f6d365)' },
+    { icon: '🪷', name: 'Naming Ceremony',    desc: 'Create elegant naming ceremony invitations with cultural themes.',    grad: 'linear-gradient(135deg, #a18cd1, #fbc2eb)' },
+    { icon: '🏠', name: 'Housewarming',       desc: 'Welcome guests to your new home with a warm invitation card.',        grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
+    { icon: '🎓', name: 'Graduation / Farewell', desc: 'Celebrate academic milestones with stylish graduation invitations.', grad: 'linear-gradient(135deg, #667eea, #764ba2)' },
     /* Professional & Documents */
-    { icon: '📄', name: 'Resume',            grad: 'linear-gradient(135deg, #38b2ac, #319795)' },
-    { icon: '💍', name: 'Marriage Biodata',   grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
-    { icon: '🪪', name: 'Visiting Card',     grad: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
+    { icon: '📄', name: 'Resume Builder',     desc: 'Design a polished resume and download it instantly in PDF format.',   grad: 'linear-gradient(135deg, #38b2ac, #319795)' },
+    { icon: '💍', name: 'Marriage Profile',    desc: 'Build a traditional and detailed marriage biodata with a clean layout.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
+    { icon: '🪪', name: 'Visiting Card',      desc: 'Design sleek and modern visiting cards for professionals.',           grad: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
+    { icon: '📋', name: 'Business Docs',      desc: 'Create professional business documents and letterheads.',             grad: 'linear-gradient(135deg, #667eea, #764ba2)' },
     /* Greeting Cards */
-    { icon: '🙏', name: 'Thank You',         grad: 'linear-gradient(135deg, #fda085, #f6d365)' },
-    { icon: '🎊', name: 'Congratulations',   grad: 'linear-gradient(135deg, #f857a6, #ff5858)' },
-    { icon: '🎆', name: 'Festival Cards',    grad: 'linear-gradient(135deg, #f9d423, #f7971e)' },
+    { icon: '🙏', name: 'Thank You',          desc: 'Express gratitude with elegant and heartfelt thank you cards.',       grad: 'linear-gradient(135deg, #fda085, #f6d365)' },
+    { icon: '🎊', name: 'Congratulations',    desc: 'Celebrate achievements with vibrant congratulations cards.',          grad: 'linear-gradient(135deg, #f857a6, #ff5858)' },
+    { icon: '🍀', name: 'Good Luck',          desc: 'Send warm good luck wishes with charming card designs.',              grad: 'linear-gradient(135deg, #43e97b, #38f9d7)' },
+    { icon: '🎆', name: 'Festival Cards',     desc: 'Create festive cards for Diwali, Holi, Eid, Christmas and more.',    grad: 'linear-gradient(135deg, #f9d423, #f7971e)' },
     /* Social Media */
-    { icon: '💬', name: 'WhatsApp Invites',  grad: 'linear-gradient(135deg, #43e97b, #38f9d7)' },
-    { icon: '📸', name: 'Instagram Stories', grad: 'linear-gradient(135deg, #c471f5, #fa71cd)' },
+    { icon: '💬', name: 'WhatsApp Invites',   desc: 'Create WhatsApp-optimised invitation cards ready to share.',          grad: 'linear-gradient(135deg, #43e97b, #38f9d7)' },
+    { icon: '📸', name: 'Instagram Story Templates', desc: 'Design eye-catching Instagram story templates for events.',    grad: 'linear-gradient(135deg, #c471f5, #fa71cd)' },
+    { icon: '🌐', name: 'Social Event Cards', desc: 'Create shareable event cards for social media platforms.',            grad: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
   ];
 
   return (
