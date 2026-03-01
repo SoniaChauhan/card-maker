@@ -410,18 +410,6 @@ export default function LoginScreen() {
             </button>
           ))}
         </div>
-
-        {/* Coming soon cards */}
-        <h3 className="lp-coming-title">🚀 Coming Soon — {comingSoonCards.length} more card types on the way!</h3>
-        <div className="lp-coming-grid">
-          {comingSoonCards.map(c => (
-            <div key={c.name} className="lp-coming-card" style={{ background: c.grad }}>
-              <span className="lp-showcase-icon">{c.icon}</span>
-              <h3 className="lp-showcase-name">{c.name}</h3>
-              <span className="lp-coming-badge">Coming Soon</span>
-            </div>
-          ))}
-        </div>
       </section>
 
       {/* ═══════ WHY CARD MAKER ═══════ */}
@@ -684,6 +672,21 @@ export default function LoginScreen() {
           </div>
         </div>
       </div>
+
+      {/* ═══════ COMING SOON ═══════ */}
+      <section className="lp-coming-section">
+        <h2 className="lp-section-title">🚀 Coming Soon</h2>
+        <p className="lp-section-sub">{comingSoonCards.length} more card types on the way!</p>
+        <div className="lp-coming-grid">
+          {comingSoonCards.map(c => (
+            <div key={c.name} className="lp-coming-card" style={{ background: c.grad }}>
+              <span className="lp-showcase-icon">{c.icon}</span>
+              <h3 className="lp-showcase-name">{c.name}</h3>
+              <span className="lp-coming-badge">Coming Soon</span>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* ═══════ BOTTOM CONTACT FOOTER ═══════ */}
       <footer className="login-footer">

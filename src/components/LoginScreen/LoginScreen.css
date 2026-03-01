@@ -205,6 +205,9 @@
 }
 
 /* Coming Soon section */
+.lp-coming-section {
+  padding: 48px var(--lp-gutter) 56px;
+}
 .lp-coming-title {
   font-size: clamp(14px, 1.6vw, 17px);
   font-weight: 800;
