@@ -10,6 +10,10 @@ import {
 import { sendOTPEmail, notifyAdmin, sendFeedback } from '../../services/notificationService';
 import { isUserBlocked } from '../../services/blockService';
 import { maskEmail } from '../../utils/helpers';
+import AdminPanel from '../AdminPanel/AdminPanel';
+import MyTemplates from '../MyTemplates/MyTemplates';
+import DownloadHistory from '../DownloadHistory/DownloadHistory';
+import Toast from '../shared/Toast';
 
 /*
   Modes:
@@ -23,8 +27,8 @@ import { maskEmail } from '../../utils/helpers';
     otp-login-verify – Verify OTP for passwordless login
 */
 
-export default function LoginScreen() {
-  const { login, loginAsGuest } = useAuth();
+export default function LoginScreen({ onSelect, onEditTemplate }) {
+  const { user, login, loginAsGuest, logout, isGuest, isFreePlan, isSuperAdmin } = useAuth();
 
   const [mode, setMode]           = useState('signin');
   const [name, setName]           = useState('');
@@ -36,6 +40,10 @@ export default function LoginScreen() {
   const [loading, setLoading]     = useState(false);
   const [error, setError]         = useState('');
   const [info, setInfo]           = useState('');
+
+  /* Account panel overlay */
+  const [accountTab, setAccountTab] = useState(null); // null | 'profile' | 'templates' | 'downloads' | 'admin'
+  const [toast, setToast]           = useState({ show: false, text: '' });
 
   /* Feedback state */
   const [fbName, setFbName]       = useState('');
@@ -326,10 +334,23 @@ export default function LoginScreen() {
   };
 
   const cardTypes = [
-    { icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',       grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)' },
-    { icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',          grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
-    { icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.',     grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
+    { id: 'birthday',    icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',       grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)' },
+    { id: 'wedding',     icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',          grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
+    { id: 'anniversary', icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.',     grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
   ];
+
+  /* ========== CARD CLICK — works for both logged-in and guest ========== */
+  function handleCardClick(cardId) {
+    if (!user) {
+      loginAsGuest();
+    }
+    if (onSelect) onSelect(cardId);
+  }
+
+  function handleComingSoon(cardName) {
+    setToast({ show: true, text: `🚀 "${cardName}" is coming soon! Stay tuned.` });
+    setTimeout(() => setToast({ show: false, text: '' }), 2500);
+  }
 
   const comingSoonCards = [
     /* Spiritual & Religious */
@@ -363,33 +384,104 @@ export default function LoginScreen() {
     { icon: '🌐', name: 'Social Event Cards', desc: 'Create shareable event cards for social media platforms.',            grad: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
   ];
 
+  const displayName = user?.name || user?.email?.split('@')[0] || '';
+  const initial = displayName.charAt(0).toUpperCase();
+
   return (
     <div className="login-page">
+
+      {/* ═══════ TOPBAR (logged in) ═══════ */}
+      {user && (
+        <div className="lp-topbar">
+          <div className="lp-topbar-logo">✨ Card Maker</div>
+          <div className="lp-topbar-actions">
+            {!isGuest && (
+              <>
+                <button className={`lp-topbar-btn ${accountTab === 'profile' ? 'active' : ''}`} onClick={() => setAccountTab(accountTab === 'profile' ? null : 'profile')}>👤 Profile</button>
+                <button className={`lp-topbar-btn ${accountTab === 'templates' ? 'active' : ''}`} onClick={() => setAccountTab(accountTab === 'templates' ? null : 'templates')}>📋 Templates</button>
+                <button className={`lp-topbar-btn ${accountTab === 'downloads' ? 'active' : ''}`} onClick={() => setAccountTab(accountTab === 'downloads' ? null : 'downloads')}>📥 Downloads</button>
+                {isSuperAdmin && (
+                  <button className={`lp-topbar-btn ${accountTab === 'admin' ? 'active' : ''}`} onClick={() => setAccountTab(accountTab === 'admin' ? null : 'admin')}>⚙️ Admin</button>
+                )}
+              </>
+            )}
+            {isGuest && (
+              <button className="lp-topbar-btn signup" onClick={() => { setAccountTab(null); setTimeout(() => document.getElementById('auth-section')?.scrollIntoView({ behavior: 'smooth' }), 100); }}>📝 Sign Up</button>
+            )}
+            <button className="lp-topbar-btn logout" onClick={() => { setAccountTab(null); logout(); }}>🚪 Logout</button>
+          </div>
+        </div>
+      )}
+
+      {/* ═══════ ACCOUNT PANEL OVERLAY ═══════ */}
+      {user && accountTab && (
+        <div className="lp-account-overlay" onClick={() => setAccountTab(null)}>
+          <div className="lp-account-panel" onClick={e => e.stopPropagation()}>
+            <button className="lp-account-close" onClick={() => setAccountTab(null)}>✕</button>
+
+            {accountTab === 'profile' && (
+              <div className="lp-account-content">
+                <div className="lp-profile-avatar">{initial}</div>
+                <h3 className="lp-profile-name">{user.name || 'Card Maker User'}</h3>
+                <span className="lp-profile-badge">{isSuperAdmin ? '⭐ Super Admin' : isFreePlan ? '🆓 Free Plan' : '💎 Premium'}</span>
+                <div className="lp-profile-info">
+                  <div className="lp-profile-row"><span>📧</span> {maskEmail(user.email)}</div>
+                  <div className="lp-profile-row"><span>🛡️</span> {isSuperAdmin ? 'Super Admin' : isFreePlan ? 'Free' : 'Premium'}</div>
+                  <div className="lp-profile-row"><span>📅</span> Member since {new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'short' })}</div>
+                </div>
+              </div>
+            )}
+
+            {accountTab === 'templates' && (
+              <MyTemplates userEmail={user.email} onEditTemplate={onEditTemplate} />
+            )}
+
+            {accountTab === 'downloads' && (
+              <DownloadHistory userEmail={user.email} />
+            )}
+
+            {accountTab === 'admin' && isSuperAdmin && <AdminPanel />}
+          </div>
+        </div>
+      )}
 
       {/* ═══════ HERO SECTION ═══════ */}
       <section className="lp-hero">
         <div className="lp-hero-inner">
-          <h1 className="lp-hero-title">
-            Create Beautiful Cards&nbsp;<span className="lp-accent">in Minutes</span>
-          </h1>
-          <p className="lp-hero-sub">
-            Birthday, Wedding &amp; Anniversary — stunning templates, easy customization, instant download. More cards coming soon!
-          </p>
-          <div className="lp-hero-actions">
-            <button className="lp-hero-cta" type="button" onClick={loginAsGuest}>
-              🎨 Create Your Card Free <span className="lp-arrow">→</span>
-            </button>
-            <button
-              className="lp-hero-signin"
-              type="button"
-              onClick={() => {
-                switchMode('signin');
-                setTimeout(() => document.getElementById('auth-section')?.scrollIntoView({ behavior: 'smooth' }), 100);
-              }}
-            >
-              Already a member? Sign In
-            </button>
-          </div>
+          {user ? (
+            <>
+              <h1 className="lp-hero-title">
+                Welcome back, <span className="lp-accent">{displayName}</span>!
+              </h1>
+              <p className="lp-hero-sub">
+                Click any card below to start designing. {isGuest ? 'Sign up to unlock all features!' : 'Your premium templates are ready.'}
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className="lp-hero-title">
+                Create Beautiful Cards&nbsp;<span className="lp-accent">in Minutes</span>
+              </h1>
+              <p className="lp-hero-sub">
+                Birthday, Wedding &amp; Anniversary — stunning templates, easy customization, instant download. More cards coming soon!
+              </p>
+              <div className="lp-hero-actions">
+                <button className="lp-hero-cta" type="button" onClick={loginAsGuest}>
+                  🎨 Create Your Card Free <span className="lp-arrow">→</span>
+                </button>
+                <button
+                  className="lp-hero-signin"
+                  type="button"
+                  onClick={() => {
+                    switchMode('signin');
+                    setTimeout(() => document.getElementById('auth-section')?.scrollIntoView({ behavior: 'smooth' }), 100);
+                  }}
+                >
+                  Already a member? Sign In
+                </button>
+              </div>
+            </>
+          )}
           <div className="lp-hero-stats">
             <div className="lp-stat"><span className="lp-stat-num">23+</span><span className="lp-stat-label">Card Types</span></div>
             <div className="lp-stat-divider" />
@@ -403,10 +495,10 @@ export default function LoginScreen() {
       {/* ═══════ TEMPLATE SHOWCASE ═══════ */}
       <section className="lp-showcase">
         <h2 className="lp-section-title">Choose Your Card Type</h2>
-        <p className="lp-section-sub">Click any card to start designing — no sign-up required</p>
+        <p className="lp-section-sub">{user ? 'Click a card to start creating' : 'Click any card to start designing — no sign-up required'}</p>
         <div className="lp-showcase-grid">
           {cardTypes.map(c => (
-            <button key={c.name} className="lp-showcase-card" style={{ background: c.grad }} type="button" onClick={loginAsGuest}>
+            <button key={c.id} className="lp-showcase-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
               <span className="lp-showcase-icon">{c.icon}</span>
               <h3 className="lp-showcase-name">{c.name}</h3>
               <p className="lp-showcase-desc">{c.desc}</p>
@@ -444,239 +536,241 @@ export default function LoginScreen() {
         </div>
       </section>
 
-      {/* ═══════ AUTH + FEATURES SECTION ═══════ */}
-      <div className="login-main" id="auth-section">
+      {/* ═══════ AUTH + FEATURES SECTION (shown when not logged in OR guest) ═══════ */}
+      {(!user || isGuest) && (
+        <div className="login-main" id="auth-section">
 
-        {/* ──── LEFT: Auth Form ──── */}
-        <div className="login-left">
-          <div className="login-card">
-            <div className="login-icon">✨</div>
-            <h2>Card Maker</h2>
-            <h3 className="login-title">{titles[mode]}</h3>
-            <p className="login-subtitle">{subtitles[mode]}</p>
+          {/* ──── LEFT: Auth Form ──── */}
+          <div className="login-left">
+            <div className="login-card">
+              <div className="login-icon">✨</div>
+              <h2>Card Maker</h2>
+              <h3 className="login-title">{titles[mode]}</h3>
+              <p className="login-subtitle">{subtitles[mode]}</p>
 
-            {error && <div className="login-error">⚠️ {error}</div>}
-            {info  && <div className="login-info">✅ {info}</div>}
+              {error && <div className="login-error">⚠️ {error}</div>}
+              {info  && <div className="login-info">✅ {info}</div>}
 
-            {/* ---- SIGN IN ---- */}
-            {mode === 'signin' && (
-              <form onSubmit={handleSignIn} autoComplete="off">
-                <input className="login-input" type="email" placeholder="Email address"
-                  value={email} onChange={e => setEmail(e.target.value)} autoComplete="off" autoFocus />
-                <div className="login-pw-wrap">
-                  <input className="login-input" type={showPw ? 'text' : 'password'} placeholder="Password"
-                    value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
-                  <button type="button" className="login-pw-toggle" onClick={() => setShowPw(!showPw)}>
-                    {showPw ? '🙈' : '👁️'}
+              {/* ---- SIGN IN ---- */}
+              {mode === 'signin' && (
+                <form onSubmit={handleSignIn} autoComplete="off">
+                  <input className="login-input" type="email" placeholder="Email address"
+                    value={email} onChange={e => setEmail(e.target.value)} autoComplete="off" autoFocus />
+                  <div className="login-pw-wrap">
+                    <input className="login-input" type={showPw ? 'text' : 'password'} placeholder="Password"
+                      value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
+                    <button type="button" className="login-pw-toggle" onClick={() => setShowPw(!showPw)}>
+                      {showPw ? '🙈' : '👁️'}
+                    </button>
+                  </div>
+                  <button className="login-btn" disabled={loading}>
+                    {loading ? '⏳ Signing in…' : '🔐 Sign In'}
                   </button>
-                </div>
-                <button className="login-btn" disabled={loading}>
-                  {loading ? '⏳ Signing in…' : '🔐 Sign In'}
-                </button>
-                <div className="login-links">
-                  <button type="button" onClick={() => switchMode('forgot')}>Forgot password?</button>
-                  <button type="button" onClick={() => switchMode('otp-login')}>Login with OTP</button>
-                </div>
-                <div className="login-switch">
-                  Don&apos;t have an account?{' '}
-                  <button type="button" onClick={() => switchMode('signup')}>Sign Up</button>
-                </div>
-                <div className="login-guest-divider"><span>or</span></div>
-                <button type="button" className="login-guest-btn" onClick={loginAsGuest}>
-                  👤 Continue as Guest
-                </button>
-              </form>
-            )}
-
-            {/* ---- SIGN UP ---- */}
-            {mode === 'signup' && (
-              <form onSubmit={handleSignUp} autoComplete="off">
-                <input className="login-input" type="text" placeholder="Full Name"
-                  value={name} onChange={e => setName(e.target.value)} autoComplete="off" autoFocus />
-                <input className="login-input" type="email" placeholder="Email address"
-                  value={email} onChange={e => setEmail(e.target.value)} autoComplete="off" />
-                <div className="login-pw-wrap">
-                  <input className="login-input" type={showPw ? 'text' : 'password'} placeholder="Password (min 6 chars)"
-                    value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
-                  <button type="button" className="login-pw-toggle" onClick={() => setShowPw(!showPw)}>
-                    {showPw ? '🙈' : '👁️'}
+                  <div className="login-links">
+                    <button type="button" onClick={() => switchMode('forgot')}>Forgot password?</button>
+                    <button type="button" onClick={() => switchMode('otp-login')}>Login with OTP</button>
+                  </div>
+                  <div className="login-switch">
+                    Don&apos;t have an account?{' '}
+                    <button type="button" onClick={() => switchMode('signup')}>Sign Up</button>
+                  </div>
+                  <div className="login-guest-divider"><span>or</span></div>
+                  <button type="button" className="login-guest-btn" onClick={loginAsGuest}>
+                    👤 Continue as Guest
                   </button>
-                </div>
-                <input className="login-input" type="password" placeholder="Confirm Password"
-                  value={confirmPw} onChange={e => setConfirmPw(e.target.value)} autoComplete="new-password" />
-                <button className="login-btn signup" disabled={loading}>
-                  {loading ? '⏳ Sending OTP…' : '📩 Sign Up'}
-                </button>
-                <div className="login-switch">
-                  Already have an account?{' '}
-                  <button type="button" onClick={() => switchMode('signin')}>Sign In</button>
-                </div>
-                <div className="login-guest-divider"><span>or</span></div>
-                <button type="button" className="login-guest-btn" onClick={loginAsGuest}>
-                  👤 Continue as Guest
-                </button>
-              </form>
-            )}
+                </form>
+              )}
 
-            {/* ---- SIGN UP OTP VERIFY ---- */}
-            {mode === 'signup-otp' && (
-              <form onSubmit={handleSignUpOTP} autoComplete="off">
-                <input className="login-input otp" type="text" maxLength={6} placeholder="Enter 6-digit OTP"
-                  value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} autoComplete="off" autoFocus />
-                <button className="login-btn" disabled={loading}>
-                  {loading ? '⏳ Verifying…' : '✅ Verify & Create Account'}
-                </button>
-                <div className="login-resend">
-                  Didn&apos;t receive it?{' '}
-                  <button type="button" onClick={handleResend} disabled={loading}>Resend OTP</button>
-                </div>
-              </form>
-            )}
-
-            {/* ---- FORGOT PASSWORD — enter email ---- */}
-            {mode === 'forgot' && (
-              <form onSubmit={handleForgotSend} autoComplete="off">
-                <input className="login-input" type="email" placeholder="Email address"
-                  value={email} onChange={e => setEmail(e.target.value)} autoComplete="off" autoFocus />
-                <button className="login-btn" disabled={loading}>
-                  {loading ? '⏳ Sending…' : '📩 Send Reset OTP'}
-                </button>
-                <div className="login-switch">
-                  <button type="button" onClick={() => switchMode('signin')}>← Back to Sign In</button>
-                </div>
-              </form>
-            )}
-
-            {/* ---- FORGOT PASSWORD — verify OTP ---- */}
-            {mode === 'forgot-otp' && (
-              <form onSubmit={handleForgotOTP} autoComplete="off">
-                <input className="login-input otp" type="text" maxLength={6} placeholder="Enter 6-digit OTP"
-                  value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} autoComplete="off" autoFocus />
-                <button className="login-btn" disabled={loading}>
-                  {loading ? '⏳ Verifying…' : '✅ Verify OTP'}
-                </button>
-                <div className="login-resend">
-                  Didn&apos;t receive it?{' '}
-                  <button type="button" onClick={handleResend} disabled={loading}>Resend OTP</button>
-                </div>
-              </form>
-            )}
-
-            {/* ---- FORGOT PASSWORD — new password ---- */}
-            {mode === 'forgot-newpw' && (
-              <form onSubmit={handleNewPassword} autoComplete="off">
-                <div className="login-pw-wrap">
-                  <input className="login-input" type={showPw ? 'text' : 'password'} placeholder="New Password (min 6 chars)"
-                    value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" autoFocus />
-                  <button type="button" className="login-pw-toggle" onClick={() => setShowPw(!showPw)}>
-                    {showPw ? '🙈' : '👁️'}
+              {/* ---- SIGN UP ---- */}
+              {mode === 'signup' && (
+                <form onSubmit={handleSignUp} autoComplete="off">
+                  <input className="login-input" type="text" placeholder="Full Name"
+                    value={name} onChange={e => setName(e.target.value)} autoComplete="off" autoFocus />
+                  <input className="login-input" type="email" placeholder="Email address"
+                    value={email} onChange={e => setEmail(e.target.value)} autoComplete="off" />
+                  <div className="login-pw-wrap">
+                    <input className="login-input" type={showPw ? 'text' : 'password'} placeholder="Password (min 6 chars)"
+                      value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
+                    <button type="button" className="login-pw-toggle" onClick={() => setShowPw(!showPw)}>
+                      {showPw ? '🙈' : '👁️'}
+                    </button>
+                  </div>
+                  <input className="login-input" type="password" placeholder="Confirm Password"
+                    value={confirmPw} onChange={e => setConfirmPw(e.target.value)} autoComplete="new-password" />
+                  <button className="login-btn signup" disabled={loading}>
+                    {loading ? '⏳ Sending OTP…' : '📩 Sign Up'}
                   </button>
-                </div>
-                <input className="login-input" type="password" placeholder="Confirm New Password"
-                  value={confirmPw} onChange={e => setConfirmPw(e.target.value)} autoComplete="new-password" />
-                <button className="login-btn" disabled={loading}>
-                  {loading ? '⏳ Resetting…' : '🔒 Reset Password'}
-                </button>
-              </form>
-            )}
+                  <div className="login-switch">
+                    Already have an account?{' '}
+                    <button type="button" onClick={() => switchMode('signin')}>Sign In</button>
+                  </div>
+                  <div className="login-guest-divider"><span>or</span></div>
+                  <button type="button" className="login-guest-btn" onClick={loginAsGuest}>
+                    👤 Continue as Guest
+                  </button>
+                </form>
+              )}
 
-            {/* ---- OTP LOGIN — enter email ---- */}
-            {mode === 'otp-login' && (
-              <form onSubmit={handleOTPLoginSend} autoComplete="off">
-                <input className="login-input" type="email" placeholder="Email address"
-                  value={email} onChange={e => setEmail(e.target.value)} autoComplete="off" autoFocus />
-                <button className="login-btn" disabled={loading}>
-                  {loading ? '⏳ Sending…' : '📩 Send OTP'}
-                </button>
-                <div className="login-switch">
-                  <button type="button" onClick={() => switchMode('signin')}>← Back to Sign In</button>
-                </div>
-              </form>
-            )}
+              {/* ---- SIGN UP OTP VERIFY ---- */}
+              {mode === 'signup-otp' && (
+                <form onSubmit={handleSignUpOTP} autoComplete="off">
+                  <input className="login-input otp" type="text" maxLength={6} placeholder="Enter 6-digit OTP"
+                    value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} autoComplete="off" autoFocus />
+                  <button className="login-btn" disabled={loading}>
+                    {loading ? '⏳ Verifying…' : '✅ Verify & Create Account'}
+                  </button>
+                  <div className="login-resend">
+                    Didn&apos;t receive it?{' '}
+                    <button type="button" onClick={handleResend} disabled={loading}>Resend OTP</button>
+                  </div>
+                </form>
+              )}
 
-            {/* ---- OTP LOGIN — verify ---- */}
-            {mode === 'otp-login-verify' && (
-              <form onSubmit={handleOTPLoginVerify} autoComplete="off">
-                <input className="login-input otp" type="text" maxLength={6} placeholder="Enter 6-digit OTP"
-                  value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} autoComplete="off" autoFocus />
-                <button className="login-btn" disabled={loading}>
-                  {loading ? '⏳ Verifying…' : '🔐 Verify & Login'}
-                </button>
-                <div className="login-resend">
-                  Didn&apos;t receive it?{' '}
-                  <button type="button" onClick={handleResend} disabled={loading}>Resend OTP</button>
-                </div>
-              </form>
-            )}
+              {/* ---- FORGOT PASSWORD — enter email ---- */}
+              {mode === 'forgot' && (
+                <form onSubmit={handleForgotSend} autoComplete="off">
+                  <input className="login-input" type="email" placeholder="Email address"
+                    value={email} onChange={e => setEmail(e.target.value)} autoComplete="off" autoFocus />
+                  <button className="login-btn" disabled={loading}>
+                    {loading ? '⏳ Sending…' : '📩 Send Reset OTP'}
+                  </button>
+                  <div className="login-switch">
+                    <button type="button" onClick={() => switchMode('signin')}>← Back to Sign In</button>
+                  </div>
+                </form>
+              )}
+
+              {/* ---- FORGOT PASSWORD — verify OTP ---- */}
+              {mode === 'forgot-otp' && (
+                <form onSubmit={handleForgotOTP} autoComplete="off">
+                  <input className="login-input otp" type="text" maxLength={6} placeholder="Enter 6-digit OTP"
+                    value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} autoComplete="off" autoFocus />
+                  <button className="login-btn" disabled={loading}>
+                    {loading ? '⏳ Verifying…' : '✅ Verify OTP'}
+                  </button>
+                  <div className="login-resend">
+                    Didn&apos;t receive it?{' '}
+                    <button type="button" onClick={handleResend} disabled={loading}>Resend OTP</button>
+                  </div>
+                </form>
+              )}
+
+              {/* ---- FORGOT PASSWORD — new password ---- */}
+              {mode === 'forgot-newpw' && (
+                <form onSubmit={handleNewPassword} autoComplete="off">
+                  <div className="login-pw-wrap">
+                    <input className="login-input" type={showPw ? 'text' : 'password'} placeholder="New Password (min 6 chars)"
+                      value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" autoFocus />
+                    <button type="button" className="login-pw-toggle" onClick={() => setShowPw(!showPw)}>
+                      {showPw ? '🙈' : '👁️'}
+                    </button>
+                  </div>
+                  <input className="login-input" type="password" placeholder="Confirm New Password"
+                    value={confirmPw} onChange={e => setConfirmPw(e.target.value)} autoComplete="new-password" />
+                  <button className="login-btn" disabled={loading}>
+                    {loading ? '⏳ Resetting…' : '🔒 Reset Password'}
+                  </button>
+                </form>
+              )}
+
+              {/* ---- OTP LOGIN — enter email ---- */}
+              {mode === 'otp-login' && (
+                <form onSubmit={handleOTPLoginSend} autoComplete="off">
+                  <input className="login-input" type="email" placeholder="Email address"
+                    value={email} onChange={e => setEmail(e.target.value)} autoComplete="off" autoFocus />
+                  <button className="login-btn" disabled={loading}>
+                    {loading ? '⏳ Sending…' : '📩 Send OTP'}
+                  </button>
+                  <div className="login-switch">
+                    <button type="button" onClick={() => switchMode('signin')}>← Back to Sign In</button>
+                  </div>
+                </form>
+              )}
+
+              {/* ---- OTP LOGIN — verify ---- */}
+              {mode === 'otp-login-verify' && (
+                <form onSubmit={handleOTPLoginVerify} autoComplete="off">
+                  <input className="login-input otp" type="text" maxLength={6} placeholder="Enter 6-digit OTP"
+                    value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} autoComplete="off" autoFocus />
+                  <button className="login-btn" disabled={loading}>
+                    {loading ? '⏳ Verifying…' : '🔐 Verify & Login'}
+                  </button>
+                  <div className="login-resend">
+                    Didn&apos;t receive it?{' '}
+                    <button type="button" onClick={handleResend} disabled={loading}>Resend OTP</button>
+                  </div>
+                </form>
+              )}
+            </div>
           </div>
-        </div>
 
-        {/* ──── RIGHT: Features + Info ──── */}
-        <div className="login-right">
-          <div className="login-info-panel">
+          {/* ──── RIGHT: Features + Info ──── */}
+          <div className="login-right">
+            <div className="login-info-panel">
 
-            {/* Features card */}
-            <div className="lp-col-card">
-              <h4 className="lp-subheading">✅ Why Card Maker?</h4>
-              <ul className="lp-features">
-                <li>Multiple premium templates per card type</li>
-                <li>Live preview while editing</li>
-                <li>High-quality PNG/PDF downloads</li>
-                <li>Multi-language support</li>
-                <li>Works on all devices — desktop, tablet, mobile</li>
-              </ul>
-              <div className="lp-hire" style={{ marginTop: 14 }}>
-                <h4 className="lp-subheading">💼 Need a Custom Design?</h4>
-                <p className="lp-text">
-                  Hire us to create your own personalized, fully customized card tailored to your needs!
-                </p>
-                <p className="lp-text lp-brand-subtle">Custom designs are created by <strong>Creative Thinker Design Hub</strong>.</p>
+              {/* Features card */}
+              <div className="lp-col-card">
+                <h4 className="lp-subheading">✅ Why Card Maker?</h4>
+                <ul className="lp-features">
+                  <li>Multiple premium templates per card type</li>
+                  <li>Live preview while editing</li>
+                  <li>High-quality PNG/PDF downloads</li>
+                  <li>Multi-language support</li>
+                  <li>Works on all devices — desktop, tablet, mobile</li>
+                </ul>
+                <div className="lp-hire" style={{ marginTop: 14 }}>
+                  <h4 className="lp-subheading">💼 Need a Custom Design?</h4>
+                  <p className="lp-text">
+                    Hire us to create your own personalized, fully customized card tailored to your needs!
+                  </p>
+                  <p className="lp-text lp-brand-subtle">Custom designs are created by <strong>Creative Thinker Design Hub</strong>.</p>
+                </div>
               </div>
-            </div>
 
-            {/* ── Rate & Review ── */}
-            <div className="lp-feedback-section">
-              <h4 className="lp-subheading">⭐ Rate &amp; Review</h4>
-              <p className="lp-fb-tagline">
-                💬 Your feedback matters! Help us improve by sharing your thoughts.
-                Rate your experience and leave a comment — every review helps us serve you better.
-              </p>
-              <p className="lp-fb-signup-note">
-                📝 <strong>Sign up</strong> to share your feedback. We value genuine reviews from our community!
-              </p>
-              <form className="lp-feedback-form" onSubmit={handleFeedbackSubmit}>
-                <div className="login-stars">
-                  {[1, 2, 3, 4, 5].map(star => (
-                    <button
-                      key={star}
-                      type="button"
-                      className={`login-star ${star <= (fbHover || fbRating) ? 'filled' : ''}`}
-                      onClick={() => setFbRating(star)}
-                      onMouseEnter={() => setFbHover(star)}
-                      onMouseLeave={() => setFbHover(0)}
-                      aria-label={`${star} star`}
-                    >★</button>
-                  ))}
-                  {fbRating > 0 && <span className="login-star-label">{fbRating}/5</span>}
-                </div>
-                <div className="lp-fb-row">
-                  <input className="lp-fb-input" type="text" placeholder="Your name *"
-                    value={fbName} onChange={e => setFbName(e.target.value)} autoComplete="off" required />
-                  <input className="lp-fb-input" type="email" placeholder="Your email *"
-                    value={fbEmail} onChange={e => setFbEmail(e.target.value)} autoComplete="off" required />
-                </div>
-                <textarea className="lp-fb-textarea" placeholder="Write your feedback…"
-                  rows={3} value={fbComment} onChange={e => setFbComment(e.target.value)} autoComplete="off" />
-                <button className="login-btn lp-fb-btn" disabled={fbSending}>
-                  {fbSending ? '⏳ Sending…' : '📨 Submit Review'}
-                </button>
-                {fbMsg && <div className={`login-fb-msg ${fbMsg.startsWith('✅') ? 'success' : 'warn'}`}>{fbMsg}</div>}
-              </form>
-            </div>
+              {/* ── Rate & Review ── */}
+              <div className="lp-feedback-section">
+                <h4 className="lp-subheading">⭐ Rate &amp; Review</h4>
+                <p className="lp-fb-tagline">
+                  💬 Your feedback matters! Help us improve by sharing your thoughts.
+                  Rate your experience and leave a comment — every review helps us serve you better.
+                </p>
+                <p className="lp-fb-signup-note">
+                  📝 <strong>Sign up</strong> to share your feedback. We value genuine reviews from our community!
+                </p>
+                <form className="lp-feedback-form" onSubmit={handleFeedbackSubmit}>
+                  <div className="login-stars">
+                    {[1, 2, 3, 4, 5].map(star => (
+                      <button
+                        key={star}
+                        type="button"
+                        className={`login-star ${star <= (fbHover || fbRating) ? 'filled' : ''}`}
+                        onClick={() => setFbRating(star)}
+                        onMouseEnter={() => setFbHover(star)}
+                        onMouseLeave={() => setFbHover(0)}
+                        aria-label={`${star} star`}
+                      >★</button>
+                    ))}
+                    {fbRating > 0 && <span className="login-star-label">{fbRating}/5</span>}
+                  </div>
+                  <div className="lp-fb-row">
+                    <input className="lp-fb-input" type="text" placeholder="Your name *"
+                      value={fbName} onChange={e => setFbName(e.target.value)} autoComplete="off" required />
+                    <input className="lp-fb-input" type="email" placeholder="Your email *"
+                      value={fbEmail} onChange={e => setFbEmail(e.target.value)} autoComplete="off" required />
+                  </div>
+                  <textarea className="lp-fb-textarea" placeholder="Write your feedback…"
+                    rows={3} value={fbComment} onChange={e => setFbComment(e.target.value)} autoComplete="off" />
+                  <button className="login-btn lp-fb-btn" disabled={fbSending}>
+                    {fbSending ? '⏳ Sending…' : '📨 Submit Review'}
+                  </button>
+                  {fbMsg && <div className={`login-fb-msg ${fbMsg.startsWith('✅') ? 'success' : 'warn'}`}>{fbMsg}</div>}
+                </form>
+              </div>
 
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* ═══════ COMING SOON ═══════ */}
       <section className="lp-coming-section">
@@ -684,7 +778,7 @@ export default function LoginScreen() {
         <p className="lp-section-sub">{comingSoonCards.length} more card types on the way!</p>
         <div className="lp-coming-grid">
           {comingSoonCards.map(c => (
-            <div key={c.name} className="lp-coming-card" style={{ background: c.grad }}>
+            <div key={c.name} className="lp-coming-card" style={{ background: c.grad }} onClick={() => handleComingSoon(c.name)} role="button" tabIndex={0}>
               <span className="lp-showcase-icon">{c.icon}</span>
               <h3 className="lp-showcase-name">{c.name}</h3>
               <span className="lp-coming-badge">Coming Soon</span>
@@ -709,6 +803,8 @@ export default function LoginScreen() {
         </div>
         <p className="lp-footer-copy">© 2026 Creative Thinker Design Hub. All Rights Reserved.</p>
       </footer>
+
+      <Toast text={toast.text} show={toast.show} />
     </div>
   );
 }

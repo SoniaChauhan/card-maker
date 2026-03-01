@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { isAdmin }     from './services/authService';
 import LoginScreen     from './components/LoginScreen/LoginScreen';
-import ProfileDashboard from './components/ProfileDashboard/ProfileDashboard';
 import BirthdayCard    from './components/BirthdayCard';
 import AnniversaryCard from './components/AnniversaryCard';
 import JagrataCard     from './components/JagrataCard';
@@ -15,7 +14,7 @@ import useScreenshotProtection from './hooks/useScreenshotProtection';
 function AppContent() {
   const { user, loading, isGuest } = useAuth();
   const [selected, setSelected] = useState(null);
-  const [editingTemplate, setEditingTemplate] = useState(null); // template object or null
+  const [editingTemplate, setEditingTemplate] = useState(null);
 
   /* Activate screenshot protection globally */
   useScreenshotProtection();
@@ -32,9 +31,6 @@ function AppContent() {
       </div>
     );
 
-  /* ---------- not logged in ---------- */
-  if (!user) return <LoginScreen />;
-
   /* ---------- card screens ---------- */
   function handleBack() { setSelected(null); setEditingTemplate(null); }
 
@@ -44,22 +40,24 @@ function AppContent() {
     setSelected(tpl.cardType);
   }
 
-  const cardProps = {
-    onBack: handleBack,
-    userEmail: isGuest ? '' : user.email,
-    isSuperAdmin: !isGuest && isAdmin(user.email),
-    ...(editingTemplate ? { initialData: editingTemplate.formData, templateId: editingTemplate.id } : {}),
-  };
+  if (selected && user) {
+    const cardProps = {
+      onBack: handleBack,
+      userEmail: isGuest ? '' : user.email,
+      isSuperAdmin: !isGuest && isAdmin(user.email),
+      ...(editingTemplate ? { initialData: editingTemplate.formData, templateId: editingTemplate.id } : {}),
+    };
 
-  if (selected === 'birthday')    return <BirthdayCard    {...cardProps} />;
-  if (selected === 'anniversary') return <AnniversaryCard {...cardProps} />;
-  if (selected === 'jagrata')     return <JagrataCard     {...cardProps} />;
-  if (selected === 'biodata')     return <BiodataCard     {...cardProps} />;
-  if (selected === 'wedding')     return <WeddingCard     {...cardProps} />;
-  if (selected === 'resume')      return <ResumeCard      {...cardProps} />;
+    if (selected === 'birthday')    return <BirthdayCard    {...cardProps} />;
+    if (selected === 'anniversary') return <AnniversaryCard {...cardProps} />;
+    if (selected === 'jagrata')     return <JagrataCard     {...cardProps} />;
+    if (selected === 'biodata')     return <BiodataCard     {...cardProps} />;
+    if (selected === 'wedding')     return <WeddingCard     {...cardProps} />;
+    if (selected === 'resume')      return <ResumeCard      {...cardProps} />;
+  }
 
-  /* ---------- main dashboard ---------- */
-  return <ProfileDashboard onSelect={setSelected} onEditTemplate={handleEditTemplate} />;
+  /* ---------- Landing page — handles both logged-in and not-logged-in ---------- */
+  return <LoginScreen onSelect={setSelected} onEditTemplate={handleEditTemplate} />;
 }
 
 export default function App() {
