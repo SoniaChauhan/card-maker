@@ -318,6 +318,9 @@ export default function LoginScreen() {
             <p className="login-about-note">
               🚀 This project is in its <strong>initial stage</strong>. We are actively working on more card types — some are ready to use, others are coming soon. Stay tuned!
             </p>
+            <p className="login-about-hire">
+              💼 <strong>Need a custom design?</strong> You can hire us to create your own personalized, fully customized card tailored to your needs!
+            </p>
           </div>
         )}
 
@@ -477,6 +480,22 @@ export default function LoginScreen() {
             </div>
           </form>
         )}
+
+        {/* ── Contact & Feedback Footer (all modes) ── */}
+        <div className="login-contact">
+          <div className="login-contact-title">📬 Contact Us / Share Feedback</div>
+          <p className="login-contact-desc">Have questions, suggestions, or want to hire us? Reach out anytime:</p>
+          <div className="login-contact-links">
+            <a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer" className="login-contact-btn linkedin">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.97 0-1.75-.79-1.75-1.76s.78-1.76 1.75-1.76 1.75.79 1.75 1.76-.78 1.76-1.75 1.76zm13.5 11.27h-3v-5.34c0-3.18-4-2.94-4 0v5.34h-3v-10h3v1.77c1.4-2.59 7-2.78 7 2.48v5.75z"/></svg>
+              LinkedIn
+            </a>
+            <a href="mailto:contact@cardmaker.com" className="login-contact-btn email">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 4h-16c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-12c0-1.1-.9-2-2-2zm0 4l-8 5-8-5v-2l8 5 8-5v2z"/></svg>
+              Email Us
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
