@@ -200,6 +200,17 @@
 }
 .pay-txn-input:focus { border-color: #667eea; }
 
+/* Trust note */
+.pay-trust-note {
+  font-size: 12px;
+  color: #888;
+  text-align: center;
+  margin: 10px 0 6px;
+}
+.pay-trust-note strong {
+  color: #667eea;
+}
+
 /* Buttons */
 .pay-btn {
   width: 100%;

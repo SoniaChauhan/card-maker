@@ -91,6 +91,7 @@ export default function PaymentPopup({ cardId, cardLabel, userEmail, onClose, on
               <div>✅ Print ready</div>
               <div>✅ Instant delivery</div>
             </div>
+            <p className="pay-trust-note">🔒 Payment will appear as <strong>Creative Thinker Design Hub</strong>.</p>
             <button className="pay-btn" onClick={() => setStep('pay')}>
               💳 Proceed to Pay ₹{price}
             </button>

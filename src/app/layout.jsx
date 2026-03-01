@@ -1,8 +1,8 @@
 import '@/global.css';
 
 export const metadata = {
-  title: 'Card Maker – Design Beautiful Cards',
-  description: 'Create stunning birthday, wedding, anniversary, and other cards with ease.',
+  title: 'Card Maker – Online Invitation & Greeting Editor | Creative Thinker Design Hub',
+  description: 'Create stunning birthday, wedding, anniversary, and invitation cards online with Card Maker by Creative Thinker Design Hub. Beautiful templates, multi-language support, and instant downloads.',
 };
 
 export default function RootLayout({ children }) {

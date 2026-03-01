@@ -416,6 +416,7 @@ export default function LoginScreen() {
       <section className="lp-proof">
         <h2 className="lp-section-title">Simple, Fast &amp; User‑Friendly</h2>
         <p className="lp-section-sub">Made for everyone — from first‑time users to designers</p>
+        <p className="lp-brand-line">Card Maker is a product of <strong>Creative Thinker Design Hub</strong>.</p>
         <div className="lp-highlights">
           <div className="lp-highlight">
             <span className="lp-highlight-icon">⚡</span>
@@ -626,6 +627,7 @@ export default function LoginScreen() {
                 <p className="lp-text">
                   Hire us to create your own personalized, fully customized card tailored to your needs!
                 </p>
+                <p className="lp-text lp-brand-subtle">Custom designs are created by <strong>Creative Thinker Design Hub</strong>.</p>
               </div>
             </div>
 
@@ -690,7 +692,7 @@ export default function LoginScreen() {
 
       {/* ═══════ BOTTOM CONTACT FOOTER ═══════ */}
       <footer className="login-footer">
-        <span className="login-footer-label">📬 Contact Us</span>
+        <span className="login-footer-label">📬 Contact Us — Creative Thinker Design Hub</span>
         <div className="login-footer-links">
           <span className="login-footer-btn linkedin disabled" title="Coming soon">
             <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.97 0-1.75-.79-1.75-1.76s.78-1.76 1.75-1.76 1.75.79 1.75 1.76-.78 1.76-1.75 1.76zm13.5 11.27h-3v-5.34c0-3.18-4-2.94-4 0v5.34h-3v-10h3v1.77c1.4-2.59 7-2.78 7 2.48v5.75z"/></svg>
@@ -701,6 +703,7 @@ export default function LoginScreen() {
             Email Us
           </a>
         </div>
+        <span className="login-footer-email">📧 creativethinker.designhub@gmail.com</span>
         <span className="login-footer-copy">© 2026 Creative Thinker Design Hub. All Rights Reserved.</span>
       </footer>
     </div>
