@@ -577,16 +577,10 @@ export default function LoginScreen() {
             <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.97 0-1.75-.79-1.75-1.76s.78-1.76 1.75-1.76 1.75.79 1.75 1.76-.78 1.76-1.75 1.76zm13.5 11.27h-3v-5.34c0-3.18-4-2.94-4 0v5.34h-3v-10h3v1.77c1.4-2.59 7-2.78 7 2.48v5.75z"/></svg>
             LinkedIn
           </span>
-          <button type="button" className="login-footer-btn email" onClick={() => {
-              navigator.clipboard.writeText('creativethinker.designhub@gmail.com').then(() => {
-                const btn = document.querySelector('.login-footer-btn.email');
-                if (btn) { btn.dataset.copied = 'true'; setTimeout(() => delete btn.dataset.copied, 2000); }
-              });
-            }}>
+          <a href="https://mail.google.com/mail/?view=cm&to=creativethinker.designhub@gmail.com&su=Inquiry%20-%20Card%20Maker" target="_blank" rel="noopener noreferrer" className="login-footer-btn email">
             <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M20 4h-16c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-12c0-1.1-.9-2-2-2zm0 4l-8 5-8-5v-2l8 5 8-5v2z"/></svg>
-            <span className="login-email-text">Email Us</span>
-            <span className="login-email-copied">✅ Copied!</span>
-          </button>
+            Email Us
+          </a>
         </div>
         <span className="login-footer-copy">© 2026 Card Maker · Creative Thinker Design Hub</span>
       </footer>
