@@ -206,44 +206,48 @@
 
 /* Coming Soon section */
 .lp-coming-title {
-  font-size: 17px;
+  font-size: clamp(14px, 1.6vw, 17px);
   font-weight: 800;
   color: #c4b5fd;
-  margin: 28px 0 12px;
+  margin: 28px 0 14px;
 }
 .lp-coming-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
 }
 .lp-coming-card {
   border: none;
-  border-radius: 16px;
-  padding: 20px 12px 16px;
+  border-radius: 14px;
+  padding: 14px 6px 12px;
   text-align: center;
   position: relative;
   overflow: hidden;
-  opacity: .55;
+  opacity: .50;
   filter: grayscale(.3);
   cursor: default;
+  transition: opacity .2s;
 }
+.lp-coming-card:hover { opacity: .7; }
 .lp-coming-card::after {
   content: '';
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,.3);
-  border-radius: 16px;
+  border-radius: 14px;
 }
+.lp-coming-card .lp-showcase-icon { font-size: 28px; margin-bottom: 4px; }
+.lp-coming-card .lp-showcase-name { font-size: 11px; margin: 0; }
 .lp-coming-badge {
   position: relative;
   z-index: 1;
   display: inline-block;
-  margin-top: 6px;
-  padding: 3px 12px;
-  font-size: 10px;
+  margin-top: 4px;
+  padding: 2px 8px;
+  font-size: 8px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: .5px;
   color: #1a1a2e;
   background: #ffd200;
   border-radius: 20px;
@@ -801,7 +805,7 @@
 
   .lp-hero { padding-top: 36px; padding-bottom: 28px; }
   .lp-showcase-grid { gap: 12px; }
-  .lp-coming-grid { gap: 10px; }
+  .lp-coming-grid { gap: 8px; }
   .lp-testimonials { gap: 12px; }
 
   .login-main {
@@ -837,9 +841,11 @@
   .lp-showcase-name { font-size: 13px; }
   .lp-showcase-desc { font-size: 11px; }
 
-  .lp-coming-grid { grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
-  .lp-coming-card { padding: 14px 6px 12px; border-radius: 12px; }
-  .lp-coming-badge { font-size: 8px; padding: 2px 8px; }
+  .lp-coming-grid { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 6px; }
+  .lp-coming-card { padding: 10px 4px 8px; border-radius: 10px; }
+  .lp-coming-card .lp-showcase-icon { font-size: 22px; }
+  .lp-coming-card .lp-showcase-name { font-size: 9px; }
+  .lp-coming-badge { font-size: 7px; padding: 2px 6px; }
 
   .lp-testimonials { grid-template-columns: 1fr; gap: 10px; }
   .lp-testimonial { padding: 16px 14px; }

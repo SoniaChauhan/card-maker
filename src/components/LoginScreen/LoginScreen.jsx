@@ -332,9 +332,32 @@ export default function LoginScreen() {
   ];
 
   const comingSoonCards = [
-    { icon: '🪔', name: 'Jagrata', grad: 'linear-gradient(135deg, #f857a6, #ff5858)' },
-    { icon: '📄', name: 'Biodata', grad: 'linear-gradient(135deg, #667eea, #764ba2)' },
-    { icon: '📋', name: 'Resume', grad: 'linear-gradient(135deg, #38b2ac, #319795)' },
+    /* Spiritual & Religious */
+    { icon: '🪔', name: 'Jagrata',           grad: 'linear-gradient(135deg, #f857a6, #ff5858)' },
+    { icon: '🙏', name: 'Satyanarayan Katha',grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
+    { icon: '💃', name: 'Garba / Navratri',  grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
+    /* Wedding Functions */
+    { icon: '💛', name: 'Haldi',             grad: 'linear-gradient(135deg, #f9d423, #f7971e)' },
+    { icon: '🌿', name: 'Mehendi',           grad: 'linear-gradient(135deg, #38b2ac, #69f0ae)' },
+    { icon: '🎶', name: 'Sangeet',           grad: 'linear-gradient(135deg, #667eea, #764ba2)' },
+    { icon: '🥂', name: 'Reception',         grad: 'linear-gradient(135deg, #c471f5, #fa71cd)' },
+    { icon: '📅', name: 'Save the Date',     grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
+    /* Family & Life Events */
+    { icon: '🍼', name: 'Baby Shower',       grad: 'linear-gradient(135deg, #fda085, #f6d365)' },
+    { icon: '🪷', name: 'Naming Ceremony',   grad: 'linear-gradient(135deg, #a18cd1, #fbc2eb)' },
+    { icon: '🏠', name: 'Housewarming',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
+    { icon: '🎓', name: 'Graduation',        grad: 'linear-gradient(135deg, #667eea, #764ba2)' },
+    /* Professional & Documents */
+    { icon: '📄', name: 'Resume',            grad: 'linear-gradient(135deg, #38b2ac, #319795)' },
+    { icon: '💍', name: 'Marriage Biodata',   grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
+    { icon: '🪪', name: 'Visiting Card',     grad: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
+    /* Greeting Cards */
+    { icon: '🙏', name: 'Thank You',         grad: 'linear-gradient(135deg, #fda085, #f6d365)' },
+    { icon: '🎊', name: 'Congratulations',   grad: 'linear-gradient(135deg, #f857a6, #ff5858)' },
+    { icon: '🎆', name: 'Festival Cards',    grad: 'linear-gradient(135deg, #f9d423, #f7971e)' },
+    /* Social Media */
+    { icon: '💬', name: 'WhatsApp Invites',  grad: 'linear-gradient(135deg, #43e97b, #38f9d7)' },
+    { icon: '📸', name: 'Instagram Stories', grad: 'linear-gradient(135deg, #c471f5, #fa71cd)' },
   ];
 
   const testimonials = [
@@ -371,9 +394,9 @@ export default function LoginScreen() {
             </button>
           </div>
           <div className="lp-hero-stats">
-            <div className="lp-stat"><span className="lp-stat-num">3</span><span className="lp-stat-label">Card Types</span></div>
+            <div className="lp-stat"><span className="lp-stat-num">23+</span><span className="lp-stat-label">Card Types</span></div>
             <div className="lp-stat-divider" />
-            <div className="lp-stat"><span className="lp-stat-num">10+</span><span className="lp-stat-label">Templates</span></div>
+            <div className="lp-stat"><span className="lp-stat-num">50+</span><span className="lp-stat-label">Templates Planned</span></div>
             <div className="lp-stat-divider" />
             <div className="lp-stat"><span className="lp-stat-num">5</span><span className="lp-stat-label">Languages</span></div>
           </div>
@@ -395,7 +418,7 @@ export default function LoginScreen() {
         </div>
 
         {/* Coming soon cards */}
-        <h3 className="lp-coming-title">🚀 Coming Soon</h3>
+        <h3 className="lp-coming-title">🚀 Coming Soon — {comingSoonCards.length} more card types on the way!</h3>
         <div className="lp-coming-grid">
           {comingSoonCards.map(c => (
             <div key={c.name} className="lp-coming-card" style={{ background: c.grad }}>
