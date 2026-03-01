@@ -4,7 +4,7 @@ import './AdminPanel.css';
 import { blockUser, unblockUser, getBlockedUsers } from '../../services/blockService';
 import { getPendingRequests, approveSubscription, rejectSubscription } from '../../services/subscriptionService';
 import { notifyAdmin } from '../../services/notificationService';
-import { ADMIN_EMAIL } from '../../services/authService';
+import { ADMIN_EMAIL, getAllUsers, upgradePlan } from '../../services/authService';
 
 export default function AdminPanel() {
   const [email, setEmail]         = useState('');
@@ -20,9 +20,15 @@ export default function AdminPanel() {
   const [reqLoading, setReqLoading] = useState(true);
   const [acting, setActing]         = useState(null); // id being approved/rejected
 
+  /* User management */
+  const [users, setUsers]           = useState([]);
+  const [usersLoading, setUsersLoading] = useState(true);
+  const [toggling, setToggling]     = useState(null);
+
   useEffect(() => {
     loadBlocked();
     loadRequests();
+    loadUsers();
   }, []);
 
   async function loadBlocked() {
@@ -73,6 +79,30 @@ export default function AdminPanel() {
       console.error('Reject failed:', err);
       showToast('❌ Failed to reject.');
     } finally { setActing(null); }
+  }
+
+  async function loadUsers() {
+    setUsersLoading(true);
+    try {
+      const list = await getAllUsers(ADMIN_EMAIL);
+      setUsers(list);
+    } catch (err) {
+      console.error('Failed to load users:', err);
+    } finally { setUsersLoading(false); }
+  }
+
+  async function handleTogglePlan(userEmail, currentPlan) {
+    const newPlan = currentPlan === 'premium' ? 'free' : 'premium';
+    if (!window.confirm(`Change ${userEmail} to "${newPlan}" plan?`)) return;
+    setToggling(userEmail);
+    try {
+      await upgradePlan(userEmail, newPlan, ADMIN_EMAIL);
+      showToast(`✅ ${userEmail} is now ${newPlan}`);
+      await loadUsers();
+    } catch (err) {
+      console.error('Plan change failed:', err);
+      showToast('❌ Failed to change plan.');
+    } finally { setToggling(null); }
   }
 
   async function handleBlock(e) {
@@ -154,6 +184,49 @@ export default function AdminPanel() {
                   >
                     ❌ Reject
                   </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ── User Plan Management ── */}
+      <div className="admin-block-section">
+        <h3 className="admin-section-title">
+          👥 User Plans
+          <button className="admin-refresh-sm" onClick={loadUsers} title="Refresh">🔄</button>
+        </h3>
+
+        {usersLoading ? (
+          <p className="admin-empty">Loading users…</p>
+        ) : users.length === 0 ? (
+          <p className="admin-empty">No users yet.</p>
+        ) : (
+          <div className="admin-blocked-list">
+            {users.map(u => (
+              <div className="admin-req-card" key={u.id}>
+                <div className="admin-blocked-info">
+                  <span className="admin-blocked-email">📧 {u.email}</span>
+                  <span className="admin-req-card-name">{u.name || '—'}</span>
+                  <span className="admin-blocked-date">
+                    Plan: <strong style={{ color: u.plan === 'premium' ? '#22c55e' : '#f59e0b' }}>{u.plan || 'free'}</strong>
+                    {' · '}Joined: {formatDate(u.createdAt)}
+                  </span>
+                </div>
+                <div className="admin-req-actions">
+                  {u.email !== ADMIN_EMAIL && (
+                    <button
+                      className={`admin-btn ${u.plan === 'premium' ? 'admin-btn-reject' : 'admin-btn-approve'}`}
+                      onClick={() => handleTogglePlan(u.email, u.plan || 'free')}
+                      disabled={toggling === u.email}
+                    >
+                      {toggling === u.email ? '⏳' : u.plan === 'premium' ? '⬇️ Downgrade' : '⬆️ Upgrade'}
+                    </button>
+                  )}
+                  {u.email === ADMIN_EMAIL && (
+                    <span style={{ color: '#888', fontSize: '12px' }}>Admin</span>
+                  )}
                 </div>
               </div>
             ))}

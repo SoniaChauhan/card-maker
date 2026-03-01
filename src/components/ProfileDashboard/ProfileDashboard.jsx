@@ -8,11 +8,19 @@ import DownloadHistory from '../DownloadHistory/DownloadHistory';
 import Toast from '../shared/Toast';
 import { CATEGORIES } from '../SelectionScreen/SelectionScreen';
 import { maskEmail } from '../../utils/helpers';
+import { sendFeedback } from '../../services/notificationService';
 
 export default function ProfileDashboard({ onSelect, onEditTemplate }) {
-  const { user, logout, isSuperAdmin, isGuest } = useAuth();
+  const { user, logout, isSuperAdmin, isGuest, isFreePlan } = useAuth();
   const [tab, setTab]       = useState('dashboard');
   const [toast, setToast]   = useState({ show: false, text: '' });
+
+  /* Feedback state */
+  const [fbRating, setFbRating]   = useState(0);
+  const [fbHover, setFbHover]     = useState(0);
+  const [fbComment, setFbComment] = useState('');
+  const [fbSending, setFbSending] = useState(false);
+  const [fbMsg, setFbMsg]         = useState('');
 
   /* Handle card click — directly open the card */
   function handleCardClick(card) {
@@ -21,7 +29,28 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
       setTimeout(() => setToast({ show: false, text: '' }), 2500);
       return;
     }
+    if (isFreePlan) {
+      setToast({ show: true, text: '🔒 Upgrade to Premium to create cards. Contact admin for access.' });
+      setTimeout(() => setToast({ show: false, text: '' }), 3000);
+      return;
+    }
     onSelect(card.id);
+  }
+
+  /* Handle feedback submit */
+  async function handleFeedbackSubmit(e) {
+    e.preventDefault();
+    setFbMsg('');
+    if (!fbRating) { setFbMsg('⚠️ Please select a star rating.'); return; }
+    if (!fbComment.trim()) { setFbMsg('⚠️ Please write a comment.'); return; }
+    setFbSending(true);
+    try {
+      await sendFeedback(user.name || '', user.email || '', fbRating, fbComment.trim());
+      setFbMsg('✅ Thank you for your feedback!');
+      setFbRating(0); setFbComment('');
+    } catch {
+      setFbMsg('⚠️ Failed to send. Please try again.');
+    } finally { setFbSending(false); }
   }
 
   /* Total available cards count (non-coming-soon) */
@@ -45,6 +74,9 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
         )}
         <button className={`pd-tab ${tab === 'dashboard' ? 'active' : ''}`} onClick={() => setTab('dashboard')}>🏠 Dashboard</button>
         {!isGuest && (
+          <button className={`pd-tab ${tab === 'feedback' ? 'active' : ''}`} onClick={() => setTab('feedback')}>⭐ Feedback</button>
+        )}
+        {!isGuest && !isFreePlan && (
           <>
             <button className={`pd-tab ${tab === 'templates' ? 'active' : ''}`} onClick={() => setTab('templates')}>📋 My Templates</button>
             <button className={`pd-tab ${tab === 'downloads' ? 'active' : ''}`} onClick={() => setTab('downloads')}>📥 Downloads</button>
@@ -70,7 +102,7 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
               {isSuperAdmin ? 'Sonia Chauhan' : (user.name || 'Card Maker User')}
             </h3>
             <div className="pd-role-badge">
-              {isSuperAdmin ? '⭐ Super Admin' : '👤 Member'}
+              {isSuperAdmin ? '⭐ Super Admin' : isFreePlan ? '🆓 Free Plan' : '💎 Premium'}
             </div>
 
             {/* Info rows */}
@@ -86,7 +118,7 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
                 <span className="pd-info-icon">🛡️</span>
                 <div>
                   <div className="pd-info-label">Role</div>
-                  <div className="pd-info-value">{isSuperAdmin ? 'Super Admin' : 'User'}</div>
+                  <div className="pd-info-value">{isSuperAdmin ? 'Super Admin' : isFreePlan ? 'Free' : 'Premium'}</div>
                 </div>
               </div>
               <div className="pd-info-item">
@@ -109,6 +141,8 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
             <div className="pd-profile-msg">
               {isSuperAdmin
                 ? '🚀 You have full access to all templates and the admin panel.'
+                : isFreePlan
+                ? '🔒 You are on the Free plan. You can submit feedback & reviews. Contact admin to upgrade to Premium for card creation.'
                 : '💡 Go to the Dashboard tab to explore and create card templates.'}
             </div>
           </div>
@@ -118,6 +152,11 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
       {/* Dashboard tab */}
       {tab === 'dashboard' && (
         <div className="pd-categories-wrapper">
+          {isFreePlan && (
+            <div className="pd-free-banner">
+              🔒 You are on the <strong>Free</strong> plan. Only Feedback &amp; Review is available. Contact admin to upgrade to Premium.
+            </div>
+          )}
           {CATEGORIES.map(cat => (
             <section key={cat.id} className="pd-category">
               <h2 className="pd-category-title">{cat.title}</h2>
@@ -125,13 +164,14 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
                 {cat.cards.map(card => (
                   <div
                     key={card.id}
-                    className={`pd-card ${card.id}${card.comingSoon ? ' pd-coming-soon' : ''}`}
+                    className={`pd-card ${card.id}${card.comingSoon ? ' pd-coming-soon' : ''}${isFreePlan && !card.comingSoon ? ' pd-locked' : ''}`}
                     role="button"
                     tabIndex={0}
                     onClick={() => handleCardClick(card)}
                     onKeyDown={e => e.key === 'Enter' && handleCardClick(card)}
                   >
                     {card.comingSoon && <span className="pd-coming-soon-tag">🔒 Coming Soon</span>}
+                    {isFreePlan && !card.comingSoon && <span className="pd-locked-tag">🔒 Premium</span>}
                     <span className="pd-card-icon">{card.icon}</span>
                     <h3>{card.label}</h3>
                     <p>{card.desc}</p>
@@ -147,13 +187,46 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
       {/* Admin panel tab */}
       {tab === 'admin' && isSuperAdmin && <AdminPanel />}
 
+      {/* Feedback tab */}
+      {tab === 'feedback' && !isGuest && (
+        <div className="pd-feedback-section">
+          <h2>⭐ Rate & Review</h2>
+          <p className="pd-feedback-desc">We'd love to hear your thoughts! Your feedback helps us improve.</p>
+          <form className="pd-feedback-form" onSubmit={handleFeedbackSubmit}>
+            <div className="pd-fb-stars">
+              {[1, 2, 3, 4, 5].map(s => (
+                <span
+                  key={s}
+                  className={`pd-star ${s <= (fbHover || fbRating) ? 'active' : ''}`}
+                  onClick={() => setFbRating(s)}
+                  onMouseEnter={() => setFbHover(s)}
+                  onMouseLeave={() => setFbHover(0)}
+                >★</span>
+              ))}
+              {fbRating > 0 && <span className="pd-rating-label">{fbRating}/5</span>}
+            </div>
+            <textarea
+              className="pd-fb-textarea"
+              placeholder="Write your review or feedback..."
+              value={fbComment}
+              onChange={e => setFbComment(e.target.value)}
+              rows={4}
+            />
+            <button type="submit" className="pd-fb-submit" disabled={fbSending}>
+              {fbSending ? '⏳ Sending…' : '📩 Submit Feedback'}
+            </button>
+            {fbMsg && <p className={`pd-fb-msg ${fbMsg.startsWith('✅') ? 'success' : 'error'}`}>{fbMsg}</p>}
+          </form>
+        </div>
+      )}
+
       {/* My Templates tab */}
-      {tab === 'templates' && !isGuest && (
+      {tab === 'templates' && !isGuest && !isFreePlan && (
         <MyTemplates userEmail={user.email} onEditTemplate={onEditTemplate} />
       )}
 
       {/* Download History tab */}
-      {tab === 'downloads' && !isGuest && (
+      {tab === 'downloads' && !isGuest && !isFreePlan && (
         <DownloadHistory userEmail={user.email} />
       )}
 

@@ -61,6 +61,7 @@ export async function POST(req) {
         if (existing) return NextResponse.json({ error: 'Account already exists. Please sign in.' }, { status: 409 });
 
         const role = key === ADMIN_EMAIL ? 'superadmin' : 'user';
+        const plan = key === ADMIN_EMAIL ? 'premium' : 'free';
         const hashed = await hashPassword(password);
 
         await db.collection('users').insertOne({
@@ -68,10 +69,11 @@ export async function POST(req) {
           name: name.trim(),
           password: hashed,
           role,
+          plan,
           createdAt: new Date(),
           lastLogin: new Date(),
         });
-        return NextResponse.json({ email: key, name: name.trim(), role });
+        return NextResponse.json({ email: key, name: name.trim(), role, plan });
       }
 
       case 'signIn': {
@@ -84,7 +86,7 @@ export async function POST(req) {
         if (user.password !== hashed) return NextResponse.json({ error: 'Incorrect password.' }, { status: 401 });
 
         await db.collection('users').updateOne({ email: key }, { $set: { lastLogin: new Date() } });
-        return NextResponse.json({ email: key, name: user.name || key, role: user.role || 'user' });
+        return NextResponse.json({ email: key, name: user.name || key, role: user.role || 'user', plan: user.plan || (key === ADMIN_EMAIL ? 'premium' : 'free') });
       }
 
       case 'resetPassword': {
@@ -102,17 +104,40 @@ export async function POST(req) {
         const { email } = body;
         const key = email.toLowerCase().trim();
         const role = key === ADMIN_EMAIL ? 'superadmin' : 'user';
+        const plan = key === ADMIN_EMAIL ? 'premium' : 'free';
         const existing = await db.collection('users').findOne({ email: key });
 
         if (!existing) {
           await db.collection('users').insertOne({
-            email: key, name: '', role, createdAt: new Date(), lastLogin: new Date(),
+            email: key, name: '', role, plan, createdAt: new Date(), lastLogin: new Date(),
           });
-          return NextResponse.json({ email: key, name: '', role });
+          return NextResponse.json({ email: key, name: '', role, plan });
         } else {
           await db.collection('users').updateOne({ email: key }, { $set: { lastLogin: new Date() } });
-          return NextResponse.json({ email: key, name: existing.name || '', role: existing.role || role });
+          return NextResponse.json({ email: key, name: existing.name || '', role: existing.role || role, plan: existing.plan || plan });
         }
+      }
+
+      case 'upgradePlan': {
+        const { email, plan: newPlan, adminEmail } = body;
+        if (adminEmail?.toLowerCase().trim() !== ADMIN_EMAIL)
+          return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+        const key = email.toLowerCase().trim();
+        const result = await db.collection('users').updateOne({ email: key }, { $set: { plan: newPlan } });
+        if (result.matchedCount === 0)
+          return NextResponse.json({ error: 'User not found' }, { status: 404 });
+        return NextResponse.json({ ok: true });
+      }
+
+      case 'getAllUsers': {
+        const { adminEmail } = body;
+        if (adminEmail?.toLowerCase().trim() !== ADMIN_EMAIL)
+          return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+        const users = await db.collection('users')
+          .find({}, { projection: { password: 0 } })
+          .sort({ createdAt: -1 })
+          .toArray();
+        return NextResponse.json({ users: users.map(u => ({ ...u, id: u._id.toString(), _id: undefined })) });
       }
 
       default:

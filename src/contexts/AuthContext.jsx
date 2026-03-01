@@ -45,6 +45,7 @@ export function AuthProvider({ children }) {
   }
 
   const isGuest = !!user?.isGuest;
+  const isFreePlan = !isGuest && user?.plan !== 'premium';
 
   const value = {
     user,
@@ -53,6 +54,7 @@ export function AuthProvider({ children }) {
     logout,
     loading,
     isGuest,
+    isFreePlan,
     isSuperAdmin: user && !isGuest ? isAdmin(user.email) : false,
   };
 

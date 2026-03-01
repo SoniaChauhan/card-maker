@@ -58,6 +58,17 @@ export function isAdmin(email) {
   return email?.toLowerCase().trim() === ADMIN_EMAIL;
 }
 
+/* ========== Plan management (admin) ========== */
+
+export async function upgradePlan(email, plan, adminEmail) {
+  return api({ action: 'upgradePlan', email, plan, adminEmail });
+}
+
+export async function getAllUsers(adminEmail) {
+  const data = await api({ action: 'getAllUsers', adminEmail });
+  return data.users;
+}
+
 /* ========== Session helpers (localStorage) ========== */
 const SESSION_KEY = 'cardmaker_user';
 
