@@ -335,12 +335,12 @@ export default function LoginScreen() {
 
             {/* ---- SIGN IN ---- */}
             {mode === 'signin' && (
-              <form onSubmit={handleSignIn}>
+              <form onSubmit={handleSignIn} autoComplete="off">
                 <input className="login-input" type="email" placeholder="Email address"
-                  value={email} onChange={e => setEmail(e.target.value)} autoFocus />
+                  value={email} onChange={e => setEmail(e.target.value)} autoComplete="off" autoFocus />
                 <div className="login-pw-wrap">
                   <input className="login-input" type={showPw ? 'text' : 'password'} placeholder="Password"
-                    value={password} onChange={e => setPassword(e.target.value)} />
+                    value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
                   <button type="button" className="login-pw-toggle" onClick={() => setShowPw(!showPw)}>
                     {showPw ? '🙈' : '👁️'}
                   </button>
@@ -365,20 +365,20 @@ export default function LoginScreen() {
 
             {/* ---- SIGN UP ---- */}
             {mode === 'signup' && (
-              <form onSubmit={handleSignUp}>
+              <form onSubmit={handleSignUp} autoComplete="off">
                 <input className="login-input" type="text" placeholder="Full Name"
-                  value={name} onChange={e => setName(e.target.value)} autoFocus />
+                  value={name} onChange={e => setName(e.target.value)} autoComplete="off" autoFocus />
                 <input className="login-input" type="email" placeholder="Email address"
-                  value={email} onChange={e => setEmail(e.target.value)} />
+                  value={email} onChange={e => setEmail(e.target.value)} autoComplete="off" />
                 <div className="login-pw-wrap">
                   <input className="login-input" type={showPw ? 'text' : 'password'} placeholder="Password (min 6 chars)"
-                    value={password} onChange={e => setPassword(e.target.value)} />
+                    value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
                   <button type="button" className="login-pw-toggle" onClick={() => setShowPw(!showPw)}>
                     {showPw ? '🙈' : '👁️'}
                   </button>
                 </div>
                 <input className="login-input" type="password" placeholder="Confirm Password"
-                  value={confirmPw} onChange={e => setConfirmPw(e.target.value)} />
+                  value={confirmPw} onChange={e => setConfirmPw(e.target.value)} autoComplete="new-password" />
                 <button className="login-btn signup" disabled={loading}>
                   {loading ? '⏳ Sending OTP…' : '📩 Sign Up'}
                 </button>
@@ -395,9 +395,9 @@ export default function LoginScreen() {
 
             {/* ---- SIGN UP OTP VERIFY ---- */}
             {mode === 'signup-otp' && (
-              <form onSubmit={handleSignUpOTP}>
+              <form onSubmit={handleSignUpOTP} autoComplete="off">
                 <input className="login-input otp" type="text" maxLength={6} placeholder="Enter 6-digit OTP"
-                  value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} autoFocus />
+                  value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} autoComplete="off" autoFocus />
                 <button className="login-btn" disabled={loading}>
                   {loading ? '⏳ Verifying…' : '✅ Verify & Create Account'}
                 </button>
@@ -410,9 +410,9 @@ export default function LoginScreen() {
 
             {/* ---- FORGOT PASSWORD — enter email ---- */}
             {mode === 'forgot' && (
-              <form onSubmit={handleForgotSend}>
+              <form onSubmit={handleForgotSend} autoComplete="off">
                 <input className="login-input" type="email" placeholder="Email address"
-                  value={email} onChange={e => setEmail(e.target.value)} autoFocus />
+                  value={email} onChange={e => setEmail(e.target.value)} autoComplete="off" autoFocus />
                 <button className="login-btn" disabled={loading}>
                   {loading ? '⏳ Sending…' : '📩 Send Reset OTP'}
                 </button>
@@ -424,9 +424,9 @@ export default function LoginScreen() {
 
             {/* ---- FORGOT PASSWORD — verify OTP ---- */}
             {mode === 'forgot-otp' && (
-              <form onSubmit={handleForgotOTP}>
+              <form onSubmit={handleForgotOTP} autoComplete="off">
                 <input className="login-input otp" type="text" maxLength={6} placeholder="Enter 6-digit OTP"
-                  value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} autoFocus />
+                  value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} autoComplete="off" autoFocus />
                 <button className="login-btn" disabled={loading}>
                   {loading ? '⏳ Verifying…' : '✅ Verify OTP'}
                 </button>
@@ -439,16 +439,16 @@ export default function LoginScreen() {
 
             {/* ---- FORGOT PASSWORD — new password ---- */}
             {mode === 'forgot-newpw' && (
-              <form onSubmit={handleNewPassword}>
+              <form onSubmit={handleNewPassword} autoComplete="off">
                 <div className="login-pw-wrap">
                   <input className="login-input" type={showPw ? 'text' : 'password'} placeholder="New Password (min 6 chars)"
-                    value={password} onChange={e => setPassword(e.target.value)} autoFocus />
+                    value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" autoFocus />
                   <button type="button" className="login-pw-toggle" onClick={() => setShowPw(!showPw)}>
                     {showPw ? '🙈' : '👁️'}
                   </button>
                 </div>
                 <input className="login-input" type="password" placeholder="Confirm New Password"
-                  value={confirmPw} onChange={e => setConfirmPw(e.target.value)} />
+                  value={confirmPw} onChange={e => setConfirmPw(e.target.value)} autoComplete="new-password" />
                 <button className="login-btn" disabled={loading}>
                   {loading ? '⏳ Resetting…' : '🔒 Reset Password'}
                 </button>
@@ -457,9 +457,9 @@ export default function LoginScreen() {
 
             {/* ---- OTP LOGIN — enter email ---- */}
             {mode === 'otp-login' && (
-              <form onSubmit={handleOTPLoginSend}>
+              <form onSubmit={handleOTPLoginSend} autoComplete="off">
                 <input className="login-input" type="email" placeholder="Email address"
-                  value={email} onChange={e => setEmail(e.target.value)} autoFocus />
+                  value={email} onChange={e => setEmail(e.target.value)} autoComplete="off" autoFocus />
                 <button className="login-btn" disabled={loading}>
                   {loading ? '⏳ Sending…' : '📩 Send OTP'}
                 </button>
@@ -471,9 +471,9 @@ export default function LoginScreen() {
 
             {/* ---- OTP LOGIN — verify ---- */}
             {mode === 'otp-login-verify' && (
-              <form onSubmit={handleOTPLoginVerify}>
+              <form onSubmit={handleOTPLoginVerify} autoComplete="off">
                 <input className="login-input otp" type="text" maxLength={6} placeholder="Enter 6-digit OTP"
-                  value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} autoFocus />
+                  value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} autoComplete="off" autoFocus />
                 <button className="login-btn" disabled={loading}>
                   {loading ? '⏳ Verifying…' : '🔐 Verify & Login'}
                 </button>
@@ -552,11 +552,11 @@ export default function LoginScreen() {
                 </div>
                 <div className="lp-fb-row">
                   <input className="lp-fb-input" type="text" placeholder="Your name (optional)"
-                    value={fbName} onChange={e => setFbName(e.target.value)} />
+                    value={fbName} onChange={e => setFbName(e.target.value)} autoComplete="off" />
                   <input className="lp-fb-input" type="email" placeholder="Your email (optional)"
-                    value={fbEmail} onChange={e => setFbEmail(e.target.value)} />
+                    value={fbEmail} onChange={e => setFbEmail(e.target.value)} autoComplete="off" />
                   <textarea className="lp-fb-textarea" placeholder="Write your feedback…"
-                    rows={2} value={fbComment} onChange={e => setFbComment(e.target.value)} />
+                    rows={2} value={fbComment} onChange={e => setFbComment(e.target.value)} autoComplete="off" />
                   <button className="login-btn lp-fb-btn" disabled={fbSending}>
                     {fbSending ? '⏳ Sending…' : '📨 Submit'}
                   </button>

@@ -470,3 +470,205 @@
 }
 .pd-fb-msg.success { color: #34d399; }
 .pd-fb-msg.error { color: #fbbf24; }
+
+/* Top bar actions */
+.pd-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pd-signup-btn {
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  border: none;
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity .2s, transform .15s;
+  box-shadow: 0 4px 14px rgba(239,68,68,.3);
+}
+.pd-signup-btn:hover { opacity: .88; transform: translateY(-1px); }
+
+/* Guest banner */
+.pd-guest-banner {
+  max-width: 900px;
+  margin: 0 auto 18px;
+  padding: 14px 22px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(251,191,36,.2), rgba(239,68,68,.15));
+  border: 1.5px solid rgba(251,191,36,.35);
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+.pd-guest-signup-link {
+  background: none;
+  border: none;
+  color: #fbbf24;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+  padding: 0 2px;
+  transition: color .2s;
+}
+.pd-guest-signup-link:hover { color: #f59e0b; }
+
+/* Signup popup overlay */
+.pd-signup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: pdFadeIn .2s ease-out;
+}
+@keyframes pdFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pdSlideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+.pd-signup-popup {
+  position: relative;
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+  border-radius: 20px;
+  padding: 36px 32px 30px;
+  width: 100%;
+  max-width: 420px;
+  color: #fff;
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+  border: 1.5px solid rgba(255,255,255,.12);
+  animation: pdSlideUp .3s ease-out;
+}
+.pd-signup-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: rgba(255,255,255,.12);
+  border: none;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s;
+}
+.pd-signup-close:hover { background: rgba(255,255,255,.25); }
+
+.pd-signup-icon {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 6px;
+}
+.pd-signup-title {
+  font-size: 22px;
+  font-weight: 800;
+  text-align: center;
+  margin: 0 0 4px;
+}
+.pd-signup-subtitle {
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  text-align: center;
+  margin: 0 0 18px;
+}
+
+.pd-signup-error {
+  background: rgba(239,68,68,.15);
+  border: 1px solid rgba(239,68,68,.35);
+  color: #fca5a5;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.pd-signup-info {
+  background: rgba(52,211,153,.12);
+  border: 1px solid rgba(52,211,153,.3);
+  color: #6ee7b7;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.pd-signup-input {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  font-size: 14px;
+  font-family: inherit;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  transition: border-color .2s;
+}
+.pd-signup-input::placeholder { color: rgba(255,255,255,.4); }
+.pd-signup-input:focus { outline: none; border-color: rgba(255,255,255,.4); }
+.pd-signup-input.otp {
+  text-align: center;
+  letter-spacing: 8px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.pd-signup-pw-wrap {
+  position: relative;
+}
+.pd-signup-pw-wrap .pd-signup-input {
+  padding-right: 44px;
+}
+.pd-signup-pw-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-65%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.pd-signup-submit {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #6c47ff, #9f7aea);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: opacity .2s;
+}
+.pd-signup-submit:hover { opacity: .88; }
+.pd-signup-submit:disabled { opacity: .5; cursor: not-allowed; }
+
+.pd-signup-resend {
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255,255,255,.6);
+  margin-top: 12px;
+}
+.pd-signup-resend button {
+  background: none;
+  border: none;
+  color: #a78bfa;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 13px;
+}
+.pd-signup-resend button:hover { color: #c4b5fd; }
+.pd-signup-resend button:disabled { opacity: .5; cursor: not-allowed; }

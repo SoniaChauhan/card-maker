@@ -58,6 +58,7 @@ export default function FormField({
           placeholder={placeholder}
           rows={rows}
           className={inputClass}
+          autoComplete="off"
         />
       ) : (
         <input
@@ -70,6 +71,7 @@ export default function FormField({
           className={inputClass}
           min={min}
           max={max}
+          autoComplete="off"
         />
       )}
 

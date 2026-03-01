@@ -8,10 +8,14 @@ import DownloadHistory from '../DownloadHistory/DownloadHistory';
 import Toast from '../shared/Toast';
 import { CATEGORIES } from '../SelectionScreen/SelectionScreen';
 import { maskEmail } from '../../utils/helpers';
-import { sendFeedback } from '../../services/notificationService';
+import { sendFeedback, sendOTPEmail } from '../../services/notificationService';
+import {
+  generateOTP, storeOTP, verifyOTP,
+  signUpUser, userExists,
+} from '../../services/authService';
 
 export default function ProfileDashboard({ onSelect, onEditTemplate }) {
-  const { user, logout, isSuperAdmin, isGuest, isFreePlan } = useAuth();
+  const { user, logout, login, isSuperAdmin, isGuest, isFreePlan } = useAuth();
   const [tab, setTab]       = useState('dashboard');
   const [toast, setToast]   = useState({ show: false, text: '' });
 
@@ -21,6 +25,84 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
   const [fbComment, setFbComment] = useState('');
   const [fbSending, setFbSending] = useState(false);
   const [fbMsg, setFbMsg]         = useState('');
+
+  /* Signup popup state */
+  const [showSignup, setShowSignup]   = useState(false);
+  const [suMode, setSuMode]           = useState('form'); // 'form' | 'otp'
+  const [suName, setSuName]           = useState('');
+  const [suEmail, setSuEmail]         = useState('');
+  const [suPassword, setSuPassword]   = useState('');
+  const [suConfirmPw, setSuConfirmPw] = useState('');
+  const [suOtp, setSuOtp]             = useState('');
+  const [suShowPw, setSuShowPw]       = useState(false);
+  const [suLoading, setSuLoading]     = useState(false);
+  const [suError, setSuError]         = useState('');
+  const [suInfo, setSuInfo]           = useState('');
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function openSignup() {
+    setSuMode('form'); setSuName(''); setSuEmail(''); setSuPassword('');
+    setSuConfirmPw(''); setSuOtp(''); setSuError(''); setSuInfo(''); setSuShowPw(false);
+    setShowSignup(true);
+  }
+  function closeSignup() { setShowSignup(false); }
+
+  /* Signup step 1 — collect info & send OTP */
+  async function handleSuSubmit(e) {
+    e.preventDefault();
+    setSuError(''); setSuInfo('');
+    const trimmed = suEmail.trim().toLowerCase();
+    if (!suName.trim()) { setSuError('Enter your name.'); return; }
+    if (!trimmed || !emailRegex.test(trimmed)) { setSuError('Enter a valid email.'); return; }
+    if (suPassword.length < 6) { setSuError('Password must be at least 6 characters.'); return; }
+    if (suPassword !== suConfirmPw) { setSuError('Passwords do not match.'); return; }
+    setSuLoading(true);
+    try {
+      const exists = await userExists(trimmed);
+      if (exists) { setSuError('Account already exists. Please sign in.'); setSuLoading(false); return; }
+      const code = generateOTP();
+      await storeOTP(trimmed, code);
+      await sendOTPEmail(trimmed, code);
+      setSuInfo(`OTP sent to ${maskEmail(trimmed)} — check your inbox.`);
+      setSuMode('otp');
+    } catch (err) {
+      setSuError(err?.message || 'Failed to send OTP.');
+    } finally { setSuLoading(false); }
+  }
+
+  /* Signup step 2 — verify OTP & create account */
+  async function handleSuOtp(e) {
+    e.preventDefault();
+    setSuError(''); setSuInfo('');
+    if (suOtp.length !== 6) { setSuError('Enter the 6-digit OTP.'); return; }
+    setSuLoading(true);
+    try {
+      const trimmed = suEmail.trim().toLowerCase();
+      const valid = await verifyOTP(trimmed, suOtp);
+      if (!valid) { setSuError('Invalid or expired OTP.'); setSuLoading(false); return; }
+      const newUser = await signUpUser(suName, trimmed, suPassword);
+      login(newUser);
+      setShowSignup(false);
+      setToast({ show: true, text: '🎉 Account created! All features are now unlocked.' });
+      setTimeout(() => setToast({ show: false, text: '' }), 3500);
+    } catch (err) {
+      setSuError(err?.message || 'Sign-up failed.');
+    } finally { setSuLoading(false); }
+  }
+
+  /* Resend OTP */
+  async function handleSuResend() {
+    setSuError(''); setSuInfo('');
+    setSuLoading(true);
+    try {
+      const trimmed = suEmail.trim().toLowerCase();
+      const code = generateOTP();
+      await storeOTP(trimmed, code);
+      await sendOTPEmail(trimmed, code);
+      setSuInfo('New OTP sent!');
+    } catch { setSuError('Failed to resend OTP.'); }
+    finally { setSuLoading(false); }
+  }
 
   /* Handle card click — directly open the card */
   function handleCardClick(card) {
@@ -64,7 +146,12 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
       {/* Top bar */}
       <div className="pd-topbar">
         <div className="pd-logo">✨ Card Maker</div>
-        {!isGuest && <button className="pd-logout" onClick={logout}>🚪 Logout</button>}
+        <div className="pd-topbar-actions">
+          {isGuest && (
+            <button className="pd-signup-btn" onClick={openSignup}>📝 Sign Up</button>
+          )}
+          {!isGuest && <button className="pd-logout" onClick={logout}>🚪 Logout</button>}
+        </div>
       </div>
 
       {/* Tabs */}
@@ -152,7 +239,13 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
       {/* Dashboard tab */}
       {tab === 'dashboard' && (
         <div className="pd-categories-wrapper">
-          {isFreePlan && (
+          {isGuest && (
+            <div className="pd-guest-banner">
+              👤 You are browsing as a <strong>Guest</strong>. 
+              <button className="pd-guest-signup-link" onClick={openSignup}>Sign up now</button> to unlock all features!
+            </div>
+          )}
+          {isFreePlan && !isGuest && (
             <div className="pd-free-banner">
               🔒 You are on the <strong>Free</strong> plan. Only Feedback &amp; Review is available. Contact admin to upgrade to Premium.
             </div>
@@ -211,6 +304,7 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
               value={fbComment}
               onChange={e => setFbComment(e.target.value)}
               rows={4}
+              autoComplete="off"
             />
             <button type="submit" className="pd-fb-submit" disabled={fbSending}>
               {fbSending ? '⏳ Sending…' : '📩 Submit Feedback'}
@@ -228,6 +322,60 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
       {/* Download History tab */}
       {tab === 'downloads' && !isGuest && !isFreePlan && (
         <DownloadHistory userEmail={user.email} />
+      )}
+
+      {/* Signup popup for guests */}
+      {showSignup && (
+        <div className="pd-signup-overlay" onClick={closeSignup}>
+          <div className="pd-signup-popup" onClick={e => e.stopPropagation()}>
+            <button className="pd-signup-close" onClick={closeSignup}>✕</button>
+            <div className="pd-signup-icon">✨</div>
+            <h2 className="pd-signup-title">{suMode === 'form' ? 'Create Account' : 'Verify Email'}</h2>
+            <p className="pd-signup-subtitle">
+              {suMode === 'form'
+                ? 'Fill in your details to get started'
+                : `Enter the 6-digit OTP sent to ${maskEmail(suEmail)}`}
+            </p>
+
+            {suError && <div className="pd-signup-error">⚠️ {suError}</div>}
+            {suInfo && <div className="pd-signup-info">✅ {suInfo}</div>}
+
+            {suMode === 'form' && (
+              <form onSubmit={handleSuSubmit} autoComplete="off">
+                <input className="pd-signup-input" type="text" placeholder="Full Name"
+                  value={suName} onChange={e => setSuName(e.target.value)} autoComplete="off" autoFocus />
+                <input className="pd-signup-input" type="email" placeholder="Email address"
+                  value={suEmail} onChange={e => setSuEmail(e.target.value)} autoComplete="off" />
+                <div className="pd-signup-pw-wrap">
+                  <input className="pd-signup-input" type={suShowPw ? 'text' : 'password'} placeholder="Password (min 6 chars)"
+                    value={suPassword} onChange={e => setSuPassword(e.target.value)} autoComplete="new-password" />
+                  <button type="button" className="pd-signup-pw-toggle" onClick={() => setSuShowPw(!suShowPw)}>
+                    {suShowPw ? '🙈' : '👁️'}
+                  </button>
+                </div>
+                <input className="pd-signup-input" type="password" placeholder="Confirm Password"
+                  value={suConfirmPw} onChange={e => setSuConfirmPw(e.target.value)} autoComplete="new-password" />
+                <button className="pd-signup-submit" disabled={suLoading}>
+                  {suLoading ? '⏳ Sending OTP…' : '📩 Sign Up'}
+                </button>
+              </form>
+            )}
+
+            {suMode === 'otp' && (
+              <form onSubmit={handleSuOtp} autoComplete="off">
+                <input className="pd-signup-input otp" type="text" maxLength={6} placeholder="Enter 6-digit OTP"
+                  value={suOtp} onChange={e => setSuOtp(e.target.value.replace(/\D/g, ''))} autoComplete="off" autoFocus />
+                <button className="pd-signup-submit" disabled={suLoading}>
+                  {suLoading ? '⏳ Verifying…' : '✅ Verify & Create Account'}
+                </button>
+                <div className="pd-signup-resend">
+                  Didn&apos;t receive it?{' '}
+                  <button type="button" onClick={handleSuResend} disabled={suLoading}>Resend OTP</button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
       )}
 
       <Toast text={toast.text} show={toast.show} />
