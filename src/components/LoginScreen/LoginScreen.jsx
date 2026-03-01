@@ -325,10 +325,91 @@ export default function LoginScreen() {
     'otp-login-verify': `Enter the OTP sent to ${maskEmail(email)}`,
   };
 
+  const cardTypes = [
+    { icon: '🎂', name: 'Birthday', desc: 'Vibrant celebration templates', grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)' },
+    { icon: '💍', name: 'Wedding', desc: 'Elegant invitation designs', grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
+    { icon: '💕', name: 'Anniversary', desc: 'Mark special milestones', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
+    { icon: '🪔', name: 'Jagrata', desc: 'Traditional pooja invitations', grad: 'linear-gradient(135deg, #f857a6, #ff5858)' },
+    { icon: '📄', name: 'Biodata', desc: 'Professional marriage biodata', grad: 'linear-gradient(135deg, #667eea, #764ba2)' },
+    { icon: '📋', name: 'Resume', desc: 'Modern professional resumes', grad: 'linear-gradient(135deg, #38b2ac, #319795)' },
+  ];
+
+  const testimonials = [
+    { name: 'Priya S.', text: 'Created a beautiful wedding card in just 5 minutes! Amazing templates.', stars: 5 },
+    { name: 'Rahul M.', text: 'The birthday card templates are so creative. My family loved it!', stars: 5 },
+    { name: 'Ankita D.', text: 'Super easy to use, even on my phone. Highly recommend this tool!', stars: 4 },
+  ];
+
   return (
     <div className="login-page">
-      {/* ═══════ TWO-COLUMN MAIN AREA ═══════ */}
-      <div className="login-main">
+
+      {/* ═══════ HERO SECTION ═══════ */}
+      <section className="lp-hero">
+        <div className="lp-hero-inner">
+          <h1 className="lp-hero-title">
+            Create Beautiful Cards&nbsp;<span className="lp-accent">in Minutes</span>
+          </h1>
+          <p className="lp-hero-sub">
+            Birthday, Wedding, Anniversary &amp; more — stunning templates, easy customization, instant download.
+          </p>
+          <div className="lp-hero-actions">
+            <button className="lp-hero-cta" type="button" onClick={loginAsGuest}>
+              🎨 Create Your Card Free <span className="lp-arrow">→</span>
+            </button>
+            <button
+              className="lp-hero-signin"
+              type="button"
+              onClick={() => {
+                switchMode('signin');
+                setTimeout(() => document.getElementById('auth-section')?.scrollIntoView({ behavior: 'smooth' }), 100);
+              }}
+            >
+              Already a member? Sign In
+            </button>
+          </div>
+          <div className="lp-hero-stats">
+            <div className="lp-stat"><span className="lp-stat-num">6</span><span className="lp-stat-label">Card Types</span></div>
+            <div className="lp-stat-divider" />
+            <div className="lp-stat"><span className="lp-stat-num">15+</span><span className="lp-stat-label">Templates</span></div>
+            <div className="lp-stat-divider" />
+            <div className="lp-stat"><span className="lp-stat-num">5</span><span className="lp-stat-label">Languages</span></div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════ TEMPLATE SHOWCASE ═══════ */}
+      <section className="lp-showcase">
+        <h2 className="lp-section-title">Choose Your Card Type</h2>
+        <p className="lp-section-sub">Click any card to start designing — no sign-up required</p>
+        <div className="lp-showcase-grid">
+          {cardTypes.map(c => (
+            <button key={c.name} className="lp-showcase-card" style={{ background: c.grad }} type="button" onClick={loginAsGuest}>
+              <span className="lp-showcase-icon">{c.icon}</span>
+              <h3 className="lp-showcase-name">{c.name}</h3>
+              <p className="lp-showcase-desc">{c.desc}</p>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══════ SOCIAL PROOF ═══════ */}
+      <section className="lp-proof">
+        <h2 className="lp-section-title">Loved by Our Users</h2>
+        <div className="lp-testimonials">
+          {testimonials.map((t, i) => (
+            <div key={i} className="lp-testimonial">
+              <div className="lp-testimonial-stars">
+                {'★'.repeat(t.stars)}{'☆'.repeat(5 - t.stars)}
+              </div>
+              <p className="lp-testimonial-text">&ldquo;{t.text}&rdquo;</p>
+              <span className="lp-testimonial-name">— {t.name}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══════ AUTH + FEATURES SECTION ═══════ */}
+      <div className="login-main" id="auth-section">
 
         {/* ──── LEFT: Auth Form ──── */}
         <div className="login-left">
@@ -494,54 +575,30 @@ export default function LoginScreen() {
           </div>
         </div>
 
-        {/* ──── RIGHT: Dashboard Info + Feedback ──── */}
+        {/* ──── RIGHT: Features + Info ──── */}
         <div className="login-right">
           <div className="login-info-panel">
 
-            {/* ── Two-column cards grid ── */}
-            <div className="lp-two-col">
-              {/* Card 1 — About + Cards */}
-              <div className="lp-col-card">
-                <h3 className="lp-heading">🎨 About Card Maker</h3>
+            {/* Features card */}
+            <div className="lp-col-card">
+              <h4 className="lp-subheading">✅ Why Card Maker?</h4>
+              <ul className="lp-features">
+                <li>Multiple premium templates per card type</li>
+                <li>Live preview while editing</li>
+                <li>High-quality PNG/PDF downloads</li>
+                <li>Multi-language support</li>
+                <li>Works on all devices — desktop, tablet, mobile</li>
+              </ul>
+              <div className="lp-hire" style={{ marginTop: 14 }}>
+                <h4 className="lp-subheading">💼 Need a Custom Design?</h4>
                 <p className="lp-text">
-                  We fulfil all your online card creation needs — beautifully designed,
-                  easy to customize, and ready to download!
+                  Hire us to create your own personalized, fully customized card tailored to your needs!
                 </p>
-                <h4 className="lp-subheading" style={{ marginTop: 14 }}>📌 Available Cards</h4>
-                <div className="lp-card-grid">
-                  <div className="lp-card-item">🎂 Birthday</div>
-                  <div className="lp-card-item">💍 Wedding</div>
-                  <div className="lp-card-item">💕 Anniversary</div>
-                  <div className="lp-card-item">🪔 Jagrata</div>
-                  <div className="lp-card-item">📄 Biodata</div>
-                  <div className="lp-card-item">📋 Resume</div>
-                </div>
-                <div className="lp-status" style={{ marginTop: 14 }}>
-                  🚀 <strong>Initial stage</strong> — more cards coming soon!
-                </div>
-              </div>
-
-              {/* Card 2 — Features + Hire */}
-              <div className="lp-col-card">
-                <h4 className="lp-subheading">✅ Features</h4>
-                <ul className="lp-features">
-                  <li>Multiple premium templates per card type</li>
-                  <li>Live preview while editing</li>
-                  <li>High-quality PNG/PDF downloads</li>
-                  <li>Multi-language support</li>
-                  <li>Guest mode — no sign-up required</li>
-                </ul>
-                <div className="lp-hire" style={{ marginTop: 14 }}>
-                  <h4 className="lp-subheading">💼 Need a Custom Design?</h4>
-                  <p className="lp-text">
-                    Hire us to create your own personalized, fully customized card tailored to your needs!
-                  </p>
-                </div>
               </div>
             </div>
 
-            {/* ── Rate & Review — full-width bottom row ── */}
-            <div className="lp-feedback-section lp-full-row">
+            {/* ── Rate & Review ── */}
+            <div className="lp-feedback-section">
               <h4 className="lp-subheading">⭐ Rate &amp; Review</h4>
               <p className="lp-fb-tagline">
                 💬 Your feedback matters! Help us improve by sharing your thoughts.
@@ -570,12 +627,12 @@ export default function LoginScreen() {
                     value={fbName} onChange={e => setFbName(e.target.value)} autoComplete="off" required />
                   <input className="lp-fb-input" type="email" placeholder="Your email *"
                     value={fbEmail} onChange={e => setFbEmail(e.target.value)} autoComplete="off" required />
-                  <textarea className="lp-fb-textarea" placeholder="Write your feedback…"
-                    rows={2} value={fbComment} onChange={e => setFbComment(e.target.value)} autoComplete="off" />
-                  <button className="login-btn lp-fb-btn" disabled={fbSending}>
-                    {fbSending ? '⏳ Sending…' : '📨 Submit'}
-                  </button>
                 </div>
+                <textarea className="lp-fb-textarea" placeholder="Write your feedback…"
+                  rows={3} value={fbComment} onChange={e => setFbComment(e.target.value)} autoComplete="off" />
+                <button className="login-btn lp-fb-btn" disabled={fbSending}>
+                  {fbSending ? '⏳ Sending…' : '📨 Submit Review'}
+                </button>
                 {fbMsg && <div className={`login-fb-msg ${fbMsg.startsWith('✅') ? 'success' : 'warn'}`}>{fbMsg}</div>}
               </form>
             </div>
