@@ -29,3 +29,8 @@ export async function notifyAdmin(subject, message, senderEmail = '') {
 export async function notifyUser(toEmail, subject, message) {
   return api({ action: 'notifyUser', toEmail, subject, message });
 }
+
+/** Send user feedback/review to the company email */
+export async function sendFeedback(senderName, senderEmail, rating, comment) {
+  return api({ action: 'sendFeedback', senderName, senderEmail, rating, comment });
+}

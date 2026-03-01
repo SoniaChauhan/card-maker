@@ -7,7 +7,7 @@ import {
   signUpUser, signInUser, resetPassword,
   createOrUpdateUser, userExists,
 } from '../../services/authService';
-import { sendOTPEmail, notifyAdmin } from '../../services/notificationService';
+import { sendOTPEmail, notifyAdmin, sendFeedback } from '../../services/notificationService';
 import { isUserBlocked } from '../../services/blockService';
 import { maskEmail } from '../../utils/helpers';
 
@@ -36,6 +36,15 @@ export default function LoginScreen() {
   const [loading, setLoading]     = useState(false);
   const [error, setError]         = useState('');
   const [info, setInfo]           = useState('');
+
+  /* Feedback state */
+  const [fbName, setFbName]       = useState('');
+  const [fbEmail, setFbEmail]     = useState('');
+  const [fbRating, setFbRating]   = useState(0);
+  const [fbHover, setFbHover]     = useState(0);
+  const [fbComment, setFbComment] = useState('');
+  const [fbSending, setFbSending] = useState(false);
+  const [fbMsg, setFbMsg]         = useState('');
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const trimmedEmail = email.trim().toLowerCase();
@@ -269,6 +278,22 @@ export default function LoginScreen() {
     } finally { setLoading(false); }
   }
 
+  /* ========== SUBMIT FEEDBACK ========== */
+  async function handleFeedbackSubmit(e) {
+    e.preventDefault();
+    setFbMsg('');
+    if (!fbRating) { setFbMsg('⚠️ Please select a star rating.'); return; }
+    if (!fbComment.trim()) { setFbMsg('⚠️ Please write a comment.'); return; }
+    setFbSending(true);
+    try {
+      await sendFeedback(fbName.trim(), fbEmail.trim(), fbRating, fbComment.trim());
+      setFbMsg('✅ Thank you for your feedback!');
+      setFbName(''); setFbEmail(''); setFbRating(0); setFbComment('');
+    } catch {
+      setFbMsg('⚠️ Failed to send. Please try again.');
+    } finally { setFbSending(false); }
+  }
+
   /* ========== RENDER ========== */
   const titles = {
     'signin':           'Welcome Back',
@@ -490,11 +515,45 @@ export default function LoginScreen() {
               <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.97 0-1.75-.79-1.75-1.76s.78-1.76 1.75-1.76 1.75.79 1.75 1.76-.78 1.76-1.75 1.76zm13.5 11.27h-3v-5.34c0-3.18-4-2.94-4 0v5.34h-3v-10h3v1.77c1.4-2.59 7-2.78 7 2.48v5.75z"/></svg>
               LinkedIn
             </a>
-            <a href="mailto:contact@cardmaker.com" className="login-contact-btn email">
+            <a href="mailto:creativethinker.designhub@gmail.com" className="login-contact-btn email">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 4h-16c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-12c0-1.1-.9-2-2-2zm0 4l-8 5-8-5v-2l8 5 8-5v2z"/></svg>
               Email Us
             </a>
           </div>
+
+          {/* ── Feedback / Review Form ── */}
+          <form className="login-feedback-form" onSubmit={handleFeedbackSubmit}>
+            <div className="login-feedback-heading">⭐ Rate & Review</div>
+
+            {/* Star Rating */}
+            <div className="login-stars">
+              {[1, 2, 3, 4, 5].map(star => (
+                <button
+                  key={star}
+                  type="button"
+                  className={`login-star ${star <= (fbHover || fbRating) ? 'filled' : ''}`}
+                  onClick={() => setFbRating(star)}
+                  onMouseEnter={() => setFbHover(star)}
+                  onMouseLeave={() => setFbHover(0)}
+                  aria-label={`${star} star`}
+                >★</button>
+              ))}
+              {fbRating > 0 && <span className="login-star-label">{fbRating}/5</span>}
+            </div>
+
+            <input className="login-input login-fb-input" type="text" placeholder="Your name (optional)"
+              value={fbName} onChange={e => setFbName(e.target.value)} />
+            <input className="login-input login-fb-input" type="email" placeholder="Your email (optional)"
+              value={fbEmail} onChange={e => setFbEmail(e.target.value)} />
+            <textarea className="login-input login-fb-textarea" placeholder="Write your feedback or suggestion…"
+              rows={3} value={fbComment} onChange={e => setFbComment(e.target.value)} />
+
+            {fbMsg && <div className={`login-fb-msg ${fbMsg.startsWith('✅') ? 'success' : 'warn'}`}>{fbMsg}</div>}
+
+            <button className="login-btn login-fb-btn" disabled={fbSending}>
+              {fbSending ? '⏳ Sending…' : '📨 Submit Feedback'}
+            </button>
+          </form>
         </div>
       </div>
     </div>

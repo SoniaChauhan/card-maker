@@ -85,6 +85,27 @@ export async function POST(req) {
         return NextResponse.json({ ok: true });
       }
 
+      case 'sendFeedback': {
+        const { senderName, senderEmail, rating, comment } = body;
+        const FEEDBACK_EMAIL = 'creativethinker.designhub@gmail.com';
+        const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+        await sendMail(
+          FEEDBACK_EMAIL,
+          `⭐ New Feedback (${rating}/5) — Card Maker`,
+          `<div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;padding:24px;border:1px solid #e0e0e0;border-radius:12px">
+            <h2 style="color:#6c47ff;text-align:center">🎴 Card Maker — User Feedback</h2>
+            <table style="width:100%;border-collapse:collapse;margin:16px 0">
+              <tr><td style="padding:8px 12px;font-weight:bold;color:#555;border-bottom:1px solid #eee">From:</td><td style="padding:8px 12px;border-bottom:1px solid #eee">${senderName || 'Anonymous'}</td></tr>
+              <tr><td style="padding:8px 12px;font-weight:bold;color:#555;border-bottom:1px solid #eee">Email:</td><td style="padding:8px 12px;border-bottom:1px solid #eee">${senderEmail || 'Not provided'}</td></tr>
+              <tr><td style="padding:8px 12px;font-weight:bold;color:#555;border-bottom:1px solid #eee">Rating:</td><td style="padding:8px 12px;border-bottom:1px solid #eee;font-size:20px;color:#f5a623">${stars} (${rating}/5)</td></tr>
+              <tr><td style="padding:8px 12px;font-weight:bold;color:#555;vertical-align:top">Comment:</td><td style="padding:8px 12px">${comment || 'No comment provided'}</td></tr>
+            </table>
+            <p style="color:#888;font-size:12px;text-align:center">Submitted at ${new Date().toLocaleString()}</p>
+          </div>`,
+        );
+        return NextResponse.json({ ok: true });
+      }
+
       default:
         return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
     }
