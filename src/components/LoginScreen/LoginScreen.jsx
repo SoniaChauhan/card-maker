@@ -489,55 +489,9 @@ export default function LoginScreen() {
         {/* ──── RIGHT: Dashboard Info + Feedback ──── */}
         <div className="login-right">
           <div className="login-info-panel">
-            {/* About */}
-            <div className="lp-section">
-              <h3 className="lp-heading">🎨 About Card Maker</h3>
-              <p className="lp-text">
-                We are here to fulfil all your online card creation needs — beautifully designed,
-                easy to customize, and free to download!
-              </p>
-            </div>
 
-            {/* Available Cards */}
-            <div className="lp-section">
-              <h4 className="lp-subheading">📌 Available Cards</h4>
-              <div className="lp-card-grid">
-                <div className="lp-card-item">🎂 Birthday</div>
-                <div className="lp-card-item">💍 Wedding</div>
-                <div className="lp-card-item">💕 Anniversary</div>
-                <div className="lp-card-item">🪔 Jagrata</div>
-                <div className="lp-card-item">📄 Biodata</div>
-                <div className="lp-card-item">📋 Resume</div>
-              </div>
-            </div>
-
-            {/* Features */}
-            <div className="lp-section">
-              <h4 className="lp-subheading">✅ Features</h4>
-              <ul className="lp-features">
-                <li>Multiple premium templates per card type</li>
-                <li>Live preview while editing</li>
-                <li>High-quality PNG/PDF downloads</li>
-                <li>Multi-language support</li>
-                <li>Guest mode — no sign-up required</li>
-              </ul>
-            </div>
-
-            {/* Hire Us */}
-            <div className="lp-section lp-hire">
-              <h4 className="lp-subheading">💼 Need a Custom Design?</h4>
-              <p className="lp-text">
-                Hire us to create your own personalized, fully customized card tailored to your needs!
-              </p>
-            </div>
-
-            {/* Status */}
-            <div className="lp-section lp-status">
-              🚀 This project is in its <strong>initial stage</strong>. More card types coming soon — stay tuned!
-            </div>
-
-            {/* Star Rating + Feedback */}
-            <div className="lp-section lp-feedback-section">
+            {/* ── Rate & Review — full-width top row ── */}
+            <div className="lp-feedback-section lp-full-row">
               <h4 className="lp-subheading">⭐ Rate &amp; Review</h4>
               <form className="lp-feedback-form" onSubmit={handleFeedbackSubmit}>
                 <div className="login-stars">
@@ -559,15 +513,58 @@ export default function LoginScreen() {
                     value={fbName} onChange={e => setFbName(e.target.value)} />
                   <input className="lp-fb-input" type="email" placeholder="Your email (optional)"
                     value={fbEmail} onChange={e => setFbEmail(e.target.value)} />
+                  <textarea className="lp-fb-textarea" placeholder="Write your feedback…"
+                    rows={2} value={fbComment} onChange={e => setFbComment(e.target.value)} />
+                  <button className="login-btn lp-fb-btn" disabled={fbSending}>
+                    {fbSending ? '⏳ Sending…' : '📨 Submit'}
+                  </button>
                 </div>
-                <textarea className="lp-fb-textarea" placeholder="Write your feedback or suggestion…"
-                  rows={3} value={fbComment} onChange={e => setFbComment(e.target.value)} />
                 {fbMsg && <div className={`login-fb-msg ${fbMsg.startsWith('✅') ? 'success' : 'warn'}`}>{fbMsg}</div>}
-                <button className="login-btn lp-fb-btn" disabled={fbSending}>
-                  {fbSending ? '⏳ Sending…' : '📨 Submit Feedback'}
-                </button>
               </form>
             </div>
+
+            {/* ── Two-column cards grid ── */}
+            <div className="lp-two-col">
+              {/* Card 1 — About + Cards */}
+              <div className="lp-col-card">
+                <h3 className="lp-heading">🎨 About Card Maker</h3>
+                <p className="lp-text">
+                  We fulfil all your online card creation needs — beautifully designed,
+                  easy to customize, and free to download!
+                </p>
+                <h4 className="lp-subheading" style={{ marginTop: 14 }}>📌 Available Cards</h4>
+                <div className="lp-card-grid">
+                  <div className="lp-card-item">🎂 Birthday</div>
+                  <div className="lp-card-item">💍 Wedding</div>
+                  <div className="lp-card-item">💕 Anniversary</div>
+                  <div className="lp-card-item">🪔 Jagrata</div>
+                  <div className="lp-card-item">📄 Biodata</div>
+                  <div className="lp-card-item">📋 Resume</div>
+                </div>
+                <div className="lp-status" style={{ marginTop: 14 }}>
+                  🚀 <strong>Initial stage</strong> — more cards coming soon!
+                </div>
+              </div>
+
+              {/* Card 2 — Features + Hire */}
+              <div className="lp-col-card">
+                <h4 className="lp-subheading">✅ Features</h4>
+                <ul className="lp-features">
+                  <li>Multiple premium templates per card type</li>
+                  <li>Live preview while editing</li>
+                  <li>High-quality PNG/PDF downloads</li>
+                  <li>Multi-language support</li>
+                  <li>Guest mode — no sign-up required</li>
+                </ul>
+                <div className="lp-hire" style={{ marginTop: 14 }}>
+                  <h4 className="lp-subheading">💼 Need a Custom Design?</h4>
+                  <p className="lp-text">
+                    Hire us to create your own personalized, fully customized card tailored to your needs!
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

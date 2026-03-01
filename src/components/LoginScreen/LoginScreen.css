@@ -254,37 +254,49 @@
 }
 .login-info-panel {
   width: 100%;
-  background: rgba(255,255,255,.06);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 22px;
-  padding: 28px 26px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
   animation: fadeUp .45s ease;
 }
 
-/* Sections inside right panel */
-.lp-section {
+/* Full-width top row (Rate & Review) */
+.lp-full-row {
+  width: 100%;
+}
+
+/* Two-column cards below feedback */
+.lp-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.lp-col-card {
+  background: rgba(255,255,255,.06);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 18px;
+  padding: 22px 20px;
   text-align: left;
 }
+
+/* Headings & text */
 .lp-heading {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 800;
   color: #fff;
   margin: 0 0 8px;
 }
 .lp-subheading {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: #c4b5fd;
   margin: 0 0 8px;
 }
 .lp-text {
-  font-size: 14px;
+  font-size: 13.5px;
   color: #c9c9d4;
-  line-height: 1.65;
+  line-height: 1.6;
   margin: 0;
 }
 
@@ -292,15 +304,15 @@
 .lp-card-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 6px;
 }
 .lp-card-item {
   background: rgba(255,255,255,.08);
   border: 1px solid rgba(255,255,255,.12);
   border-radius: 10px;
-  padding: 10px 8px;
+  padding: 8px 6px;
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: #e0e0e0;
   transition: background .2s, transform .15s;
@@ -317,12 +329,12 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
 }
 .lp-features li {
-  font-size: 13.5px;
+  font-size: 13px;
   color: #c9c9d4;
-  padding-left: 22px;
+  padding-left: 20px;
   position: relative;
   line-height: 1.5;
 }
@@ -338,30 +350,31 @@
 .lp-hire {
   background: rgba(102,126,234,.1);
   border: 1px solid rgba(102,126,234,.2);
-  border-radius: 14px;
-  padding: 14px 16px;
+  border-radius: 12px;
+  padding: 12px 14px;
 }
 
 /* Status badge */
 .lp-status {
-  font-size: 13px;
+  font-size: 12.5px;
   color: #bbb;
   background: rgba(255,255,255,.05);
   border-radius: 10px;
-  padding: 12px 14px;
+  padding: 10px 12px;
   line-height: 1.55;
   text-align: center;
 }
 .lp-status strong { color: #ffd700; }
 
 /* ═══════════════════════════════════════
-   Feedback section inside right panel
+   Feedback section — horizontal top bar
    ═══════════════════════════════════════ */
 .lp-feedback-section {
-  background: rgba(255,255,255,.04);
-  border-radius: 14px;
-  padding: 16px;
-  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.06);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 18px;
+  padding: 18px 22px;
 }
 .lp-feedback-form {
   display: flex;
@@ -369,7 +382,7 @@
   gap: 10px;
 }
 
-/* Stars */
+/* Stars — inline centered */
 .login-stars {
   display: flex;
   justify-content: center;
@@ -380,7 +393,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 28px;
+  font-size: 26px;
   color: #555;
   transition: color .15s, transform .15s;
   padding: 0 2px;
@@ -395,14 +408,16 @@
   font-weight: 600;
 }
 
-/* Feedback inputs */
+/* Horizontal feedback row: name, email, textarea, btn all inline */
 .lp-fb-row {
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  align-items: stretch;
 }
 .lp-fb-input {
   flex: 1;
-  padding: 10px 12px;
+  min-width: 0;
+  padding: 9px 12px;
   font-size: 13px;
   border: 1px solid rgba(255,255,255,.18);
   border-radius: 10px;
@@ -415,15 +430,16 @@
 .lp-fb-input:focus { border-color: #667eea; }
 
 .lp-fb-textarea {
-  padding: 10px 12px;
+  flex: 2;
+  min-width: 0;
+  padding: 9px 12px;
   font-size: 13px;
   border: 1px solid rgba(255,255,255,.18);
   border-radius: 10px;
   background: rgba(255,255,255,.08);
   color: #e0e0e0;
   outline: none;
-  resize: vertical;
-  min-height: 60px;
+  resize: none;
   font-family: inherit;
   transition: border-color .2s;
 }
@@ -431,11 +447,15 @@
 .lp-fb-textarea:focus { border-color: #667eea; }
 
 .lp-fb-btn {
+  flex: 0 0 auto;
+  width: auto !important;
+  padding: 9px 20px !important;
+  font-size: 13px !important;
   background: linear-gradient(135deg, #f7971e, #ffd200) !important;
   color: #1a1a2e !important;
   font-weight: 700 !important;
-  font-size: 14px !important;
-  padding: 11px !important;
+  border-radius: 10px !important;
+  white-space: nowrap;
 }
 .lp-fb-btn:hover:not(:disabled) {
   box-shadow: 0 4px 16px rgba(247,151,30,.45);
@@ -532,12 +552,21 @@
   }
   .login-right {
     width: 100%;
-    max-width: 600px;
+    max-width: 700px;
     padding-top: 0;
+  }
+  .lp-two-col {
+    grid-template-columns: 1fr 1fr;
   }
   .lp-card-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+  .lp-fb-row {
+    flex-wrap: wrap;
+  }
+  .lp-fb-input { flex: 1 1 140px; }
+  .lp-fb-textarea { flex: 1 1 100%; }
+  .lp-fb-btn { flex: 1 1 100%; }
 }
 
 /* Mobile */
@@ -552,10 +581,11 @@
   .login-btn { padding: 12px; font-size: 14px; }
   .login-links { flex-direction: column; gap: 8px; align-items: center; }
 
-  .login-info-panel { padding: 20px 16px; }
-  .lp-heading { font-size: 18px; }
-  .lp-card-grid { grid-template-columns: repeat(2, 1fr); }
+  .lp-two-col { grid-template-columns: 1fr; }
+  .lp-heading { font-size: 17px; }
+  .lp-card-grid { grid-template-columns: repeat(3, 1fr); }
   .lp-fb-row { flex-direction: column; gap: 8px; }
+  .lp-fb-btn { width: 100% !important; }
 
   .login-footer { gap: 10px; padding: 14px 12px; flex-direction: column; text-align: center; }
 }
