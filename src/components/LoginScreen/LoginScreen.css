@@ -248,7 +248,7 @@
 .login-right {
   flex: 1;
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
   padding-top: 16px;
   min-width: 0;
 }
@@ -260,12 +260,9 @@
   animation: fadeUp .45s ease;
 }
 
-/* Full-width row (Rate & Review) — stretches to fill remaining space */
+/* Full-width row (Rate & Review) */
 .lp-full-row {
   width: 100%;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
 }
 
 /* Two-column cards below feedback */
@@ -377,13 +374,12 @@
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255,255,255,.1);
   border-radius: 18px;
-  padding: 22px 24px;
+  padding: 16px 20px;
 }
 .lp-feedback-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  flex: 1;
+  gap: 8px;
 }
 
 /* Stars — inline centered */
@@ -397,7 +393,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 30px;
+  font-size: 26px;
   color: #555;
   transition: color .15s, transform .15s;
   padding: 0 2px;
@@ -412,17 +408,16 @@
   font-weight: 600;
 }
 
-/* Feedback fields — vertical stack for more height */
+/* Feedback fields — compact horizontal row */
 .lp-fb-row {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex: 1;
+  gap: 8px;
+  align-items: stretch;
 }
 .lp-fb-input {
   flex: 1;
   min-width: 0;
-  padding: 9px 12px;
+  padding: 8px 10px;
   font-size: 13px;
   border: 1px solid rgba(255,255,255,.18);
   border-radius: 10px;
@@ -435,17 +430,16 @@
 .lp-fb-input:focus { border-color: #667eea; }
 
 .lp-fb-textarea {
-  flex: 1;
+  flex: 2;
   min-width: 0;
-  min-height: 80px;
-  padding: 10px 12px;
+  padding: 8px 10px;
   font-size: 13px;
   border: 1px solid rgba(255,255,255,.18);
   border-radius: 10px;
   background: rgba(255,255,255,.08);
   color: #e0e0e0;
   outline: none;
-  resize: vertical;
+  resize: none;
   font-family: inherit;
   transition: border-color .2s;
 }
@@ -453,9 +447,10 @@
 .lp-fb-textarea:focus { border-color: #667eea; }
 
 .lp-fb-btn {
-  width: 100% !important;
-  padding: 12px 20px !important;
-  font-size: 14px !important;
+  flex: 0 0 auto;
+  width: auto !important;
+  padding: 8px 18px !important;
+  font-size: 13px !important;
   background: linear-gradient(135deg, #f7971e, #ffd200) !important;
   color: #1a1a2e !important;
   font-weight: 700 !important;
