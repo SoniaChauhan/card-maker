@@ -8,7 +8,7 @@ import html2canvas from 'html2canvas';
  * @param {string} filename   - desired download filename (should end in .png)
  * @returns {{ downloading, handleDownload, toast }}
  */
-export default function useDownload(elementId, filename, { onSuccess } = {}) {
+export default function useDownload(elementId, filename, { onSuccess, downloadWidth } = {}) {
   const [downloading, setDownloading] = useState(false);
   const [toast, setToast] = useState({ text: '', show: false });
 
@@ -85,12 +85,13 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
     setDownloading(true);
 
     /* Temporarily expand the card to a fixed width for a high-quality download */
+    const dlW = (downloadWidth || 600) + 'px';
     const prevMaxW = el.style.maxWidth;
     const prevW    = el.style.width;
     const prevMinW = el.style.minWidth;
     el.style.maxWidth = 'none';
-    el.style.width    = '600px';
-    el.style.minWidth = '600px';
+    el.style.width    = dlW;
+    el.style.minWidth = dlW;
     /* Keep overflow as-is — cards use overflow:hidden to clip SVG decorations */
 
     /* Also expand any direct child card so it fills the wrapper —
@@ -162,8 +163,7 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
       /* Use offsetHeight — all cards use overflow:hidden so offsetHeight gives
          the actual visible card height. scrollHeight can be inflated by hidden
          overflow child content, causing blank space in the download image. */
-      const captureH = el.offsetHeight;
-      const safeH = Math.min(captureH, 2000); // safety cap
+      const captureH = Math.max(el.offsetHeight, el.scrollHeight);
 
       const canvas = await html2canvas(el, {
         scale: 2,
@@ -172,7 +172,7 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
         backgroundColor: null,
         logging: false,
         width: el.scrollWidth,
-        height: safeH,
+        height: captureH,
         windowWidth: el.scrollWidth + 100,
         scrollX: 0,
         scrollY: 0,

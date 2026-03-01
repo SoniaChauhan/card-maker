@@ -46,7 +46,7 @@
 .wedding-card {
   background: #fdf8f0;
   width: 100%;
-  max-width: 520px;
+  max-width: 700px;
   padding: 0;
   box-shadow:
     0 0 0 2px #b8860b,
@@ -78,7 +78,7 @@
 ============================== */
 .wed-body {
   display: flex;
-  padding: 28px 20px 12px;
+  padding: 28px 28px 12px;
   gap: 0;
 }
 .wed-col {
@@ -86,15 +86,15 @@
   flex-direction: column;
 }
 .wed-col-left {
-  flex: 0 0 46%;
-  padding-right: 16px;
+  flex: 0 0 42%;
+  padding-right: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 .wed-col-right {
   flex: 1;
-  padding-left: 16px;
+  padding-left: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -793,7 +793,7 @@
 /* ============================================================
    RESPONSIVE — Centered layout
 ============================================================ */
-@media (max-width: 560px) {
+@media (max-width: 740px) {
   .wed-centered .wed-divine-svg { width: 95px; height: 84px; }
   .wed-name-center { font-size: 26px; }
   .wed-amp-center { font-size: 22px; }
@@ -816,7 +816,7 @@
 /* ============================================================
    RESPONSIVE — Card Layout
 ============================================================ */
-@media (max-width: 560px) {
+@media (max-width: 740px) {
   .wedding-card { max-width: 100%; }
   .wed-body {
     flex-direction: column;
@@ -854,7 +854,7 @@
   background: rgba(184,134,11,.06);
   border: 1px solid rgba(184,134,11,.18);
   border-radius: 14px;
-  max-width: 520px;
+  max-width: 700px;
   width: 100%;
 }
 .wed-bg-picker-label {
@@ -1114,7 +1114,7 @@
   overflow-y: auto;
 }
 .tpl-fullpreview-wrap {
-  max-width: 560px;
+  max-width: 720px;
   width: 100%;
   position: relative;
 }
@@ -1596,7 +1596,7 @@
   overflow-y: auto;
 }
 .swc-preview-wrap {
-  max-width: 560px;
+  max-width: 720px;
   width: 100%;
   position: relative;
 }

@@ -53,6 +53,7 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
   const dlTitle = data.groomName && data.brideName ? `${data.groomName} & ${data.brideName} Wedding` : 'Wedding Invite';
   const { downloading, handleDownload, toast } = useDownload('wedding-card-print', filename, {
     onSuccess: () => logDownload(userEmail, 'wedding', 'Wedding Invite Designer', dlTitle, filename, data).catch(() => {}),
+    downloadWidth: 800,
   });
 
   function onChange(e) {
