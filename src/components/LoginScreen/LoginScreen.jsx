@@ -360,12 +360,6 @@ export default function LoginScreen() {
     { icon: '📸', name: 'Instagram Stories', grad: 'linear-gradient(135deg, #c471f5, #fa71cd)' },
   ];
 
-  const testimonials = [
-    { name: 'Priya S.', text: 'Created a beautiful wedding card in just 5 minutes! Amazing templates.', stars: 5 },
-    { name: 'Rahul M.', text: 'The birthday card templates are so creative. My family loved it!', stars: 5 },
-    { name: 'Ankita D.', text: 'Super easy to use, even on my phone. Highly recommend this tool!', stars: 4 },
-  ];
-
   return (
     <div className="login-page">
 
@@ -430,19 +424,31 @@ export default function LoginScreen() {
         </div>
       </section>
 
-      {/* ═══════ SOCIAL PROOF ═══════ */}
+      {/* ═══════ WHY CARD MAKER ═══════ */}
       <section className="lp-proof">
-        <h2 className="lp-section-title">Loved by Our Users</h2>
-        <div className="lp-testimonials">
-          {testimonials.map((t, i) => (
-            <div key={i} className="lp-testimonial">
-              <div className="lp-testimonial-stars">
-                {'★'.repeat(t.stars)}{'☆'.repeat(5 - t.stars)}
-              </div>
-              <p className="lp-testimonial-text">&ldquo;{t.text}&rdquo;</p>
-              <span className="lp-testimonial-name">— {t.name}</span>
-            </div>
-          ))}
+        <h2 className="lp-section-title">Simple, Fast &amp; User‑Friendly</h2>
+        <p className="lp-section-sub">Made for everyone — from first‑time users to designers</p>
+        <div className="lp-highlights">
+          <div className="lp-highlight">
+            <span className="lp-highlight-icon">⚡</span>
+            <h3>Ready in Minutes</h3>
+            <p>Pick a template, fill in your details, and download — no design skills needed.</p>
+          </div>
+          <div className="lp-highlight">
+            <span className="lp-highlight-icon">🎨</span>
+            <h3>Beautiful Templates</h3>
+            <p>Professionally designed for weddings, birthdays, anniversaries &amp; more.</p>
+          </div>
+          <div className="lp-highlight">
+            <span className="lp-highlight-icon">📱</span>
+            <h3>Works Everywhere</h3>
+            <p>Desktop, tablet, or phone — create and share cards from any device.</p>
+          </div>
+          <div className="lp-highlight">
+            <span className="lp-highlight-icon">🌐</span>
+            <h3>Multi-Language</h3>
+            <p>Create cards in Hindi, English, Punjabi, Gujarati &amp; more languages.</p>
+          </div>
         </div>
       </section>
 
