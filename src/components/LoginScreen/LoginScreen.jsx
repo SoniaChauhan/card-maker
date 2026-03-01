@@ -329,9 +329,12 @@ export default function LoginScreen() {
     { icon: '🎂', name: 'Birthday', desc: 'Vibrant celebration templates', grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)' },
     { icon: '💍', name: 'Wedding', desc: 'Elegant invitation designs', grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
     { icon: '💕', name: 'Anniversary', desc: 'Mark special milestones', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
-    { icon: '🪔', name: 'Jagrata', desc: 'Traditional pooja invitations', grad: 'linear-gradient(135deg, #f857a6, #ff5858)' },
-    { icon: '📄', name: 'Biodata', desc: 'Professional marriage biodata', grad: 'linear-gradient(135deg, #667eea, #764ba2)' },
-    { icon: '📋', name: 'Resume', desc: 'Modern professional resumes', grad: 'linear-gradient(135deg, #38b2ac, #319795)' },
+  ];
+
+  const comingSoonCards = [
+    { icon: '🪔', name: 'Jagrata', grad: 'linear-gradient(135deg, #f857a6, #ff5858)' },
+    { icon: '📄', name: 'Biodata', grad: 'linear-gradient(135deg, #667eea, #764ba2)' },
+    { icon: '📋', name: 'Resume', grad: 'linear-gradient(135deg, #38b2ac, #319795)' },
   ];
 
   const testimonials = [
@@ -350,7 +353,7 @@ export default function LoginScreen() {
             Create Beautiful Cards&nbsp;<span className="lp-accent">in Minutes</span>
           </h1>
           <p className="lp-hero-sub">
-            Birthday, Wedding, Anniversary &amp; more — stunning templates, easy customization, instant download.
+            Birthday, Wedding &amp; Anniversary — stunning templates, easy customization, instant download. More cards coming soon!
           </p>
           <div className="lp-hero-actions">
             <button className="lp-hero-cta" type="button" onClick={loginAsGuest}>
@@ -368,9 +371,9 @@ export default function LoginScreen() {
             </button>
           </div>
           <div className="lp-hero-stats">
-            <div className="lp-stat"><span className="lp-stat-num">6</span><span className="lp-stat-label">Card Types</span></div>
+            <div className="lp-stat"><span className="lp-stat-num">3</span><span className="lp-stat-label">Card Types</span></div>
             <div className="lp-stat-divider" />
-            <div className="lp-stat"><span className="lp-stat-num">15+</span><span className="lp-stat-label">Templates</span></div>
+            <div className="lp-stat"><span className="lp-stat-num">10+</span><span className="lp-stat-label">Templates</span></div>
             <div className="lp-stat-divider" />
             <div className="lp-stat"><span className="lp-stat-num">5</span><span className="lp-stat-label">Languages</span></div>
           </div>
@@ -388,6 +391,18 @@ export default function LoginScreen() {
               <h3 className="lp-showcase-name">{c.name}</h3>
               <p className="lp-showcase-desc">{c.desc}</p>
             </button>
+          ))}
+        </div>
+
+        {/* Coming soon cards */}
+        <h3 className="lp-coming-title">🚀 Coming Soon</h3>
+        <div className="lp-coming-grid">
+          {comingSoonCards.map(c => (
+            <div key={c.name} className="lp-coming-card" style={{ background: c.grad }}>
+              <span className="lp-showcase-icon">{c.icon}</span>
+              <h3 className="lp-showcase-name">{c.name}</h3>
+              <span className="lp-coming-badge">Coming Soon</span>
+            </div>
           ))}
         </div>
       </section>

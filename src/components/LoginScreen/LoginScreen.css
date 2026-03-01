@@ -194,6 +194,51 @@
   text-shadow: 0 1px 2px rgba(0,0,0,.2);
 }
 
+/* Coming Soon section */
+.lp-coming-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #c4b5fd;
+  margin: 32px 0 14px;
+}
+.lp-coming-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.lp-coming-card {
+  border: none;
+  border-radius: 16px;
+  padding: 22px 14px 18px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  opacity: .55;
+  filter: grayscale(.3);
+  cursor: default;
+}
+.lp-coming-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.3);
+  border-radius: 16px;
+}
+.lp-coming-badge {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin-top: 6px;
+  padding: 3px 12px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #1a1a2e;
+  background: #ffd200;
+  border-radius: 20px;
+}
+
 /* ═══════════════════════════════════════
    SOCIAL PROOF / TESTIMONIALS
    ═══════════════════════════════════════ */
@@ -744,6 +789,7 @@
   .lp-hero-cta { padding: 14px 28px; font-size: 15px; }
 
   .lp-showcase-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .lp-coming-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
   .lp-testimonials { grid-template-columns: repeat(3, 1fr); gap: 12px; }
 
   .login-main {
@@ -778,6 +824,7 @@
 
   .lp-showcase { padding: 0 16px 32px; }
   .lp-showcase-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .lp-coming-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .lp-showcase-card { padding: 24px 14px 20px; }
   .lp-showcase-icon { font-size: 36px; }
   .lp-showcase-name { font-size: 15px; }
