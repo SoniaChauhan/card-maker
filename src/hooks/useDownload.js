@@ -93,7 +93,9 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
     el.style.minWidth = '600px';
     /* Keep overflow as-is — cards use overflow:hidden to clip SVG decorations */
 
-    /* Also expand any direct child card so it fills the wrapper */
+    /* Also expand any direct child card so it fills the wrapper —
+       SKIP absolutely/fixed-positioned children (corners, vines, inner borders)
+       because forcing width:100% on them breaks their layout. */
     const directChildren = Array.from(el.children);
     const childPrev = directChildren.map(c => ({
       el: c,
@@ -101,6 +103,8 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
       width: c.style.width,
     }));
     directChildren.forEach(c => {
+      const pos = window.getComputedStyle(c).position;
+      if (pos === 'absolute' || pos === 'fixed') return;   // leave positioned elements alone
       c.style.maxWidth = 'none';
       c.style.width    = '100%';
     });
@@ -155,11 +159,11 @@ export default function useDownload(elementId, filename, { onSuccess } = {}) {
     await new Promise(r => setTimeout(r, 300));
 
     try {
-      /* Use offsetHeight to get the actual rendered height (scrollHeight can
-         be inflated when overflow is removed and absolutely-positioned SVG
-         decorations extend beyond card bounds). */
-      const captureH = Math.max(el.offsetHeight, el.scrollHeight);
-      const safeH = Math.min(captureH, 2000); // cap at 2000px to prevent runaway captures
+      /* Use offsetHeight — all cards use overflow:hidden so offsetHeight gives
+         the actual visible card height. scrollHeight can be inflated by hidden
+         overflow child content, causing blank space in the download image. */
+      const captureH = el.offsetHeight;
+      const safeH = Math.min(captureH, 2000); // safety cap
 
       const canvas = await html2canvas(el, {
         scale: 2,

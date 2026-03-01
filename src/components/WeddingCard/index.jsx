@@ -73,7 +73,6 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
     if (!data.brideName.trim())    err.brideName    = 'Bride\'s name is required.';
     if (!data.weddingDate)         err.weddingDate  = 'Wedding date is required.';
     if (!data.weddingVenue.trim()) err.weddingVenue = 'Wedding venue is required.';
-    if (!data.guestName.trim())    err.guestName    = 'Guest name is required.';
     return err;
   }
 

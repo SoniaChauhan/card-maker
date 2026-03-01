@@ -23,8 +23,7 @@ export default function BirthdayForm({ data, errors, onChange, onBack, onGenerat
 
           <FormField label="Invited Guest Name" name="guestName"
             value={data.guestName} onChange={onChange}
-            placeholder="Who is being invited?" required
-            error={errors.guestName} />
+            placeholder="Who is being invited? (optional)" />
 
           <FormField label="Hosted By" name="hostName"
             value={data.hostName} onChange={onChange}

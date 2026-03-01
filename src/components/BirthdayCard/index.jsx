@@ -59,7 +59,6 @@ export default function BirthdayCard({ onBack, userEmail, initialData, templateI
 
   function validate() {
     const err = {};
-    if (!data.guestName.trim())       err.guestName       = 'Invited guest name is required.';
     if (!data.birthdayPerson.trim())  err.birthdayPerson  = 'Birthday person is required.';
     if (!data.date)                   err.date            = 'Please select a date.';
     if (!data.venue.trim())           err.venue           = 'Venue is required.';

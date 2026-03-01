@@ -90,8 +90,7 @@ export default function WeddingForm({ data, errors, onChange, onBack, onGenerate
           {/* Guest */}
           <FormField label="Invited Guest Name" name="guestName"
             value={data.guestName} onChange={onChange}
-            placeholder="Who is being invited?" required
-            error={errors.guestName} />
+            placeholder="Who is being invited? (optional)" />
 
           <FormField label="Special Message / RSVP Note" name="message"
             value={data.message} onChange={onChange}

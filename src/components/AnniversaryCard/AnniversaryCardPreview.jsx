@@ -82,13 +82,6 @@ function RoseGoldDecor() {
             fill="#d4a373" opacity={0.25 + i * 0.04} />
         ))}
       </svg>
-      <svg className="anniv-bot-strip" viewBox="0 0 420 35" fill="none">
-        {[100, 170, 250, 320].map((x, i) => (
-          <path key={i} d={`M${x} 16 C${x} 11,${x - 5} 8,${x - 5} 13 C${x - 5} 18,${x} 22,${x} 22 C${x} 22,${x + 5} 18,${x + 5} 13 C${x + 5} 8,${x} 11,${x} 16`}
-            fill="#d4a373" opacity={0.2 + i * 0.04} />
-        ))}
-        <line x1="40" y1="18" x2="380" y2="18" stroke="#d4a373" strokeWidth=".4" opacity=".25" />
-      </svg>
     </>
   );
 }
@@ -114,22 +107,6 @@ function LaurelDecor() {
         </g>
         <circle cx="210" cy="10" r="5" fill="none" stroke="#b8860b" strokeWidth="1.5" />
         <circle cx="210" cy="10" r="2" fill="#b8860b" opacity=".6" />
-      </svg>
-      <svg className="anniv-bot-strip" viewBox="0 0 420 35" fill="none">
-        <g transform="translate(150,18)">
-          {[0, 1, 2, 3].map(i => (
-            <ellipse key={i} cx={-i * 9} cy={i * 3} rx="7" ry="3.5"
-              fill="#5a8a4a" opacity=".45"
-              transform={`rotate(${25 + i * 8} ${-i * 9} ${i * 3})`} />
-          ))}
-        </g>
-        <g transform="translate(270,18)">
-          {[0, 1, 2, 3].map(i => (
-            <ellipse key={i} cx={i * 9} cy={i * 3} rx="7" ry="3.5"
-              fill="#5a8a4a" opacity=".45"
-              transform={`rotate(${-25 - i * 8} ${i * 9} ${i * 3})`} />
-          ))}
-        </g>
       </svg>
     </>
   );
@@ -183,12 +160,6 @@ function SwirlDecor() {
         <path d="M118 25 C123 32,128 28,130 22" stroke="#c9a84c" strokeWidth="1" fill="none" opacity=".35" />
         <path d="M302 19 C297 12,292 16,290 22" stroke="#c9a84c" strokeWidth="1" fill="none" opacity=".35" />
         <circle cx="210" cy="22" r="2.5" fill="#c9a84c" opacity=".45" />
-      </svg>
-      <svg className="anniv-bot-strip" viewBox="0 0 420 30" fill="none">
-        <path d="M155 15 C180 4,240 4,265 15" stroke="#c9a84c" strokeWidth="1" fill="none" opacity=".4" />
-        <circle cx="210" cy="7" r="1.8" fill="#c9a84c" opacity=".35" />
-        <line x1="60" y1="15" x2="145" y2="15" stroke="#c9a84c" strokeWidth=".4" opacity=".25" />
-        <line x1="275" y1="15" x2="360" y2="15" stroke="#c9a84c" strokeWidth=".4" opacity=".25" />
       </svg>
     </>
   );
@@ -265,7 +236,24 @@ const AnniversaryCardPreview = forwardRef(function AnniversaryCardPreview(
         )}
       </div>
 
-      {/* Bottom decorations for some templates */}
+      {/* Bottom decorations for all templates */}
+      {tpl === 1 && (
+        <svg className="anniv-bot-strip" viewBox="0 0 420 40" fill="none" style={{ marginTop: 'auto' }}>
+          <path d="M80 20 Q130 5 180 20 Q230 35 280 20 Q330 5 380 20" stroke="#c9a84c" strokeWidth="1" fill="none" opacity=".3" />
+          <circle cx="130" cy="18" r="2" fill="#c9a84c" opacity=".3" />
+          <circle cx="210" cy="22" r="2.5" fill="#c9a84c" opacity=".35" />
+          <circle cx="290" cy="18" r="2" fill="#c9a84c" opacity=".3" />
+        </svg>
+      )}
+      {tpl === 2 && (
+        <svg className="anniv-bot-strip" viewBox="0 0 420 35" fill="none">
+          {[100, 170, 250, 320].map((x, i) => (
+            <path key={i} d={`M${x} 16 C${x} 11,${x - 5} 8,${x - 5} 13 C${x - 5} 18,${x} 22,${x} 22 C${x} 22,${x + 5} 18,${x + 5} 13 C${x + 5} 8,${x} 11,${x} 16`}
+              fill="#d4a373" opacity={0.2 + i * 0.04} />
+          ))}
+          <line x1="40" y1="18" x2="380" y2="18" stroke="#d4a373" strokeWidth=".4" opacity=".25" />
+        </svg>
+      )}
       {tpl === 3 && (
         <svg className="anniv-bot-strip" viewBox="0 0 420 35" fill="none">
           <g transform="translate(150,18)">
@@ -282,6 +270,27 @@ const AnniversaryCardPreview = forwardRef(function AnniversaryCardPreview(
                 transform={`rotate(${-25 - i * 8} ${i * 9} ${i * 3})`} />
             ))}
           </g>
+        </svg>
+      )}
+      {tpl === 4 && (
+        <svg className="anniv-bot-strip" viewBox="0 0 420 40" fill="none">
+          <g transform="translate(210,20)">
+            <circle cx="0" cy="0" r="14" stroke="#d4af37" strokeWidth=".7" fill="none" opacity=".25" />
+            {Array.from({ length: 8 }, (_, i) => i * 45).map(a => (
+              <ellipse key={a}
+                cx={Math.cos(a * Math.PI / 180) * 18} cy={Math.sin(a * Math.PI / 180) * 18}
+                rx="4" ry="2" fill="#d4af37" opacity=".2"
+                transform={`rotate(${a} ${Math.cos(a * Math.PI / 180) * 18} ${Math.sin(a * Math.PI / 180) * 18})`} />
+            ))}
+          </g>
+        </svg>
+      )}
+      {tpl === 6 && (
+        <svg className="anniv-bot-strip" viewBox="0 0 420 30" fill="none">
+          <path d="M155 15 C180 4,240 4,265 15" stroke="#c9a84c" strokeWidth="1" fill="none" opacity=".4" />
+          <circle cx="210" cy="7" r="1.8" fill="#c9a84c" opacity=".35" />
+          <line x1="60" y1="15" x2="145" y2="15" stroke="#c9a84c" strokeWidth=".4" opacity=".25" />
+          <line x1="275" y1="15" x2="360" y2="15" stroke="#c9a84c" strokeWidth=".4" opacity=".25" />
         </svg>
       )}
     </div>

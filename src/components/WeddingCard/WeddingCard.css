@@ -80,7 +80,6 @@
   display: flex;
   padding: 28px 20px 12px;
   gap: 0;
-  min-height: 600px;
 }
 .wed-col {
   display: flex;
@@ -98,6 +97,7 @@
   padding-left: 16px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 .wed-divider-line {
   width: 1px;
