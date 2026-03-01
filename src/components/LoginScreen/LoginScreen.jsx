@@ -58,7 +58,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   const trimmedEmail = email.trim().toLowerCase();
 
   function resetForm() {
-    setName(''); setPassword(''); setConfirmPw('');
+    setName(''); setEmail(''); setPassword(''); setConfirmPw('');
     setOtp(''); setError(''); setInfo(''); setShowPw(false);
   }
 
@@ -103,10 +103,10 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   async function handleSignUp(e) {
     e.preventDefault();
     setError(''); setInfo('');
-    if (!name.trim()) { setError('Enter your name.'); return; }
-    if (!trimmedEmail || !emailRegex.test(trimmedEmail)) { setError('Enter a valid email.'); return; }
-    if (password.length < 6) { setError('Password must be at least 6 characters.'); return; }
-    if (password !== confirmPw) { setError('Passwords do not match.'); return; }
+    if (!name.trim()) { setError('Enter your name.'); setName(''); setEmail(''); setPassword(''); setConfirmPw(''); return; }
+    if (!trimmedEmail || !emailRegex.test(trimmedEmail)) { setError('Enter a valid email.'); setPassword(''); setConfirmPw(''); return; }
+    if (password.length < 6) { setError('Password must be at least 6 characters.'); setPassword(''); setConfirmPw(''); return; }
+    if (password !== confirmPw) { setError('Passwords do not match.'); setPassword(''); setConfirmPw(''); return; }
 
     setLoading(true);
     try {
@@ -116,7 +116,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
       const code = generateOTP();
       await storeOTP(trimmedEmail, code);
       await sendOTPEmail(trimmedEmail, code);
-      setInfo(`OTP sent to ${maskEmail(trimmedEmail)} — check your inbox.`);
+      setInfo(`OTP sent to ${trimmedEmail} — check your inbox.`);
       setMode('signup-otp');
     } catch (err) {
       console.error('OTP send error:', err);
@@ -173,7 +173,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
       const code = generateOTP();
       await storeOTP(trimmedEmail, code);
       await sendOTPEmail(trimmedEmail, code);
-      setInfo(`OTP sent to ${maskEmail(trimmedEmail)}`);
+      setInfo(`OTP sent to ${trimmedEmail}`);
       setMode('forgot-otp');
     } catch (err) {
       console.error('OTP send error:', err);
@@ -229,7 +229,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
       const code = generateOTP();
       await storeOTP(trimmedEmail, code);
       await sendOTPEmail(trimmedEmail, code);
-      setInfo(`OTP sent to ${maskEmail(trimmedEmail)}`);
+      setInfo(`OTP sent to ${trimmedEmail}`);
       setMode('otp-login-verify');
     } catch (err) {
       console.error('OTP send error:', err);
@@ -408,7 +408,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
             {isGuest && (
               <button className="lp-topbar-btn signup" onClick={() => { setAccountTab(null); setTimeout(() => document.getElementById('auth-section')?.scrollIntoView({ behavior: 'smooth' }), 100); }}>📝 Sign Up</button>
             )}
-            <button className="lp-topbar-btn logout" onClick={() => { setAccountTab(null); logout(); }}>🚪 Logout</button>
+            <button className="lp-topbar-btn logout" onClick={() => { setAccountTab(null); switchMode('signin'); logout(); }}>🚪 Logout</button>
           </div>
         </div>
       )}
@@ -576,8 +576,6 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
           {/* ──── LEFT: Auth Form ──── */}
           <div className="login-left">
             <div className="login-card">
-              <div className="login-icon">✨</div>
-              <h2>Card Maker</h2>
               <h3 className="login-title">{titles[mode]}</h3>
               <p className="login-subtitle">{subtitles[mode]}</p>
 
