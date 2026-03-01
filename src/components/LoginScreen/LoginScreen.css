@@ -13,7 +13,7 @@
   border-radius: 24px;
   padding: 36px 32px 32px;
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
   box-shadow: 0 30px 80px rgba(0,0,0,.3);
   text-align: center;
   animation: fadeUp .4s ease;
@@ -224,6 +224,66 @@
   font-weight: 700;
   cursor: pointer;
   text-decoration: underline;
+}
+
+/* ── Project Info Section ── */
+.login-about {
+  background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+.login-about-aim {
+  font-size: 13px;
+  color: #444;
+  line-height: 1.6;
+  margin: 0 0 10px;
+}
+.login-about-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #667eea;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.login-about-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.login-tag {
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.login-tag.ready {
+  background: #e6ffed;
+  color: #22543d;
+  border: 1px solid #c6f6d5;
+}
+.login-tag.soon {
+  background: #fff8e6;
+  color: #744210;
+  border: 1px solid #feebc8;
+}
+.login-about-cards {
+  margin-bottom: 10px;
+}
+.login-about-note {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.55;
+  margin: 0;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+}
+.login-about-note strong {
+  color: #764ba2;
 }
 
 /* Responsive */

@@ -297,6 +297,30 @@ export default function LoginScreen() {
       <div className="login-card">
         <div className="login-icon">✨</div>
         <h2>Card Maker</h2>
+
+        {/* ── Project Info (visible on signin & signup) ── */}
+        {(mode === 'signin' || mode === 'signup') && (
+          <div className="login-about">
+            <p className="login-about-aim">
+              We are here to fulfil all your online card creation needs — beautifully designed, easy to customize, and free to download!
+            </p>
+            <div className="login-about-cards">
+              <span className="login-about-label">Available Cards:</span>
+              <div className="login-about-tags">
+                <span className="login-tag ready">🎂 Birthday Card</span>
+                <span className="login-tag ready">💍 Wedding Card</span>
+                <span className="login-tag ready">💕 Anniversary Card</span>
+                <span className="login-tag ready">🪔 Jagrata Card</span>
+                <span className="login-tag ready">📄 Biodata Card</span>
+                <span className="login-tag ready">📋 Resume Card</span>
+              </div>
+            </div>
+            <p className="login-about-note">
+              🚀 This project is in its <strong>initial stage</strong>. We are actively working on more card types — some are ready to use, others are coming soon. Stay tuned!
+            </p>
+          </div>
+        )}
+
         <h3 className="login-title">{titles[mode]}</h3>
         <p className="login-subtitle">{subtitles[mode]}</p>
 
