@@ -248,7 +248,7 @@
 .login-right {
   flex: 1;
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   padding-top: 16px;
   min-width: 0;
 }
@@ -260,9 +260,12 @@
   animation: fadeUp .45s ease;
 }
 
-/* Full-width top row (Rate & Review) */
+/* Full-width row (Rate & Review) — stretches to fill remaining space */
 .lp-full-row {
   width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Two-column cards below feedback */
@@ -374,12 +377,13 @@
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255,255,255,.1);
   border-radius: 18px;
-  padding: 18px 22px;
+  padding: 22px 24px;
 }
 .lp-feedback-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  flex: 1;
 }
 
 /* Stars — inline centered */
@@ -393,7 +397,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 26px;
+  font-size: 30px;
   color: #555;
   transition: color .15s, transform .15s;
   padding: 0 2px;
@@ -408,11 +412,12 @@
   font-weight: 600;
 }
 
-/* Horizontal feedback row: name, email, textarea, btn all inline */
+/* Feedback fields — vertical stack for more height */
 .lp-fb-row {
   display: flex;
-  gap: 8px;
-  align-items: stretch;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
 }
 .lp-fb-input {
   flex: 1;
@@ -430,16 +435,17 @@
 .lp-fb-input:focus { border-color: #667eea; }
 
 .lp-fb-textarea {
-  flex: 2;
+  flex: 1;
   min-width: 0;
-  padding: 9px 12px;
+  min-height: 80px;
+  padding: 10px 12px;
   font-size: 13px;
   border: 1px solid rgba(255,255,255,.18);
   border-radius: 10px;
   background: rgba(255,255,255,.08);
   color: #e0e0e0;
   outline: none;
-  resize: none;
+  resize: vertical;
   font-family: inherit;
   transition: border-color .2s;
 }
@@ -447,10 +453,9 @@
 .lp-fb-textarea:focus { border-color: #667eea; }
 
 .lp-fb-btn {
-  flex: 0 0 auto;
-  width: auto !important;
-  padding: 9px 20px !important;
-  font-size: 13px !important;
+  width: 100% !important;
+  padding: 12px 20px !important;
+  font-size: 14px !important;
   background: linear-gradient(135deg, #f7971e, #ffd200) !important;
   color: #1a1a2e !important;
   font-weight: 700 !important;
@@ -562,11 +567,11 @@
     grid-template-columns: repeat(3, 1fr);
   }
   .lp-fb-row {
-    flex-wrap: wrap;
+    flex-direction: column;
   }
-  .lp-fb-input { flex: 1 1 140px; }
-  .lp-fb-textarea { flex: 1 1 100%; }
-  .lp-fb-btn { flex: 1 1 100%; }
+  .lp-fb-input { flex: none; }
+  .lp-fb-textarea { flex: 1; }
+  .lp-fb-btn { width: 100% !important; }
 }
 
 /* Mobile */
@@ -584,7 +589,7 @@
   .lp-two-col { grid-template-columns: 1fr; }
   .lp-heading { font-size: 17px; }
   .lp-card-grid { grid-template-columns: repeat(3, 1fr); }
-  .lp-fb-row { flex-direction: column; gap: 8px; }
+  .lp-fb-row { flex-direction: column; gap: 10px; }
   .lp-fb-btn { width: 100% !important; }
 
   .login-footer { gap: 10px; padding: 14px 12px; flex-direction: column; text-align: center; }
