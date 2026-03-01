@@ -3,7 +3,7 @@
  */
 import { encodePayload } from '../utils/payload';
 
-export const ADMIN_EMAIL = 'soniarajvansi9876@gmail.com';
+export const ADMIN_EMAIL = 'creativethinker.designhub@gmail.com';
 export const ADMIN_NAME  = 'Sonia Chauhan';
 
 async function api(body) {
