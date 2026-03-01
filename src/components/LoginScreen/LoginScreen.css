@@ -330,10 +330,12 @@
 .login-left {
   flex: 0 0 380px;
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  flex-direction: column;
 }
 .login-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   background: #fff;
   border-radius: 22px;
   padding: 28px 24px 24px;
