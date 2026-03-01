@@ -44,6 +44,10 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   /* Account panel overlay */
   const [accountTab, setAccountTab] = useState(null); // null | 'profile' | 'templates' | 'downloads' | 'admin'
   const [toast, setToast]           = useState({ show: false, text: '' });
+  const [showAuthPopup, setShowAuthPopup] = useState(false);
+
+  function openAuthPopup(m = 'signin') { switchMode(m); setShowAuthPopup(true); }
+  function closeAuthPopup() { setShowAuthPopup(false); resetForm(); }
 
   /* Feedback state */
   const [fbName, setFbName]       = useState('');
@@ -85,6 +89,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
       } catch (_) { /* block-check failed — allow login */ }
       const user = await signInUser(trimmedEmail, password);
       login(user);
+      setShowAuthPopup(false);
       notifyAdmin('🔑 User Login — Card Maker',
         `Sender: ${maskEmail(user.email)}\nName: ${user.name}\nRole: ${user.role}\nLogged in at ${new Date().toLocaleString()}.`,
         user.email
@@ -145,6 +150,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
       } catch (_) { /* block-check failed — allow sign-up */ }
       const user = await signUpUser(name, trimmedEmail, password);
       login(user);
+      setShowAuthPopup(false);
       notifyAdmin('🆕 New Sign-Up — Card Maker',
         `Sender: ${maskEmail(user.email)}\nName: ${user.name}\nRole: ${user.role}\nSigned up at ${new Date().toLocaleString()}.`,
         user.email
@@ -258,6 +264,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
       } catch (_) { /* block-check failed — allow login */ }
       const user = await createOrUpdateUser(trimmedEmail);
       login(user);
+      setShowAuthPopup(false);
       notifyAdmin('🔑 OTP Login — Card Maker',
         `Sender: ${maskEmail(user.email)}\nRole: ${user.role}\nLogged in via OTP at ${new Date().toLocaleString()}.`,
         user.email
@@ -390,28 +397,31 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   return (
     <div className="login-page">
 
-      {/* ═══════ TOPBAR (logged in) ═══════ */}
-      {user && (
-        <div className="lp-topbar">
-          <div className="lp-topbar-logo">✨ Card Maker</div>
-          <div className="lp-topbar-actions">
-            {!isGuest && (
-              <>
-                <button className={`lp-topbar-btn ${accountTab === 'profile' ? 'active' : ''}`} onClick={() => setAccountTab(accountTab === 'profile' ? null : 'profile')}>👤 Profile</button>
-                <button className={`lp-topbar-btn ${accountTab === 'templates' ? 'active' : ''}`} onClick={() => setAccountTab(accountTab === 'templates' ? null : 'templates')}>📋 Templates</button>
-                <button className={`lp-topbar-btn ${accountTab === 'downloads' ? 'active' : ''}`} onClick={() => setAccountTab(accountTab === 'downloads' ? null : 'downloads')}>📥 Downloads</button>
-                {isSuperAdmin && (
-                  <button className={`lp-topbar-btn ${accountTab === 'admin' ? 'active' : ''}`} onClick={() => setAccountTab(accountTab === 'admin' ? null : 'admin')}>⚙️ Admin</button>
-                )}
-              </>
-            )}
-            {isGuest && (
-              <button className="lp-topbar-btn signup" onClick={() => { setAccountTab(null); setTimeout(() => document.getElementById('auth-section')?.scrollIntoView({ behavior: 'smooth' }), 100); }}>📝 Sign Up</button>
-            )}
-            <button className="lp-topbar-btn logout" onClick={() => { setAccountTab(null); switchMode('signin'); logout(); }}>🚪 Logout</button>
-          </div>
+      {/* ═══════ TOPBAR — always visible ═══════ */}
+      <div className="lp-topbar">
+        <div className="lp-topbar-logo">✨ Card Maker</div>
+        <div className="lp-topbar-actions">
+          {user && !isGuest && (
+            <>
+              <button className={`lp-topbar-btn ${accountTab === 'profile' ? 'active' : ''}`} onClick={() => setAccountTab(accountTab === 'profile' ? null : 'profile')}>👤 Profile</button>
+              <button className={`lp-topbar-btn ${accountTab === 'templates' ? 'active' : ''}`} onClick={() => setAccountTab(accountTab === 'templates' ? null : 'templates')}>📋 Templates</button>
+              <button className={`lp-topbar-btn ${accountTab === 'downloads' ? 'active' : ''}`} onClick={() => setAccountTab(accountTab === 'downloads' ? null : 'downloads')}>📥 Downloads</button>
+              {isSuperAdmin && (
+                <button className={`lp-topbar-btn ${accountTab === 'admin' ? 'active' : ''}`} onClick={() => setAccountTab(accountTab === 'admin' ? null : 'admin')}>⚙️ Admin</button>
+              )}
+            </>
+          )}
+          {(!user || isGuest) && (
+            <>
+              <button className="lp-topbar-btn" onClick={() => openAuthPopup('signin')}>🔐 Sign In</button>
+              <button className="lp-topbar-btn signup" onClick={() => openAuthPopup('signup')}>📝 Sign Up</button>
+            </>
+          )}
+          {user && (
+            <button className="lp-topbar-btn logout" onClick={() => { setAccountTab(null); closeAuthPopup(); switchMode('signin'); logout(); }}>🚪 Logout</button>
+          )}
         </div>
-      )}
+      </div>
 
       {/* ═══════ ACCOUNT PANEL OVERLAY ═══════ */}
       {user && accountTab && (
@@ -469,14 +479,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
                 <button className="lp-hero-cta" type="button" onClick={loginAsGuest}>
                   🎨 Create Your Card Free <span className="lp-arrow">→</span>
                 </button>
-                <button
-                  className="lp-hero-signin"
-                  type="button"
-                  onClick={() => {
-                    switchMode('signin');
-                    setTimeout(() => document.getElementById('auth-section')?.scrollIntoView({ behavior: 'smooth' }), 100);
-                  }}
-                >
+                <button className="lp-hero-signin" type="button" onClick={() => openAuthPopup('signin')}>
                   Already a member? Sign In
                 </button>
               </div>
@@ -569,12 +572,12 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         </div>
       </section>
 
-      {/* ═══════ AUTH + FEATURES SECTION (shown when not logged in OR guest) ═══════ */}
-      {(!user || isGuest) && (
-        <div className="login-main" id="auth-section">
+      {/* ═══════ AUTH POPUP MODAL ═══════ */}
+      {showAuthPopup && (
+        <div className="lp-auth-overlay" onClick={closeAuthPopup}>
+          <div className="lp-auth-popup" onClick={e => e.stopPropagation()}>
+            <button className="lp-auth-popup-close" onClick={closeAuthPopup}>✕</button>
 
-          {/* ──── LEFT: Auth Form ──── */}
-          <div className="login-left">
             <div className="login-card">
               <h3 className="login-title">{titles[mode]}</h3>
               <p className="login-subtitle">{subtitles[mode]}</p>
@@ -606,7 +609,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
                     <button type="button" onClick={() => switchMode('signup')}>Sign Up</button>
                   </div>
                   <div className="login-guest-divider"><span>or</span></div>
-                  <button type="button" className="login-guest-btn" onClick={loginAsGuest}>
+                  <button type="button" className="login-guest-btn" onClick={() => { closeAuthPopup(); loginAsGuest(); }}>
                     👤 Continue as Guest
                   </button>
                 </form>
@@ -636,7 +639,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
                     <button type="button" onClick={() => switchMode('signin')}>Sign In</button>
                   </div>
                   <div className="login-guest-divider"><span>or</span></div>
-                  <button type="button" className="login-guest-btn" onClick={loginAsGuest}>
+                  <button type="button" className="login-guest-btn" onClick={() => { closeAuthPopup(); loginAsGuest(); }}>
                     👤 Continue as Guest
                   </button>
                 </form>
@@ -734,74 +737,72 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
               )}
             </div>
           </div>
-
-          {/* ──── RIGHT: Features + Info ──── */}
-          <div className="login-right">
-            <div className="login-info-panel">
-
-              {/* Features card */}
-              <div className="lp-col-card">
-                <h4 className="lp-subheading">✅ Why Card Maker?</h4>
-                <ul className="lp-features">
-                  <li>Multiple premium templates per card type</li>
-                  <li>Live preview while editing</li>
-                  <li>High-quality PNG/PDF downloads</li>
-                  <li>Multi-language support</li>
-                  <li>Works on all devices — desktop, tablet, mobile</li>
-                </ul>
-                <div className="lp-hire" style={{ marginTop: 14 }}>
-                  <h4 className="lp-subheading">💼 Need a Custom Design?</h4>
-                  <p className="lp-text">
-                    Hire us to create your own personalized, fully customized card tailored to your needs!
-                  </p>
-                  <p className="lp-text lp-brand-subtle">Custom designs are created by <strong>Creative Thinker Design Hub</strong>.</p>
-                </div>
-              </div>
-
-              {/* ── Rate & Review ── */}
-              <div className="lp-feedback-section">
-                <h4 className="lp-subheading">⭐ Rate &amp; Review</h4>
-                <p className="lp-fb-tagline">
-                  💬 Your feedback matters! Help us improve by sharing your thoughts.
-                  Rate your experience and leave a comment — every review helps us serve you better.
-                </p>
-                <p className="lp-fb-signup-note">
-                  📝 <strong>Sign up</strong> to share your feedback. We value genuine reviews from our community!
-                </p>
-                <form className="lp-feedback-form" onSubmit={handleFeedbackSubmit}>
-                  <div className="login-stars">
-                    {[1, 2, 3, 4, 5].map(star => (
-                      <button
-                        key={star}
-                        type="button"
-                        className={`login-star ${star <= (fbHover || fbRating) ? 'filled' : ''}`}
-                        onClick={() => setFbRating(star)}
-                        onMouseEnter={() => setFbHover(star)}
-                        onMouseLeave={() => setFbHover(0)}
-                        aria-label={`${star} star`}
-                      >★</button>
-                    ))}
-                    {fbRating > 0 && <span className="login-star-label">{fbRating}/5</span>}
-                  </div>
-                  <div className="lp-fb-row">
-                    <input className="lp-fb-input" type="text" placeholder="Your name *"
-                      value={fbName} onChange={e => setFbName(e.target.value)} autoComplete="off" required />
-                    <input className="lp-fb-input" type="email" placeholder="Your email *"
-                      value={fbEmail} onChange={e => setFbEmail(e.target.value)} autoComplete="off" required />
-                  </div>
-                  <textarea className="lp-fb-textarea" placeholder="Write your feedback…"
-                    rows={3} value={fbComment} onChange={e => setFbComment(e.target.value)} autoComplete="off" />
-                  <button className="login-btn lp-fb-btn" disabled={fbSending}>
-                    {fbSending ? '⏳ Sending…' : '📨 Submit Review'}
-                  </button>
-                  {fbMsg && <div className={`login-fb-msg ${fbMsg.startsWith('✅') ? 'success' : 'warn'}`}>{fbMsg}</div>}
-                </form>
-              </div>
-
-            </div>
-          </div>
         </div>
       )}
+
+      {/* ═══════ FEATURES + FEEDBACK SECTION ═══════ */}
+      <section className="lp-extras">
+        <div className="lp-extras-grid">
+          {/* Features card */}
+          <div className="lp-col-card">
+            <h4 className="lp-subheading">✅ Why Card Maker?</h4>
+            <ul className="lp-features">
+              <li>Multiple premium templates per card type</li>
+              <li>Live preview while editing</li>
+              <li>High-quality PNG/PDF downloads</li>
+              <li>Multi-language support</li>
+              <li>Works on all devices — desktop, tablet, mobile</li>
+            </ul>
+            <div className="lp-hire" style={{ marginTop: 14 }}>
+              <h4 className="lp-subheading">💼 Need a Custom Design?</h4>
+              <p className="lp-text">
+                Hire us to create your own personalized, fully customized card tailored to your needs!
+              </p>
+              <p className="lp-text lp-brand-subtle">Custom designs are created by <strong>Creative Thinker Design Hub</strong>.</p>
+            </div>
+          </div>
+
+          {/* Rate & Review */}
+          <div className="lp-feedback-section">
+            <h4 className="lp-subheading">⭐ Rate &amp; Review</h4>
+            <p className="lp-fb-tagline">
+              💬 Your feedback matters! Help us improve by sharing your thoughts.
+              Rate your experience and leave a comment — every review helps us serve you better.
+            </p>
+            <p className="lp-fb-signup-note">
+              📝 <strong>Sign up</strong> to share your feedback. We value genuine reviews from our community!
+            </p>
+            <form className="lp-feedback-form" onSubmit={handleFeedbackSubmit}>
+              <div className="login-stars">
+                {[1, 2, 3, 4, 5].map(star => (
+                  <button
+                    key={star}
+                    type="button"
+                    className={`login-star ${star <= (fbHover || fbRating) ? 'filled' : ''}`}
+                    onClick={() => setFbRating(star)}
+                    onMouseEnter={() => setFbHover(star)}
+                    onMouseLeave={() => setFbHover(0)}
+                    aria-label={`${star} star`}
+                  >★</button>
+                ))}
+                {fbRating > 0 && <span className="login-star-label">{fbRating}/5</span>}
+              </div>
+              <div className="lp-fb-row">
+                <input className="lp-fb-input" type="text" placeholder="Your name *"
+                  value={fbName} onChange={e => setFbName(e.target.value)} autoComplete="off" required />
+                <input className="lp-fb-input" type="email" placeholder="Your email *"
+                  value={fbEmail} onChange={e => setFbEmail(e.target.value)} autoComplete="off" required />
+              </div>
+              <textarea className="lp-fb-textarea" placeholder="Write your feedback…"
+                rows={3} value={fbComment} onChange={e => setFbComment(e.target.value)} autoComplete="off" />
+              <button className="login-btn lp-fb-btn" disabled={fbSending}>
+                {fbSending ? '⏳ Sending…' : '📨 Submit Review'}
+              </button>
+              {fbMsg && <div className={`login-fb-msg ${fbMsg.startsWith('✅') ? 'success' : 'warn'}`}>{fbMsg}</div>}
+            </form>
+          </div>
+        </div>
+      </section>
 
       {/* ═══════ COMING SOON ═══════ */}
       <section className="lp-coming-section">

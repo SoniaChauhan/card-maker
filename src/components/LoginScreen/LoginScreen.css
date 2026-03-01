@@ -1119,6 +1119,73 @@
 }
 
 /* ═══════════════════════════════════════
+   AUTH POPUP MODAL
+   ═══════════════════════════════════════ */
+.lp-auth-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, .6);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: lp-fade-in .2s ease;
+}
+.lp-auth-popup {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: lp-slide-in .25s ease;
+}
+.lp-auth-popup .login-card {
+  max-width: 100%;
+  margin: 0;
+}
+.lp-auth-popup-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  z-index: 5;
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .15);
+  color: #e0e0e0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all .2s;
+}
+.lp-auth-popup-close:hover {
+  background: rgba(255, 80, 80, .2);
+  color: #ff9090;
+}
+
+/* ═══════════════════════════════════════
+   FEATURES + FEEDBACK EXTRAS SECTION
+   ═══════════════════════════════════════ */
+.lp-extras {
+  width: 100%;
+  padding: 48px var(--lp-gutter) 40px;
+}
+.lp-extras-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: var(--lp-max);
+  margin: 0 auto;
+}
+@media (max-width: 768px) {
+  .lp-extras-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════
    ACCOUNT PANEL OVERLAY
    ═══════════════════════════════════════ */
 .lp-account-overlay {
@@ -1253,5 +1320,13 @@
   .lp-account-panel {
     padding: 24px 18px;
     border-radius: 12px;
+  }
+  .lp-auth-overlay {
+    padding: 16px;
+    align-items: flex-start;
+    padding-top: 60px;
+  }
+  .lp-auth-popup {
+    max-width: 100%;
   }
 }
