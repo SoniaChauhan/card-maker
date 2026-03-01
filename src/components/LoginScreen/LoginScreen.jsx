@@ -573,10 +573,10 @@ export default function LoginScreen() {
       <footer className="login-footer">
         <span className="login-footer-label">📬 Contact Us</span>
         <div className="login-footer-links">
-          <a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer" className="login-footer-btn linkedin">
+          <span className="login-footer-btn linkedin disabled" title="Coming soon">
             <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.97 0-1.75-.79-1.75-1.76s.78-1.76 1.75-1.76 1.75.79 1.75 1.76-.78 1.76-1.75 1.76zm13.5 11.27h-3v-5.34c0-3.18-4-2.94-4 0v5.34h-3v-10h3v1.77c1.4-2.59 7-2.78 7 2.48v5.75z"/></svg>
             LinkedIn
-          </a>
+          </span>
           <a href="mailto:creativethinker.designhub@gmail.com" className="login-footer-btn email">
             <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M20 4h-16c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-12c0-1.1-.9-2-2-2zm0 4l-8 5-8-5v-2l8 5 8-5v2z"/></svg>
             Email Us
