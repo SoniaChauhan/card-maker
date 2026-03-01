@@ -701,7 +701,7 @@ export default function LoginScreen() {
             Email Us
           </a>
         </div>
-        <span className="login-footer-copy">© 2026 Card Maker · Creative Thinker Design Hub</span>
+        <span className="login-footer-copy">© 2026 Creative Thinker Design Hub. All Rights Reserved.</span>
       </footer>
     </div>
   );
