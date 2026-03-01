@@ -753,70 +753,67 @@
 }
 
 /* ═══════════════════════════════════════
-   BOTTOM FOOTER
+   FOOTER
    ═══════════════════════════════════════ */
-.login-footer {
+.lp-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px var(--lp-gutter) 28px;
+  background: rgba(0, 0, 0, .3);
+  border-top: 1px solid rgba(255, 255, 255, .06);
+  text-align: center;
+}
+.lp-footer-love {
+  font-size: 13.5px;
+  color: #a0aec0;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+.lp-footer-love strong {
+  color: #c4b5fd;
+  font-weight: 700;
+}
+.lp-footer-nav {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 16px var(--lp-gutter);
-  background: rgba(0,0,0,.25);
-  border-top: 1px solid rgba(255,255,255,.08);
-  flex-wrap: wrap;
+  gap: 14px;
 }
-.login-footer-label {
-  font-size: 13px;
-  font-weight: 700;
-  color: #c4b5fd;
+.lp-footer-dot {
+  color: rgba(255, 255, 255, .2);
+  font-size: 18px;
+  line-height: 1;
+  user-select: none;
 }
-.login-footer-links {
-  display: flex;
-  gap: 10px;
-}
-.login-footer-btn {
+.lp-footer-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 16px;
-  border-radius: 8px;
-  font-size: 12.5px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 600;
+  color: #b8c4d6;
   text-decoration: none;
-  transition: all .2s;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, .08);
+  background: rgba(255, 255, 255, .04);
+  transition: all .25s ease;
 }
-.login-footer-btn.linkedin {
-  background: #0077b5;
-  color: #fff;
+.lp-footer-link:hover {
+  color: #e0d4ff;
+  border-color: rgba(196, 181, 253, .25);
+  background: rgba(196, 181, 253, .08);
 }
-.login-footer-btn.linkedin.disabled {
-  opacity: 0.4;
+.lp-footer-link.disabled {
+  opacity: 0.35;
   pointer-events: none;
   cursor: not-allowed;
-  filter: grayscale(0.5) blur(0.5px);
-  user-select: none;
 }
-.login-footer-btn.linkedin:hover {
-  background: #005f8f;
-  box-shadow: 0 3px 12px rgba(0,119,181,.35);
-}
-.login-footer-btn.email {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: #fff;
-}
-.login-footer-btn.email:hover {
-  box-shadow: 0 3px 12px rgba(102,126,234,.4);
-  opacity: .92;
-}
-.login-footer-copy {
+.lp-footer-copy {
   font-size: 11.5px;
-  color: #777;
-}
-.login-footer-email {
-  display: block;
-  font-size: 12px;
-  color: #a0a0a0;
-  margin-top: 4px;
+  color: #666;
+  margin: 0;
   letter-spacing: 0.2px;
 }
 
@@ -894,7 +891,8 @@
   .lp-feedback-section { padding: 14px 14px; border-radius: 14px; }
   .lp-fb-row { flex-direction: column; gap: 8px; }
 
-  .login-footer { flex-direction: column; text-align: center; gap: 10px; }
+  .lp-footer { padding: 24px var(--lp-gutter) 20px; gap: 10px; }
+  .lp-footer-link { font-size: 12px; padding: 5px 10px; }
 }
 
 /* Small mobile / compact (≤ 360px) */
