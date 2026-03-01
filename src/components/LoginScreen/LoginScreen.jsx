@@ -490,39 +490,6 @@ export default function LoginScreen() {
         <div className="login-right">
           <div className="login-info-panel">
 
-            {/* ── Rate & Review — full-width top row ── */}
-            <div className="lp-feedback-section lp-full-row">
-              <h4 className="lp-subheading">⭐ Rate &amp; Review</h4>
-              <form className="lp-feedback-form" onSubmit={handleFeedbackSubmit}>
-                <div className="login-stars">
-                  {[1, 2, 3, 4, 5].map(star => (
-                    <button
-                      key={star}
-                      type="button"
-                      className={`login-star ${star <= (fbHover || fbRating) ? 'filled' : ''}`}
-                      onClick={() => setFbRating(star)}
-                      onMouseEnter={() => setFbHover(star)}
-                      onMouseLeave={() => setFbHover(0)}
-                      aria-label={`${star} star`}
-                    >★</button>
-                  ))}
-                  {fbRating > 0 && <span className="login-star-label">{fbRating}/5</span>}
-                </div>
-                <div className="lp-fb-row">
-                  <input className="lp-fb-input" type="text" placeholder="Your name (optional)"
-                    value={fbName} onChange={e => setFbName(e.target.value)} />
-                  <input className="lp-fb-input" type="email" placeholder="Your email (optional)"
-                    value={fbEmail} onChange={e => setFbEmail(e.target.value)} />
-                  <textarea className="lp-fb-textarea" placeholder="Write your feedback…"
-                    rows={2} value={fbComment} onChange={e => setFbComment(e.target.value)} />
-                  <button className="login-btn lp-fb-btn" disabled={fbSending}>
-                    {fbSending ? '⏳ Sending…' : '📨 Submit'}
-                  </button>
-                </div>
-                {fbMsg && <div className={`login-fb-msg ${fbMsg.startsWith('✅') ? 'success' : 'warn'}`}>{fbMsg}</div>}
-              </form>
-            </div>
-
             {/* ── Two-column cards grid ── */}
             <div className="lp-two-col">
               {/* Card 1 — About + Cards */}
@@ -563,6 +530,39 @@ export default function LoginScreen() {
                   </p>
                 </div>
               </div>
+            </div>
+
+            {/* ── Rate & Review — full-width bottom row ── */}
+            <div className="lp-feedback-section lp-full-row">
+              <h4 className="lp-subheading">⭐ Rate &amp; Review</h4>
+              <form className="lp-feedback-form" onSubmit={handleFeedbackSubmit}>
+                <div className="login-stars">
+                  {[1, 2, 3, 4, 5].map(star => (
+                    <button
+                      key={star}
+                      type="button"
+                      className={`login-star ${star <= (fbHover || fbRating) ? 'filled' : ''}`}
+                      onClick={() => setFbRating(star)}
+                      onMouseEnter={() => setFbHover(star)}
+                      onMouseLeave={() => setFbHover(0)}
+                      aria-label={`${star} star`}
+                    >★</button>
+                  ))}
+                  {fbRating > 0 && <span className="login-star-label">{fbRating}/5</span>}
+                </div>
+                <div className="lp-fb-row">
+                  <input className="lp-fb-input" type="text" placeholder="Your name (optional)"
+                    value={fbName} onChange={e => setFbName(e.target.value)} />
+                  <input className="lp-fb-input" type="email" placeholder="Your email (optional)"
+                    value={fbEmail} onChange={e => setFbEmail(e.target.value)} />
+                  <textarea className="lp-fb-textarea" placeholder="Write your feedback…"
+                    rows={2} value={fbComment} onChange={e => setFbComment(e.target.value)} />
+                  <button className="login-btn lp-fb-btn" disabled={fbSending}>
+                    {fbSending ? '⏳ Sending…' : '📨 Submit'}
+                  </button>
+                </div>
+                {fbMsg && <div className={`login-fb-msg ${fbMsg.startsWith('✅') ? 'success' : 'warn'}`}>{fbMsg}</div>}
+              </form>
             </div>
 
           </div>
