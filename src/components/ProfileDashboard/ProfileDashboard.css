@@ -13,6 +13,18 @@
   max-width: 900px;
   margin: 0 auto 20px;
 }
+.pd-back-btn {
+  background: rgba(255,255,255,.12);
+  border: 1.5px solid rgba(255,255,255,.25);
+  color: #fff;
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s;
+}
+.pd-back-btn:hover { background: rgba(255,255,255,.25); }
 .pd-logo {
   font-size: 18px;
   font-weight: 800;

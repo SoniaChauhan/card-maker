@@ -145,6 +145,7 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
     <div className="profile-dashboard">
       {/* Top bar */}
       <div className="pd-topbar">
+        <button className="pd-back-btn" onClick={logout} title="Back to Sign In / Sign Up">← Back</button>
         <div className="pd-logo">✨ Card Maker</div>
         <div className="pd-topbar-actions">
           {isGuest && (
