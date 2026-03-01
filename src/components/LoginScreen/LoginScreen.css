@@ -274,6 +274,139 @@
 }
 
 /* ═══════════════════════════════════════
+   READY-MADE DESIGNS (PREVIEW)
+   ═══════════════════════════════════════ */
+.lp-readymade {
+  width: 100%;
+  padding: 48px var(--lp-gutter) 40px;
+  text-align: center;
+}
+.lp-readymade-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
+  max-width: var(--lp-max);
+  margin: 28px auto 0;
+}
+.lp-readymade-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  padding: 28px 20px 24px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 4px 20px rgba(0,0,0,.08);
+  transition: transform .3s ease, box-shadow .3s ease;
+  cursor: pointer;
+}
+.lp-readymade-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,.18);
+}
+
+/* tag badge */
+.lp-readymade-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid;
+  line-height: 1.4;
+}
+
+/* body */
+.lp-readymade-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 1;
+}
+.lp-readymade-icon {
+  font-size: 38px;
+  line-height: 1;
+}
+.lp-readymade-tpl {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2d2d3a;
+}
+.lp-readymade-card.dark .lp-readymade-tpl { color: #f0e0d0; }
+
+/* faux text lines */
+.lp-readymade-faux {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  margin-top: 6px;
+}
+.lp-readymade-line {
+  height: 5px;
+  border-radius: 3px;
+}
+.lp-readymade-line.w60 { width: 100px; }
+.lp-readymade-line.w80 { width: 135px; }
+.lp-readymade-line.w45 { width: 75px; }
+
+/* hover overlay */
+.lp-readymade-hover {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 12, 41, .82);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  opacity: 0;
+  transition: opacity .25s ease;
+  z-index: 5;
+}
+.lp-readymade-card:hover .lp-readymade-hover {
+  opacity: 1;
+}
+.lp-rm-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .15s, filter .15s;
+  white-space: nowrap;
+}
+.lp-rm-btn:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+.lp-rm-btn.preview {
+  background: rgba(255,255,255,.15);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.3);
+}
+.lp-rm-btn.use {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+}
+
+/* mobile touch: always show overlay on small screens */
+@media (hover: none) {
+  .lp-readymade-hover { opacity: 1; background: rgba(15,12,41,.6); }
+}
+
+/* ═══════════════════════════════════════
    WHY CARD MAKER — Honest value highlights
    ═══════════════════════════════════════ */
 .lp-proof {
@@ -868,6 +1001,11 @@
   .lp-showcase-name { font-size: 13px; }
   .lp-showcase-desc { font-size: 11px; }
 
+  .lp-readymade-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .lp-readymade-card { min-height: 180px; padding: 22px 14px 18px; }
+  .lp-readymade-icon { font-size: 30px; }
+  .lp-readymade-tpl { font-size: 13px; }
+
   .lp-coming-grid { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 6px; }
   .lp-coming-card { padding: 10px 4px 8px; border-radius: 10px; }
   .lp-coming-card .lp-showcase-icon { font-size: 22px; }
@@ -903,6 +1041,13 @@
   .lp-showcase-icon { font-size: 26px; }
   .lp-showcase-name { font-size: 12px; }
   .lp-showcase-desc { display: none; }
+
+  .lp-readymade-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .lp-readymade-card { min-height: 160px; padding: 18px 10px 14px; }
+  .lp-readymade-icon { font-size: 26px; }
+  .lp-readymade-tpl { font-size: 11px; }
+  .lp-readymade-faux { display: none; }
+  .lp-rm-btn { font-size: 11px; padding: 8px 14px; }
 
   .lp-coming-card { padding: 10px 4px 8px; }
   .lp-coming-badge { font-size: 7px; }

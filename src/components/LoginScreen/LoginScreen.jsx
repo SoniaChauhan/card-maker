@@ -507,6 +507,39 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         </div>
       </section>
 
+      {/* ═══════ READY-MADE DESIGNS (PREVIEW) ═══════ */}
+      <section className="lp-readymade">
+        <h2 className="lp-section-title">✨ Ready‑Made Designs (Preview)</h2>
+        <p className="lp-section-sub">See what your final card will look like</p>
+        <div className="lp-readymade-grid">
+          {[
+            { cardId: 'wedding',     tplName: 'Classic Gold',        icon: '👑', accent: '#b8860b', bg: 'linear-gradient(135deg,#fdf6e3,#f0e4c4)', tag: 'Wedding' },
+            { cardId: 'birthday',    tplName: 'Space Adventure',     icon: '🚀', accent: '#2c3e6b', bg: 'linear-gradient(135deg,#0f172a,#1e3a5f)', tag: 'Birthday', light: false },
+            { cardId: 'anniversary', tplName: 'Royal Gold Floral',   icon: '🌸', accent: '#c9a84c', bg: 'linear-gradient(135deg,#fff8ee,#ffe9c6)', tag: 'Anniversary' },
+            { cardId: 'wedding',     tplName: 'Royal Maroon',        icon: '🏛️', accent: '#3d0a12', bg: 'linear-gradient(135deg,#3d0a12,#6b1526)', tag: 'Wedding', light: false },
+            { cardId: 'birthday',    tplName: 'Pastel Balloons',     icon: '🎈', accent: '#c4937f', bg: 'linear-gradient(135deg,#fce4ec,#fff3e0)', tag: 'Birthday' },
+            { cardId: 'anniversary', tplName: 'Rose Gold Hearts',    icon: '💕', accent: '#d4a373', bg: 'linear-gradient(135deg,#fef0f5,#fce4ec)', tag: 'Anniversary' },
+          ].map((t, i) => (
+            <div key={i} className={`lp-readymade-card ${t.light === false ? 'dark' : ''}`} style={{ background: t.bg }}>
+              <span className="lp-readymade-tag" style={{ background: t.accent + '22', color: t.accent, borderColor: t.accent + '44' }}>{t.tag}</span>
+              <div className="lp-readymade-body">
+                <span className="lp-readymade-icon">{t.icon}</span>
+                <h4 className="lp-readymade-tpl">{t.tplName}</h4>
+                <div className="lp-readymade-faux">
+                  <div className="lp-readymade-line w60" style={{ background: t.accent + '30' }} />
+                  <div className="lp-readymade-line w80" style={{ background: t.accent + '20' }} />
+                  <div className="lp-readymade-line w45" style={{ background: t.accent + '20' }} />
+                </div>
+              </div>
+              <div className="lp-readymade-hover">
+                <button className="lp-rm-btn preview" onClick={() => handleCardClick(t.cardId)}>👁️ Preview →</button>
+                <button className="lp-rm-btn use" onClick={() => handleCardClick(t.cardId)}>🎨 Use this template →</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ═══════ WHY CARD MAKER ═══════ */}
       <section className="lp-proof">
         <h2 className="lp-section-title">Simple, Fast &amp; User‑Friendly</h2>
