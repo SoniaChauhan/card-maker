@@ -352,11 +352,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
     { id: 'festivalcards', icon: '🎆', name: 'Festival Cards',     desc: 'Create festive cards for Diwali, Holi, Eid, Christmas and more.',             grad: 'linear-gradient(135deg, #fdcb6e, #e17055)' },
   ];
 
-  const MORE_CARDS = [
-    { id: 'jagrata',  icon: '🪔', name: 'Jagrata Invite',   desc: 'Design serene and devotional invitations for Jagrata gatherings.',       grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
-    { id: 'resume',   icon: '📄', name: 'Resume Builder',   desc: 'Design a polished resume and download it instantly in PDF format.',      grad: 'linear-gradient(135deg, #38b2ac, #319795)' },
-    { id: 'biodata',  icon: '💍', name: 'Marriage Profile',  desc: 'Build a traditional and detailed marriage biodata with a clean layout.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
-  ];
+
 
   /* ========== CARD CLICK — works for both logged-in and guest ========== */
   function handleCardClick(cardId) {
@@ -372,6 +368,10 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   }
 
   const comingSoonCards = [
+    /* Moved here — not ready yet */
+    { icon: '🪔', name: 'Jagrata Invite',      desc: 'Design serene and devotional invitations for Jagrata gatherings.',       grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
+    { icon: '📄', name: 'Resume Builder',      desc: 'Design a polished resume and download it instantly in PDF format.',      grad: 'linear-gradient(135deg, #38b2ac, #319795)' },
+    { icon: '💍', name: 'Marriage Profile',     desc: 'Build a traditional and detailed marriage biodata with a clean layout.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
     /* Spiritual & Religious */
     { icon: '🙏', name: 'Satyanarayan Katha', desc: 'Create sacred invitations for Satyanarayan Katha pooja.',             grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
     { icon: '💃', name: 'Garba / Navratri',   desc: 'Colourful Garba and Navratri celebration invitation cards.',           grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
@@ -483,14 +483,6 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
               <p className="lp-hero-sub">
                 Premium invite cards &amp; free greeting cards — stunning templates, easy customization, instant download!
               </p>
-              <div className="lp-hero-actions">
-                <button className="lp-hero-cta" type="button" onClick={loginAsGuest}>
-                  🎨 Create Your Card Free <span className="lp-arrow">→</span>
-                </button>
-                <button className="lp-hero-signin" type="button" onClick={() => openAuthPopup('signin')}>
-                  Already a member? Sign In
-                </button>
-              </div>
             </>
           )}
           <div className="lp-hero-stats">
@@ -500,25 +492,6 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
             <div className="lp-stat-divider" />
             <div className="lp-stat"><span className="lp-stat-num">5</span><span className="lp-stat-label">Languages</span></div>
           </div>
-        </div>
-      </section>
-
-      {/* ═══════ FESTIVAL CARDS ═══════ */}
-      <section className="lp-showcase">
-        <div className="lp-section-header">
-          <h2 className="lp-section-title">🎊 Festival Cards</h2>
-          <span className="lp-section-price">₹29 per download</span>
-        </div>
-        <p className="lp-section-sub">Beautiful cards that need your details — fill the form, preview &amp; download</p>
-        <div className="lp-showcase-grid">
-          {PREMIUM_CARDS.map(c => (
-            <button key={c.id} className="lp-showcase-card lp-premium-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
-              <span className="lp-price-badge">₹29</span>
-              <span className="lp-showcase-icon">{c.icon}</span>
-              <h3 className="lp-showcase-name">{c.name}</h3>
-              <p className="lp-showcase-desc">{c.desc}</p>
-            </button>
-          ))}
         </div>
       </section>
 
@@ -541,13 +514,17 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         </div>
       </section>
 
-      {/* ═══════ MORE CARD TYPES ═══════ */}
+      {/* ═══════ FESTIVAL CARDS ═══════ */}
       <section className="lp-showcase">
-        <h2 className="lp-section-title">📋 More Card Types</h2>
-        <p className="lp-section-sub">Professional documents &amp; spiritual invitations</p>
+        <div className="lp-section-header">
+          <h2 className="lp-section-title">🎊 Festival Cards</h2>
+          <span className="lp-section-price">₹29 per download</span>
+        </div>
+        <p className="lp-section-sub">Beautiful cards that need your details — fill the form, preview &amp; download</p>
         <div className="lp-showcase-grid">
-          {MORE_CARDS.map(c => (
-            <button key={c.id} className="lp-showcase-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
+          {PREMIUM_CARDS.map(c => (
+            <button key={c.id} className="lp-showcase-card lp-premium-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
+              <span className="lp-price-badge">₹29</span>
               <span className="lp-showcase-icon">{c.icon}</span>
               <h3 className="lp-showcase-name">{c.name}</h3>
               <p className="lp-showcase-desc">{c.desc}</p>
