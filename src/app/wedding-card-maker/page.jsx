@@ -14,7 +14,7 @@ export const metadata = {
     description: 'Design royal & classic wedding invitations with beautiful themes. Multi-language support!',
   },
   alternates: {
-    canonical: 'https://card-maker-seven-eta.vercel.app/wedding-card-maker',
+    canonical: 'https://creativethinkerdesignhub.com/wedding-card-maker',
   },
 };
 

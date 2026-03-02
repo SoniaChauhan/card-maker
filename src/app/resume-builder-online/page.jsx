@@ -14,7 +14,7 @@ export const metadata = {
     description: 'Build a professional resume online with modern templates. Download as PDF instantly!',
   },
   alternates: {
-    canonical: 'https://card-maker-seven-eta.vercel.app/resume-builder-online',
+    canonical: 'https://creativethinkerdesignhub.com/resume-builder-online',
   },
 };
 

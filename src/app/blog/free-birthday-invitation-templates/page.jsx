@@ -13,7 +13,7 @@ export const metadata = {
     description: 'Download free birthday invitation templates. Create custom birthday cards with photos & instant download!',
   },
   alternates: {
-    canonical: 'https://card-maker-seven-eta.vercel.app/blog/free-birthday-invitation-templates',
+    canonical: 'https://creativethinkerdesignhub.com/blog/free-birthday-invitation-templates',
   },
 };
 
@@ -95,7 +95,7 @@ export default function BirthdayTemplatesBlog() {
 
       <p style={{ marginTop: 32, padding: 16, background: '#f0f0ff', borderRadius: 8 }}>
         <strong>Create your birthday invitation now!</strong>{' '}
-        <a href="https://card-maker-seven-eta.vercel.app/?card=birthday" style={{ color: '#667eea', fontWeight: 600 }}>
+        <a href="https://creativethinkerdesignhub.com/?card=birthday" style={{ color: '#667eea', fontWeight: 600 }}>
           Start designing your birthday card →
         </a>
       </p>

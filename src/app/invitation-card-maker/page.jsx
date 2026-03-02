@@ -15,7 +15,7 @@ export const metadata = {
     description: 'Create free invitation cards for birthdays, weddings & more. 50+ templates, instant download!',
   },
   alternates: {
-    canonical: 'https://card-maker-seven-eta.vercel.app/invitation-card-maker',
+    canonical: 'https://creativethinkerdesignhub.com/invitation-card-maker',
   },
 };
 

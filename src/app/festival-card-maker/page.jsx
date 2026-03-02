@@ -14,7 +14,7 @@ export const metadata = {
     description: 'Create festive greeting cards for Diwali, Holi, Eid, Christmas & more festivals!',
   },
   alternates: {
-    canonical: 'https://card-maker-seven-eta.vercel.app/festival-card-maker',
+    canonical: 'https://creativethinkerdesignhub.com/festival-card-maker',
   },
 };
 

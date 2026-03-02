@@ -15,7 +15,7 @@ export const metadata = {
     description: 'Download 50+ free Happy Holi shayari cards in Hindi. Customize colors & download instantly!',
   },
   alternates: {
-    canonical: 'https://card-maker-seven-eta.vercel.app/happy-holi-wishes-hindi',
+    canonical: 'https://creativethinkerdesignhub.com/happy-holi-wishes-hindi',
   },
 };
 

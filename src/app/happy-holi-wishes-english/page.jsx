@@ -15,7 +15,7 @@ export const metadata = {
     description: 'Download 47 beautiful English Holi messages. Customize colors & download free!',
   },
   alternates: {
-    canonical: 'https://card-maker-seven-eta.vercel.app/happy-holi-wishes-english',
+    canonical: 'https://creativethinkerdesignhub.com/happy-holi-wishes-english',
   },
 };
 

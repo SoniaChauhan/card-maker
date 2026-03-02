@@ -1,4 +1,4 @@
-const BASE_URL = 'https://card-maker-seven-eta.vercel.app';
+const BASE_URL = 'https://creativethinkerdesignhub.com';
 
 export default function sitemap() {
   const now = new Date().toISOString();

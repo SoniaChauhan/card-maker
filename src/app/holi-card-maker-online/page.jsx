@@ -14,7 +14,7 @@ export const metadata = {
     description: 'Create free Holi greeting cards with 50+ shayaris & messages. Customize & download instantly!',
   },
   alternates: {
-    canonical: 'https://card-maker-seven-eta.vercel.app/holi-card-maker-online',
+    canonical: 'https://creativethinkerdesignhub.com/holi-card-maker-online',
   },
 };
 

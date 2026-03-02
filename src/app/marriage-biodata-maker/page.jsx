@@ -14,7 +14,7 @@ export const metadata = {
     description: 'Create traditional marriage biodata with photo upload. Hindi & English support. Download PDF!',
   },
   alternates: {
-    canonical: 'https://card-maker-seven-eta.vercel.app/marriage-biodata-maker',
+    canonical: 'https://creativethinkerdesignhub.com/marriage-biodata-maker',
   },
 };
 

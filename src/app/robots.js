@@ -6,6 +6,6 @@ export default function robots() {
         allow: '/',
       },
     ],
-    sitemap: 'https://card-maker-seven-eta.vercel.app/sitemap.xml',
+    sitemap: 'https://creativethinkerdesignhub.com/sitemap.xml',
   };
 }

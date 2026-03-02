@@ -12,7 +12,7 @@ export const metadata = {
     description: 'Create royal wedding invitations online. Hindu, Sikh, Muslim & Christian templates. Instant download!',
   },
   alternates: {
-    canonical: 'https://card-maker-seven-eta.vercel.app/blog/best-wedding-card-maker-online',
+    canonical: 'https://creativethinkerdesignhub.com/blog/best-wedding-card-maker-online',
   },
 };
 
@@ -75,7 +75,7 @@ export default function WeddingCardBlog() {
 
       <h2 style={{ marginTop: 32 }}>How to Create a Wedding Card Online</h2>
       <ol>
-        <li>Visit <a href="https://card-maker-seven-eta.vercel.app/?card=wedding" style={{ color: '#667eea' }}>Card Maker – Wedding Designer</a></li>
+        <li>Visit <a href="https://creativethinkerdesignhub.com/?card=wedding" style={{ color: '#667eea' }}>Card Maker – Wedding Designer</a></li>
         <li>Choose a wedding card template</li>
         <li>Fill in bride &amp; groom names, families, event details</li>
         <li>Upload your couple photo</li>
@@ -101,7 +101,7 @@ export default function WeddingCardBlog() {
 
       <p style={{ marginTop: 32, padding: 16, background: '#f0f0ff', borderRadius: 8 }}>
         <strong>Design your dream wedding card!</strong>{' '}
-        <a href="https://card-maker-seven-eta.vercel.app/?card=wedding" style={{ color: '#667eea', fontWeight: 600 }}>
+        <a href="https://creativethinkerdesignhub.com/?card=wedding" style={{ color: '#667eea', fontWeight: 600 }}>
           Create your wedding invitation now →
         </a>
       </p>

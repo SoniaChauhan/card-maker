@@ -12,7 +12,7 @@ export const metadata = {
     description: 'Learn to create stunning Holi greeting cards online in minutes. Free tutorial with screenshots!',
   },
   alternates: {
-    canonical: 'https://card-maker-seven-eta.vercel.app/blog/how-to-make-holi-card-online',
+    canonical: 'https://creativethinkerdesignhub.com/blog/how-to-make-holi-card-online',
   },
 };
 
@@ -41,7 +41,7 @@ export default function HoliCardBlog() {
 
       <h3>Step 1: Visit Card Maker</h3>
       <p>
-        Go to <a href="https://card-maker-seven-eta.vercel.app" style={{ color: '#667eea' }}>card-maker-seven-eta.vercel.app</a> and
+        Go to <a href="https://creativethinkerdesignhub.com" style={{ color: '#667eea' }}>creativethinkerdesignhub.com</a> and
         look for the <strong>&quot;Free Instant Cards&quot;</strong> section on the homepage.
       </p>
 
@@ -89,7 +89,7 @@ export default function HoliCardBlog() {
 
       <p style={{ marginTop: 32, padding: 16, background: '#f0f0ff', borderRadius: 8 }}>
         <strong>Ready to create your Holi card?</strong>{' '}
-        <a href="https://card-maker-seven-eta.vercel.app/?card=holiwishes" style={{ color: '#667eea', fontWeight: 600 }}>
+        <a href="https://creativethinkerdesignhub.com/?card=holiwishes" style={{ color: '#667eea', fontWeight: 600 }}>
           Start making free Holi cards now →
         </a>
       </p>

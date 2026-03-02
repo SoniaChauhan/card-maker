@@ -14,7 +14,7 @@ export const metadata = {
     description: 'Create beautiful Jagrata & Mata Ki Chowki invitation cards with devotional themes. Instant download!',
   },
   alternates: {
-    canonical: 'https://card-maker-seven-eta.vercel.app/jagrata-invitation-card',
+    canonical: 'https://creativethinkerdesignhub.com/jagrata-invitation-card',
   },
 };
 

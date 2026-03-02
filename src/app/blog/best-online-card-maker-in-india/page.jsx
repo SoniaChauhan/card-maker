@@ -12,7 +12,7 @@ export const metadata = {
     description: 'Create free birthday, wedding & festival cards online. Best card maker in India!',
   },
   alternates: {
-    canonical: 'https://card-maker-seven-eta.vercel.app/blog/best-online-card-maker-in-india',
+    canonical: 'https://creativethinkerdesignhub.com/blog/best-online-card-maker-in-india',
   },
 };
 
@@ -95,7 +95,7 @@ export default function BestCardMakerBlog() {
 
       <h2 style={{ marginTop: 32 }}>How to Get Started</h2>
       <ol>
-        <li>Visit <a href="https://card-maker-seven-eta.vercel.app" style={{ color: '#667eea' }}>Card Maker</a></li>
+        <li>Visit <a href="https://creativethinkerdesignhub.com" style={{ color: '#667eea' }}>Card Maker</a></li>
         <li>Choose a card category (birthday, wedding, Holi, etc.)</li>
         <li>Customize with your details, colours, and photos</li>
         <li>Preview your design in real-time</li>
@@ -104,7 +104,7 @@ export default function BestCardMakerBlog() {
 
       <p style={{ marginTop: 32, padding: 16, background: '#f0f0ff', borderRadius: 8 }}>
         <strong>Start creating now!</strong>{' '}
-        <a href="https://card-maker-seven-eta.vercel.app" style={{ color: '#667eea', fontWeight: 600 }}>
+        <a href="https://creativethinkerdesignhub.com" style={{ color: '#667eea', fontWeight: 600 }}>
           Visit Card Maker – Best Online Card Maker in India →
         </a>
       </p>

@@ -1,6 +1,6 @@
 import '@/global.css';
 
-const SITE_URL = 'https://card-maker-seven-eta.vercel.app';
+const SITE_URL = 'https://creativethinkerdesignhub.com';
 const SITE_NAME = 'Online Card Maker – Create Birthday, Wedding, Festival Cards | Free Templates';
 const DESCRIPTION =
   'Create beautiful invitation cards and greeting cards online. Free templates for birthdays, weddings, anniversaries, festivals like Holi, Diwali, Lohri. Customizable designs in Hindi & English, instant download. A product of Creative Thinker Design Hub.';

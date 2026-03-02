@@ -14,7 +14,7 @@ export const metadata = {
     description: 'Create beautiful greeting cards for festivals, birthdays & more. Free templates, instant download!',
   },
   alternates: {
-    canonical: 'https://card-maker-seven-eta.vercel.app/greeting-card-maker',
+    canonical: 'https://creativethinkerdesignhub.com/greeting-card-maker',
   },
 };
 
