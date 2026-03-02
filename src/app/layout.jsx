@@ -76,10 +76,6 @@ export const metadata = {
   verification: {
     google: 'S8dnFn0N-8ihgYb08FBTFC3UETrpX2rW1SlQpXjPFu0',
   },
-  verification: {
-    // Add your Google Search Console verification code here later
-    // google: 'your-verification-code',
-  },
 };
 
 export default function RootLayout({ children }) {
