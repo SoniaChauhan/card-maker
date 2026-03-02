@@ -224,20 +224,22 @@ const AnniversaryCardPreview = forwardRef(function AnniversaryCardPreview(
           </div>
         )}
 
+        {/* Couple image — user photo or default */}
+        <div className="anniv-photo-wrap">
+          <div className="anniv-photo-frame">
+            <img
+              src={photoPreview || '/default-anniversary-couple.avif'}
+              alt={`${partner1 || 'Partner 1'} & ${partner2 || 'Partner 2'}`}
+              className="anniv-photo-img"
+            />
+          </div>
+        </div>
+
         {/* Message / Blessing */}
         {message && <p className="anniv-message-text">&ldquo;{message}&rdquo;</p>}
 
         {/* Date */}
         {date && <p className="anniv-date-line">{formatDate(date, lang)}</p>}
-
-        {/* Photo */}
-        {photoPreview && (
-          <div className="anniv-photo-wrap">
-            <div className="anniv-photo-frame">
-              <img src={photoPreview} alt={`${partner1} & ${partner2}`} className="anniv-photo-img" />
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Bottom decorations for all templates */}
