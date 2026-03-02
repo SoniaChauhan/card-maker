@@ -9,6 +9,7 @@ import JagrataCard     from './components/JagrataCard';
 import BiodataCard     from './components/BiodataCard';
 import WeddingCard     from './components/WeddingCard';
 import ResumeCard      from './components/ResumeCard';
+import FestivalCard    from './components/FestivalCard';
 import useScreenshotProtection from './hooks/useScreenshotProtection';
 
 function AppContent() {
@@ -58,6 +59,7 @@ function AppContent() {
     if (selected === 'biodata')     return <BiodataCard     {...cardProps} />;
     if (selected === 'wedding')     return <WeddingCard     {...cardProps} />;
     if (selected === 'resume')      return <ResumeCard      {...cardProps} />;
+    if (selected === 'festivalcards') return <FestivalCard    {...cardProps} />;
   }
 
   /* ---------- Landing page — handles both logged-in and not-logged-in ---------- */

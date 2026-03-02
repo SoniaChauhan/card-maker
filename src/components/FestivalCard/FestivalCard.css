@@ -1,0 +1,285 @@
+/* ══════════════════════════════════════════════════════
+   FESTIVAL CARD — Styles
+   ══════════════════════════════════════════════════════ */
+
+/* ── Screen wrapper ── */
+.festival-card-screen {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 36px 12px 60px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  overflow: hidden;
+}
+.festival-screen-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Form screen ── */
+.festival-form-screen {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* ── Festival selector ── */
+.fest-selector {
+  margin-bottom: 22px;
+}
+.fest-selector-label {
+  display: block;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #444;
+}
+.fest-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.fest-selector-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 6px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #555;
+}
+.fest-selector-btn:hover {
+  border-color: #b388ff;
+  background: #f3e5f5;
+  transform: translateY(-2px);
+}
+.fest-selector-btn--active {
+  border-color: #7c4dff;
+  background: linear-gradient(135deg, #ede7f6, #e8eaf6);
+  color: #311b92;
+  box-shadow: 0 4px 14px rgba(124, 77, 255, 0.25);
+}
+.fest-selector-icon {
+  font-size: 1.6rem;
+}
+.fest-selector-name {
+  font-size: 0.78rem;
+  text-align: center;
+  line-height: 1.2;
+}
+.fest-selector-desc {
+  font-size: 0.82rem;
+  color: #777;
+  font-style: italic;
+  margin: 4px 0 0;
+  line-height: 1.4;
+}
+
+/* ── Background picker ── */
+.fest-bg-picker {
+  text-align: center;
+  margin-bottom: 14px;
+}
+.fest-bg-picker-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  margin-right: 6px;
+}
+.fest-bg-swatches {
+  display: inline-flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 6px;
+}
+.fest-bg-swatch {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid #fff4;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.fest-bg-swatch:hover {
+  transform: scale(1.18);
+}
+.fest-bg-swatch.active {
+  border-color: #ffd700;
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.4);
+}
+.fest-bg-custom-input {
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+}
+.fest-bg-reset {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border: 1px solid #fff6;
+  border-radius: 8px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* ══════════════════════════════════════════════════════
+   CARD PREVIEW
+   ══════════════════════════════════════════════════════ */
+.fest-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 36px 28px 32px;
+  border-radius: 18px;
+  text-align: center;
+  overflow: hidden;
+  font-family: 'Georgia', 'Noto Sans Devanagari', serif;
+}
+
+/* Inner border frame */
+.fest-inner-frame {
+  position: absolute;
+  inset: 8px;
+  border: 2px solid rgba(255, 215, 0, 0.25);
+  border-radius: 14px;
+  pointer-events: none;
+}
+
+/* Decoration SVGs */
+.fest-decor-top {
+  margin-bottom: 8px;
+}
+.fest-decor-bottom {
+  margin-top: 14px;
+  transform: scaleY(-1);
+  opacity: 0.5;
+}
+.fest-decor-svg {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Main emoji */
+.fest-main-emoji {
+  font-size: 3rem;
+  margin-bottom: 6px;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+}
+
+/* Heading */
+.fest-heading {
+  font-size: 1.65rem;
+  font-weight: 800;
+  margin: 0 0 6px;
+  line-height: 1.3;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.fest-card--dark .fest-heading {
+  color: #ffd700;
+  text-shadow: 0 2px 12px rgba(255, 215, 0, 0.3);
+}
+
+/* Subtext */
+.fest-subtext {
+  font-size: 0.88rem;
+  margin: 0 0 14px;
+  opacity: 0.85;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Recipient */
+.fest-recipient {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+.fest-recipient-name {
+  font-weight: 700;
+  font-size: 1.12rem;
+}
+.fest-card--dark .fest-recipient-name {
+  color: #ffd700;
+}
+
+/* Message */
+.fest-message {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin: 0 auto 14px;
+  max-width: 340px;
+  white-space: pre-line;
+  opacity: 0.9;
+}
+
+/* Photo */
+.fest-photo-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0;
+}
+.fest-photo {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 215, 0, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Sender */
+.fest-sender {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.fest-from-label {
+  font-size: 0.82rem;
+  opacity: 0.7;
+  font-style: italic;
+}
+.fest-sender-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+.fest-card--dark .fest-sender-name {
+  color: #ffd700;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .fest-card {
+    padding: 24px 16px 22px;
+    border-radius: 14px;
+  }
+  .fest-heading {
+    font-size: 1.35rem;
+  }
+  .fest-main-emoji {
+    font-size: 2.4rem;
+  }
+  .fest-selector-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+}
