@@ -198,6 +198,22 @@
   text-shadow: 0 2px 12px rgba(255, 215, 0, 0.3);
 }
 
+/* Holi Radha-Krishna image */
+.fest-holi-img-wrap {
+  margin: 10px auto 12px;
+  width: 55%;
+  max-width: 200px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  border: 3px solid rgba(255, 255, 255, 0.5);
+}
+.fest-holi-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* Subtext */
 .fest-subtext {
   font-size: 0.88rem;

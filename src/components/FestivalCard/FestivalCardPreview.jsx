@@ -385,6 +385,13 @@ export default function FestivalCardPreview({ data, lang = 'en', bgColor }) {
       {/* Heading */}
       <h1 className="fest-heading">{customGreeting || theme.heading}</h1>
 
+      {/* Holi featured image — Radha Krishna */}
+      {festival === 'holi' && (
+        <div className="fest-holi-img-wrap">
+          <img src="/holi-radha-krishna.png" alt="Radha Krishna playing Holi - Happy Holi greeting card" className="fest-holi-img" />
+        </div>
+      )}
+
       {/* Subtext */}
       <p className="fest-subtext">{theme.subtext}</p>
 
