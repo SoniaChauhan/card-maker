@@ -1,6 +1,6 @@
 import '@/global.css';
 
-const SITE_URL = 'https://card-maker-soniachauhan.vercel.app';
+const SITE_URL = 'https://card-maker-seven-eta.vercel.app';
 const SITE_NAME = 'Card Maker – Free Online Card & Invitation Designer | Creative Thinker Design Hub';
 const DESCRIPTION =
   'Create stunning birthday invitations, wedding cards, anniversary greetings, Happy Holi wishes & festival cards online free. 100+ templates in Hindi & English. Free Holi shayari cards, romantic Holi messages, Holi wishes 2026 download. A product of Creative Thinker Design Hub.';

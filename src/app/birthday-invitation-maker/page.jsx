@@ -14,7 +14,7 @@ export const metadata = {
     description: 'Create personalised birthday party invitations with beautiful templates. Preview & download instantly!',
   },
   alternates: {
-    canonical: 'https://card-maker-soniachauhan.vercel.app/birthday-invitation-maker',
+    canonical: 'https://card-maker-seven-eta.vercel.app/birthday-invitation-maker',
   },
 };
 

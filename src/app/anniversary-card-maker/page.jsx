@@ -14,7 +14,7 @@ export const metadata = {
     description: 'Craft elegant anniversary greetings with couple photo upload & instant download!',
   },
   alternates: {
-    canonical: 'https://card-maker-soniachauhan.vercel.app/anniversary-card-maker',
+    canonical: 'https://card-maker-seven-eta.vercel.app/anniversary-card-maker',
   },
 };
 
