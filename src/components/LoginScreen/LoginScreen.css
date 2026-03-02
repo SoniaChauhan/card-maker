@@ -299,9 +299,9 @@
   pointer-events: none;
 }
 .lp-free-grid {
-  grid-template-columns: repeat(2, 1fr) !important;
-  max-width: 540px;
-  margin: 0 auto;
+  grid-template-columns: repeat(3, 1fr) !important;
+  max-width: none;
+  margin: 0;
 }
 
 /* ═══ Premium card glow ═══ */
