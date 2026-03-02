@@ -133,19 +133,33 @@
   width: 100%;
   max-width: var(--lp-max);
   margin: 0 auto;
-  padding: 0 var(--lp-gutter) 44px;
+  padding: 20px var(--lp-gutter) 52px;
   text-align: center;
 }
 .lp-section-title {
-  font-size: clamp(20px, 2.5vw, 28px);
-  font-weight: 800;
+  font-size: clamp(26px, 3.2vw, 38px);
+  font-weight: 900;
   color: #fff;
-  margin: 0 0 6px;
+  margin: 0 0 4px;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 12px rgba(0,0,0,.3);
 }
 .lp-section-sub {
-  font-size: 14px;
-  color: #999;
-  margin: 0 0 24px;
+  font-size: 15px;
+  color: #b0b0b0;
+  margin: 0 0 32px;
+  letter-spacing: 0.2px;
+  position: relative;
+  display: inline-block;
+}
+.lp-section-sub::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #f59e0b, #ef4444, #a855f7);
+  border-radius: 3px;
+  margin: 12px auto 0;
 }
 .lp-brand-line {
   font-size: 13.5px;
@@ -167,12 +181,12 @@
 .lp-showcase-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 20px;
 }
 .lp-showcase-card {
   border: none;
-  border-radius: 18px;
-  padding: 32px 16px 24px;
+  border-radius: 20px;
+  padding: 36px 20px 28px;
   text-align: center;
   cursor: pointer;
   transition: transform .25s, box-shadow .25s;
@@ -226,30 +240,43 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
-  margin-bottom: 2px;
+  margin-bottom: 6px;
 }
 .lp-section-price {
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 800;
   color: #ffd700;
-  background: rgba(255, 215, 0, .12);
-  border: 1px solid rgba(255, 215, 0, .3);
-  padding: 3px 14px;
+  background: linear-gradient(135deg, rgba(255, 215, 0, .18), rgba(239, 68, 68, .12));
+  border: 1.5px solid rgba(255, 215, 0, .35);
+  padding: 6px 18px;
   border-radius: 50px;
   white-space: nowrap;
+  letter-spacing: .3px;
+  text-shadow: 0 1px 4px rgba(0,0,0,.2);
+  animation: lp-badge-glow 2.5s ease-in-out infinite alternate;
+}
+@keyframes lp-badge-glow {
+  0% { box-shadow: 0 0 6px rgba(255, 215, 0, .15); }
+  100% { box-shadow: 0 0 16px rgba(255, 215, 0, .35); }
 }
 .lp-section-free-tag {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
   color: #00e676;
-  background: rgba(0, 230, 118, .12);
-  border: 1px solid rgba(0, 230, 118, .3);
-  padding: 3px 14px;
+  background: linear-gradient(135deg, rgba(0, 230, 118, .18), rgba(5, 150, 105, .12));
+  border: 1.5px solid rgba(0, 230, 118, .35);
+  padding: 6px 18px;
   border-radius: 50px;
   white-space: nowrap;
   letter-spacing: .5px;
+  text-shadow: 0 1px 4px rgba(0,0,0,.2);
+  animation: lp-free-glow 2.5s ease-in-out infinite alternate;
+}
+@keyframes lp-free-glow {
+  0% { box-shadow: 0 0 6px rgba(0, 230, 118, .15); }
+  100% { box-shadow: 0 0 16px rgba(0, 230, 118, .35); }
 }
 
 /* ═══ Price badge on premium cards ═══ */
@@ -287,16 +314,19 @@
 /* ═══ Free section subtle highlight ═══ */
 .lp-free-section {
   position: relative;
-  padding-top: 12px;
+  padding-top: 20px;
 }
 .lp-free-section::before {
   content: '';
   position: absolute;
   inset: -8px -16px;
   background: rgba(0, 230, 118, .04);
-  border-radius: 20px;
+  border-radius: 24px;
   border: 1px solid rgba(0, 230, 118, .08);
   pointer-events: none;
+}
+.lp-free-section .lp-section-sub::after {
+  background: linear-gradient(90deg, #10b981, #00e676, #059669);
 }
 .lp-free-grid {
   grid-template-columns: repeat(3, 1fr) !important;
