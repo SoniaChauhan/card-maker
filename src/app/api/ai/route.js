@@ -238,14 +238,17 @@ async function callGemini(model, prompt, retries = 2) {
    ══════════════════════════════════════════ */
 function friendlyError(err) {
   const msg = (err?.message || '').toLowerCase();
-  if (msg.includes('429') || msg.includes('too many') || msg.includes('quota') || msg.includes('rate')) {
+  if (msg.includes('429') || msg.includes('too many') || msg.includes('quota') || msg.includes('rate limit') || msg.includes('rate_limit') || msg.includes('resource has been exhausted')) {
     return 'AI is busy right now — too many requests. Please wait 30-60 seconds and try again.';
   }
   if (msg.includes('api key') || msg.includes('401') || msg.includes('403')) {
     return 'AI service authentication error. Please contact the admin.';
   }
-  if (msg.includes('network') || msg.includes('fetch')) {
+  if (msg.includes('network') || msg.includes('fetch failed') || msg.includes('econnrefused') || msg.includes('enotfound')) {
     return 'Network error reaching AI service. Please check your connection and try again.';
+  }
+  if (msg.includes('not found') || msg.includes('404')) {
+    return 'AI model not found. The model may have been updated — please contact the admin.';
   }
   return 'AI generation failed. Please try again in a moment.';
 }
@@ -331,7 +334,7 @@ export async function POST(request) {
     return NextResponse.json({ fields });
 
   } catch (err) {
-    console.error('[AI Route Error]', err);
+    console.error('[AI Route Error]', err?.status, err?.message || err);
     return NextResponse.json(
       { error: friendlyError(err) },
       { status: 500 }
