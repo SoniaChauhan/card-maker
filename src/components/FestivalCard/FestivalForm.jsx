@@ -91,14 +91,16 @@ export default function FestivalForm({ data, errors, onChange, onBack, onGenerat
             value={data.recipientName} onChange={onChange}
             placeholder="Who are you sending this to? (optional)" />
 
-          <FormField label="Custom Greeting Line" name="customGreeting"
-            value={data.customGreeting} onChange={onChange}
-            placeholder="e.g. Wishing you joy & happiness!" />
+          {!isHoli && (
+            <FormField label="Custom Greeting Line" name="customGreeting"
+              value={data.customGreeting} onChange={onChange}
+              placeholder="e.g. Wishing you joy & happiness!" />
+          )}
 
-          {/* Holi preset greeting dropdown */}
+          {/* Holi preset greeting dropdown — replaces the text input when Holi */}
           {isHoli && (
             <div className="form-group fest-preset-pick">
-              <label>🌈 Quick Greeting Pick <span className="optional">(optional)</span></label>
+              <label>🌈 Pick or Type Greeting <span className="optional">(optional)</span></label>
               <select
                 value=""
                 onChange={e => { if (e.target.value) onChange({ target: { name: 'customGreeting', value: e.target.value } }); }}
@@ -109,17 +111,28 @@ export default function FestivalForm({ data, errors, onChange, onBack, onGenerat
                   <option key={i} value={g}>{g}</option>
                 ))}
               </select>
+              <input
+                type="text"
+                name="customGreeting"
+                value={data.customGreeting}
+                onChange={onChange}
+                placeholder="Or type your own greeting…"
+                className="fest-preset-input"
+                autoComplete="off"
+              />
             </div>
           )}
 
-          <FormField label="Personal Message" name="message"
-            value={data.message} onChange={onChange}
-            placeholder="Write a heartfelt message…" rows={3} span />
+          {!isHoli && (
+            <FormField label="Personal Message" name="message"
+              value={data.message} onChange={onChange}
+              placeholder="Write a heartfelt message…" rows={3} span />
+          )}
 
-          {/* Holi preset message dropdown */}
+          {/* Holi preset message dropdown — replaces the textarea when Holi */}
           {isHoli && (
             <div className="form-group span-2 fest-preset-pick">
-              <label>💌 Quick Message Pick <span className="optional">(optional)</span></label>
+              <label>💌 Pick or Type Message <span className="optional">(optional)</span></label>
               <select
                 value=""
                 onChange={e => { if (e.target.value) onChange({ target: { name: 'message', value: e.target.value } }); }}
@@ -130,6 +143,15 @@ export default function FestivalForm({ data, errors, onChange, onBack, onGenerat
                   <option key={i} value={m}>{m.length > 80 ? m.slice(0, 80) + '…' : m}</option>
                 ))}
               </select>
+              <textarea
+                name="message"
+                value={data.message}
+                onChange={onChange}
+                placeholder="Or type your own message…"
+                className="fest-preset-textarea"
+                rows={3}
+                autoComplete="off"
+              />
             </div>
           )}
         </div>
