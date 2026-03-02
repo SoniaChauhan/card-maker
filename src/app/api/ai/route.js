@@ -152,6 +152,46 @@ Return ONLY valid JSON array, no markdown, no code blocks:
 }
 
 /* ══════════════════════════════════════════
+   Helper: call Gemini with auto-retry on 429
+   ══════════════════════════════════════════ */
+async function callGemini(model, prompt, retries = 2) {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const result = await model.generateContent(prompt);
+      return result.response.text().trim();
+    } catch (err) {
+      const is429 = err?.status === 429 ||
+        err?.message?.includes('429') ||
+        err?.message?.includes('Too Many Requests') ||
+        err?.message?.includes('quota');
+      if (is429 && attempt < retries) {
+        // Wait 3-6 seconds before retry
+        await new Promise(r => setTimeout(r, 3000 + attempt * 3000));
+        continue;
+      }
+      throw err;
+    }
+  }
+}
+
+/* ══════════════════════════════════════════
+   Friendly error message for common issues
+   ══════════════════════════════════════════ */
+function friendlyError(err) {
+  const msg = (err?.message || '').toLowerCase();
+  if (msg.includes('429') || msg.includes('too many') || msg.includes('quota') || msg.includes('rate')) {
+    return 'AI is busy right now — too many requests. Please wait 30-60 seconds and try again.';
+  }
+  if (msg.includes('api key') || msg.includes('401') || msg.includes('403')) {
+    return 'AI service authentication error. Please contact the admin.';
+  }
+  if (msg.includes('network') || msg.includes('fetch')) {
+    return 'Network error reaching AI service. Please check your connection and try again.';
+  }
+  return 'AI generation failed. Please try again in a moment.';
+}
+
+/* ══════════════════════════════════════════
    POST handler — routes to the correct mode
    ══════════════════════════════════════════ */
 export async function POST(request) {
@@ -176,9 +216,7 @@ export async function POST(request) {
       if (!description) return NextResponse.json({ error: 'description is required.' }, { status: 400 });
 
       const prompt = buildMagicPrompt(description);
-      const result = await model.generateContent(prompt);
-      let text = result.response.text().trim();
-      // Strip markdown code fences if present
+      let text = await callGemini(model, prompt);
       text = text.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
       const parsed = JSON.parse(text);
       return NextResponse.json(parsed);
@@ -190,8 +228,7 @@ export async function POST(request) {
       if (!cardType) return NextResponse.json({ error: 'cardType is required.' }, { status: 400 });
 
       const prompt = buildSuggestPrompt(cardType, currentTemplate, currentBgColor);
-      const result = await model.generateContent(prompt);
-      let text = result.response.text().trim();
+      let text = await callGemini(model, prompt);
       text = text.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
       const suggestions = JSON.parse(text);
       return NextResponse.json({ suggestions });
@@ -208,8 +245,7 @@ export async function POST(request) {
       return NextResponse.json({ error: `Unknown card type: ${cardType}` }, { status: 400 });
     }
 
-    const result = await model.generateContent(promptData.prompt);
-    let text = result.response.text().trim();
+    let text = await callGemini(model, promptData.prompt);
 
     // For JSON mode prompts, parse the JSON
     if (promptData.jsonMode) {
@@ -226,7 +262,7 @@ export async function POST(request) {
   } catch (err) {
     console.error('[AI Route Error]', err);
     return NextResponse.json(
-      { error: err.message || 'Failed to generate AI content.' },
+      { error: friendlyError(err) },
       { status: 500 }
     );
   }
