@@ -42,6 +42,28 @@ const SHAYARIS = [
   { cat: '🌼', long: true, title: 'Radha–Krishna Shayari', text: "बरसाने की होली की महक तेरे घर आ जाए,\nराधा‑कृष्ण का प्रेम तेरी आत्मा को छू जाए।\nरंगों के इस त्योहार पर बस यही वरदान मिले,\nतेरी जिंदगी में खुशियों के हजारों रंग खिलें।\nजय श्री कृष्ण – शुभ होली!" },
   { cat: '✨', long: true, title: 'Inspirational Shayari', text: "रंगों की तरह जिंदगी में भी आसमान भर जाए,\nहर कदम पर नई उम्मीद और नई रौशनी मिल जाए।\nहोली का ये त्योहार सिर्फ चेहरे नहीं दिल भी रंग दे,\nऔर हर दुख का रंग धुलकर खुशियों का रंग चढ़ जाए।\nआपको होली की ढेरों शुभकामनाएँ!" },
   { cat: '🌻', long: true, title: 'Family Friendly Shayari', text: "रंगों से भरी पिचकारी है, दिलों में भी खुशहाली है,\nहोली आई खुशियाँ लाई—बस इतनी सी कहानी है।\nमिठास हो रिश्तों में और घर में बस रौनक छा जाए,\nरंगों का ये त्योहार आपके जीवन में सुख‑समृद्धि ले आए।\nहोली मुबारक!" },
+
+  /* ── 20 Romantic Shayari‑Style Lines ── */
+  { cat: '💖', text: "तेरे बिना हर रंग अधूरा है…\nतू साथ हो तो होली भी पूरा है।" },
+  { cat: '💖', text: "इश्क़ के रंग में यूँ रंगा हूँ,\nकि हर रंग में बस तुम ही तुम दिखती हो।" },
+  { cat: '💕', text: "तुम मुस्कुराओ तो होली लगे,\nतुम खामोश रहो तो वीरानी।" },
+  { cat: '💕', text: "तेरे प्यार की बारिश में भीगकर,\nआज हर रंग और भी हसीन लगता है।" },
+  { cat: '💖', text: "तुम हो तो गुलाल भी महकता है,\nतुम हो तो दिल भी धड़कता है।" },
+  { cat: '💖', text: "रंगों से ज़्यादा तेरी आँखों में\nखो जाने का मन है।" },
+  { cat: '💕', text: "तेरी एक मुस्कान,\nमेरे दिल की सबसे प्यारी होली है।" },
+  { cat: '💕', text: "हाथों में गुलाल,\nदिल में सिर्फ़ तेरा ख्याल।" },
+  { cat: '💖', text: "तेरे संग बिताया हर लम्हा,\nमेरी ज़िंदगी का सबसे खूबसूरत रंग है।" },
+  { cat: '💖', text: "तू पास हो तो रंगों का त्यौहार भी\nप्यार का एहसास बन जाता है।" },
+  { cat: '💕', text: "तुझसे मिलकर लगा,\nकि होली केवल रंगों का नहीं—प्यार का भी त्योहार है।" },
+  { cat: '💕', text: "चलो आज इश्क़ के रंग में खो जाएँ,\nदुनिया की सोच को थोड़ा पीछे छोड़ आएँ।" },
+  { cat: '💖', text: "तेरी धड़कनों में जो रंग है,\nउसे कोई होली नहीं छीन सकती।" },
+  { cat: '💖', text: "तू है तो हर रंग में जान है,\nतू ना हो तो सब सुनसान है।" },
+  { cat: '💕', text: "आज तेरे नाम का रंग लगाया है—\nदिल ने भी 'होल्ड' नहीं किया।" },
+  { cat: '💕', text: "तू जब साथ होती है,\nतो रंग भी अपने आप खिल उठते हैं।" },
+  { cat: '💖', text: "इश्क़ भी क्या रंग है…\nएक बार छू जाए, तो उतरता ही नहीं।" },
+  { cat: '💖', text: "तेरी हँसी ने आज मेरे दिल में\nरंगों की बरसात कर दी।" },
+  { cat: '💕', text: "हमारी मोहब्बत भी होली के रंगों जैसी—\nथोड़ी शरारती, थोड़ी प्यारी, और पूरी रंगीन।" },
+  { cat: '💕', text: "तू दिल की होली है,\nजिसका रंग कभी फीका नहीं पड़ता।" },
 ];
 
 const DEFAULT_BG = '#fffde7';
@@ -111,7 +133,35 @@ export default function HoliCard({ onBack, userEmail }) {
         {/* ── Short Shayari Cards ── */}
         <h2 className="holi-section-label">🌸 Short Shayaris</h2>
         <div className="holi-grid">
-          {SHAYARIS.filter(s => !s.long).map((s, i) => {
+          {SHAYARIS.filter(s => !s.long && s.cat !== '💖' && s.cat !== '💕').map((s, i) => {
+            const idx = SHAYARIS.indexOf(s);
+            return (
+              <div key={idx} className="holi-item">
+                <div className="holi-card" ref={el => (refs.current[idx] = el)} style={{ background: bgColor, color: fontColor }}>
+                  <div className="holi-border-outer" />
+                  <div className="holi-border-inner" />
+                  <span className="holi-cat">{s.cat}</span>
+                  <div className="holi-card-h">Happy Holi!</div>
+                  <div className="holi-card-sub" style={{ color: fontColor }}>होली की शुभकामनाएँ</div>
+                  <div className="holi-shayari" style={{ color: fontColor }}>{s.text}</div>
+                  <div className="holi-dots">
+                    {['#ff6f91','#ffc75f','#a29bfe','#55efc4','#fd79a8'].map((c,j) => (
+                      <span key={j} style={{ background: c }} />
+                    ))}
+                  </div>
+                </div>
+                <button className="holi-dl" onClick={() => download(idx)} disabled={dlIdx === idx} title="Download">
+                  {dlIdx === idx ? '⏳' : '⬇️'} Download
+                </button>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* ── Romantic Shayaris ── */}
+        <h2 className="holi-section-label">💖 Romantic Shayaris</h2>
+        <div className="holi-grid">
+          {SHAYARIS.filter(s => !s.long && (s.cat === '💖' || s.cat === '💕')).map((s, i) => {
             const idx = SHAYARIS.indexOf(s);
             return (
               <div key={idx} className="holi-item">
