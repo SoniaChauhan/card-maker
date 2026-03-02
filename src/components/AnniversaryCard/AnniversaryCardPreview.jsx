@@ -231,11 +231,13 @@ const AnniversaryCardPreview = forwardRef(function AnniversaryCardPreview(
         {date && <p className="anniv-date-line">{formatDate(date, lang)}</p>}
 
         {/* Photo */}
-        <div className="anniv-photo-wrap">
-          <div className="anniv-photo-frame">
-            <img src={photoPreview || '/default-anniversary-couple.avif'} alt={`${partner1} & ${partner2}`} className="anniv-photo-img" />
+        {photoPreview && (
+          <div className="anniv-photo-wrap">
+            <div className="anniv-photo-frame">
+              <img src={photoPreview} alt={`${partner1} & ${partner2}`} className="anniv-photo-img" />
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Bottom decorations for all templates */}

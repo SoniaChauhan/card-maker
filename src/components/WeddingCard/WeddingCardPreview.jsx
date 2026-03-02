@@ -586,11 +586,13 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1, bg
         <div className="wed-tagline">Two hearts, one soul</div>
 
         {/* ── Couple Photo ── */}
-        <div className="wed-photo-wrap wed-photo-center">
-          <div className="wed-photo-frame">
-            <img src={photoPreview || '/default-wedding-couple.jpg'} alt="Couple" className="wed-photo" />
+        {photoPreview && (
+          <div className="wed-photo-wrap wed-photo-center">
+            <div className="wed-photo-frame">
+              <img src={photoPreview} alt="Couple" className="wed-photo" />
+            </div>
           </div>
-        </div>
+        )}
 
         {/* ── Leaf divider ── */}
         <div className="wed-leaf-divider">
@@ -709,12 +711,14 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1, bg
           </div>
 
           {/* Couple Photo */}
-          <div className="wed-photo-wrap">
-            {template === 3 && <PhotoWreath />}
-            <div className="wed-photo-frame">
-              <img src={photoPreview || '/default-wedding-couple.jpg'} alt="Couple" className="wed-photo" />
+          {photoPreview && (
+            <div className="wed-photo-wrap">
+              {template === 3 && <PhotoWreath />}
+              <div className="wed-photo-frame">
+                <img src={photoPreview} alt="Couple" className="wed-photo" />
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Couple Names */}
           <div className="wed-couple">
