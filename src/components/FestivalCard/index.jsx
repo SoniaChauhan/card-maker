@@ -8,6 +8,7 @@ import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import LanguagePicker from '../shared/LanguagePicker';
 import PaymentPopup from '../shared/PaymentPopup';
+import HoliTemplateChooser from './HoliTemplateChooser';
 import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
@@ -38,6 +39,7 @@ const INIT = {
   photo: null,
   photoPreview: '',
   bgColor: '',
+  selectedTemplate: 1,
 };
 
 const PARTICLES_MAP = {
@@ -78,6 +80,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
   const [templateId, setTemplateId] = useState(initTplId || null);
   const [paid, setPaid]     = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [showChooser, setShowChooser] = useState(false);
 
   const festival = FESTIVALS.find(f => f.id === data.festival) || FESTIVALS[0];
   const filename = `festival-${toFilename(festival.tag)}-${toFilename(data.recipientName || 'card')}.png`;
@@ -181,6 +184,14 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
           </div>
         </div>
 
+        {/* Holi template chooser button */}
+        {data.festival === 'holi' && (
+          <button className="btn-choose-template" onClick={() => setShowChooser(true)}
+            style={{ marginBottom: '10px', background: 'linear-gradient(135deg,#ff6f91,#ffc75f)', color: '#fff', border: 'none', borderRadius: '12px', padding: '10px 22px', fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer', boxShadow: '0 4px 14px rgba(255,111,145,.35)' }}>
+            🎨 Choose Holi Template ({data.selectedTemplate || 1}/6)
+          </button>
+        )}
+
         <div id="festival-card-print" className={`card-wrapper screenshot-protected${!paid ? ' card-preview-locked' : ''}`}>
           <FestivalCardPreview data={data} lang={lang} bgColor={data.bgColor} />
         </div>
@@ -215,6 +226,17 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
         </button>
       </div>
       <Toast text={toast.text} show={toast.show} />
+
+      {/* Holi Template Chooser Modal */}
+      {showChooser && data.festival === 'holi' && (
+        <HoliTemplateChooser
+          data={data}
+          lang={lang}
+          selected={data.selectedTemplate || 1}
+          onSelect={id => setData(d => ({ ...d, selectedTemplate: id }))}
+          onClose={() => setShowChooser(false)}
+        />
+      )}
 
       {/* Razorpay Payment Popup */}
       {showPayment && (

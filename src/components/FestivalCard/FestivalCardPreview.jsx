@@ -2,6 +2,52 @@
    Festival Card Preview — Unique themed design per festival
    ══════════════════════════════════════════════════════════════ */
 
+/* ── Holi Template Configs (6 templates) ── */
+const HOLI_TEMPLATES = {
+  1: {
+    gradient: 'linear-gradient(135deg, #ff6f91 0%, #ff9671 30%, #ffc75f 60%, #d65db1 100%)',
+    image: '/holi-radha-krishna.png',
+    layout: 'classic',       // center image between heading & subtext
+    borderColor: '#ff6f91',
+    frameColor: 'rgba(255,111,145,0.25)',
+  },
+  2: {
+    gradient: 'linear-gradient(135deg, #a29bfe 0%, #6c5ce7 40%, #fd79a8 100%)',
+    image: '/holi-radha-krishna1.png',
+    layout: 'banner-top',    // full-width image at top, text below
+    borderColor: '#6c5ce7',
+    frameColor: 'rgba(108,92,231,0.25)',
+  },
+  3: {
+    gradient: 'linear-gradient(135deg, #ffc75f 0%, #ff9671 40%, #ff6f91 100%)',
+    image: '/holi-radha-krishna2.png',
+    layout: 'side-accent',   // circular image floated to side with text wrap
+    borderColor: '#ff9671',
+    frameColor: 'rgba(255,150,113,0.25)',
+  },
+  4: {
+    gradient: 'linear-gradient(135deg, #00b894 0%, #55efc4 40%, #ffeaa7 100%)',
+    image: '/holi-radha-krishna3.png',
+    layout: 'hero',          // large background hero image with overlay text
+    borderColor: '#00b894',
+    frameColor: 'rgba(0,184,148,0.25)',
+  },
+  5: {
+    gradient: 'linear-gradient(135deg, #fd79a8 0%, #e84393 40%, #a29bfe 100%)',
+    image: '/holi-radha-krishna4.png',
+    layout: 'split',         // left image, right text (vertical on mobile)
+    borderColor: '#e84393',
+    frameColor: 'rgba(232,67,147,0.25)',
+  },
+  6: {
+    gradient: 'linear-gradient(135deg, #74b9ff 0%, #0984e3 40%, #6c5ce7 100%)',
+    image: '/holi-radha-krishna5.png',
+    layout: 'framed',        // image in ornate frame at bottom
+    borderColor: '#0984e3',
+    frameColor: 'rgba(9,132,227,0.25)',
+  },
+};
+
 /* ── Theme configs ── */
 const THEME = {
   holi: {
@@ -363,6 +409,22 @@ export default function FestivalCardPreview({ data, lang = 'en', bgColor }) {
   const DecorComponent = DECOR_MAP[festival] || HoliDecor;
   const isDark = theme.dark;
 
+  /* Holi uses template-based layouts */
+  if (festival === 'holi') {
+    const tplId = data.selectedTemplate || 1;
+    const tpl = HOLI_TEMPLATES[tplId] || HOLI_TEMPLATES[1];
+    return (
+      <HoliTemplateCard
+        tpl={tpl}
+        tplId={tplId}
+        theme={theme}
+        data={data}
+        bgColor={bgColor}
+        DecorComponent={DecorComponent}
+      />
+    );
+  }
+
   const cardStyle = {
     background: bgColor || theme.gradient,
     color: isDark ? '#fff' : '#333',
@@ -384,13 +446,6 @@ export default function FestivalCardPreview({ data, lang = 'en', bgColor }) {
 
       {/* Heading */}
       <h1 className="fest-heading">{customGreeting || theme.heading}</h1>
-
-      {/* Holi featured image — Radha Krishna */}
-      {festival === 'holi' && (
-        <div className="fest-holi-img-wrap">
-          <img src="/holi-radha-krishna.png" alt="Radha Krishna playing Holi - Happy Holi greeting card" className="fest-holi-img" />
-        </div>
-      )}
 
       {/* Subtext */}
       <p className="fest-subtext">{theme.subtext}</p>
@@ -424,6 +479,156 @@ export default function FestivalCardPreview({ data, lang = 'en', bgColor }) {
       <div className="fest-decor-bottom">
         <DecorComponent />
       </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Holi Template Card — 6 unique layouts
+   ══════════════════════════════════════════════════════════════ */
+function HoliTemplateCard({ tpl, tplId, theme, data, bgColor, DecorComponent }) {
+  const { senderName, recipientName, customGreeting, message, photoPreview } = data;
+  const heading = customGreeting || theme.heading;
+  const subtext = theme.subtext;
+
+  const baseStyle = {
+    background: bgColor || tpl.gradient,
+    color: '#333',
+  };
+
+  /* ── Template 1: Classic (center image between heading & subtext) ── */
+  if (tplId === 1) {
+    return (
+      <div className="fest-card fest-card--holi holi-tpl holi-tpl--1" style={baseStyle}>
+        <div className="fest-inner-frame" style={{ borderColor: tpl.frameColor }} />
+        <div className="fest-decor-top"><DecorComponent /></div>
+        <div className="fest-main-emoji">🌈</div>
+        <h1 className="fest-heading">{heading}</h1>
+        <div className="holi-tpl1-img-wrap">
+          <img src={tpl.image} alt="Radha Krishna playing Holi" className="holi-tpl1-img" />
+        </div>
+        <p className="fest-subtext">{subtext}</p>
+        {recipientName && <div className="fest-recipient">Dear <span className="fest-recipient-name">{recipientName}</span>,</div>}
+        {message && <p className="fest-message">{message}</p>}
+        {photoPreview && <div className="fest-photo-wrap"><img src={photoPreview} alt="Photo" className="fest-photo" loading="lazy" /></div>}
+        {senderName && <div className="fest-sender"><span className="fest-from-label">With love,</span><span className="fest-sender-name">{senderName}</span></div>}
+        <div className="fest-decor-bottom"><DecorComponent /></div>
+      </div>
+    );
+  }
+
+  /* ── Template 2: Banner Top (full-width image at top) ── */
+  if (tplId === 2) {
+    return (
+      <div className="fest-card fest-card--holi holi-tpl holi-tpl--2" style={baseStyle}>
+        <div className="fest-inner-frame" style={{ borderColor: tpl.frameColor }} />
+        <div className="holi-tpl2-banner">
+          <img src={tpl.image} alt="Radha Krishna Holi" className="holi-tpl2-banner-img" />
+          <div className="holi-tpl2-banner-overlay">
+            <div className="fest-main-emoji">🌈</div>
+            <h1 className="fest-heading" style={{ color: '#fff', textShadow: '0 2px 12px rgba(0,0,0,.5)' }}>{heading}</h1>
+          </div>
+        </div>
+        <div className="holi-tpl2-body">
+          <p className="fest-subtext">{subtext}</p>
+          {recipientName && <div className="fest-recipient">Dear <span className="fest-recipient-name">{recipientName}</span>,</div>}
+          {message && <p className="fest-message">{message}</p>}
+          {photoPreview && <div className="fest-photo-wrap"><img src={photoPreview} alt="Photo" className="fest-photo" loading="lazy" /></div>}
+          {senderName && <div className="fest-sender"><span className="fest-from-label">With love,</span><span className="fest-sender-name">{senderName}</span></div>}
+        </div>
+        <div className="fest-decor-bottom"><DecorComponent /></div>
+      </div>
+    );
+  }
+
+  /* ── Template 3: Side Accent (circular image with text beside it) ── */
+  if (tplId === 3) {
+    return (
+      <div className="fest-card fest-card--holi holi-tpl holi-tpl--3" style={baseStyle}>
+        <div className="fest-inner-frame" style={{ borderColor: tpl.frameColor }} />
+        <div className="fest-decor-top"><DecorComponent /></div>
+        <div className="fest-main-emoji">🌈</div>
+        <h1 className="fest-heading">{heading}</h1>
+        <div className="holi-tpl3-row">
+          <div className="holi-tpl3-img-wrap">
+            <img src={tpl.image} alt="Radha Krishna Holi" className="holi-tpl3-img" />
+          </div>
+          <div className="holi-tpl3-text">
+            <p className="fest-subtext" style={{ margin: 0 }}>{subtext}</p>
+            {recipientName && <div className="fest-recipient" style={{ marginTop: 8 }}>Dear <span className="fest-recipient-name">{recipientName}</span>,</div>}
+          </div>
+        </div>
+        {message && <p className="fest-message">{message}</p>}
+        {photoPreview && <div className="fest-photo-wrap"><img src={photoPreview} alt="Photo" className="fest-photo" loading="lazy" /></div>}
+        {senderName && <div className="fest-sender"><span className="fest-from-label">With love,</span><span className="fest-sender-name">{senderName}</span></div>}
+        <div className="fest-decor-bottom"><DecorComponent /></div>
+      </div>
+    );
+  }
+
+  /* ── Template 4: Hero (large bg image with overlay) ── */
+  if (tplId === 4) {
+    return (
+      <div className="fest-card fest-card--holi holi-tpl holi-tpl--4" style={{ ...baseStyle, padding: 0, overflow: 'hidden' }}>
+        <div className="holi-tpl4-hero" style={{ backgroundImage: `url(${tpl.image})` }}>
+          <div className="holi-tpl4-overlay">
+            <div className="fest-main-emoji" style={{ fontSize: '3.5rem' }}>🌈</div>
+            <h1 className="fest-heading" style={{ color: '#fff', textShadow: '0 3px 16px rgba(0,0,0,.6)', fontSize: '1.85rem' }}>{heading}</h1>
+            <p className="fest-subtext" style={{ color: 'rgba(255,255,255,.9)' }}>{subtext}</p>
+          </div>
+        </div>
+        <div className="holi-tpl4-content">
+          {recipientName && <div className="fest-recipient">Dear <span className="fest-recipient-name">{recipientName}</span>,</div>}
+          {message && <p className="fest-message">{message}</p>}
+          {photoPreview && <div className="fest-photo-wrap"><img src={photoPreview} alt="Photo" className="fest-photo" loading="lazy" /></div>}
+          {senderName && <div className="fest-sender"><span className="fest-from-label">With love,</span><span className="fest-sender-name">{senderName}</span></div>}
+          <div className="fest-decor-bottom"><DecorComponent /></div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ── Template 5: Split (image left, text right — stacks on mobile) ── */
+  if (tplId === 5) {
+    return (
+      <div className="fest-card fest-card--holi holi-tpl holi-tpl--5" style={baseStyle}>
+        <div className="fest-inner-frame" style={{ borderColor: tpl.frameColor }} />
+        <div className="holi-tpl5-split">
+          <div className="holi-tpl5-img-side">
+            <img src={tpl.image} alt="Radha Krishna Holi" className="holi-tpl5-img" />
+          </div>
+          <div className="holi-tpl5-text-side">
+            <div className="fest-main-emoji">🌈</div>
+            <h1 className="fest-heading" style={{ fontSize: '1.35rem' }}>{heading}</h1>
+            <p className="fest-subtext">{subtext}</p>
+            {recipientName && <div className="fest-recipient">Dear <span className="fest-recipient-name">{recipientName}</span>,</div>}
+          </div>
+        </div>
+        {message && <p className="fest-message">{message}</p>}
+        {photoPreview && <div className="fest-photo-wrap"><img src={photoPreview} alt="Photo" className="fest-photo" loading="lazy" /></div>}
+        {senderName && <div className="fest-sender"><span className="fest-from-label">With love,</span><span className="fest-sender-name">{senderName}</span></div>}
+        <div className="fest-decor-bottom"><DecorComponent /></div>
+      </div>
+    );
+  }
+
+  /* ── Template 6: Framed (ornate frame at bottom with image) ── */
+  return (
+    <div className="fest-card fest-card--holi holi-tpl holi-tpl--6" style={baseStyle}>
+      <div className="fest-inner-frame" style={{ borderColor: tpl.frameColor }} />
+      <div className="fest-decor-top"><DecorComponent /></div>
+      <div className="fest-main-emoji">🌈</div>
+      <h1 className="fest-heading">{heading}</h1>
+      <p className="fest-subtext">{subtext}</p>
+      {recipientName && <div className="fest-recipient">Dear <span className="fest-recipient-name">{recipientName}</span>,</div>}
+      {message && <p className="fest-message">{message}</p>}
+      {photoPreview && <div className="fest-photo-wrap"><img src={photoPreview} alt="Photo" className="fest-photo" loading="lazy" /></div>}
+      <div className="holi-tpl6-frame">
+        <div className="holi-tpl6-frame-inner">
+          <img src={tpl.image} alt="Radha Krishna Holi" className="holi-tpl6-img" />
+        </div>
+      </div>
+      {senderName && <div className="fest-sender"><span className="fest-from-label">With love,</span><span className="fest-sender-name">{senderName}</span></div>}
     </div>
   );
 }

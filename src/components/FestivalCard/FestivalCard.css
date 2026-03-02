@@ -198,8 +198,13 @@
   text-shadow: 0 2px 12px rgba(255, 215, 0, 0.3);
 }
 
-/* Holi Radha-Krishna image */
-.fest-holi-img-wrap {
+/* Holi Templates — shared */
+.holi-tpl img {
+  display: block;
+}
+
+/* ── Template 1: Classic (centered round image) ── */
+.holi-tpl1-img-wrap {
   margin: 10px auto 12px;
   width: 55%;
   max-width: 200px;
@@ -208,10 +213,206 @@
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
   border: 3px solid rgba(255, 255, 255, 0.5);
 }
-.fest-holi-img {
+.holi-tpl1-img {
+  width: 100%;
+  height: auto;
+}
+
+/* ── Template 2: Banner Top ── */
+.holi-tpl--2 {
+  padding-top: 0 !important;
+}
+.holi-tpl2-banner {
+  position: relative;
+  width: calc(100% + 56px);
+  margin: -36px -28px 0;
+  overflow: hidden;
+  border-radius: 18px 18px 0 0;
+}
+.holi-tpl2-banner-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+.holi-tpl2-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 16px 14px;
+}
+.holi-tpl2-banner-overlay .fest-main-emoji {
+  margin-bottom: 2px;
+}
+.holi-tpl2-banner-overlay .fest-heading {
+  margin: 0;
+}
+.holi-tpl2-body {
+  padding: 16px 0 0;
+}
+
+/* ── Template 3: Side Accent (image + text row) ── */
+.holi-tpl3-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 10px 0 14px;
+}
+.holi-tpl3-img-wrap {
+  flex-shrink: 0;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
+}
+.holi-tpl3-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.holi-tpl3-text {
+  flex: 1;
+  text-align: left;
+}
+
+/* ── Template 4: Hero (full bg image) ── */
+.holi-tpl4-hero {
+  width: 100%;
+  min-height: 220px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 18px 18px 0 0;
+  position: relative;
+}
+.holi-tpl4-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.6) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 20px 16px 22px;
+  border-radius: 18px 18px 0 0;
+}
+.holi-tpl4-overlay .fest-subtext {
+  margin-bottom: 0;
+}
+.holi-tpl4-content {
+  padding: 18px 28px 28px;
+}
+
+/* ── Template 5: Split (image left / text right) ── */
+.holi-tpl5-split {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+  margin-bottom: 14px;
+}
+.holi-tpl5-img-side {
+  flex: 0 0 45%;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+}
+.holi-tpl5-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  min-height: 180px;
+}
+.holi-tpl5-text-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+.holi-tpl5-text-side .fest-main-emoji {
+  text-align: left;
+  font-size: 2.2rem;
+  margin-bottom: 4px;
+}
+.holi-tpl5-text-side .fest-heading {
+  text-align: left;
+}
+.holi-tpl5-text-side .fest-subtext {
+  text-align: left;
+}
+.holi-tpl5-text-side .fest-recipient {
+  text-align: left;
+}
+
+/* ── Template 6: Framed (ornate frame at bottom) ── */
+.holi-tpl6-frame {
+  margin: 16px auto 10px;
+  width: 70%;
+  max-width: 240px;
+  padding: 6px;
+  background: linear-gradient(135deg, #ffd700 0%, #fff3cd 50%, #ffd700 100%);
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.holi-tpl6-frame-inner {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+.holi-tpl6-img {
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* ── Responsive for Holi templates ── */
+@media (max-width: 480px) {
+  .holi-tpl2-banner-img {
+    height: 160px;
+  }
+  .holi-tpl3-row {
+    flex-direction: column;
+    text-align: center;
+  }
+  .holi-tpl3-text {
+    text-align: center;
+  }
+  .holi-tpl4-hero {
+    min-height: 180px;
+  }
+  .holi-tpl5-split {
+    flex-direction: column;
+  }
+  .holi-tpl5-img-side {
+    flex: none;
+    width: 100%;
+  }
+  .holi-tpl5-img {
+    min-height: 150px;
+    max-height: 200px;
+  }
+  .holi-tpl5-text-side {
+    text-align: center;
+  }
+  .holi-tpl5-text-side .fest-main-emoji,
+  .holi-tpl5-text-side .fest-heading,
+  .holi-tpl5-text-side .fest-subtext,
+  .holi-tpl5-text-side .fest-recipient {
+    text-align: center;
+  }
+  .holi-tpl6-frame {
+    width: 80%;
+  }
+  .holi-tpl2-banner {
+    width: calc(100% + 32px);
+    margin: -24px -16px 0;
+  }
 }
 
 /* Subtext */
