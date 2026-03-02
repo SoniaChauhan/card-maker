@@ -564,7 +564,10 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1, bg
       <div id="wedding-card-print" className={`wedding-card wed-centered ${themeClass}`} style={customStyle}>
         <div className="wed-inner-frame" />
 
-
+        {/* ── Default couple image ── */}
+        <div className="wed-jaimala">
+          <img src="/default-wedding-couple.jpg" alt="Couple" className="wed-jaimala-img" />
+        </div>
 
         {/* ── Couple avatars ── */}
         <div className="wed-avatars">
@@ -702,7 +705,10 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1, bg
             तेनु सुपती प्राप्त
           </div>
 
-
+          {/* Default couple image */}
+          <div className="wed-jaimala">
+            <img src="/default-wedding-couple.jpg" alt="Couple" className="wed-jaimala-img" />
+          </div>
 
           {/* Couple Photo */}
           {photoPreview && (

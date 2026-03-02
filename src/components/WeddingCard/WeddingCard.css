@@ -133,6 +133,12 @@
   width: 140px;
   height: 128px;
 }
+.wed-jaimala-img {
+  width: 160px;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
 .wed-svg-stroke {
   stroke: #b8860b;
   fill: none;
