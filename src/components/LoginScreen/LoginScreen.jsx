@@ -340,10 +340,22 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
     'otp-login-verify': `Enter the OTP sent to ${maskEmail(email)}`,
   };
 
-  const cardTypes = [
-    { id: 'birthday',    icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',       grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)' },
-    { id: 'wedding',     icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',          grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
-    { id: 'anniversary', icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.',     grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
+  /* ═══ CARD CATEGORIES ═══ */
+  const PREMIUM_CARDS = [
+    { id: 'birthday',    icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',   grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)' },
+    { id: 'wedding',     icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
+    { id: 'anniversary', icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
+  ];
+
+  const FREE_CARDS = [
+    { id: 'holiwishes',    icon: '🌈', name: 'Happy Holi Wishes',  desc: 'Colorful Holi shayari cards — pick, customize colors & download instantly!', grad: 'linear-gradient(135deg, #ff6f91, #ffc75f)' },
+    { id: 'festivalcards', icon: '🎆', name: 'Festival Cards',     desc: 'Create festive cards for Diwali, Holi, Eid, Christmas and more.',             grad: 'linear-gradient(135deg, #fdcb6e, #e17055)' },
+  ];
+
+  const MORE_CARDS = [
+    { id: 'jagrata',  icon: '🪔', name: 'Jagrata Invite',   desc: 'Design serene and devotional invitations for Jagrata gatherings.',       grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
+    { id: 'resume',   icon: '📄', name: 'Resume Builder',   desc: 'Design a polished resume and download it instantly in PDF format.',      grad: 'linear-gradient(135deg, #38b2ac, #319795)' },
+    { id: 'biodata',  icon: '💍', name: 'Marriage Profile',  desc: 'Build a traditional and detailed marriage biodata with a clean layout.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
   ];
 
   /* ========== CARD CLICK — works for both logged-in and guest ========== */
@@ -361,7 +373,6 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
 
   const comingSoonCards = [
     /* Spiritual & Religious */
-    { icon: '🪔', name: 'Jagrata',            desc: 'Design serene and devotional invitations for Jagrata gatherings.',     grad: 'linear-gradient(135deg, #f857a6, #ff5858)' },
     { icon: '🙏', name: 'Satyanarayan Katha', desc: 'Create sacred invitations for Satyanarayan Katha pooja.',             grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
     { icon: '💃', name: 'Garba / Navratri',   desc: 'Colourful Garba and Navratri celebration invitation cards.',           grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
     /* Wedding Functions */
@@ -376,15 +387,12 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
     { icon: '🏠', name: 'Housewarming',       desc: 'Welcome guests to your new home with a warm invitation card.',        grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
     { icon: '🎓', name: 'Graduation / Farewell', desc: 'Celebrate academic milestones with stylish graduation invitations.', grad: 'linear-gradient(135deg, #667eea, #764ba2)' },
     /* Professional & Documents */
-    { icon: '📄', name: 'Resume Builder',     desc: 'Design a polished resume and download it instantly in PDF format.',   grad: 'linear-gradient(135deg, #38b2ac, #319795)' },
-    { icon: '💍', name: 'Marriage Profile',    desc: 'Build a traditional and detailed marriage biodata with a clean layout.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
     { icon: '🪪', name: 'Visiting Card',      desc: 'Design sleek and modern visiting cards for professionals.',           grad: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
     { icon: '📋', name: 'Business Docs',      desc: 'Create professional business documents and letterheads.',             grad: 'linear-gradient(135deg, #667eea, #764ba2)' },
     /* Greeting Cards */
     { icon: '🙏', name: 'Thank You',          desc: 'Express gratitude with elegant and heartfelt thank you cards.',       grad: 'linear-gradient(135deg, #fda085, #f6d365)' },
     { icon: '🎊', name: 'Congratulations',    desc: 'Celebrate achievements with vibrant congratulations cards.',          grad: 'linear-gradient(135deg, #f857a6, #ff5858)' },
     { icon: '🍀', name: 'Good Luck',          desc: 'Send warm good luck wishes with charming card designs.',              grad: 'linear-gradient(135deg, #43e97b, #38f9d7)' },
-    { icon: '🎆', name: 'Festival Cards',     desc: 'Create festive cards for Diwali, Holi, Eid, Christmas and more.',    grad: 'linear-gradient(135deg, #f9d423, #f7971e)' },
     /* Social Media */
     { icon: '💬', name: 'WhatsApp Invites',   desc: 'Create WhatsApp-optimised invitation cards ready to share.',          grad: 'linear-gradient(135deg, #43e97b, #38f9d7)' },
     { icon: '📸', name: 'Instagram Story Templates', desc: 'Design eye-catching Instagram story templates for events.',    grad: 'linear-gradient(135deg, #c471f5, #fa71cd)' },
@@ -473,7 +481,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
                 Create Beautiful Cards&nbsp;<span className="lp-accent">in Minutes</span>
               </h1>
               <p className="lp-hero-sub">
-                Birthday, Wedding &amp; Anniversary — stunning templates, easy customization, instant download. More cards coming soon!
+                Premium invite cards &amp; free greeting cards — stunning templates, easy customization, instant download!
               </p>
               <div className="lp-hero-actions">
                 <button className="lp-hero-cta" type="button" onClick={loginAsGuest}>
@@ -495,12 +503,50 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         </div>
       </section>
 
-      {/* ═══════ TEMPLATE SHOWCASE ═══════ */}
+      {/* ═══════ PREMIUM CARDS ═══════ */}
       <section className="lp-showcase">
-        <h2 className="lp-section-title">Choose Your Card Type</h2>
-        <p className="lp-section-sub">{user ? 'Click a card to start creating' : 'Click any card to start designing — no sign-up required'}</p>
+        <div className="lp-section-header">
+          <h2 className="lp-section-title">💎 Premium Cards</h2>
+          <span className="lp-section-price">₹29 per download</span>
+        </div>
+        <p className="lp-section-sub">Beautiful cards that need your details — fill the form, preview &amp; download</p>
         <div className="lp-showcase-grid">
-          {cardTypes.map(c => (
+          {PREMIUM_CARDS.map(c => (
+            <button key={c.id} className="lp-showcase-card lp-premium-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
+              <span className="lp-price-badge">₹29</span>
+              <span className="lp-showcase-icon">{c.icon}</span>
+              <h3 className="lp-showcase-name">{c.name}</h3>
+              <p className="lp-showcase-desc">{c.desc}</p>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══════ FREE CARDS ═══════ */}
+      <section className="lp-showcase lp-free-section">
+        <div className="lp-section-header">
+          <h2 className="lp-section-title">🎁 Free Instant Cards</h2>
+          <span className="lp-section-free-tag">100% FREE</span>
+        </div>
+        <p className="lp-section-sub">No form needed — just pick, customize colors &amp; download instantly!</p>
+        <div className="lp-showcase-grid lp-free-grid">
+          {FREE_CARDS.map(c => (
+            <button key={c.id} className="lp-showcase-card lp-free-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
+              <span className="lp-free-badge">FREE</span>
+              <span className="lp-showcase-icon">{c.icon}</span>
+              <h3 className="lp-showcase-name">{c.name}</h3>
+              <p className="lp-showcase-desc">{c.desc}</p>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══════ MORE CARD TYPES ═══════ */}
+      <section className="lp-showcase">
+        <h2 className="lp-section-title">📋 More Card Types</h2>
+        <p className="lp-section-sub">Professional documents &amp; spiritual invitations</p>
+        <div className="lp-showcase-grid">
+          {MORE_CARDS.map(c => (
             <button key={c.id} className="lp-showcase-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
               <span className="lp-showcase-icon">{c.icon}</span>
               <h3 className="lp-showcase-name">{c.name}</h3>

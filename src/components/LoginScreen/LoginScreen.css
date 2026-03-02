@@ -221,6 +221,102 @@
   text-shadow: 0 1px 2px rgba(0,0,0,.2);
 }
 
+/* ═══ Section header with title + tag ═══ */
+.lp-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+.lp-section-price {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffd700;
+  background: rgba(255, 215, 0, .12);
+  border: 1px solid rgba(255, 215, 0, .3);
+  padding: 3px 14px;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+.lp-section-free-tag {
+  font-size: 13px;
+  font-weight: 800;
+  color: #00e676;
+  background: rgba(0, 230, 118, .12);
+  border: 1px solid rgba(0, 230, 118, .3);
+  padding: 3px 14px;
+  border-radius: 50px;
+  white-space: nowrap;
+  letter-spacing: .5px;
+}
+
+/* ═══ Price badge on premium cards ═══ */
+.lp-price-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  padding: 4px 12px;
+  border-radius: 50px;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, .4);
+  letter-spacing: .3px;
+}
+
+/* ═══ Free badge on free cards ═══ */
+.lp-free-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #10b981, #059669);
+  padding: 4px 14px;
+  border-radius: 50px;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, .45);
+  letter-spacing: .5px;
+}
+
+/* ═══ Free section subtle highlight ═══ */
+.lp-free-section {
+  position: relative;
+  padding-top: 12px;
+}
+.lp-free-section::before {
+  content: '';
+  position: absolute;
+  inset: -8px -16px;
+  background: rgba(0, 230, 118, .04);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 230, 118, .08);
+  pointer-events: none;
+}
+.lp-free-grid {
+  grid-template-columns: repeat(2, 1fr) !important;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* ═══ Premium card glow ═══ */
+.lp-premium-card {
+  border: 1px solid rgba(255, 215, 0, .15);
+}
+
+/* ═══ Free card green glow ═══ */
+.lp-free-card {
+  border: 1px solid rgba(0, 230, 118, .2);
+}
+.lp-free-card:hover {
+  box-shadow: 0 16px 48px rgba(0, 230, 118, .25) !important;
+}
+
 /* Coming Soon section */
 .lp-coming-section {
   padding: 48px var(--lp-gutter) 56px;
