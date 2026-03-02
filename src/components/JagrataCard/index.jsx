@@ -8,7 +8,6 @@ import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import LanguagePicker from '../shared/LanguagePicker';
 import useDownload from '../../hooks/useDownload';
-import useAI from '../../hooks/useAI';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
@@ -30,12 +29,6 @@ export default function JagrataCard({ onBack, userEmail, initialData, templateId
   const { downloading, handleDownload, toast } = useDownload('jagrata-card-print', filename, {
     onSuccess: () => logDownload(userEmail, 'jagrata', 'Spiritual Event Invitation', dlTitle, filename, data).catch(() => {}),
   });
-
-  const { generating, aiError, generateWithAI } = useAI();
-  async function handleAIFill() {
-    const fields = await generateWithAI('jagrata', data);
-    if (fields) setData(d => ({ ...d, ...fields }));
-  }
 
   function onChange(e) {
     const { name, value } = e.target;
@@ -80,7 +73,7 @@ export default function JagrataCard({ onBack, userEmail, initialData, templateId
   }
 
   if (step === 'form') {
-    return <JagrataForm data={data} errors={errors} onChange={onChange} onBack={onBack} onGenerate={onGenerate} onAIFill={handleAIFill} aiGenerating={generating} aiError={aiError} />;
+    return <JagrataForm data={data} errors={errors} onChange={onChange} onBack={onBack} onGenerate={onGenerate} />;
   }
 
   return (

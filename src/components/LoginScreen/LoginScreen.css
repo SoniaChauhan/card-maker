@@ -1298,92 +1298,6 @@
 }
 .lp-profile-row span { font-size: 16px; }
 
-/* ═══════════════════════════════════════
-   AI MAGIC INPUT SECTION
-   ═══════════════════════════════════════ */
-.lp-magic {
-  padding: 48px var(--lp-gutter) 40px;
-  text-align: center;
-  background: linear-gradient(180deg, rgba(118, 75, 162, .08) 0%, transparent 100%);
-}
-.lp-magic-form {
-  max-width: 720px;
-  margin: 24px auto 0;
-}
-.lp-magic-input-wrap {
-  display: flex;
-  gap: 0;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 24px rgba(118, 75, 162, .20), 0 0 0 1px rgba(168, 130, 255, .25);
-  background: rgba(30, 20, 50, .85);
-}
-.lp-magic-input {
-  flex: 1;
-  padding: 16px 20px;
-  font-size: 15px;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: #fff;
-  font-family: inherit;
-}
-.lp-magic-input::placeholder { color: rgba(255, 255, 255, .35); }
-.lp-magic-input:disabled { opacity: .5; }
-.lp-magic-btn {
-  padding: 14px 28px;
-  font-size: 15px;
-  font-weight: 700;
-  border: none;
-  cursor: pointer;
-  background: linear-gradient(135deg, #a855f7, #7c3aed);
-  color: #fff;
-  font-family: inherit;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-  transition: opacity .2s;
-}
-.lp-magic-btn:hover:not(:disabled) { opacity: .9; }
-.lp-magic-btn:disabled { opacity: .5; cursor: not-allowed; }
-.lp-magic-error {
-  color: #ff6b6b;
-  font-size: 13px;
-  margin-top: 10px;
-}
-.lp-magic-examples {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  margin-top: 16px;
-  justify-content: center;
-}
-.lp-magic-eg-label {
-  font-size: 12px;
-  color: rgba(255, 255, 255, .4);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .5px;
-}
-.lp-magic-eg {
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 12px;
-  border: 1px solid rgba(168, 130, 255, .20);
-  background: rgba(168, 130, 255, .08);
-  color: #c4b0ff;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all .2s;
-  text-align: left;
-}
-.lp-magic-eg:hover {
-  background: rgba(168, 130, 255, .18);
-  border-color: rgba(168, 130, 255, .4);
-}
-
 /* ═══════════════════════ ═════════════
    TOPBAR + ACCOUNT RESPONSIVE
    ═══════════════════════════════════════ */
@@ -1415,24 +1329,5 @@
   .lp-auth-popup {
     max-width: 100%;
   }
-  .lp-magic-input-wrap {
-    flex-direction: column;
-    border-radius: 14px;
-  }
-  .lp-magic-btn {
-    justify-content: center;
-    padding: 14px;
-    border-radius: 0 0 14px 14px;
-  }
-  .lp-magic-input {
-    padding: 14px 16px;
-    font-size: 14px;
-  }
-  .lp-magic-examples {
-    gap: 6px;
-  }
-  .lp-magic-eg {
-    font-size: 11px;
-    padding: 5px 10px;
-  }
+
 }

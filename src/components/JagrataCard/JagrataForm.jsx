@@ -1,8 +1,7 @@
 import FormField from '../shared/FormField';
-import AIFillButton from '../shared/AIFillButton';
 import { RELIGIONS } from '../../utils/religionConfig';
 
-export default function JagrataForm({ data, errors, onChange, onBack, onGenerate, onAIFill, aiGenerating, aiError }) {
+export default function JagrataForm({ data, errors, onChange, onBack, onGenerate }) {
   const today = new Date().toISOString().split('T')[0];
   const selectedReligion = RELIGIONS.find(r => r.code === data.religion) || RELIGIONS[0];
   return (
@@ -63,8 +62,6 @@ export default function JagrataForm({ data, errors, onChange, onBack, onGenerate
           <FormField label="Prasad Info" name="prasad"
             value={data.prasad} onChange={onChange}
             placeholder="e.g. Panchamrit, Panjiri…" />
-
-          <AIFillButton onClick={onAIFill} generating={aiGenerating} error={aiError} />
 
           <FormField label="Personal Message / Blessings" name="message"
             value={data.message} onChange={onChange}

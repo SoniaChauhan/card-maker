@@ -14,7 +14,6 @@ import AdminPanel from '../AdminPanel/AdminPanel';
 import MyTemplates from '../MyTemplates/MyTemplates';
 import DownloadHistory from '../DownloadHistory/DownloadHistory';
 import Toast from '../shared/Toast';
-import useAI from '../../hooks/useAI';
 
 /*
   Modes:
@@ -28,7 +27,7 @@ import useAI from '../../hooks/useAI';
     otp-login-verify – Verify OTP for passwordless login
 */
 
-export default function LoginScreen({ onSelect, onEditTemplate, onMagicSelect }) {
+export default function LoginScreen({ onSelect, onEditTemplate }) {
   const { user, login, loginAsGuest, logout, isGuest, isFreePlan, isSuperAdmin } = useAuth();
 
   const [mode, setMode]           = useState('signin');
@@ -46,21 +45,6 @@ export default function LoginScreen({ onSelect, onEditTemplate, onMagicSelect })
   const [accountTab, setAccountTab] = useState(null); // null | 'profile' | 'templates' | 'downloads' | 'admin'
   const [toast, setToast]           = useState({ show: false, text: '' });
   const [showAuthPopup, setShowAuthPopup] = useState(false);
-
-  /* AI Magic Input state */
-  const [magicInput, setMagicInput] = useState('');
-  const { generating: magicLoading, aiError: magicError, magicGenerate } = useAI();
-
-  async function handleMagicSubmit(e) {
-    e.preventDefault();
-    if (!magicInput.trim() || magicLoading) return;
-    const result = await magicGenerate(magicInput.trim());
-    if (result && result.cardType && result.formData) {
-      if (!user) loginAsGuest();
-      onMagicSelect(result.cardType, result.formData);
-      setMagicInput('');
-    }
-  }
 
   function openAuthPopup(m = 'signin') { switchMode(m); setShowAuthPopup(true); }
   function closeAuthPopup() { setShowAuthPopup(false); resetForm(); }
@@ -509,38 +493,6 @@ export default function LoginScreen({ onSelect, onEditTemplate, onMagicSelect })
             <div className="lp-stat"><span className="lp-stat-num">5</span><span className="lp-stat-label">Languages</span></div>
           </div>
         </div>
-      </section>
-
-      {/* ═══════ AI MAGIC INPUT ═══════ */}
-      <section className="lp-magic">
-        <h2 className="lp-section-title">✨ AI Magic — Describe &amp; Create</h2>
-        <p className="lp-section-sub">Just tell AI what you need and it will pick the perfect card, template, colors &amp; text for you!</p>
-        <form className="lp-magic-form" onSubmit={handleMagicSubmit}>
-          <div className="lp-magic-input-wrap">
-            <input
-              className="lp-magic-input"
-              type="text"
-              placeholder='e.g. "Birthday party for my daughter Anya turning 7, pink theme, garden venue"'
-              value={magicInput}
-              onChange={e => setMagicInput(e.target.value)}
-              disabled={magicLoading}
-            />
-            <button className="lp-magic-btn" type="submit" disabled={magicLoading || !magicInput.trim()}>
-              {magicLoading ? <span className="ai-spinner" /> : '✨'} {magicLoading ? 'Creating…' : 'Create with AI'}
-            </button>
-          </div>
-          {magicError && <p className="lp-magic-error">⚠️ {magicError}</p>}
-          <div className="lp-magic-examples">
-            <span className="lp-magic-eg-label">Try:</span>
-            {[
-              'Wedding invite for Raj & Priya on 15th March at Grand Palace',
-              'Anniversary greeting for Mom & Dad, 25 years together',
-              'Resume for a software engineer with 3 years experience',
-            ].map((eg, i) => (
-              <button key={i} className="lp-magic-eg" type="button" onClick={() => setMagicInput(eg)}>{eg}</button>
-            ))}
-          </div>
-        </form>
       </section>
 
       {/* ═══════ TEMPLATE SHOWCASE ═══════ */}

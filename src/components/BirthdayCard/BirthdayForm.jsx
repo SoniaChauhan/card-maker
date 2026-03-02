@@ -1,7 +1,6 @@
 import FormField from '../shared/FormField';
-import AIFillButton from '../shared/AIFillButton';
 
-export default function BirthdayForm({ data, errors, onChange, onBack, onGenerate, onAIFill, aiGenerating, aiError }) {
+export default function BirthdayForm({ data, errors, onChange, onBack, onGenerate }) {
   const today = new Date().toISOString().split('T')[0];
   return (
     <div className="form-screen birthday-form-screen">
@@ -45,8 +44,6 @@ export default function BirthdayForm({ data, errors, onChange, onBack, onGenerat
           <FormField label="Venue Address" name="venueAddress"
             value={data.venueAddress} onChange={onChange}
             placeholder="Full address (optional)" />
-
-          <AIFillButton onClick={onAIFill} generating={aiGenerating} error={aiError} />
 
           <FormField label="Special Message / RSVP Note" name="message"
             value={data.message} onChange={onChange}

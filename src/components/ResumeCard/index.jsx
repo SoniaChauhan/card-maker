@@ -7,7 +7,6 @@ import CardActions from '../shared/CardActions';
 import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import usePdfDownload from '../../hooks/usePdfDownload';
-import useAI from '../../hooks/useAI';
 import { toFilename } from '../../utils/helpers';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
 import { logDownload } from '../../services/downloadHistoryService';
@@ -34,12 +33,6 @@ export default function ResumeCard({ onBack, userEmail, initialData, templateId:
   const { downloading, handleDownload, toast } = usePdfDownload('resume-card-print', filename, {
     onSuccess: () => logDownload(userEmail, 'resume', 'Professional Resume Builder', dlTitle, filename, data).catch(() => {}),
   });
-
-  const { generating, aiError, generateWithAI } = useAI();
-  async function handleAIFill() {
-    const fields = await generateWithAI('resume', data);
-    if (fields) setData(d => ({ ...d, ...fields }));
-  }
 
   function onChange(e) {
     const { name, value, files } = e.target;
@@ -94,9 +87,6 @@ export default function ResumeCard({ onBack, userEmail, initialData, templateId:
         onChange={onChange}
         onBack={onBack}
         onGenerate={onGenerate}
-        onAIFill={handleAIFill}
-        aiGenerating={generating}
-        aiError={aiError}
       />
     );
   }
