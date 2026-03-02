@@ -9,6 +9,7 @@ import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import LanguagePicker from '../shared/LanguagePicker';
 import AISuggestButton from '../shared/AISuggestButton';
+import AILayoutGallery from '../shared/AILayoutGallery';
 import useDownload from '../../hooks/useDownload';
 import useAI from '../../hooks/useAI';
 import { toFilename } from '../../utils/helpers';
@@ -16,7 +17,7 @@ import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
 import { logDownload } from '../../services/downloadHistoryService';
 
-const INIT = { partner1: '', partner2: '', years: '', date: '', message: '', photo: null, photoPreview: '', selectedTemplate: 1, bgColor: '' };
+const INIT = { partner1: '', partner2: '', years: '', date: '', message: '', photo: null, photoPreview: '', selectedTemplate: 1, bgColor: '', fontFamily: '', accentColor: '' };
 const PARTICLES = ['🌹', '💕', '❤️', '💍', '✨', '🌸', '💖', '🌺'];
 
 const BG_SWATCHES = [
@@ -40,6 +41,7 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
   const [saving, setSaving] = useState(false);
   const [templateId, setTemplateId] = useState(initTplId || null);
   const [showChooser, setShowChooser] = useState(false);
+  const [showGallery, setShowGallery] = useState(false);
 
   const filename = `anniversary-${toFilename(data.partner1 || 'card')}.png`;
   const dlTitle = data.partner1 && data.partner2 ? `${data.partner1} & ${data.partner2} Anniversary` : 'Anniversary Card';
@@ -125,6 +127,9 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
           <button className="btn-choose-template" onClick={() => setShowChooser(true)}>
             🎨 Change Design Template
           </button>
+          <button className="btn-choose-template btn-ai-gallery" onClick={() => setShowGallery(true)}>
+            ✨ AI Layout Gallery
+          </button>
         </div>
 
         <AISuggestButton
@@ -156,7 +161,7 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
         </div>
 
         <div className="card-wrapper screenshot-protected">
-          <AnniversaryCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} bgColor={data.bgColor} />
+          <AnniversaryCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} bgColor={data.bgColor} fontFamily={data.fontFamily} accentColor={data.accentColor} />
         </div>
         <CardActions
           onEdit={() => setStep('form')}
@@ -179,6 +184,17 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
           selected={data.selectedTemplate || 1}
           onSelect={id => setData(d => ({ ...d, selectedTemplate: id }))}
           onClose={() => setShowChooser(false)}
+        />
+      )}
+
+      {/* AI Layout Gallery */}
+      {showGallery && (
+        <AILayoutGallery
+          cardType="anniversary"
+          data={data}
+          currentLayout={{ template: data.selectedTemplate, bgColor: data.bgColor, fontFamily: data.fontFamily, accentColor: data.accentColor }}
+          onApply={layout => setData(d => ({ ...d, selectedTemplate: layout.template, bgColor: layout.bgColor, fontFamily: layout.fontFamily, accentColor: layout.accentColor }))}
+          onClose={() => setShowGallery(false)}
         />
       )}
     </div>

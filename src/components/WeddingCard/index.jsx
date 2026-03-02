@@ -10,6 +10,7 @@ import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import LanguagePicker from '../shared/LanguagePicker';
 import AISuggestButton from '../shared/AISuggestButton';
+import AILayoutGallery from '../shared/AILayoutGallery';
 import useDownload from '../../hooks/useDownload';
 import useAI from '../../hooks/useAI';
 import { toFilename } from '../../utils/helpers';
@@ -25,6 +26,8 @@ const INIT = {
   customPrograms: [],   // [{ name, date, time, venue }]
   selectedTemplate: 1,  // 1-7 template choice
   bgColor: '',          // custom background color
+  fontFamily: '',       // AI-chosen font
+  accentColor: '',      // AI-chosen accent color
 };
 const PARTICLES = ['🌸', '🪷', '✨', '🌺', '💐', '🎊', '🌟', '💖', '🪷', '✿'];
 
@@ -50,6 +53,7 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
   const [templateId, setTemplateId] = useState(initTplId || null);
   const [showChooser, setShowChooser] = useState(false);
   const [showSaved, setShowSaved]     = useState(false);
+  const [showGallery, setShowGallery] = useState(false);
 
   const filename = `wedding-${toFilename(data.groomName || 'invitation')}.png`;
   const dlTitle = data.groomName && data.brideName ? `${data.groomName} & ${data.brideName} Wedding` : 'Wedding Invite';
@@ -158,6 +162,9 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
           <button className="btn-saved-cards" onClick={() => setShowSaved(true)}>
             📋 My Saved Cards
           </button>
+          <button className="btn-choose-template btn-ai-gallery" onClick={() => setShowGallery(true)}>
+            ✨ AI Layout Gallery
+          </button>
         </div>
 
         <AISuggestButton
@@ -189,7 +196,7 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
         </div>
 
         <div className="card-wrapper screenshot-protected">
-          <WeddingCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} bgColor={data.bgColor} />
+          <WeddingCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} bgColor={data.bgColor} fontFamily={data.fontFamily} accentColor={data.accentColor} />
         </div>
         <CardActions
           onEdit={() => setStep('form')}
@@ -221,6 +228,17 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
           userEmail={userEmail}
           onLoadTemplate={handleLoadSavedTemplate}
           onClose={() => setShowSaved(false)}
+        />
+      )}
+
+      {/* AI Layout Gallery */}
+      {showGallery && (
+        <AILayoutGallery
+          cardType="wedding"
+          data={data}
+          currentLayout={{ template: data.selectedTemplate, bgColor: data.bgColor, fontFamily: data.fontFamily, accentColor: data.accentColor }}
+          onApply={layout => setData(d => ({ ...d, selectedTemplate: layout.template, bgColor: layout.bgColor, fontFamily: layout.fontFamily, accentColor: layout.accentColor }))}
+          onClose={() => setShowGallery(false)}
         />
       )}
     </div>

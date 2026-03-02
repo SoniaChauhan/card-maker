@@ -585,14 +585,18 @@ function AnimalBottomDecor() {
 }
 
 /* ─── Main Preview Component ─── */
-const BirthdayCardPreview = forwardRef(function BirthdayCardPreview({ data, lang, template = 1, bgColor }, ref) {
+const BirthdayCardPreview = forwardRef(function BirthdayCardPreview({ data, lang, template = 1, bgColor, fontFamily, accentColor }, ref) {
   const t = T[lang] || T.en;
   const tpl = template || 1;
   const themeClass = `bday-theme-${tpl}`;
-  const customBg = bgColor ? { background: bgColor } : {};
+  const customStyle = {
+    ...(bgColor ? { background: bgColor } : {}),
+    ...(fontFamily ? { '--card-font': `'${fontFamily}', sans-serif` } : {}),
+    ...(accentColor ? { '--card-accent': accentColor } : {}),
+  };
 
   return (
-    <div className={`bday-card ${themeClass}`} ref={ref} style={customBg}>
+    <div className={`bday-card ${themeClass}`} ref={ref} style={customStyle}>
 
       {/* Theme-specific top decoration */}
       {tpl === 1 && <SpaceTopDecor />}

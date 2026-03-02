@@ -152,6 +152,65 @@ Return ONLY valid JSON array, no markdown, no code blocks:
 }
 
 /* ══════════════════════════════════════════
+   MODE 4 — "layouts"  (AI Layout Gallery)
+   Generates 5 rich, named layout presets
+   ══════════════════════════════════════════ */
+function buildLayoutsPrompt(cardType, data) {
+  const templateInfo = {
+    birthday: {
+      range: '1-6',
+      themes: '1=Space Adventure (dark navy bg, yellow text, astronaut art), 2=Pastel Dreamy (soft pink/peach bg, floral), 3=Cute Stars (sky blue bg, sparkle), 4=Party Fun (violet/pink bg, confetti), 5=Sunshine Floral (warm ivory bg, sunflower art), 6=Animal Friends (soft mint bg, cartoon animals)',
+    },
+    wedding: {
+      range: '1-7',
+      themes: '1=Traditional Floral (ivory bg, gold borders, floral ornaments), 2=Rose Garden (blush pink bg, roses), 3=Modern Minimal (white bg, clean lines), 4=Royal Mandala (deep maroon bg, gold mandala art), 5=Rustic Vintage (parchment bg, botanical), 6=Divine Couple (centered, spiritual art), 7=Royal Frame (dark purple bg, ornate frame)',
+    },
+    anniversary: {
+      range: '1-5',
+      themes: '1=Royal Gold (deep navy bg, gold floral corners, vine borders), 2=Rose Gold (soft pink bg, rose gold accents), 3=Laurel Wreath (ivory bg, green laurel), 4=Mandala (purple bg, ornate mandala), 5=Modern Elegant (charcoal bg, minimal gold)',
+    },
+    jagrata: { range: '1', themes: '1=Spiritual Warm (orange/gold tones, devotional)' },
+    biodata: { range: '1', themes: '1=Traditional (floral border, formal layout)' },
+    resume: { range: '1', themes: '1=Professional (clean, modern layout)' },
+  };
+
+  const info = templateInfo[cardType] || templateInfo.birthday;
+
+  const availableFonts = [
+    'Playfair Display', 'Great Vibes', 'Lora', 'Dancing Script',
+    'Pacifico', 'Quicksand', 'Georgia', 'Poppins', 'Raleway',
+    'Montserrat', 'Cormorant Garamond', 'Merriweather', 'Cinzel',
+    'Josefin Sans', 'Sacramento', 'Satisfy', 'Lobster',
+  ];
+
+  const personName = data?.birthdayPerson || data?.groomName || data?.partner1 || data?.fullName || '';
+  const contextHint = personName ? ` The card is for "${personName}".` : '';
+
+  return `You are an expert card designer. Generate 5 COMPLETE and DISTINCT layout presets for a ${cardType} card.${contextHint}
+
+Available templates: ${info.range} — ${info.themes}
+Available fonts: ${availableFonts.join(', ')}
+
+For EACH layout, provide:
+- name: A catchy layout name (2-3 words, e.g. "Royal Gold Elegance", "Cute Confetti Blast")
+- description: One line describing the visual feel
+- template: A template number from ${info.range}
+- bgColor: A hex background color that complements the template theme, or "" for template default
+- accentColor: A hex accent color for highlights, borders, buttons
+- fontFamily: Pick a font from the list above that matches the mood
+- mood: One of: elegant, fun, traditional, modern, minimal, royal, romantic, spiritual, professional, playful
+
+Rules:
+- All 5 must be VISUALLY DIFFERENT (vary template, colors, fonts, mood)
+- Mix light and dark backgrounds
+- Ensure bgColor contrasts well with text
+- Pick fonts that match the mood (script fonts for romantic, sans-serif for modern, etc.)
+
+Return ONLY valid JSON array, no markdown, no code blocks:
+[{"name":"...","description":"...","template":1,"bgColor":"#...","accentColor":"#...","fontFamily":"...","mood":"..."},...]`;
+}
+
+/* ══════════════════════════════════════════
    Helper: call Gemini with auto-retry on 429
    ══════════════════════════════════════════ */
 async function callGemini(model, prompt, retries = 2) {
@@ -232,6 +291,18 @@ export async function POST(request) {
       text = text.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
       const suggestions = JSON.parse(text);
       return NextResponse.json({ suggestions });
+    }
+
+    /* ── MODE: layouts ── */
+    if (mode === 'layouts') {
+      const { cardType, data: cardData } = body;
+      if (!cardType) return NextResponse.json({ error: 'cardType is required.' }, { status: 400 });
+
+      const prompt = buildLayoutsPrompt(cardType, cardData || {});
+      let text = await callGemini(model, prompt);
+      text = text.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
+      const layouts = JSON.parse(text);
+      return NextResponse.json({ layouts });
     }
 
     /* ── MODE: text (default — existing Fill with AI) ── */

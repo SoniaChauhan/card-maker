@@ -538,7 +538,7 @@ function BottomOrnament() {
   );
 }
 
-export default function WeddingCardPreview({ data, lang = 'en', template = 1, bgColor }) {
+export default function WeddingCardPreview({ data, lang = 'en', template = 1, bgColor, fontFamily, accentColor }) {
   const t = T[lang];
   const {
     groomName, brideName, groomFamily, brideFamily,
@@ -551,13 +551,17 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1, bg
   const themeClass = `wed-theme-${template}`;
   const hasReception = receptionDate || receptionVenue;
   const validPrograms = customPrograms.filter(p => p.name && p.name.trim());
-  const customBg = bgColor ? { background: bgColor } : {};
+  const customStyle = {
+    ...(bgColor ? { background: bgColor } : {}),
+    ...(fontFamily ? { '--card-font': `'${fontFamily}', serif` } : {}),
+    ...(accentColor ? { '--card-accent': accentColor } : {}),
+  };
   const isCentered = template === 6 || template === 7;
 
   /* ── Centered layout for templates 6 & 7 ── */
   if (isCentered) {
     return (
-      <div id="wedding-card-print" className={`wedding-card wed-centered ${themeClass}`} style={customBg}>
+      <div id="wedding-card-print" className={`wedding-card wed-centered ${themeClass}`} style={customStyle}>
         <div className="wed-inner-frame" />
 
         {/* ── Divine couple art ── */}
@@ -685,7 +689,7 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1, bg
 
   /* ── Original two-column layout for templates 1–5 ── */
   return (
-    <div id="wedding-card-print" className={`wedding-card ${themeClass}`} style={customBg}>
+    <div id="wedding-card-print" className={`wedding-card ${themeClass}`} style={customStyle}>
 
       {/* ══ Inner border frame ══ */}
       <div className="wed-inner-frame" />

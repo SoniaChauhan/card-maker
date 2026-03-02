@@ -55,5 +55,13 @@ export default function useAI() {
     return json?.suggestions ?? null;
   }, [callAI]);
 
-  return { generating, aiError, generateWithAI, magicGenerate, suggestLayout };
+  /**
+   * MODE layouts — AI Layout Gallery (returns 5 rich layout presets)
+   */
+  const generateLayouts = useCallback(async (cardType, data) => {
+    const json = await callAI({ mode: 'layouts', cardType, data });
+    return json?.layouts ?? null;
+  }, [callAI]);
+
+  return { generating, aiError, generateWithAI, magicGenerate, suggestLayout, generateLayouts };
 }

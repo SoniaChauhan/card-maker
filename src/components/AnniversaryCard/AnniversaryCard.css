@@ -2,7 +2,7 @@
    Anniversary Greeting Card — Premium Redesign
    6 templates, background picker, elegant SVG decorations
 ============================================================ */
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Poppins:wght@400;600;700&family=Raleway:wght@400;600;700&family=Montserrat:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&family=Cinzel:wght@400;700&family=Merriweather:wght@400;700&display=swap');
 
 /* ── Form Screen ── */
 .anniversary-form-screen {
@@ -79,7 +79,7 @@
   align-items: center;
   text-align: center;
   overflow: hidden;
-  font-family: 'Lora', Georgia, serif;
+  font-family: var(--card-font, 'Lora', Georgia, serif);
 }
 
 /* Inner gold border (for template 1) */

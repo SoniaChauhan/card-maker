@@ -170,18 +170,22 @@ function SwirlDecor() {
    MAIN PREVIEW COMPONENT
    ═══════════════════════════════════════════════════ */
 const AnniversaryCardPreview = forwardRef(function AnniversaryCardPreview(
-  { data, lang = 'en', template = 1, bgColor },
+  { data, lang = 'en', template = 1, bgColor, fontFamily, accentColor },
   ref
 ) {
   const t = T[lang] || T.en;
   const tpl = template || 1;
   const themeClass = `anniv-theme-${tpl}`;
-  const customBg = bgColor ? { background: bgColor } : {};
+  const customStyle = {
+    ...(bgColor ? { background: bgColor } : {}),
+    ...(fontFamily ? { '--card-font': `'${fontFamily}', serif` } : {}),
+    ...(accentColor ? { '--card-accent': accentColor } : {}),
+  };
 
   const { partner1, partner2, years, date, message, photoPreview } = data;
 
   return (
-    <div id="anniv-card-print" className={`anniv-card ${themeClass}`} ref={ref} style={customBg}>
+    <div id="anniv-card-print" className={`anniv-card ${themeClass}`} ref={ref} style={customStyle}>
 
       {/* Template-specific top decorations */}
       {tpl === 1 && (
