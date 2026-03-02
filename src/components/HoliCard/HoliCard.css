@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════
-   HOLI CARD — One-click downloadable greeting
+   HOLI SHAYARI CARDS — Grid of downloadable cards
    ══════════════════════════════════════════════════════ */
 
 /* ── Screen ── */
@@ -13,158 +13,197 @@
   background: linear-gradient(135deg, #ff6f91 0%, #a29bfe 50%, #ffc75f 100%);
   overflow: hidden;
 }
-.holi-screen-container {
+.holi-container {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 480px;
+  max-width: 900px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.holi-screen-title {
-  font-size: 1.6rem;
+.holi-title {
+  font-size: 1.7rem;
   font-weight: 800;
   text-align: center;
   color: #fff;
-  margin-bottom: 4px;
+  margin: 0 0 4px;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
 }
-.holi-screen-subtitle {
+.holi-subtitle {
   font-size: 0.92rem;
   color: #fff;
   opacity: 0.85;
   text-align: center;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
-/* ── Card ── */
-.holi-card {
-  position: relative;
-  width: 100%;
-  max-width: 420px;
-  background: linear-gradient(160deg, #fffde7 0%, #fff9c4 30%, #fff8e1 60%, #fce4ec 100%);
-  border-radius: 20px;
-  padding: 30px 24px 26px;
-  text-align: center;
-  overflow: hidden;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-  font-family: 'Noto Sans Devanagari', 'Georgia', serif;
+/* ── Color pickers ── */
+.holi-pickers {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
 }
-
-/* Inner border */
-.holi-inner-frame {
-  position: absolute;
-  inset: 8px;
-  border: 2px dashed rgba(168, 85, 247, 0.25);
-  border-radius: 16px;
-  pointer-events: none;
+.holi-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
 }
-
-/* Splash SVGs */
-.holi-splash-top,
-.holi-splash-bottom {
-  width: 100%;
-  height: auto;
-  display: block;
+.holi-picker input[type="color"] {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #fff6;
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+  background: none;
 }
-.holi-splash-bottom {
-  margin-top: 10px;
-  opacity: 0.7;
-}
-
-/* Big emoji */
-.holi-big-emoji {
-  font-size: 3.2rem;
-  margin: 4px 0 2px;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.1));
-}
-
-/* Heading — colorful letters */
-.holi-heading {
-  font-size: 2rem;
-  font-weight: 900;
-  margin: 0 0 2px;
-  line-height: 1.2;
-  letter-spacing: 2px;
-}
-.holi-h-letter {
-  display: inline-block;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-.holi-h-space {
-  display: inline-block;
-  width: 10px;
-}
-
-/* Sub-heading (Hindi) */
-.holi-subheading {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #6c5ce7;
-  margin-bottom: 10px;
-  letter-spacing: 1px;
-}
-
-/* Divider */
-.holi-divider {
+.holi-rst {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #fff6;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 0.8rem;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  margin: 10px auto 14px;
+  padding: 0;
 }
-.holi-div-dot {
-  width: 8px;
-  height: 8px;
+
+/* ── Grid ── */
+.holi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+.holi-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Individual card ── */
+.holi-card {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  padding: 28px 20px 22px;
+  text-align: center;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  font-family: 'Noto Sans Devanagari', 'Georgia', serif;
+  transition: transform 0.2s;
+}
+.holi-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Double border */
+.holi-border-outer {
+  position: absolute;
+  inset: 6px;
+  border: 2.5px solid rgba(168, 85, 247, 0.3);
+  border-radius: 13px;
+  pointer-events: none;
+}
+.holi-border-inner {
+  position: absolute;
+  inset: 12px;
+  border: 1.5px dashed rgba(255, 107, 107, 0.3);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* Category emoji */
+.holi-cat {
+  font-size: 1.6rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Card heading */
+.holi-card-h {
+  font-size: 1.25rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #ff6f91, #ffc75f, #a29bfe, #55efc4, #fd79a8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 2px;
+}
+
+/* Hindi subheading */
+.holi-card-sub {
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.7;
+  margin-bottom: 10px;
+}
+
+/* Shayari text */
+.holi-shayari {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  white-space: pre-line;
+  margin: 0 auto 12px;
+  max-width: 220px;
+  font-style: italic;
+}
+
+/* Decorative dots */
+.holi-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.holi-dots span {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   display: inline-block;
-}
-.holi-div-line {
-  width: 50px;
-  height: 2px;
-  background: linear-gradient(90deg, #ff6f91, #a29bfe, #55efc4);
-  border-radius: 2px;
+  opacity: 0.7;
 }
 
-/* Message */
-.holi-message {
-  font-size: 0.92rem;
-  line-height: 1.75;
-  color: #444;
-  max-width: 360px;
-  margin: 0 auto;
-  text-align: center;
-}
-.holi-message p {
-  margin: 0 0 10px;
-}
-.holi-message-closing {
+/* ── Download button per card ── */
+.holi-dl {
+  margin-top: 10px;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ff6b6b, #feca57);
+  color: #fff;
   font-weight: 700;
-  font-size: 1rem;
-  color: #6c5ce7;
-  margin-top: 6px;
+  font-size: 0.88rem;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(255, 107, 107, 0.4);
+  transition: all 0.2s;
+}
+.holi-dl:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(255, 107, 107, 0.5);
+}
+.holi-dl:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
-/* Art SVG */
-.holi-art-svg {
-  width: 80%;
-  max-width: 280px;
-  height: auto;
-  margin: 10px auto 4px;
-  display: block;
-}
-
-/* ── Action buttons ── */
-.holi-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin-top: 18px;
-  flex-wrap: wrap;
+/* ── Back button ── */
+.holi-back-wrap {
+  margin-top: 28px;
 }
 .holi-btn-back {
-  padding: 10px 22px;
+  padding: 10px 26px;
   border: 2px solid #fff;
   border-radius: 12px;
   background: transparent;
@@ -177,41 +216,25 @@
 .holi-btn-back:hover {
   background: rgba(255, 255, 255, 0.15);
 }
-.holi-btn-download {
-  padding: 12px 28px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #ff6b6b, #feca57);
-  color: #fff;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.45);
-  transition: all 0.2s;
-}
-.holi-btn-download:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(255, 107, 107, 0.55);
-}
-.holi-btn-download:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  transform: none;
-}
 
 /* ── Responsive ── */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
+  .holi-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+  }
   .holi-card {
-    padding: 22px 16px 20px;
-    border-radius: 16px;
+    padding: 22px 14px 18px;
   }
-  .holi-heading {
-    font-size: 1.6rem;
+  .holi-card-h {
+    font-size: 1.1rem;
   }
-  .holi-big-emoji {
-    font-size: 2.6rem;
-  }
-  .holi-message {
+  .holi-shayari {
     font-size: 0.85rem;
+  }
+}
+@media (max-width: 400px) {
+  .holi-grid {
+    grid-template-columns: 1fr;
   }
 }
