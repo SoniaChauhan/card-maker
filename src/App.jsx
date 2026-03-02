@@ -15,6 +15,7 @@ function AppContent() {
   const { user, loading, isGuest } = useAuth();
   const [selected, setSelected] = useState(null);
   const [editingTemplate, setEditingTemplate] = useState(null);
+  const [aiMagicData, setAiMagicData] = useState(null);
 
   /* Activate screenshot protection globally */
   useScreenshotProtection();
@@ -32,7 +33,7 @@ function AppContent() {
     );
 
   /* ---------- card screens ---------- */
-  function handleBack() { setSelected(null); setEditingTemplate(null); }
+  function handleBack() { setSelected(null); setEditingTemplate(null); setAiMagicData(null); }
 
   /** Called from MyTemplates when user clicks "Edit & Generate" */
   function handleEditTemplate(tpl) {
@@ -40,12 +41,22 @@ function AppContent() {
     setSelected(tpl.cardType);
   }
 
+  /** Called from AI Magic Input — auto-select card + prefill data */
+  function handleMagicSelect(cardType, formData) {
+    setAiMagicData(formData);
+    setSelected(cardType);
+  }
+
   if (selected && user) {
+    const initData = editingTemplate
+      ? editingTemplate.formData
+      : aiMagicData || undefined;
+
     const cardProps = {
       onBack: handleBack,
       userEmail: isGuest ? '' : user.email,
       isSuperAdmin: !isGuest && isAdmin(user.email),
-      ...(editingTemplate ? { initialData: editingTemplate.formData, templateId: editingTemplate.id } : {}),
+      ...(editingTemplate ? { initialData: initData, templateId: editingTemplate.id } : initData ? { initialData: initData } : {}),
     };
 
     if (selected === 'birthday')    return <BirthdayCard    {...cardProps} />;
@@ -57,7 +68,7 @@ function AppContent() {
   }
 
   /* ---------- Landing page — handles both logged-in and not-logged-in ---------- */
-  return <LoginScreen onSelect={setSelected} onEditTemplate={handleEditTemplate} />;
+  return <LoginScreen onSelect={setSelected} onEditTemplate={handleEditTemplate} onMagicSelect={handleMagicSelect} />;
 }
 
 export default function App() {

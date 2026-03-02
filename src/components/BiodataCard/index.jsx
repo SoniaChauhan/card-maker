@@ -8,6 +8,7 @@ import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import LanguagePicker from '../shared/LanguagePicker';
 import useDownload from '../../hooks/useDownload';
+import useAI from '../../hooks/useAI';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
@@ -68,6 +69,12 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
     onSuccess: () => logDownload(userEmail, 'biodata', 'Marriage Profile Card', dlTitle, filename, data).catch(() => {}),
   });
 
+  const { generating, aiError, generateWithAI } = useAI();
+  async function handleAIFill() {
+    const fields = await generateWithAI('biodata', data);
+    if (fields) setData(d => ({ ...d, ...fields }));
+  }
+
   function onChange(e) {
     const { name, value, files } = e.target;
     if (name === 'photo' && files && files[0]) {
@@ -125,6 +132,9 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
         onChange={onChange}
         onBack={onBack}
         onGenerate={onGenerate}
+        onAIFill={handleAIFill}
+        aiGenerating={generating}
+        aiError={aiError}
       />
     );
   }

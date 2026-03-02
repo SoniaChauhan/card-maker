@@ -8,6 +8,7 @@ import CardActions from '../shared/CardActions';
 import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import LanguagePicker from '../shared/LanguagePicker';
+import AISuggestButton from '../shared/AISuggestButton';
 import useDownload from '../../hooks/useDownload';
 import useAI from '../../hooks/useAI';
 import { toFilename } from '../../utils/helpers';
@@ -125,6 +126,13 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
             🎨 Change Design Template
           </button>
         </div>
+
+        <AISuggestButton
+          cardType="anniversary"
+          currentTemplate={data.selectedTemplate}
+          currentBgColor={data.bgColor}
+          onApply={({ template, bgColor }) => setData(d => ({ ...d, selectedTemplate: template, bgColor }))}
+        />
 
         {/* Background Color Picker */}
         <div className="anniv-bg-picker">
