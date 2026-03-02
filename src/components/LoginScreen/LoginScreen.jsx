@@ -342,14 +342,14 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
 
   /* ═══ CARD CATEGORIES ═══ */
   const PREMIUM_CARDS = [
-    { id: 'birthday',    icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',   grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)' },
-    { id: 'wedding',     icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
-    { id: 'anniversary', icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
+    { id: 'birthday',      icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',   grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)' },
+    { id: 'wedding',       icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
+    { id: 'anniversary',   icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
+    { id: 'festivalcards', icon: '🎆', name: 'Festival Cards',               desc: 'Create festive cards for Diwali, Holi, Eid, Christmas and more.',        grad: 'linear-gradient(135deg, #fdcb6e, #e17055)' },
   ];
 
   const FREE_CARDS = [
-    { id: 'holiwishes',    icon: '🌈', name: 'Happy Holi Wishes',  desc: 'Colorful Holi shayari cards — pick, customize colors & download instantly!', grad: 'linear-gradient(135deg, #ff6f91, #ffc75f)' },
-    { id: 'festivalcards', icon: '🎆', name: 'Festival Cards',     desc: 'Create festive cards for Diwali, Holi, Eid, Christmas and more.',             grad: 'linear-gradient(135deg, #fdcb6e, #e17055)' },
+    { id: 'holiwishes', icon: '🌈', name: 'Happy Holi Wishes', desc: 'Colorful Holi shayari cards — pick, customize colors & download instantly!', grad: 'linear-gradient(135deg, #ff6f91, #ffc75f)' },
   ];
 
 
