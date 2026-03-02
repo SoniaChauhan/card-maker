@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" rx="0"/>
+  <text x="600" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#fff">🎨 Card Maker</text>
+  <text x="600" y="310" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" fill="rgba(255,255,255,0.9)">Create Beautiful Cards Online — Free &amp; Premium</text>
+  <text x="600" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.7)">Birthday • Wedding • Anniversary • Holi Wishes • Festival Cards</text>
+  <text x="600" y="480" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="rgba(255,255,255,0.6)">A product of Creative Thinker Design Hub</text>
+</svg>
