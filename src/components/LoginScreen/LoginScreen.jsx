@@ -343,9 +343,9 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   /* ═══ CARD CATEGORIES ═══ */
   const PREMIUM_CARDS = [
     { id: 'birthday',      icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',   grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)', price: '₹49' },
-    { id: 'wedding',       icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)', price: '₹99' },
+    { id: 'wedding',       icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)', price: '₹49' },
     { id: 'anniversary',   icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)', price: '₹49' },
-    { id: 'festivalcards', icon: '🎆', name: 'Festival Cards',               desc: 'Create festive cards for Diwali, Holi, Eid, Christmas and more.',        grad: 'linear-gradient(135deg, #fdcb6e, #e17055)', price: 'FREE' },
+    { id: 'festivalcards', icon: '🎆', name: 'Festival Cards',               desc: 'Create festive cards for Diwali, Holi, Eid, Christmas and more.',        grad: 'linear-gradient(135deg, #fdcb6e, #e17055)', price: '₹49' },
   ];
 
   const FREE_CARDS = [
@@ -857,7 +857,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
           </details>
           <details className="lp-faq-item">
             <summary>Is Card Maker free to use?</summary>
-            <p>Yes! Holi wishes cards (Hindi &amp; English) and festival cards are 100% free — no sign-up required. Premium card designers like birthday, wedding, and anniversary are available at affordable prices starting from ₹49.</p>
+            <p>Yes! Holi wishes cards (Hindi &amp; English) are 100% free — no sign-up required. Premium card designers like birthday, wedding, anniversary, and festival cards are available at affordable prices starting from ₹49.</p>
           </details>
           <details className="lp-faq-item">
             <summary>Do I need to sign up to download cards?</summary>

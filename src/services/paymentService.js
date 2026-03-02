@@ -10,7 +10,7 @@ export const CARD_PRICES = {
   anniversary:     49,
   jagrata:         49,
   biodata:         99,
-  wedding:         99,
+  wedding:         49,
   resume:          79,
   babyshower:      49,
   namingceremony:  49,
@@ -28,7 +28,7 @@ export const CARD_PRICES = {
   thankyou:        29,
   congratulations: 29,
   goodluck:        29,
-  festivalcards:   0,   // free
+  festivalcards:   49,
   whatsappinvites: 29,
   instagramstory:  29,
   socialevent:     29,
@@ -38,7 +38,7 @@ export const CARD_PRICES = {
 
 /** Card types that are FREE (no watermark, no payment) */
 export const FREE_CARDS = new Set([
-  'festivalcards', 'holiwishes', 'holiwishes-en',
+  'holiwishes', 'holiwishes-en',
 ]);
 
 /** Check if this card type requires payment */

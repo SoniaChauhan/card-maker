@@ -119,9 +119,9 @@ export default function RootLayout({ children }) {
                   { '@type': 'Offer', name: 'Happy Holi Wishes – Hindi', price: '0', priceCurrency: 'INR' },
                   { '@type': 'Offer', name: 'Happy Holi Wishes – English', price: '0', priceCurrency: 'INR' },
                   { '@type': 'Offer', name: 'Birthday Invitation Designer', price: '49', priceCurrency: 'INR' },
-                  { '@type': 'Offer', name: 'Wedding Card Designer', price: '99', priceCurrency: 'INR' },
+                  { '@type': 'Offer', name: 'Wedding Card Designer', price: '49', priceCurrency: 'INR' },
                   { '@type': 'Offer', name: 'Anniversary Card Designer', price: '49', priceCurrency: 'INR' },
-                  { '@type': 'Offer', name: 'Festival Card Designer', price: '0', priceCurrency: 'INR' },
+                  { '@type': 'Offer', name: 'Festival Card Designer', price: '49', priceCurrency: 'INR' },
                   { '@type': 'Offer', name: 'Resume Builder', price: '79', priceCurrency: 'INR' },
                   { '@type': 'Offer', name: 'Marriage Biodata Maker', price: '99', priceCurrency: 'INR' },
                 ],
@@ -155,7 +155,7 @@ export default function RootLayout({ children }) {
                   name: 'Is Card Maker free to use?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Yes! Holi wishes cards (Hindi & English) and festival cards are 100% free — no sign-up required. Premium card designers like birthday (₹49), wedding (₹99), and anniversary (₹49) are affordably priced.',
+                    text: 'Yes! Holi wishes cards (Hindi & English) are 100% free — no sign-up required. Premium card designers like birthday (₹49), wedding (₹49), anniversary (₹49), and festival cards (₹49) are affordably priced.',
                   },
                 },
                 {
