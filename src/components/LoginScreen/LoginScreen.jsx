@@ -342,10 +342,10 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
 
   /* ═══ CARD CATEGORIES ═══ */
   const PREMIUM_CARDS = [
-    { id: 'birthday',      icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',   grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)' },
-    { id: 'wedding',       icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
-    { id: 'anniversary',   icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
-    { id: 'festivalcards', icon: '🎆', name: 'Festival Cards',               desc: 'Create festive cards for Diwali, Holi, Eid, Christmas and more.',        grad: 'linear-gradient(135deg, #fdcb6e, #e17055)' },
+    { id: 'birthday',      icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',   grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)', price: '₹49' },
+    { id: 'wedding',       icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)', price: '₹99' },
+    { id: 'anniversary',   icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)', price: '₹49' },
+    { id: 'festivalcards', icon: '🎆', name: 'Festival Cards',               desc: 'Create festive cards for Diwali, Holi, Eid, Christmas and more.',        grad: 'linear-gradient(135deg, #fdcb6e, #e17055)', price: 'FREE' },
   ];
 
   const FREE_CARDS = [
@@ -479,10 +479,10 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
           ) : (
             <>
               <h1 className="lp-hero-title">
-                Create Beautiful Cards&nbsp;<span className="lp-accent">in Minutes</span>
+                Create Beautiful Cards <span className="lp-accent">in Minutes</span> — Free &amp; Premium Templates
               </h1>
               <p className="lp-hero-sub">
-                Premium invite cards &amp; free greeting cards — stunning templates, easy customization, instant download!
+                Design stunning invitation cards &amp; greeting cards online. Free templates for birthdays, weddings, festivals like Holi &amp; Diwali. Customizable designs, instant download!
               </p>
             </>
           )}
@@ -520,13 +520,13 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
       <section className="lp-showcase">
         <div className="lp-section-header">
           <h2 className="lp-section-title">✨ Premium Card Designers</h2>
-          <span className="lp-section-price">₹29 per download</span>
+          <span className="lp-section-price">Starting from ₹49</span>
         </div>
         <p className="lp-section-sub">Beautiful cards that need your details — fill the form, preview &amp; download</p>
         <div className="lp-showcase-grid">
           {PREMIUM_CARDS.map(c => (
             <button key={c.id} className="lp-showcase-card lp-premium-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
-              <span className="lp-price-badge">₹29</span>
+              <span className="lp-price-badge">{c.price}</span>
               <span className="lp-showcase-icon">{c.icon}</span>
               <h3 className="lp-showcase-name">{c.name}</h3>
               <p className="lp-showcase-desc">{c.desc}</p>
@@ -535,9 +535,37 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         </div>
       </section>
 
+      {/* ═══════ HOW IT WORKS ═══════ */}
+      <section className="lp-how-it-works">
+        <h2 className="lp-section-title">📋 How It Works</h2>
+        <p className="lp-section-sub">Create stunning cards in 4 simple steps</p>
+        <div className="lp-steps-grid">
+          <div className="lp-step">
+            <span className="lp-step-num">1</span>
+            <h3>Choose a Template</h3>
+            <p>Browse our collection of 50+ professionally designed templates for every occasion.</p>
+          </div>
+          <div className="lp-step">
+            <span className="lp-step-num">2</span>
+            <h3>Customize Your Card</h3>
+            <p>Add your text, photos, choose colors and fonts. Live preview as you type!</p>
+          </div>
+          <div className="lp-step">
+            <span className="lp-step-num">3</span>
+            <h3>Preview Your Design</h3>
+            <p>See exactly how your card looks before downloading. Make any final adjustments.</p>
+          </div>
+          <div className="lp-step">
+            <span className="lp-step-num">4</span>
+            <h3>Download Instantly</h3>
+            <p>Download your card as high-quality PNG or PDF. Share via WhatsApp, print, or email!</p>
+          </div>
+        </div>
+      </section>
+
       {/* ═══════ WHY CARD MAKER ═══════ */}
       <section className="lp-proof">
-        <h2 className="lp-section-title">Simple, Fast &amp; User‑Friendly</h2>
+        <h2 className="lp-section-title">Why Choose Card Maker?</h2>
         <p className="lp-section-sub">Made for everyone — from first‑time users to designers</p>
         <p className="lp-brand-line">Card Maker is a product of <strong>Creative Thinker Design Hub</strong>.</p>
         <div className="lp-highlights">
@@ -793,6 +821,64 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
               {fbMsg && <div className={`login-fb-msg ${fbMsg.startsWith('✅') ? 'success' : 'warn'}`}>{fbMsg}</div>}
             </form>
           </div>
+        </div>
+      </section>
+
+      {/* ═══════ ABOUT CARD MAKER ═══════ */}
+      <section className="lp-about">
+        <h2 className="lp-section-title">📖 About Card Maker</h2>
+        <div className="lp-about-content">
+          <p>
+            <strong>Card Maker</strong> helps you design birthday invitations, wedding cards, anniversary greetings,
+            festival greeting cards, and professional documents like resumes and marriage biodata — all online.
+            With 50+ ready-made templates in <strong>Hindi, English, Punjabi, and Gujarati</strong>, anyone can
+            create and download beautiful cards instantly.
+          </p>
+          <p>
+            Whether you need a free Holi wishes card or a premium wedding invitation, Card Maker has you covered.
+            Our easy-to-use editor lets you customize text, colors, photos, and fonts with a live preview.
+            Download in high-quality PNG or PDF format — ready to print or share on WhatsApp!
+          </p>
+          <p>
+            Built by <strong>Creative Thinker Design Hub</strong> in India, Card Maker is trusted by thousands
+            of users for creating professional-quality cards without any design skills.
+          </p>
+        </div>
+      </section>
+
+      {/* ═══════ FAQ SECTION ═══════ */}
+      <section className="lp-faq">
+        <h2 className="lp-section-title">❓ Frequently Asked Questions</h2>
+        <p className="lp-section-sub">Quick answers about Card Maker</p>
+        <div className="lp-faq-list">
+          <details className="lp-faq-item">
+            <summary>How can I create a card online?</summary>
+            <p>Simply visit Card Maker, choose a template (birthday, wedding, anniversary, etc.), customize it with your text and photos, preview, and download instantly. No software installation needed!</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary>Is Card Maker free to use?</summary>
+            <p>Yes! Holi wishes cards (Hindi &amp; English) and festival cards are 100% free — no sign-up required. Premium card designers like birthday, wedding, and anniversary are available at affordable prices starting from ₹49.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary>Do I need to sign up to download cards?</summary>
+            <p>No! Free cards like Holi wishes can be downloaded without signing up. For premium cards, you can use them as a guest or create an account to save your templates and download history.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary>Do you support Hindi and English templates?</summary>
+            <p>Yes! Card Maker supports multiple languages including Hindi, English, Punjabi, and Gujarati. Holi wishes are available in both Hindi (50+ shayaris) and English (47 messages).</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary>What types of cards can I create?</summary>
+            <p>You can create Birthday Invitations, Wedding Cards, Anniversary Greetings, Holi Wishes, Festival Cards, Marriage Biodata, Professional Resumes, Jagrata Invitations, and many more. New card types are added regularly!</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary>Can I download cards as PDF?</summary>
+            <p>Yes! Resumes and biodata can be downloaded as PDF files. Invitation cards and greeting cards are downloaded as high-quality PNG images that are perfect for printing and sharing.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary>Is Card Maker available on mobile?</summary>
+            <p>Absolutely! Card Maker works on all devices — desktop, tablet, and mobile phones. The interface is fully responsive and optimised for touch screens.</p>
+          </details>
         </div>
       </section>
 

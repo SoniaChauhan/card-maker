@@ -401,7 +401,7 @@ export default function FestivalCardPreview({ data, lang = 'en', bgColor }) {
       {/* Photo */}
       {photoPreview && (
         <div className="fest-photo-wrap">
-          <img src={photoPreview} alt="Festival" className="fest-photo" />
+          <img src={photoPreview} alt="Festival greeting card design - Diwali Holi Eid Christmas card maker" className="fest-photo" loading="lazy" />
         </div>
       )}
 

@@ -627,7 +627,7 @@ const BirthdayCardPreview = forwardRef(function BirthdayCardPreview({ data, lang
       {/* Photo */}
       {(data.photoPreview || (typeof data.photo === 'string' && data.photo)) && (
         <div className="bday-photo-frame">
-          <img className="bday-photo" src={data.photoPreview || data.photo} alt="" />
+          <img className="bday-photo" src={data.photoPreview || data.photo} alt="Birthday invitation card photo - online birthday card maker" loading="lazy" />
         </div>
       )}
 

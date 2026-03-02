@@ -65,7 +65,7 @@ export default function ResumeForm({ data, errors, onChange, onBack, onGenerate 
             </label>
             <input type="file" id="resume-photo" name="photo" accept="image/*" onChange={onChange} />
             {data.photoPreview && (
-              <img src={data.photoPreview} alt="Preview" className="card-photo-preview card-photo-preview--circle" />
+              <img src={data.photoPreview} alt="Resume builder photo preview - professional resume maker" className="card-photo-preview card-photo-preview--circle" loading="lazy" />
             )}
           </div>
         </div>

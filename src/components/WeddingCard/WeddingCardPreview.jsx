@@ -566,7 +566,7 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1, bg
 
         {/* ── Default couple image ── */}
         <div className="wed-jaimala">
-          <img src="/default-wedding-couple.jpg" alt="Couple" className="wed-jaimala-img" />
+          <img src="/default-wedding-couple.jpg" alt="Wedding invitation card couple photo - online wedding card maker" className="wed-jaimala-img" loading="lazy" />
         </div>
 
         {/* ── Couple avatars ── */}
@@ -589,7 +589,7 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1, bg
         {photoPreview && (
           <div className="wed-photo-wrap wed-photo-center">
             <div className="wed-photo-frame">
-              <img src={photoPreview} alt="Couple" className="wed-photo" />
+              <img src={photoPreview} alt="Custom wedding invitation couple photo" className="wed-photo" loading="lazy" />
             </div>
           </div>
         )}
@@ -707,7 +707,7 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1, bg
 
           {/* Default couple image */}
           <div className="wed-jaimala">
-            <img src="/default-wedding-couple.jpg" alt="Couple" className="wed-jaimala-img" />
+            <img src="/default-wedding-couple.jpg" alt="Royal wedding card design with couple - marriage invitation maker" className="wed-jaimala-img" loading="lazy" />
           </div>
 
           {/* Couple Photo */}
@@ -715,7 +715,7 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1, bg
             <div className="wed-photo-wrap">
               {template === 3 && <PhotoWreath />}
               <div className="wed-photo-frame">
-                <img src={photoPreview} alt="Couple" className="wed-photo" />
+                <img src={photoPreview} alt="Wedding card couple photo - personalised marriage invitation" className="wed-photo" loading="lazy" />
               </div>
             </div>
           )}

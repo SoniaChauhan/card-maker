@@ -12,7 +12,7 @@ export default function ResumeCardPreview({ data }) {
 
       {/* ---- Header ---- */}
       <div className="resume-header">
-        {photoPreview && <img src={photoPreview} alt={fullName} className="resume-photo" />}
+        {photoPreview && <img src={photoPreview} alt={`${fullName || 'Professional'} resume photo - online resume builder`} className="resume-photo" loading="lazy" />}
         <div className="resume-header-info">
           <div className="resume-name">{fullName || 'Your Name'}</div>
           {jobTitle && <div className="resume-jobtitle">{jobTitle}</div>}

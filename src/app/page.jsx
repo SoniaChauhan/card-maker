@@ -8,25 +8,26 @@ export default function Page() {
       <App />
       {/* ═══ SEO Content — visible to Google, hidden from UI ═══ */}
       <section className="seo-content" aria-hidden="true">
-        <h1>Card Maker – Free Online Invitation & Greeting Card Designer</h1>
+        <h1>Online Card Maker – Create Birthday, Wedding, Festival Cards Free</h1>
         <p>
           Welcome to <strong>Card Maker</strong> by <strong>Creative Thinker Design Hub</strong> — your one-stop
-          destination to create beautiful cards online for free. Design stunning birthday invitations, royal wedding
-          cards, elegant anniversary greetings, colorful Holi wishes, and festive greeting cards in minutes.
+          online card maker to create beautiful invitation cards and greeting cards for free. Design stunning
+          birthday invitations, royal wedding cards, elegant anniversary greetings, colorful Holi wishes,
+          and festive greeting cards in minutes. Free templates, instant download!
         </p>
 
         <h2>🎂 Free Online Birthday Invitation Maker</h2>
         <p>
           Create personalised birthday party invitations with stylish templates. Choose from multiple designs,
           add your details, preview in real-time, and download instantly. Perfect for kids&#39; birthdays,
-          milestone celebrations, and surprise parties. Free birthday card maker online.
+          milestone celebrations, and surprise parties. Best birthday card maker online free.
         </p>
 
-        <h2>💐 Online Wedding Card Maker – Royal & Classic Designs</h2>
+        <h2>💐 Online Wedding Card Maker – Royal &amp; Classic Designs</h2>
         <p>
           Design royal and classic wedding invitations with beautiful themes. Our online wedding card maker
           lets you create Hindu wedding cards, Muslim wedding invitations, Christian wedding cards, and
-          Sikh wedding invitations with multi-language support in Hindi and English.
+          Sikh wedding invitations with multi-language support in Hindi and English. Best marriage card maker.
         </p>
 
         <h2>💍 Anniversary Greeting Card Designer</h2>
@@ -55,32 +56,56 @@ export default function Page() {
           Customize background and font colors, then download free Holi greeting cards instantly.
         </p>
 
-        <h2>🎆 Festival Greeting Cards – Diwali, Eid, Christmas & More</h2>
+        <h2>🎆 Festival Greeting Cards – Diwali, Eid, Christmas &amp; More</h2>
         <p>
           Create festive greeting cards for all occasions — Diwali cards, Holi cards, Eid Mubarak cards,
           Christmas cards, Navratri greetings, Raksha Bandhan cards, and more. Beautiful festival card
-          templates with instant download.
+          templates with instant download. Best festival card maker online India.
+        </p>
+
+        <h2>📄 Online Resume Builder &amp; Marriage Biodata Maker</h2>
+        <p>
+          Build a professional resume or traditional marriage biodata online. Download as high-quality PDF.
+          Modern templates with clean layouts. Resume builder online free, marriage biodata maker with photo.
         </p>
 
         <h2>Why Choose Card Maker?</h2>
         <ul>
-          <li>✅ 100% Free Holi wishes cards — no sign-up required</li>
-          <li>✅ Premium birthday, wedding & anniversary card designers at just ₹29</li>
-          <li>✅ Hindi and English language support</li>
-          <li>✅ 100+ card templates and growing</li>
-          <li>✅ Instant PNG download — no watermark on free cards</li>
+          <li>✅ Free Holi wishes cards — no sign-up required</li>
+          <li>✅ Premium birthday, wedding &amp; anniversary card designers</li>
+          <li>✅ Hindi, English, Punjabi &amp; Gujarati language support</li>
+          <li>✅ 50+ card templates and growing</li>
+          <li>✅ Instant PNG &amp; PDF download</li>
           <li>✅ Mobile-friendly — works on all devices</li>
           <li>✅ Custom color picker for personalization</li>
           <li>✅ Made in India by Creative Thinker Design Hub</li>
         </ul>
 
+        <h2>How to Create a Card Online</h2>
+        <ol>
+          <li>Choose a template from our collection</li>
+          <li>Customize text, colors, images and fonts</li>
+          <li>Preview your card in real-time</li>
+          <li>Download instantly as PNG or PDF (free or premium)</li>
+        </ol>
+
+        <h2>Frequently Asked Questions</h2>
+        <h3>How can I create a card online?</h3>
+        <p>Visit Card Maker, choose a template, fill in your details, preview, and download. No design skills or software needed!</p>
+        <h3>Is Card Maker free?</h3>
+        <p>Yes! Holi wishes and festival cards are 100% free. Premium designers (birthday, wedding, anniversary) start from ₹49 per download.</p>
+        <h3>Do I need to sign up to download cards?</h3>
+        <p>No! Free cards can be downloaded without sign-up. Premium cards are accessible as guest too.</p>
+        <h3>Do you support Hindi/English templates?</h3>
+        <p>Yes! Card Maker supports Hindi, English, Punjabi and Gujarati with plans to add more languages.</p>
+
         <h2>Popular Searches</h2>
         <p>
-          free online card maker, birthday invitation maker, wedding card designer online, anniversary card maker,
-          happy holi wishes 2026, holi shayari in hindi, holi wishes in english, romantic holi messages,
-          festival greeting cards free, free holi card download, online invitation maker free, card maker app,
+          online card maker, invitation card maker, birthday card creator online, Holi card maker online,
+          wedding card designer, free card maker, greeting card maker, card maker app, anniversary card maker,
+          resume builder online free, marriage biodata maker, festival card maker,
           शादी का कार्ड, जन्मदिन कार्ड बनाएं, होली शायरी 2026, होली विशेज इन हिंदी,
-          free card maker online india, make greeting cards online free download
+          free birthday invitation templates, best wedding card maker online, best online card maker in india
         </p>
       </section>
     </>

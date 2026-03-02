@@ -60,7 +60,7 @@ export default function FestivalForm({ data, errors, onChange, onBack, onGenerat
             </label>
             <input type="file" id="fest-photo" name="photo" accept="image/*" onChange={onChange} />
             {data.photoPreview && (
-              <img src={data.photoPreview} alt="Preview" className="card-photo-preview card-photo-preview--circle" />
+              <img src={data.photoPreview} alt="Festival greeting card photo preview - online festival card maker" className="card-photo-preview card-photo-preview--circle" loading="lazy" />
             )}
           </div>
         </div>

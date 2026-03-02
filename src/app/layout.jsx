@@ -1,15 +1,15 @@
 import '@/global.css';
 
 const SITE_URL = 'https://card-maker-seven-eta.vercel.app';
-const SITE_NAME = 'Card Maker – Free Online Card & Invitation Designer | Creative Thinker Design Hub';
+const SITE_NAME = 'Online Card Maker – Create Birthday, Wedding, Festival Cards | Free Templates';
 const DESCRIPTION =
-  'Create stunning birthday invitations, wedding cards, anniversary greetings, Happy Holi wishes & festival cards online free. 100+ templates in Hindi & English. Free Holi shayari cards, romantic Holi messages, Holi wishes 2026 download. A product of Creative Thinker Design Hub.';
+  'Create beautiful invitation cards and greeting cards online. Free templates for birthdays, weddings, anniversaries, festivals like Holi, Diwali, Lohri. Customizable designs in Hindi & English, instant download. A product of Creative Thinker Design Hub.';
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: SITE_NAME,
-    template: '%s | Card Maker – Free Online Card Designer',
+    template: '%s | Online Card Maker – Free Templates',
   },
   description: DESCRIPTION,
   keywords: [
@@ -50,14 +50,23 @@ export const metadata = {
     type: 'website',
     locale: 'en_IN',
     url: SITE_URL,
-    siteName: SITE_NAME,
+    siteName: 'Card Maker',
     title: SITE_NAME,
     description: DESCRIPTION,
+    images: [
+      {
+        url: `${SITE_URL}/og-image.svg`,
+        width: 1200,
+        height: 630,
+        alt: 'Online Card Maker – Create Birthday, Wedding & Festival Cards Free',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: SITE_NAME,
     description: DESCRIPTION,
+    images: [`${SITE_URL}/og-image.svg`],
   },
   robots: {
     index: true,
@@ -95,7 +104,7 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'WebApplication',
-              name: 'Card Maker – Free Online Card Designer',
+              name: 'Card Maker – Online Card & Invitation Designer',
               url: SITE_URL,
               description: DESCRIPTION,
               applicationCategory: 'DesignApplication',
@@ -103,16 +112,18 @@ export default function RootLayout({ children }) {
               offers: {
                 '@type': 'AggregateOffer',
                 lowPrice: '0',
-                highPrice: '29',
+                'highPrice': '99',
                 priceCurrency: 'INR',
-                offerCount: '6',
+                offerCount: '8',
                 offers: [
                   { '@type': 'Offer', name: 'Happy Holi Wishes – Hindi', price: '0', priceCurrency: 'INR' },
                   { '@type': 'Offer', name: 'Happy Holi Wishes – English', price: '0', priceCurrency: 'INR' },
-                  { '@type': 'Offer', name: 'Birthday Invitation Designer', price: '29', priceCurrency: 'INR' },
-                  { '@type': 'Offer', name: 'Wedding Card Designer', price: '29', priceCurrency: 'INR' },
-                  { '@type': 'Offer', name: 'Anniversary Card Designer', price: '29', priceCurrency: 'INR' },
-                  { '@type': 'Offer', name: 'Festival Card Designer', price: '29', priceCurrency: 'INR' },
+                  { '@type': 'Offer', name: 'Birthday Invitation Designer', price: '49', priceCurrency: 'INR' },
+                  { '@type': 'Offer', name: 'Wedding Card Designer', price: '99', priceCurrency: 'INR' },
+                  { '@type': 'Offer', name: 'Anniversary Card Designer', price: '49', priceCurrency: 'INR' },
+                  { '@type': 'Offer', name: 'Festival Card Designer', price: '0', priceCurrency: 'INR' },
+                  { '@type': 'Offer', name: 'Resume Builder', price: '79', priceCurrency: 'INR' },
+                  { '@type': 'Offer', name: 'Marriage Biodata Maker', price: '99', priceCurrency: 'INR' },
                 ],
               },
               creator: {
@@ -133,26 +144,34 @@ export default function RootLayout({ children }) {
               mainEntity: [
                 {
                   '@type': 'Question',
+                  name: 'How can I create a card online?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Visit Card Maker, choose a template (birthday, wedding, anniversary, etc.), customize it with your text and photos, preview, and download instantly. No software installation needed!',
+                  },
+                },
+                {
+                  '@type': 'Question',
                   name: 'Is Card Maker free to use?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Yes! Happy Holi wishes cards (Hindi & English) are 100% free. Birthday, Wedding, Anniversary & Festival card designers are available at just ₹29 per download.',
+                    text: 'Yes! Holi wishes cards (Hindi & English) and festival cards are 100% free — no sign-up required. Premium card designers like birthday (₹49), wedding (₹99), and anniversary (₹49) are affordably priced.',
                   },
                 },
                 {
                   '@type': 'Question',
-                  name: 'How to download free Holi wishes cards?',
+                  name: 'Do I need to sign up to download cards?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Visit Card Maker, click on "Holi Wishes – Hindi" or "Holi Wishes – English", customize colors, and click the download button on any card. No sign-up required!',
+                    text: 'No! Free cards like Holi wishes can be downloaded without signing up. For premium cards, you can use them as a guest or create an account to save templates and download history.',
                   },
                 },
                 {
                   '@type': 'Question',
-                  name: 'Can I make birthday invitations online for free?',
+                  name: 'Do you support Hindi and English templates?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Card Maker offers a premium Birthday Invitation Designer where you can create personalised party invitations with beautiful templates for just ₹29 per download.',
+                    text: 'Yes! Card Maker supports multiple languages including Hindi, English, Punjabi, and Gujarati. Holi wishes are available in both Hindi (50+ shayaris) and English (47 messages).',
                   },
                 },
                 {
@@ -160,15 +179,23 @@ export default function RootLayout({ children }) {
                   name: 'What types of cards can I create?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'You can create Birthday Invitations, Wedding Cards, Anniversary Greetings, Holi Wishes (Hindi & English), and Festival Greeting Cards for Diwali, Eid, Christmas, and more.',
+                    text: 'You can create Birthday Invitations, Wedding Cards, Anniversary Greetings, Holi Wishes (Hindi & English), Festival Cards, Marriage Biodata, Professional Resumes, Jagrata Invitations, and more.',
                   },
                 },
                 {
                   '@type': 'Question',
-                  name: 'Does Card Maker support Hindi?',
+                  name: 'Can I download cards as PDF?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Yes! Card Maker supports both Hindi and English. Holi wishes are available in both languages with 50+ Hindi shayaris and 47 English messages.',
+                    text: 'Yes! Resumes and biodata can be downloaded as PDF files. Invitation cards and greeting cards are downloaded as high-quality PNG images perfect for printing and sharing.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'Is Card Maker available on mobile?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Absolutely! Card Maker works on all devices — desktop, tablet, and mobile phones. The interface is fully responsive and optimised for touch screens.',
                   },
                 },
               ],

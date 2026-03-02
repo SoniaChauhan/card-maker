@@ -58,7 +58,7 @@ export default function BirthdayForm({ data, errors, onChange, onBack, onGenerat
             </label>
             <input type="file" id="bday-photo" name="photo" accept="image/*" onChange={onChange} />
             {data.photoPreview && (
-              <img src={data.photoPreview} alt="Preview" className="card-photo-preview card-photo-preview--circle" />
+              <img src={data.photoPreview} alt="Birthday card photo preview - personalised birthday invitation" className="card-photo-preview card-photo-preview--circle" loading="lazy" />
             )}
           </div>
         </div>

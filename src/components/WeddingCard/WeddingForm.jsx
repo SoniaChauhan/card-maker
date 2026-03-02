@@ -186,7 +186,7 @@ export default function WeddingForm({ data, errors, onChange, onBack, onGenerate
             </label>
             <input type="file" id="wedding-photo" name="photo" accept="image/*" onChange={onChange} />
             {data.photoPreview && (
-              <img src={data.photoPreview} alt="Preview" className="card-photo-preview card-photo-preview--circle" />
+              <img src={data.photoPreview} alt="Wedding card photo preview - custom wedding invitation" className="card-photo-preview card-photo-preview--circle" loading="lazy" />
             )}
           </div>
         </div>

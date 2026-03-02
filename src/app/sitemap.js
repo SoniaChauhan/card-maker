@@ -3,12 +3,27 @@ const BASE_URL = 'https://card-maker-seven-eta.vercel.app';
 export default function sitemap() {
   const now = new Date().toISOString();
   return [
-    { url: BASE_URL,                                lastModified: now, changeFrequency: 'weekly',  priority: 1.0  },
-    { url: `${BASE_URL}/happy-holi-wishes-hindi`,   lastModified: now, changeFrequency: 'weekly',  priority: 0.95 },
-    { url: `${BASE_URL}/happy-holi-wishes-english`,  lastModified: now, changeFrequency: 'weekly',  priority: 0.95 },
-    { url: `${BASE_URL}/birthday-invitation-maker`,  lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${BASE_URL}/wedding-card-maker`,          lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${BASE_URL}/anniversary-card-maker`,      lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${BASE_URL}/festival-card-maker`,          lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
+    /* ── Main pages ── */
+    { url: BASE_URL,                                         lastModified: now, changeFrequency: 'weekly',  priority: 1.0  },
+
+    /* ── Card category landing pages ── */
+    { url: `${BASE_URL}/happy-holi-wishes-hindi`,            lastModified: now, changeFrequency: 'weekly',  priority: 0.95 },
+    { url: `${BASE_URL}/happy-holi-wishes-english`,          lastModified: now, changeFrequency: 'weekly',  priority: 0.95 },
+    { url: `${BASE_URL}/birthday-invitation-maker`,          lastModified: now, changeFrequency: 'monthly', priority: 0.90 },
+    { url: `${BASE_URL}/wedding-card-maker`,                 lastModified: now, changeFrequency: 'monthly', priority: 0.90 },
+    { url: `${BASE_URL}/anniversary-card-maker`,             lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${BASE_URL}/festival-card-maker`,                lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${BASE_URL}/jagrata-invitation-card`,            lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
+    { url: `${BASE_URL}/resume-builder-online`,              lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
+    { url: `${BASE_URL}/marriage-biodata-maker`,             lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
+    { url: `${BASE_URL}/holi-card-maker-online`,             lastModified: now, changeFrequency: 'weekly',  priority: 0.85 },
+    { url: `${BASE_URL}/invitation-card-maker`,              lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
+    { url: `${BASE_URL}/greeting-card-maker`,                lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
+
+    /* ── Blog articles ── */
+    { url: `${BASE_URL}/blog/how-to-make-holi-card-online`,         lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
+    { url: `${BASE_URL}/blog/best-online-card-maker-in-india`,      lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
+    { url: `${BASE_URL}/blog/free-birthday-invitation-templates`,   lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
+    { url: `${BASE_URL}/blog/best-wedding-card-maker-online`,       lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
   ];
 }
