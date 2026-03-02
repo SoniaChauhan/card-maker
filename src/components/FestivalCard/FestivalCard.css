@@ -2,6 +2,38 @@
    FESTIVAL CARD — Styles
    ══════════════════════════════════════════════════════ */
 
+/* ── Preset pick dropdowns ── */
+.fest-preset-pick {
+  margin-top: -4px;
+}
+.fest-preset-pick label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 4px;
+  display: block;
+}
+.fest-preset-select {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1.5px solid #e0d4f5;
+  background: linear-gradient(135deg, #faf5ff, #f0ebff);
+  font-size: 0.84rem;
+  color: #444;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: auto;
+}
+.fest-preset-select:hover {
+  border-color: #b388ff;
+}
+.fest-preset-select:focus {
+  outline: none;
+  border-color: #7c4dff;
+  box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.15);
+}
+
 /* ── Screen wrapper ── */
 .festival-card-screen {
   position: relative;
