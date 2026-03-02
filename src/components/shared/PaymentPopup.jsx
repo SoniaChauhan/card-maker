@@ -9,7 +9,7 @@ import { startPayment, getCardPrice } from '../../services/paymentService';
  * Props:
  *   cardType    — e.g. 'birthday', 'wedding'
  *   cardLabel   — Display name, e.g. 'Birthday Invitation'
- *   userEmail   — logged-in user email
+ *   userEmail   — logged-in user email (may be '' for guests)
  *   userName    — user display name (optional, for Razorpay prefill)
  *   onClose     — close the popup
  *   onPaymentDone — called after successful payment verification
@@ -17,15 +17,27 @@ import { startPayment, getCardPrice } from '../../services/paymentService';
 export default function PaymentPopup({ cardType, cardLabel, userEmail, userName, onClose, onPaymentDone }) {
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState('');
+  const [guestEmail, setGuestEmail] = useState('');
 
   const price = getCardPrice(cardType);
+  const isGuest = !userEmail;
+  const emailToUse = userEmail || guestEmail.trim();
+
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
 
   async function handlePay() {
+    if (!emailToUse || !isValidEmail(emailToUse)) {
+      setError('Please enter a valid email address to proceed.');
+      return;
+    }
+
     setLoading(true);
     setError('');
 
     await startPayment({
-      email: userEmail,
+      email: emailToUse,
       cardType,
       cardLabel,
       userName: userName || '',
@@ -62,6 +74,20 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
           <div>✅ Print ready</div>
           <div>✅ Instant delivery</div>
         </div>
+
+        {isGuest && (
+          <div className="pay-email-section">
+            <label className="pay-email-label">📧 Enter your email for payment receipt</label>
+            <input
+              type="email"
+              className="pay-email-input"
+              placeholder="your@email.com"
+              value={guestEmail}
+              onChange={e => { setGuestEmail(e.target.value); if (error) setError(''); }}
+              autoFocus
+            />
+          </div>
+        )}
 
         <p className="pay-trust-note">
           🔒 Secure payment via <strong>Razorpay</strong> — UPI, Wallets, Netbanking, Cards
