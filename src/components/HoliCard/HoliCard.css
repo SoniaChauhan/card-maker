@@ -252,6 +252,11 @@
 .holi-back-wrap {
   margin-top: 28px;
 }
+.holi-back-top {
+  margin-top: 0;
+  margin-bottom: 12px;
+  align-self: flex-start;
+}
 .holi-btn-back {
   padding: 10px 26px;
   border: 2px solid #fff;

@@ -86,6 +86,9 @@ export default function HoliCardEnglish({ onBack, userEmail }) {
       <Particles icons={PARTICLES} count={28} />
 
       <div className="holi-container">
+        <div className="holi-back-wrap holi-back-top">
+          <button className="holi-btn-back" onClick={onBack}>← Back to Home</button>
+        </div>
         <h1 className="holi-title">🌈 Happy Holi Wishes</h1>
         <p className="holi-subtitle">Beautiful English Holi messages — customize colors & download!</p>
 
@@ -160,9 +163,6 @@ export default function HoliCardEnglish({ onBack, userEmail }) {
           })}
         </div>
 
-        <div className="holi-back-wrap">
-          <button className="holi-btn-back" onClick={onBack}>← Back to Home</button>
-        </div>
       </div>
 
       <Toast text={toast.text} show={toast.show} />
