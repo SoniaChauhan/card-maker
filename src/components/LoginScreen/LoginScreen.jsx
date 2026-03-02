@@ -516,10 +516,10 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         </div>
       </section>
 
-      {/* ═══════ FESTIVAL CARDS ═══════ */}
+      {/* ═══════ PREMIUM CARDS ═══════ */}
       <section className="lp-showcase">
         <div className="lp-section-header">
-          <h2 className="lp-section-title">🎊 Festival Cards</h2>
+          <h2 className="lp-section-title">✨ Premium Card Designers</h2>
           <span className="lp-section-price">₹29 per download</span>
         </div>
         <p className="lp-section-sub">Beautiful cards that need your details — fill the form, preview &amp; download</p>
