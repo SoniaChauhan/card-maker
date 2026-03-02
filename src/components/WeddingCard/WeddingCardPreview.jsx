@@ -588,7 +588,7 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1, bg
         {/* ── Couple Photo ── */}
         <div className="wed-photo-wrap wed-photo-center">
           <div className="wed-photo-frame">
-            <img src={photoPreview || '/default-wedding-couple.png'} alt="Couple" className="wed-photo" />
+            <img src={photoPreview || '/default-wedding-couple.jpg'} alt="Couple" className="wed-photo" />
           </div>
         </div>
 
@@ -712,7 +712,7 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1, bg
           <div className="wed-photo-wrap">
             {template === 3 && <PhotoWreath />}
             <div className="wed-photo-frame">
-              <img src={photoPreview || '/default-wedding-couple.png'} alt="Couple" className="wed-photo" />
+              <img src={photoPreview || '/default-wedding-couple.jpg'} alt="Couple" className="wed-photo" />
             </div>
           </div>
 

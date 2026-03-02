@@ -333,7 +333,7 @@ const AnniversaryCardPreview = forwardRef(function AnniversaryCardPreview(
         {/* Photo */}
         <div className="anniv-photo-wrap">
           <div className="anniv-photo-frame">
-            <img src={photoPreview || '/default-anniversary-couple.png'} alt={`${partner1} & ${partner2}`} className="anniv-photo-img" />
+            <img src={photoPreview || '/default-anniversary-couple.avif'} alt={`${partner1} & ${partner2}`} className="anniv-photo-img" />
           </div>
         </div>
       </div>
