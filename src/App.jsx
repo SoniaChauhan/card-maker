@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { isAdmin }     from './services/authService';
 import LoginScreen     from './components/LoginScreen/LoginScreen';
@@ -14,10 +14,23 @@ import HoliCard        from './components/HoliCard';
 import HoliCardEnglish from './components/HoliCardEnglish';
 import useScreenshotProtection from './hooks/useScreenshotProtection';
 
+const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','festivalcards','holiwishes','holiwishes-en'];
+
 function AppContent() {
   const { user, loading, isGuest } = useAuth();
   const [selected, setSelected] = useState(null);
   const [editingTemplate, setEditingTemplate] = useState(null);
+
+  /* Auto-select card when redirected from SEO pages via ?card= query param */
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const card = params.get('card');
+    if (card && VALID_CARDS.includes(card)) {
+      setSelected(card);
+      // Clean up URL without reload
+      window.history.replaceState({}, '', '/');
+    }
+  }, []);
 
   /* Activate screenshot protection globally */
   useScreenshotProtection();
