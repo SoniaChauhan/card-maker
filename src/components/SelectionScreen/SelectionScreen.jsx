@@ -13,6 +13,7 @@ const CATEGORIES = [
       { id: 'birthday',    label: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',       icon: '🎂', badge: '🎉 Festive & Fun' },
       { id: 'wedding',     label: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',          icon: '💐', badge: '🌸 Royal & Classic' },
       { id: 'anniversary', label: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.',     icon: '💍', badge: '❤️ Romantic' },
+      { id: 'holiwishes',  label: 'Happy Holi Wishes',             desc: 'One-click colorful Holi greeting — no form, just download & share!',         icon: '🌈', badge: '🎨 Instant Download' },
     ],
   },
   {

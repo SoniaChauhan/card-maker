@@ -1,0 +1,217 @@
+/* ══════════════════════════════════════════════════════
+   HOLI CARD — One-click downloadable greeting
+   ══════════════════════════════════════════════════════ */
+
+/* ── Screen ── */
+.holi-screen {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 36px 12px 60px;
+  background: linear-gradient(135deg, #ff6f91 0%, #a29bfe 50%, #ffc75f 100%);
+  overflow: hidden;
+}
+.holi-screen-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.holi-screen-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 4px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+.holi-screen-subtitle {
+  font-size: 0.92rem;
+  color: #fff;
+  opacity: 0.85;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+/* ── Card ── */
+.holi-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: linear-gradient(160deg, #fffde7 0%, #fff9c4 30%, #fff8e1 60%, #fce4ec 100%);
+  border-radius: 20px;
+  padding: 30px 24px 26px;
+  text-align: center;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  font-family: 'Noto Sans Devanagari', 'Georgia', serif;
+}
+
+/* Inner border */
+.holi-inner-frame {
+  position: absolute;
+  inset: 8px;
+  border: 2px dashed rgba(168, 85, 247, 0.25);
+  border-radius: 16px;
+  pointer-events: none;
+}
+
+/* Splash SVGs */
+.holi-splash-top,
+.holi-splash-bottom {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.holi-splash-bottom {
+  margin-top: 10px;
+  opacity: 0.7;
+}
+
+/* Big emoji */
+.holi-big-emoji {
+  font-size: 3.2rem;
+  margin: 4px 0 2px;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.1));
+}
+
+/* Heading — colorful letters */
+.holi-heading {
+  font-size: 2rem;
+  font-weight: 900;
+  margin: 0 0 2px;
+  line-height: 1.2;
+  letter-spacing: 2px;
+}
+.holi-h-letter {
+  display: inline-block;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.holi-h-space {
+  display: inline-block;
+  width: 10px;
+}
+
+/* Sub-heading (Hindi) */
+.holi-subheading {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #6c5ce7;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+/* Divider */
+.holi-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 10px auto 14px;
+}
+.holi-div-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.holi-div-line {
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, #ff6f91, #a29bfe, #55efc4);
+  border-radius: 2px;
+}
+
+/* Message */
+.holi-message {
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: #444;
+  max-width: 360px;
+  margin: 0 auto;
+  text-align: center;
+}
+.holi-message p {
+  margin: 0 0 10px;
+}
+.holi-message-closing {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #6c5ce7;
+  margin-top: 6px;
+}
+
+/* Art SVG */
+.holi-art-svg {
+  width: 80%;
+  max-width: 280px;
+  height: auto;
+  margin: 10px auto 4px;
+  display: block;
+}
+
+/* ── Action buttons ── */
+.holi-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.holi-btn-back {
+  padding: 10px 22px;
+  border: 2px solid #fff;
+  border-radius: 12px;
+  background: transparent;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.holi-btn-back:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+.holi-btn-download {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff6b6b, #feca57);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.45);
+  transition: all 0.2s;
+}
+.holi-btn-download:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 107, 107, 0.55);
+}
+.holi-btn-download:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .holi-card {
+    padding: 22px 16px 20px;
+    border-radius: 16px;
+  }
+  .holi-heading {
+    font-size: 1.6rem;
+  }
+  .holi-big-emoji {
+    font-size: 2.6rem;
+  }
+  .holi-message {
+    font-size: 0.85rem;
+  }
+}
