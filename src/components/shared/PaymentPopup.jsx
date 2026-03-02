@@ -1,71 +1,43 @@
 'use client';
 import { useState } from 'react';
 import './PaymentPopup.css';
-import { notifyAdmin } from '../../services/notificationService';
-import { ADMIN_NAME } from '../../services/authService';
-import { recordPayment } from '../../services/subscriptionService';
+import { startPayment, getCardPrice } from '../../services/paymentService';
 
-/*  Card pricing (₹)  */
-const CARD_PRICES = {
-  birthday:        49,
-  anniversary:     49,
-  jagrata:         49,
-  biodata:         99,
-  wedding:         99,
-  resume:          79,
-  babyshower:      49,
-  namingceremony:  49,
-  housewarming:    49,
-  graduation:      49,
-  haldi:           49,
-  mehendi:         49,
-  sangeet:         49,
-  reception:       49,
-  savethedate:     49,
-  satyanarayan:    49,
-  garba:           49,
-  visitingcard:    49,
-  businessdocs:    79,
-  thankyou:        29,
-  congratulations: 29,
-  goodluck:        29,
-  festivalcards:   29,
-  whatsappinvites: 29,
-  instagramstory:  29,
-  socialevent:     29,
-};
-
-/* UPI ID for receiving payments */
-const UPI_ID = 'soniarajvansi9876@okaxis';
-
-export default function PaymentPopup({ cardId, cardLabel, userEmail, onClose, onPaymentDone }) {
-  const [step, setStep]       = useState('info');   // 'info' | 'pay' | 'done'
-  const [txnId, setTxnId]     = useState('');
+/**
+ * PaymentPopup — shows card pricing info and triggers Razorpay checkout.
+ *
+ * Props:
+ *   cardType    — e.g. 'birthday', 'wedding'
+ *   cardLabel   — Display name, e.g. 'Birthday Invitation'
+ *   userEmail   — logged-in user email
+ *   userName    — user display name (optional, for Razorpay prefill)
+ *   onClose     — close the popup
+ *   onPaymentDone — called after successful payment verification
+ */
+export default function PaymentPopup({ cardType, cardLabel, userEmail, userName, onClose, onPaymentDone }) {
   const [loading, setLoading] = useState(false);
+  const [error, setError]     = useState('');
 
-  const price = CARD_PRICES[cardId] || 49;
-  const upiLink = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(ADMIN_NAME)}&am=${price}&cu=INR&tn=${encodeURIComponent(`CardMaker-${cardLabel}`)}`;
+  const price = getCardPrice(cardType);
 
-  async function handleConfirmPayment() {
-    if (!txnId.trim()) return;
+  async function handlePay() {
     setLoading(true);
-    try {
-      // Record payment in Firestore
-      await recordPayment(userEmail, cardId, cardLabel, txnId.trim());
+    setError('');
 
-      // Notify admin
-      await notifyAdmin(
-        `💰 Payment Received — ${cardLabel}`,
-        `User: ${userEmail}\nCard: ${cardLabel}\nAmount: ₹${price}\nTransaction ID: ${txnId}\n\nPlease verify the payment and approve the download.`,
-        userEmail,
-      );
-      setStep('done');
-      if (onPaymentDone) onPaymentDone(txnId);
-    } catch {
-      /* silently continue */
-    } finally {
-      setLoading(false);
-    }
+    await startPayment({
+      email: userEmail,
+      cardType,
+      cardLabel,
+      userName: userName || '',
+      onSuccess: (result) => {
+        setLoading(false);
+        if (onPaymentDone) onPaymentDone(result);
+      },
+      onError: (err) => {
+        setLoading(false);
+        setError(err.message || 'Payment failed. Please try again.');
+      },
+    });
   }
 
   return (
@@ -73,101 +45,45 @@ export default function PaymentPopup({ cardId, cardLabel, userEmail, onClose, on
       <div className="pay-popup" onClick={e => e.stopPropagation()}>
         <button className="pay-close" onClick={onClose}>✕</button>
 
-        {/* ---- Step 1: Info ---- */}
-        {step === 'info' && (
-          <>
-            <div className="pay-icon">💎</div>
-            <h3>Download {cardLabel}</h3>
-            <p className="pay-desc">
-              Get a watermark-free, high-quality download of your card.
-            </p>
-            <div className="pay-price-box">
-              <span className="pay-price-label">Price</span>
-              <span className="pay-price-amount">₹{price}</span>
-            </div>
-            <div className="pay-features">
-              <div>✅ HD quality download</div>
-              <div>✅ No watermark</div>
-              <div>✅ Print ready</div>
-              <div>✅ Instant delivery</div>
-            </div>
-            <p className="pay-trust-note">🔒 Payment will appear as <strong>Creative Thinker Design Hub</strong>.</p>
-            <button className="pay-btn" onClick={() => setStep('pay')}>
-              💳 Proceed to Pay ₹{price}
-            </button>
-          </>
+        <div className="pay-icon">💎</div>
+        <h3>Download {cardLabel}</h3>
+        <p className="pay-desc">
+          Get a watermark-free, high-quality download of your card.
+        </p>
+
+        <div className="pay-price-box">
+          <span className="pay-price-label">Price</span>
+          <span className="pay-price-amount">₹{price}</span>
+        </div>
+
+        <div className="pay-features">
+          <div>✅ HD quality download</div>
+          <div>✅ No watermark</div>
+          <div>✅ Print ready</div>
+          <div>✅ Instant delivery</div>
+        </div>
+
+        <p className="pay-trust-note">
+          🔒 Secure payment via <strong>Razorpay</strong> — UPI, Wallets, Netbanking, Cards
+        </p>
+
+        {error && (
+          <p className="pay-error">{error}</p>
         )}
 
-        {/* ---- Step 2: Payment details ---- */}
-        {step === 'pay' && (
-          <>
-            <div className="pay-icon">📱</div>
-            <h3>Pay ₹{price}</h3>
-            <p className="pay-desc">Scan the QR code or use UPI to pay</p>
+        <button
+          className="pay-btn"
+          onClick={handlePay}
+          disabled={loading}
+        >
+          {loading ? '⏳ Processing…' : `💳 Pay ₹${price} & Download`}
+        </button>
 
-            {/* QR Code via external service */}
-            <div className="pay-qr-box">
-              <img
-                src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiLink)}`}
-                alt="UPI QR Code"
-                className="pay-qr-img"
-              />
-            </div>
-
-            <div className="pay-upi-id">
-              <span className="pay-upi-label">UPI ID:</span>
-              <span className="pay-upi-value">{UPI_ID}</span>
-            </div>
-
-            <div className="pay-divider">or pay via UPI apps</div>
-
-            <a href={upiLink} className="pay-upi-btn" target="_blank" rel="noreferrer">
-              📱 Open UPI App
-            </a>
-
-            <div className="pay-txn-section">
-              <label className="pay-txn-label">After payment, enter your Transaction/UTR ID:</label>
-              <input
-                className="pay-txn-input"
-                type="text"
-                placeholder="e.g. 403012345678"
-                value={txnId}
-                onChange={e => setTxnId(e.target.value)}
-              />
-              <button
-                className="pay-btn confirm"
-                onClick={handleConfirmPayment}
-                disabled={!txnId.trim() || loading}
-              >
-                {loading ? '⏳ Confirming…' : '✅ I\'ve Paid — Confirm'}
-              </button>
-            </div>
-
-            <button className="pay-back-link" onClick={() => setStep('info')}>
-              ← Back
-            </button>
-          </>
-        )}
-
-        {/* ---- Step 3: Done ---- */}
-        {step === 'done' && (
-          <>
-            <div className="pay-icon">🎉</div>
-            <h3>Payment Submitted!</h3>
-            <p className="pay-desc">
-              Your transaction ID <strong>{txnId}</strong> has been sent to the admin for verification.
-            </p>
-            <p className="pay-desc">
-              Once verified, your download will be enabled. You'll also receive an email notification.
-            </p>
-            <button className="pay-btn" onClick={onClose}>
-              👍 Got it
-            </button>
-          </>
-        )}
+        <p className="pay-free-note">
+          Or download for free with watermark using the download button below.
+        </p>
       </div>
     </div>
   );
 }
 
-export { CARD_PRICES };

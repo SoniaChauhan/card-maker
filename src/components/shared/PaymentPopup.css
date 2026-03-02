@@ -247,6 +247,25 @@
   text-decoration: underline;
 }
 
+/* Error message */
+.pay-error {
+  color: #e53e3e;
+  font-size: 13px;
+  font-weight: 600;
+  background: #fff5f5;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* Free download hint */
+.pay-free-note {
+  font-size: 11px;
+  color: #a0aec0;
+  margin-top: 12px;
+  line-height: 1.4;
+}
+
 /* Watermark overlay for preview */
 .card-preview-locked {
   position: relative;

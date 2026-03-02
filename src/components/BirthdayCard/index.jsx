@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './BirthdayCard.css';
 import BirthdayForm from './BirthdayForm';
 import BirthdayCardPreview from './BirthdayCardPreview';
@@ -8,12 +8,16 @@ import CardActions from '../shared/CardActions';
 import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import LanguagePicker from '../shared/LanguagePicker';
+import PaymentPopup from '../shared/PaymentPopup';
 import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
 import { logDownload } from '../../services/downloadHistoryService';
+import { hasUserPaid, getCardPrice } from '../../services/paymentService';
 
+const CARD_TYPE = 'birthday';
+const CARD_LABEL = 'Birthday Invitation';
 const INIT = { guestName: '', birthdayPerson: '', age: '', date: '', time: '', venue: '', venueAddress: '', hostName: '', message: '', photo: null, photoPreview: '', selectedTemplate: 1, bgColor: '' };
 const PARTICLES = ['🎈', '🎉', '🎊', '⭐', '✨', '🎁', '🌟', '🎂'];
 
@@ -30,7 +34,7 @@ const BG_SWATCHES = [
   { color: '#263238', label: 'Charcoal' },
 ];
 
-export default function BirthdayCard({ onBack, userEmail, initialData, templateId: initTplId }) {
+export default function BirthdayCard({ onBack, userEmail, initialData, templateId: initTplId, isSuperAdmin }) {
   const [step, setStep]     = useState('form');
   const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
   const [errors, setErrors] = useState({});
@@ -38,12 +42,25 @@ export default function BirthdayCard({ onBack, userEmail, initialData, templateI
   const [saving, setSaving] = useState(false);
   const [templateId, setTemplateId] = useState(initTplId || null);
   const [showChooser, setShowChooser] = useState(false);
+  const [paid, setPaid]     = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
 
   const filename = `birthday-${toFilename(data.birthdayPerson || 'card')}.png`;
   const dlTitle = data.birthdayPerson ? `${data.birthdayPerson}'s Birthday` : 'Birthday Card';
-  const { downloading, handleDownload, toast } = useDownload('bday-card-print', filename, {
-    onSuccess: () => logDownload(userEmail, 'birthday', 'Birthday Invite Designer', dlTitle, filename, data).catch(() => {}),
+  const { downloading, handleDownload, toast, watermarkRef } = useDownload('bday-card-print', filename, {
+    onSuccess: () => logDownload(userEmail, CARD_TYPE, 'Birthday Invite Designer', dlTitle, filename, data).catch(() => {}),
+    addWatermark: true, // default: watermark ON
   });
+
+  /* Check payment status on mount */
+  useEffect(() => {
+    if (isSuperAdmin) { setPaid(true); watermarkRef.current = false; return; }
+    if (!userEmail) return;
+    hasUserPaid(userEmail, CARD_TYPE).then(p => {
+      setPaid(p);
+      watermarkRef.current = !p;
+    }).catch(() => {});
+  }, [userEmail, isSuperAdmin]);
 
   function onChange(e) {
     const { name, value, files } = e.target;
@@ -137,15 +154,34 @@ export default function BirthdayCard({ onBack, userEmail, initialData, templateI
           </div>
         </div>
 
-        <div id="bday-card-print" className="card-wrapper screenshot-protected">
+        <div id="bday-card-print" className={`card-wrapper screenshot-protected${!paid ? ' card-preview-locked' : ''}`}>
           <BirthdayCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} bgColor={data.bgColor} />
         </div>
+
+        {/* Payment / Download actions */}
+        {!paid && (
+          <div className="download-locked-badge">
+            🔒 Preview Mode — Pay ₹{getCardPrice(CARD_TYPE)} to remove watermark
+          </div>
+        )}
+
+        {!paid && (
+          <button
+            className="btn-download pay-download-btn"
+            onClick={() => setShowPayment(true)}
+            style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
+          >
+            💎 Pay ₹{getCardPrice(CARD_TYPE)} & Download (No Watermark)
+          </button>
+        )}
+
         <CardActions
           onEdit={() => setStep('form')}
           onBack={onBack}
           onDownload={handleDownload}
           downloading={downloading}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#ff6b6b,#feca57)', color: '#fff', boxShadow: '0 6px 20px rgba(255,107,107,.45)' }}
+          dlLabel={paid ? '⬇️ Download Card' : '⬇️ Download (with watermark)'}
         />
         <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
           {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
@@ -161,6 +197,23 @@ export default function BirthdayCard({ onBack, userEmail, initialData, templateI
           selected={data.selectedTemplate || 1}
           onSelect={id => setData(d => ({ ...d, selectedTemplate: id }))}
           onClose={() => setShowChooser(false)}
+        />
+      )}
+
+      {/* Razorpay Payment Popup */}
+      {showPayment && (
+        <PaymentPopup
+          cardType={CARD_TYPE}
+          cardLabel={CARD_LABEL}
+          userEmail={userEmail}
+          onClose={() => setShowPayment(false)}
+          onPaymentDone={() => {
+            setPaid(true);
+            watermarkRef.current = false;
+            setShowPayment(false);
+            // Auto-trigger clean download after payment
+            setTimeout(() => handleDownload(), 500);
+          }}
         />
       )}
 

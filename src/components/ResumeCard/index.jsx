@@ -1,15 +1,20 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './ResumeCard.css';
 import ResumeForm from './ResumeForm';
 import ResumeCardPreview from './ResumeCardPreview';
 import CardActions from '../shared/CardActions';
 import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
+import PaymentPopup from '../shared/PaymentPopup';
 import usePdfDownload from '../../hooks/usePdfDownload';
 import { toFilename } from '../../utils/helpers';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
 import { logDownload } from '../../services/downloadHistoryService';
+import { hasUserPaid, getCardPrice } from '../../services/paymentService';
+
+const CARD_TYPE = 'resume';
+const CARD_LABEL = 'Professional Resume';
 
 const INIT = {
   fullName: '', jobTitle: '', email: '', phone: '', location: '', linkedin: '',
@@ -21,18 +26,30 @@ const INIT = {
 };
 const PARTICLES = ['📄', '✨', '💼', '🎓', '⭐', '🌟', '🖊️', '💡'];
 
-export default function ResumeCard({ onBack, userEmail, initialData, templateId: initTplId }) {
+export default function ResumeCard({ onBack, userEmail, initialData, templateId: initTplId, isSuperAdmin }) {
   const [step, setStep]     = useState('form');
   const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
   const [templateId, setTemplateId] = useState(initTplId || null);
+  const [paid, setPaid]     = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
 
   const filename = `resume-${toFilename(data.fullName || 'document')}.pdf`;
   const dlTitle = data.fullName ? `${data.fullName} Resume` : 'Resume';
-  const { downloading, handleDownload, toast } = usePdfDownload('resume-card-print', filename, {
-    onSuccess: () => logDownload(userEmail, 'resume', 'Professional Resume Builder', dlTitle, filename, data).catch(() => {}),
+  const { downloading, handleDownload, toast, watermarkRef } = usePdfDownload('resume-card-print', filename, {
+    onSuccess: () => logDownload(userEmail, CARD_TYPE, 'Professional Resume Builder', dlTitle, filename, data).catch(() => {}),
+    addWatermark: true,
   });
+
+  useEffect(() => {
+    if (isSuperAdmin) { setPaid(true); watermarkRef.current = false; return; }
+    if (!userEmail) return;
+    hasUserPaid(userEmail, CARD_TYPE).then(p => {
+      setPaid(p);
+      watermarkRef.current = !p;
+    }).catch(() => {});
+  }, [userEmail, isSuperAdmin]);
 
   function onChange(e) {
     const { name, value, files } = e.target;
@@ -96,15 +113,31 @@ export default function ResumeCard({ onBack, userEmail, initialData, templateId:
       <Particles icons={PARTICLES} count={20} />
       <div className="card-screen-container">
         <p className="resume-screen-title">📄 Your Resume</p>
-        <div className="card-wrapper screenshot-protected">
+        <div className={`card-wrapper screenshot-protected${!paid ? ' card-preview-locked' : ''}`}>
           <ResumeCardPreview data={data} />
         </div>
+
+        {!paid && (
+          <div className="download-locked-badge">
+            🔒 Preview Mode — Pay ₹{getCardPrice(CARD_TYPE)} to remove watermark
+          </div>
+        )}
+        {!paid && (
+          <button
+            className="btn-download pay-download-btn"
+            onClick={() => setShowPayment(true)}
+            style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
+          >
+            💎 Pay ₹{getCardPrice(CARD_TYPE)} & Download (No Watermark)
+          </button>
+        )}
+
         <CardActions
           onEdit={() => setStep('form')}
           onBack={onBack}
           onDownload={handleDownload}
           downloading={downloading}
-          dlLabel="📥 Download PDF"
+          dlLabel={paid ? '📥 Download PDF' : '📥 Download PDF (with watermark)'}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#1a73e8,#2d3748)', color: '#fff', boxShadow: '0 6px 20px rgba(26,115,232,.45)' }}
         />
         <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
@@ -112,6 +145,21 @@ export default function ResumeCard({ onBack, userEmail, initialData, templateId:
         </button>
       </div>
       <Toast text={toast.text} show={toast.show} />
+
+      {showPayment && (
+        <PaymentPopup
+          cardType={CARD_TYPE}
+          cardLabel={CARD_LABEL}
+          userEmail={userEmail}
+          onClose={() => setShowPayment(false)}
+          onPaymentDone={() => {
+            setPaid(true);
+            watermarkRef.current = false;
+            setShowPayment(false);
+            setTimeout(() => handleDownload(), 500);
+          }}
+        />
+      )}
     </div>
   );
 }
