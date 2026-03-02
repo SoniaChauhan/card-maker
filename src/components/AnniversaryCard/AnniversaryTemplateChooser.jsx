@@ -9,6 +9,7 @@ const TEMPLATES = [
   { id: 4, name: 'Mandala Rings',      desc: 'Royal purple backdrop with golden mandala art',        icon: '🔮', accent: '#d4af37' },
   { id: 5, name: 'Vintage Frame',      desc: 'Double-line antique frame on warm parchment',          icon: '🖼️', accent: '#b8860b' },
   { id: 6, name: 'Minimal Swirl',      desc: 'Sleek gold swirls on charcoal slate',                  icon: '✨', accent: '#c9a84c' },
+  { id: 7, name: 'Royal Navy Frame',   desc: 'Ornate gold floral corners on deep navy with centre frame', icon: '🏛️', accent: '#c9a84c' },
 ];
 
 export default function AnniversaryTemplateChooser({ data, lang, selected, onSelect, onClose }) {

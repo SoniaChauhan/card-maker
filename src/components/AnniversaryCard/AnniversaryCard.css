@@ -320,6 +320,64 @@
 .anniv-theme-6 .anniv-photo-frame    { border-color: #c9a84c; }
 
 /* ================================================================
+   THEME 7 — Royal Navy Frame  (ornate floral corners + centre frame)
+================================================================ */
+.anniv-theme-7 {
+  background: linear-gradient(175deg, #0c1a38 0%, #112244 35%, #0a1530 70%, #091228 100%);
+}
+.anniv-theme-7 .anniv-title-main     { color: #c9a84c; text-shadow: 0 0 12px rgba(201,168,76,.25); }
+.anniv-theme-7 .anniv-couple-names   { color: #dcc76a; }
+.anniv-theme-7 .anniv-amp            { color: #c9a84c; }
+.anniv-theme-7 .anniv-years-badge    { background: rgba(201,168,76,.15); color: #c9a84c; border: 1px solid rgba(201,168,76,.4); }
+.anniv-theme-7 .anniv-message-text   { color: rgba(255,255,255,.8); }
+.anniv-theme-7 .anniv-date-line      { color: #c9a84c; }
+.anniv-theme-7 .anniv-photo-frame    { border-color: #c9a84c; }
+
+/* ── Template 7 decoration helpers ── */
+.anniv7-outer-rule {
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(201,168,76,.35);
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* corner floral SVG placement */
+.anniv7-corner {
+  position: absolute;
+  width: 130px;
+  height: 160px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: .85;
+}
+.anniv7-corner-tl { top: 4px;   left: 4px;   transform: none; }
+.anniv7-corner-tr { top: 4px;   right: 4px;  transform: scaleX(-1); }
+.anniv7-corner-bl { bottom: 4px; left: 4px;  transform: scaleY(-1); }
+.anniv7-corner-br { bottom: 4px; right: 4px; transform: scale(-1,-1); }
+
+/* centre double-border frame */
+.anniv7-center-frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 62%;
+  height: 42%;
+  transform: translate(-50%, -50%);
+  border: 1.5px solid rgba(201,168,76,.5);
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: 1;
+}
+.anniv7-center-frame-inner {
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(201,168,76,.3);
+  border-radius: 6px;
+}
+
+/* ================================================================
    Background Color Picker
 ================================================================ */
 .anniv-bg-picker {

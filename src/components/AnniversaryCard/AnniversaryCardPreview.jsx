@@ -166,6 +166,105 @@ function SwirlDecor() {
 }
 
 
+/* ─── Template 7 – Royal Navy Frame (ornate gold floral corners + center frame) ─── */
+function RoyalNavyFrameDecor() {
+  /*  Recreates the user's reference image:
+      — deep navy background (handled by CSS)
+      — ornate gold floral clusters at all 4 corners with branching leaves
+      — thin gold rule line around the card edge
+      — double-line gold rectangle in the centre (photo & content area) */
+  const g = '#c9a84c'; // gold
+  return (
+    <>
+      {/* ── thin full-card border ── */}
+      <div className="anniv7-outer-rule" />
+
+      {/* ── 4 corner floral SVGs ── */}
+      {['tl', 'tr', 'bl', 'br'].map(pos => (
+        <svg
+          key={pos}
+          className={`anniv7-corner anniv7-corner-${pos}`}
+          viewBox="0 0 160 200"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* main branch curves */}
+          <path d="M10 10 Q25 8,50 25 Q80 48,90 80 Q95 95,85 100" stroke={g} strokeWidth="1.2" fill="none" opacity=".7" />
+          <path d="M10 10 Q8 28,25 52 Q48 82,80 92 Q95 96,102 88" stroke={g} strokeWidth="1.2" fill="none" opacity=".7" />
+
+          {/* large flower */}
+          <g transform="translate(42,42)">
+            <circle cx="0" cy="0" r="5" fill={g} opacity=".7" />
+            {[0, 45, 90, 135, 180, 225, 270, 315].map(a => (
+              <ellipse key={a}
+                cx={Math.cos(a * Math.PI / 180) * 12}
+                cy={Math.sin(a * Math.PI / 180) * 12}
+                rx="7" ry="3.2" fill={g} opacity=".4"
+                transform={`rotate(${a} ${Math.cos(a * Math.PI / 180) * 12} ${Math.sin(a * Math.PI / 180) * 12})`} />
+            ))}
+          </g>
+
+          {/* small flower top-right */}
+          <g transform="translate(85,30)">
+            <circle cx="0" cy="0" r="3.5" fill={g} opacity=".6" />
+            {[0, 72, 144, 216, 288].map(a => (
+              <ellipse key={a}
+                cx={Math.cos(a * Math.PI / 180) * 7}
+                cy={Math.sin(a * Math.PI / 180) * 7}
+                rx="4.5" ry="2" fill={g} opacity=".35"
+                transform={`rotate(${a} ${Math.cos(a * Math.PI / 180) * 7} ${Math.sin(a * Math.PI / 180) * 7})`} />
+            ))}
+          </g>
+
+          {/* small flower bottom-left */}
+          <g transform="translate(30,88)">
+            <circle cx="0" cy="0" r="3" fill={g} opacity=".55" />
+            {[0, 72, 144, 216, 288].map(a => (
+              <ellipse key={a}
+                cx={Math.cos(a * Math.PI / 180) * 6}
+                cy={Math.sin(a * Math.PI / 180) * 6}
+                rx="4" ry="1.8" fill={g} opacity=".3"
+                transform={`rotate(${a} ${Math.cos(a * Math.PI / 180) * 6} ${Math.sin(a * Math.PI / 180) * 6})`} />
+            ))}
+          </g>
+
+          {/* branching leaves */}
+          <path d="M95 18 Q110 10 120 22" stroke={g} strokeWidth=".9" fill={g} opacity=".25" />
+          <path d="M110 35 Q122 26 130 38" stroke={g} strokeWidth=".9" fill={g} opacity=".22" />
+          <path d="M18 98 Q10 112 22 122" stroke={g} strokeWidth=".9" fill={g} opacity=".25" />
+          <path d="M35 112 Q26 124 38 134" stroke={g} strokeWidth=".9" fill={g} opacity=".22" />
+          <path d="M55 12 Q65 4 72 15" stroke={g} strokeWidth=".8" fill={g} opacity=".2" />
+          <path d="M12 58 Q4 68 15 75" stroke={g} strokeWidth=".8" fill={g} opacity=".2" />
+
+          {/* long decorative leaf sprays */}
+          <path d="M100 55 Q115 42 125 55 Q135 68 128 80" stroke={g} strokeWidth=".8" fill="none" opacity=".3" />
+          <path d="M55 105 Q42 118 55 128 Q68 138 80 132" stroke={g} strokeWidth=".8" fill="none" opacity=".3" />
+          {[108, 118, 126].map((x, i) => (
+            <ellipse key={`lr${i}`} cx={x} cy={58 + i * 10} rx="5" ry="2.2" fill={g} opacity=".18"
+              transform={`rotate(${-20 + i * 15} ${x} ${58 + i * 10})`} />
+          ))}
+          {[58, 62, 68].map((x, i) => (
+            <ellipse key={`ll${i}`} cx={x} cy={110 + i * 10} rx="5" ry="2.2" fill={g} opacity=".18"
+              transform={`rotate(${20 - i * 15} ${x} ${110 + i * 10})`} />
+          ))}
+
+          {/* tiny dots accent */}
+          <circle cx="130" cy="14" r="1.8" fill={g} opacity=".3" />
+          <circle cx="14" cy="135" r="1.8" fill={g} opacity=".3" />
+          <circle cx="140" cy="45" r="1.2" fill={g} opacity=".2" />
+          <circle cx="45" cy="142" r="1.2" fill={g} opacity=".2" />
+        </svg>
+      ))}
+
+      {/* ── centre double-border frame ── */}
+      <div className="anniv7-center-frame">
+        <div className="anniv7-center-frame-inner" />
+      </div>
+    </>
+  );
+}
+
+
 /* ═══════════════════════════════════════════════════
    MAIN PREVIEW COMPONENT
    ═══════════════════════════════════════════════════ */
@@ -204,6 +303,7 @@ const AnniversaryCardPreview = forwardRef(function AnniversaryCardPreview(
       {tpl === 4 && <MandalaDecor />}
       {tpl === 5 && <VintageFrameDecor />}
       {tpl === 6 && <SwirlDecor />}
+      {tpl === 7 && <RoyalNavyFrameDecor />}
 
       {/* ─── Card Content ─── */}
       <div className="anniv-content">
@@ -295,6 +395,7 @@ const AnniversaryCardPreview = forwardRef(function AnniversaryCardPreview(
           <line x1="275" y1="15" x2="360" y2="15" stroke="#c9a84c" strokeWidth=".4" opacity=".25" />
         </svg>
       )}
+      {/* Template 7 needs no bottom strip — the frame decoration covers it */}
     </div>
   );
 });
