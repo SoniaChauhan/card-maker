@@ -142,7 +142,6 @@ export default function HoliCard({ onBack, userEmail }) {
                   <div className="holi-border-inner" />
                   <span className="holi-cat">{s.cat}</span>
                   <div className="holi-card-h">Happy Holi!</div>
-                  <div className="holi-card-sub" style={{ color: fontColor }}>होली की शुभकामनाएँ</div>
                   <div className="holi-shayari" style={{ color: fontColor }}>{s.text}</div>
                   <div className="holi-dots">
                     {['#ff6f91','#ffc75f','#a29bfe','#55efc4','#fd79a8'].map((c,j) => (
@@ -170,7 +169,6 @@ export default function HoliCard({ onBack, userEmail }) {
                   <div className="holi-border-inner" />
                   <span className="holi-cat">{s.cat}</span>
                   <div className="holi-card-h">Happy Holi!</div>
-                  <div className="holi-card-sub" style={{ color: fontColor }}>होली की शुभकामनाएँ</div>
                   <div className="holi-shayari" style={{ color: fontColor }}>{s.text}</div>
                   <div className="holi-dots">
                     {['#ff6f91','#ffc75f','#a29bfe','#55efc4','#fd79a8'].map((c,j) => (
@@ -199,7 +197,6 @@ export default function HoliCard({ onBack, userEmail }) {
                   <span className="holi-cat">{s.cat}</span>
                   <div className="holi-card-h">Happy Holi!</div>
                   {s.title && <div className="holi-card-tag" style={{ color: fontColor }}>{s.title}</div>}
-                  <div className="holi-card-sub" style={{ color: fontColor }}>होली की शुभकामनाएँ</div>
                   <div className="holi-shayari holi-shayari-long" style={{ color: fontColor }}>{s.text}</div>
                   <div className="holi-dots">
                     {['#ff6f91','#ffc75f','#a29bfe','#55efc4','#fd79a8'].map((c,j) => (
