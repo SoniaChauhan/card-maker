@@ -40,6 +40,28 @@ const MESSAGES = [
   { cat: '✨', long: true, title: 'Elegant & Classy', text: "Wishing you a Holi that paints your life with joy, peace, new beginnings, and countless smiles. Have a wonderful and colorful celebration!" },
   { cat: '👨‍👩‍👧‍👦', long: true, title: 'Family-Friendly', text: "May this festival bring cheer, harmony, and togetherness into your home. Sending warm wishes for a happy and colorful Holi to you and your family." },
   { cat: '🎉', long: true, title: 'Fresh & Modern', text: "Bright colors, happy vibes, and moments that turn into memories—wishing you a fun, vibrant, and unforgettable Holi!" },
+
+  /* ── 20 Romantic Holi Messages ── */
+  { cat: '💖', long: true, title: 'Romantic', text: "You color my world with love brighter than any shade of Holi. Wishing us a day full of joy and togetherness." },
+  { cat: '💖', long: true, title: 'Romantic', text: "Every color of Holi feels special when I celebrate it with you. Happy Holi, my love." },
+  { cat: '💕', long: true, title: 'Romantic', text: "You are the pink of my smile, the yellow of my joy, and the blue of my peace. Happy Holi to the love of my life." },
+  { cat: '💕', long: true, title: 'Romantic', text: "Let's paint this Holi with love that never fades and memories that last forever." },
+  { cat: '💖', long: true, title: 'Romantic', text: "Your presence in my life adds the most beautiful color to my world. Happy Holi, sweetheart." },
+  { cat: '💖', long: true, title: 'Romantic', text: "On this vibrant day, I just want to say — you are the most colorful part of my life." },
+  { cat: '💕', long: true, title: 'Romantic', text: "Celebrating Holi with you feels like celebrating happiness itself." },
+  { cat: '💕', long: true, title: 'Romantic', text: "May our love stay as bright and beautiful as Holi colors. Happy Holi, my darling." },
+  { cat: '💖', long: true, title: 'Romantic', text: "Let's celebrate this Holi with laughter, sweet moments, and colors that match our love." },
+  { cat: '💖', long: true, title: 'Romantic', text: "You're the reason my world looks so beautiful. Wishing you a romantic and joyful Holi." },
+  { cat: '💕', long: true, title: 'Romantic', text: "Our love story is my favorite shade—warm, bright, and forever colorful. Happy Holi!" },
+  { cat: '💕', long: true, title: 'Romantic', text: "May your touch feel like the softest color on my skin and your presence like the sweetest fragrance." },
+  { cat: '💖', long: true, title: 'Romantic', text: "With you by my side, every festival becomes magical. Happy Holi, my heart." },
+  { cat: '💖', long: true, title: 'Romantic', text: "I don't need colors today; your smile is enough to brighten my world." },
+  { cat: '💕', long: true, title: 'Romantic', text: "The most beautiful color I wear this Holi is the love you fill in my life." },
+  { cat: '💕', long: true, title: 'Romantic', text: "Let's blend our hearts like colors and create a masterpiece of love." },
+  { cat: '💖', long: true, title: 'Romantic', text: "You make every moment vibrant and every day worth celebrating. Happy Holi, love." },
+  { cat: '💖', long: true, title: 'Romantic', text: "My favorite color this Holi is the warmth I feel when I'm with you." },
+  { cat: '💕', long: true, title: 'Romantic', text: "Just like colors mix beautifully, may our love deepen with every passing moment." },
+  { cat: '💕', long: true, title: 'Romantic', text: "Wishing you a Holi as bright as your smile and as beautiful as our bond." },
 ];
 
 const DEFAULT_BG = '#fffde7';
