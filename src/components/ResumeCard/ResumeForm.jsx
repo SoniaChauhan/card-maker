@@ -1,9 +1,10 @@
 import FormField from '../shared/FormField';
+import AIFillButton from '../shared/AIFillButton';
 
 const EMPTY_EXP = { title: '', company: '', from: '', to: '', desc: '' };
 const EMPTY_EDU = { degree: '', institution: '', from: '', to: '', desc: '' };
 
-export default function ResumeForm({ data, errors, onChange, onBack, onGenerate }) {
+export default function ResumeForm({ data, errors, onChange, onBack, onGenerate, onAIFill, aiGenerating, aiError }) {
 
   /* ---- helpers for dynamic sections ---- */
   function addEntry(field, empty) {
@@ -51,6 +52,8 @@ export default function ResumeForm({ data, errors, onChange, onBack, onGenerate 
           <FormField label="LinkedIn / Portfolio URL" name="linkedin"
             value={data.linkedin} onChange={onChange}
             placeholder="https://linkedin.com/in/..." />
+
+          <AIFillButton onClick={onAIFill} generating={aiGenerating} error={aiError} />
 
           <FormField label="Professional Summary" name="summary"
             value={data.summary} onChange={onChange}

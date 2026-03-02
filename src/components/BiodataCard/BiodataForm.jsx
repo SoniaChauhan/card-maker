@@ -1,4 +1,5 @@
 import FormField from '../shared/FormField';
+import AIFillButton from '../shared/AIFillButton';
 import DobPicker from '../shared/DobPicker';
 
 const COMPLEXION_OPTIONS = [
@@ -23,7 +24,7 @@ const RASHI_OPTIONS = [
   'Dhanu (Sagittarius)', 'Makar (Capricorn)', 'Kumbh (Aquarius)', 'Meen (Pisces)',
 ].map(v => ({ value: v, label: v }));
 
-export default function BiodataForm({ data, errors, onChange, onBack, onGenerate }) {
+export default function BiodataForm({ data, errors, onChange, onBack, onGenerate, onAIFill, aiGenerating, aiError }) {
   const today = new Date().toISOString().split('T')[0];
   const minDob = '1940-01-01';
 
@@ -157,6 +158,8 @@ export default function BiodataForm({ data, errors, onChange, onBack, onGenerate
           <FormField label="Hobbies &amp; Interests" name="hobbies"
             value={data.hobbies} onChange={onChange}
             placeholder="e.g. Reading, Cooking, Travelling" />
+
+          <AIFillButton onClick={onAIFill} generating={aiGenerating} error={aiError} />
 
           <FormField label="About Yourself" name="aboutMe"
             value={data.aboutMe} onChange={onChange}

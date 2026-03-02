@@ -9,6 +9,7 @@ import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import LanguagePicker from '../shared/LanguagePicker';
 import useDownload from '../../hooks/useDownload';
+import useAI from '../../hooks/useAI';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
@@ -44,6 +45,12 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
   const { downloading, handleDownload, toast } = useDownload('anniv-card-print', filename, {
     onSuccess: () => logDownload(userEmail, 'anniversary', 'Anniversary Greeting Designer', dlTitle, filename, data).catch(() => {}),
   });
+
+  const { generating, aiError, generateWithAI } = useAI();
+  async function handleAIFill() {
+    const fields = await generateWithAI('anniversary', data);
+    if (fields) setData(d => ({ ...d, ...fields }));
+  }
 
   function onChange(e) {
     const { name, value, files } = e.target;
@@ -92,7 +99,18 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
   }
 
   if (step === 'form') {
-    return <AnniversaryForm data={data} errors={errors} onChange={onChange} onBack={onBack} onGenerate={onGenerate} />;
+    return (
+      <AnniversaryForm
+        data={data}
+        errors={errors}
+        onChange={onChange}
+        onBack={onBack}
+        onGenerate={onGenerate}
+        onAIFill={handleAIFill}
+        aiGenerating={generating}
+        aiError={aiError}
+      />
+    );
   }
 
   return (

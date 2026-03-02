@@ -10,6 +10,7 @@ import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import LanguagePicker from '../shared/LanguagePicker';
 import useDownload from '../../hooks/useDownload';
+import useAI from '../../hooks/useAI';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
@@ -55,6 +56,12 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
     onSuccess: () => logDownload(userEmail, 'wedding', 'Wedding Invite Designer', dlTitle, filename, data).catch(() => {}),
     downloadWidth: 800,
   });
+
+  const { generating, aiError, generateWithAI } = useAI();
+  async function handleAIFill() {
+    const fields = await generateWithAI('wedding', data);
+    if (fields) setData(d => ({ ...d, ...fields }));
+  }
 
   function onChange(e) {
     const { name, value, files } = e.target;
@@ -128,6 +135,9 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
         onBack={onBack}
         onGenerate={onGenerate}
         onProgramChange={onProgramChange}
+        onAIFill={handleAIFill}
+        aiGenerating={generating}
+        aiError={aiError}
       />
     );
   }

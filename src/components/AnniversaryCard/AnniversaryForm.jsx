@@ -1,6 +1,7 @@
 import FormField from '../shared/FormField';
+import AIFillButton from '../shared/AIFillButton';
 
-export default function AnniversaryForm({ data, errors, onChange, onBack, onGenerate }) {
+export default function AnniversaryForm({ data, errors, onChange, onBack, onGenerate, onAIFill, aiGenerating, aiError }) {
   return (
     <div className="form-screen anniversary-form-screen">
       <div className="form-card">
@@ -26,6 +27,8 @@ export default function AnniversaryForm({ data, errors, onChange, onBack, onGene
           <FormField label="Anniversary Date" name="date"
             type="date" value={data.date} onChange={onChange}
             required error={errors.date} />
+
+          <AIFillButton onClick={onAIFill} generating={aiGenerating} error={aiError} />
 
           <FormField label="Blessing / Message" name="message"
             value={data.message} onChange={onChange}

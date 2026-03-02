@@ -1,4 +1,5 @@
 import FormField from '../shared/FormField';
+import AIFillButton from '../shared/AIFillButton';
 
 const PRESET_PROGRAMS = [
   { name: 'Mehendi', icon: '🌿' },
@@ -11,7 +12,7 @@ const PRESET_PROGRAMS = [
   { name: 'Ladies Sangeet', icon: '💃' },
 ];
 
-export default function WeddingForm({ data, errors, onChange, onBack, onGenerate, onProgramChange }) {
+export default function WeddingForm({ data, errors, onChange, onBack, onGenerate, onProgramChange, onAIFill, aiGenerating, aiError }) {
   const today = new Date().toISOString().split('T')[0];
   const programs = data.customPrograms || [];
 
@@ -91,6 +92,8 @@ export default function WeddingForm({ data, errors, onChange, onBack, onGenerate
           <FormField label="Invited Guest Name" name="guestName"
             value={data.guestName} onChange={onChange}
             placeholder="Who is being invited? (optional)" />
+
+          <AIFillButton onClick={onAIFill} generating={aiGenerating} error={aiError} />
 
           <FormField label="Special Message / RSVP Note" name="message"
             value={data.message} onChange={onChange}
