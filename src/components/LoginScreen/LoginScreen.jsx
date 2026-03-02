@@ -349,7 +349,8 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   ];
 
   const FREE_CARDS = [
-    { id: 'holiwishes', icon: '🌈', name: 'Happy Holi Wishes', desc: 'Colorful Holi shayari cards — pick, customize colors & download instantly!', grad: 'linear-gradient(135deg, #ff6f91, #ffc75f)' },
+    { id: 'holiwishes',    icon: '🌈', name: 'Holi Wishes — Hindi',   lang: 'हिन्दी', langClass: 'lp-lang-hi', desc: 'रंगों भरी होली शायरी — चुनें, रंग बदलें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #ff6f91, #ffc75f)' },
+    { id: 'holiwishes-en', icon: '🌈', name: 'Holi Wishes — English', lang: 'English', langClass: 'lp-lang-en', desc: 'Beautiful English Holi messages — pick, customize colors & download!',  grad: 'linear-gradient(135deg, #a29bfe, #ffc75f)' },
   ];
 
 
@@ -506,6 +507,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
           {FREE_CARDS.map(c => (
             <button key={c.id} className="lp-showcase-card lp-free-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
               <span className="lp-free-badge">FREE</span>
+              {c.lang && <span className={`lp-lang-badge ${c.langClass || ''}`}>{c.lang}</span>}
               <span className="lp-showcase-icon">{c.icon}</span>
               <h3 className="lp-showcase-name">{c.name}</h3>
               <p className="lp-showcase-desc">{c.desc}</p>

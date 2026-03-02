@@ -11,6 +11,7 @@ import WeddingCard     from './components/WeddingCard';
 import ResumeCard      from './components/ResumeCard';
 import FestivalCard    from './components/FestivalCard';
 import HoliCard        from './components/HoliCard';
+import HoliCardEnglish from './components/HoliCardEnglish';
 import useScreenshotProtection from './hooks/useScreenshotProtection';
 
 function AppContent() {
@@ -62,6 +63,7 @@ function AppContent() {
     if (selected === 'resume')      return <ResumeCard      {...cardProps} />;
     if (selected === 'festivalcards') return <FestivalCard    {...cardProps} />;
     if (selected === 'holiwishes')     return <HoliCard        {...cardProps} />;
+    if (selected === 'holiwishes-en')  return <HoliCardEnglish {...cardProps} />;
   }
 
   /* ---------- Landing page — handles both logged-in and not-logged-in ---------- */
