@@ -372,16 +372,20 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
 
   /* ═══ CARD CATEGORIES ═══ */
   const PREMIUM_CARDS = [
+    { id: 'holicard',      icon: '🌈', name: 'Holi Celebration Card',        desc: 'Vibrant & colorful Holi greeting card with splashes & festive typography.',   grad: 'linear-gradient(135deg, #ff6f91, #ffc75f)', price: '₹49' },
     { id: 'birthday',      icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',   grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)', price: '₹49' },
     { id: 'wedding',       icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)', price: '₹49' },
     { id: 'anniversary',   icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)', price: '₹49' },
-    { id: 'festivalcards', icon: '🎆', name: 'Festival Cards',               desc: 'Create festive cards for Diwali, Holi, Eid, Christmas and more.',        grad: 'linear-gradient(135deg, #fdcb6e, #e17055)', price: '₹49' },
+    { id: 'festivalcards', icon: '🎆', name: 'Festival Cards',               desc: 'Create festive cards for Diwali, Lohri, Navratri, Eid, Christmas and more.', grad: 'linear-gradient(135deg, #fdcb6e, #e17055)', price: '₹49' },
   ];
 
   const FREE_CARDS = [
     { id: 'holiwishes',    icon: '🌈', name: 'Holi Wishes — Hindi',   lang: 'हिन्दी', langClass: 'lp-lang-hi', desc: 'रंगों भरी होली शायरी — चुनें, रंग बदलें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #ff6f91, #ffc75f)' },
     { id: 'holiwishes-en', icon: '🌈', name: 'Holi Wishes — English', lang: 'English', langClass: 'lp-lang-en', desc: 'Beautiful English Holi messages — pick, customize colors & download!',  grad: 'linear-gradient(135deg, #a29bfe, #ffc75f)' },
     { id: 'motivational',  icon: '💪', name: 'Motivational Quotes',   lang: 'हिन्दी', langClass: 'lp-lang-hi', desc: 'प्रेरणादायक विचार — थीम चुनें, कस्टमाइज़ करें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #0f0c29, #302b63)' },
+    { id: 'motivational-en', icon: '💪', name: 'Motivational Quotes',  lang: 'English', langClass: 'lp-lang-en', desc: 'Inspiring English quotes — pick a theme, customize & download free!', grad: 'linear-gradient(135deg, #134e5e, #71b280)' },
+    { id: 'fathers',          icon: '👨‍👧', name: 'Father\'s Quotes',       lang: 'हिन्दी', langClass: 'lp-lang-hi', desc: 'पिता के प्यार को शब्दों में — थीम चुनें और फ्री डाउनलोड करें!', grad: 'linear-gradient(135deg, #2d3436, #636e72)' },
+    { id: 'fathers-en',       icon: '👨‍👧', name: 'Father\'s Quotes',       lang: 'English', langClass: 'lp-lang-en', desc: 'Heartfelt father\'s quotes — pick a theme, customize & download free!', grad: 'linear-gradient(135deg, #0c3483, #a2b6df)' },
   ];
 
 

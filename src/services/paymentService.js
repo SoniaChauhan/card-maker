@@ -29,6 +29,7 @@ export const CARD_PRICES = {
   congratulations: 29,
   goodluck:        29,
   festivalcards:   49,
+  holicard:        49,
   whatsappinvites: 29,
   instagramstory:  29,
   socialevent:     29,
