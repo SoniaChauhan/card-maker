@@ -1264,13 +1264,12 @@
    ═══════════════════════════════════════ */
 .lp-about {
   width: 100%;
-  max-width: var(--lp-max);
-  margin: 0 auto;
   padding: 44px var(--lp-gutter) 32px;
   text-align: center;
+  box-sizing: border-box;
 }
 .lp-about-content {
-  max-width: 800px;
+  width: 100%;
   margin: 20px auto 0;
   text-align: left;
 }
