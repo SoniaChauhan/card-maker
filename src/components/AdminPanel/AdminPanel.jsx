@@ -25,10 +25,15 @@ export default function AdminPanel() {
   const [usersLoading, setUsersLoading] = useState(true);
   const [toggling, setToggling]     = useState(null);
 
+  /* Visitor stats */
+  const [visitorStats, setVisitorStats] = useState(null);
+  const [statsLoading, setStatsLoading] = useState(true);
+
   useEffect(() => {
     loadBlocked();
     loadRequests();
     loadUsers();
+    loadVisitorStats();
   }, []);
 
   async function loadBlocked() {
@@ -39,6 +44,21 @@ export default function AdminPanel() {
     } catch (err) {
       console.error('Failed to load blocked users:', err);
     } finally { setLoading(false); }
+  }
+
+  async function loadVisitorStats() {
+    setStatsLoading(true);
+    try {
+      const res = await fetch('/api/visitors', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'stats' }),
+      });
+      const data = await res.json();
+      if (res.ok) setVisitorStats(data);
+    } catch (err) {
+      console.error('Failed to load visitor stats:', err);
+    } finally { setStatsLoading(false); }
   }
 
   function showToast(msg) {
@@ -148,6 +168,101 @@ export default function AdminPanel() {
   return (
     <div className="admin-panel">
       <h2>⚙️ Admin Panel</h2>
+
+      {/* ── Visitor Analytics ── */}
+      <div className="admin-block-section">
+        <h3 className="admin-section-title">
+          📊 Visitor Analytics
+          <button className="admin-refresh-sm" onClick={loadVisitorStats} title="Refresh">🔄</button>
+        </h3>
+
+        {statsLoading ? (
+          <p className="admin-empty">Loading visitor stats…</p>
+        ) : !visitorStats ? (
+          <p className="admin-empty">No visitor data yet.</p>
+        ) : (
+          <>
+            {/* Summary cards */}
+            <div className="visitor-stats-grid">
+              <div className="visitor-stat-card">
+                <span className="visitor-stat-number">{visitorStats.today.visits}</span>
+                <span className="visitor-stat-label">Today Visits</span>
+                <span className="visitor-stat-sub">{visitorStats.today.unique} unique</span>
+              </div>
+              <div className="visitor-stat-card">
+                <span className="visitor-stat-number">{visitorStats.week.visits}</span>
+                <span className="visitor-stat-label">This Week</span>
+                <span className="visitor-stat-sub">{visitorStats.week.unique} unique</span>
+              </div>
+              <div className="visitor-stat-card">
+                <span className="visitor-stat-number">{visitorStats.month.visits}</span>
+                <span className="visitor-stat-label">This Month</span>
+                <span className="visitor-stat-sub">{visitorStats.month.unique} unique</span>
+              </div>
+              <div className="visitor-stat-card">
+                <span className="visitor-stat-number">{visitorStats.total.visits}</span>
+                <span className="visitor-stat-label">All Time</span>
+                <span className="visitor-stat-sub">{visitorStats.total.unique} unique</span>
+              </div>
+            </div>
+
+            {/* Daily bar chart */}
+            {visitorStats.dailyStats?.length > 0 && (
+              <div className="visitor-daily-chart">
+                <h4 className="visitor-chart-title">📈 Last 7 Days</h4>
+                <div className="visitor-bars">
+                  {visitorStats.dailyStats.map(d => {
+                    const maxVisits = Math.max(...visitorStats.dailyStats.map(x => x.visits), 1);
+                    const pct = Math.round((d.visits / maxVisits) * 100);
+                    const dayLabel = new Date(d.date + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric' });
+                    return (
+                      <div className="visitor-bar-col" key={d.date}>
+                        <span className="visitor-bar-count">{d.visits}</span>
+                        <div className="visitor-bar" style={{ height: `${Math.max(pct, 5)}%` }} title={`${d.visits} visits, ${d.unique} unique`} />
+                        <span className="visitor-bar-label">{dayLabel}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Top pages */}
+            {visitorStats.topPages?.length > 0 && (
+              <div className="visitor-top-pages">
+                <h4 className="visitor-chart-title">🔥 Top Pages (30 days)</h4>
+                {visitorStats.topPages.map((p, i) => (
+                  <div className="visitor-page-row" key={i}>
+                    <span className="visitor-page-name">{p.page || '/'}</span>
+                    <span className="visitor-page-count">{p.count} visits</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Recent visitors */}
+            {visitorStats.recentVisitors?.length > 0 && (
+              <div className="visitor-recent">
+                <h4 className="visitor-chart-title">🕐 Recent Visitors</h4>
+                <div className="visitor-recent-list">
+                  {visitorStats.recentVisitors.map((v, i) => (
+                    <div className="visitor-recent-row" key={i}>
+                      <span className="visitor-recent-page">{v.page || '/'}</span>
+                      <span className="visitor-recent-ip">🌐 {v.ip}</span>
+                      <span className="visitor-recent-info">
+                        {v.language} · {v.screenWidth}×{v.screenHeight}
+                      </span>
+                      <span className="visitor-recent-time">
+                        {new Date(v.visitedAt).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
 
       {/* ── Subscription Requests ── */}
       <div className="admin-block-section">
