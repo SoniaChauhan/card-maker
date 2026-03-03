@@ -613,6 +613,19 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         </div>
       </section>
 
+      {/* ═══════ NEED A CUSTOM DESIGN ═══════ */}
+      <section className="lp-custom-design-section">
+        <h2 className="lp-section-title">🎨 Need a Custom Design?</h2>
+        <div className="lp-custom-design">
+          <p className="lp-text">
+            Looking for a card that is fully personalized and tailored to your exact theme, event, or business branding?
+            We offer custom card design services created exclusively by Creative Thinker Design Hub.
+          </p>
+          <p className="lp-text">📩 Email us your requirements at: <strong>creativethinker.designhub@gmail.com</strong></p>
+          <p className="lp-text lp-brand-subtle">Our team will create a unique, high-quality design specifically for you.</p>
+        </div>
+      </section>
+
       {/* ═══════ HOW IT WORKS ═══════ */}
       <section className="lp-how-it-works">
         <h2 className="lp-section-title">📋 How It Works</h2>
@@ -822,15 +835,6 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
               <li><strong>✓ Multi‑Language Support</strong> — Design your cards in multiple languages to suit your personal, cultural, or business needs.</li>
               <li><strong>✓ Works Smoothly on All Devices</strong> — Create beautiful cards from your desktop, tablet, or mobile. Our platform is fully responsive and optimized for every screen size.</li>
             </ul>
-            <div className="lp-hire" style={{ marginTop: 14 }}>
-              <h4 className="lp-subheading">🎨 Need a Custom Design?</h4>
-              <p className="lp-text">
-                Looking for a card that is fully personalized and tailored to your exact theme, event, or business branding?
-                We offer custom card design services created exclusively by Creative Thinker Design Hub.
-              </p>
-              <p className="lp-text">📩 Email us your requirements at: <strong>creativethinker.designhub@gmail.com</strong></p>
-              <p className="lp-text lp-brand-subtle">Our team will create a unique, high-quality design specifically for you.</p>
-            </div>
           </div>
 
           {/* Rate & Review */}

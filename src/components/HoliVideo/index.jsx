@@ -10,13 +10,27 @@ const HOLI_VIDEOS = [
 export default function HoliVideo({ onBack }) {
   const [errors, setErrors] = useState({});
 
-  function handleDownload(video) {
-    const link = document.createElement('a');
-    link.href = video.file;
-    link.download = video.file.split('/').pop();
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  async function handleDownload(video) {
+    try {
+      const response = await fetch(video.file);
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = video.file.split('/').pop();
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(blobUrl);
+    } catch {
+      // fallback: direct download
+      const link = document.createElement('a');
+      link.href = video.file;
+      link.download = video.file.split('/').pop();
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   }
 
   function handleVideoError(id) {
