@@ -541,15 +541,15 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
       {/* ═══════ HOLI SPECIAL OFFER BANNER ═══════ */}
       <section className="lp-offer-banner">
         <div className="lp-offer-inner">
-          <div className="lp-offer-badge">🔥 LIMITED TIME OFFER</div>
+          <div className="lp-offer-badge">🔥 SPECIAL OFFER</div>
           <h2 className="lp-offer-title">🌈 Holi Celebration Card — Unlimited Downloads!</h2>
           <p className="lp-offer-desc">
-            Pay just <strong>₹49</strong> once and download <strong>unlimited Holi cards</strong> for <strong>24 hours</strong>!
+            Pay just <strong>₹49</strong> once and download <strong>unlimited Holi cards forever</strong>!
             Create vibrant, colorful greeting cards with festive typography.
           </p>
           <div className="lp-offer-features">
             <span className="lp-offer-feature">✅ Unlimited Downloads</span>
-            <span className="lp-offer-feature">✅ 24-Hour Access</span>
+            <span className="lp-offer-feature">✅ Lifetime Access</span>
             <span className="lp-offer-feature">✅ No Watermark</span>
             <span className="lp-offer-feature">✅ HD Quality</span>
           </div>

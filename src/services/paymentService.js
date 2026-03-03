@@ -29,7 +29,7 @@ export const CARD_PRICES = {
   congratulations: 29,
   goodluck:        29,
   festivalcards:   49,
-  holicard:        49,  // 24-hr unlock
+  holicard:        49,  // Unlimited downloads
   whatsappinvites: 29,
   instagramstory:  29,
   socialevent:     29,
@@ -45,7 +45,7 @@ export const FREE_CARDS = new Set([
 ]);
 
 /** Card types that unlock for 24 hours after one payment */
-export const TIMED_UNLOCK_CARDS = new Set(['holicard']);
+export const TIMED_UNLOCK_CARDS = new Set([]);
 
 /** Check if this card type requires payment */
 export function requiresPayment(cardType) {

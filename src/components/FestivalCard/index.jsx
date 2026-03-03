@@ -14,7 +14,7 @@ import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
 import { logDownload } from '../../services/downloadHistoryService';
-import { hasUserPaid, getCardPrice, getPaymentStatus } from '../../services/paymentService';
+import { hasUserPaid, getCardPrice } from '../../services/paymentService';
 
 /* ── Festival definitions ── */
 export const HOLI_FESTIVAL = { id: 'holi', label: 'Holi Celebration Card', icon: '🌈', tag: 'Holi Card', desc: 'Vibrant and colorful Holi greeting card with playful splashes, gulaal effects, and festive typography.' };
@@ -85,8 +85,6 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
   const [saving, setSaving] = useState(false);
   const [templateId, setTemplateId] = useState(initTplId || null);
   const [paid, setPaid]     = useState(false);
-  const [unlockedUntil, setUnlockedUntil] = useState(null);
-  const [countdown, setCountdown] = useState('');
   const [showPayment, setShowPayment] = useState(false);
   const [showChooser, setShowChooser] = useState(false);
   const [showEmailCheck, setShowEmailCheck] = useState(false);
@@ -109,42 +107,11 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
     if (isSuperAdmin) { setPaid(true); watermarkRef.current = false; return; }
     if (!userEmail) return;
     
-    if (isHoliCard) {
-      // For holicard, use getPaymentStatus to get 24hr unlock info
-      getPaymentStatus(userEmail, effectiveCardType).then(({ paid: p, unlockedUntil: u }) => {
-        setPaid(p);
-        watermarkRef.current = !p;
-        if (u) setUnlockedUntil(u);
-      }).catch(() => {});
-    } else {
-      hasUserPaid(userEmail, effectiveCardType).then(p => {
-        setPaid(p);
-        watermarkRef.current = !p;
-      }).catch(() => {});
-    }
-  }, [userEmail, isSuperAdmin, isHoliCard, effectiveCardType]);
-
-  /* Countdown ticker for 24-hr unlock (holicard only) */
-  useEffect(() => {
-    if (!isHoliCard || !unlockedUntil) { setCountdown(''); return; }
-    function tick() {
-      const ms = new Date(unlockedUntil) - Date.now();
-      if (ms <= 0) {
-        setPaid(false);
-        watermarkRef.current = true;
-        setUnlockedUntil(null);
-        setCountdown('');
-        return;
-      }
-      const h = Math.floor(ms / 3600000);
-      const m = Math.floor((ms % 3600000) / 60000);
-      const s = Math.floor((ms % 60000) / 1000);
-      setCountdown(`${h}h ${m}m ${s}s`);
-    }
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
-  }, [isHoliCard, unlockedUntil]);
+    hasUserPaid(userEmail, effectiveCardType).then(p => {
+      setPaid(p);
+      watermarkRef.current = !p;
+    }).catch(() => {});
+  }, [userEmail, isSuperAdmin, effectiveCardType]);
 
   /* Check if entered email has existing valid payment */
   async function handleCheckEmail() {
@@ -154,13 +121,12 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
     setCheckingEmail(true);
     setEmailCheckResult(null);
     try {
-      const { paid: isPaid, unlockedUntil: unlock } = await getPaymentStatus(checkEmail.trim(), effectiveCardType);
+      const isPaid = await hasUserPaid(checkEmail.trim(), effectiveCardType);
       if (isPaid) {
         setEmailCheckResult('found');
         setPaid(true);
         watermarkRef.current = false;
         setVerifiedEmail(checkEmail.trim());
-        if (unlock) setUnlockedUntil(unlock);
       } else {
         setEmailCheckResult('not-found');
       }
@@ -238,7 +204,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
       <Particles icons={particles} count={24} />
       <div className="card-screen-container">
         <p className="festival-screen-title">{festival.icon} {festival.label}</p>
-        <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
+        {!isHoliCard && <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />}
 
         {/* Background Color Picker */}
         <div className="fest-bg-picker">
@@ -274,9 +240,9 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
         </div>
 
         {/* Payment / Download actions */}
-        {isHoliCard && paid && countdown && (
+        {isHoliCard && paid && (
           <div className="holi-unlock-banner" style={{ marginTop: '20px', marginBottom: '12px' }}>
-            🔓 Unlimited access active — ⏰ expires in <strong>{countdown}</strong>
+            ✅ Unlimited downloads unlocked!
           </div>
         )}
         {!isHoliCard && !paid && (
@@ -291,7 +257,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
             onClick={() => isHoliCard ? setShowEmailCheck(true) : setShowPayment(true)}
             style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginTop: isHoliCard ? '20px' : '0', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
           >
-            {isHoliCard ? `💳 Pay ₹${getCardPrice(effectiveCardType)} & Unlock 24hr Access` : `💎 Pay ₹${getCardPrice(effectiveCardType)} & Download (No Watermark)`}
+            {isHoliCard ? `💳 Pay ₹${getCardPrice(effectiveCardType)} & Unlock Unlimited Downloads` : `💎 Pay ₹${getCardPrice(effectiveCardType)} & Download (No Watermark)`}
           </button>
         )}
 
@@ -330,7 +296,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
             <div className="pay-icon">🔍</div>
             <h3>Check Existing Purchase</h3>
             <p style={{ color: '#666', fontSize: '0.9rem', marginBottom: '16px' }}>
-              Enter your email to check if you've already purchased 24-hour access.
+              Enter your email to check if you've already purchased unlimited access.
             </p>
 
             <input
@@ -344,7 +310,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
 
             {emailCheckResult === 'found' && (
               <div style={{ background: '#d4edda', color: '#155724', padding: '12px 16px', borderRadius: '10px', marginBottom: '12px', textAlign: 'center' }}>
-                ✅ <strong>Access Found!</strong> You have 24-hour unlimited downloads.
+                ✅ <strong>Access Found!</strong> You have unlimited downloads.
                 <button
                   onClick={() => { setShowEmailCheck(false); setTimeout(() => handleDownload(), 300); }}
                   style={{ display: 'block', width: '100%', marginTop: '12px', padding: '12px', background: '#28a745', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '1rem', cursor: 'pointer' }}
@@ -361,7 +327,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
                   onClick={handleProceedToPayment}
                   style={{ display: 'block', width: '100%', marginTop: '12px', padding: '12px', background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '1rem', cursor: 'pointer' }}
                 >
-                  🔓 Pay ₹49 — Unlock 24-hr Access
+                  🔓 Pay ₹49 — Unlock Unlimited Access
                 </button>
               </div>
             )}
