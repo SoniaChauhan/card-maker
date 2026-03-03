@@ -17,8 +17,9 @@ import { logDownload } from '../../services/downloadHistoryService';
 import { hasUserPaid, getCardPrice } from '../../services/paymentService';
 
 /* ── Festival definitions ── */
+export const HOLI_FESTIVAL = { id: 'holi', label: 'Holi Celebration Card', icon: '🌈', tag: 'Holi Card', desc: 'Vibrant and colorful Holi greeting card with playful splashes, gulaal effects, and festive typography.' };
+
 export const FESTIVALS = [
-  { id: 'holi',        label: 'Holi Celebration Card',        icon: '🌈', tag: 'Holi Card',         desc: 'Vibrant and colorful Holi greeting card with playful splashes, gulaal effects, and festive typography.' },
   { id: 'diwali',      label: 'Diwali Wishes Card',           icon: '🪔', tag: 'Diwali Card',       desc: 'Elegant Deepawali greeting card featuring diyas, rangoli, lights, and auspicious festive elements.' },
   { id: 'lohri',       label: 'Lohri Festival Card',          icon: '🔥', tag: 'Lohri Card',        desc: 'Warm Lohri greeting card inspired by bonfire, dhol beats, winter theme, and Punjabi culture.' },
   { id: 'navratri',    label: 'Navratri Greeting Card',       icon: '✨', tag: 'Navratri Card',     desc: 'Devotional card with Maa Durga, garba theme, and festive colors for Shubh Navratri.' },
@@ -31,7 +32,7 @@ export const FESTIVALS = [
 ];
 
 const INIT = {
-  festival: 'holi',
+  festival: 'diwali',
   senderName: '',
   recipientName: '',
   message: '',
@@ -71,9 +72,14 @@ const BG_SWATCHES = [
 const CARD_TYPE = 'festivalcards';
 const CARD_LABEL = 'Festival Greeting Card';
 
-export default function FestivalCard({ onBack, userEmail, initialData, templateId: initTplId, isSuperAdmin }) {
+export default function FestivalCard({ onBack, userEmail, initialData, templateId: initTplId, isSuperAdmin, lockedFestival }) {
+  /* When lockedFestival is set, use only that festival */
+  const allFestivals = lockedFestival === 'holi' ? [HOLI_FESTIVAL] : FESTIVALS;
+  const effectiveInit = lockedFestival ? { ...INIT, festival: lockedFestival } : INIT;
+  const effectiveCardType = lockedFestival === 'holi' ? 'holicard' : CARD_TYPE;
+  const effectiveCardLabel = lockedFestival === 'holi' ? 'Holi Celebration Card' : CARD_LABEL;
   const [step, setStep]     = useState('form');
-  const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
+  const [data, setData]     = useState(initialData ? { ...effectiveInit, ...initialData } : effectiveInit);
   const [errors, setErrors] = useState({});
   const [lang, setLang]     = useState('en');
   const [saving, setSaving] = useState(false);
@@ -82,7 +88,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
   const [showPayment, setShowPayment] = useState(false);
   const [showChooser, setShowChooser] = useState(false);
 
-  const festival = FESTIVALS.find(f => f.id === data.festival) || FESTIVALS[0];
+  const festival = allFestivals.find(f => f.id === data.festival) || (lockedFestival === 'holi' ? HOLI_FESTIVAL : allFestivals[0]);
   const filename = `festival-${toFilename(festival.tag)}-${toFilename(data.recipientName || 'card')}.png`;
   const dlTitle = data.recipientName ? `${festival.label} for ${data.recipientName}` : festival.label;
   const { downloading, handleDownload, toast, watermarkRef } = useDownload('festival-card-print', filename, {
@@ -94,7 +100,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
   useEffect(() => {
     if (isSuperAdmin) { setPaid(true); watermarkRef.current = false; return; }
     if (!userEmail) return;
-    hasUserPaid(userEmail, CARD_TYPE).then(p => {
+    hasUserPaid(userEmail, effectiveCardType).then(p => {
       setPaid(p);
       watermarkRef.current = !p;
     }).catch(() => {});
@@ -131,7 +137,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
       if (templateId) {
         await updateTemplate(templateId, name, data);
       } else {
-        const id = await saveTemplate(userEmail, 'festival', name, data);
+        const id = await saveTemplate(userEmail, effectiveCardType, name, data);
         setTemplateId(id);
       }
       alert(templateId ? 'Template updated!' : 'Template saved!');
@@ -149,7 +155,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
         onChange={onChange}
         onBack={onBack}
         onGenerate={onGenerate}
-        festivals={FESTIVALS}
+        festivals={allFestivals}
       />
     );
   }
@@ -199,7 +205,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
         {/* Payment / Download actions */}
         {!paid && (
           <div className="download-locked-badge">
-            🔒 Preview Mode — Pay ₹{getCardPrice(CARD_TYPE)} to remove watermark
+            🔒 Preview Mode — Pay ₹{getCardPrice(effectiveCardType)} to remove watermark
           </div>
         )}
 
@@ -209,7 +215,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
             onClick={() => setShowPayment(true)}
             style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
           >
-            💎 Pay ₹{getCardPrice(CARD_TYPE)} & Download (No Watermark)
+            💎 Pay ₹{getCardPrice(effectiveCardType)} & Download (No Watermark)
           </button>
         )}
 
@@ -241,8 +247,8 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
       {/* Razorpay Payment Popup */}
       {showPayment && (
         <PaymentPopup
-          cardType={CARD_TYPE}
-          cardLabel={CARD_LABEL}
+          cardType={effectiveCardType}
+          cardLabel={effectiveCardLabel}
           userEmail={userEmail}
           onClose={() => setShowPayment(false)}
           onPaymentDone={() => {

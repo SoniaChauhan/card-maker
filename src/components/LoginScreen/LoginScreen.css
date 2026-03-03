@@ -329,8 +329,8 @@
   background: linear-gradient(90deg, #10b981, #00e676, #059669);
 }
 .lp-free-grid {
-  grid-template-columns: repeat(2, 1fr) !important;
-  max-width: 600px;
+  grid-template-columns: repeat(3, 1fr) !important;
+  max-width: 900px;
   margin: 0 auto;
 }
 
