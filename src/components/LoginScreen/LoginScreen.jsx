@@ -957,19 +957,22 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         <h2 className="lp-section-title">📖 About Card Maker</h2>
         <div className="lp-about-content">
           <p>
-            <strong>Card Maker</strong> helps you design birthday invitations, wedding cards, anniversary greetings,
-            festival greeting cards, and professional documents like resumes and marriage biodata — all online.
-            With 50+ ready-made templates in <strong>Hindi, English, Punjabi, and Gujarati</strong>, anyone can
-            create and download beautiful cards instantly.
+            <strong>Card Maker</strong> is a simple and intuitive online tool that helps you create birthday invitations,
+            wedding cards, anniversary greetings, festival greeting cards, motivational quote cards, and professional
+            documents like resumes and marriage biodata — all in one place. With a growing library of ready‑to‑use
+            templates in <strong>Hindi, English, Punjabi, and Gujarati</strong>, it's easy for anyone to design and
+            download beautiful cards quickly.
           </p>
           <p>
-            Whether you need a free Holi wishes card or a premium wedding invitation, Card Maker has you covered.
-            Our easy-to-use editor lets you customize text, colors, photos, and fonts with a live preview.
-            Download in high-quality PNG or PDF format — ready to print or share on WhatsApp!
+            Our editor lets you customize text, colors, fonts, and images with a smooth live preview experience.
+            Once your design is ready, you can download it instantly in high‑quality PNG or PDF format, perfect for
+            printing or sharing on WhatsApp, Instagram, or email.
           </p>
           <p>
-            Built by <strong>Creative Thinker Design Hub</strong> in India, Card Maker is trusted by thousands
-            of users for creating professional-quality cards without any design skills.
+            Developed by <strong>Creative Thinker Design Hub</strong>, Card Maker focuses on making design accessible
+            to everyone — from students and families to small business owners and event planners. Whether it's a festive
+            greeting or a professional document, Card Maker helps you create polished, visually appealing cards without
+            needing any design skills.
           </p>
         </div>
       </section>
