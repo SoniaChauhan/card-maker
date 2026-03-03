@@ -840,9 +840,6 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
               💬 Your feedback matters! Help us improve by sharing your thoughts.
               Rate your experience and leave a comment — every review helps us serve you better.
             </p>
-            <p className="lp-fb-signup-note">
-              📝 <strong>Sign up</strong> to share your feedback. We value genuine reviews from our community!
-            </p>
             <form className="lp-feedback-form" onSubmit={handleFeedbackSubmit}>
               <div className="login-stars">
                 {[1, 2, 3, 4, 5].map(star => (
@@ -871,41 +868,40 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
               </button>
               {fbMsg && <div className={`login-fb-msg ${fbMsg.startsWith('✅') ? 'success' : 'warn'}`}>{fbMsg}</div>}
             </form>
+
+            {/* Real user reviews displayed inside this section */}
+            <div className="lp-inline-reviews">
+              <h5 className="lp-inline-reviews-title">💬 What Our Users Say</h5>
+              {reviewsLoading ? (
+                <p className="lp-reviews-loading">Loading reviews…</p>
+              ) : reviews.length === 0 ? (
+                <p className="lp-reviews-empty">No reviews yet. Be the first to share your feedback! ⭐</p>
+              ) : (
+                <div className="lp-inline-reviews-list">
+                  {reviews.map(r => (
+                    <div className="lp-review-card" key={r.id}>
+                      <div className="lp-review-header">
+                        <div className="lp-review-avatar">{r.name?.charAt(0)?.toUpperCase() || '?'}</div>
+                        <div>
+                          <div className="lp-review-name">{r.name}</div>
+                          <div className="lp-review-stars">
+                            {[1, 2, 3, 4, 5].map(s => (
+                              <span key={s} className={`lp-review-star ${s <= r.rating ? 'filled' : ''}`}>★</span>
+                            ))}
+                          </div>
+                        </div>
+                        <span className="lp-review-date" style={{ marginLeft: 'auto' }}>
+                          {new Date(r.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                        </span>
+                      </div>
+                      {r.comment && <p className="lp-review-comment">{r.comment}</p>}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </section>
-
-      {/* ═══════ USER REVIEWS DISPLAY ═══════ */}
-      <section className="lp-reviews-section">
-        <h2 className="lp-section-title">💬 What Our Users Say</h2>
-        <p className="lp-section-sub">Real feedback from real users</p>
-        {reviewsLoading ? (
-          <p className="lp-reviews-loading">Loading reviews…</p>
-        ) : reviews.length === 0 ? (
-          <p className="lp-reviews-empty">No reviews yet. Be the first to share your feedback! ⭐</p>
-        ) : (
-          <div className="lp-reviews-grid">
-            {reviews.map(r => (
-              <div className="lp-review-card" key={r.id}>
-                <div className="lp-review-header">
-                  <div className="lp-review-avatar">{r.name?.charAt(0)?.toUpperCase() || '?'}</div>
-                  <div>
-                    <div className="lp-review-name">{r.name}</div>
-                    <div className="lp-review-stars">
-                      {[1, 2, 3, 4, 5].map(s => (
-                        <span key={s} className={`lp-review-star ${s <= r.rating ? 'filled' : ''}`}>★</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <p className="lp-review-comment">{r.comment}</p>
-                <span className="lp-review-date">
-                  {new Date(r.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
-                </span>
-              </div>
-            ))}
-          </div>
-        )}
       </section>
 
       {/* ═══════ ABOUT CARD MAKER ═══════ */}
