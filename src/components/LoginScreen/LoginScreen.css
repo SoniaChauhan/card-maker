@@ -1225,6 +1225,34 @@
   color: #777;
 }
 
+/* Inline reviews inside Rate & Review section */
+.lp-inline-reviews {
+  margin-top: 24px;
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding-top: 20px;
+}
+.lp-inline-reviews-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #e0d4ff;
+  margin: 0 0 14px;
+}
+.lp-inline-reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.lp-inline-reviews-list::-webkit-scrollbar {
+  width: 4px;
+}
+.lp-inline-reviews-list::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.15);
+  border-radius: 4px;
+}
+
 @media (max-width: 480px) {
   .lp-reviews-grid {
     grid-template-columns: 1fr;
