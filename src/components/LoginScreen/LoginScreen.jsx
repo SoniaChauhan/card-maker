@@ -854,20 +854,22 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         <div className="lp-extras-grid">
           {/* Features card */}
           <div className="lp-col-card">
-            <h4 className="lp-subheading">✅ Why Card Maker?</h4>
+            <h4 className="lp-subheading">🌟 Why Choose Our Card Maker?</h4>
             <ul className="lp-features">
-              <li>Multiple premium templates per card type</li>
-              <li>Live preview while editing</li>
-              <li>High-quality PNG/PDF downloads</li>
-              <li>Multi-language support</li>
-              <li>Works on all devices — desktop, tablet, mobile</li>
+              <li><strong>✓ Premium Templates for Every Card Type</strong> — Access a wide collection of professionally designed templates for invitations, festival greetings, announcements, business flyers, and more—each crafted to help your card look stunning and professional.</li>
+              <li><strong>✓ Real‑Time Editing with Live Preview</strong> — Customize your card easily with instant live preview. Change colors, text, images, and layout while seeing updates in real time.</li>
+              <li><strong>✓ High‑Resolution PNG &amp; PDF Downloads</strong> — Download print‑ready, high‑quality PNG and PDF files ideal for sharing on WhatsApp, Instagram, Facebook, or printing.</li>
+              <li><strong>✓ Multi‑Language Support</strong> — Design your cards in multiple languages to suit your personal, cultural, or business needs.</li>
+              <li><strong>✓ Works Smoothly on All Devices</strong> — Create beautiful cards from your desktop, tablet, or mobile. Our platform is fully responsive and optimized for every screen size.</li>
             </ul>
             <div className="lp-hire" style={{ marginTop: 14 }}>
-              <h4 className="lp-subheading">💼 Need a Custom Design?</h4>
+              <h4 className="lp-subheading">🎨 Need a Custom Design?</h4>
               <p className="lp-text">
-                Hire us to create your own personalized, fully customized card tailored to your needs!
+                Looking for a card that is fully personalized and tailored to your exact theme, event, or business branding?
+                We offer custom card design services created exclusively by Creative Thinker Design Hub.
               </p>
-              <p className="lp-text lp-brand-subtle">Custom designs are created by <strong>Creative Thinker Design Hub</strong>.</p>
+              <p className="lp-text">📩 Email us your requirements at: <strong>creativethinker.designhub@gmail.com</strong></p>
+              <p className="lp-text lp-brand-subtle">Our team will create a unique, high-quality design specifically for you.</p>
             </div>
           </div>
 
