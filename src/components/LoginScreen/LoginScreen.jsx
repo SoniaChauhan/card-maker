@@ -935,42 +935,6 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         </div>
       </section>
 
-      {/* ═══════ FAQ SECTION ═══════ */}
-      <section className="lp-faq">
-        <h2 className="lp-section-title">❓ Frequently Asked Questions</h2>
-        <p className="lp-section-sub">Quick answers about Card Maker</p>
-        <div className="lp-faq-list">
-          <details className="lp-faq-item">
-            <summary>How can I create a card online?</summary>
-            <p>Simply visit Card Maker, choose a template (birthday, wedding, anniversary, etc.), customize it with your text and photos, preview, and download instantly. No software installation needed!</p>
-          </details>
-          <details className="lp-faq-item">
-            <summary>Is Card Maker free to use?</summary>
-            <p>Yes! Holi wishes cards (Hindi &amp; English) and Motivational Quotes cards are 100% free — no sign-up required. Premium card designers like birthday, wedding, anniversary, and festival cards are available at affordable prices starting from ₹49.</p>
-          </details>
-          <details className="lp-faq-item">
-            <summary>Do I need to sign up to download cards?</summary>
-            <p>No! Free cards like Holi wishes can be downloaded without signing up. For premium cards, you can use them as a guest or create an account to save your templates and download history.</p>
-          </details>
-          <details className="lp-faq-item">
-            <summary>Do you support Hindi and English templates?</summary>
-            <p>Yes! Card Maker supports multiple languages including Hindi, English, Punjabi, and Gujarati. Holi wishes are available in both Hindi (50+ shayaris) and English (47 messages).</p>
-          </details>
-          <details className="lp-faq-item">
-            <summary>What types of cards can I create?</summary>
-            <p>You can create Birthday Invitations, Wedding Cards, Anniversary Greetings, Holi Wishes, Festival Cards, Marriage Biodata, Professional Resumes, Jagrata Invitations, and many more. New card types are added regularly!</p>
-          </details>
-          <details className="lp-faq-item">
-            <summary>Can I download cards as PDF?</summary>
-            <p>Yes! Resumes and biodata can be downloaded as PDF files. Invitation cards and greeting cards are downloaded as high-quality PNG images that are perfect for printing and sharing.</p>
-          </details>
-          <details className="lp-faq-item">
-            <summary>Is Card Maker available on mobile?</summary>
-            <p>Absolutely! Card Maker works on all devices — desktop, tablet, and mobile phones. The interface is fully responsive and optimised for touch screens.</p>
-          </details>
-        </div>
-      </section>
-
       {/* ═══════ COMING SOON ═══════ */}
       <section className="lp-coming-section">
         <h2 className="lp-section-title">🚀 Coming Soon</h2>
