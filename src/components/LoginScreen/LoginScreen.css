@@ -334,6 +334,37 @@
   margin: 0 auto;
 }
 
+/* ═══ Free section language heading ═══ */
+.lp-free-lang-heading {
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #e0e0e0;
+  margin: 22px 0 10px;
+  letter-spacing: 0.5px;
+}
+
+/* ═══ Holi Special Section ═══ */
+.lp-holi-section {
+  position: relative;
+  padding-top: 20px;
+}
+.lp-holi-section::before {
+  content: '';
+  position: absolute;
+  inset: -8px -16px;
+  background: linear-gradient(135deg, rgba(255,111,145,.06), rgba(255,199,95,.06));
+  border-radius: 24px;
+  border: 1px solid rgba(255,111,145,.12);
+  pointer-events: none;
+}
+.lp-holi-section .lp-section-sub::after {
+  background: linear-gradient(90deg, #ff6f91, #ffc75f, #ff6f91);
+}
+.lp-holi-card {
+  border: 1px solid rgba(255,111,145,.25) !important;
+}
+
 /* ═══ Premium card glow ═══ */
 .lp-premium-card {
   border: 1px solid rgba(255, 215, 0, .15);

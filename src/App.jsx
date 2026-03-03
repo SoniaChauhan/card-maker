@@ -16,10 +16,13 @@ import MotivationalCard from './components/MotivationalCard';
 import MotivationalCardEnglish from './components/MotivationalCardEnglish';
 import FathersCard from './components/FathersCard';
 import FathersCardEnglish from './components/FathersCardEnglish';
+import MothersCard from './components/MothersCard';
+import MothersCardHindi from './components/MothersCardHindi';
+import HoliVideo from './components/HoliVideo';
 import useScreenshotProtection from './hooks/useScreenshotProtection';
 import VisitorTracker from './components/shared/VisitorTracker';
 
-const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','festivalcards','holicard','holiwishes','holiwishes-en','motivational','motivational-en','fathers','fathers-en'];
+const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','festivalcards','holicard','holiwishes','holiwishes-en','holivideo','motivational','motivational-en','fathers','fathers-en','mothers','mothers-en'];
 
 function AppContent() {
   const { user, loading, isGuest } = useAuth();
@@ -83,10 +86,13 @@ function AppContent() {
     if (selected === 'holicard')       return <FestivalCard    lockedFestival="holi" {...cardProps} />;
     if (selected === 'holiwishes')     return <HoliCard        {...cardProps} />;
     if (selected === 'holiwishes-en')  return <HoliCardEnglish {...cardProps} />;
+    if (selected === 'holivideo')       return <HoliVideo        onBack={handleBack} />;
     if (selected === 'motivational')    return <MotivationalCard  {...cardProps} />;
     if (selected === 'motivational-en')  return <MotivationalCardEnglish {...cardProps} />;
     if (selected === 'fathers')            return <FathersCard {...cardProps} />;
     if (selected === 'fathers-en')          return <FathersCardEnglish {...cardProps} />;
+    if (selected === 'mothers-en')           return <MothersCard {...cardProps} />;
+    if (selected === 'mothers')               return <MothersCardHindi {...cardProps} />;
   }
 
   /* ---------- Landing page — handles both logged-in and not-logged-in ---------- */
