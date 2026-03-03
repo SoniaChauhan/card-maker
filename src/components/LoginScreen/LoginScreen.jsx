@@ -381,6 +381,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   const FREE_CARDS = [
     { id: 'holiwishes',    icon: '🌈', name: 'Holi Wishes — Hindi',   lang: 'हिन्दी', langClass: 'lp-lang-hi', desc: 'रंगों भरी होली शायरी — चुनें, रंग बदलें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #ff6f91, #ffc75f)' },
     { id: 'holiwishes-en', icon: '🌈', name: 'Holi Wishes — English', lang: 'English', langClass: 'lp-lang-en', desc: 'Beautiful English Holi messages — pick, customize colors & download!',  grad: 'linear-gradient(135deg, #a29bfe, #ffc75f)' },
+    { id: 'motivational',  icon: '💪', name: 'Motivational Quotes',   lang: 'हिन्दी', langClass: 'lp-lang-hi', desc: 'प्रेरणादायक विचार — थीम चुनें, कस्टमाइज़ करें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #0f0c29, #302b63)' },
   ];
 
 
@@ -920,7 +921,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
           </details>
           <details className="lp-faq-item">
             <summary>Is Card Maker free to use?</summary>
-            <p>Yes! Holi wishes cards (Hindi &amp; English) are 100% free — no sign-up required. Premium card designers like birthday, wedding, anniversary, and festival cards are available at affordable prices starting from ₹49.</p>
+            <p>Yes! Holi wishes cards (Hindi &amp; English) and Motivational Quotes cards are 100% free — no sign-up required. Premium card designers like birthday, wedding, anniversary, and festival cards are available at affordable prices starting from ₹49.</p>
           </details>
           <details className="lp-faq-item">
             <summary>Do I need to sign up to download cards?</summary>
