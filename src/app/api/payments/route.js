@@ -14,6 +14,10 @@ const RAZORPAY_SECRET = process.env.RAZORPAY_KEY_SECRET;
 const RAZORPAY_WEBHOOK_SECRET = process.env.RAZORPAY_WEBHOOK_SECRET || RAZORPAY_SECRET;
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
 
+/** Card types that grant a 24-hour timed unlock after payment */
+const TIMED_UNLOCK_CARDS = new Set(['holicard']);
+const UNLOCK_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
+
 /**
  * Verify Razorpay payment signature.
  * Razorpay signs: orderId + '|' + paymentId using the key_secret.
@@ -55,6 +59,20 @@ export async function POST(req) {
 
         const key = email.toLowerCase().trim();
 
+        // Build payment record update
+        const paymentSet = {
+          razorpayOrderId,
+          razorpayPaymentId,
+          razorpaySignature,
+          status: 'verified',
+          verifiedAt: new Date(),
+        };
+
+        // For timed-unlock cards, set/refresh the 24-hour window
+        if (TIMED_UNLOCK_CARDS.has(cardType)) {
+          paymentSet.unlockedUntil = new Date(Date.now() + UNLOCK_DURATION_MS);
+        }
+
         // Update order status
         await db.collection('orders').updateOne(
           { razorpayOrderId },
@@ -65,13 +83,7 @@ export async function POST(req) {
         await db.collection('payments').updateOne(
           { email: key, cardType },
           {
-            $set: {
-              razorpayOrderId,
-              razorpayPaymentId,
-              razorpaySignature,
-              status: 'verified',
-              verifiedAt: new Date(),
-            },
+            $set: paymentSet,
             $setOnInsert: {
               email: key,
               cardType,
@@ -109,15 +121,57 @@ export async function POST(req) {
 
         // Super-admin bypasses payment
         if (key === ADMIN_EMAIL.toLowerCase().trim()) {
-          return NextResponse.json({ paid: true });
+          return NextResponse.json({ paid: true, unlockedUntil: null });
         }
 
+        if (TIMED_UNLOCK_CARDS.has(cardType)) {
+          // For 24-hr unlock cards, first check for active unlock window
+          let doc = await db.collection('payments').findOne({
+            email: key,
+            cardType,
+            status: 'verified',
+            unlockedUntil: { $gt: new Date() },
+          });
+
+          if (doc) {
+            return NextResponse.json({
+              paid: true,
+              unlockedUntil: doc.unlockedUntil?.toISOString() || null,
+            });
+          }
+
+          // Check for OLD payment without unlockedUntil (paid before 24hr system)
+          // Grant them a fresh 24-hour window
+          const oldPayment = await db.collection('payments').findOne({
+            email: key,
+            cardType,
+            status: 'verified',
+            unlockedUntil: { $exists: false },
+          });
+
+          if (oldPayment) {
+            const newUnlock = new Date(Date.now() + UNLOCK_DURATION_MS);
+            await db.collection('payments').updateOne(
+              { _id: oldPayment._id },
+              { $set: { unlockedUntil: newUnlock } }
+            );
+            return NextResponse.json({
+              paid: true,
+              unlockedUntil: newUnlock.toISOString(),
+            });
+          }
+
+          // No valid payment found
+          return NextResponse.json({ paid: false, unlockedUntil: null });
+        }
+
+        // Default: permanent access
         const doc = await db.collection('payments').findOne({
           email: key,
           cardType,
           status: 'verified',
         });
-        return NextResponse.json({ paid: !!doc });
+        return NextResponse.json({ paid: !!doc, unlockedUntil: null });
       }
 
       default:
@@ -167,16 +221,22 @@ async function handleWebhook(req, signature) {
           { $set: { status: 'paid', razorpayPaymentId: paymentId, paidAt: new Date() } },
         );
 
+        // Build update set — add timed unlock for holi cards
+        const webhookSet = {
+          razorpayOrderId: orderId,
+          razorpayPaymentId: paymentId,
+          status: 'verified',
+          verifiedAt: new Date(),
+        };
+        if (TIMED_UNLOCK_CARDS.has(cardType)) {
+          webhookSet.unlockedUntil = new Date(Date.now() + UNLOCK_DURATION_MS);
+        }
+
         // Upsert payment record
         await db.collection('payments').updateOne(
           { email: email.toLowerCase().trim(), cardType },
           {
-            $set: {
-              razorpayOrderId: orderId,
-              razorpayPaymentId: paymentId,
-              status: 'verified',
-              verifiedAt: new Date(),
-            },
+            $set: webhookSet,
             $setOnInsert: {
               email: email.toLowerCase().trim(),
               cardType,

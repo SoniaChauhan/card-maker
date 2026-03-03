@@ -372,11 +372,9 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
 
   /* ═══ CARD CATEGORIES ═══ */
   const PREMIUM_CARDS = [
-    { id: 'holicard',      icon: '🌈', name: 'Holi Celebration Card',        desc: 'Vibrant & colorful Holi greeting card with splashes & festive typography.',   grad: 'linear-gradient(135deg, #ff6f91, #ffc75f)', price: '₹49' },
     { id: 'birthday',      icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',   grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)', price: '₹49' },
     { id: 'wedding',       icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)', price: '₹49' },
     { id: 'anniversary',   icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)', price: '₹49' },
-    { id: 'festivalcards', icon: '🎆', name: 'Festival Cards',               desc: 'Create festive cards for Diwali, Lohri, Navratri, Eid, Christmas and more.', grad: 'linear-gradient(135deg, #fdcb6e, #e17055)', price: '₹49' },
   ];
 
   const HOLI_FREE_CARDS = [
@@ -537,6 +535,27 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
             <div className="lp-stat-divider" />
             <div className="lp-stat"><span className="lp-stat-num">5</span><span className="lp-stat-label">Languages</span></div>
           </div>
+        </div>
+      </section>
+
+      {/* ═══════ HOLI SPECIAL OFFER BANNER ═══════ */}
+      <section className="lp-offer-banner">
+        <div className="lp-offer-inner">
+          <div className="lp-offer-badge">🔥 LIMITED TIME OFFER</div>
+          <h2 className="lp-offer-title">🌈 Holi Celebration Card — Unlimited Downloads!</h2>
+          <p className="lp-offer-desc">
+            Pay just <strong>₹49</strong> once and download <strong>unlimited Holi cards</strong> for <strong>24 hours</strong>!
+            Create vibrant, colorful greeting cards with festive typography.
+          </p>
+          <div className="lp-offer-features">
+            <span className="lp-offer-feature">✅ Unlimited Downloads</span>
+            <span className="lp-offer-feature">✅ 24-Hour Access</span>
+            <span className="lp-offer-feature">✅ No Watermark</span>
+            <span className="lp-offer-feature">✅ HD Quality</span>
+          </div>
+          <button className="lp-offer-cta" type="button" onClick={() => handleCardClick('holicard')}>
+            🎨 Create Holi Card Now — ₹49 Only
+          </button>
         </div>
       </section>
 
