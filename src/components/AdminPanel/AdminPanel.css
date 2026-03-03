@@ -468,3 +468,9 @@
     font-size: 0.66rem;
   }
 }
+
+/* ── Feedback management ── */
+.admin-fb-hidden {
+  opacity: 0.5;
+  border-left: 3px solid #e74c3c;
+}

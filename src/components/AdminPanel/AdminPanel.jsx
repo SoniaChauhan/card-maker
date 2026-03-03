@@ -29,11 +29,17 @@ export default function AdminPanel() {
   const [visitorStats, setVisitorStats] = useState(null);
   const [statsLoading, setStatsLoading] = useState(true);
 
+  /* Feedbacks */
+  const [feedbacks, setFeedbacks]       = useState([]);
+  const [fbLoading, setFbLoading]       = useState(true);
+  const [fbActing, setFbActing]         = useState(null);
+
   useEffect(() => {
     loadBlocked();
     loadRequests();
     loadUsers();
     loadVisitorStats();
+    loadFeedbacks();
   }, []);
 
   async function loadBlocked() {
@@ -59,6 +65,49 @@ export default function AdminPanel() {
     } catch (err) {
       console.error('Failed to load visitor stats:', err);
     } finally { setStatsLoading(false); }
+  }
+
+  async function loadFeedbacks() {
+    setFbLoading(true);
+    try {
+      const res = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'admin-list' }),
+      });
+      if (res.ok) setFeedbacks(await res.json());
+    } catch (err) {
+      console.error('Failed to load feedbacks:', err);
+    } finally { setFbLoading(false); }
+  }
+
+  async function handleToggleFeedback(id, currentApproved) {
+    setFbActing(id);
+    try {
+      await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'toggle', id, approved: !currentApproved }),
+      });
+      showToast(currentApproved ? '🙈 Feedback hidden' : '✅ Feedback visible');
+      await loadFeedbacks();
+    } catch { showToast('❌ Failed to toggle.'); }
+    finally { setFbActing(null); }
+  }
+
+  async function handleDeleteFeedback(id) {
+    if (!window.confirm('Permanently delete this feedback?')) return;
+    setFbActing(id);
+    try {
+      await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'delete', id }),
+      });
+      showToast('🗑️ Feedback deleted');
+      await loadFeedbacks();
+    } catch { showToast('❌ Failed to delete.'); }
+    finally { setFbActing(null); }
   }
 
   function showToast(msg) {
@@ -342,6 +391,53 @@ export default function AdminPanel() {
                   {u.email === ADMIN_EMAIL && (
                     <span style={{ color: '#888', fontSize: '12px' }}>Admin</span>
                   )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ── Feedbacks Management ── */}
+      <div className="admin-block-section">
+        <h3 className="admin-section-title">
+          ⭐ User Feedbacks
+          <button className="admin-refresh-sm" onClick={loadFeedbacks} title="Refresh">🔄</button>
+        </h3>
+
+        {fbLoading ? (
+          <p className="admin-empty">Loading feedbacks…</p>
+        ) : feedbacks.length === 0 ? (
+          <p className="admin-empty">No feedbacks yet.</p>
+        ) : (
+          <div className="admin-blocked-list">
+            {feedbacks.map(fb => (
+              <div className={`admin-req-card ${!fb.approved ? 'admin-fb-hidden' : ''}`} key={fb.id}>
+                <div className="admin-blocked-info">
+                  <span className="admin-blocked-email">👤 {fb.name} — 📧 {fb.email}</span>
+                  <span className="admin-req-card-name">
+                    {'★'.repeat(fb.rating)}{'☆'.repeat(5 - fb.rating)} ({fb.rating}/5)
+                  </span>
+                  <span className="admin-blocked-reason" style={{ color: '#ddd' }}>💬 {fb.comment}</span>
+                  <span className="admin-blocked-date">
+                    {fb.approved ? '✅ Visible' : '🙈 Hidden'} · {formatDate(fb.createdAt)}
+                  </span>
+                </div>
+                <div className="admin-req-actions">
+                  <button
+                    className={`admin-btn ${fb.approved ? 'admin-btn-reject' : 'admin-btn-approve'}`}
+                    onClick={() => handleToggleFeedback(fb.id, fb.approved)}
+                    disabled={fbActing === fb.id}
+                  >
+                    {fbActing === fb.id ? '⏳' : fb.approved ? '🙈 Hide' : '👁️ Show'}
+                  </button>
+                  <button
+                    className="admin-btn admin-btn-reject"
+                    onClick={() => handleDeleteFeedback(fb.id)}
+                    disabled={fbActing === fb.id}
+                  >
+                    🗑️ Delete
+                  </button>
                 </div>
               </div>
             ))}

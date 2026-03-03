@@ -57,6 +57,27 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   const [fbComment, setFbComment] = useState('');
   const [fbSending, setFbSending] = useState(false);
   const [fbMsg, setFbMsg]         = useState('');
+  const [reviews, setReviews]     = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
+
+  /* Load public reviews on mount */
+  useEffect(() => {
+    async function loadReviews() {
+      try {
+        const res = await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'list' }),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setReviews(data);
+        }
+      } catch { /* silently ignore */ }
+      finally { setReviewsLoading(false); }
+    }
+    loadReviews();
+  }, []);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const trimmedEmail = email.trim().toLowerCase();
@@ -309,8 +330,17 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
     if (!fbComment.trim()) { setFbMsg('⚠️ Please write a comment.'); return; }
     setFbSending(true);
     try {
+      // Save to MongoDB
+      await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'save', name: fbName.trim(), email: fbEmail.trim(), rating: fbRating, comment: fbComment.trim() }),
+      });
+      // Also send email notification
       await sendFeedback(fbName.trim(), fbEmail.trim(), fbRating, fbComment.trim());
       setFbMsg('✅ Thank you for your feedback!');
+      // Add to displayed reviews instantly
+      setReviews(prev => [{ id: Date.now().toString(), name: fbName.trim(), rating: fbRating, comment: fbComment.trim(), createdAt: new Date().toISOString() }, ...prev]);
       setFbName(''); setFbEmail(''); setFbRating(0); setFbComment('');
     } catch {
       setFbMsg('⚠️ Failed to send. Please try again.');
@@ -822,6 +852,39 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
             </form>
           </div>
         </div>
+      </section>
+
+      {/* ═══════ USER REVIEWS DISPLAY ═══════ */}
+      <section className="lp-reviews-section">
+        <h2 className="lp-section-title">💬 What Our Users Say</h2>
+        <p className="lp-section-sub">Real feedback from real users</p>
+        {reviewsLoading ? (
+          <p className="lp-reviews-loading">Loading reviews…</p>
+        ) : reviews.length === 0 ? (
+          <p className="lp-reviews-empty">No reviews yet. Be the first to share your feedback! ⭐</p>
+        ) : (
+          <div className="lp-reviews-grid">
+            {reviews.map(r => (
+              <div className="lp-review-card" key={r.id}>
+                <div className="lp-review-header">
+                  <div className="lp-review-avatar">{r.name?.charAt(0)?.toUpperCase() || '?'}</div>
+                  <div>
+                    <div className="lp-review-name">{r.name}</div>
+                    <div className="lp-review-stars">
+                      {[1, 2, 3, 4, 5].map(s => (
+                        <span key={s} className={`lp-review-star ${s <= r.rating ? 'filled' : ''}`}>★</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <p className="lp-review-comment">{r.comment}</p>
+                <span className="lp-review-date">
+                  {new Date(r.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* ═══════ ABOUT CARD MAKER ═══════ */}
