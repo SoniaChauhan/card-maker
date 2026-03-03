@@ -613,6 +613,16 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         </div>
       </section>
 
+      {/* ═══════ CUSTOM DESIGN CTA ═══════ */}
+      <section className="lp-proof">
+        <div className="lp-custom-design">
+          <h2 className="lp-section-title">🎨 Need a Custom Design?</h2>
+          <p>Looking for a card that is fully personalized and tailored to your exact theme, event, or business branding?<br/>We offer custom card design services created exclusively by Creative Thinker Design Hub.</p>
+          <p>📩 Email us your requirements at: <strong>creativethinker.designhub@gmail.com</strong></p>
+          <p>Our team will create a unique, high-quality design specifically for you.</p>
+        </div>
+      </section>
+
       {/* ═══════ HOW IT WORKS ═══════ */}
       <section className="lp-how-it-works">
         <h2 className="lp-section-title">📋 How It Works</h2>
@@ -673,12 +683,6 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
           </div>
         </div>
 
-        <div className="lp-custom-design">
-          <h2 className="lp-section-title">🎨 Need a Custom Design?</h2>
-          <p>Looking for a card that is fully personalized and tailored to your exact theme, event, or business branding?<br/>We offer custom card design services created exclusively by Creative Thinker Design Hub.</p>
-          <p>📩 Email us your requirements at: <strong>creativethinker.designhub@gmail.com</strong></p>
-          <p>Our team will create a unique, high-quality design specifically for you.</p>
-        </div>
       </section>
 
       {/* ═══════ AUTH POPUP MODAL ═══════ */}
