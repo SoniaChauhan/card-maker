@@ -40,8 +40,20 @@ export const metadata = {
     /* ── Festival ── */
     'festival greeting cards', 'festival card maker', 'diwali card maker',
     'eid card maker', 'christmas card maker', 'navratri card maker',
+    /* ── Motivational ── */
+    'motivational quotes images download', 'motivational quotes images',
+    'inspirational quotes download free', 'motivational card maker',
+    'quote card generator', 'motivational poster maker',
+    /* ── Mothers & Fathers ── */
+    "mother's quotes english", 'maa quotes hindi', 'माँ पर सुविचार',
+    'happy mothers day 2026', "fathers quotes english", 'pitaji quotes',
+    'पिता पर सुविचार', 'happy fathers day 2026',
+    /* ── Biodata & Resume ── */
+    'marriage biodata maker', 'biodata for marriage', 'online resume builder',
+    'resume builder free pdf',
     /* ── Brand ── */
-    'Creative Thinker Design Hub', 'card maker india',
+    'Creative Thinker Design Hub', 'card maker india', 'card maker online india',
+    'best card maker india 2026',
   ],
   authors: [{ name: 'Creative Thinker Design Hub' }],
   creator: 'Creative Thinker Design Hub',

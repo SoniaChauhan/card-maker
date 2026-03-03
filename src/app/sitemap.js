@@ -19,6 +19,13 @@ export default function sitemap() {
     { url: `${BASE_URL}/holi-card-maker-online`,             lastModified: now, changeFrequency: 'weekly',  priority: 0.85 },
     { url: `${BASE_URL}/invitation-card-maker`,              lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
     { url: `${BASE_URL}/greeting-card-maker`,                lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
+    { url: `${BASE_URL}/holi-celebration-card`,              lastModified: now, changeFrequency: 'weekly',  priority: 0.85 },
+    { url: `${BASE_URL}/mothers-quotes-english`,             lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
+    { url: `${BASE_URL}/mothers-quotes-hindi`,               lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
+    { url: `${BASE_URL}/fathers-quotes-english`,             lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
+    { url: `${BASE_URL}/fathers-quotes-hindi`,               lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
+    { url: `${BASE_URL}/motivational-quotes-images-download`,lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
+    { url: `${BASE_URL}/motivational-quotes-english`,        lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
 
     /* ── Blog articles ── */
     { url: `${BASE_URL}/blog/how-to-make-holi-card-online`,         lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
