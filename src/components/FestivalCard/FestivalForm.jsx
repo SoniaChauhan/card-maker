@@ -58,7 +58,8 @@ export default function FestivalForm({ data, errors, onChange, onBack, onGenerat
           <p>Beautiful customizable cards for all Indian festivals — Holi, Diwali, Lohri, Navratri, Eid, Christmas, and more.</p>
         </div>
 
-        {/* ── Festival selector ── */}
+        {/* ── Festival selector (hidden when only one festival) ── */}
+        {festivals.length > 1 && (
         <div className="fest-selector">
           <label className="fest-selector-label">🎨 Choose Festival:</label>
           <div className="fest-selector-grid">
@@ -80,6 +81,7 @@ export default function FestivalForm({ data, errors, onChange, onBack, onGenerat
             </p>
           )}
         </div>
+        )}
 
         <div className="form-grid">
           <FormField label="Your Name" name="senderName"

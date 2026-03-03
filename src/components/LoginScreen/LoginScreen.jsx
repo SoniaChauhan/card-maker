@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './LoginScreen.css';
 import { useAuth } from '../../contexts/AuthContext';
 import {
@@ -57,6 +57,27 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   const [fbComment, setFbComment] = useState('');
   const [fbSending, setFbSending] = useState(false);
   const [fbMsg, setFbMsg]         = useState('');
+  const [reviews, setReviews]     = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
+
+  /* Load public reviews on mount */
+  useEffect(() => {
+    async function loadReviews() {
+      try {
+        const res = await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'list' }),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setReviews(data);
+        }
+      } catch { /* silently ignore */ }
+      finally { setReviewsLoading(false); }
+    }
+    loadReviews();
+  }, []);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const trimmedEmail = email.trim().toLowerCase();
@@ -309,8 +330,17 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
     if (!fbComment.trim()) { setFbMsg('⚠️ Please write a comment.'); return; }
     setFbSending(true);
     try {
+      // Save to MongoDB
+      await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'save', name: fbName.trim(), email: fbEmail.trim(), rating: fbRating, comment: fbComment.trim() }),
+      });
+      // Also send email notification
       await sendFeedback(fbName.trim(), fbEmail.trim(), fbRating, fbComment.trim());
       setFbMsg('✅ Thank you for your feedback!');
+      // Add to displayed reviews instantly
+      setReviews(prev => [{ id: Date.now().toString(), name: fbName.trim(), rating: fbRating, comment: fbComment.trim(), createdAt: new Date().toISOString() }, ...prev]);
       setFbName(''); setFbEmail(''); setFbRating(0); setFbComment('');
     } catch {
       setFbMsg('⚠️ Failed to send. Please try again.');
@@ -342,15 +372,29 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
 
   /* ═══ CARD CATEGORIES ═══ */
   const PREMIUM_CARDS = [
+    { id: 'holicard',      icon: '🌈', name: 'Holi Celebration Card',        desc: 'Vibrant & colorful Holi greeting card with splashes & festive typography.',   grad: 'linear-gradient(135deg, #ff6f91, #ffc75f)', price: '₹49' },
     { id: 'birthday',      icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',   grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)', price: '₹49' },
     { id: 'wedding',       icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)', price: '₹49' },
     { id: 'anniversary',   icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)', price: '₹49' },
-    { id: 'festivalcards', icon: '🎆', name: 'Festival Cards',               desc: 'Create festive cards for Diwali, Holi, Eid, Christmas and more.',        grad: 'linear-gradient(135deg, #fdcb6e, #e17055)', price: '₹49' },
+    { id: 'festivalcards', icon: '🎆', name: 'Festival Cards',               desc: 'Create festive cards for Diwali, Lohri, Navratri, Eid, Christmas and more.', grad: 'linear-gradient(135deg, #fdcb6e, #e17055)', price: '₹49' },
   ];
 
-  const FREE_CARDS = [
-    { id: 'holiwishes',    icon: '🌈', name: 'Holi Wishes — Hindi',   lang: 'हिन्दी', langClass: 'lp-lang-hi', desc: 'रंगों भरी होली शायरी — चुनें, रंग बदलें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #ff6f91, #ffc75f)' },
-    { id: 'holiwishes-en', icon: '🌈', name: 'Holi Wishes — English', lang: 'English', langClass: 'lp-lang-en', desc: 'Beautiful English Holi messages — pick, customize colors & download!',  grad: 'linear-gradient(135deg, #a29bfe, #ffc75f)' },
+  const HOLI_FREE_CARDS = [
+    { id: 'holiwishes',    icon: '🌈', name: 'होली शुभकामनाएं (Hindi)',  desc: 'रंगों भरी होली शायरी — चुनें, रंग बदलें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #ff6f91, #ffc75f)' },
+    { id: 'holiwishes-en', icon: '🌈', name: 'Holi Wishes (English)',    desc: 'Beautiful English Holi messages — pick, customize colors & download!', grad: 'linear-gradient(135deg, #a29bfe, #ffc75f)' },
+    { id: 'holivideo',     icon: '🎬', name: 'Holi Video Wishes',        desc: 'Download colorful Holi video greetings — share on WhatsApp & social media!', grad: 'linear-gradient(135deg, #e44d26, #f7df1e)' },
+  ];
+
+  const FREE_CARDS_HINDI = [
+    { id: 'motivational',  icon: '💪', name: 'प्रेरणादायक विचार',      desc: 'प्रेरणादायक विचार — थीम चुनें, कस्टमाइज़ करें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #0f0c29, #302b63)' },
+    { id: 'fathers',       icon: '👨‍👧', name: 'पिता पर सुविचार',        desc: 'पिता के प्यार को शब्दों में — थीम चुनें और फ्री डाउनलोड करें!', grad: 'linear-gradient(135deg, #2d3436, #636e72)' },
+    { id: 'mothers',       icon: '💐', name: 'माँ पर सुविचार',         desc: 'माँ के प्यार को शब्दों में — थीम चुनें और फ्री डाउनलोड करें!', grad: 'linear-gradient(135deg, #fbc2eb, #a6c1ee)' },
+  ];
+
+  const FREE_CARDS_ENGLISH = [
+    { id: 'motivational-en', icon: '💪', name: 'Motivational Quotes',  desc: 'Inspiring English quotes — pick a theme, customize & download free!', grad: 'linear-gradient(135deg, #134e5e, #71b280)' },
+    { id: 'fathers-en',      icon: '👨‍👧', name: 'Father\'s Quotes',     desc: 'Heartfelt father\'s quotes — pick a theme, customize & download free!', grad: 'linear-gradient(135deg, #0c3483, #a2b6df)' },
+    { id: 'mothers-en',      icon: '💐', name: 'Mother\'s Quotes',     desc: 'Beautiful quotes celebrating a mother\'s love — customize & download free!', grad: 'linear-gradient(135deg, #fbc2eb, #a6c1ee)' },
   ];
 
 
@@ -496,6 +540,25 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         </div>
       </section>
 
+      {/* ═══════ HOLI SPECIAL ═══════ */}
+      <section className="lp-showcase lp-holi-section">
+        <div className="lp-section-header">
+          <h2 className="lp-section-title">🌈 Holi Special — Free Cards &amp; Videos</h2>
+          <span className="lp-section-free-tag">100% FREE</span>
+        </div>
+        <p className="lp-section-sub">Colorful Holi wishes, greeting cards &amp; video downloads — share instantly!</p>
+        <div className="lp-showcase-grid lp-free-grid">
+          {HOLI_FREE_CARDS.map(c => (
+            <button key={c.id} className="lp-showcase-card lp-free-card lp-holi-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
+              <span className="lp-free-badge">FREE</span>
+              <span className="lp-showcase-icon">{c.icon}</span>
+              <h3 className="lp-showcase-name">{c.name}</h3>
+              <p className="lp-showcase-desc">{c.desc}</p>
+            </button>
+          ))}
+        </div>
+      </section>
+
       {/* ═══════ FREE CARDS ═══════ */}
       <section className="lp-showcase lp-free-section">
         <div className="lp-section-header">
@@ -503,11 +566,26 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
           <span className="lp-section-free-tag">100% FREE</span>
         </div>
         <p className="lp-section-sub">No form needed — just pick, customize colors &amp; download instantly!</p>
+
+        {/* ── Hindi Section ── */}
+        <h3 className="lp-free-lang-heading">🇮🇳 हिन्दी</h3>
         <div className="lp-showcase-grid lp-free-grid">
-          {FREE_CARDS.map(c => (
+          {FREE_CARDS_HINDI.map(c => (
             <button key={c.id} className="lp-showcase-card lp-free-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
               <span className="lp-free-badge">FREE</span>
-              {c.lang && <span className={`lp-lang-badge ${c.langClass || ''}`}>{c.lang}</span>}
+              <span className="lp-showcase-icon">{c.icon}</span>
+              <h3 className="lp-showcase-name">{c.name}</h3>
+              <p className="lp-showcase-desc">{c.desc}</p>
+            </button>
+          ))}
+        </div>
+
+        {/* ── English Section ── */}
+        <h3 className="lp-free-lang-heading">🌐 English</h3>
+        <div className="lp-showcase-grid lp-free-grid">
+          {FREE_CARDS_ENGLISH.map(c => (
+            <button key={c.id} className="lp-showcase-card lp-free-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
+              <span className="lp-free-badge">FREE</span>
               <span className="lp-showcase-icon">{c.icon}</span>
               <h3 className="lp-showcase-name">{c.name}</h3>
               <p className="lp-showcase-desc">{c.desc}</p>
@@ -559,35 +637,6 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
             <span className="lp-step-num">4</span>
             <h3>Download Instantly</h3>
             <p>Download your card as high-quality PNG or PDF. Share via WhatsApp, print, or email!</p>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════ WHY CARD MAKER ═══════ */}
-      <section className="lp-proof">
-        <h2 className="lp-section-title">Why Choose Card Maker?</h2>
-        <p className="lp-section-sub">Made for everyone — from first‑time users to designers</p>
-        <p className="lp-brand-line">Card Maker is a product of <strong>Creative Thinker Design Hub</strong>.</p>
-        <div className="lp-highlights">
-          <div className="lp-highlight">
-            <span className="lp-highlight-icon">⚡</span>
-            <h3>Ready in Minutes</h3>
-            <p>Pick a template, fill in your details, and download — no design skills needed.</p>
-          </div>
-          <div className="lp-highlight">
-            <span className="lp-highlight-icon">🎨</span>
-            <h3>Beautiful Templates</h3>
-            <p>Professionally designed for weddings, birthdays, anniversaries &amp; more.</p>
-          </div>
-          <div className="lp-highlight">
-            <span className="lp-highlight-icon">📱</span>
-            <h3>Works Everywhere</h3>
-            <p>Desktop, tablet, or phone — create and share cards from any device.</p>
-          </div>
-          <div className="lp-highlight">
-            <span className="lp-highlight-icon">🌐</span>
-            <h3>Multi-Language</h3>
-            <p>Create cards in Hindi, English, Punjabi, Gujarati &amp; more languages.</p>
           </div>
         </div>
       </section>
@@ -765,20 +814,22 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         <div className="lp-extras-grid">
           {/* Features card */}
           <div className="lp-col-card">
-            <h4 className="lp-subheading">✅ Why Card Maker?</h4>
+            <h4 className="lp-subheading">🌟 Why Choose Our Card Maker?</h4>
             <ul className="lp-features">
-              <li>Multiple premium templates per card type</li>
-              <li>Live preview while editing</li>
-              <li>High-quality PNG/PDF downloads</li>
-              <li>Multi-language support</li>
-              <li>Works on all devices — desktop, tablet, mobile</li>
+              <li><strong>✓ Premium Templates for Every Card Type</strong> — Access a wide collection of professionally designed templates for invitations, festival greetings, announcements, business flyers, and more—each crafted to help your card look stunning and professional.</li>
+              <li><strong>✓ Real‑Time Editing with Live Preview</strong> — Customize your card easily with instant live preview. Change colors, text, images, and layout while seeing updates in real time.</li>
+              <li><strong>✓ High‑Resolution PNG &amp; PDF Downloads</strong> — Download print‑ready, high‑quality PNG and PDF files ideal for sharing on WhatsApp, Instagram, Facebook, or printing.</li>
+              <li><strong>✓ Multi‑Language Support</strong> — Design your cards in multiple languages to suit your personal, cultural, or business needs.</li>
+              <li><strong>✓ Works Smoothly on All Devices</strong> — Create beautiful cards from your desktop, tablet, or mobile. Our platform is fully responsive and optimized for every screen size.</li>
             </ul>
             <div className="lp-hire" style={{ marginTop: 14 }}>
-              <h4 className="lp-subheading">💼 Need a Custom Design?</h4>
+              <h4 className="lp-subheading">🎨 Need a Custom Design?</h4>
               <p className="lp-text">
-                Hire us to create your own personalized, fully customized card tailored to your needs!
+                Looking for a card that is fully personalized and tailored to your exact theme, event, or business branding?
+                We offer custom card design services created exclusively by Creative Thinker Design Hub.
               </p>
-              <p className="lp-text lp-brand-subtle">Custom designs are created by <strong>Creative Thinker Design Hub</strong>.</p>
+              <p className="lp-text">📩 Email us your requirements at: <strong>creativethinker.designhub@gmail.com</strong></p>
+              <p className="lp-text lp-brand-subtle">Our team will create a unique, high-quality design specifically for you.</p>
             </div>
           </div>
 
@@ -788,9 +839,6 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
             <p className="lp-fb-tagline">
               💬 Your feedback matters! Help us improve by sharing your thoughts.
               Rate your experience and leave a comment — every review helps us serve you better.
-            </p>
-            <p className="lp-fb-signup-note">
-              📝 <strong>Sign up</strong> to share your feedback. We value genuine reviews from our community!
             </p>
             <form className="lp-feedback-form" onSubmit={handleFeedbackSubmit}>
               <div className="login-stars">
@@ -820,6 +868,38 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
               </button>
               {fbMsg && <div className={`login-fb-msg ${fbMsg.startsWith('✅') ? 'success' : 'warn'}`}>{fbMsg}</div>}
             </form>
+
+            {/* Real user reviews displayed inside this section */}
+            <div className="lp-inline-reviews">
+              <h5 className="lp-inline-reviews-title">💬 What Our Users Say</h5>
+              {reviewsLoading ? (
+                <p className="lp-reviews-loading">Loading reviews…</p>
+              ) : reviews.length === 0 ? (
+                <p className="lp-reviews-empty">No reviews yet. Be the first to share your feedback! ⭐</p>
+              ) : (
+                <div className="lp-inline-reviews-list">
+                  {reviews.map(r => (
+                    <div className="lp-review-card" key={r.id}>
+                      <div className="lp-review-header">
+                        <div className="lp-review-avatar">{r.name?.charAt(0)?.toUpperCase() || '?'}</div>
+                        <div>
+                          <div className="lp-review-name">{r.name}</div>
+                          <div className="lp-review-stars">
+                            {[1, 2, 3, 4, 5].map(s => (
+                              <span key={s} className={`lp-review-star ${s <= r.rating ? 'filled' : ''}`}>★</span>
+                            ))}
+                          </div>
+                        </div>
+                        <span className="lp-review-date" style={{ marginLeft: 'auto' }}>
+                          {new Date(r.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                        </span>
+                      </div>
+                      {r.comment && <p className="lp-review-comment">{r.comment}</p>}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -829,56 +909,23 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         <h2 className="lp-section-title">📖 About Card Maker</h2>
         <div className="lp-about-content">
           <p>
-            <strong>Card Maker</strong> helps you design birthday invitations, wedding cards, anniversary greetings,
-            festival greeting cards, and professional documents like resumes and marriage biodata — all online.
-            With 50+ ready-made templates in <strong>Hindi, English, Punjabi, and Gujarati</strong>, anyone can
-            create and download beautiful cards instantly.
+            <strong>Card Maker</strong> is a simple and intuitive online tool that helps you create birthday invitations,
+            wedding cards, anniversary greetings, festival greeting cards, motivational quote cards, and professional
+            documents like resumes and marriage biodata — all in one place. With a growing library of ready‑to‑use
+            templates in <strong>Hindi, English, Punjabi, and Gujarati</strong>, it's easy for anyone to design and
+            download beautiful cards quickly.
           </p>
           <p>
-            Whether you need a free Holi wishes card or a premium wedding invitation, Card Maker has you covered.
-            Our easy-to-use editor lets you customize text, colors, photos, and fonts with a live preview.
-            Download in high-quality PNG or PDF format — ready to print or share on WhatsApp!
+            Our editor lets you customize text, colors, fonts, and images with a smooth live preview experience.
+            Once your design is ready, you can download it instantly in high‑quality PNG or PDF format, perfect for
+            printing or sharing on WhatsApp, Instagram, or email.
           </p>
           <p>
-            Built by <strong>Creative Thinker Design Hub</strong> in India, Card Maker is trusted by thousands
-            of users for creating professional-quality cards without any design skills.
+            Developed by <strong>Creative Thinker Design Hub</strong>, Card Maker focuses on making design accessible
+            to everyone — from students and families to small business owners and event planners. Whether it's a festive
+            greeting or a professional document, Card Maker helps you create polished, visually appealing cards without
+            needing any design skills.
           </p>
-        </div>
-      </section>
-
-      {/* ═══════ FAQ SECTION ═══════ */}
-      <section className="lp-faq">
-        <h2 className="lp-section-title">❓ Frequently Asked Questions</h2>
-        <p className="lp-section-sub">Quick answers about Card Maker</p>
-        <div className="lp-faq-list">
-          <details className="lp-faq-item">
-            <summary>How can I create a card online?</summary>
-            <p>Simply visit Card Maker, choose a template (birthday, wedding, anniversary, etc.), customize it with your text and photos, preview, and download instantly. No software installation needed!</p>
-          </details>
-          <details className="lp-faq-item">
-            <summary>Is Card Maker free to use?</summary>
-            <p>Yes! Holi wishes cards (Hindi &amp; English) are 100% free — no sign-up required. Premium card designers like birthday, wedding, anniversary, and festival cards are available at affordable prices starting from ₹49.</p>
-          </details>
-          <details className="lp-faq-item">
-            <summary>Do I need to sign up to download cards?</summary>
-            <p>No! Free cards like Holi wishes can be downloaded without signing up. For premium cards, you can use them as a guest or create an account to save your templates and download history.</p>
-          </details>
-          <details className="lp-faq-item">
-            <summary>Do you support Hindi and English templates?</summary>
-            <p>Yes! Card Maker supports multiple languages including Hindi, English, Punjabi, and Gujarati. Holi wishes are available in both Hindi (50+ shayaris) and English (47 messages).</p>
-          </details>
-          <details className="lp-faq-item">
-            <summary>What types of cards can I create?</summary>
-            <p>You can create Birthday Invitations, Wedding Cards, Anniversary Greetings, Holi Wishes, Festival Cards, Marriage Biodata, Professional Resumes, Jagrata Invitations, and many more. New card types are added regularly!</p>
-          </details>
-          <details className="lp-faq-item">
-            <summary>Can I download cards as PDF?</summary>
-            <p>Yes! Resumes and biodata can be downloaded as PDF files. Invitation cards and greeting cards are downloaded as high-quality PNG images that are perfect for printing and sharing.</p>
-          </details>
-          <details className="lp-faq-item">
-            <summary>Is Card Maker available on mobile?</summary>
-            <p>Absolutely! Card Maker works on all devices — desktop, tablet, and mobile phones. The interface is fully responsive and optimised for touch screens.</p>
-          </details>
         </div>
       </section>
 

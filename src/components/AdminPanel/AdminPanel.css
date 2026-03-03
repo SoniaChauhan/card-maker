@@ -303,3 +303,174 @@
   background: rgba(231,76,60,.18);
   border-color: #e74c3c;
 }
+
+/* ── Visitor Analytics ── */
+.visitor-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.visitor-stat-card {
+  background: rgba(255,255,255,.08);
+  border-radius: 14px;
+  padding: 14px 10px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,.1);
+}
+.visitor-stat-number {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffd700;
+  line-height: 1.2;
+}
+.visitor-stat-label {
+  display: block;
+  font-size: 0.72rem;
+  color: #ccc;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.visitor-stat-sub {
+  display: block;
+  font-size: 0.68rem;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* Daily bar chart */
+.visitor-daily-chart {
+  background: rgba(255,255,255,.05);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+.visitor-chart-title {
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+.visitor-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 120px;
+}
+.visitor-bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+}
+.visitor-bar-count {
+  font-size: 0.65rem;
+  color: #ffd700;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.visitor-bar {
+  width: 100%;
+  max-width: 40px;
+  background: linear-gradient(180deg, #ffd700, #ff9500);
+  border-radius: 6px 6px 0 0;
+  min-height: 4px;
+  transition: height 0.3s;
+}
+.visitor-bar-label {
+  font-size: 0.6rem;
+  color: #aaa;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+/* Top pages */
+.visitor-top-pages {
+  background: rgba(255,255,255,.05);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+.visitor-page-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.visitor-page-row:last-child { border-bottom: none; }
+.visitor-page-name {
+  font-size: 0.78rem;
+  color: #ddd;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 70%;
+}
+.visitor-page-count {
+  font-size: 0.72rem;
+  color: #ffd700;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Recent visitors */
+.visitor-recent {
+  background: rgba(255,255,255,.05);
+  border-radius: 14px;
+  padding: 14px;
+}
+.visitor-recent-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+.visitor-recent-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  font-size: 0.72rem;
+  color: #bbb;
+}
+.visitor-recent-row:last-child { border-bottom: none; }
+.visitor-recent-page {
+  color: #fff;
+  font-weight: 600;
+  min-width: 80px;
+}
+.visitor-recent-ip {
+  color: #74b9ff;
+}
+.visitor-recent-info {
+  color: #888;
+}
+.visitor-recent-time {
+  color: #999;
+  margin-left: auto;
+}
+
+@media (max-width: 480px) {
+  .visitor-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .visitor-stat-number {
+    font-size: 1.3rem;
+  }
+  .visitor-bars {
+    height: 90px;
+  }
+  .visitor-recent-row {
+    font-size: 0.66rem;
+  }
+}
+
+/* ── Feedback management ── */
+.admin-fb-hidden {
+  opacity: 0.5;
+  border-left: 3px solid #e74c3c;
+}

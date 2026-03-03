@@ -29,11 +29,14 @@ export const CARD_PRICES = {
   congratulations: 29,
   goodluck:        29,
   festivalcards:   49,
+  holicard:        49,
   whatsappinvites: 29,
   instagramstory:  29,
   socialevent:     29,
   holiwishes:      0,   // free
   'holiwishes-en': 0,   // free
+  'mothers-en':    0,   // free
+  'mothers':       0,   // free
 };
 
 /** Card types that are FREE (no watermark, no payment) */

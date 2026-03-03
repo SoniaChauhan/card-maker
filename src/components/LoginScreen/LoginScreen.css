@@ -133,7 +133,7 @@
   width: 100%;
   max-width: var(--lp-max);
   margin: 0 auto;
-  padding: 20px var(--lp-gutter) 52px;
+  padding: 48px var(--lp-gutter);
   text-align: center;
 }
 .lp-section-title {
@@ -169,6 +169,29 @@
 }
 .lp-brand-line strong {
   color: #e0d4ff;
+}
+.lp-custom-design {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px;
+  padding: 36px 40px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+.lp-custom-design-section {
+  width: 100%;
+  padding: 48px var(--lp-gutter);
+  box-sizing: border-box;
+}
+.lp-custom-design p {
+  color: rgba(255,255,255,.75);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+.lp-custom-design p strong {
+  color: #ffc75f;
 }
 .lp-brand-subtle {
   font-size: 12px;
@@ -329,9 +352,40 @@
   background: linear-gradient(90deg, #10b981, #00e676, #059669);
 }
 .lp-free-grid {
-  grid-template-columns: repeat(2, 1fr) !important;
-  max-width: 600px;
+  grid-template-columns: repeat(3, 1fr) !important;
+  max-width: 900px;
   margin: 0 auto;
+}
+
+/* ═══ Free section language heading ═══ */
+.lp-free-lang-heading {
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #e0e0e0;
+  margin: 22px 0 10px;
+  letter-spacing: 0.5px;
+}
+
+/* ═══ Holi Special Section ═══ */
+.lp-holi-section {
+  position: relative;
+  padding: 48px var(--lp-gutter);
+}
+.lp-holi-section::before {
+  content: '';
+  position: absolute;
+  inset: -8px -16px;
+  background: linear-gradient(135deg, rgba(255,111,145,.06), rgba(255,199,95,.06));
+  border-radius: 24px;
+  border: 1px solid rgba(255,111,145,.12);
+  pointer-events: none;
+}
+.lp-holi-section .lp-section-sub::after {
+  background: linear-gradient(90deg, #ff6f91, #ffc75f, #ff6f91);
+}
+.lp-holi-card {
+  border: 1px solid rgba(255,111,145,.25) !important;
 }
 
 /* ═══ Premium card glow ═══ */
@@ -375,7 +429,7 @@
 
 /* Coming Soon section */
 .lp-coming-section {
-  padding: 48px var(--lp-gutter) 56px;
+  padding: 0 var(--lp-gutter) 48px;
 }
 .lp-coming-title {
   font-size: clamp(14px, 1.6vw, 17px);
@@ -565,7 +619,7 @@
   width: 100%;
   max-width: var(--lp-max);
   margin: 0 auto;
-  padding: 0 var(--lp-gutter) 44px;
+  padding: 48px var(--lp-gutter);
   text-align: center;
 }
 .lp-highlights {
@@ -1044,7 +1098,7 @@
   width: 100%;
   max-width: var(--lp-max);
   margin: 0 auto;
-  padding: 44px var(--lp-gutter) 32px;
+  padding: 24px var(--lp-gutter) 48px;
   text-align: center;
 }
 .lp-steps-grid {
@@ -1092,17 +1146,130 @@
 }
 
 /* ═══════════════════════════════════════
+   USER REVIEWS DISPLAY
+   ═══════════════════════════════════════ */
+.lp-reviews-section {
+  width: 100%;
+  max-width: var(--lp-max);
+  margin: 0 auto;
+  padding: 36px 16px 24px;
+}
+.lp-reviews-loading,
+.lp-reviews-empty {
+  text-align: center;
+  color: #aaa;
+  font-size: 0.9rem;
+  padding: 24px 0;
+}
+.lp-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+.lp-review-card {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px;
+  padding: 18px;
+  transition: transform .2s, box-shadow .2s;
+}
+.lp-review-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(108,60,224,.2);
+}
+.lp-review-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.lp-review-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6c3ce0, #ff6b9d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.lp-review-name {
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+.lp-review-stars {
+  display: flex;
+  gap: 2px;
+}
+.lp-review-star {
+  font-size: 0.85rem;
+  color: #555;
+}
+.lp-review-star.filled {
+  color: #f5a623;
+}
+.lp-review-comment {
+  color: rgba(255,255,255,.8);
+  font-size: 0.84rem;
+  line-height: 1.5;
+  margin: 0 0 10px;
+  word-break: break-word;
+}
+.lp-review-date {
+  font-size: 0.7rem;
+  color: #777;
+}
+
+/* Inline reviews inside Rate & Review section */
+.lp-inline-reviews {
+  margin-top: 24px;
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding-top: 20px;
+}
+.lp-inline-reviews-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #e0d4ff;
+  margin: 0 0 14px;
+}
+.lp-inline-reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.lp-inline-reviews-list::-webkit-scrollbar {
+  width: 4px;
+}
+.lp-inline-reviews-list::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.15);
+  border-radius: 4px;
+}
+
+@media (max-width: 480px) {
+  .lp-reviews-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ═══════════════════════════════════════
    ABOUT CARD MAKER
    ═══════════════════════════════════════ */
 .lp-about {
   width: 100%;
-  max-width: var(--lp-max);
-  margin: 0 auto;
-  padding: 44px var(--lp-gutter) 32px;
+  padding: 0 var(--lp-gutter) 48px;
   text-align: center;
+  box-sizing: border-box;
 }
 .lp-about-content {
-  max-width: 800px;
+  width: 100%;
   margin: 20px auto 0;
   text-align: left;
 }
@@ -1474,7 +1641,7 @@
    ═══════════════════════════════════════ */
 .lp-extras {
   width: 100%;
-  padding: 48px var(--lp-gutter) 40px;
+  padding: 48px var(--lp-gutter);
 }
 .lp-extras-grid {
   display: grid;
