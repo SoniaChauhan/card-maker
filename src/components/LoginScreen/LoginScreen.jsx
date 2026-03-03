@@ -641,8 +641,6 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         </div>
       </section>
 
-      </section>
-
       {/* ═══════ AUTH POPUP MODAL ═══════ */}
       {showAuthPopup && (
         <div className="lp-auth-overlay" onClick={closeAuthPopup}>
