@@ -70,11 +70,11 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
 
         {cardType === 'holicard' ? (
           <div className="pay-features">
-            <div>🔓 Unlimited downloads for 24 hours</div>
+            <div>🔓 Unlimited downloads forever</div>
             <div>✅ HD quality — no watermark</div>
             <div>✅ All Holi templates included</div>
             <div>✅ Instant access after payment</div>
-            <div>⏰ Access expires 24 hrs after payment</div>
+            <div>✅ One-time payment, lifetime access</div>
           </div>
         ) : (
           <div className="pay-features">
@@ -115,7 +115,7 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
           {loading
             ? '⏳ Processing…'
             : cardType === 'holicard'
-              ? `🔓 Pay ₹${price} — Unlock 24-hr Access`
+              ? `🔓 Pay ₹${price} — Unlock Unlimited Access`
               : `💳 Pay ₹${price} & Download`}
         </button>
 

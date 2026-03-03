@@ -15,7 +15,7 @@ const RAZORPAY_WEBHOOK_SECRET = process.env.RAZORPAY_WEBHOOK_SECRET || RAZORPAY_
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
 
 /** Card types that grant a 24-hour timed unlock after payment */
-const TIMED_UNLOCK_CARDS = new Set(['holicard']);
+const TIMED_UNLOCK_CARDS = new Set([]);
 const UNLOCK_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 /**
