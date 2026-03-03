@@ -1264,7 +1264,7 @@
    ═══════════════════════════════════════ */
 .lp-about {
   width: 100%;
-  padding: 48px var(--lp-gutter);
+  padding: 24px var(--lp-gutter) 48px;
   text-align: center;
   box-sizing: border-box;
 }
