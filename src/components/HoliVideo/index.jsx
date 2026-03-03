@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import './HoliVideo.css';
 
 const HOLI_VIDEOS = [
@@ -9,6 +10,7 @@ const HOLI_VIDEOS = [
 ];
 
 export default function HoliVideo({ onBack }) {
+  const [errors, setErrors] = useState({});
 
   function handleDownload(video) {
     const link = document.createElement('a');
@@ -17,6 +19,10 @@ export default function HoliVideo({ onBack }) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  }
+
+  function handleVideoError(id) {
+    setErrors(prev => ({ ...prev, [id]: true }));
   }
 
   return (
@@ -31,15 +37,24 @@ export default function HoliVideo({ onBack }) {
       <div className="holi-video-grid">
         {HOLI_VIDEOS.map(v => (
           <div key={v.id} className="holi-video-card">
-            <video
-              className="holi-video-player"
-              controls
-              preload="metadata"
-              playsInline
-            >
-              <source src={v.file} type={v.type} />
-              Your browser does not support the video tag.
-            </video>
+            {errors[v.id] ? (
+              <div className="holi-video-fallback">
+                <span>🎬</span>
+                <p>Preview not supported in this browser</p>
+                <small>Download to watch this video</small>
+              </div>
+            ) : (
+              <video
+                className="holi-video-player"
+                controls
+                preload="metadata"
+                playsInline
+                onError={() => handleVideoError(v.id)}
+              >
+                <source src={v.file} type={v.type} />
+                <source src={v.file} type="video/mp4" />
+              </video>
+            )}
             <div className="holi-video-info">
               <p className="holi-video-title">{v.title}</p>
               <button className="holi-video-dl-btn" onClick={() => handleDownload(v)}>
