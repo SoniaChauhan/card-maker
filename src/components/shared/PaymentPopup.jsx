@@ -68,12 +68,22 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
           <span className="pay-price-amount">₹{price}</span>
         </div>
 
-        <div className="pay-features">
-          <div>✅ HD quality download</div>
-          <div>✅ No watermark</div>
-          <div>✅ Print ready</div>
-          <div>✅ Instant delivery</div>
-        </div>
+        {cardType === 'holicard' ? (
+          <div className="pay-features">
+            <div>🔓 Unlimited downloads for 24 hours</div>
+            <div>✅ HD quality — no watermark</div>
+            <div>✅ All Holi templates included</div>
+            <div>✅ Instant access after payment</div>
+            <div>⏰ Access expires 24 hrs after payment</div>
+          </div>
+        ) : (
+          <div className="pay-features">
+            <div>✅ HD quality download</div>
+            <div>✅ No watermark</div>
+            <div>✅ Print ready</div>
+            <div>✅ Instant delivery</div>
+          </div>
+        )}
 
         {isGuest && (
           <div className="pay-email-section">
@@ -102,12 +112,18 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
           onClick={handlePay}
           disabled={loading}
         >
-          {loading ? '⏳ Processing…' : `💳 Pay ₹${price} & Download`}
+          {loading
+            ? '⏳ Processing…'
+            : cardType === 'holicard'
+              ? `🔓 Pay ₹${price} — Unlock 24-hr Access`
+              : `💳 Pay ₹${price} & Download`}
         </button>
 
-        <p className="pay-free-note">
-          Or download for free with watermark using the download button below.
-        </p>
+        {cardType !== 'holicard' && (
+          <p className="pay-free-note">
+            Or download for free with watermark using the download button below.
+          </p>
+        )}
       </div>
     </div>
   );

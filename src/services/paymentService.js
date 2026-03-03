@@ -29,7 +29,7 @@ export const CARD_PRICES = {
   congratulations: 29,
   goodluck:        29,
   festivalcards:   49,
-  holicard:        49,
+  holicard:        49,  // 24-hr unlock
   whatsappinvites: 29,
   instagramstory:  29,
   socialevent:     29,
@@ -43,6 +43,9 @@ export const CARD_PRICES = {
 export const FREE_CARDS = new Set([
   'holiwishes', 'holiwishes-en',
 ]);
+
+/** Card types that unlock for 24 hours after one payment */
+export const TIMED_UNLOCK_CARDS = new Set(['holicard']);
 
 /** Check if this card type requires payment */
 export function requiresPayment(cardType) {
@@ -83,6 +86,17 @@ export async function hasUserPaid(email, cardType) {
   if (FREE_CARDS.has(cardType)) return true; // free cards are always "paid"
   const data = await apiPayments({ action: 'check', email, cardType });
   return data.paid;
+}
+
+/**
+ * Get detailed payment/unlock status.
+ * Returns { paid: boolean, unlockedUntil: ISO-string|null }
+ * For 24-hr unlock cards, `paid` is false once the window expires.
+ */
+export async function getPaymentStatus(email, cardType) {
+  if (FREE_CARDS.has(cardType)) return { paid: true, unlockedUntil: null };
+  const data = await apiPayments({ action: 'check', email, cardType });
+  return { paid: !!data.paid, unlockedUntil: data.unlockedUntil || null };
 }
 
 /** Create a Razorpay order. Returns { orderId, amount, currency, keyId } */

@@ -127,6 +127,99 @@
 }
 
 /* ═══════════════════════════════════════
+   SPECIAL OFFER BANNER — Holi 24hr Deal
+   ═══════════════════════════════════════ */
+.lp-offer-banner {
+  width: 100%;
+  padding: 32px var(--lp-gutter);
+  background: linear-gradient(135deg, #ff6f91 0%, #ff9671 25%, #ffc75f 50%, #f9f871 75%, #a29bfe 100%);
+  background-size: 200% 200%;
+  animation: holiGradient 4s ease infinite;
+  position: relative;
+  overflow: hidden;
+}
+@keyframes holiGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.lp-offer-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 20px;
+  padding: 32px 28px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+.lp-offer-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+.lp-offer-title {
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 12px;
+  line-height: 1.2;
+}
+.lp-offer-desc {
+  font-size: clamp(14px, 2vw, 16px);
+  color: #d0d0d0;
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+.lp-offer-desc strong {
+  color: #ffd200;
+}
+.lp-offer-features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 20px;
+  margin-bottom: 24px;
+}
+.lp-offer-feature {
+  font-size: 13px;
+  color: #a8ffa8;
+  font-weight: 600;
+}
+.lp-offer-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 36px;
+  font-size: clamp(15px, 2vw, 18px);
+  font-weight: 800;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #f7971e, #ffd200);
+  color: #1a1a2e;
+  box-shadow: 0 8px 32px rgba(247, 151, 30, 0.5);
+  transition: all 0.25s;
+}
+.lp-offer-cta:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(247, 151, 30, 0.7);
+}
+.lp-offer-cta:active {
+  transform: scale(0.97);
+}
+
+/* ═══════════════════════════════════════
    TEMPLATE SHOWCASE — full bleed
    ═══════════════════════════════════════ */
 .lp-showcase {

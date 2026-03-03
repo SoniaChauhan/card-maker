@@ -48,14 +48,18 @@ const HOLI_MESSAGES = [
 
 export default function FestivalForm({ data, errors, onChange, onBack, onGenerate, festivals }) {
   const isHoli = data.festival === 'holi';
+  const isHoliOnly = festivals.length === 1 && festivals[0].id === 'holi';
 
   return (
     <div className="form-screen festival-form-screen">
       <div className="form-card">
         <div className="form-header">
-          <span className="form-header-icon">🎆</span>
-          <h2>Festival Greeting Card</h2>
-          <p>Beautiful customizable cards for all Indian festivals — Holi, Diwali, Lohri, Navratri, Eid, Christmas, and more.</p>
+          <span className="form-header-icon">{isHoliOnly ? '🌈' : '🎆'}</span>
+          <h2>{isHoliOnly ? 'Holi Celebration Card' : 'Festival Greeting Card'}</h2>
+          <p>{isHoliOnly 
+            ? 'Create a vibrant, colorful Holi greeting card with playful splashes, gulaal effects, and festive typography.'
+            : 'Beautiful customizable cards for all Indian festivals — Holi, Diwali, Lohri, Navratri, Eid, Christmas, and more.'}
+          </p>
         </div>
 
         {/* ── Festival selector (hidden when only one festival) ── */}

@@ -306,3 +306,27 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ── 24-hr unlock banner ── */
+.holi-unlock-banner {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 0 18px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(6px);
+  border: 1.5px solid rgba(255,255,255,0.5);
+  color: #fff;
+  font-size: 0.9rem;
+  text-align: center;
+  font-weight: 500;
+}
+.holi-unlock-locked {
+  background: rgba(255, 60, 80, 0.22);
+  border-color: rgba(255,100,100,0.5);
+  cursor: pointer;
+}
+.holi-unlock-banner strong {
+  font-weight: 700;
+}
