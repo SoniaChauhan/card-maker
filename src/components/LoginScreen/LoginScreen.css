@@ -133,7 +133,7 @@
   width: 100%;
   max-width: var(--lp-max);
   margin: 0 auto;
-  padding: 20px var(--lp-gutter) 52px;
+  padding: 48px var(--lp-gutter);
   text-align: center;
 }
 .lp-section-title {
@@ -181,7 +181,7 @@
 }
 .lp-custom-design-section {
   width: 100%;
-  padding: 0 var(--lp-gutter) 44px;
+  padding: 48px var(--lp-gutter);
   box-sizing: border-box;
 }
 .lp-custom-design p {
@@ -370,7 +370,7 @@
 /* ═══ Holi Special Section ═══ */
 .lp-holi-section {
   position: relative;
-  padding-top: 20px;
+  padding: 48px var(--lp-gutter);
 }
 .lp-holi-section::before {
   content: '';
@@ -429,7 +429,7 @@
 
 /* Coming Soon section */
 .lp-coming-section {
-  padding: 48px var(--lp-gutter) 56px;
+  padding: 48px var(--lp-gutter);
 }
 .lp-coming-title {
   font-size: clamp(14px, 1.6vw, 17px);
@@ -619,7 +619,7 @@
   width: 100%;
   max-width: var(--lp-max);
   margin: 0 auto;
-  padding: 0 var(--lp-gutter) 44px;
+  padding: 48px var(--lp-gutter);
   text-align: center;
 }
 .lp-highlights {
@@ -1098,7 +1098,7 @@
   width: 100%;
   max-width: var(--lp-max);
   margin: 0 auto;
-  padding: 44px var(--lp-gutter) 32px;
+  padding: 48px var(--lp-gutter);
   text-align: center;
 }
 .lp-steps-grid {
@@ -1264,7 +1264,7 @@
    ═══════════════════════════════════════ */
 .lp-about {
   width: 100%;
-  padding: 44px var(--lp-gutter) 32px;
+  padding: 48px var(--lp-gutter);
   text-align: center;
   box-sizing: border-box;
 }
@@ -1641,7 +1641,7 @@
    ═══════════════════════════════════════ */
 .lp-extras {
   width: 100%;
-  padding: 48px var(--lp-gutter) 40px;
+  padding: 48px var(--lp-gutter);
 }
 .lp-extras-grid {
   display: grid;
