@@ -4,9 +4,7 @@ import './HoliVideo.css';
 
 const HOLI_VIDEOS = [
   { id: 1, title: 'Happy Holi — Colorful Wishes 🎨', file: '/videos/video1.mp4', type: 'video/mp4' },
-  { id: 2, title: 'Rang Barse — Festive Greetings 🌈', file: '/videos/video2.mov', type: 'video/quicktime' },
   { id: 3, title: 'Holi Mubarak — Gulaal Splash 🎉', file: '/videos/video3.mp4', type: 'video/mp4' },
-  { id: 4, title: 'Festival of Colors — Special Wishes 🪅', file: '/videos/video4.mov', type: 'video/quicktime' },
 ];
 
 export default function HoliVideo({ onBack }) {
