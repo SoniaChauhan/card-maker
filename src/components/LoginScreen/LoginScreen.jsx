@@ -614,7 +614,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
       </section>
 
       {/* ═══════ CUSTOM DESIGN CTA ═══════ */}
-      <section className="lp-proof">
+      <section className="lp-custom-design-section">
         <div className="lp-custom-design">
           <h2 className="lp-section-title">🎨 Need a Custom Design?</h2>
           <p>Looking for a card that is fully personalized and tailored to your exact theme, event, or business branding?<br/>We offer custom card design services created exclusively by Creative Thinker Design Hub.</p>
