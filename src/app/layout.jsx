@@ -100,14 +100,14 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.ico" sizes="48x48" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         {/* Google Analytics 4 */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3P4XG9P5HH" />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7JKCTNQ014" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-3P4XG9P5HH');
+              gtag('config', 'G-7JKCTNQ014');
             `,
           }}
         />
