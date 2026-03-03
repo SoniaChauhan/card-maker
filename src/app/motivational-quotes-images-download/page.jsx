@@ -22,5 +22,5 @@ export const metadata = {
 };
 
 export default function MotivationalQuotesPage() {
-  redirect('/?card=festival');
+  redirect('/?card=motivational');
 }
