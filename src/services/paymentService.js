@@ -35,6 +35,8 @@ export const CARD_PRICES = {
   socialevent:     29,
   holiwishes:      0,   // free
   'holiwishes-en': 0,   // free
+  'mothers-en':    0,   // free
+  'mothers':       0,   // free
 };
 
 /** Card types that are FREE (no watermark, no payment) */

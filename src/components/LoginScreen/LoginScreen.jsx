@@ -379,13 +379,22 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
     { id: 'festivalcards', icon: '🎆', name: 'Festival Cards',               desc: 'Create festive cards for Diwali, Lohri, Navratri, Eid, Christmas and more.', grad: 'linear-gradient(135deg, #fdcb6e, #e17055)', price: '₹49' },
   ];
 
-  const FREE_CARDS = [
-    { id: 'holiwishes',    icon: '🌈', name: 'Holi Wishes — Hindi',   lang: 'हिन्दी', langClass: 'lp-lang-hi', desc: 'रंगों भरी होली शायरी — चुनें, रंग बदलें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #ff6f91, #ffc75f)' },
-    { id: 'holiwishes-en', icon: '🌈', name: 'Holi Wishes — English', lang: 'English', langClass: 'lp-lang-en', desc: 'Beautiful English Holi messages — pick, customize colors & download!',  grad: 'linear-gradient(135deg, #a29bfe, #ffc75f)' },
-    { id: 'motivational',  icon: '💪', name: 'Motivational Quotes',   lang: 'हिन्दी', langClass: 'lp-lang-hi', desc: 'प्रेरणादायक विचार — थीम चुनें, कस्टमाइज़ करें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #0f0c29, #302b63)' },
-    { id: 'motivational-en', icon: '💪', name: 'Motivational Quotes',  lang: 'English', langClass: 'lp-lang-en', desc: 'Inspiring English quotes — pick a theme, customize & download free!', grad: 'linear-gradient(135deg, #134e5e, #71b280)' },
-    { id: 'fathers',          icon: '👨‍👧', name: 'Father\'s Quotes',       lang: 'हिन्दी', langClass: 'lp-lang-hi', desc: 'पिता के प्यार को शब्दों में — थीम चुनें और फ्री डाउनलोड करें!', grad: 'linear-gradient(135deg, #2d3436, #636e72)' },
-    { id: 'fathers-en',       icon: '👨‍👧', name: 'Father\'s Quotes',       lang: 'English', langClass: 'lp-lang-en', desc: 'Heartfelt father\'s quotes — pick a theme, customize & download free!', grad: 'linear-gradient(135deg, #0c3483, #a2b6df)' },
+  const HOLI_FREE_CARDS = [
+    { id: 'holiwishes',    icon: '🌈', name: 'होली शुभकामनाएं (Hindi)',  desc: 'रंगों भरी होली शायरी — चुनें, रंग बदलें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #ff6f91, #ffc75f)' },
+    { id: 'holiwishes-en', icon: '🌈', name: 'Holi Wishes (English)',    desc: 'Beautiful English Holi messages — pick, customize colors & download!', grad: 'linear-gradient(135deg, #a29bfe, #ffc75f)' },
+    { id: 'holivideo',     icon: '🎬', name: 'Holi Video Wishes',        desc: 'Download colorful Holi video greetings — share on WhatsApp & social media!', grad: 'linear-gradient(135deg, #e44d26, #f7df1e)' },
+  ];
+
+  const FREE_CARDS_HINDI = [
+    { id: 'motivational',  icon: '💪', name: 'प्रेरणादायक विचार',      desc: 'प्रेरणादायक विचार — थीम चुनें, कस्टमाइज़ करें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #0f0c29, #302b63)' },
+    { id: 'fathers',       icon: '👨‍👧', name: 'पिता पर सुविचार',        desc: 'पिता के प्यार को शब्दों में — थीम चुनें और फ्री डाउनलोड करें!', grad: 'linear-gradient(135deg, #2d3436, #636e72)' },
+    { id: 'mothers',       icon: '💐', name: 'माँ पर सुविचार',         desc: 'माँ के प्यार को शब्दों में — थीम चुनें और फ्री डाउनलोड करें!', grad: 'linear-gradient(135deg, #fbc2eb, #a6c1ee)' },
+  ];
+
+  const FREE_CARDS_ENGLISH = [
+    { id: 'motivational-en', icon: '💪', name: 'Motivational Quotes',  desc: 'Inspiring English quotes — pick a theme, customize & download free!', grad: 'linear-gradient(135deg, #134e5e, #71b280)' },
+    { id: 'fathers-en',      icon: '👨‍👧', name: 'Father\'s Quotes',     desc: 'Heartfelt father\'s quotes — pick a theme, customize & download free!', grad: 'linear-gradient(135deg, #0c3483, #a2b6df)' },
+    { id: 'mothers-en',      icon: '💐', name: 'Mother\'s Quotes',     desc: 'Beautiful quotes celebrating a mother\'s love — customize & download free!', grad: 'linear-gradient(135deg, #fbc2eb, #a6c1ee)' },
   ];
 
 
@@ -531,6 +540,25 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         </div>
       </section>
 
+      {/* ═══════ HOLI SPECIAL ═══════ */}
+      <section className="lp-showcase lp-holi-section">
+        <div className="lp-section-header">
+          <h2 className="lp-section-title">🌈 Holi Special — Free Cards &amp; Videos</h2>
+          <span className="lp-section-free-tag">100% FREE</span>
+        </div>
+        <p className="lp-section-sub">Colorful Holi wishes, greeting cards &amp; video downloads — share instantly!</p>
+        <div className="lp-showcase-grid lp-free-grid">
+          {HOLI_FREE_CARDS.map(c => (
+            <button key={c.id} className="lp-showcase-card lp-free-card lp-holi-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
+              <span className="lp-free-badge">FREE</span>
+              <span className="lp-showcase-icon">{c.icon}</span>
+              <h3 className="lp-showcase-name">{c.name}</h3>
+              <p className="lp-showcase-desc">{c.desc}</p>
+            </button>
+          ))}
+        </div>
+      </section>
+
       {/* ═══════ FREE CARDS ═══════ */}
       <section className="lp-showcase lp-free-section">
         <div className="lp-section-header">
@@ -538,11 +566,26 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
           <span className="lp-section-free-tag">100% FREE</span>
         </div>
         <p className="lp-section-sub">No form needed — just pick, customize colors &amp; download instantly!</p>
+
+        {/* ── Hindi Section ── */}
+        <h3 className="lp-free-lang-heading">🇮🇳 हिन्दी</h3>
         <div className="lp-showcase-grid lp-free-grid">
-          {FREE_CARDS.map(c => (
+          {FREE_CARDS_HINDI.map(c => (
             <button key={c.id} className="lp-showcase-card lp-free-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
               <span className="lp-free-badge">FREE</span>
-              {c.lang && <span className={`lp-lang-badge ${c.langClass || ''}`}>{c.lang}</span>}
+              <span className="lp-showcase-icon">{c.icon}</span>
+              <h3 className="lp-showcase-name">{c.name}</h3>
+              <p className="lp-showcase-desc">{c.desc}</p>
+            </button>
+          ))}
+        </div>
+
+        {/* ── English Section ── */}
+        <h3 className="lp-free-lang-heading">🌐 English</h3>
+        <div className="lp-showcase-grid lp-free-grid">
+          {FREE_CARDS_ENGLISH.map(c => (
+            <button key={c.id} className="lp-showcase-card lp-free-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
+              <span className="lp-free-badge">FREE</span>
               <span className="lp-showcase-icon">{c.icon}</span>
               <h3 className="lp-showcase-name">{c.name}</h3>
               <p className="lp-showcase-desc">{c.desc}</p>
