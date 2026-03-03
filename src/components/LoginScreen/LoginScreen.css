@@ -170,6 +170,26 @@
 .lp-brand-line strong {
   color: #e0d4ff;
 }
+.lp-custom-design {
+  margin-top: 40px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px;
+  padding: 28px 24px;
+  text-align: center;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.lp-custom-design p {
+  color: rgba(255,255,255,.75);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+.lp-custom-design p strong {
+  color: #ffc75f;
+}
 .lp-brand-subtle {
   font-size: 12px;
   color: #a0aec0;

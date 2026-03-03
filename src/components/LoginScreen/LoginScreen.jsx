@@ -643,30 +643,41 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
 
       {/* ═══════ WHY CARD MAKER ═══════ */}
       <section className="lp-proof">
-        <h2 className="lp-section-title">Why Choose Card Maker?</h2>
-        <p className="lp-section-sub">Made for everyone — from first‑time users to designers</p>
+        <h2 className="lp-section-title">🌟 Why Choose Our Card Maker?</h2>
         <p className="lp-brand-line">Card Maker is a product of <strong>Creative Thinker Design Hub</strong>.</p>
         <div className="lp-highlights">
           <div className="lp-highlight">
-            <span className="lp-highlight-icon">⚡</span>
-            <h3>Ready in Minutes</h3>
-            <p>Pick a template, fill in your details, and download — no design skills needed.</p>
+            <span className="lp-highlight-icon">✓</span>
+            <h3>Premium Templates for Every Card Type</h3>
+            <p>Access a wide collection of professionally designed templates for invitations, festival greetings, announcements, business flyers, and more—each crafted to help your card look stunning and professional.</p>
           </div>
           <div className="lp-highlight">
-            <span className="lp-highlight-icon">🎨</span>
-            <h3>Beautiful Templates</h3>
-            <p>Professionally designed for weddings, birthdays, anniversaries &amp; more.</p>
+            <span className="lp-highlight-icon">✓</span>
+            <h3>Real‑Time Editing with Live Preview</h3>
+            <p>Customize your card easily with instant live preview. Change colors, text, images, and layout while seeing updates in real time.</p>
           </div>
           <div className="lp-highlight">
-            <span className="lp-highlight-icon">📱</span>
-            <h3>Works Everywhere</h3>
-            <p>Desktop, tablet, or phone — create and share cards from any device.</p>
+            <span className="lp-highlight-icon">✓</span>
+            <h3>High‑Resolution PNG &amp; PDF Downloads</h3>
+            <p>Download print‑ready, high‑quality PNG and PDF files ideal for sharing on WhatsApp, Instagram, Facebook, or printing.</p>
           </div>
           <div className="lp-highlight">
-            <span className="lp-highlight-icon">🌐</span>
-            <h3>Multi-Language</h3>
-            <p>Create cards in Hindi, English, Punjabi, Gujarati &amp; more languages.</p>
+            <span className="lp-highlight-icon">✓</span>
+            <h3>Multi‑Language Support</h3>
+            <p>Design your cards in multiple languages to suit your personal, cultural, or business needs.</p>
           </div>
+          <div className="lp-highlight">
+            <span className="lp-highlight-icon">✓</span>
+            <h3>Works Smoothly on All Devices</h3>
+            <p>Create beautiful cards from your desktop, tablet, or mobile. Our platform is fully responsive and optimized for every screen size.</p>
+          </div>
+        </div>
+
+        <div className="lp-custom-design">
+          <h2 className="lp-section-title">🎨 Need a Custom Design?</h2>
+          <p>Looking for a card that is fully personalized and tailored to your exact theme, event, or business branding?<br/>We offer custom card design services created exclusively by Creative Thinker Design Hub.</p>
+          <p>📩 Email us your requirements at: <strong>creativethinker.designhub@gmail.com</strong></p>
+          <p>Our team will create a unique, high-quality design specifically for you.</p>
         </div>
       </section>
 

@@ -69,17 +69,22 @@ export default function Page() {
           Modern templates with clean layouts. Resume builder online free, marriage biodata maker with photo.
         </p>
 
-        <h2>Why Choose Card Maker?</h2>
+        <h2>🌟 Why Choose Our Card Maker?</h2>
         <ul>
-          <li>✅ Free Holi wishes cards — no sign-up required</li>
-          <li>✅ Premium birthday, wedding &amp; anniversary card designers</li>
-          <li>✅ Hindi, English, Punjabi &amp; Gujarati language support</li>
-          <li>✅ 50+ card templates and growing</li>
-          <li>✅ Instant PNG &amp; PDF download</li>
-          <li>✅ Mobile-friendly — works on all devices</li>
-          <li>✅ Custom color picker for personalization</li>
-          <li>✅ Made in India by Creative Thinker Design Hub</li>
+          <li>✓ <strong>Premium Templates for Every Card Type</strong> — Access a wide collection of professionally designed templates for invitations, festival greetings, announcements, business flyers, and more—each crafted to help your card look stunning and professional.</li>
+          <li>✓ <strong>Real‑Time Editing with Live Preview</strong> — Customize your card easily with instant live preview. Change colors, text, images, and layout while seeing updates in real time.</li>
+          <li>✓ <strong>High‑Resolution PNG &amp; PDF Downloads</strong> — Download print‑ready, high‑quality PNG and PDF files ideal for sharing on WhatsApp, Instagram, Facebook, or printing.</li>
+          <li>✓ <strong>Multi‑Language Support</strong> — Design your cards in multiple languages to suit your personal, cultural, or business needs.</li>
+          <li>✓ <strong>Works Smoothly on All Devices</strong> — Create beautiful cards from your desktop, tablet, or mobile. Our platform is fully responsive and optimized for every screen size.</li>
         </ul>
+
+        <h2>🎨 Need a Custom Design?</h2>
+        <p>
+          Looking for a card that is fully personalized and tailored to your exact theme, event, or business branding?
+          We offer custom card design services created exclusively by Creative Thinker Design Hub.
+        </p>
+        <p>📩 Email us your requirements at: <strong>creativethinker.designhub@gmail.com</strong></p>
+        <p>Our team will create a unique, high-quality design specifically for you.</p>
 
         <h2>How to Create a Card Online</h2>
         <ol>
