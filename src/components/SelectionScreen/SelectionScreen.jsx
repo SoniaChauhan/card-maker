@@ -63,6 +63,7 @@ const CATEGORIES = [
       { id: 'thankyou',        label: 'Thank You',       desc: 'Express gratitude with elegant and heartfelt thank you cards.',        icon: '🙏', badge: '💗 Heartfelt',    comingSoon: true },
       { id: 'congratulations', label: 'Congratulations', desc: 'Celebrate achievements with vibrant congratulations cards.',           icon: '🎊', badge: '🎉 Celebratory',  comingSoon: true },
       { id: 'goodluck',        label: 'Good Luck',       desc: 'Send warm good luck wishes with charming card designs.',               icon: '🍀', badge: '🌟 Wishes',       comingSoon: true },
+      { id: 'motivational',    label: 'Motivational Quotes', desc: 'Download beautiful motivational quotes cards in Hindi — free!',    icon: '💪', badge: '🔥 Inspiring' },
       { id: 'festivalcards',   label: 'Festival Cards',  desc: 'Create festive cards for Diwali, Holi, Eid, Christmas and more.',     icon: '🎆', badge: '🪔 Festive' },
     ],
   },

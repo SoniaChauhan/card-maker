@@ -12,10 +12,11 @@ import ResumeCard      from './components/ResumeCard';
 import FestivalCard    from './components/FestivalCard';
 import HoliCard        from './components/HoliCard';
 import HoliCardEnglish from './components/HoliCardEnglish';
+import MotivationalCard from './components/MotivationalCard';
 import useScreenshotProtection from './hooks/useScreenshotProtection';
 import VisitorTracker from './components/shared/VisitorTracker';
 
-const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','festivalcards','holiwishes','holiwishes-en'];
+const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','festivalcards','holiwishes','holiwishes-en','motivational'];
 
 function AppContent() {
   const { user, loading, isGuest } = useAuth();
@@ -78,6 +79,7 @@ function AppContent() {
     if (selected === 'festivalcards') return <FestivalCard    {...cardProps} />;
     if (selected === 'holiwishes')     return <HoliCard        {...cardProps} />;
     if (selected === 'holiwishes-en')  return <HoliCardEnglish {...cardProps} />;
+    if (selected === 'motivational')    return <MotivationalCard  {...cardProps} />;
   }
 
   /* ---------- Landing page — handles both logged-in and not-logged-in ---------- */
