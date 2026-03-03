@@ -1,17 +1,11 @@
 'use client';
 import './HoliVideo.css';
 
-/*
-  ─── Holi Video Gallery ───
-  Add your videos to public/videos/ and list them here.
-  Supported formats: .mp4, .webm
-  Name each file descriptively, e.g. holi-wish-colorful.mp4
-*/
 const HOLI_VIDEOS = [
-  // { id: 1, title: 'Happy Holi — Colorful Splash', file: '/videos/holi-wish-1.mp4' },
-  // { id: 2, title: 'Holi Greetings — Gulaal Burst', file: '/videos/holi-wish-2.mp4' },
-  // { id: 3, title: 'Rang Barse — Festive Wish',     file: '/videos/holi-wish-3.mp4' },
-  // Add more videos above ↑
+  { id: 1, title: 'Happy Holi — Colorful Wishes 🎨', file: '/videos/video1.mp4', type: 'video/mp4' },
+  { id: 2, title: 'Rang Barse — Festive Greetings 🌈', file: '/videos/video2.mov', type: 'video/quicktime' },
+  { id: 3, title: 'Holi Mubarak — Gulaal Splash 🎉', file: '/videos/video3.mp4', type: 'video/mp4' },
+  { id: 4, title: 'Festival of Colors — Special Wishes 🪅', file: '/videos/video4.mov', type: 'video/quicktime' },
 ];
 
 export default function HoliVideo({ onBack }) {
@@ -34,32 +28,27 @@ export default function HoliVideo({ onBack }) {
         <p>Download colorful Holi video greetings — share on WhatsApp, Instagram &amp; more!</p>
       </div>
 
-      {HOLI_VIDEOS.length === 0 ? (
-        <div className="holi-video-empty">
-          <span>🎥</span>
-          Videos coming soon! Add .mp4 files to <code>public/videos/</code> folder.
-        </div>
-      ) : (
-        <div className="holi-video-grid">
-          {HOLI_VIDEOS.map(v => (
-            <div key={v.id} className="holi-video-card">
-              <video
-                className="holi-video-player"
-                src={v.file}
-                controls
-                preload="metadata"
-                playsInline
-              />
-              <div className="holi-video-info">
-                <p className="holi-video-title">{v.title}</p>
-                <button className="holi-video-dl-btn" onClick={() => handleDownload(v)}>
-                  ⬇️ Download Video
-                </button>
-              </div>
+      <div className="holi-video-grid">
+        {HOLI_VIDEOS.map(v => (
+          <div key={v.id} className="holi-video-card">
+            <video
+              className="holi-video-player"
+              controls
+              preload="metadata"
+              playsInline
+            >
+              <source src={v.file} type={v.type} />
+              Your browser does not support the video tag.
+            </video>
+            <div className="holi-video-info">
+              <p className="holi-video-title">{v.title}</p>
+              <button className="holi-video-dl-btn" onClick={() => handleDownload(v)}>
+                ⬇️ Download Video
+              </button>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
