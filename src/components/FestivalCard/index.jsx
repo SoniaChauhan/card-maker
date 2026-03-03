@@ -279,11 +279,6 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
             🔓 Unlimited access active — ⏰ expires in <strong>{countdown}</strong>
           </div>
         )}
-        {isHoliCard && !paid && (
-          <div className="holi-unlock-banner holi-unlock-locked" style={{ marginTop: '20px', marginBottom: '12px' }}>
-            🔒 Pay once to unlock <strong>24-hour unlimited downloads</strong> — ₹{getCardPrice(effectiveCardType)}
-          </div>
-        )}
         {!isHoliCard && !paid && (
           <div className="download-locked-badge">
             🔒 Preview Mode — Pay ₹{getCardPrice(effectiveCardType)} to remove watermark
@@ -294,34 +289,21 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
           <button
             className="btn-download pay-download-btn"
             onClick={() => isHoliCard ? setShowEmailCheck(true) : setShowPayment(true)}
-            style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
+            style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginTop: isHoliCard ? '20px' : '0', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
           >
-            {isHoliCard ? '🔓 Download Card' : `💎 Pay ₹${getCardPrice(effectiveCardType)} & Download (No Watermark)`}
+            {isHoliCard ? `💳 Pay ₹${getCardPrice(effectiveCardType)} & Unlock 24hr Access` : `💎 Pay ₹${getCardPrice(effectiveCardType)} & Download (No Watermark)`}
           </button>
         )}
 
-        {/* For Holi card: show download only when paid. For others: always show */}
-        {(isHoliCard ? paid : true) && (
-          <CardActions
-            onEdit={() => setStep('form')}
-            onBack={onBack}
-            onDownload={handleDownload}
-            downloading={downloading}
-            dlBtnStyle={{ background: 'linear-gradient(135deg,#ff6b6b,#feca57)', color: '#fff', boxShadow: '0 6px 20px rgba(255,107,107,.45)' }}
-            dlLabel={paid ? '⬇️ Download Card' : '⬇️ Download (with watermark)'}
-          />
-        )}
-        {/* For Holi card when not paid: show Edit/Back buttons only */}
-        {isHoliCard && !paid && (
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '8px' }}>
-            <button onClick={() => setStep('form')} style={{ background: '#333', color: '#fff', border: 'none', borderRadius: '10px', padding: '10px 20px', fontWeight: 600, cursor: 'pointer' }}>
-              ✏️ Edit Details
-            </button>
-            <button onClick={onBack} style={{ background: '#333', color: '#fff', border: 'none', borderRadius: '10px', padding: '10px 20px', fontWeight: 600, cursor: 'pointer' }}>
-              🏠 Choose Another
-            </button>
-          </div>
-        )}
+        {/* Show download actions for all cards */}
+        <CardActions
+          onEdit={() => setStep('form')}
+          onBack={onBack}
+          onDownload={handleDownload}
+          downloading={downloading}
+          dlBtnStyle={{ background: 'linear-gradient(135deg,#ff6b6b,#feca57)', color: '#fff', boxShadow: '0 6px 20px rgba(255,107,107,.45)' }}
+          dlLabel={paid ? '⬇️ Download Card' : '⬇️ Download (with watermark)'}
+        />
         <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
           {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
         </button>
