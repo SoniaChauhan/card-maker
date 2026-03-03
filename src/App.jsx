@@ -13,6 +13,7 @@ import FestivalCard    from './components/FestivalCard';
 import HoliCard        from './components/HoliCard';
 import HoliCardEnglish from './components/HoliCardEnglish';
 import useScreenshotProtection from './hooks/useScreenshotProtection';
+import VisitorTracker from './components/shared/VisitorTracker';
 
 const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','festivalcards','holiwishes','holiwishes-en'];
 
@@ -86,6 +87,7 @@ function AppContent() {
 export default function App() {
   return (
     <AuthProvider>
+      <VisitorTracker />
       <AppContent />
     </AuthProvider>
   );

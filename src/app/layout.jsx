@@ -97,6 +97,18 @@ export default function RootLayout({ children }) {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <link rel="icon" href="/favicon.svg" />
+        {/* Google Analytics 4 */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-XXXXXXXXXX');
+            `,
+          }}
+        />
         {/* Structured Data – WebApplication */}
         <script
           type="application/ld+json"
