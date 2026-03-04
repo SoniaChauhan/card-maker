@@ -98,7 +98,7 @@ export default function Page() {
         <h3>How can I create a card online?</h3>
         <p>Visit Card Maker, choose a template, fill in your details, preview, and download. No design skills or software needed!</p>
         <h3>Is Card Maker free?</h3>
-        <p>Yes! Holi wishes are 100% free. Premium designers (birthday, wedding, anniversary, festival cards) start from ₹19 per download.</p>
+        <p>Yes! Holi wishes are 100% free. Premium designers (birthday, wedding, anniversary, festival cards) start from ₹49 per download.</p>
         <h3>Do I need to sign up to download cards?</h3>
         <p>No! Free cards can be downloaded without sign-up. Premium cards are accessible as guest too.</p>
         <h3>Do you support Hindi/English templates?</h3>

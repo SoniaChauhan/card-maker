@@ -57,7 +57,7 @@ export default function BestCardMakerBlog() {
       <h3>3. Free + Affordable Premium</h3>
       <p>
         Holi wishes are <strong>100% free</strong> — no sign-up, no watermark.
-        Premium designers for birthdays, weddings, anniversaries, and festival cards start from just <strong>₹19</strong>
+        Premium designers for birthdays, weddings, anniversaries, and festival cards start from just <strong>₹49</strong>
         per download — the most affordable in India.
       </p>
 
@@ -84,12 +84,12 @@ export default function BestCardMakerBlog() {
         </thead>
         <tbody>
           <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Holi Wishes</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>FREE</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Hindi, English</td></tr>
-          <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Festival Cards</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹19</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Multi-language</td></tr>
-          <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Birthday Invitations</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹19</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Hindi, English</td></tr>
-          <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Wedding Cards</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹19</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Hindi, English, Punjabi, Gujarati</td></tr>
-          <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Anniversary Cards</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹19</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Hindi, English</td></tr>
-          <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Resume Builder</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹19</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>English</td></tr>
-          <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Marriage Biodata</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹19</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Hindi, English</td></tr>
+          <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Festival Cards</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹49</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Multi-language</td></tr>
+          <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Birthday Invitations</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹49</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Hindi, English</td></tr>
+          <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Wedding Cards</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹49</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Hindi, English, Punjabi, Gujarati</td></tr>
+          <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Anniversary Cards</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹49</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Hindi, English</td></tr>
+          <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Resume Builder</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹49</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>English</td></tr>
+          <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Marriage Biodata</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹49</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Hindi, English</td></tr>
         </tbody>
       </table>
 

@@ -85,7 +85,7 @@ export default function WeddingCardBlog() {
 
       <h2 style={{ marginTop: 32 }}>Wedding Card Pricing</h2>
       <p>
-        Our wedding card designs are available at just <strong>₹19 per download</strong> — a fraction
+        Our wedding card designs are available at just <strong>₹49 per download</strong> — a fraction
         of what traditional designers charge. Preview for free, and pay only when you&apos;re satisfied!
       </p>
 
