@@ -83,7 +83,7 @@ export default function BirthdayTemplatesBlog() {
       <h2 style={{ marginTop: 32 }}>Frequently Asked Questions</h2>
       <h3>Are birthday invitation templates free?</h3>
       <p>
-        Card Maker offers birthday invitation designs at ₹49 per download. You can preview for free
+        Card Maker offers birthday invitation designs at ₹19 per download. You can preview for free
         and only pay when you&apos;re happy with the design.
       </p>
 

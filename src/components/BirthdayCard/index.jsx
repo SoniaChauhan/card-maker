@@ -171,7 +171,7 @@ export default function BirthdayCard({ onBack, userEmail, initialData, templateI
             onClick={() => setShowPayment(true)}
             style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
           >
-            💎 Pay ₹{getCardPrice(CARD_TYPE)} & Download (No Watermark)
+            ✨ Pay ₹{getCardPrice(CARD_TYPE)} — Remove Watermark
           </button>
         )}
 

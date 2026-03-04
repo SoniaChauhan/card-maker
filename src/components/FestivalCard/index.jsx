@@ -257,7 +257,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
             onClick={() => isHoliCard ? setShowEmailCheck(true) : setShowPayment(true)}
             style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginTop: isHoliCard ? '20px' : '0', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
           >
-            {isHoliCard ? `💳 Pay ₹${getCardPrice(effectiveCardType)} & Unlock Unlimited Downloads` : `💎 Pay ₹${getCardPrice(effectiveCardType)} & Download (No Watermark)`}
+            {isHoliCard ? `💳 Pay ₹${getCardPrice(effectiveCardType)} & Unlock Unlimited Downloads` : `✨ Pay ₹${getCardPrice(effectiveCardType)} — Remove Watermark`}
           </button>
         )}
 
@@ -327,7 +327,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
                   onClick={handleProceedToPayment}
                   style={{ display: 'block', width: '100%', marginTop: '12px', padding: '12px', background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '1rem', cursor: 'pointer' }}
                 >
-                  🔓 Pay ₹49 — Unlock Unlimited Access
+                  🔓 Pay ₹19 — Unlock Unlimited Access
                 </button>
               </div>
             )}

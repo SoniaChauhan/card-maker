@@ -57,14 +57,14 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
       <div className="pay-popup" onClick={e => e.stopPropagation()}>
         <button className="pay-close" onClick={onClose}>✕</button>
 
-        <div className="pay-icon">💎</div>
-        <h3>Download {cardLabel}</h3>
+        <div className="pay-icon">✨</div>
+        <h3>Remove Watermark</h3>
         <p className="pay-desc">
-          Get a watermark-free, high-quality download of your card.
+          Download your {cardLabel} without the "CreativeThinkerDesignHub.com" watermark.
         </p>
 
         <div className="pay-price-box">
-          <span className="pay-price-label">Price</span>
+          <span className="pay-price-label">One-time Price</span>
           <span className="pay-price-amount">₹{price}</span>
         </div>
 
@@ -78,8 +78,8 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
           </div>
         ) : (
           <div className="pay-features">
+            <div>✅ Remove watermark instantly</div>
             <div>✅ HD quality download</div>
-            <div>✅ No watermark</div>
             <div>✅ Print ready</div>
             <div>✅ Instant delivery</div>
           </div>
@@ -116,7 +116,7 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
             ? '⏳ Processing…'
             : cardType === 'holicard'
               ? `🔓 Pay ₹${price} — Unlock Unlimited Access`
-              : `💳 Pay ₹${price} & Download`}
+              : `✨ Pay ₹${price} — Remove Watermark`}
         </button>
 
         {cardType !== 'holicard' && (
