@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb';
 
-const DB = 'card-maker';
+const DB = process.env.NODE_ENV === 'development' ? 'card-maker-dev' : 'card-maker';
 const COL = 'feedbacks';
 
 export async function POST(req) {
