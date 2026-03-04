@@ -8,6 +8,16 @@ import { logDownload } from '../../services/downloadHistoryService';
 
 const PARTICLES = ['🌈', '💜', '💛', '💚', '💙', '🎨', '✨', '🪷', '💗', '🎉', '🌸', '💐'];
 
+/* ── Holi images for cards ── */
+const HOLI_IMAGES = [
+  '/holi_img1.png',
+  '/holi_img2.png',
+  '/holi_img3.png',
+];
+
+/* Get image based on index (cycles through images) */
+const getHoliImage = (idx) => HOLI_IMAGES[idx % HOLI_IMAGES.length];
+
 /* ── All shayaris grouped by category ── */
 const SHAYARIS = [
   { cat: '🌸', text: "रंगों का हर एक कतरा,\nखुशियों का दे पैगाम।\nहोली मुबारक!" },
@@ -137,16 +147,21 @@ export default function HoliCard({ onBack, userEmail }) {
             const idx = SHAYARIS.indexOf(s);
             return (
               <div key={idx} className="holi-item">
-                <div className="holi-card" ref={el => (refs.current[idx] = el)} style={{ background: bgColor, color: fontColor }}>
+                <div className="holi-card holi-card-with-img" ref={el => (refs.current[idx] = el)} style={{ background: bgColor, color: fontColor }}>
                   <div className="holi-border-outer" />
                   <div className="holi-border-inner" />
-                  <span className="holi-cat">{s.cat}</span>
-                  <div className="holi-card-h">Happy Holi!</div>
-                  <div className="holi-shayari" style={{ color: fontColor }}>{s.text}</div>
-                  <div className="holi-dots">
-                    {['#ff6f91','#ffc75f','#a29bfe','#55efc4','#fd79a8'].map((c,j) => (
-                      <span key={j} style={{ background: c }} />
-                    ))}
+                  <div className="holi-img-wrap">
+                    <img src={getHoliImage(idx)} alt="Holi" className="holi-card-img" />
+                  </div>
+                  <div className="holi-text-content">
+                    <span className="holi-cat">{s.cat}</span>
+                    <div className="holi-card-h">Happy Holi!</div>
+                    <div className="holi-shayari" style={{ color: fontColor }}>{s.text}</div>
+                    <div className="holi-dots">
+                      {['#ff6f91','#ffc75f','#a29bfe','#55efc4','#fd79a8'].map((c,j) => (
+                        <span key={j} style={{ background: c }} />
+                      ))}
+                    </div>
                   </div>
                 </div>
                 <button className="holi-dl" onClick={() => download(idx)} disabled={dlIdx === idx} title="Download">
@@ -164,16 +179,21 @@ export default function HoliCard({ onBack, userEmail }) {
             const idx = SHAYARIS.indexOf(s);
             return (
               <div key={idx} className="holi-item">
-                <div className="holi-card" ref={el => (refs.current[idx] = el)} style={{ background: bgColor, color: fontColor }}>
+                <div className="holi-card holi-card-with-img" ref={el => (refs.current[idx] = el)} style={{ background: bgColor, color: fontColor }}>
                   <div className="holi-border-outer" />
                   <div className="holi-border-inner" />
-                  <span className="holi-cat">{s.cat}</span>
-                  <div className="holi-card-h">Happy Holi!</div>
-                  <div className="holi-shayari" style={{ color: fontColor }}>{s.text}</div>
-                  <div className="holi-dots">
-                    {['#ff6f91','#ffc75f','#a29bfe','#55efc4','#fd79a8'].map((c,j) => (
-                      <span key={j} style={{ background: c }} />
-                    ))}
+                  <div className="holi-img-wrap">
+                    <img src={getHoliImage(idx)} alt="Holi" className="holi-card-img" />
+                  </div>
+                  <div className="holi-text-content">
+                    <span className="holi-cat">{s.cat}</span>
+                    <div className="holi-card-h">Happy Holi!</div>
+                    <div className="holi-shayari" style={{ color: fontColor }}>{s.text}</div>
+                    <div className="holi-dots">
+                      {['#ff6f91','#ffc75f','#a29bfe','#55efc4','#fd79a8'].map((c,j) => (
+                        <span key={j} style={{ background: c }} />
+                      ))}
+                    </div>
                   </div>
                 </div>
                 <button className="holi-dl" onClick={() => download(idx)} disabled={dlIdx === idx} title="Download">
@@ -191,16 +211,21 @@ export default function HoliCard({ onBack, userEmail }) {
             const idx = SHAYARIS.indexOf(s);
             return (
               <div key={idx} className="holi-item holi-item-long">
-                <div className="holi-card holi-card-long" ref={el => (refs.current[idx] = el)} style={{ background: bgColor, color: fontColor }}>
+                <div className="holi-card holi-card-long holi-card-with-img" ref={el => (refs.current[idx] = el)} style={{ background: bgColor, color: fontColor }}>
                   <div className="holi-border-outer" />
                   <div className="holi-border-inner" />
-                  <span className="holi-cat">{s.cat}</span>
-                  <div className="holi-card-h">Happy Holi!</div>
-                  <div className="holi-shayari holi-shayari-long" style={{ color: fontColor }}>{s.text}</div>
-                  <div className="holi-dots">
-                    {['#ff6f91','#ffc75f','#a29bfe','#55efc4','#fd79a8'].map((c,j) => (
-                      <span key={j} style={{ background: c }} />
-                    ))}
+                  <div className="holi-img-wrap holi-img-wrap-long">
+                    <img src={getHoliImage(idx)} alt="Holi" className="holi-card-img" />
+                  </div>
+                  <div className="holi-text-content">
+                    <span className="holi-cat">{s.cat}</span>
+                    <div className="holi-card-h">Happy Holi!</div>
+                    <div className="holi-shayari holi-shayari-long" style={{ color: fontColor }}>{s.text}</div>
+                    <div className="holi-dots">
+                      {['#ff6f91','#ffc75f','#a29bfe','#55efc4','#fd79a8'].map((c,j) => (
+                        <span key={j} style={{ background: c }} />
+                      ))}
+                    </div>
                   </div>
                 </div>
                 <button className="holi-dl" onClick={() => download(idx)} disabled={dlIdx === idx} title="Download">

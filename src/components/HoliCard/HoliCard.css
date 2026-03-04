@@ -108,6 +108,63 @@
   transform: translateY(-3px);
 }
 
+/* ── Card with image layout ── */
+.holi-card-with-img {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  min-height: auto;
+  border-radius: 16px;
+}
+/* Hide decorative borders for image cards */
+.holi-card-with-img .holi-border-outer,
+.holi-card-with-img .holi-border-inner {
+  display: none;
+}
+
+/* ── Image wrapper (top section) ── */
+.holi-img-wrap {
+  width: 100%;
+  height: 160px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+}
+.holi-img-wrap-long {
+  height: 180px;
+}
+
+/* ── Image itself (cover full width) ── */
+.holi-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* ── Text content (bottom section - minimal space) ── */
+.holi-text-content {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 14px 14px;
+  min-height: 0;
+  overflow: hidden;
+  border: 2px solid rgba(168, 85, 247, 0.15);
+  border-top: none;
+  border-radius: 0 0 14px 14px;
+  margin: 0 4px 4px;
+}
+
 /* Double border */
 .holi-border-outer {
   position: absolute;
@@ -126,20 +183,22 @@
 
 /* Category emoji */
 .holi-cat {
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 0;
+  line-height: 1.2;
 }
 
 /* Card heading */
 .holi-card-h {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 800;
   background: linear-gradient(90deg, #ff6f91, #ffc75f, #a29bfe, #55efc4, #fd79a8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 2px;
+  line-height: 1.3;
 }
 
 /* Hindi subheading */
@@ -152,23 +211,26 @@
 
 /* Shayari text */
 .holi-shayari {
-  font-size: 0.92rem;
-  line-height: 1.7;
+  font-size: 0.82rem;
+  line-height: 1.5;
   white-space: pre-line;
-  margin: 0 auto 12px;
-  max-width: 220px;
+  margin: 0 auto 6px;
+  max-width: 100%;
   font-style: italic;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* Decorative dots */
 .holi-dots {
   display: flex;
   justify-content: center;
-  gap: 6px;
+  gap: 4px;
+  margin-top: 4px;
 }
 .holi-dots span {
-  width: 7px;
-  height: 7px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   display: inline-block;
   opacity: 0.7;
@@ -200,11 +262,17 @@
 .holi-card-long {
   padding: 32px 28px 26px;
 }
+.holi-card-long.holi-card-with-img {
+  padding: 0;
+}
 .holi-card-long .holi-border-outer {
   inset: 8px;
 }
 .holi-card-long .holi-border-inner {
   inset: 15px;
+}
+.holi-card-long .holi-text-content {
+  padding: 12px 14px 14px;
 }
 
 /* Tag / subtitle for long cards */
@@ -219,9 +287,9 @@
 
 /* Long shayari text */
 .holi-shayari-long {
-  max-width: 380px;
-  font-size: 0.88rem;
-  line-height: 1.85;
+  max-width: 100%;
+  font-size: 0.78rem;
+  line-height: 1.6;
 }
 
 /* ── Download button per card ── */
@@ -284,25 +352,82 @@
   .holi-card {
     padding: 22px 14px 18px;
   }
+  .holi-img-wrap {
+    height: 140px;
+  }
+  .holi-img-wrap-long {
+    height: 160px;
+  }
+  .holi-text-content {
+    padding: 8px 10px 10px;
+    margin: 0 3px 3px;
+  }
   .holi-card-long {
     padding: 24px 16px 20px;
   }
   .holi-card-h {
+    font-size: 1rem;
+  }
+  .holi-cat {
     font-size: 1.1rem;
   }
   .holi-shayari {
-    font-size: 0.85rem;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    margin-bottom: 4px;
   }
   .holi-shayari-long {
     max-width: 100%;
-    font-size: 0.82rem;
+    font-size: 0.75rem;
+    line-height: 1.55;
   }
   .holi-section-label {
     font-size: 1rem;
+  }
+  .holi-dots span {
+    width: 4px;
+    height: 4px;
   }
 }
 @media (max-width: 400px) {
   .holi-grid {
     grid-template-columns: 1fr;
   }
+  .holi-img-wrap {
+    height: 130px;
+  }
+  .holi-text-content {
+    padding: 6px 8px 8px;
+    margin: 0 2px 2px;
+  }
+  .holi-card-h {
+    font-size: 0.95rem;
+  }
+  .holi-shayari {
+    font-size: 0.75rem;
+  }
+}
+
+/* ── 24-hr unlock banner ── */
+.holi-unlock-banner {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 0 18px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(6px);
+  border: 1.5px solid rgba(255,255,255,0.5);
+  color: #fff;
+  font-size: 0.9rem;
+  text-align: center;
+  font-weight: 500;
+}
+.holi-unlock-locked {
+  background: rgba(255, 60, 80, 0.22);
+  border-color: rgba(255,100,100,0.5);
+  cursor: pointer;
+}
+.holi-unlock-banner strong {
+  font-weight: 700;
 }

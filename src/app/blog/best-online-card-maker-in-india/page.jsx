@@ -88,8 +88,8 @@ export default function BestCardMakerBlog() {
           <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Birthday Invitations</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹49</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Hindi, English</td></tr>
           <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Wedding Cards</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹49</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Hindi, English, Punjabi, Gujarati</td></tr>
           <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Anniversary Cards</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹49</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Hindi, English</td></tr>
-          <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Resume Builder</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹79</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>English</td></tr>
-          <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Marriage Biodata</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹99</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Hindi, English</td></tr>
+          <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Resume Builder</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹49</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>English</td></tr>
+          <tr><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Marriage Biodata</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>₹49</td><td style={{ padding: 10, borderBottom: '1px solid #eee' }}>Hindi, English</td></tr>
         </tbody>
       </table>
 

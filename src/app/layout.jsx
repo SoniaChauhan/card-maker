@@ -1,18 +1,22 @@
 import '@/global.css';
 
 const SITE_URL = 'https://creativethinkerdesignhub.com';
-const SITE_NAME = 'Online Card Maker – Create Birthday, Wedding, Festival Cards | Free Templates';
+const SITE_NAME = 'Free Online Card Maker | CreativeThinkerDesignHub – Birthday, Wedding, Invitation Cards';
 const DESCRIPTION =
-  'Create beautiful invitation cards and greeting cards online. Free templates for birthdays, weddings, anniversaries, festivals like Holi, Diwali, Lohri. Customizable designs in Hindi & English, instant download. A product of Creative Thinker Design Hub.';
+  'Create beautiful greeting cards online for free. Choose from birthday templates, wedding invitations, anniversary cards, Holi cards, motivational quote cards and more. 100+ aesthetic card templates. Easy to customize and download. Best free card maker online India 2026.';
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: SITE_NAME,
-    template: '%s | Online Card Maker – Free Templates',
+    template: '%s | Free Card Maker Online',
   },
   description: DESCRIPTION,
   keywords: [
+    /* ── High-traffic keywords ── */
+    'free card maker online', 'birthday invitation maker', 'marriage biodata templates',
+    'aesthetic card templates', 'free motivational quote cards', 'Holi card templates',
+    'wedding card design online free',
     /* ── Core ── */
     'card maker', 'online card maker', 'free card maker', 'card maker online free',
     'card maker app', 'free online card maker', 'greeting card maker',
@@ -40,8 +44,20 @@ export const metadata = {
     /* ── Festival ── */
     'festival greeting cards', 'festival card maker', 'diwali card maker',
     'eid card maker', 'christmas card maker', 'navratri card maker',
+    /* ── Motivational ── */
+    'motivational quotes images download', 'motivational quotes images',
+    'inspirational quotes download free', 'motivational card maker',
+    'quote card generator', 'motivational poster maker',
+    /* ── Mothers & Fathers ── */
+    "mother's quotes english", 'maa quotes hindi', 'माँ पर सुविचार',
+    'happy mothers day 2026', "fathers quotes english", 'pitaji quotes',
+    'पिता पर सुविचार', 'happy fathers day 2026',
+    /* ── Biodata & Resume ── */
+    'marriage biodata maker', 'biodata for marriage', 'online resume builder',
+    'resume builder free pdf',
     /* ── Brand ── */
-    'Creative Thinker Design Hub', 'card maker india',
+    'Creative Thinker Design Hub', 'card maker india', 'card maker online india',
+    'best card maker india 2026',
   ],
   authors: [{ name: 'Creative Thinker Design Hub' }],
   creator: 'Creative Thinker Design Hub',
@@ -96,6 +112,11 @@ export default function RootLayout({ children }) {
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        {/* Preconnect for faster loading */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="icon" href="/favicon.ico" sizes="48x48" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -169,7 +190,7 @@ export default function RootLayout({ children }) {
                   name: 'Is Card Maker free to use?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Yes! Holi wishes cards (Hindi & English) are 100% free — no sign-up required. Premium card designers like birthday (₹49), wedding (₹49), anniversary (₹49), and festival cards (₹49) are affordably priced.',
+                    text: 'Yes! Holi wishes cards (Hindi & English) are 100% free — no sign-up required. Premium card designers like birthday, wedding, anniversary, and festival cards are available at ₹19 (with watermark) or ₹49 (clean, no watermark).',
                   },
                 },
                 {

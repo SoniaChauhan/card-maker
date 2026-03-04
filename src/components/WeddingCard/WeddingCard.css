@@ -29,15 +29,158 @@
 }
 
 .wedding-screen-title {
-  color: #d4a853;
+  color: #6b1520;
   font-size: 22px;
   font-weight: 700;
   margin-bottom: 20px;
   letter-spacing: 3px;
   text-align: center;
   text-transform: uppercase;
-  text-shadow: 0 2px 12px rgba(0,0,0,.7);
   font-family: Georgia, 'Times New Roman', serif;
+}
+
+/* ============================================================
+   PREVIEW CONTAINER — Light Card
+============================================================ */
+.wed-preview-container {
+  width: 100%;
+  max-width: 900px;
+  background: linear-gradient(160deg, #fffaf3 0%, #f8f0e3 50%, #fff7ee 100%);
+  border: 1px solid rgba(184,134,11,0.12);
+  border-radius: 24px;
+  padding: 32px 24px 28px;
+  box-shadow:
+    0 8px 40px rgba(0,0,0,0.06),
+    0 1px 3px rgba(184,134,11,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+/* Full-width language picker inside preview container */
+.wed-preview-container .lp-wrap {
+  width: 100%;
+  max-width: 100%;
+}
+.wed-preview-container .lp-trigger {
+  width: 100%;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(184,134,11,0.15);
+  color: #4a3520;
+}
+
+/* ============================================================
+   CARD WRAPPER + WATERMARK
+============================================================ */
+.wed-preview-card-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 6px 32px rgba(0,0,0,0.08);
+}
+
+.wed-preview-watermark {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+.wed-preview-watermark .watermark-text {
+  font-size: 42px;
+  font-weight: 900;
+  color: rgba(184,134,11,0.13);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+}
+.wed-preview-watermark .watermark-subtext {
+  font-size: 12px;
+  color: rgba(107,21,32,0.25);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* ============================================================
+   ACTION BUTTONS
+============================================================ */
+.wed-action-buttons {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 900px;
+  flex-wrap: wrap;
+}
+.wed-back-btn {
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.7);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.wed-back-btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+.wed-btn-edit {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 24px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid rgba(184,134,11,0.3);
+  background: rgba(184,134,11,0.08);
+  color: #d4a853;
+  transition: all 0.2s;
+}
+.wed-btn-edit:hover {
+  background: rgba(184,134,11,0.15);
+  border-color: rgba(184,134,11,0.5);
+  transform: translateY(-1px);
+}
+.wed-btn-download {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 24px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  border: none;
+  background: linear-gradient(135deg, #b8860b, #d4a853);
+  color: #1a0508;
+  box-shadow: 0 4px 20px rgba(184,134,11,0.4);
+  transition: all 0.2s;
+}
+.wed-btn-download:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(184,134,11,0.5);
+}
+.wed-btn-download:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+.wed-action-buttons .btn-icon {
+  font-size: 16px;
 }
 
 /* ============================================================
@@ -851,22 +994,21 @@
 ============================================================ */
 .wed-bg-picker {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  gap: 8px;
   justify-content: center;
-  margin-bottom: 18px;
-  padding: 12px 18px;
-  background: rgba(184,134,11,.06);
-  border: 1px solid rgba(184,134,11,.18);
-  border-radius: 14px;
-  max-width: 700px;
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: rgba(184,134,11,.04);
+  border: 1px solid rgba(184,134,11,.10);
+  border-radius: 12px;
   width: 100%;
 }
 .wed-bg-picker-label {
   font-size: 13px;
   font-weight: 700;
-  color: #d4a853;
+  color: #6b1520;
   white-space: nowrap;
 }
 .wed-bg-swatches {
@@ -874,12 +1016,13 @@
   align-items: center;
   gap: 7px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .wed-bg-swatch {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  border: 2px solid rgba(255,255,255,.15);
+  border: 2px solid rgba(0,0,0,.08);
   cursor: pointer;
   transition: all .2s;
   padding: 0;
@@ -887,17 +1030,29 @@
 }
 .wed-bg-swatch:hover {
   transform: scale(1.18);
-  border-color: rgba(212,168,83,.5);
+  border-color: rgba(107,21,32,.4);
 }
 .wed-bg-swatch.active {
-  border-color: #d4a853;
-  box-shadow: 0 0 0 2px rgba(212,168,83,.45);
+  border-color: #6b1520;
+  box-shadow: 0 0 0 2px rgba(107,21,32,.3);
   transform: scale(1.15);
+}
+.wed-bg-swatch.active::after {
+  content: '✓';
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  text-shadow: 0 1px 2px rgba(0,0,0,.6);
 }
 .wed-bg-custom-input {
   width: 26px;
   height: 26px;
-  border: 2px solid rgba(255,255,255,.15);
+  border: 2px solid rgba(0,0,0,.08);
   border-radius: 50%;
   cursor: pointer;
   padding: 0;
@@ -908,9 +1063,9 @@
 .wed-bg-custom-input::-webkit-color-swatch-wrapper { padding: 0; }
 .wed-bg-custom-input::-webkit-color-swatch { border: none; border-radius: 50%; }
 .wed-bg-reset {
-  background: rgba(212,168,83,.12);
-  border: 1px solid rgba(212,168,83,.3);
-  color: #d4a853;
+  background: rgba(107,21,32,.08);
+  border: 1px solid rgba(107,21,32,.2);
+  color: #6b1520;
   font-size: 12px;
   font-weight: 600;
   padding: 4px 12px;
@@ -919,265 +1074,121 @@
   transition: all .2s;
 }
 .wed-bg-reset:hover {
-  background: rgba(212,168,83,.22);
+  background: rgba(107,21,32,.15);
 }
 
 /* ============================================================
-   CHANGE DESIGN TEMPLATE BUTTON
+   TEMPLATE CAROUSEL
 ============================================================ */
-.btn-choose-template {
-  background: linear-gradient(135deg, rgba(184,134,11,.15), rgba(107,21,32,.1));
-  color: #d4a853;
-  border: 1.5px solid rgba(212,168,83,.4);
-  padding: 10px 24px;
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all .3s ease;
-  margin-bottom: 16px;
-}
-.btn-choose-template:hover {
-  background: linear-gradient(135deg, rgba(184,134,11,.25), rgba(107,21,32,.15));
-  box-shadow: 0 4px 16px rgba(184,134,11,.25);
-  transform: translateY(-1px);
-}
-
-/* ============================================================
-   TEMPLATE CHOOSER MODAL
-============================================================ */
-.tpl-chooser-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,.7);
-  z-index: 9000;
+.wed-template-section {
+  width: 100%;
+  max-width: 900px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 20px;
-  overflow-y: auto;
-}
-.tpl-chooser-modal {
-  background: #1a0508;
-  border: 1px solid rgba(184,134,11,.3);
+  gap: 12px;
+  padding: 20px 0;
+  background: #fff;
   border-radius: 20px;
-  max-width: 900px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  padding: 28px;
-  position: relative;
-}
-.tpl-chooser-header {
-  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  margin-top: 32px;
   margin-bottom: 24px;
 }
-.tpl-chooser-header h3 {
-  color: #d4a853;
-  font-size: 22px;
-  font-weight: 700;
-  margin: 0 0 6px;
-  font-family: Georgia, 'Times New Roman', serif;
-}
-.tpl-chooser-header p {
-  color: rgba(212,168,83,.6);
-  font-size: 14px;
-  margin: 0;
-}
-.tpl-chooser-close {
-  position: absolute;
-  top: 16px; right: 20px;
-  background: none;
-  border: 1px solid rgba(255,255,255,.15);
-  color: #fff;
-  width: 36px; height: 36px;
+
+.wedding-card-screen .carousel-arrow {
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  font-size: 18px;
+  border: none;
+  background: linear-gradient(135deg, #b8860b 0%, #8b6914 100%);
+  color: #fff;
+  font-size: 26px;
+  font-weight: bold;
   cursor: pointer;
-  transition: all .2s;
-}
-.tpl-chooser-close:hover { background: rgba(255,255,255,.1); }
-
-.tpl-chooser-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+  box-shadow: 0 4px 15px rgba(184,134,11,0.35);
 }
 
-.tpl-chooser-card {
-  background: rgba(255,255,255,.04);
-  border: 2px solid rgba(255,255,255,.08);
-  border-radius: 14px;
-  padding: 12px;
+.wedding-card-screen .carousel-arrow:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(184,134,11,0.5);
+}
+
+.wedding-card-screen .carousel-arrow-left { margin-left: 14px; }
+.wedding-card-screen .carousel-arrow-right { margin-right: 14px; }
+
+.wed-template-carousel {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 12px 8px;
+  flex: 1;
+  scrollbar-width: none;
+}
+.wed-template-carousel::-webkit-scrollbar { display: none; }
+
+.wed-template-item {
+  flex-shrink: 0;
+  width: 120px;
   cursor: pointer;
-  transition: all .3s ease;
+  transition: all 0.2s;
   text-align: center;
 }
-.tpl-chooser-card:hover {
-  border-color: rgba(212,168,83,.4);
-  background: rgba(255,255,255,.07);
-  transform: translateY(-3px);
-}
-.tpl-chooser-card--selected {
-  border-color: #d4a853 !important;
-  background: rgba(212,168,83,.1) !important;
-  box-shadow: 0 0 20px rgba(212,168,83,.2);
+
+.wed-template-item:hover { transform: translateY(-4px); }
+
+.wed-template-thumb {
+  width: 120px;
+  height: 130px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 3px solid transparent;
+  transition: all 0.2s;
+  background: #fff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-.tpl-thumb {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 10px;
-  border: 2px solid rgba(255,255,255,.1);
+.wed-template-item--selected .wed-template-thumb {
+  box-shadow: 0 6px 25px rgba(184,134,11,0.4);
 }
-.tpl-thumb-inner {
-  transform: scale(0.28);
+
+.wed-template-thumb-inner {
+  width: 100%;
+  height: 100%;
+  transform: scale(0.155);
   transform-origin: top left;
-  width: 357%;
-  height: 357%;
   pointer-events: none;
 }
 
-.tpl-card-info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin-bottom: 4px;
+.wed-template-thumb-inner .wedding-card {
+  width: 645%;
+  min-height: auto;
 }
-.tpl-card-icon { font-size: 16px; }
-.tpl-card-name {
-  font-size: 13px;
-  font-weight: 700;
-  color: #e8d5a0;
-}
-.tpl-card-check {
-  background: #2d7a4a;
-  color: #fff;
-  width: 18px; height: 18px;
-  border-radius: 50%;
-  font-size: 11px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.tpl-card-desc {
-  font-size: 11px;
-  color: rgba(255,255,255,.4);
-  margin: 0 0 8px;
-  line-height: 1.4;
-}
-.tpl-preview-btn {
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.15);
-  color: #d4a853;
-  padding: 5px 14px;
-  border-radius: 16px;
+
+.wed-template-name {
+  display: block;
+  margin-top: 8px;
   font-size: 12px;
   font-weight: 600;
-  cursor: pointer;
-  transition: all .2s;
-}
-.tpl-preview-btn:hover {
-  background: rgba(212,168,83,.15);
-  border-color: rgba(212,168,83,.3);
+  color: #444;
 }
 
-.tpl-chooser-footer {
-  text-align: center;
-  margin-top: 24px;
+.wed-template-item--selected .wed-template-name {
+  color: #b8860b;
 }
-.tpl-btn-confirm {
-  background: linear-gradient(135deg, #b8860b, #d4a853);
-  color: #1a0508;
-  border: none;
-  padding: 12px 36px;
-  border-radius: 30px;
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all .3s;
-}
-.tpl-btn-confirm:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(184,134,11,.4);
-}
-
-/* Full-size preview overlay */
-.tpl-fullpreview-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,.85);
-  z-index: 9500;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 30px 20px;
-  overflow-y: auto;
-}
-.tpl-fullpreview-wrap {
-  max-width: 720px;
-  width: 100%;
-  position: relative;
-}
-.tpl-fullpreview-close {
-  position: absolute;
-  top: -14px; right: -14px;
-  background: #d4a853;
-  color: #1a0508;
-  border: none;
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  z-index: 10;
-  box-shadow: 0 4px 12px rgba(0,0,0,.4);
-}
-.tpl-fullpreview-card {
-  pointer-events: none;
-}
-.tpl-fullpreview-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin-top: 20px;
-  flex-wrap: wrap;
-}
-.tpl-btn-select {
-  background: linear-gradient(135deg, #2d7a4a, #1a5c3a);
-  color: #fff;
-  border: none;
-  padding: 12px 28px;
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .3s;
-}
-.tpl-btn-select:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(45,122,74,.4); }
-.tpl-btn-back {
-  background: rgba(255,255,255,.08);
-  color: #d4a853;
-  border: 1px solid rgba(212,168,83,.3);
-  padding: 12px 28px;
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .2s;
-}
-.tpl-btn-back:hover { background: rgba(255,255,255,.12); }
 
 /* ============================================================
    CUSTOM PROGRAMS FORM (inside WeddingForm)
 ============================================================ */
 .wed-programs-section {
   margin-top: 24px;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 .wed-programs-header {
   margin-bottom: 14px;
@@ -1237,12 +1248,18 @@
   border-radius: 12px;
   padding: 14px;
   margin-bottom: 12px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 .wed-program-entry-header {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 12px;
+  min-width: 0;
+  overflow: hidden;
 }
 .wed-program-num {
   font-size: 12px;
@@ -1255,8 +1272,10 @@
 }
 .wed-program-name-input {
   flex: 1;
+  min-width: 0;
   font-weight: 700 !important;
   font-size: 14px !important;
+  max-width: 100%;
 }
 .wed-program-remove {
   background: rgba(200,50,50,.08);
@@ -1279,6 +1298,13 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+  min-width: 0;
+  width: 100%;
+}
+.wed-program-field {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 .wed-program-field label {
   display: block;
@@ -1290,6 +1316,9 @@
 .wed-program-field .form-input {
   font-size: 13px !important;
   padding: 8px 10px !important;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .wed-program-field--full {
   grid-column: 1 / -1;
@@ -1324,28 +1353,10 @@
 
 /* Responsive template chooser + programs form */
 @media (max-width: 600px) {
-  .tpl-chooser-modal { padding: 14px; border-radius: 16px; }
-  .tpl-chooser-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .tpl-chooser-card { padding: 8px; }
-  .tpl-card-name { font-size: 11px; }
-  .tpl-card-desc { font-size: 10px; }
   .wed-program-fields { grid-template-columns: 1fr; }
-  .wedding-card-screen { padding: 24px 10px; }
-  .wedding-screen-title { font-size: 18px; letter-spacing: 1.5px; }
-  .wed-bg-picker { padding: 10px 12px; gap: 8px; }
-  .btn-choose-template { font-size: 13px; padding: 8px 18px; }
-  .tpl-fullpreview-wrap { max-width: 100%; }
-  .tpl-fullpreview-overlay { padding: 16px 10px; }
-  .swc-modal { padding: 14px; border-radius: 16px; }
-  .swc-grid { grid-template-columns: 1fr; }
-  .swc-header h3 { font-size: 18px; }
-  .swc-actions { flex-direction: column; gap: 8px; }
-  .swc-btn-load { text-align: center; }
-  .btn-saved-cards { font-size: 13px; padding: 8px 18px; }
 }
 
 @media (max-width: 400px) {
-  .tpl-chooser-grid { grid-template-columns: 1fr; gap: 12px; }
   .wed-name { font-size: 22px; }
   .wed-name-center { font-size: 24px; }
   .wed-event-heading { font-size: 14px; letter-spacing: 1px; }
@@ -1353,294 +1364,158 @@
   .wed-preset-chip { font-size: 11px; padding: 5px 10px; }
 }
 
-/* ============================================================
-   SAVED WEDDING CARDS — "My Saved Designs" panel
-============================================================ */
-
-/* Trigger button on the preview screen */
-.btn-saved-cards {
-  background: linear-gradient(135deg, rgba(107,21,32,.12), rgba(184,134,11,.08));
-  color: #d4a853;
-  border: 1.5px solid rgba(212,168,83,.35);
-  padding: 10px 24px;
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all .3s ease;
-  margin-bottom: 10px;
-}
-.btn-saved-cards:hover {
-  background: linear-gradient(135deg, rgba(107,21,32,.2), rgba(184,134,11,.12));
-  box-shadow: 0 4px 16px rgba(184,134,11,.2);
-  transform: translateY(-1px);
-}
-
-/* Modal overlay */
-.swc-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,.72);
-  z-index: 8500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  overflow-y: auto;
-}
-.swc-modal {
-  background: linear-gradient(180deg, #1a0508, #2a0a10);
-  border: 1px solid rgba(184,134,11,.3);
-  border-radius: 20px;
-  max-width: 960px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  padding: 28px;
-  position: relative;
-}
-.swc-close {
-  position: absolute;
-  top: 16px; right: 20px;
-  background: none;
-  border: 1px solid rgba(255,255,255,.15);
-  color: #fff;
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  font-size: 18px;
-  cursor: pointer;
-  transition: all .2s;
-  z-index: 2;
-}
-.swc-close:hover { background: rgba(255,255,255,.1); }
-
-/* Header */
-.swc-header {
-  text-align: center;
-  margin-bottom: 24px;
-}
-.swc-header h3 {
-  color: #d4a853;
-  font-size: 22px;
-  font-weight: 700;
-  margin: 0 0 6px;
-  font-family: Georgia, 'Times New Roman', serif;
-}
-.swc-header p {
-  color: rgba(212,168,83,.55);
-  font-size: 14px;
-  margin: 0;
+/* ================================================================
+   Responsive — Tablet
+================================================================ */
+@media (max-width: 768px) {
+  .wedding-card-screen {
+    padding: 24px 12px;
+  }
+  .wed-preview-container {
+    padding: 24px 16px;
+    border-radius: 18px;
+  }
+  .wed-action-buttons {
+    gap: 8px;
+  }
+  .wed-back-btn {
+    width: 100%;
+    order: 3;
+    padding: 10px 16px;
+    font-size: 13px;
+    background: transparent;
+    border-color: rgba(255,255,255,0.2);
+  }
+  .wed-btn-edit,
+  .wed-btn-download {
+    flex: 1;
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+  .wed-preview-watermark .watermark-text {
+    font-size: 36px;
+    letter-spacing: 4px;
+  }
 }
 
-/* Loading / Empty */
-.swc-loading {
-  text-align: center;
-  padding: 48px 0;
-  color: rgba(255,255,255,.5);
-}
-.swc-spinner {
-  width: 36px; height: 36px;
-  border: 3px solid rgba(212,168,83,.2);
-  border-top-color: #d4a853;
-  border-radius: 50%;
-  animation: spin .8s linear infinite;
-  margin: 0 auto 12px;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+/* ================================================================
+   Responsive — Mobile
+================================================================ */
+@media (max-width: 480px) {
+  .wedding-card-screen {
+    padding: 16px 10px;
+  }
+  .wed-preview-container {
+    padding: 18px 14px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+  .wedding-screen-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .wed-preview-card-wrapper {
+    border-radius: 16px;
+  }
+  .wed-preview-watermark .watermark-text {
+    font-size: 24px;
+    letter-spacing: 3px;
+  }
+  .wed-preview-watermark .watermark-subtext {
+    font-size: 11px;
+  }
 
-.swc-empty {
-  text-align: center;
-  padding: 48px 20px;
-  color: rgba(255,255,255,.5);
-}
-.swc-empty-icon { font-size: 48px; display: block; margin-bottom: 12px; }
-.swc-empty p { margin: 6px 0; }
-.swc-empty-hint { font-size: 13px; color: rgba(255,255,255,.35); }
+  /* Card internal */
+  .wedding-card {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 16px;
+  }
 
-/* Grid of saved cards */
-.swc-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
-}
+  /* BG Picker Mobile */
+  .wed-bg-picker {
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .wed-bg-picker-label { font-size: 12px; }
+  .wed-bg-swatch { width: 24px; height: 24px; }
+  .wed-bg-custom-input { width: 24px; height: 24px; }
+  .wed-bg-swatch.active::after { font-size: 11px; }
 
-/* Individual card */
-.swc-card {
-  background: rgba(255,255,255,.04);
-  border: 1.5px solid rgba(255,255,255,.08);
-  border-radius: 16px;
-  overflow: hidden;
-  transition: all .3s ease;
-}
-.swc-card:hover {
-  border-color: rgba(212,168,83,.35);
-  background: rgba(255,255,255,.06);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 28px rgba(0,0,0,.35);
-}
+  /* Language picker mobile */
+  .wed-preview-container .lp-trigger {
+    padding: 10px 14px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
 
-/* Thumbnail */
-.swc-thumb {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  border-bottom: 1px solid rgba(255,255,255,.06);
-  cursor: pointer;
-}
-.swc-thumb-inner {
-  transform: scale(0.28);
-  transform-origin: top left;
-  width: 357%;
-  height: 357%;
-  pointer-events: none;
-}
-.swc-thumb-overlay {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity .25s;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-.swc-thumb:hover .swc-thumb-overlay { opacity: 1; }
+  /* Template Carousel Mobile */
+  .wed-template-section {
+    padding: 12px 0;
+    gap: 4px;
+    border-radius: 16px;
+  }
+  .wedding-card-screen .carousel-arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    box-shadow: 0 2px 8px rgba(184,134,11,0.25);
+  }
+  .wedding-card-screen .carousel-arrow-left { margin-left: 10px; }
+  .wedding-card-screen .carousel-arrow-right { margin-right: 10px; }
+  .wed-template-carousel { gap: 10px; padding: 8px 4px; }
+  .wed-template-item { width: 100px; }
+  .wed-template-thumb { width: 100px; height: 110px; border-radius: 10px; }
+  .wed-template-thumb-inner { transform: scale(0.13); }
+  .wed-template-thumb-inner .wedding-card { width: 769%; }
+  .wed-template-name { font-size: 10px; margin-top: 6px; }
 
-/* Info section */
-.swc-info {
-  padding: 14px 16px 8px;
-}
-.swc-name {
-  font-size: 15px;
-  font-weight: 700;
-  color: #e8d5a0;
-  margin-bottom: 6px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.swc-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 4px;
-}
-.swc-couple {
-  font-size: 12px;
-  color: rgba(255,255,255,.55);
-  background: rgba(255,255,255,.06);
-  padding: 2px 10px;
-  border-radius: 10px;
-}
-.swc-date-badge {
-  font-size: 12px;
-  color: #d4a853;
-  background: rgba(212,168,83,.1);
-  padding: 2px 10px;
-  border-radius: 10px;
-}
-.swc-time {
-  font-size: 11px;
-  color: rgba(255,255,255,.3);
-  margin-top: 2px;
+  /* Action buttons mobile */
+  .wed-action-buttons {
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+  .wed-back-btn {
+    width: 100%;
+    order: 3;
+    padding: 10px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+  .wed-btn-edit,
+  .wed-btn-download {
+    flex: 1;
+    padding: 13px 10px;
+    font-size: 13px;
+    border-radius: 12px;
+    gap: 6px;
+  }
 }
 
-/* Action buttons */
-.swc-actions {
-  display: flex;
-  gap: 8px;
-  padding: 10px 16px 14px;
-}
-.swc-btn-load {
-  flex: 1;
-  background: linear-gradient(135deg, #b8860b, #d4a853);
-  color: #1a0508;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .25s;
-}
-.swc-btn-load:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(184,134,11,.35);
-}
-.swc-btn-del {
-  background: rgba(200,50,50,.1);
-  border: 1px solid rgba(200,50,50,.25);
-  color: #e55;
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  font-size: 15px;
-  cursor: pointer;
-  transition: all .2s;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.swc-btn-del:hover { background: rgba(200,50,50,.2); border-color: #e55; }
+/* ================================================================
+   Responsive — Small Mobile
+================================================================ */
+@media (max-width: 360px) {
+  .wedding-card-screen {
+    padding: 12px 8px;
+  }
+  .wed-preview-container {
+    padding: 14px 10px;
+    border-radius: 14px;
+  }
+  .wedding-screen-title { font-size: 16px; }
 
-/* Full-preview overlay */
-.swc-preview-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,.85);
-  z-index: 9200;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 30px 20px;
-  overflow-y: auto;
-}
-.swc-preview-wrap {
-  max-width: 720px;
-  width: 100%;
-  position: relative;
-}
-.swc-preview-close {
-  position: absolute;
-  top: -14px; right: -14px;
-  background: #d4a853;
-  color: #1a0508;
-  border: none;
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  z-index: 10;
-  box-shadow: 0 4px 12px rgba(0,0,0,.4);
-}
-.swc-preview-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin-top: 20px;
-  flex-wrap: wrap;
-}
-.swc-btn-back {
-  background: rgba(255,255,255,.08);
-  color: #d4a853;
-  border: 1px solid rgba(212,168,83,.3);
-  padding: 12px 28px;
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .2s;
-}
-.swc-btn-back:hover { background: rgba(255,255,255,.12); }
+  .wed-template-item { width: 88px; }
+  .wed-template-thumb { width: 88px; height: 96px; border-radius: 8px; }
+  .wed-template-thumb-inner { transform: scale(0.115); }
+  .wed-template-thumb-inner .wedding-card { width: 870%; }
 
-@media (max-width: 600px) {
-  .swc-modal { padding: 16px; }
-  .swc-grid { grid-template-columns: 1fr; }
+  .wed-btn-edit,
+  .wed-btn-download {
+    padding: 12px 8px;
+    font-size: 12px;
+    border-radius: 10px;
+  }
 }
+

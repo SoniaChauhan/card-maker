@@ -214,36 +214,31 @@ export default function useDownload(elementId, filename, { onSuccess, downloadWi
         const w = canvas.width;
         const h = canvas.height;
 
+        // Draw diagonal watermark across the image
         ctx.save();
-        ctx.translate(w / 2, h / 2);
-        ctx.rotate(-Math.PI / 6); // -30 degrees
-
-        // Large "PREVIEW" text repeated across the card
-        ctx.font = `bold ${Math.max(w, h) * 0.08}px Arial, sans-serif`;
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.30)';
+        ctx.globalAlpha = 0.15;
+        ctx.font = `bold ${Math.min(w, h) * 0.08}px Arial, sans-serif`;
+        ctx.fillStyle = '#000';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.strokeStyle = 'rgba(0, 0, 0, 0.10)';
-        ctx.lineWidth = 2;
-
-        const step = Math.max(w, h) * 0.22;
-        for (let y = -h; y < h * 2; y += step) {
-          for (let x = -w; x < w * 2; x += step) {
-            ctx.fillText('PREVIEW', x - w / 2, y - h / 2);
-            ctx.strokeText('PREVIEW', x - w / 2, y - h / 2);
-          }
+        
+        // Draw multiple diagonal watermarks
+        ctx.translate(w / 2, h / 2);
+        ctx.rotate(-Math.PI / 6); // -30 degrees
+        for (let y = -h; y < h * 2; y += h * 0.25) {
+          ctx.fillText('CreativeThinkerDesignHub.com', 0, y);
         }
-
-        // Bottom banner
         ctx.restore();
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
+
+        // Bottom watermark banner
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
         const bannerH = h * 0.06;
         ctx.fillRect(0, h - bannerH, w, bannerH);
-        ctx.font = `bold ${bannerH * 0.5}px Arial, sans-serif`;
+        ctx.font = `700 ${bannerH * 0.5}px Arial, sans-serif`;
         ctx.fillStyle = '#fff';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('💎 Pay to download without watermark — CardMaker', w / 2, h - bannerH / 2);
+        ctx.fillText('Created using CreativeThinkerDesignHub.com', w / 2, h - bannerH / 2);
       }
 
       await downloadCanvas(canvas, filename);

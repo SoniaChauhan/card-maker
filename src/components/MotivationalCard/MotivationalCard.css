@@ -1,0 +1,328 @@
+/* ══════════════════════════════════════════════════════
+   MOTIVATIONAL QUOTES CARDS
+   ══════════════════════════════════════════════════════ */
+
+/* ── Screen ── */
+.mq-screen {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 36px 12px 60px;
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+  overflow: hidden;
+}
+.mq-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Title ── */
+.mq-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  text-align: center;
+  color: #fff;
+  margin: 0 0 4px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+.mq-subtitle {
+  font-size: 0.95rem;
+  color: #ffffffcc;
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Noto Sans Devanagari', sans-serif;
+}
+
+/* ── Theme selector ── */
+.mq-themes {
+  width: 100%;
+  margin-bottom: 16px;
+}
+.mq-themes-label {
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: 700;
+}
+.mq-theme-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.mq-theme-btn {
+  padding: 8px 16px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+}
+.mq-theme-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+}
+.mq-theme-btn.active {
+  border-color: #ffd700;
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.4), 0 6px 20px rgba(0,0,0,0.3);
+  transform: translateY(-2px);
+}
+
+/* ── Color pickers ── */
+.mq-pickers {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+.mq-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+}
+.mq-picker input[type="color"] {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #fff6;
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+}
+.mq-rst {
+  padding: 6px 14px;
+  border: 1px solid #fff6;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.mq-rst:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+/* ── Section labels ── */
+.mq-section-label {
+  width: 100%;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 28px 0 14px;
+  padding-left: 14px;
+  border-left: 4px solid #ffd700;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  font-family: 'Noto Sans Devanagari', sans-serif;
+}
+
+/* ── Grid ── */
+.mq-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  width: 100%;
+}
+.mq-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Card ── */
+.mq-card {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  padding: 18px 14px 16px;
+  text-align: center;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  font-family: 'Noto Sans Devanagari', 'Georgia', serif;
+  transition: transform 0.2s;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.mq-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Double border */
+.mq-border-outer {
+  position: absolute;
+  inset: 7px;
+  border: 2px solid rgba(255, 215, 0, 0.25);
+  border-radius: 14px;
+  pointer-events: none;
+}
+.mq-border-inner {
+  position: absolute;
+  inset: 13px;
+  border: 1.5px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 11px;
+  pointer-events: none;
+}
+
+/* Category icon */
+.mq-cat-icon {
+  font-size: 1.8rem;
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* Heading */
+.mq-card-heading {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #ffd700, #ff6b35, #e74c8b, #a29bfe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Quote text */
+.mq-quote-text {
+  font-size: 0.92rem;
+  line-height: 1.85;
+  white-space: pre-line;
+  margin: 0 auto 14px;
+  max-width: 280px;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* Card footer */
+.mq-card-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+}
+.mq-cat-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.6;
+}
+
+/* Decorative dots */
+.mq-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.mq-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.7;
+}
+
+/* ── Download button ── */
+.mq-dl {
+  margin-top: 12px;
+  padding: 9px 22px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ffd700, #ff6b35);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
+  transition: all 0.2s;
+}
+.mq-dl:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.5);
+}
+.mq-dl:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Back button ── */
+.mq-back-wrap {
+  margin-top: 28px;
+}
+.mq-back-top {
+  margin-top: 0;
+  margin-bottom: 14px;
+  align-self: flex-start;
+}
+.mq-btn-back {
+  padding: 10px 26px;
+  border: 2px solid #fff;
+  border-radius: 12px;
+  background: transparent;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mq-btn-back:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .mq-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .mq-card {
+    padding: 14px 10px 12px;
+    min-height: 180px;
+  }
+  .mq-title {
+    font-size: 1.4rem;
+  }
+  .mq-card-heading {
+    font-size: 1rem;
+  }
+  .mq-quote-text {
+    font-size: 0.85rem;
+    max-width: 100%;
+  }
+  .mq-section-label {
+    font-size: 1rem;
+  }
+  .mq-theme-grid {
+    gap: 6px;
+  }
+  .mq-theme-btn {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+}
+@media (max-width: 480px) {
+  .mq-grid {
+    grid-template-columns: 1fr;
+  }
+}

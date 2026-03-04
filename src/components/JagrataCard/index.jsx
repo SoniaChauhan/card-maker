@@ -114,7 +114,7 @@ export default function JagrataCard({ onBack, userEmail, initialData, templateId
             onClick={() => setShowPayment(true)}
             style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
           >
-            💎 Pay ₹{getCardPrice(CARD_TYPE)} & Download (No Watermark)
+            ✨ Pay ₹{getCardPrice(CARD_TYPE)} — Remove Watermark
           </button>
         )}
 
@@ -138,9 +138,10 @@ export default function JagrataCard({ onBack, userEmail, initialData, templateId
           cardLabel={CARD_LABEL}
           userEmail={userEmail}
           onClose={() => setShowPayment(false)}
-          onPaymentDone={() => {
-            setPaid(true);
-            watermarkRef.current = false;
+          onPaymentDone={(result) => {
+            const withWatermark = result?.withWatermark ?? false;
+            watermarkRef.current = withWatermark;
+            if (!withWatermark) setPaid(true);
             setShowPayment(false);
             setTimeout(() => handleDownload(), 500);
           }}

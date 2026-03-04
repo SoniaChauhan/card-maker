@@ -17,8 +17,9 @@ import { logDownload } from '../../services/downloadHistoryService';
 import { hasUserPaid, getCardPrice } from '../../services/paymentService';
 
 /* ── Festival definitions ── */
+export const HOLI_FESTIVAL = { id: 'holi', label: 'Holi Celebration Card', icon: '🌈', tag: 'Holi Card', desc: 'Vibrant and colorful Holi greeting card with playful splashes, gulaal effects, and festive typography.' };
+
 export const FESTIVALS = [
-  { id: 'holi',        label: 'Holi Celebration Card',        icon: '🌈', tag: 'Holi Card',         desc: 'Vibrant and colorful Holi greeting card with playful splashes, gulaal effects, and festive typography.' },
   { id: 'diwali',      label: 'Diwali Wishes Card',           icon: '🪔', tag: 'Diwali Card',       desc: 'Elegant Deepawali greeting card featuring diyas, rangoli, lights, and auspicious festive elements.' },
   { id: 'lohri',       label: 'Lohri Festival Card',          icon: '🔥', tag: 'Lohri Card',        desc: 'Warm Lohri greeting card inspired by bonfire, dhol beats, winter theme, and Punjabi culture.' },
   { id: 'navratri',    label: 'Navratri Greeting Card',       icon: '✨', tag: 'Navratri Card',     desc: 'Devotional card with Maa Durga, garba theme, and festive colors for Shubh Navratri.' },
@@ -31,7 +32,7 @@ export const FESTIVALS = [
 ];
 
 const INIT = {
-  festival: 'holi',
+  festival: 'diwali',
   senderName: '',
   recipientName: '',
   message: '',
@@ -71,9 +72,14 @@ const BG_SWATCHES = [
 const CARD_TYPE = 'festivalcards';
 const CARD_LABEL = 'Festival Greeting Card';
 
-export default function FestivalCard({ onBack, userEmail, initialData, templateId: initTplId, isSuperAdmin }) {
+export default function FestivalCard({ onBack, userEmail, initialData, templateId: initTplId, isSuperAdmin, lockedFestival }) {
+  /* When lockedFestival is set, use only that festival */
+  const allFestivals = lockedFestival === 'holi' ? [HOLI_FESTIVAL] : FESTIVALS;
+  const effectiveInit = lockedFestival ? { ...INIT, festival: lockedFestival } : INIT;
+  const effectiveCardType = lockedFestival === 'holi' ? 'holicard' : CARD_TYPE;
+  const effectiveCardLabel = lockedFestival === 'holi' ? 'Holi Celebration Card' : CARD_LABEL;
   const [step, setStep]     = useState('form');
-  const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
+  const [data, setData]     = useState(initialData ? { ...effectiveInit, ...initialData } : effectiveInit);
   const [errors, setErrors] = useState({});
   const [lang, setLang]     = useState('en');
   const [saving, setSaving] = useState(false);
@@ -81,12 +87,18 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
   const [paid, setPaid]     = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [showChooser, setShowChooser] = useState(false);
+  const [showEmailCheck, setShowEmailCheck] = useState(false);
+  const [checkEmail, setCheckEmail] = useState('');
+  const [checkingEmail, setCheckingEmail] = useState(false);
+  const [emailCheckResult, setEmailCheckResult] = useState(null); // 'found' | 'not-found' | null
+  const [verifiedEmail, setVerifiedEmail] = useState(''); // email that was verified as paid
+  const isHoliCard = lockedFestival === 'holi';
 
-  const festival = FESTIVALS.find(f => f.id === data.festival) || FESTIVALS[0];
+  const festival = allFestivals.find(f => f.id === data.festival) || (lockedFestival === 'holi' ? HOLI_FESTIVAL : allFestivals[0]);
   const filename = `festival-${toFilename(festival.tag)}-${toFilename(data.recipientName || 'card')}.png`;
   const dlTitle = data.recipientName ? `${festival.label} for ${data.recipientName}` : festival.label;
   const { downloading, handleDownload, toast, watermarkRef } = useDownload('festival-card-print', filename, {
-    onSuccess: () => logDownload(userEmail, 'festival', 'Festival Greeting Card', dlTitle, filename, data).catch(() => {}),
+    onSuccess: () => logDownload(verifiedEmail || userEmail, 'festival', 'Festival Greeting Card', dlTitle, filename, data).catch(() => {}),
     addWatermark: true,
   });
 
@@ -94,11 +106,42 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
   useEffect(() => {
     if (isSuperAdmin) { setPaid(true); watermarkRef.current = false; return; }
     if (!userEmail) return;
-    hasUserPaid(userEmail, CARD_TYPE).then(p => {
+    
+    hasUserPaid(userEmail, effectiveCardType).then(p => {
       setPaid(p);
       watermarkRef.current = !p;
     }).catch(() => {});
-  }, [userEmail, isSuperAdmin]);
+  }, [userEmail, isSuperAdmin, effectiveCardType]);
+
+  /* Check if entered email has existing valid payment */
+  async function handleCheckEmail() {
+    if (!checkEmail.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(checkEmail)) {
+      return;
+    }
+    setCheckingEmail(true);
+    setEmailCheckResult(null);
+    try {
+      const isPaid = await hasUserPaid(checkEmail.trim(), effectiveCardType);
+      if (isPaid) {
+        setEmailCheckResult('found');
+        setPaid(true);
+        watermarkRef.current = false;
+        setVerifiedEmail(checkEmail.trim());
+      } else {
+        setEmailCheckResult('not-found');
+      }
+    } catch {
+      setEmailCheckResult('not-found');
+    } finally {
+      setCheckingEmail(false);
+    }
+  }
+
+  /* Proceed to payment after email not found */
+  function handleProceedToPayment() {
+    setShowEmailCheck(false);
+    setShowPayment(true);
+  }
 
   function onChange(e) {
     const { name, value, files } = e.target;
@@ -131,7 +174,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
       if (templateId) {
         await updateTemplate(templateId, name, data);
       } else {
-        const id = await saveTemplate(userEmail, 'festival', name, data);
+        const id = await saveTemplate(userEmail, effectiveCardType, name, data);
         setTemplateId(id);
       }
       alert(templateId ? 'Template updated!' : 'Template saved!');
@@ -149,7 +192,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
         onChange={onChange}
         onBack={onBack}
         onGenerate={onGenerate}
-        festivals={FESTIVALS}
+        festivals={allFestivals}
       />
     );
   }
@@ -161,7 +204,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
       <Particles icons={particles} count={24} />
       <div className="card-screen-container">
         <p className="festival-screen-title">{festival.icon} {festival.label}</p>
-        <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
+        {!isHoliCard && <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />}
 
         {/* Background Color Picker */}
         <div className="fest-bg-picker">
@@ -197,29 +240,35 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
         </div>
 
         {/* Payment / Download actions */}
-        {!paid && (
+        {isHoliCard && paid && (
+          <div className="holi-unlock-banner" style={{ marginTop: '20px', marginBottom: '12px' }}>
+            ✅ Unlimited downloads unlocked!
+          </div>
+        )}
+        {!isHoliCard && !paid && (
           <div className="download-locked-badge">
-            🔒 Preview Mode — Pay ₹{getCardPrice(CARD_TYPE)} to remove watermark
+            � Download: ₹19 (with watermark) or ₹49 (clean)
           </div>
         )}
 
-        {!paid && (
+        {!paid && isHoliCard && (
           <button
             className="btn-download pay-download-btn"
-            onClick={() => setShowPayment(true)}
-            style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
+            onClick={() => setShowEmailCheck(true)}
+            style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginTop: '20px', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
           >
-            💎 Pay ₹{getCardPrice(CARD_TYPE)} & Download (No Watermark)
+            💳 Pay ₹{getCardPrice(effectiveCardType)} & Unlock Unlimited Downloads
           </button>
         )}
 
+        {/* Show download actions for all cards */}
         <CardActions
           onEdit={() => setStep('form')}
           onBack={onBack}
-          onDownload={handleDownload}
+          onDownload={paid ? handleDownload : (isHoliCard ? handleDownload : () => setShowPayment(true))}
           downloading={downloading}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#ff6b6b,#feca57)', color: '#fff', boxShadow: '0 6px 20px rgba(255,107,107,.45)' }}
-          dlLabel={paid ? '⬇️ Download Card' : '⬇️ Download (with watermark)'}
+          dlLabel={paid ? '⬇️ Download Card' : (isHoliCard ? '⬇️ Download Card' : '💳 Download Card')}
         />
         <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
           {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
@@ -238,17 +287,92 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
         />
       )}
 
+      {/* Email Check Modal for Holi Card */}
+      {showEmailCheck && isHoliCard && (
+        <div className="pay-overlay" onClick={() => { setShowEmailCheck(false); setEmailCheckResult(null); setCheckEmail(''); }}>
+          <div className="pay-popup" onClick={e => e.stopPropagation()} style={{ maxWidth: '420px' }}>
+            <button className="pay-close" onClick={() => { setShowEmailCheck(false); setEmailCheckResult(null); setCheckEmail(''); }}>✕</button>
+            
+            <div className="pay-icon">🔍</div>
+            <h3>Check Existing Purchase</h3>
+            <p style={{ color: '#666', fontSize: '0.9rem', marginBottom: '16px' }}>
+              Enter your email to check if you've already purchased unlimited access.
+            </p>
+
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              value={checkEmail}
+              onChange={e => { setCheckEmail(e.target.value); setEmailCheckResult(null); }}
+              style={{ width: '100%', padding: '12px 16px', fontSize: '1rem', border: '2px solid #e0e0e0', borderRadius: '10px', marginBottom: '12px', outline: 'none' }}
+              onKeyDown={e => e.key === 'Enter' && handleCheckEmail()}
+            />
+
+            {emailCheckResult === 'found' && (
+              <div style={{ background: '#d4edda', color: '#155724', padding: '12px 16px', borderRadius: '10px', marginBottom: '12px', textAlign: 'center' }}>
+                ✅ <strong>Access Found!</strong> You have unlimited downloads.
+                <button
+                  onClick={() => { setShowEmailCheck(false); setTimeout(() => handleDownload(), 300); }}
+                  style={{ display: 'block', width: '100%', marginTop: '12px', padding: '12px', background: '#28a745', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '1rem', cursor: 'pointer' }}
+                >
+                  ⬇️ Download Now
+                </button>
+              </div>
+            )}
+
+            {emailCheckResult === 'not-found' && (
+              <div style={{ background: '#fff3cd', color: '#856404', padding: '12px 16px', borderRadius: '10px', marginBottom: '12px', textAlign: 'center' }}>
+                ⚠️ No active purchase found for this email.
+                <button
+                  onClick={handleProceedToPayment}
+                  style={{ display: 'block', width: '100%', marginTop: '12px', padding: '12px', background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '1rem', cursor: 'pointer' }}
+                >
+                  🔓 Pay ₹49 — Unlock Unlimited Access
+                </button>
+              </div>
+            )}
+
+            {!emailCheckResult && (
+              <button
+                onClick={handleCheckEmail}
+                disabled={checkingEmail || !checkEmail.trim()}
+                style={{ width: '100%', padding: '13px', background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '1rem', cursor: 'pointer', opacity: checkingEmail || !checkEmail.trim() ? 0.6 : 1 }}
+              >
+                {checkingEmail ? '⏳ Checking...' : '🔍 Check My Email'}
+              </button>
+            )}
+
+            <p style={{ color: '#999', fontSize: '0.8rem', marginTop: '16px', textAlign: 'center' }}>
+              New user? After checking, you can proceed to payment.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Razorpay Payment Popup */}
       {showPayment && (
         <PaymentPopup
-          cardType={CARD_TYPE}
-          cardLabel={CARD_LABEL}
-          userEmail={userEmail}
+          cardType={effectiveCardType}
+          cardLabel={effectiveCardLabel}
+          userEmail={checkEmail.trim() || userEmail}
           onClose={() => setShowPayment(false)}
-          onPaymentDone={() => {
-            setPaid(true);
-            watermarkRef.current = false;
+          onPaymentDone={async (result) => {
             setShowPayment(false);
+            const withWatermark = result?.withWatermark ?? false;
+            const emailToCheck = checkEmail.trim() || userEmail;
+            if (isHoliCard && emailToCheck) {
+              // Refresh 24hr unlock status
+              try {
+                const { paid: p, unlockedUntil: u } = await getPaymentStatus(emailToCheck, effectiveCardType);
+                setPaid(p);
+                watermarkRef.current = !p;
+                if (u) setUnlockedUntil(u);
+                setVerifiedEmail(emailToCheck);
+              } catch { /* ignore */ }
+            } else {
+              watermarkRef.current = withWatermark;
+              if (!withWatermark) setPaid(true);
+            }
             setTimeout(() => handleDownload(), 500);
           }}
         />

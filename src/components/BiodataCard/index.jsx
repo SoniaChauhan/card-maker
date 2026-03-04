@@ -1,25 +1,29 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './BiodataCard.css';
-import BiodataForm from './BiodataForm';
+import BiodataFormNew from './BiodataFormNew';
 import BiodataCardPreview from './BiodataCardPreview';
-import CardActions from '../shared/CardActions';
-import Particles from '../shared/Particles';
+import BiodataPaymentPopup from './BiodataPaymentPopup';
+import { TEMPLATES } from './BiodataTemplateChooser';
 import Toast from '../shared/Toast';
-import LanguagePicker from '../shared/LanguagePicker';
-import PaymentPopup from '../shared/PaymentPopup';
 import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
-import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
 import { logDownload } from '../../services/downloadHistoryService';
-import { hasUserPaid, getCardPrice } from '../../services/paymentService';
+import { hasUserPaid, sendDownloadEmail } from '../../services/paymentService';
 
 const CARD_TYPE = 'biodata';
-const CARD_LABEL = 'Marriage Profile Card';
+const CARD_LABEL = 'Marriage Biodata';
+
+const COMMUNITIES = [
+  { id: 'marathi', label: 'Marathi', lang: 'mr' },
+  { id: 'muslim', label: 'Muslim', lang: 'en' },
+  { id: 'gujarati', label: 'Gujarati', lang: 'gu' },
+  { id: 'hindi', label: 'Hindi', lang: 'hi' },
+  { id: 'english', label: 'English', lang: 'en' },
+];
 
 const INIT = {
-  // Personal
   fullName: '',
   dob: '',
   age: '',
@@ -30,26 +34,21 @@ const INIT = {
   religion: 'Hindu',
   caste: '',
   subCaste: '',
-  // Astrology
   gotra: '',
   rashi: '',
   nakshatra: '',
   manglik: 'No',
-  // Education & Career
   education: '',
   occupation: '',
   employer: '',
   annualIncome: '',
-  // Family
   fatherName: '',
   fatherOccupation: '',
   motherName: '',
   motherOccupation: '',
   siblings: '',
-  // About
   hobbies: '',
   aboutMe: '',
-  // Contact
   contactName: '',
   contactPhone: '',
   contactAddress: '',
@@ -57,24 +56,39 @@ const INIT = {
   photoPreview: '',
 };
 
-const PARTICLES = ['🌸', '💐', '🌺', '✨', '💖', '🕉️', '🌼', '💍'];
-
 export default function BiodataCard({ onBack, userEmail, initialData, templateId: initTplId, isSuperAdmin }) {
-  const [step, setStep]     = useState('form');
-  const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
+  const [step, setStep] = useState('form');
+  const [data, setData] = useState(initialData ? { ...INIT, ...initialData } : INIT);
   const [errors, setErrors] = useState({});
-  const [lang, setLang]     = useState('en');
+  // Language is derived from community selection
   const [saving, setSaving] = useState(false);
   const [templateId, setTemplateId] = useState(initTplId || null);
-  const [paid, setPaid]     = useState(false);
+  const [paid, setPaid] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState(initialData?.selectedTemplate || 1);
+  const [community, setCommunity] = useState('hindi');
+  const [showCommunityDropdown, setShowCommunityDropdown] = useState(false);
+  const [downloadEmail, setDownloadEmail] = useState(userEmail || '');
+  const carouselRef = useRef(null);
 
   const filename = `biodata-${toFilename(data.fullName || 'card')}.png`;
   const dlTitle = data.fullName ? `${data.fullName} Profile` : 'Marriage Profile';
   const { downloading, handleDownload, toast, watermarkRef } = useDownload('biodata-print', filename, {
-    onSuccess: () => logDownload(userEmail, CARD_TYPE, 'Marriage Profile Card', dlTitle, filename, data).catch(() => {}),
+    onSuccess: async () => {
+      const downloadId = await logDownload(userEmail, CARD_TYPE, 'Marriage Profile Card', dlTitle, filename, data).catch(() => null);
+      if (downloadEmail) {
+        sendDownloadEmail({ email: downloadEmail, cardType: CARD_TYPE, cardLabel: CARD_LABEL, downloadId }).catch(() => {});
+      }
+    },
     addWatermark: true,
   });
+
+  function scrollCarousel(direction) {
+    if (carouselRef.current) {
+      const scrollAmount = 200;
+      carouselRef.current.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    }
+  }
 
   useEffect(() => {
     if (isSuperAdmin) { setPaid(true); watermarkRef.current = false; return; }
@@ -101,16 +115,27 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
 
   function validate() {
     const err = {};
-    if (!data.fullName.trim())    err.fullName    = 'Full name is required.';
-    if (!data.dob)                err.dob         = 'Date of birth is required.';
-    if (!data.education.trim())   err.education   = 'Education is required.';
+    if (!data.fullName.trim()) err.fullName = 'Full name is required.';
+    if (!data.dob) err.dob = 'Date of birth is required.';
+    if (!data.education.trim()) err.education = 'Education is required.';
     if (!data.contactPhone.trim()) err.contactPhone = 'Contact number is required.';
     return err;
   }
 
   function onGenerate() {
     const err = validate();
-    if (Object.keys(err).length) { setErrors(err); return; }
+    if (Object.keys(err).length) { 
+      setErrors(err);
+      const missingFields = Object.keys(err).map(k => {
+        if (k === 'fullName') return 'Full Name (Step 1)';
+        if (k === 'dob') return 'Date of Birth (Step 1)';
+        if (k === 'education') return 'Education (Step 2)';
+        if (k === 'contactPhone') return 'Contact Phone (Step 3)';
+        return k;
+      }).join(', ');
+      alert(`Please fill required fields: ${missingFields}`);
+      return; 
+    }
     setStep('card');
   }
 
@@ -118,17 +143,18 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
     setSaving(true);
     try {
       const name = data.fullName ? `${data.fullName} Biodata` : 'Biodata Template';
+      const saveData = { ...data, selectedTemplate };
       if (templateId) {
-        await updateTemplate(templateId, name, data);
+        await updateTemplate(templateId, name, saveData);
       } else {
-        const id = await saveTemplate(userEmail, 'biodata', name, data);
+        const id = await saveTemplate(userEmail, 'biodata', name, saveData);
         setTemplateId(id);
       }
       alert(templateId ? 'Template updated!' : 'Template saved!');
     } catch (e) {
       console.error('Save template error:', e);
       const msg = e?.code === 'permission-denied'
-        ? 'Firestore permission denied. Please update your Firestore rules to allow the "templates" collection.'
+        ? 'Firestore permission denied. Please update your Firestore rules.'
         : `Failed to save template: ${e.message || e}`;
       alert(msg);
     } finally { setSaving(false); }
@@ -136,7 +162,7 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
 
   if (step === 'form') {
     return (
-      <BiodataForm
+      <BiodataFormNew
         data={data}
         errors={errors}
         onChange={onChange}
@@ -147,53 +173,130 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
   }
 
   return (
-    <div className="biodata-card-screen">
-      <Particles icons={PARTICLES} count={20} />
-      <div className="card-screen-container">
-        <p className="biodata-screen-title">💍 Marriage Profile Card</p>
-        <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-        <div className={`card-wrapper screenshot-protected${!paid ? ' card-preview-locked' : ''}`}>
-          <BiodataCardPreview data={data} lang={lang} />
+    <div className="biodata-preview-screen">
+      {/* Support Banner - Full Width */}
+      <div className="biodata-support-banner">
+        <div className="support-message">
+          <p className="support-msg-en">Facing issues while creating biodata? We're here to help!</p>
+          <p className="support-msg-hi">बायोडाटा बनाने में कोई समस्या? हम आपकी मदद के लिए यहाँ हैं!</p>
+        </div>
+        <div className="support-contact">
+          <span className="support-icon">✉️</span>
+          <a href="mailto:creativethinker.designhub@gmail.com" className="support-link">creativethinker.designhub@gmail.com</a>
+        </div>
+      </div>
+
+      {/* Format Info Cloud */}
+      <div className="biodata-format-info">
+        <div className="format-info-header">
+          <span className="format-info-icon">📱</span>
+          <h4 className="format-info-title">Why PNG/JPG Format?</h4>
+        </div>
+        <p className="format-info-text">
+          We provide biodata in <strong>PNG/JPG image format</strong> because not everyone has PDF reader apps on their mobile. 
+          Images are universally viewable and can be <strong>easily shared via WhatsApp, Email, or social media</strong> without any compatibility issues!
+        </p>
+      </div>
+
+      {/* Main Preview Section */}
+      <div className="biodata-main-preview">
+        <div className="biodata-preview-card-wrapper">
+          <BiodataCardPreview data={data} lang={COMMUNITIES.find(c => c.id === community)?.lang || 'en'} template={selectedTemplate} community={community} />
+          {/* Watermark overlay for preview */}
+          {!paid && (
+            <div className="biodata-preview-watermark">
+              <span className="watermark-text">PREVIEW</span>
+              <span className="watermark-subtext">Watermark removed in download</span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Template Carousel Section */}
+      <div className="biodata-template-section">
+        <button className="carousel-arrow carousel-arrow-left" onClick={() => scrollCarousel(-1)}>
+          ‹
+        </button>
+        
+        <div className="biodata-template-carousel" ref={carouselRef}>
+          {TEMPLATES.map(tpl => (
+            <div 
+              key={tpl.id}
+              className={`biodata-template-item ${selectedTemplate === tpl.id ? 'biodata-template-item--selected' : ''}`}
+              onClick={() => setSelectedTemplate(tpl.id)}
+            >
+              <div className="biodata-template-thumb" style={{ borderColor: selectedTemplate === tpl.id ? tpl.accent : 'transparent' }}>
+                <div className="biodata-template-thumb-inner">
+                  <BiodataCardPreview data={data} lang={COMMUNITIES.find(c => c.id === community)?.lang || 'en'} template={tpl.id} community={community} />
+                </div>
+              </div>
+              <span className="biodata-template-name">{tpl.name}</span>
+            </div>
+          ))}
         </div>
 
-        {!paid && (
-          <div className="download-locked-badge">
-            🔒 Preview Mode — Pay ₹{getCardPrice(CARD_TYPE)} to remove watermark
-          </div>
-        )}
-        {!paid && (
-          <button
-            className="btn-download pay-download-btn"
-            onClick={() => setShowPayment(true)}
-            style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
-          >
-            💎 Pay ₹{getCardPrice(CARD_TYPE)} & Download (No Watermark)
-          </button>
-        )}
-
-        <CardActions
-          onEdit={() => setStep('form')}
-          onBack={onBack}
-          onDownload={handleDownload}
-          downloading={downloading}
-          dlBtnStyle={{ background: 'linear-gradient(135deg,#d4af37,#c0392b)', boxShadow: '0 8px 24px rgba(212,175,55,.4)' }}
-          dlLabel={paid ? '⬇️ Download Card' : '⬇️ Download (with watermark)'}
-        />
-        <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
-          {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
+        <button className="carousel-arrow carousel-arrow-right" onClick={() => scrollCarousel(1)}>
+          ›
         </button>
       </div>
+
+      {/* Action Buttons with Community Dropdown */}
+      <div className="biodata-action-buttons">
+        {/* Back Button */}
+        <button className="biodata-back-btn" onClick={onBack}>
+          ← Back
+        </button>
+
+        {/* Community Dropdown */}
+        <div className="community-picker-wrap">
+          <button 
+            className="community-picker-trigger"
+            onClick={() => setShowCommunityDropdown(!showCommunityDropdown)}
+          >
+            <span className="community-icon">👥</span>
+            <span className="community-label">{COMMUNITIES.find(c => c.id === community)?.label || 'Community'}</span>
+            <span className={`community-arrow ${showCommunityDropdown ? 'community-arrow--up' : ''}`}>▾</span>
+          </button>
+          {showCommunityDropdown && (
+            <div className="community-picker-dropdown">
+              {COMMUNITIES.map(c => (
+                <button
+                  key={c.id}
+                  className={`community-picker-item ${community === c.id ? 'community-picker-item--active' : ''}`}
+                  onClick={() => { setCommunity(c.id); setShowCommunityDropdown(false); }}
+                >
+                  {c.label}
+                  {community === c.id && <span className="community-check">✓</span>}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <button className="biodata-btn-edit" onClick={() => setStep('form')}>
+          <span className="btn-icon">✏️</span> Edit Biodata
+        </button>
+        <button 
+          className="biodata-btn-download" 
+          onClick={paid ? handleDownload : () => setShowPayment(true)}
+          disabled={downloading}
+        >
+          <span className="btn-icon">⬇️</span> {downloading ? 'Downloading...' : 'Download Biodata'}
+        </button>
+      </div>
+
       {toast && <Toast message={toast.message} type={toast.type} />}
 
       {showPayment && (
-        <PaymentPopup
-          cardType={CARD_TYPE}
-          cardLabel={CARD_LABEL}
+        <BiodataPaymentPopup
           userEmail={userEmail}
           onClose={() => setShowPayment(false)}
-          onPaymentDone={() => {
-            setPaid(true);
-            watermarkRef.current = false;
+          onPaymentDone={(result) => {
+            const withWatermark = result?.withWatermark ?? false;
+            const isFree = result?.isFree ?? false;
+            watermarkRef.current = withWatermark;
+            if (!withWatermark && !isFree) setPaid(true);
+            if (result?.email) setDownloadEmail(result.email);
             setShowPayment(false);
             setTimeout(() => handleDownload(), 500);
           }}

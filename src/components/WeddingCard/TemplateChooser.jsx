@@ -12,6 +12,8 @@ const TEMPLATES = [
   { id: 7, name: 'Sacred Border',   desc: 'Bold dark frame with rich gold accents',            icon: '🪷', accent: '#8b6914' },
 ];
 
+export { TEMPLATES };
+
 export default function TemplateChooser({ data, lang, selected, onSelect, onClose }) {
   const [previewId, setPreviewId] = useState(null);
 

@@ -15,6 +15,7 @@
  *   span?: boolean,
  *   min?: string,
  *   max?: string,
+ *   hideLabel?: boolean,
  * }} props
  */
 export default function FormField({
@@ -31,16 +32,19 @@ export default function FormField({
   span = false,
   min,
   max,
+  hideLabel = false,
 }) {
-  const className = `form-group${span ? ' span-2' : ''}`;
+  const className = `form-group${span ? ' span-2' : ''}${hideLabel ? ' no-label' : ''}`;
   const inputClass = error ? 'error' : '';
 
   return (
     <div className={className}>
-      <label htmlFor={name}>
-        {label}{' '}
-        {required ? <span className="req">*</span> : <span className="optional">(optional)</span>}
-      </label>
+      {!hideLabel && (
+        <label htmlFor={name}>
+          {label}{' '}
+          {required ? <span className="req">*</span> : <span className="optional">(optional)</span>}
+        </label>
+      )}
 
       {options ? (
         <select id={name} name={name} value={value} onChange={onChange} className={inputClass}>

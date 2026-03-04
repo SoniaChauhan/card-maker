@@ -69,17 +69,22 @@ export default function Page() {
           Modern templates with clean layouts. Resume builder online free, marriage biodata maker with photo.
         </p>
 
-        <h2>Why Choose Card Maker?</h2>
+        <h2>🌟 Why Choose Our Card Maker?</h2>
         <ul>
-          <li>✅ Free Holi wishes cards — no sign-up required</li>
-          <li>✅ Premium birthday, wedding &amp; anniversary card designers</li>
-          <li>✅ Hindi, English, Punjabi &amp; Gujarati language support</li>
-          <li>✅ 50+ card templates and growing</li>
-          <li>✅ Instant PNG &amp; PDF download</li>
-          <li>✅ Mobile-friendly — works on all devices</li>
-          <li>✅ Custom color picker for personalization</li>
-          <li>✅ Made in India by Creative Thinker Design Hub</li>
+          <li>✓ <strong>Premium Templates for Every Card Type</strong> — Access a wide collection of professionally designed templates for invitations, festival greetings, announcements, business flyers, and more—each crafted to help your card look stunning and professional.</li>
+          <li>✓ <strong>Real‑Time Editing with Live Preview</strong> — Customize your card easily with instant live preview. Change colors, text, images, and layout while seeing updates in real time.</li>
+          <li>✓ <strong>High‑Resolution PNG &amp; PDF Downloads</strong> — Download print‑ready, high‑quality PNG and PDF files ideal for sharing on WhatsApp, Instagram, Facebook, or printing.</li>
+          <li>✓ <strong>Multi‑Language Support</strong> — Design your cards in multiple languages to suit your personal, cultural, or business needs.</li>
+          <li>✓ <strong>Works Smoothly on All Devices</strong> — Create beautiful cards from your desktop, tablet, or mobile. Our platform is fully responsive and optimized for every screen size.</li>
         </ul>
+
+        <h2>🎨 Need a Custom Design?</h2>
+        <p>
+          Looking for a card that is fully personalized and tailored to your exact theme, event, or business branding?
+          We offer custom card design services created exclusively by Creative Thinker Design Hub.
+        </p>
+        <p>📩 Email us your requirements at: <strong>creativethinker.designhub@gmail.com</strong></p>
+        <p>Our team will create a unique, high-quality design specifically for you.</p>
 
         <h2>How to Create a Card Online</h2>
         <ol>
@@ -93,7 +98,7 @@ export default function Page() {
         <h3>How can I create a card online?</h3>
         <p>Visit Card Maker, choose a template, fill in your details, preview, and download. No design skills or software needed!</p>
         <h3>Is Card Maker free?</h3>
-        <p>Yes! Holi wishes are 100% free. Premium designers (birthday, wedding, anniversary, festival cards) start from ₹49 per download.</p>
+        <p>Yes! Holi wishes are 100% free. Premium designers (birthday, wedding, anniversary, festival cards) start from ₹19 (with watermark) or ₹49 (clean) per download.</p>
         <h3>Do I need to sign up to download cards?</h3>
         <p>No! Free cards can be downloaded without sign-up. Premium cards are accessible as guest too.</p>
         <h3>Do you support Hindi/English templates?</h3>

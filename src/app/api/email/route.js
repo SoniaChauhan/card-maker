@@ -106,6 +106,67 @@ export async function POST(req) {
         return NextResponse.json({ ok: true });
       }
 
+      case 'sendDownloadLink': {
+        const { toEmail, cardType, cardLabel, downloadId } = body;
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://creativethinkerdesignhub.com';
+        const downloadLink = downloadId 
+          ? `${baseUrl}/api/downloads?id=${downloadId}`
+          : `${baseUrl}`;
+        
+        const cardEmoji = {
+          wedding: '💒',
+          birthday: '🎂',
+          anniversary: '💕',
+          biodata: '📋',
+        }[cardType] || '🎨';
+
+        await sendMail(
+          toEmail,
+          `${cardEmoji} Your ${cardLabel} is Ready to Download!`,
+          `<div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;padding:24px;border:1px solid #e0e0e0;border-radius:12px;background:#fafafa">
+            <div style="text-align:center;margin-bottom:20px">
+              <h2 style="color:#6c47ff;margin:0">🎴 Card Maker</h2>
+              <p style="color:#888;margin-top:4px">by CreativeThinkerDesignHub</p>
+            </div>
+            
+            <div style="background:#fff;padding:24px;border-radius:8px;border:1px solid #e8e8e8">
+              <h3 style="color:#333;margin:0 0 16px 0;text-align:center">
+                ${cardEmoji} Your ${cardLabel} is Ready!
+              </h3>
+              
+              <p style="color:#555;line-height:1.6;margin:0 0 20px 0">
+                Thank you for using Card Maker! Your beautiful ${cardLabel.toLowerCase()} has been successfully created and downloaded.
+              </p>
+              
+              <p style="color:#555;line-height:1.6;margin:0 0 20px 0">
+                If you need to download it again, click the button below:
+              </p>
+              
+              <div style="text-align:center;margin:24px 0">
+                <a href="${downloadLink}" style="display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:16px">
+                  ⬇️ Download Again
+                </a>
+              </div>
+              
+              <p style="color:#888;font-size:13px;text-align:center;margin:20px 0 0 0">
+                This download link will be available for 7 days.
+              </p>
+            </div>
+            
+            <div style="text-align:center;margin-top:20px;padding-top:16px;border-top:1px solid #e0e0e0">
+              <p style="color:#888;font-size:12px;margin:0">
+                Need help? Reply to this email or contact us at<br/>
+                <a href="mailto:creativethinker.designhub@gmail.com" style="color:#6c47ff">creativethinker.designhub@gmail.com</a>
+              </p>
+              <p style="color:#aaa;font-size:11px;margin:12px 0 0 0">
+                © ${new Date().getFullYear()} CreativeThinkerDesignHub.com — All Rights Reserved
+              </p>
+            </div>
+          </div>`,
+        );
+        return NextResponse.json({ ok: true });
+      }
+
       default:
         return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
     }

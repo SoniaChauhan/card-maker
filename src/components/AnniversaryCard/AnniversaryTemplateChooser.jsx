@@ -11,6 +11,8 @@ const TEMPLATES = [
   { id: 6, name: 'Minimal Swirl',      desc: 'Sleek gold swirls on charcoal slate',                  icon: '✨', accent: '#c9a84c' },
 ];
 
+export { TEMPLATES };
+
 export default function AnniversaryTemplateChooser({ data, lang, selected, onSelect, onClose }) {
   const [previewId, setPreviewId] = useState(null);
 

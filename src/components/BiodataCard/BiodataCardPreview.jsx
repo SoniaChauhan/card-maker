@@ -1,6 +1,34 @@
 import { formatDate } from '../../utils/helpers';
 import { T } from '../../utils/translations';
 
+/* Community header image mapping */
+const COMMUNITY_HEADER_IMAGES = {
+  hindi: '/hindu_symbol.svg',
+  english: '/hindu_symbol.svg',
+  muslim: '/muslim_biodata.png',
+  gujarati: '/gujarati_symbol.svg',
+  marathi: '/marathi_symbol.svg',
+};
+
+/* Community header text config */
+const COMMUNITY_HEADER_TEXT = {
+  hindi: { title: 'विवाह परिचय पत्र', subtitle: '॥ शुभ विवाह ॥', deco: '✦' },
+  english: { title: 'Marriage Biodata', subtitle: '~ Auspicious Union ~', deco: '✦' },
+  muslim: { title: 'رشتہ بائیوڈیٹا', subtitle: 'بِسْمِ اللَّهِ', deco: '☪' },
+  gujarati: { title: 'લગ્ન બાયોડેટા', subtitle: '॥ શુભ લગ્ન ॥', deco: '✦' },
+  marathi: { title: 'विवाह परिचय पत्र', subtitle: '॥ शुभ विवाह ॥', deco: '✦' },
+};
+
+/* Template theme configurations */
+const TEMPLATE_THEMES = {
+  1: { class: 'bio-theme-gold',   deco: '🌸 ॐ 🌸', ornament: '❧ ✦ ❧', footer: '🌸 ✦ 🌸 ✦ 🌸' },
+  2: { class: 'bio-theme-blue',   deco: '💎 ॐ 💎', ornament: '◆ ✦ ◆', footer: '💎 ✦ 💎 ✦ 💎' },
+  3: { class: 'bio-theme-green',  deco: '🌿 ॐ 🌿', ornament: '❧ ✦ ❧', footer: '🌿 ✦ 🌿 ✦ 🌿' },
+  4: { class: 'bio-theme-pink',   deco: '🌸 ॐ 🌸', ornament: '♡ ✦ ♡', footer: '🌸 ♡ 🌸 ♡ 🌸' },
+  5: { class: 'bio-theme-minimal',deco: '✦ ॐ ✦',  ornament: '─ ✦ ─', footer: '✦ ─ ✦ ─ ✦' },
+  6: { class: 'bio-theme-purple', deco: '👑 ॐ 👑', ornament: '◈ ✦ ◈', footer: '👑 ✦ 👑 ✦ 👑' },
+};
+
 function Row({ label, value }) {
   if (!value) return null;
   return (
@@ -12,8 +40,11 @@ function Row({ label, value }) {
   );
 }
 
-export default function BiodataCardPreview({ data, lang = 'en' }) {
+export default function BiodataCardPreview({ data, lang = 'en', template = 1, community = 'hindi' }) {
   const t = T[lang];
+  const theme = TEMPLATE_THEMES[template] || TEMPLATE_THEMES[1];
+  const headerImage = COMMUNITY_HEADER_IMAGES[community] || COMMUNITY_HEADER_IMAGES.hindi;
+  const headerText = COMMUNITY_HEADER_TEXT[community] || COMMUNITY_HEADER_TEXT.hindi;
   const {
     fullName, dob, age, height, weight, complexion, bloodGroup,
     religion, caste, subCaste,
@@ -26,14 +57,17 @@ export default function BiodataCardPreview({ data, lang = 'en' }) {
   } = data;
 
   return (
-    <div id="biodata-print" className="biodata-card">
+    <div id="biodata-print" className={`biodata-card ${theme.class}`}>
 
-      {/* Header */}
+      {/* Header with Community Image & Text */}
       <div className="bio-header">
-        <div className="bio-header-deco">🌸 ॐ 🌸</div>
-        <div className="bio-header-title">{t.bioTitle}</div>
-        <div className="bio-header-sub">{t.bioSubTitle}</div>
-        <div className="bio-divider-ornament">❧ ✦ ❧</div>
+        <div className="bio-header-content">
+          <span className="bio-header-deco">{headerText.deco}</span>
+          <img src={headerImage} alt="Biodata Header" className="bio-header-image" />
+          <span className="bio-header-deco">{headerText.deco}</span>
+        </div>
+        <h1 className="bio-header-title">{headerText.title}</h1>
+        <p className="bio-header-subtitle">{headerText.subtitle}</p>
       </div>
 
       {/* Photo + Name Section */}
@@ -145,7 +179,7 @@ export default function BiodataCardPreview({ data, lang = 'en' }) {
 
       {/* Footer */}
       <div className="bio-footer">
-        <div className="bio-footer-deco">🌸 ✦ 🌸 ✦ 🌸</div>
+        <div className="bio-footer-deco">{theme.footer}</div>
         <div className="bio-footer-note">{t.bioFooter}</div>
       </div>
     </div>
