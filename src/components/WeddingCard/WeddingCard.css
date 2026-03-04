@@ -1179,6 +1179,7 @@
 
 .wed-template-thumb-inner .wedding-card {
   width: 645%;
+  max-width: none;
   min-height: auto;
 }
 
