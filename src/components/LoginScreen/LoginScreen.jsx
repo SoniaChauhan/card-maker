@@ -158,6 +158,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   const [replyComment, setReplyComment]     = useState('');
   const [replyName, setReplyName]           = useState('');
   const [replySending, setReplySending]     = useState(false);
+  const [submittedEmail, setSubmittedEmail] = useState(''); // persists after form clear for ownership
 
   /* Load public reviews on mount */
   useEffect(() => {
@@ -440,7 +441,8 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
       setFbMsg('✅ Thank you for your feedback!');
       setTimeout(() => setFbMsg(''), 4000);
       // Add to displayed reviews instantly
-      setReviews(prev => [{ id: Date.now().toString(), name: fbName.trim(), email: fbEmail.trim().toLowerCase(), rating: fbRating, comment: fbComment.trim(), createdAt: new Date().toISOString() }, ...prev]);
+      setReviews(prev => [{ id: Date.now().toString(), name: fbName.trim(), email: fbEmail.trim().toLowerCase(), rating: fbRating, comment: fbComment.trim(), replies: [], createdAt: new Date().toISOString() }, ...prev]);
+      setSubmittedEmail(fbEmail.trim().toLowerCase());
       setFbName(''); setFbEmail(''); setFbRating(0); setFbComment('');
     } catch {
       setFbMsg('⚠️ Failed to send. Please try again.');
@@ -1064,7 +1066,8 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
               ) : (
                 <div className="lp-inline-reviews-list">
                   {reviews.map(r => {
-                    const isOwner = fbEmail && r.email && fbEmail.trim().toLowerCase() === r.email.trim().toLowerCase();
+                    const ownerCheck = (fbEmail || submittedEmail).trim().toLowerCase();
+                    const isOwner = ownerCheck && r.email && ownerCheck === r.email.trim().toLowerCase();
                     const isEditing = editId === r.id;
                     const isReplying = replyToId === r.id;
                     return (
