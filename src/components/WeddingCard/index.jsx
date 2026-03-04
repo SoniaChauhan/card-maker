@@ -1,11 +1,9 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './WeddingCard.css';
 import WeddingForm from './WeddingForm';
 import WeddingCardPreview from './WeddingCardPreview';
-import TemplateChooser from './TemplateChooser';
-import SavedWeddingCards from './SavedWeddingCards';
-import CardActions from '../shared/CardActions';
+import { TEMPLATES } from './TemplateChooser';
 import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import LanguagePicker from '../shared/LanguagePicker';
@@ -13,9 +11,8 @@ import PaymentPopup from '../shared/PaymentPopup';
 import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
-import { saveTemplate, updateTemplate } from '../../services/templateService';
 import { logDownload } from '../../services/downloadHistoryService';
-import { hasUserPaid, getCardPrice } from '../../services/paymentService';
+import { hasUserPaid, sendDownloadEmail } from '../../services/paymentService';
 
 const CARD_TYPE = 'wedding';
 const CARD_LABEL = 'Wedding Invitation';
@@ -49,17 +46,22 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
   const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
   const [errors, setErrors] = useState({});
   const [lang, setLang]     = useState('en');
-  const [saving, setSaving] = useState(false);
-  const [templateId, setTemplateId] = useState(initTplId || null);
-  const [showChooser, setShowChooser] = useState(false);
-  const [showSaved, setShowSaved]     = useState(false);
   const [paid, setPaid]     = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [downloadEmail, setDownloadEmail] = useState(userEmail || '');
+  const carouselRef = useRef(null);
 
   const filename = `wedding-${toFilename(data.groomName || 'invitation')}.png`;
   const dlTitle = data.groomName && data.brideName ? `${data.groomName} & ${data.brideName} Wedding` : 'Wedding Invite';
   const { downloading, handleDownload, toast, watermarkRef } = useDownload('wedding-card-print', filename, {
-    onSuccess: () => logDownload(userEmail, CARD_TYPE, 'Wedding Invite Designer', dlTitle, filename, data).catch(() => {}),
+    onSuccess: async () => {
+      // Log download
+      const downloadId = await logDownload(userEmail, CARD_TYPE, 'Wedding Invite Designer', dlTitle, filename, data).catch(() => null);
+      // Send download link email
+      if (downloadEmail) {
+        sendDownloadEmail({ email: downloadEmail, cardType: CARD_TYPE, cardLabel: CARD_LABEL, downloadId }).catch(() => {});
+      }
+    },
     downloadWidth: 800,
     addWatermark: true,
   });
@@ -72,6 +74,13 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
       watermarkRef.current = !p;
     }).catch(() => {});
   }, [userEmail, isSuperAdmin]);
+
+  function scrollCarousel(direction) {
+    if (carouselRef.current) {
+      const scrollAmount = 200;
+      carouselRef.current.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    }
+  }
 
   function onChange(e) {
     const { name, value, files } = e.target;
@@ -104,38 +113,6 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
     setData(d => ({ ...d, customPrograms: programs }));
   }
 
-  function onTemplateSelect(id) {
-    setData(d => ({ ...d, selectedTemplate: id }));
-  }
-
-  function handleLoadSavedTemplate(tpl) {
-    const fd = tpl.formData || {};
-    setData({ ...INIT, ...fd });
-    setTemplateId(tpl.id);
-    setShowSaved(false);
-    setStep('form');
-  }
-
-  async function handleSaveTemplate() {
-    setSaving(true);
-    try {
-      const name = data.groomName && data.brideName ? `${data.groomName} & ${data.brideName} Wedding` : 'Wedding Template';
-      if (templateId) {
-        await updateTemplate(templateId, name, data);
-      } else {
-        const id = await saveTemplate(userEmail, 'wedding', name, data);
-        setTemplateId(id);
-      }
-      alert(templateId ? 'Template updated!' : 'Template saved!');
-    } catch (e) {
-      console.error('Save template error:', e);
-      const msg = e?.code === 'permission-denied'
-        ? 'Firestore permission denied. Please update your Firestore rules to allow the "templates" collection.'
-        : `Failed to save template: ${e.message || e}`;
-      alert(msg);
-    } finally { setSaving(false); }
-  }
-
   if (step === 'form') {
     return (
       <WeddingForm
@@ -152,19 +129,11 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
   return (
     <div className="wedding-card-screen">
       <Particles icons={PARTICLES} count={24} />
-      <div className="card-screen-container">
+
+      {/* Main Preview Card Container */}
+      <div className="wed-preview-container">
         <p className="wedding-screen-title">💍 Your Wedding Invite</p>
         <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-
-        {/* Action buttons */}
-        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <button className="btn-choose-template" onClick={() => setShowChooser(true)}>
-            🎨 Change Design Template
-          </button>
-          <button className="btn-saved-cards" onClick={() => setShowSaved(true)}>
-            📋 My Saved Cards
-          </button>
-        </div>
 
         {/* Background Color Picker */}
         <div className="wed-bg-picker">
@@ -187,49 +156,59 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
           </div>
         </div>
 
-        <div className={`card-wrapper screenshot-protected${paid ? '' : ' card-preview-locked'}`}>
-          <WeddingCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} bgColor={data.bgColor} />
-        </div>
-
-        {!paid && (
-          <div className="download-locked-badge">
-            💳 Download: ₹19 (with watermark) or ₹49 (clean)
+        <div className="wed-preview-card-wrapper">
+          <div id="wedding-card-print" className={`screenshot-protected${paid ? '' : ' card-preview-locked'}`}>
+            <WeddingCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} bgColor={data.bgColor} />
           </div>
-        )}
+          {!paid && (
+            <div className="wed-preview-watermark">
+              <span className="watermark-text">PREVIEW</span>
+              <span className="watermark-subtext">Watermark removed in download</span>
+            </div>
+          )}
+        </div>
+      </div>
 
-        <CardActions
-          onEdit={() => setStep('form')}
-          onBack={onBack}
-          onDownload={paid ? handleDownload : () => setShowPayment(true)}
-          downloading={downloading}
-          dlBtnStyle={{ background: 'linear-gradient(135deg,#6b1520,#b8860b)', color: '#fff', boxShadow: '0 6px 20px rgba(107,21,32,.45)' }}
-          dlLabel={paid ? '⬇️ Download Card' : '💳 Download Card'}
-        />
-        <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
-          {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
+      {/* Template Carousel Section */}
+      <div className="wed-template-section">
+        <button className="carousel-arrow carousel-arrow-left" onClick={() => scrollCarousel(-1)}>‹</button>
+        <div className="wed-template-carousel" ref={carouselRef}>
+          {TEMPLATES.map(tpl => (
+            <div 
+              key={tpl.id}
+              className={`wed-template-item ${data.selectedTemplate === tpl.id ? 'wed-template-item--selected' : ''}`}
+              onClick={() => setData(d => ({ ...d, selectedTemplate: tpl.id }))}
+            >
+              <div className="wed-template-thumb" style={{ borderColor: data.selectedTemplate === tpl.id ? tpl.accent : 'transparent' }}>
+                <div className="wed-template-thumb-inner">
+                  <WeddingCardPreview data={data} lang={lang} template={tpl.id} bgColor={data.bgColor} />
+                </div>
+              </div>
+              <span className="wed-template-name">{tpl.name}</span>
+            </div>
+          ))}
+        </div>
+        <button className="carousel-arrow carousel-arrow-right" onClick={() => scrollCarousel(1)}>›</button>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="wed-action-buttons">
+        <button className="wed-back-btn" onClick={onBack}>
+          ← Back
+        </button>
+        <button className="wed-btn-edit" onClick={() => setStep('form')}>
+          <span className="btn-icon">✏️</span> Edit Card
+        </button>
+        <button 
+          className="wed-btn-download" 
+          onClick={paid ? handleDownload : () => setShowPayment(true)}
+          disabled={downloading}
+        >
+          <span className="btn-icon">⬇️</span> {downloading ? 'Downloading...' : 'Download Card'}
         </button>
       </div>
+
       <Toast text={toast.text} show={toast.show} />
-
-      {/* Template Chooser Modal */}
-      {showChooser && (
-        <TemplateChooser
-          data={data}
-          lang={lang}
-          selected={data.selectedTemplate || 1}
-          onSelect={onTemplateSelect}
-          onClose={() => setShowChooser(false)}
-        />
-      )}
-
-      {/* Saved Wedding Cards Modal */}
-      {showSaved && (
-        <SavedWeddingCards
-          userEmail={userEmail}
-          onLoadTemplate={handleLoadSavedTemplate}
-          onClose={() => setShowSaved(false)}
-        />
-      )}
 
       {showPayment && (
         <PaymentPopup
@@ -238,10 +217,11 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
           userEmail={userEmail}
           onClose={() => setShowPayment(false)}
           onPaymentDone={(result) => {
-            // withWatermark: true = ₹19 tier, false = ₹49 tier
             const withWatermark = result?.withWatermark ?? false;
+            const isFree = result?.isFree ?? false;
             watermarkRef.current = withWatermark;
-            if (!withWatermark) setPaid(true); // Mark as paid only if full price
+            if (!withWatermark && !isFree) setPaid(true);
+            if (result?.email) setDownloadEmail(result.email);
             setShowPayment(false);
             setTimeout(() => handleDownload(), 500);
           }}

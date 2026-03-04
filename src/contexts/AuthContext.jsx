@@ -10,23 +10,10 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function restoreSession() {
-      const session = getSession();
-      if (session) {
-        try {
-          const blocked = await isUserBlocked(session.email);
-          if (blocked) {
-            clearSession();
-          } else {
-            setUser(session);
-          }
-        } catch {
-          setUser(session); // allow login if block-check fails
-        }
-      }
-      setLoading(false);
-    }
-    restoreSession();
+    // Auto-login as guest - no sign in/sign up required
+    const guest = { name: 'Guest', email: 'guest@cardmaker.app', role: 'guest', isGuest: true };
+    setUser(guest);
+    setLoading(false);
   }, []);
 
   function login(userData) {

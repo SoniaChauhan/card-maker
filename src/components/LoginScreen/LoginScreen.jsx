@@ -15,6 +15,90 @@ import MyTemplates from '../MyTemplates/MyTemplates';
 import DownloadHistory from '../DownloadHistory/DownloadHistory';
 import Toast from '../shared/Toast';
 
+/* Preview components for sample cards */
+import WeddingCardPreview from '../WeddingCard/WeddingCardPreview';
+import BirthdayCardPreview from '../BirthdayCard/BirthdayCardPreview';
+import AnniversaryCardPreview from '../AnniversaryCard/AnniversaryCardPreview';
+import BiodataCardPreview from '../BiodataCard/BiodataCardPreview';
+
+/* Sample data for each card type */
+const SAMPLE_WEDDING = {
+  groomName: 'Rajesh Kumar', brideName: 'Priya Sharma',
+  groomFamily: 'Son of Mr. Ramesh Kumar & Mrs. Sunita Kumar',
+  brideFamily: 'Daughter of Mr. Vikram Sharma & Mrs. Meena Sharma',
+  weddingDate: '2026-04-15', weddingTime: '7:30 PM',
+  weddingVenue: 'Royal Palace Banquet Hall', weddingVenueAddress: 'MG Road, New Delhi - 110001',
+  receptionDate: '2026-04-16', receptionTime: '8:00 PM', receptionVenue: 'Grand Celebration Hall',
+  guestName: 'Dear Guest', message: 'Your gracious presence will make our special day more memorable.',
+  familyMembers: '', photo: null, photoPreview: '', customPrograms: [], selectedTemplate: 1, bgColor: '',
+};
+
+const SAMPLE_BIRTHDAY = {
+  guestName: 'Dear Friends & Family', birthdayPerson: 'Aarav', age: '5',
+  date: '2026-03-25', time: '4:00 PM',
+  venue: 'Fun Zone Party Hall', venueAddress: 'Sector 18, Noida - 201301',
+  hostName: 'Sharma Family', message: 'Join us for a fun-filled celebration!',
+  photo: null, photoPreview: '', selectedTemplate: 1, bgColor: '',
+};
+
+const SAMPLE_ANNIVERSARY = {
+  partner1: 'Anil', partner2: 'Sunita', years: '25',
+  date: '2026-05-10', message: 'Celebrating 25 wonderful years of love, laughter, and togetherness. Join us as we renew our vows!',
+  photo: null, photoPreview: '', selectedTemplate: 1, bgColor: '',
+};
+
+const SAMPLE_BIODATA = {
+  fullName: 'Priya Sharma', dob: '1998-06-15', age: '27', height: "5'4\"", weight: '55 kg',
+  complexion: 'Fair', bloodGroup: 'B+', religion: 'Hindu', caste: 'Brahmin', subCaste: 'Kanyakubja',
+  gotra: 'Kashyap', rashi: 'Virgo', nakshatra: 'Hasta', manglik: 'No',
+  education: 'MBA (Finance)', occupation: 'Senior Analyst', employer: 'Deloitte', annualIncome: '₹12 LPA',
+  fatherName: 'Mr. Ramesh Sharma', fatherOccupation: 'Retired Bank Manager',
+  motherName: 'Mrs. Sunita Sharma', motherOccupation: 'Homemaker',
+  siblings: '1 Elder Brother (Married, Software Engineer)', hobbies: 'Reading, Painting, Yoga, Travelling',
+  aboutMe: 'A cheerful and family-oriented person with traditional values and modern outlook.',
+  contactName: 'Mr. Ramesh Sharma (Father)', contactPhone: '+91 98765 43210',
+  contactAddress: 'B-42, Green Park Extension, New Delhi - 110016',
+  photo: null, photoPreview: '',
+};
+
+/* Template configs for sample preview */
+const WEDDING_TEMPLATES = [
+  { id: 1, name: 'Classic Gold', accent: '#b8860b' },
+  { id: 2, name: 'Gold Ornate', accent: '#c9a84c' },
+  { id: 3, name: 'Garden Floral', accent: '#3a7a4a' },
+  { id: 4, name: 'Warm Peach', accent: '#c4756a' },
+  { id: 5, name: 'Royal Maroon', accent: '#3d0a12' },
+  { id: 6, name: 'Divine Love', accent: '#c9976a' },
+  { id: 7, name: 'Sacred Border', accent: '#8b6914' },
+];
+
+const BIRTHDAY_TEMPLATES = [
+  { id: 1, name: 'Space Adventure', accent: '#2c3e6b' },
+  { id: 2, name: 'Pastel Balloons', accent: '#c4937f' },
+  { id: 3, name: 'Cute Stars', accent: '#c67a5c' },
+  { id: 4, name: 'Party Confetti', accent: '#d98a4b' },
+  { id: 5, name: 'Sunshine Floral', accent: '#b87f7f' },
+  { id: 6, name: 'Animal Friends', accent: '#9e7b5a' },
+];
+
+const ANNIVERSARY_TEMPLATES = [
+  { id: 1, name: 'Royal Gold Floral', accent: '#c9a84c' },
+  { id: 2, name: 'Rose Gold Romance', accent: '#d4a373' },
+  { id: 3, name: 'Emerald Laurels', accent: '#5a8a4a' },
+  { id: 4, name: 'Mandala Rings', accent: '#d4af37' },
+  { id: 5, name: 'Vintage Frame', accent: '#b8860b' },
+  { id: 6, name: 'Minimal Swirl', accent: '#c9a84c' },
+];
+
+const BIODATA_TEMPLATES = [
+  { id: 1, name: 'Classic Gold', accent: '#d4af37' },
+  { id: 2, name: 'Royal Blue', accent: '#1a3a5c' },
+  { id: 3, name: 'Elegant Green', accent: '#2d5a3d' },
+  { id: 4, name: 'Pink Blossom', accent: '#d4748a' },
+  { id: 5, name: 'Modern Minimal', accent: '#4a4a4a' },
+  { id: 6, name: 'Royal Purple', accent: '#5c3a6e' },
+];
+
 /*
   Modes:
     signin          – Email + Password (default)
@@ -45,6 +129,10 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   const [accountTab, setAccountTab] = useState(null); // null | 'profile' | 'templates' | 'downloads' | 'admin'
   const [toast, setToast]           = useState({ show: false, text: '' });
   const [showAuthPopup, setShowAuthPopup] = useState(false);
+
+  /* Sample preview modal state */
+  const [samplePreview, setSamplePreview] = useState(null); // null | 'wedding' | 'birthday' | 'anniversary' | 'biodata'
+  const [fullPreviewTpl, setFullPreviewTpl] = useState(null); // { type: 'wedding', id: 1 } for full card preview
 
   function openAuthPopup(m = 'signin') { switchMode(m); setShowAuthPopup(true); }
   function closeAuthPopup() { setShowAuthPopup(false); resetForm(); }
@@ -375,7 +463,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
     { id: 'birthday',      icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',   grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)', price: '₹19/₹49' },
     { id: 'wedding',       icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)', price: '₹19/₹49' },
     { id: 'anniversary',   icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27b)', price: '₹19/₹49' },
-    { id: 'biodata',       icon: '💒', name: 'Marriage Profile Designer',     desc: 'Build a traditional and detailed marriage biodata with a clean layout.',   grad: 'linear-gradient(135deg, #d4af37, #c0392b)', price: '₹19/₹49' },
+    { id: 'biodata',       icon: '💒', name: 'Marriage Profile Designer',     desc: 'Build a traditional and detailed marriage biodata with a clean layout.',   grad: 'linear-gradient(135deg, #d4af37, #c0392b)', price: '₹49' },
   ];
 
   const HOLI_FREE_CARDS = [
@@ -463,15 +551,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
               )}
             </>
           )}
-          {(!user || isGuest) && (
-            <>
-              <button className="lp-topbar-btn" onClick={() => openAuthPopup('signin')}>🔐 Sign In</button>
-              <button className="lp-topbar-btn signup" onClick={() => openAuthPopup('signup')}>📝 Sign Up</button>
-            </>
-          )}
-          {user && (
-            <button className="lp-topbar-btn logout" onClick={() => { setAccountTab(null); closeAuthPopup(); switchMode('signin'); logout(); }}>🚪 Logout</button>
-          )}
+          {/* Sign In/Sign Up removed - all users are guests */}
         </div>
       </div>
 
@@ -510,25 +590,33 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
       {/* ═══════ HERO SECTION ═══════ */}
       <section className="lp-hero">
         <div className="lp-hero-inner">
-          {user ? (
-            <>
-              <h1 className="lp-hero-title">
-                Welcome back, <span className="lp-accent">{displayName}</span>!
-              </h1>
-              <p className="lp-hero-sub">
-                Click any card below to start designing. {isGuest ? 'Sign up to unlock all features!' : 'Your premium templates are ready.'}
-              </p>
-            </>
-          ) : (
-            <>
-              <h1 className="lp-hero-title">
-                Create Beautiful Cards <span className="lp-accent">in Minutes</span> — Free &amp; Premium Templates
-              </h1>
-              <p className="lp-hero-sub">
-                Design stunning invitation cards &amp; greeting cards online. Free templates for birthdays, weddings, festivals like Holi &amp; Diwali. Customizable designs, instant download!
-              </p>
-            </>
-          )}
+          <h1 className="lp-hero-title">
+            Create Beautiful Cards <span className="lp-accent">in Minutes</span>
+          </h1>
+          <p className="lp-hero-sub">
+            See how your invitation cards will look! Click below to preview sample templates with pre-filled data.
+          </p>
+
+          {/* Sample Preview Buttons */}
+          <div className="lp-sample-buttons">
+            <button className="lp-sample-btn lp-sample-btn--wedding" onClick={() => setSamplePreview('wedding')}>
+              <span className="lp-sample-icon">💐</span>
+              <span className="lp-sample-label">Wedding Samples</span>
+            </button>
+            <button className="lp-sample-btn lp-sample-btn--birthday" onClick={() => setSamplePreview('birthday')}>
+              <span className="lp-sample-icon">🎂</span>
+              <span className="lp-sample-label">Birthday Samples</span>
+            </button>
+            <button className="lp-sample-btn lp-sample-btn--anniversary" onClick={() => setSamplePreview('anniversary')}>
+              <span className="lp-sample-icon">💍</span>
+              <span className="lp-sample-label">Anniversary Samples</span>
+            </button>
+            <button className="lp-sample-btn lp-sample-btn--biodata" onClick={() => setSamplePreview('biodata')}>
+              <span className="lp-sample-icon">💒</span>
+              <span className="lp-sample-label">Biodata Samples</span>
+            </button>
+          </div>
+
           <div className="lp-hero-stats">
             <div className="lp-stat"><span className="lp-stat-num">23+</span><span className="lp-stat-label">Card Types</span></div>
             <div className="lp-stat-divider" />
@@ -984,6 +1072,116 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         </div>
         <p className="lp-footer-copy">© 2026 Creative Thinker Design Hub. All Rights Reserved.</p>
       </footer>
+
+      {/* ═══════ SAMPLE PREVIEW MODAL ═══════ */}
+      {samplePreview && (
+        <div className="lp-sample-overlay" onClick={() => setSamplePreview(null)}>
+          <div className="lp-sample-modal" onClick={e => e.stopPropagation()}>
+            <button className="lp-sample-close" onClick={() => setSamplePreview(null)}>✕</button>
+            
+            <div className="lp-sample-header">
+              <h2 className="lp-sample-title">
+                {samplePreview === 'wedding' && '💐 Wedding Invitation Templates'}
+                {samplePreview === 'birthday' && '🎂 Birthday Invitation Templates'}
+                {samplePreview === 'anniversary' && '💍 Anniversary Card Templates'}
+                {samplePreview === 'biodata' && '💒 Marriage Biodata Templates'}
+              </h2>
+              <p className="lp-sample-subtitle">Preview all design options with sample data</p>
+            </div>
+
+            <div className="lp-sample-grid">
+              {samplePreview === 'wedding' && WEDDING_TEMPLATES.map(tpl => (
+                <div key={tpl.id} className="lp-sample-card">
+                  <div className="lp-sample-preview" style={{ borderColor: tpl.accent }}>
+                    <div className="lp-sample-preview-inner lp-sample-preview--wedding">
+                      <WeddingCardPreview data={{ ...SAMPLE_WEDDING, selectedTemplate: tpl.id }} lang="en" template={tpl.id} />
+                    </div>
+                    <button className="lp-sample-preview-btn" onClick={() => setFullPreviewTpl({ type: 'wedding', id: tpl.id, name: tpl.name })}>
+                      👁️ Preview
+                    </button>
+                  </div>
+                  <span className="lp-sample-name" style={{ color: tpl.accent }}>{tpl.name}</span>
+                </div>
+              ))}
+
+              {samplePreview === 'birthday' && BIRTHDAY_TEMPLATES.map(tpl => (
+                <div key={tpl.id} className="lp-sample-card">
+                  <div className="lp-sample-preview" style={{ borderColor: tpl.accent }}>
+                    <div className="lp-sample-preview-inner lp-sample-preview--birthday">
+                      <BirthdayCardPreview data={{ ...SAMPLE_BIRTHDAY, selectedTemplate: tpl.id }} lang="en" template={tpl.id} />
+                    </div>
+                    <button className="lp-sample-preview-btn" onClick={() => setFullPreviewTpl({ type: 'birthday', id: tpl.id, name: tpl.name })}>
+                      👁️ Preview
+                    </button>
+                  </div>
+                  <span className="lp-sample-name" style={{ color: tpl.accent }}>{tpl.name}</span>
+                </div>
+              ))}
+
+              {samplePreview === 'anniversary' && ANNIVERSARY_TEMPLATES.map(tpl => (
+                <div key={tpl.id} className="lp-sample-card">
+                  <div className="lp-sample-preview" style={{ borderColor: tpl.accent }}>
+                    <div className="lp-sample-preview-inner lp-sample-preview--anniversary">
+                      <AnniversaryCardPreview data={{ ...SAMPLE_ANNIVERSARY, selectedTemplate: tpl.id }} lang="en" template={tpl.id} />
+                    </div>
+                    <button className="lp-sample-preview-btn" onClick={() => setFullPreviewTpl({ type: 'anniversary', id: tpl.id, name: tpl.name })}>
+                      👁️ Preview
+                    </button>
+                  </div>
+                  <span className="lp-sample-name" style={{ color: tpl.accent }}>{tpl.name}</span>
+                </div>
+              ))}
+
+              {samplePreview === 'biodata' && BIODATA_TEMPLATES.map(tpl => (
+                <div key={tpl.id} className="lp-sample-card">
+                  <div className="lp-sample-preview" style={{ borderColor: tpl.accent }}>
+                    <div className="lp-sample-preview-inner lp-sample-preview--biodata">
+                      <BiodataCardPreview data={SAMPLE_BIODATA} lang="hi" template={tpl.id} community="hindi" />
+                    </div>
+                    <button className="lp-sample-preview-btn" onClick={() => setFullPreviewTpl({ type: 'biodata', id: tpl.id, name: tpl.name })}>
+                      👁️ Preview
+                    </button>
+                  </div>
+                  <span className="lp-sample-name" style={{ color: tpl.accent }}>{tpl.name}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Full Preview Overlay */}
+            {fullPreviewTpl && (
+              <div className="lp-fullpreview-overlay" onClick={() => setFullPreviewTpl(null)}>
+                <div className="lp-fullpreview-wrap" onClick={e => e.stopPropagation()}>
+                  <button className="lp-fullpreview-close" onClick={() => setFullPreviewTpl(null)}>✕</button>
+                  <h3 className="lp-fullpreview-title">{fullPreviewTpl.name}</h3>
+                  <div className="lp-fullpreview-card">
+                    {fullPreviewTpl.type === 'wedding' && (
+                      <WeddingCardPreview data={{ ...SAMPLE_WEDDING, selectedTemplate: fullPreviewTpl.id }} lang="en" template={fullPreviewTpl.id} />
+                    )}
+                    {fullPreviewTpl.type === 'birthday' && (
+                      <BirthdayCardPreview data={{ ...SAMPLE_BIRTHDAY, selectedTemplate: fullPreviewTpl.id }} lang="en" template={fullPreviewTpl.id} />
+                    )}
+                    {fullPreviewTpl.type === 'anniversary' && (
+                      <AnniversaryCardPreview data={{ ...SAMPLE_ANNIVERSARY, selectedTemplate: fullPreviewTpl.id }} lang="en" template={fullPreviewTpl.id} />
+                    )}
+                    {fullPreviewTpl.type === 'biodata' && (
+                      <BiodataCardPreview data={SAMPLE_BIODATA} lang="hi" template={fullPreviewTpl.id} community="hindi" />
+                    )}
+                  </div>
+                  <button className="lp-fullpreview-back" onClick={() => setFullPreviewTpl(null)}>
+                    ← Back to Templates
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <div className="lp-sample-actions">
+              <button className="lp-sample-cta" onClick={() => { setSamplePreview(null); handleCardClick(samplePreview); }}>
+                🎨 Create Your Own {samplePreview.charAt(0).toUpperCase() + samplePreview.slice(1)} Card
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Toast text={toast.text} show={toast.show} />
     </div>

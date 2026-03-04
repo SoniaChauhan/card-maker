@@ -5,8 +5,9 @@
 import { encodePayload } from '../utils/payload';
 
 /* ── Pricing Tiers (₹) ── */
-export const PRICE_WITH_WATERMARK = 19;    // Download with small watermark
-export const PRICE_NO_WATERMARK = 49;      // Download without watermark
+export const PRICE_WITH_WATERMARK = 19;    // Download with small watermark (7-day access)
+export const PRICE_NO_WATERMARK = 49;      // Download without watermark (7-day access)
+export const PRICE_FREE = 0;               // Free with full watermark
 
 /* ── Card pricing (base prices - use PRICE_NO_WATERMARK for full removal) ── */
 export const CARD_PRICES = {
@@ -48,12 +49,24 @@ export const FREE_CARDS = new Set([
   'holiwishes', 'holiwishes-en',
 ]);
 
-/** Card types that unlock for 24 hours after one payment */
-export const TIMED_UNLOCK_CARDS = new Set([]);
+/** Card types that get 7-day access after payment */
+export const SEVEN_DAY_ACCESS_CARDS = new Set([
+  'wedding', 'birthday', 'anniversary', 'biodata',
+]);
+
+/** Card types that only have ₹49 option (no ₹19 tier) */
+export const NO_SMALL_WATERMARK_CARDS = new Set([
+  'biodata',
+]);
 
 /** Check if this card type requires payment */
 export function requiresPayment(cardType) {
   return !FREE_CARDS.has(cardType);
+}
+
+/** Check if card type supports ₹19 small watermark tier */
+export function hasSmallWatermarkTier(cardType) {
+  return !NO_SMALL_WATERMARK_CARDS.has(cardType);
 }
 
 /** Get price for a card type (full price without watermark) */
@@ -103,14 +116,33 @@ export async function hasUserPaid(email, cardType) {
 }
 
 /**
- * Get detailed payment/unlock status.
- * Returns { paid: boolean, unlockedUntil: ISO-string|null }
- * For 24-hr unlock cards, `paid` is false once the window expires.
+ * Get detailed payment/unlock status with tier info.
+ * Returns { paid: boolean, unlockedUntil: ISO-string|null, tier: 'premium'|'watermark'|null }
+ * Premium = ₹49 (no watermark), Watermark = ₹19 (small watermark)
  */
 export async function getPaymentStatus(email, cardType) {
-  if (FREE_CARDS.has(cardType)) return { paid: true, unlockedUntil: null };
+  if (FREE_CARDS.has(cardType)) return { paid: true, unlockedUntil: null, tier: 'premium' };
   const data = await apiPayments({ action: 'check', email, cardType });
-  return { paid: !!data.paid, unlockedUntil: data.unlockedUntil || null };
+  return {
+    paid: !!data.paid,
+    unlockedUntil: data.unlockedUntil || null,
+    tier: data.tier || null,
+    accessExpired: data.accessExpired || false,
+  };
+}
+
+/**
+ * Check if user has active access for a specific tier.
+ * Returns { hasAccess: boolean, tier: 'premium'|'watermark'|null, expiresAt: ISO-string|null }
+ */
+export async function checkUserAccess(email, cardType) {
+  if (FREE_CARDS.has(cardType)) return { hasAccess: true, tier: 'premium', expiresAt: null };
+  const data = await apiPayments({ action: 'checkAccess', email, cardType });
+  return {
+    hasAccess: data.hasAccess || false,
+    tier: data.tier || null,
+    expiresAt: data.expiresAt || null,
+  };
 }
 
 /** Create a Razorpay order. Returns { orderId, amount, currency, keyId } */
@@ -120,7 +152,7 @@ export async function createOrder(email, cardType, cardLabel, customAmount = nul
 }
 
 /** Verify payment after Razorpay checkout */
-export async function verifyPayment({ razorpayOrderId, razorpayPaymentId, razorpaySignature, email, cardType }) {
+export async function verifyPayment({ razorpayOrderId, razorpayPaymentId, razorpaySignature, email, cardType, tier }) {
   return apiPayments({
     action: 'verify',
     razorpayOrderId,
@@ -128,6 +160,7 @@ export async function verifyPayment({ razorpayOrderId, razorpayPaymentId, razorp
     razorpaySignature,
     email,
     cardType,
+    tier,
   });
 }
 
@@ -158,19 +191,25 @@ export function loadRazorpayScript() {
  * @param {string} opts.cardLabel - Display name, e.g. 'Birthday Invitation'
  * @param {string} opts.userName - User's name for prefill
  * @param {number} [opts.amount] - Custom amount (overrides card type price)
+ * @param {string} [opts.tier] - 'premium' (₹49) or 'watermark' (₹19)
  * @param {Function} opts.onSuccess - Called after successful verification
  * @param {Function} opts.onError - Called on failure
  * @returns {Promise<void>}
  */
-export async function startPayment({ email, cardType, cardLabel, userName, amount, onSuccess, onError }) {
+export async function startPayment({ email, cardType, cardLabel, userName, amount, tier, onSuccess, onError }) {
   try {
-    // 1. Check if already paid (skip for watermark tier - let them pay for upgrade)
-    if (!amount || amount >= PRICE_NO_WATERMARK) {
-      const alreadyPaid = await hasUserPaid(email, cardType);
-      if (alreadyPaid) {
-        if (onSuccess) onSuccess({ alreadyPaid: true });
+    // Determine tier from amount if not explicitly set
+    const paymentTier = tier || (amount === PRICE_WITH_WATERMARK ? 'watermark' : 'premium');
+
+    // 1. Check if already has access for this tier
+    const accessStatus = await checkUserAccess(email, cardType);
+    if (accessStatus.hasAccess) {
+      // User already has access
+      if (accessStatus.tier === 'premium' || (accessStatus.tier === paymentTier)) {
+        if (onSuccess) onSuccess({ alreadyPaid: true, tier: accessStatus.tier, expiresAt: accessStatus.expiresAt });
         return;
       }
+      // User has watermark tier but is trying to upgrade to premium - allow
     }
 
     // 2. Load Razorpay script
@@ -182,7 +221,7 @@ export async function startPayment({ email, cardType, cardLabel, userName, amoun
     // 3. Create order (with custom amount if provided)
     const order = await createOrder(email, cardType, cardLabel, amount);
     if (order.alreadyPaid) {
-      if (onSuccess) onSuccess({ alreadyPaid: true });
+      if (onSuccess) onSuccess({ alreadyPaid: true, tier: order.tier, expiresAt: order.expiresAt });
       return;
     }
 
@@ -192,7 +231,9 @@ export async function startPayment({ email, cardType, cardLabel, userName, amoun
       amount: order.amount,
       currency: order.currency,
       name: 'CardMaker',
-      description: `${cardLabel} — Watermark-free Download`,
+      description: paymentTier === 'watermark'
+        ? `${cardLabel} — With Small Watermark (7 Days)`
+        : `${cardLabel} — No Watermark (7 Days)`,
       order_id: order.orderId,
       prefill: {
         email,
@@ -203,16 +244,17 @@ export async function startPayment({ email, cardType, cardLabel, userName, amoun
       },
       handler: async function (response) {
         try {
-          // 5. Verify payment
+          // 5. Verify payment with tier info
           const result = await verifyPayment({
             razorpayOrderId: response.razorpay_order_id,
             razorpayPaymentId: response.razorpay_payment_id,
             razorpaySignature: response.razorpay_signature,
             email,
             cardType,
+            tier: paymentTier,
           });
           if (result.verified) {
-            if (onSuccess) onSuccess({ paymentId: response.razorpay_payment_id });
+            if (onSuccess) onSuccess({ paymentId: response.razorpay_payment_id, tier: paymentTier, expiresAt: result.expiresAt });
           } else {
             throw new Error('Payment verification failed');
           }
@@ -234,5 +276,36 @@ export async function startPayment({ email, cardType, cardLabel, userName, amoun
     rzp.open();
   } catch (err) {
     if (onError) onError(err);
+  }
+}
+
+/**
+ * Send download link to user's email after successful download.
+ * @param {Object} opts
+ * @param {string} opts.email - User email
+ * @param {string} opts.cardType - Card type (wedding, birthday, etc.)
+ * @param {string} opts.cardLabel - Display name
+ * @param {string} opts.downloadId - Download history ID for the link
+ */
+export async function sendDownloadEmail({ email, cardType, cardLabel, downloadId }) {
+  try {
+    const res = await fetch('/api/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        _p: encodePayload({
+          action: 'sendDownloadLink',
+          toEmail: email,
+          cardType,
+          cardLabel,
+          downloadId,
+        }),
+      }),
+    });
+    const data = await res.json();
+    return data.ok || false;
+  } catch (err) {
+    console.error('Failed to send download email:', err);
+    return false;
   }
 }
