@@ -138,9 +138,10 @@ export default function JagrataCard({ onBack, userEmail, initialData, templateId
           cardLabel={CARD_LABEL}
           userEmail={userEmail}
           onClose={() => setShowPayment(false)}
-          onPaymentDone={() => {
-            setPaid(true);
-            watermarkRef.current = false;
+          onPaymentDone={(result) => {
+            const withWatermark = result?.withWatermark ?? false;
+            watermarkRef.current = withWatermark;
+            if (!withWatermark) setPaid(true);
             setShowPayment(false);
             setTimeout(() => handleDownload(), 500);
           }}

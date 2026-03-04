@@ -187,32 +187,23 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
           </div>
         </div>
 
-        <div className={`card-wrapper screenshot-protected${!paid ? ' card-preview-locked' : ''}`}>
+        <div className={`card-wrapper screenshot-protected${paid ? '' : ' card-preview-locked'}`}>
           <WeddingCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} bgColor={data.bgColor} />
         </div>
 
         {!paid && (
           <div className="download-locked-badge">
-            🔒 Preview Mode — Pay ₹{getCardPrice(CARD_TYPE)} to remove watermark
+            💳 Download: ₹19 (with watermark) or ₹49 (clean)
           </div>
-        )}
-        {!paid && (
-          <button
-            className="btn-download pay-download-btn"
-            onClick={() => setShowPayment(true)}
-            style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
-          >
-            ✨ Pay ₹{getCardPrice(CARD_TYPE)} — Remove Watermark
-          </button>
         )}
 
         <CardActions
           onEdit={() => setStep('form')}
           onBack={onBack}
-          onDownload={handleDownload}
+          onDownload={paid ? handleDownload : () => setShowPayment(true)}
           downloading={downloading}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#6b1520,#b8860b)', color: '#fff', boxShadow: '0 6px 20px rgba(107,21,32,.45)' }}
-          dlLabel={paid ? '⬇️ Download Card' : '⬇️ Download (with watermark)'}
+          dlLabel={paid ? '⬇️ Download Card' : '💳 Download Card'}
         />
         <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
           {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
@@ -246,9 +237,11 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
           cardLabel={CARD_LABEL}
           userEmail={userEmail}
           onClose={() => setShowPayment(false)}
-          onPaymentDone={() => {
-            setPaid(true);
-            watermarkRef.current = false;
+          onPaymentDone={(result) => {
+            // withWatermark: true = ₹19 tier, false = ₹49 tier
+            const withWatermark = result?.withWatermark ?? false;
+            watermarkRef.current = withWatermark;
+            if (!withWatermark) setPaid(true); // Mark as paid only if full price
             setShowPayment(false);
             setTimeout(() => handleDownload(), 500);
           }}

@@ -27,7 +27,7 @@ function calcAge(year, month, day) {
  * Fires onChange({ target: { name: 'dob', value: 'YYYY-MM-DD' } })
  * and onAgeChange(ageString) whenever a complete date is selected.
  */
-export default function DobPicker({ value = '', onChange, onAgeChange, error, required }) {
+export default function DobPicker({ value = '', onChange, onAgeChange, error, required, hideLabel = false }) {
   const currentYear = new Date().getFullYear();
 
   // Parse existing ISO value → seed state
@@ -43,17 +43,21 @@ export default function DobPicker({ value = '', onChange, onAgeChange, error, re
     if (day && Number(day) > maxDay) setDay(String(maxDay));
   }, [month, year]);  // eslint-disable-line
 
-  // Fire onChange whenever any part changes
+  // Fire onChange whenever any part changes (only if value actually changed)
   useEffect(() => {
     if (year && month && day) {
       const iso = `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-      onChange({ target: { name: 'dob', value: iso } });
+      // Only call onChange if the value is different to prevent infinite loops
+      if (iso !== value) {
+        onChange({ target: { name: 'dob', value: iso } });
+      }
       if (onAgeChange) onAgeChange(calcAge(year, month, day));
-    } else {
+    } else if (value) {
+      // Only clear if there was a previous value
       onChange({ target: { name: 'dob', value: '' } });
       if (onAgeChange) onAgeChange('');
     }
-  }, [year, month, day]);  // eslint-disable-line
+  }, [year, month, day, value]);  // eslint-disable-line
 
   const days  = Array.from({ length: maxDay }, (_, i) => i + 1);
   const years = Array.from({ length: currentYear - 1939 }, (_, i) => currentYear - i);
@@ -61,10 +65,12 @@ export default function DobPicker({ value = '', onChange, onAgeChange, error, re
 
   return (
     <div className="form-group">
-      <label>
-        Date of Birth&nbsp;
-        {required ? <span className="req">*</span> : <span className="optional">(optional)</span>}
-      </label>
+      {!hideLabel && (
+        <label>
+          Date of Birth&nbsp;
+          {required ? <span className="req">*</span> : <span className="optional">(optional)</span>}
+        </label>
+      )}
 
       <div className="dob-picker-row">
         {/* Day */}

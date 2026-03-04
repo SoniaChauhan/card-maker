@@ -154,32 +154,23 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
           </div>
         </div>
 
-        <div className={`card-wrapper screenshot-protected${!paid ? ' card-preview-locked' : ''}`}>
+        <div className={`card-wrapper screenshot-protected${paid ? '' : ' card-preview-locked'}`}>
           <AnniversaryCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} bgColor={data.bgColor} />
         </div>
 
         {!paid && (
           <div className="download-locked-badge">
-            🔒 Preview Mode — Pay ₹{getCardPrice(CARD_TYPE)} to remove watermark
+            💳 Download: ₹19 (with watermark) or ₹49 (clean)
           </div>
-        )}
-        {!paid && (
-          <button
-            className="btn-download pay-download-btn"
-            onClick={() => setShowPayment(true)}
-            style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
-          >
-            ✨ Pay ₹{getCardPrice(CARD_TYPE)} — Remove Watermark
-          </button>
         )}
 
         <CardActions
           onEdit={() => setStep('form')}
           onBack={onBack}
-          onDownload={handleDownload}
+          onDownload={paid ? handleDownload : () => setShowPayment(true)}
           downloading={downloading}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#1a2a5e,#c9a84c)', color: '#fff', boxShadow: '0 6px 20px rgba(201,168,76,.4)' }}
-          dlLabel={paid ? '⬇️ Download Card' : '⬇️ Download (with watermark)'}
+          dlLabel={paid ? '⬇️ Download Card' : '💳 Download Card'}
         />
         <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
           {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
@@ -204,9 +195,10 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
           cardLabel={CARD_LABEL}
           userEmail={userEmail}
           onClose={() => setShowPayment(false)}
-          onPaymentDone={() => {
-            setPaid(true);
-            watermarkRef.current = false;
+          onPaymentDone={(result) => {
+            const withWatermark = result?.withWatermark ?? false;
+            watermarkRef.current = withWatermark;
+            if (!withWatermark) setPaid(true);
             setShowPayment(false);
             setTimeout(() => handleDownload(), 500);
           }}

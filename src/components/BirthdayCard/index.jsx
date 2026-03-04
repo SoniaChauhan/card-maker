@@ -154,34 +154,24 @@ export default function BirthdayCard({ onBack, userEmail, initialData, templateI
           </div>
         </div>
 
-        <div id="bday-card-print" className={`card-wrapper screenshot-protected${!paid ? ' card-preview-locked' : ''}`}>
+        <div id="bday-card-print" className={`card-wrapper screenshot-protected${paid ? '' : ' card-preview-locked'}`}>
           <BirthdayCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} bgColor={data.bgColor} />
         </div>
 
         {/* Payment / Download actions */}
         {!paid && (
           <div className="download-locked-badge">
-            🔒 Preview Mode — Pay ₹{getCardPrice(CARD_TYPE)} to remove watermark
+            💳 Download: ₹19 (with watermark) or ₹49 (clean)
           </div>
-        )}
-
-        {!paid && (
-          <button
-            className="btn-download pay-download-btn"
-            onClick={() => setShowPayment(true)}
-            style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
-          >
-            ✨ Pay ₹{getCardPrice(CARD_TYPE)} — Remove Watermark
-          </button>
         )}
 
         <CardActions
           onEdit={() => setStep('form')}
           onBack={onBack}
-          onDownload={handleDownload}
+          onDownload={paid ? handleDownload : () => setShowPayment(true)}
           downloading={downloading}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#ff6b6b,#feca57)', color: '#fff', boxShadow: '0 6px 20px rgba(255,107,107,.45)' }}
-          dlLabel={paid ? '⬇️ Download Card' : '⬇️ Download (with watermark)'}
+          dlLabel={paid ? '⬇️ Download Card' : '💳 Download Card'}
         />
         <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
           {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
@@ -207,11 +197,11 @@ export default function BirthdayCard({ onBack, userEmail, initialData, templateI
           cardLabel={CARD_LABEL}
           userEmail={userEmail}
           onClose={() => setShowPayment(false)}
-          onPaymentDone={() => {
-            setPaid(true);
-            watermarkRef.current = false;
+          onPaymentDone={(result) => {
+            const withWatermark = result?.withWatermark ?? false;
+            watermarkRef.current = withWatermark;
+            if (!withWatermark) setPaid(true);
             setShowPayment(false);
-            // Auto-trigger clean download after payment
             setTimeout(() => handleDownload(), 500);
           }}
         />
