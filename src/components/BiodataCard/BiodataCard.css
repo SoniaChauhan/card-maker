@@ -127,6 +127,7 @@
   position: relative;
   padding: 18px 20px;
   background: linear-gradient(135deg, #c0392b 0%, #8e1011 60%, #c0392b 100%);
+  z-index: 1;
 }
 
 .bio-header-content {
@@ -135,6 +136,7 @@
   justify-content: center;
   gap: 12px;
   margin-bottom: 10px;
+  overflow: visible;
 }
 
 .bio-header-image {
@@ -144,6 +146,7 @@
   object-fit: contain;
   display: inline-block;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  flex-shrink: 0;
 }
 
 .bio-header-deco {
@@ -356,8 +359,8 @@
   .bio-rows { grid-template-columns: 1fr; }
   .bio-full-name { font-size: 18px; }
   .bio-header-title { font-size: 20px; letter-spacing: 1.5px; }
-  .bio-header { padding: 14px 12px; }
-  .bio-header-image { height: 42px; max-width: 60px; }
+  .bio-header { padding: 16px 14px; }
+  .bio-header-image { height: 44px; max-width: 64px; }
   .bio-header-content { gap: 10px; }
   .bio-photo, .bio-photo-placeholder { width: 70px; height: 88px; }
   .bio-top-section { padding: 14px 16px 10px; gap: 12px; }
@@ -371,7 +374,7 @@
 @media (max-width: 400px) {
   .bio-header-title { font-size: 17px; letter-spacing: 1px; }
   .bio-header-deco { font-size: 18px; letter-spacing: 3px; }
-  .bio-header-image { height: 36px; max-width: 50px; }
+  .bio-header-image { height: 40px; max-width: 56px; }
   .bio-header-content { gap: 8px; margin-bottom: 8px; }
   .bio-header-subtitle { font-size: 12px; }
   .bio-full-name { font-size: 16px; }

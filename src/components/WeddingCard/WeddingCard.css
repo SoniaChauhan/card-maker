@@ -1430,6 +1430,7 @@
   }
   .wed-preview-card-wrapper {
     border-radius: 16px;
+    max-width: 100%;
   }
   .wed-preview-watermark .watermark-text {
     font-size: 24px;
@@ -1442,6 +1443,7 @@
   /* Card internal */
   .wedding-card {
     width: 100%;
+    max-width: 100%;
     min-width: 0;
     overflow: hidden;
     border-radius: 16px;

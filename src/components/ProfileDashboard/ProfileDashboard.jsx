@@ -129,9 +129,11 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
     try {
       await sendFeedback(user.name || '', user.email || '', fbRating, fbComment.trim());
       setFbMsg('✅ Thank you for your feedback!');
+      setTimeout(() => setFbMsg(''), 4000);
       setFbRating(0); setFbComment('');
     } catch {
       setFbMsg('⚠️ Failed to send. Please try again.');
+      setTimeout(() => setFbMsg(''), 4000);
     } finally { setFbSending(false); }
   }
 

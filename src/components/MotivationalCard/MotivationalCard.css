@@ -190,6 +190,15 @@
   margin-bottom: 6px;
 }
 
+/* Card SVG icon */
+.mq-card-svg {
+  width: 36px;
+  height: 36px;
+  margin-bottom: 8px;
+  opacity: 0.45;
+  flex-shrink: 0;
+}
+
 /* Heading */
 .mq-card-heading {
   font-size: 1.15rem;

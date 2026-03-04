@@ -599,7 +599,7 @@ body {
   .toast { font-size: 13px; padding: 12px 22px; max-width: 90vw; white-space: normal; text-align: center; }
   .screen-bg { padding: 20px 12px; }
   .form-screen { padding: 20px 12px; overflow-x: hidden; }
-  .card-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .card-wrapper { overflow-x: hidden; max-width: 100%; }
   .lang-toggle-bar { margin-top: 10px; }
   .lp-trigger { min-width: 170px; font-size: 13px; padding: 8px 14px; }
   .lp-dropdown { width: 220px; }

@@ -255,11 +255,38 @@
 }
 
 /* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .resume-card-screen { padding: 30px 12px; }
+  .resume-card-screen .card-screen-container {
+    max-width: 100%;
+    padding: 24px 14px;
+    border-radius: 18px;
+  }
+  .resume-card-screen .card-wrapper {
+    overflow: hidden;
+  }
+}
+
 @media (max-width: 560px) {
-  .resume-card-screen { padding: 24px 10px; }
-  .resume-card-screen .card-screen-container { max-width: 100%; padding: 16px 8px; }
+  .resume-card-screen { padding: 20px 8px; }
+  .resume-card-screen .card-screen-container { max-width: 100%; padding: 16px 8px; border-radius: 16px; }
+  .resume-card-screen .card-wrapper {
+    overflow: hidden;
+    max-width: 100%;
+  }
   .resume-screen-title { font-size: 17px; }
-  .resume-card { max-width: 100%; }
+  .resume-card { max-width: 100%; min-width: 0; }
+  .resume-card-screen .card-actions {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .resume-card-screen .card-actions .btn-back-card,
+  .resume-card-screen .card-actions .btn-download {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
   .resume-header {
     flex-direction: column;
     text-align: center;

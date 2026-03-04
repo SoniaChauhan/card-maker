@@ -148,6 +148,17 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   const [reviews, setReviews]     = useState([]);
   const [reviewsLoading, setReviewsLoading] = useState(true);
 
+  /* Edit / Delete / Reply state */
+  const [editId, setEditId]                 = useState(null);
+  const [editRating, setEditRating]         = useState(0);
+  const [editHover, setEditHover]           = useState(0);
+  const [editComment, setEditComment]       = useState('');
+  const [editSaving, setEditSaving]         = useState(false);
+  const [replyToId, setReplyToId]           = useState(null);
+  const [replyComment, setReplyComment]     = useState('');
+  const [replyName, setReplyName]           = useState('');
+  const [replySending, setReplySending]     = useState(false);
+
   /* Load public reviews on mount */
   useEffect(() => {
     async function loadReviews() {
@@ -427,12 +438,74 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
       // Also send email notification
       await sendFeedback(fbName.trim(), fbEmail.trim(), fbRating, fbComment.trim());
       setFbMsg('✅ Thank you for your feedback!');
+      setTimeout(() => setFbMsg(''), 4000);
       // Add to displayed reviews instantly
-      setReviews(prev => [{ id: Date.now().toString(), name: fbName.trim(), rating: fbRating, comment: fbComment.trim(), createdAt: new Date().toISOString() }, ...prev]);
+      setReviews(prev => [{ id: Date.now().toString(), name: fbName.trim(), email: fbEmail.trim().toLowerCase(), rating: fbRating, comment: fbComment.trim(), createdAt: new Date().toISOString() }, ...prev]);
       setFbName(''); setFbEmail(''); setFbRating(0); setFbComment('');
     } catch {
       setFbMsg('⚠️ Failed to send. Please try again.');
+      setTimeout(() => setFbMsg(''), 4000);
     } finally { setFbSending(false); }
+  }
+
+  /* ========== EDIT FEEDBACK ========== */
+  function startEdit(r) {
+    setEditId(r.id);
+    setEditRating(r.rating);
+    setEditComment(r.comment);
+  }
+  function cancelEdit() { setEditId(null); setEditRating(0); setEditComment(''); setEditHover(0); }
+
+  async function saveEdit(reviewId, ownerEmail) {
+    if (!editComment.trim() || !editRating) return;
+    setEditSaving(true);
+    try {
+      const res = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'update', id: reviewId, email: ownerEmail, rating: editRating, comment: editComment.trim() }),
+      });
+      if (res.ok) {
+        setReviews(prev => prev.map(r => r.id === reviewId ? { ...r, rating: editRating, comment: editComment.trim() } : r));
+        cancelEdit();
+      }
+    } catch { /* ignore */ }
+    finally { setEditSaving(false); }
+  }
+
+  /* ========== DELETE FEEDBACK ========== */
+  async function deleteFeedback(reviewId, ownerEmail) {
+    if (!confirm('Delete this review?')) return;
+    try {
+      const res = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'delete', id: reviewId, email: ownerEmail }),
+      });
+      if (res.ok) setReviews(prev => prev.filter(r => r.id !== reviewId));
+    } catch { /* ignore */ }
+  }
+
+  /* ========== REPLY TO FEEDBACK ========== */
+  function openReply(id) { setReplyToId(id); setReplyComment(''); setReplyName(''); }
+  function cancelReply() { setReplyToId(null); setReplyComment(''); setReplyName(''); }
+
+  async function submitReply(reviewId) {
+    if (!replyComment.trim() || !replyName.trim()) return;
+    setReplySending(true);
+    try {
+      const res = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'reply', id: reviewId, replyName: replyName.trim(), replyEmail: fbEmail || '', replyComment: replyComment.trim() }),
+      });
+      if (res.ok) {
+        const newReply = { name: replyName.trim(), comment: replyComment.trim(), createdAt: new Date().toISOString() };
+        setReviews(prev => prev.map(r => r.id === reviewId ? { ...r, replies: [...(r.replies || []), newReply] } : r));
+        cancelReply();
+      }
+    } catch { /* ignore */ }
+    finally { setReplySending(false); }
   }
 
   /* ========== RENDER ========== */
@@ -990,25 +1063,105 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
                 <p className="lp-reviews-empty">No reviews yet. Be the first to share your feedback! ⭐</p>
               ) : (
                 <div className="lp-inline-reviews-list">
-                  {reviews.map(r => (
-                    <div className="lp-review-card" key={r.id}>
-                      <div className="lp-review-header">
-                        <div className="lp-review-avatar">{r.name?.charAt(0)?.toUpperCase() || '?'}</div>
-                        <div>
-                          <div className="lp-review-name">{r.name}</div>
-                          <div className="lp-review-stars">
-                            {[1, 2, 3, 4, 5].map(s => (
-                              <span key={s} className={`lp-review-star ${s <= r.rating ? 'filled' : ''}`}>★</span>
+                  {reviews.map(r => {
+                    const isOwner = fbEmail && r.email && fbEmail.trim().toLowerCase() === r.email.trim().toLowerCase();
+                    const isEditing = editId === r.id;
+                    const isReplying = replyToId === r.id;
+                    return (
+                      <div className="lp-review-card" key={r.id}>
+                        <div className="lp-review-header">
+                          <div className="lp-review-avatar">{r.name?.charAt(0)?.toUpperCase() || '?'}</div>
+                          <div>
+                            <div className="lp-review-name">{r.name}</div>
+                            {!isEditing && (
+                              <div className="lp-review-stars">
+                                {[1, 2, 3, 4, 5].map(s => (
+                                  <span key={s} className={`lp-review-star ${s <= r.rating ? 'filled' : ''}`}>★</span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                          <span className="lp-review-date" style={{ marginLeft: 'auto' }}>
+                            {new Date(r.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                          </span>
+                        </div>
+
+                        {/* Normal view */}
+                        {!isEditing && r.comment && <p className="lp-review-comment">{r.comment}</p>}
+
+                        {/* Edit mode */}
+                        {isEditing && (
+                          <div className="lp-review-edit-form">
+                            <div className="login-stars" style={{ marginBottom: 8 }}>
+                              {[1, 2, 3, 4, 5].map(s => (
+                                <button key={s} type="button"
+                                  className={`login-star ${s <= (editHover || editRating) ? 'filled' : ''}`}
+                                  onClick={() => setEditRating(s)}
+                                  onMouseEnter={() => setEditHover(s)}
+                                  onMouseLeave={() => setEditHover(0)}
+                                >★</button>
+                              ))}
+                            </div>
+                            <textarea className="lp-fb-textarea" rows={2} value={editComment}
+                              onChange={e => setEditComment(e.target.value)} />
+                            <div className="lp-review-edit-actions">
+                              <button className="lp-review-btn save" onClick={() => saveEdit(r.id, r.email)} disabled={editSaving}>
+                                {editSaving ? '⏳' : '💾'} Save
+                              </button>
+                              <button className="lp-review-btn cancel" onClick={cancelEdit}>✕ Cancel</button>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Action buttons */}
+                        {!isEditing && (
+                          <div className="lp-review-actions">
+                            {isOwner && (
+                              <>
+                                <button className="lp-review-btn edit" onClick={() => startEdit(r)}>✏️ Edit</button>
+                                <button className="lp-review-btn delete" onClick={() => deleteFeedback(r.id, r.email)}>🗑️ Delete</button>
+                              </>
+                            )}
+                            <button className="lp-review-btn reply" onClick={() => openReply(r.id)}>💬 Reply</button>
+                          </div>
+                        )}
+
+                        {/* Replies list */}
+                        {r.replies && r.replies.length > 0 && (
+                          <div className="lp-review-replies">
+                            {r.replies.map((rp, ri) => (
+                              <div key={ri} className="lp-reply-item">
+                                <div className="lp-reply-header">
+                                  <span className="lp-reply-avatar">{rp.name?.charAt(0)?.toUpperCase() || '?'}</span>
+                                  <span className="lp-reply-name">{rp.name}</span>
+                                  <span className="lp-reply-date">
+                                    {new Date(rp.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                  </span>
+                                </div>
+                                <p className="lp-reply-comment">{rp.comment}</p>
+                              </div>
                             ))}
                           </div>
-                        </div>
-                        <span className="lp-review-date" style={{ marginLeft: 'auto' }}>
-                          {new Date(r.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
-                        </span>
+                        )}
+
+                        {/* Reply form */}
+                        {isReplying && (
+                          <div className="lp-reply-form">
+                            <input className="lp-fb-input" type="text" placeholder="Your name *"
+                              value={replyName} onChange={e => setReplyName(e.target.value)} />
+                            <textarea className="lp-fb-textarea" rows={2} placeholder="Write a reply…"
+                              value={replyComment} onChange={e => setReplyComment(e.target.value)} />
+                            <div className="lp-review-edit-actions">
+                              <button className="lp-review-btn save" onClick={() => submitReply(r.id)} disabled={replySending}>
+                                {replySending ? '⏳' : '📨'} Reply
+                              </button>
+                              <button className="lp-review-btn cancel" onClick={cancelReply}>✕ Cancel</button>
+                            </div>
+                          </div>
+                        )}
                       </div>
-                      {r.comment && <p className="lp-review-comment">{r.comment}</p>}
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>

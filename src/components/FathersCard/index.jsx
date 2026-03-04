@@ -227,6 +227,7 @@ export default function FathersCard({ onBack, userEmail }) {
               >
                 <div className="mq-border-outer" />
                 <div className="mq-border-inner" />
+                <svg className="mq-card-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 6h2v2h-2V7zm0 4h2v6h-2v-6z" fill="currentColor"/><path d="M12 21.95c4.05-1.12 7-5.34 7-10.26V6.3l-7-3.11-7 3.11v5.39c0 4.92 2.95 9.14 7 10.26z" fill="currentColor" opacity=".3"/><path d="M12 3.19l7 3.11v5.39c0 4.92-2.95 9.14-7 10.26-4.05-1.12-7-5.34-7-10.26V6.3l7-3.11zM12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" fill="currentColor"/></svg>
                 <div className="mq-quote-text" style={{ color: cardFont }}>{q.text}</div>
               </div>
               <button className="mq-dl" onClick={() => download(idx)} disabled={dlIdx === idx} title="Download">
