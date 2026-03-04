@@ -1,10 +1,9 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './AnniversaryCard.css';
 import AnniversaryForm from './AnniversaryForm';
 import AnniversaryCardPreview from './AnniversaryCardPreview';
-import AnniversaryTemplateChooser from './AnniversaryTemplateChooser';
-import CardActions from '../shared/CardActions';
+import { TEMPLATES } from './AnniversaryTemplateChooser';
 import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import LanguagePicker from '../shared/LanguagePicker';
@@ -12,9 +11,8 @@ import PaymentPopup from '../shared/PaymentPopup';
 import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
-import { saveTemplate, updateTemplate } from '../../services/templateService';
 import { logDownload } from '../../services/downloadHistoryService';
-import { hasUserPaid, getCardPrice } from '../../services/paymentService';
+import { hasUserPaid, sendDownloadEmail } from '../../services/paymentService';
 
 const CARD_TYPE = 'anniversary';
 const CARD_LABEL = 'Anniversary Greeting';
@@ -40,16 +38,20 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
   const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
   const [errors, setErrors] = useState({});
   const [lang, setLang]     = useState('en');
-  const [saving, setSaving] = useState(false);
-  const [templateId, setTemplateId] = useState(initTplId || null);
-  const [showChooser, setShowChooser] = useState(false);
   const [paid, setPaid]     = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [downloadEmail, setDownloadEmail] = useState(userEmail || '');
+  const carouselRef = useRef(null);
 
   const filename = `anniversary-${toFilename(data.partner1 || 'card')}.png`;
   const dlTitle = data.partner1 && data.partner2 ? `${data.partner1} & ${data.partner2} Anniversary` : 'Anniversary Card';
   const { downloading, handleDownload, toast, watermarkRef } = useDownload('anniv-card-print', filename, {
-    onSuccess: () => logDownload(userEmail, CARD_TYPE, 'Anniversary Greeting Designer', dlTitle, filename, data).catch(() => {}),
+    onSuccess: async () => {
+      const downloadId = await logDownload(userEmail, CARD_TYPE, 'Anniversary Greeting Designer', dlTitle, filename, data).catch(() => null);
+      if (downloadEmail) {
+        sendDownloadEmail({ email: downloadEmail, cardType: CARD_TYPE, cardLabel: CARD_LABEL, downloadId }).catch(() => {});
+      }
+    },
     addWatermark: true,
   });
 
@@ -61,6 +63,13 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
       watermarkRef.current = !p;
     }).catch(() => {});
   }, [userEmail, isSuperAdmin]);
+
+  function scrollCarousel(direction) {
+    if (carouselRef.current) {
+      const scrollAmount = 200;
+      carouselRef.current.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    }
+  }
 
   function onChange(e) {
     const { name, value, files } = e.target;
@@ -88,26 +97,6 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
     setStep('card');
   }
 
-  async function handleSaveTemplate() {
-    setSaving(true);
-    try {
-      const name = data.partner1 && data.partner2 ? `${data.partner1} & ${data.partner2} Anniversary` : 'Anniversary Template';
-      if (templateId) {
-        await updateTemplate(templateId, name, data);
-      } else {
-        const id = await saveTemplate(userEmail, 'anniversary', name, data);
-        setTemplateId(id);
-      }
-      alert(templateId ? 'Template updated!' : 'Template saved!');
-    } catch (e) {
-      console.error('Save template error:', e);
-      const msg = e?.code === 'permission-denied'
-        ? 'Firestore permission denied. Please update your Firestore rules to allow the "templates" collection.'
-        : `Failed to save template: ${e.message || e}`;
-      alert(msg);
-    } finally { setSaving(false); }
-  }
-
   if (step === 'form') {
     return (
       <AnniversaryForm
@@ -123,15 +112,11 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
   return (
     <div className="anniversary-card-screen">
       <Particles icons={PARTICLES} count={24} />
-      <div className="card-screen-container">
+
+      {/* Main Preview Card Container */}
+      <div className="anniv-preview-container">
         <p className="anniversary-screen-title">💍 Your Anniversary Greeting</p>
         <LanguagePicker value={lang} onChange={setLang} languages={LANGUAGES} />
-
-        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '12px' }}>
-          <button className="btn-choose-template" onClick={() => setShowChooser(true)}>
-            🎨 Change Design Template
-          </button>
-        </div>
 
         {/* Background Color Picker */}
         <div className="anniv-bg-picker">
@@ -154,40 +139,59 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
           </div>
         </div>
 
-        <div className={`card-wrapper screenshot-protected${paid ? '' : ' card-preview-locked'}`}>
-          <AnniversaryCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} bgColor={data.bgColor} />
-        </div>
-
-        {!paid && (
-          <div className="download-locked-badge">
-            💳 Download: ₹19 (with watermark) or ₹49 (clean)
+        <div className="anniv-preview-card-wrapper">
+          <div id="anniv-card-print" className={`screenshot-protected${paid ? '' : ' card-preview-locked'}`}>
+            <AnniversaryCardPreview data={data} lang={lang} template={data.selectedTemplate || 1} bgColor={data.bgColor} />
           </div>
-        )}
+          {!paid && (
+            <div className="anniv-preview-watermark">
+              <span className="watermark-text">PREVIEW</span>
+              <span className="watermark-subtext">Watermark removed in download</span>
+            </div>
+          )}
+        </div>
+      </div>
 
-        <CardActions
-          onEdit={() => setStep('form')}
-          onBack={onBack}
-          onDownload={paid ? handleDownload : () => setShowPayment(true)}
-          downloading={downloading}
-          dlBtnStyle={{ background: 'linear-gradient(135deg,#1a2a5e,#c9a84c)', color: '#fff', boxShadow: '0 6px 20px rgba(201,168,76,.4)' }}
-          dlLabel={paid ? '⬇️ Download Card' : '💳 Download Card'}
-        />
-        <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
-          {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
+      {/* Template Carousel Section */}
+      <div className="anniv-template-section">
+        <button className="carousel-arrow carousel-arrow-left" onClick={() => scrollCarousel(-1)}>‹</button>
+        <div className="anniv-template-carousel" ref={carouselRef}>
+          {TEMPLATES.map(tpl => (
+            <div 
+              key={tpl.id}
+              className={`anniv-template-item ${data.selectedTemplate === tpl.id ? 'anniv-template-item--selected' : ''}`}
+              onClick={() => setData(d => ({ ...d, selectedTemplate: tpl.id }))}
+            >
+              <div className="anniv-template-thumb" style={{ borderColor: data.selectedTemplate === tpl.id ? tpl.accent : 'transparent' }}>
+                <div className="anniv-template-thumb-inner">
+                  <AnniversaryCardPreview data={data} lang={lang} template={tpl.id} bgColor={data.bgColor} />
+                </div>
+              </div>
+              <span className="anniv-template-name">{tpl.name}</span>
+            </div>
+          ))}
+        </div>
+        <button className="carousel-arrow carousel-arrow-right" onClick={() => scrollCarousel(1)}>›</button>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="anniv-action-buttons">
+        <button className="anniv-back-btn" onClick={onBack}>
+          ← Back
+        </button>
+        <button className="anniv-btn-edit" onClick={() => setStep('form')}>
+          <span className="btn-icon">✏️</span> Edit Details
+        </button>
+        <button 
+          className="anniv-btn-download" 
+          onClick={paid ? handleDownload : () => setShowPayment(true)}
+          disabled={downloading}
+        >
+          <span className="btn-icon">⬇️</span> {downloading ? 'Downloading...' : 'Download Card'}
         </button>
       </div>
-      <Toast text={toast.text} show={toast.show} />
 
-      {/* Template Chooser Modal */}
-      {showChooser && (
-        <AnniversaryTemplateChooser
-          data={data}
-          lang={lang}
-          selected={data.selectedTemplate || 1}
-          onSelect={id => setData(d => ({ ...d, selectedTemplate: id }))}
-          onClose={() => setShowChooser(false)}
-        />
-      )}
+      <Toast text={toast.text} show={toast.show} />
 
       {showPayment && (
         <PaymentPopup
@@ -197,8 +201,10 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
           onClose={() => setShowPayment(false)}
           onPaymentDone={(result) => {
             const withWatermark = result?.withWatermark ?? false;
+            const isFree = result?.isFree ?? false;
             watermarkRef.current = withWatermark;
-            if (!withWatermark) setPaid(true);
+            if (!withWatermark && !isFree) setPaid(true);
+            if (result?.email) setDownloadEmail(result.email);
             setShowPayment(false);
             setTimeout(() => handleDownload(), 500);
           }}

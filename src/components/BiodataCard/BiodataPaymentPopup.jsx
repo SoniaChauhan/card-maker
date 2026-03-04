@@ -1,65 +1,62 @@
 'use client';
-import { useState } from 'react';
-import { startPayment } from '../../services/paymentService';
+import { useState, useEffect } from 'react';
+import { startPayment, checkUserAccess, PRICE_NO_WATERMARK } from '../../services/paymentService';
 
-/* ── Biodata Pricing Tiers ── */
-const BIODATA_TIERS = [
-  {
-    id: 'word',
-    name: 'Word Format',
-    badge: 'Recommended',
-    badgeColor: '#22c55e',
-    price: 99,
-    originalPrice: 160,
-    highlight: 'BEST VALUE',
-    tags: ['Word', '+ PDF', '+ Image'],
-    description: 'Unlimited Downloads & Edits (Word, PDF, Image)',
-    icon: '/icons/word-pdf-icon.svg',
-    formats: ['word', 'pdf', 'image'],
-  },
-  {
-    id: 'editable',
-    name: 'Editable',
-    badge: 'Popular',
-    badgeColor: '#eab308',
-    price: 59,
-    originalPrice: 90,
-    subtitle: 'Image + PDF',
-    description: 'Edit Image and PDF after payment',
-    icon: '/icons/pdf-icon.svg',
-    formats: ['pdf', 'image'],
-  },
-  {
-    id: 'image',
-    name: 'Image Only',
-    price: 39,
-    originalPrice: 49,
-    subtitle: 'Non-Editable Image',
-    description: 'Digital sharing, no edits after payment',
-    icon: '/icons/img-icon.svg',
-    formats: ['image'],
-  },
-];
+const BIODATA_PRICE = PRICE_NO_WATERMARK; // ₹49
 
 /**
- * BiodataPaymentPopup — Shows 3 pricing tiers for biodata download:
- * Word Format, Editable (PDF+Image), Image Only
+ * BiodataPaymentPopup — Two options: Free (with watermark) or ₹49 (no watermark, 7 days)
  */
 export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPaymentDone }) {
   const [loading, setLoading] = useState(false);
+  const [checkingAccess, setCheckingAccess] = useState(false);
   const [error, setError] = useState('');
   const [guestEmail, setGuestEmail] = useState('');
-  const [selectedTier, setSelectedTier] = useState('word');
+  const [selectedTier, setSelectedTier] = useState('premium'); // 'free' or 'premium'
+  const [existingAccess, setExistingAccess] = useState(null);
 
   const isGuest = !userEmail;
   const emailToUse = userEmail || guestEmail.trim();
-  const currentTier = BIODATA_TIERS.find(t => t.id === selectedTier) || BIODATA_TIERS[0];
 
   function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
+  // Check for existing access when email changes
+  useEffect(() => {
+    async function checkAccess() {
+      if (!emailToUse || !isValidEmail(emailToUse)) {
+        setExistingAccess(null);
+        return;
+      }
+      setCheckingAccess(true);
+      try {
+        const access = await checkUserAccess(emailToUse, 'biodata');
+        setExistingAccess(access);
+      } catch (err) {
+        console.error('Error checking access:', err);
+        setExistingAccess(null);
+      }
+      setCheckingAccess(false);
+    }
+    checkAccess();
+  }, [emailToUse]);
+
+  // Format expiry date
+  function formatExpiry(dateStr) {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
   async function handlePay() {
+    // Free tier - just download with watermark, no payment or email needed
+    if (selectedTier === 'free') {
+      if (onPaymentDone) onPaymentDone({ withWatermark: true, tier: 'free', isFree: true, email: emailToUse || '' });
+      return;
+    }
+
+    // Email required only for premium tier
     if (!emailToUse || !isValidEmail(emailToUse)) {
       setError('Please enter a valid email address to proceed.');
       return;
@@ -71,17 +68,18 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
     await startPayment({
       email: emailToUse,
       cardType: 'biodata',
-      cardLabel: `Marriage Biodata (${currentTier.name})`,
+      cardLabel: 'Marriage Biodata',
       userName: userName || '',
-      amount: currentTier.price,
+      amount: BIODATA_PRICE,
+      tier: 'premium',
       onSuccess: (result) => {
         setLoading(false);
         if (onPaymentDone) {
           onPaymentDone({
             ...result,
-            tier: currentTier.id,
-            formats: currentTier.formats,
-            withWatermark: false, // Biodata doesn't use watermark after payment
+            withWatermark: false,
+            tier: 'premium',
+            email: emailToUse,
           });
         }
       },
@@ -94,95 +92,67 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
 
   return (
     <div className="bdp-overlay" onClick={onClose}>
-      <div className="bdp-popup" onClick={e => e.stopPropagation()}>
+      <div className="bdp-popup bdp-popup--simple" onClick={e => e.stopPropagation()}>
         {/* Header */}
         <div className="bdp-header">
           <div className="bdp-header-icon">
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
               <circle cx="20" cy="20" r="18" stroke="#fff" strokeWidth="2" fill="none"/>
-              <text x="20" y="26" textAnchor="middle" fill="#fff" fontSize="20" fontWeight="bold">✓</text>
+              <path d="M14 20l4 4 8-8" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
           <h2 className="bdp-header-title">Your Biodata Is Ready!</h2>
-          <p className="bdp-header-subtitle">Everything Is Set - Proceed to Get Your Biodata Now.</p>
+          <p className="bdp-header-subtitle">Choose your download option</p>
           <button className="bdp-close" onClick={onClose}>✕</button>
         </div>
 
-        {/* Pricing Options */}
-        <div className="bdp-options">
-          {BIODATA_TIERS.map(tier => (
-            <div
-              key={tier.id}
-              className={`bdp-option ${selectedTier === tier.id ? 'bdp-option--selected' : ''}`}
-              onClick={() => setSelectedTier(tier.id)}
-            >
-              {tier.badge && (
-                <span className="bdp-badge" style={{ background: tier.badgeColor }}>
-                  {tier.badge}
-                </span>
-              )}
-
-              <div className="bdp-option-left">
-                <div className="bdp-option-icon">
-                  {tier.id === 'word' && (
-                    <div className="bdp-icon-stack">
-                      <span className="bdp-icon-pdf">PDF</span>
-                      <span className="bdp-icon-img">IMG</span>
-                      <span className="bdp-icon-word">W</span>
-                    </div>
-                  )}
-                  {tier.id === 'editable' && (
-                    <div className="bdp-icon-stack">
-                      <span className="bdp-icon-pdf">PDF</span>
-                      <span className="bdp-icon-img">IMG</span>
-                    </div>
-                  )}
-                  {tier.id === 'image' && (
-                    <div className="bdp-icon-single">
-                      <span className="bdp-icon-img-only">IMG</span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="bdp-option-info">
-                  <div className="bdp-option-name">
-                    {tier.name}
-                    {tier.highlight && <span className="bdp-highlight">👑 {tier.highlight} 👑</span>}
-                  </div>
-                  {tier.tags && (
-                    <div className="bdp-tags">
-                      {tier.tags.map((tag, i) => (
-                        <span key={i} className="bdp-tag">{tag}</span>
-                      ))}
-                    </div>
-                  )}
-                  {tier.subtitle && <div className="bdp-option-subtitle">{tier.subtitle}</div>}
-                  <div className="bdp-option-desc">{tier.description}</div>
-                </div>
-              </div>
-
-              <div className="bdp-option-right">
-                <span className="bdp-original-price">₹{tier.originalPrice}</span>
-                <span className="bdp-price">₹{tier.price}</span>
-                {tier.id === 'word' && <span className="bdp-offer-tag">Offer!</span>}
-              </div>
-
-              {selectedTier === tier.id && (
-                <div className="bdp-check">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="11" fill="#22c55e"/>
-                    <path d="M7 12l3 3 7-7" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-              )}
+        {/* Existing customer message */}
+        {existingAccess?.hasAccess && (
+          <div className="bdp-existing-access">
+            <div className="bdp-existing-icon">✅</div>
+            <div className="bdp-existing-info">
+              <strong>You already have active access!</strong>
+              <p>No watermark access until {formatExpiry(existingAccess.expiresAt)}</p>
             </div>
-          ))}
+          </div>
+        )}
+
+        {/* Two Options */}
+        <div className="bdp-options">
+          {/* Free Option */}
+          <button
+            className={`bdp-option ${selectedTier === 'free' ? 'bdp-option--selected' : ''}`}
+            onClick={() => { setSelectedTier('free'); setError(''); }}
+            type="button"
+          >
+            <div className="bdp-option-price">FREE</div>
+            <div className="bdp-option-label">With Watermark</div>
+          </button>
+
+          {/* Premium Option */}
+          <button
+            className={`bdp-option bdp-option--premium ${selectedTier === 'premium' ? 'bdp-option--selected' : ''}`}
+            onClick={() => { setSelectedTier('premium'); setError(''); }}
+            type="button"
+          >
+            <div className="bdp-option-badge">RECOMMENDED</div>
+            <div className="bdp-option-price">₹{BIODATA_PRICE}</div>
+            <div className="bdp-option-label">No Watermark</div>
+          </button>
         </div>
 
-        {/* Guest Email Input */}
-        {isGuest && (
+        {/* Features */}
+        <div className="bdp-features">
+          <div className="bdp-feature">✓ High Resolution Image</div>
+          <div className="bdp-feature">✓ Share on WhatsApp, Email</div>
+          <div className="bdp-feature">✓ Print Ready Quality</div>
+          {selectedTier === 'premium' && <div className="bdp-feature">✓ 7 Days Unlimited Downloads</div>}
+        </div>
+
+        {/* Guest Email Input - only for premium */}
+        {isGuest && selectedTier !== 'free' && (
           <div className="bdp-email-section">
-            <label className="bdp-email-label">📧 Enter your email for payment receipt</label>
+            <label className="bdp-email-label">📧 Enter your email for payment receipt & download link</label>
             <input
               type="email"
               className="bdp-email-input"
@@ -190,13 +160,16 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
               value={guestEmail}
               onChange={e => { setGuestEmail(e.target.value); if (error) setError(''); }}
             />
+            {checkingAccess && <p className="bdp-checking">Checking for existing access...</p>}
           </div>
         )}
 
         {/* Trust Note */}
-        <p className="bdp-trust-note">
-          🔒 Secure payment via <strong>Razorpay</strong> — UPI, Wallets, Netbanking, Cards
-        </p>
+        {selectedTier !== 'free' && (
+          <p className="bdp-trust-note">
+            🔒 Secure payment via <strong>Razorpay</strong> — UPI, Wallets, Netbanking, Cards
+          </p>
+        )}
 
         {/* Error Message */}
         {error && <p className="bdp-error">{error}</p>}
@@ -205,9 +178,13 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
         <button
           className="bdp-cta-btn"
           onClick={handlePay}
-          disabled={loading}
+          disabled={loading || checkingAccess}
         >
-          {loading ? '⏳ Processing…' : `Pay ₹${currentTier.price} to Download Now`}
+          {loading
+            ? '⏳ Processing…'
+            : selectedTier === 'free'
+              ? '⬇️ Download Free (With Watermark)'
+              : `Pay ₹${BIODATA_PRICE} to Download Now`}
         </button>
       </div>
     </div>

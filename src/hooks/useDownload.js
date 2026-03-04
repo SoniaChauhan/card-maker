@@ -214,11 +214,27 @@ export default function useDownload(elementId, filename, { onSuccess, downloadWi
         const w = canvas.width;
         const h = canvas.height;
 
+        // Draw diagonal watermark across the image
+        ctx.save();
+        ctx.globalAlpha = 0.15;
+        ctx.font = `bold ${Math.min(w, h) * 0.08}px Arial, sans-serif`;
+        ctx.fillStyle = '#000';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        // Draw multiple diagonal watermarks
+        ctx.translate(w / 2, h / 2);
+        ctx.rotate(-Math.PI / 6); // -30 degrees
+        for (let y = -h; y < h * 2; y += h * 0.25) {
+          ctx.fillText('CreativeThinkerDesignHub.com', 0, y);
+        }
+        ctx.restore();
+
         // Bottom watermark banner
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
-        const bannerH = h * 0.045;
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
+        const bannerH = h * 0.06;
         ctx.fillRect(0, h - bannerH, w, bannerH);
-        ctx.font = `600 ${bannerH * 0.55}px Arial, sans-serif`;
+        ctx.font = `700 ${bannerH * 0.5}px Arial, sans-serif`;
         ctx.fillStyle = '#fff';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';

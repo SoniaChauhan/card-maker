@@ -10,9 +10,10 @@ import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
 import { logDownload } from '../../services/downloadHistoryService';
-import { hasUserPaid } from '../../services/paymentService';
+import { hasUserPaid, sendDownloadEmail } from '../../services/paymentService';
 
 const CARD_TYPE = 'biodata';
+const CARD_LABEL = 'Marriage Biodata';
 
 const COMMUNITIES = [
   { id: 'marathi', label: 'Marathi', lang: 'mr' },
@@ -67,12 +68,18 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
   const [selectedTemplate, setSelectedTemplate] = useState(initialData?.selectedTemplate || 1);
   const [community, setCommunity] = useState('hindi');
   const [showCommunityDropdown, setShowCommunityDropdown] = useState(false);
+  const [downloadEmail, setDownloadEmail] = useState(userEmail || '');
   const carouselRef = useRef(null);
 
   const filename = `biodata-${toFilename(data.fullName || 'card')}.png`;
   const dlTitle = data.fullName ? `${data.fullName} Profile` : 'Marriage Profile';
   const { downloading, handleDownload, toast, watermarkRef } = useDownload('biodata-print', filename, {
-    onSuccess: () => logDownload(userEmail, CARD_TYPE, 'Marriage Profile Card', dlTitle, filename, data).catch(() => {}),
+    onSuccess: async () => {
+      const downloadId = await logDownload(userEmail, CARD_TYPE, 'Marriage Profile Card', dlTitle, filename, data).catch(() => null);
+      if (downloadEmail) {
+        sendDownloadEmail({ email: downloadEmail, cardType: CARD_TYPE, cardLabel: CARD_LABEL, downloadId }).catch(() => {});
+      }
+    },
     addWatermark: true,
   });
 
@@ -179,6 +186,18 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
         </div>
       </div>
 
+      {/* Format Info Cloud */}
+      <div className="biodata-format-info">
+        <div className="format-info-header">
+          <span className="format-info-icon">📱</span>
+          <h4 className="format-info-title">Why PNG/JPG Format?</h4>
+        </div>
+        <p className="format-info-text">
+          We provide biodata in <strong>PNG/JPG image format</strong> because not everyone has PDF reader apps on their mobile. 
+          Images are universally viewable and can be <strong>easily shared via WhatsApp, Email, or social media</strong> without any compatibility issues!
+        </p>
+      </div>
+
       {/* Main Preview Section */}
       <div className="biodata-main-preview">
         <div className="biodata-preview-card-wrapper">
@@ -223,6 +242,11 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
 
       {/* Action Buttons with Community Dropdown */}
       <div className="biodata-action-buttons">
+        {/* Back Button */}
+        <button className="biodata-back-btn" onClick={onBack}>
+          ← Back
+        </button>
+
         {/* Community Dropdown */}
         <div className="community-picker-wrap">
           <button 
@@ -269,8 +293,10 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
           onClose={() => setShowPayment(false)}
           onPaymentDone={(result) => {
             const withWatermark = result?.withWatermark ?? false;
+            const isFree = result?.isFree ?? false;
             watermarkRef.current = withWatermark;
-            if (!withWatermark) setPaid(true);
+            if (!withWatermark && !isFree) setPaid(true);
+            if (result?.email) setDownloadEmail(result.email);
             setShowPayment(false);
             setTimeout(() => handleDownload(), 500);
           }}

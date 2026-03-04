@@ -626,7 +626,7 @@
 
 .biodata-card-screen .tpl-thumb {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  height: 220px;
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 10px;
@@ -636,7 +636,6 @@
   transform: scale(0.28);
   transform-origin: top left;
   width: 357%;
-  height: 357%;
   pointer-events: none;
 }
 
@@ -1115,6 +1114,24 @@
   align-items: center;
 }
 
+/* Back Button */
+.biodata-back-btn {
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.biodata-back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
 /* ============================================================
    Support Banner - Full Width
 ============================================================ */
@@ -1408,7 +1425,7 @@
 
 .biodata-template-thumb {
   width: 140px;
-  height: 180px;
+  height: 150px;
   border-radius: 12px;
   overflow: hidden;
   border: 3px solid transparent;
@@ -1612,13 +1629,18 @@
   
   .biodata-template-thumb {
     width: 120px;
-    height: 155px;
+    height: 130px;
   }
   
   .biodata-action-buttons {
     flex-direction: column;
     width: 100%;
     max-width: 400px;
+  }
+  
+  .biodata-action-buttons .biodata-back-btn {
+    width: 100%;
+    justify-content: center;
   }
   
   .biodata-action-buttons .community-picker-wrap {
@@ -1661,7 +1683,7 @@
   
   .biodata-template-thumb {
     width: 100px;
-    height: 130px;
+    height: 110px;
   }
   
   .biodata-template-thumb-inner {
@@ -1687,6 +1709,7 @@
   padding: 20px;
   backdrop-filter: blur(4px);
   animation: bdpFadeIn .2s ease;
+  overflow: hidden;
 }
 
 @keyframes bdpFadeIn {
@@ -1700,6 +1723,7 @@
   width: 100%;
   max-width: 500px;
   max-height: 90vh;
+  overflow-x: hidden;
   overflow-y: auto;
   box-shadow: 0 30px 80px rgba(0,0,0,.35);
   position: relative;
@@ -1714,7 +1738,7 @@
 /* Header */
 .bdp-header {
   background: linear-gradient(135deg, #f97316, #ea580c);
-  padding: 24px 28px;
+  padding: 14px 20px;
   border-radius: 20px 20px 0 0;
   position: relative;
 }
@@ -1723,22 +1747,22 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 36px;
+  height: 36px;
   background: rgba(255,255,255,0.2);
   border-radius: 50%;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .bdp-header-title {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 800;
   color: #fff;
-  margin: 0 0 4px;
+  margin: 0 0 2px;
 }
 
 .bdp-header-subtitle {
-  font-size: 13px;
+  font-size: 12px;
   color: rgba(255,255,255,0.9);
   margin: 0;
 }
@@ -2089,6 +2113,276 @@
   .bdp-cta-btn {
     font-size: 14px;
     padding: 14px 20px;
+  }
+}
+
+/* ============================================================
+   SIMPLE POPUP STYLES
+============================================================ */
+.bdp-popup--simple {
+  max-width: 420px;
+}
+
+/* Existing access banner */
+.bdp-existing-access {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #c6f6d5, #9ae6b4);
+  border: 2px solid #48bb78;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin: 16px 16px 0;
+  text-align: left;
+}
+.bdp-existing-icon {
+  font-size: 28px;
+}
+.bdp-existing-info strong {
+  font-size: 14px;
+  color: #22543d;
+  display: block;
+  margin-bottom: 2px;
+}
+.bdp-existing-info p {
+  font-size: 12px;
+  color: #276749;
+  margin: 0;
+}
+
+/* Two-option layout for simple popup */
+.bdp-options {
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.bdp-option {
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 10px 8px;
+  cursor: pointer;
+  text-align: center;
+  position: relative;
+  transition: all 0.2s ease;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.bdp-option:hover {
+  border-color: #f97316;
+  background: #fff7ed;
+}
+
+.bdp-option--selected {
+  border-color: #f97316;
+  background: linear-gradient(135deg, #fff7ed, #ffedd5);
+  box-shadow: 0 4px 16px rgba(249, 115, 22, 0.2);
+}
+
+.bdp-option--premium {
+  border-color: #d69e2e;
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+}
+
+.bdp-option--premium:hover {
+  border-color: #b7791f;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+}
+
+.bdp-option--premium.bdp-option--selected {
+  border-color: #b7791f;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  box-shadow: 0 4px 16px rgba(214, 158, 46, 0.35);
+}
+
+.bdp-option-badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #f6ad55, #ed8936);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 800;
+  padding: 3px 6px;
+  border-radius: 6px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.bdp-option-price {
+  font-size: 22px;
+  font-weight: 900;
+  color: #1a202c;
+  margin-bottom: 2px;
+}
+
+.bdp-option-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 0;
+}
+
+.bdp-option-desc {
+  font-size: 11px;
+  color: #718096;
+  line-height: 1.3;
+}
+
+.bdp-checking {
+  font-size: 12px;
+  color: #f97316;
+  margin-top: 4px;
+}
+
+.bdp-simple-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  margin: 16px;
+  background: linear-gradient(135deg, #fff7ed, #ffedd5);
+  border: 2px solid #f97316;
+  border-radius: 16px;
+}
+
+.bdp-simple-icon {
+  font-size: 42px;
+  flex-shrink: 0;
+}
+
+.bdp-simple-info {
+  flex: 1;
+}
+
+.bdp-simple-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 4px;
+}
+
+.bdp-simple-desc {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.bdp-simple-price {
+  text-align: center;
+}
+
+.bdp-price-value {
+  display: block;
+  font-size: 36px;
+  font-weight: 900;
+  color: #7c3aed;
+  line-height: 1;
+}
+
+.bdp-price-only {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.bdp-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0 16px 16px;
+}
+
+.bdp-feature {
+  font-size: 13px;
+  color: #22c55e;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .bdp-simple-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .bdp-features {
+    grid-template-columns: 1fr;
+  }
+
+  .bdp-options {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .bdp-option-price {
+    font-size: 24px;
+  }
+
+  .bdp-existing-access {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* ============================================================
+   FORMAT INFO CLOUD
+============================================================ */
+.biodata-format-info {
+  background: linear-gradient(135deg, #e0f2fe, #dbeafe);
+  border: 1px solid #7dd3fc;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  max-width: 900px;
+  width: 100%;
+}
+
+.format-info-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.format-info-icon {
+  font-size: 24px;
+}
+
+.format-info-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0369a1;
+  margin: 0;
+}
+
+.format-info-text {
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.format-info-text strong {
+  color: #0284c7;
+}
+
+@media (max-width: 600px) {
+  .biodata-format-info {
+    padding: 14px 16px;
+  }
+  
+  .format-info-title {
+    font-size: 14px;
+  }
+  
+  .format-info-text {
+    font-size: 12px;
   }
 }
 

@@ -4,6 +4,7 @@
  * POST /api/payments  { action: 'verify', ... }   — client verification after checkout
  * POST /api/payments  { action: 'webhook', ... }   — Razorpay server webhook (backup)
  * POST /api/payments  { action: 'check', ... }     — check if user paid for a card type
+ * POST /api/payments  { action: 'checkAccess', ... } — check if user has active access
  */
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
@@ -14,9 +15,9 @@ const RAZORPAY_SECRET = process.env.RAZORPAY_KEY_SECRET;
 const RAZORPAY_WEBHOOK_SECRET = process.env.RAZORPAY_WEBHOOK_SECRET || RAZORPAY_SECRET;
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
 
-/** Card types that grant a 24-hour timed unlock after payment */
-const TIMED_UNLOCK_CARDS = new Set([]);
-const UNLOCK_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
+/** Card types that grant 7-day timed unlock after payment */
+const SEVEN_DAY_ACCESS_CARDS = new Set(['wedding', 'birthday', 'anniversary', 'biodata']);
+const UNLOCK_DURATION_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 /**
  * Verify Razorpay payment signature.
@@ -46,7 +47,7 @@ export async function POST(req) {
     switch (action) {
       /* ── Verify payment after Razorpay checkout ── */
       case 'verify': {
-        const { razorpayOrderId, razorpayPaymentId, razorpaySignature, email, cardType } = body;
+        const { razorpayOrderId, razorpayPaymentId, razorpaySignature, email, cardType, tier } = body;
 
         if (!razorpayOrderId || !razorpayPaymentId || !razorpaySignature) {
           return NextResponse.json({ error: 'Missing payment details' }, { status: 400 });
@@ -58,6 +59,8 @@ export async function POST(req) {
         }
 
         const key = email.toLowerCase().trim();
+        const paymentTier = tier || 'premium'; // 'premium' = ₹49, 'watermark' = ₹19
+        const expiresAt = new Date(Date.now() + UNLOCK_DURATION_MS);
 
         // Build payment record update
         const paymentSet = {
@@ -66,11 +69,12 @@ export async function POST(req) {
           razorpaySignature,
           status: 'verified',
           verifiedAt: new Date(),
+          tier: paymentTier,
         };
 
-        // For timed-unlock cards, set/refresh the 24-hour window
-        if (TIMED_UNLOCK_CARDS.has(cardType)) {
-          paymentSet.unlockedUntil = new Date(Date.now() + UNLOCK_DURATION_MS);
+        // Set/refresh the 7-day window for these card types
+        if (SEVEN_DAY_ACCESS_CARDS.has(cardType)) {
+          paymentSet.unlockedUntil = expiresAt;
         }
 
         // Update order status
@@ -80,13 +84,15 @@ export async function POST(req) {
         );
 
         // Upsert payment record — this is the source of truth for "has user paid"
+        // Use tier + cardType as unique key so user can have both tiers
         await db.collection('payments').updateOne(
-          { email: key, cardType },
+          { email: key, cardType, tier: paymentTier },
           {
             $set: paymentSet,
             $setOnInsert: {
               email: key,
               cardType,
+              tier: paymentTier,
               createdAt: new Date(),
             },
           },
@@ -101,6 +107,8 @@ export async function POST(req) {
               status: 'approved',
               txnId: razorpayPaymentId,
               approvedAt: new Date(),
+              tier: paymentTier,
+              expiresAt: SEVEN_DAY_ACCESS_CARDS.has(cardType) ? expiresAt : null,
             },
             $setOnInsert: {
               email: key,
@@ -111,7 +119,7 @@ export async function POST(req) {
           { upsert: true },
         );
 
-        return NextResponse.json({ verified: true });
+        return NextResponse.json({ verified: true, expiresAt: expiresAt.toISOString() });
       }
 
       /* ── Check if a user has paid for a specific card type ── */
@@ -121,15 +129,17 @@ export async function POST(req) {
 
         // Super-admin bypasses payment
         if (key === ADMIN_EMAIL.toLowerCase().trim()) {
-          return NextResponse.json({ paid: true, unlockedUntil: null });
+          return NextResponse.json({ paid: true, unlockedUntil: null, tier: 'premium' });
         }
 
-        if (TIMED_UNLOCK_CARDS.has(cardType)) {
-          // For 24-hr unlock cards, first check for active unlock window
+        if (SEVEN_DAY_ACCESS_CARDS.has(cardType)) {
+          // For 7-day unlock cards, check for active unlock window
+          // First check for premium tier (₹49)
           let doc = await db.collection('payments').findOne({
             email: key,
             cardType,
             status: 'verified',
+            tier: 'premium',
             unlockedUntil: { $gt: new Date() },
           });
 
@@ -137,41 +147,171 @@ export async function POST(req) {
             return NextResponse.json({
               paid: true,
               unlockedUntil: doc.unlockedUntil?.toISOString() || null,
+              tier: 'premium',
             });
           }
 
-          // Check for OLD payment without unlockedUntil (paid before 24hr system)
-          // Grant them a fresh 24-hour window
+          // Check for watermark tier (₹19)
+          doc = await db.collection('payments').findOne({
+            email: key,
+            cardType,
+            status: 'verified',
+            tier: 'watermark',
+            unlockedUntil: { $gt: new Date() },
+          });
+
+          if (doc) {
+            return NextResponse.json({
+              paid: true,
+              unlockedUntil: doc.unlockedUntil?.toISOString() || null,
+              tier: 'watermark',
+            });
+          }
+
+          // Check for OLD payment without tier or unlockedUntil (paid before new system)
+          // Grant them a fresh 7-day premium window
           const oldPayment = await db.collection('payments').findOne({
             email: key,
             cardType,
             status: 'verified',
-            unlockedUntil: { $exists: false },
+            $or: [
+              { tier: { $exists: false } },
+              { unlockedUntil: { $exists: false } },
+            ],
           });
 
           if (oldPayment) {
             const newUnlock = new Date(Date.now() + UNLOCK_DURATION_MS);
             await db.collection('payments').updateOne(
               { _id: oldPayment._id },
-              { $set: { unlockedUntil: newUnlock } }
+              { $set: { unlockedUntil: newUnlock, tier: 'premium' } }
             );
             return NextResponse.json({
               paid: true,
               unlockedUntil: newUnlock.toISOString(),
+              tier: 'premium',
             });
           }
 
-          // No valid payment found
-          return NextResponse.json({ paid: false, unlockedUntil: null });
+          // No valid payment found - check if expired
+          const expiredPayment = await db.collection('payments').findOne({
+            email: key,
+            cardType,
+            status: 'verified',
+          });
+
+          if (expiredPayment) {
+            return NextResponse.json({
+              paid: false,
+              unlockedUntil: null,
+              tier: null,
+              accessExpired: true,
+            });
+          }
+
+          return NextResponse.json({ paid: false, unlockedUntil: null, tier: null });
         }
 
-        // Default: permanent access
+        // Default: permanent access (non-7-day cards)
         const doc = await db.collection('payments').findOne({
           email: key,
           cardType,
           status: 'verified',
         });
-        return NextResponse.json({ paid: !!doc, unlockedUntil: null });
+        return NextResponse.json({
+          paid: !!doc,
+          unlockedUntil: null,
+          tier: doc?.tier || (doc ? 'premium' : null),
+        });
+      }
+
+      /* ── Check if user has active access for a card type ── */
+      case 'checkAccess': {
+        const { email, cardType } = body;
+        if (!email || !cardType) {
+          return NextResponse.json({ hasAccess: false, tier: null, expiresAt: null });
+        }
+        const key = email.toLowerCase().trim();
+
+        // Super-admin bypasses payment
+        if (key === ADMIN_EMAIL.toLowerCase().trim()) {
+          return NextResponse.json({ hasAccess: true, tier: 'premium', expiresAt: null });
+        }
+
+        if (SEVEN_DAY_ACCESS_CARDS.has(cardType)) {
+          // Check premium tier first
+          let doc = await db.collection('payments').findOne({
+            email: key,
+            cardType,
+            status: 'verified',
+            tier: 'premium',
+            unlockedUntil: { $gt: new Date() },
+          });
+
+          if (doc) {
+            return NextResponse.json({
+              hasAccess: true,
+              tier: 'premium',
+              expiresAt: doc.unlockedUntil?.toISOString() || null,
+            });
+          }
+
+          // Check watermark tier
+          doc = await db.collection('payments').findOne({
+            email: key,
+            cardType,
+            status: 'verified',
+            tier: 'watermark',
+            unlockedUntil: { $gt: new Date() },
+          });
+
+          if (doc) {
+            return NextResponse.json({
+              hasAccess: true,
+              tier: 'watermark',
+              expiresAt: doc.unlockedUntil?.toISOString() || null,
+            });
+          }
+
+          // Check for old payments without proper tier/expiry
+          const oldPayment = await db.collection('payments').findOne({
+            email: key,
+            cardType,
+            status: 'verified',
+            $or: [
+              { tier: { $exists: false } },
+              { unlockedUntil: { $exists: false } },
+            ],
+          });
+
+          if (oldPayment) {
+            const newUnlock = new Date(Date.now() + UNLOCK_DURATION_MS);
+            await db.collection('payments').updateOne(
+              { _id: oldPayment._id },
+              { $set: { unlockedUntil: newUnlock, tier: 'premium' } }
+            );
+            return NextResponse.json({
+              hasAccess: true,
+              tier: 'premium',
+              expiresAt: newUnlock.toISOString(),
+            });
+          }
+
+          return NextResponse.json({ hasAccess: false, tier: null, expiresAt: null });
+        }
+
+        // Non-7-day cards: check for any verified payment
+        const doc = await db.collection('payments').findOne({
+          email: key,
+          cardType,
+          status: 'verified',
+        });
+
+        return NextResponse.json({
+          hasAccess: !!doc,
+          tier: doc?.tier || (doc ? 'premium' : null),
+          expiresAt: null,
+        });
       }
 
       default:
@@ -213,6 +353,7 @@ async function handleWebhook(req, signature) {
       const paymentId = payment.id;
       const email = payment.notes?.email;
       const cardType = payment.notes?.cardType;
+      const tier = payment.notes?.tier || 'premium';
 
       if (email && cardType) {
         // Mark order as paid
@@ -221,25 +362,27 @@ async function handleWebhook(req, signature) {
           { $set: { status: 'paid', razorpayPaymentId: paymentId, paidAt: new Date() } },
         );
 
-        // Build update set — add timed unlock for holi cards
+        // Build update set — add 7-day unlock for applicable cards
         const webhookSet = {
           razorpayOrderId: orderId,
           razorpayPaymentId: paymentId,
           status: 'verified',
           verifiedAt: new Date(),
+          tier: tier,
         };
-        if (TIMED_UNLOCK_CARDS.has(cardType)) {
+        if (SEVEN_DAY_ACCESS_CARDS.has(cardType)) {
           webhookSet.unlockedUntil = new Date(Date.now() + UNLOCK_DURATION_MS);
         }
 
-        // Upsert payment record
+        // Upsert payment record with tier
         await db.collection('payments').updateOne(
-          { email: email.toLowerCase().trim(), cardType },
+          { email: email.toLowerCase().trim(), cardType, tier },
           {
             $set: webhookSet,
             $setOnInsert: {
               email: email.toLowerCase().trim(),
               cardType,
+              tier,
               createdAt: new Date(),
             },
           },

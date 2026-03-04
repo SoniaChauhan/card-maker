@@ -11,6 +11,8 @@ const TEMPLATES = [
   { id: 6, name: 'Animal Friends',   desc: 'Bear, bunny & tiger with party hats',               icon: '🐻', accent: '#9e7b5a' },
 ];
 
+export { TEMPLATES };
+
 export default function BirthdayTemplateChooser({ data, lang, selected, onSelect, onClose }) {
   const [previewId, setPreviewId] = useState(null);
 
