@@ -300,7 +300,7 @@ export default function BiodataFormNew({ data, errors, onChange, onBack, onGener
             <div className="bio-ready-card">
               <div className="bio-ready-icon">✅</div>
               <h3>Almost Ready!</h3>
-              <p>Click "Preview Biodata" to see your beautifully designed marriage profile.</p>
+              <p>Click &ldquo;Preview Biodata&rdquo; to see your beautifully designed marriage profile.</p>
             </div>
           </div>
         )}

@@ -177,7 +177,7 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
       {/* Support Banner - Full Width */}
       <div className="biodata-support-banner">
         <div className="support-message">
-          <p className="support-msg-en">Facing issues while creating biodata? We're here to help!</p>
+          <p className="support-msg-en">Facing issues while creating biodata? We&apos;re here to help!</p>
           <p className="support-msg-hi">बायोडाटा बनाने में कोई समस्या? हम आपकी मदद के लिए यहाँ हैं!</p>
         </div>
         <div className="support-contact">

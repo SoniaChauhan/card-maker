@@ -296,7 +296,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
             <div className="pay-icon">🔍</div>
             <h3>Check Existing Purchase</h3>
             <p style={{ color: '#666', fontSize: '0.9rem', marginBottom: '16px' }}>
-              Enter your email to check if you've already purchased unlimited access.
+              Enter your email to check if you&apos;ve already purchased unlimited access.
             </p>
 
             <input

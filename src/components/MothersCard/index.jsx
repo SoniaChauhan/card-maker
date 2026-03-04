@@ -156,8 +156,8 @@ export default function MothersCard({ onBack, userEmail }) {
           <button className="mq-btn-back" onClick={onBack}>← Back to Home</button>
         </div>
 
-        <h1 className="mq-title">💐 Mother's Quotes — English</h1>
-        <p className="mq-subtitle">Beautiful words celebrating a mother's love — pick a quote, choose a theme & download free!</p>
+        <h1 className="mq-title">💐 Mother&apos;s Quotes — English</h1>
+        <p className="mq-subtitle">Beautiful words celebrating a mother&apos;s love — pick a quote, choose a theme & download free!</p>
 
         {/* ── Theme selector ── */}
         <div className="mq-themes">
