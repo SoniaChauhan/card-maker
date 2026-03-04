@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'Free Resume Builder Online | Create Professional Resume PDF Download',
@@ -30,5 +30,5 @@ export const metadata = {
 };
 
 export default function ResumePage() {
-  redirect('/?card=resume');
+  return <CardPage cardType="resume" />;
 }

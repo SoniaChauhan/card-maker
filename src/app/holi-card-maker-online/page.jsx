@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'Free Holi Card Maker Online | Holi Card Templates 2026 Download',
@@ -30,5 +30,5 @@ export const metadata = {
 };
 
 export default function HoliCardMakerPage() {
-  redirect('/?card=holiwishes');
+  return <CardPage cardType="holiwishes" />;
 }

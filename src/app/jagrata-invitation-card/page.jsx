@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'Jagrata Invitation Card Maker – Create Devotional Mata Ki Chowki Invitations',
@@ -19,5 +19,5 @@ export const metadata = {
 };
 
 export default function JagrataPage() {
-  redirect('/?card=jagrata');
+  return <CardPage cardType="jagrata" />;
 }

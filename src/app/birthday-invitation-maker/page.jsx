@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'Free Birthday Invitation Maker Online | Create Birthday Cards with Photo',
@@ -31,5 +31,5 @@ export const metadata = {
 };
 
 export default function BirthdayPage() {
-  redirect('/?card=birthday');
+  return <CardPage cardType="birthday" />;
 }

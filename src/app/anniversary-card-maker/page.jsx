@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'Free Anniversary Card Maker Online | Wedding Anniversary Greetings',
@@ -30,5 +30,5 @@ export const metadata = {
 };
 
 export default function AnniversaryPage() {
-  redirect('/?card=anniversary');
+  return <CardPage cardType="anniversary" />;
 }

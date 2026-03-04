@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'Free Invitation Card Maker Online | Birthday, Wedding & Event Invitations',
@@ -31,5 +31,5 @@ export const metadata = {
 };
 
 export default function InvitationPage() {
-  redirect('/');
+  return <CardPage />;
 }

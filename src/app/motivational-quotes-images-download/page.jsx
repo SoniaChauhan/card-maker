@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'Free Motivational Quote Cards | Motivational Quotes Images Download 2026',
@@ -31,5 +31,5 @@ export const metadata = {
 };
 
 export default function MotivationalQuotesPage() {
-  redirect('/?card=motivational');
+  return <CardPage cardType="motivational" />;
 }

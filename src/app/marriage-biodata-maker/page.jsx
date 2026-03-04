@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'Marriage Biodata Maker Online Free – Create Traditional Biodata with Photo | Hindi, English, Marathi, Gujarati',
@@ -38,5 +38,5 @@ export const metadata = {
 };
 
 export default function BiodataPage() {
-  redirect('/?card=biodata');
+  return <CardPage cardType="biodata" />;
 }

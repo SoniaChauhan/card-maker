@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'Happy Holi Wishes in English 2026 – Free Holi Messages & Cards Download',
@@ -20,5 +20,5 @@ export const metadata = {
 };
 
 export default function HoliEnglishPage() {
-  redirect('/?card=holiwishes-en');
+  return <CardPage cardType="holiwishes-en" />;
 }

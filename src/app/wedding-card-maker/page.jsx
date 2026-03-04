@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'Free Wedding Card Maker Online | Wedding Invitation Design Templates',
@@ -31,5 +31,5 @@ export const metadata = {
 };
 
 export default function WeddingPage() {
-  redirect('/?card=wedding');
+  return <CardPage cardType="wedding" />;
 }

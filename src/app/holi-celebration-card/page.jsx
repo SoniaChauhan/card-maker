@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'Holi Celebration Card Maker Online 2026 – Create & Download Holi Greeting Cards',
@@ -20,5 +20,5 @@ export const metadata = {
 };
 
 export default function HoliCardPage() {
-  redirect('/?card=holicard');
+  return <CardPage cardType="holicard" />;
 }

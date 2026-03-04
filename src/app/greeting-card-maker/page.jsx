@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'Free Greeting Card Maker Online | Cards for All Occasions 2026',
@@ -29,5 +29,5 @@ export const metadata = {
 };
 
 export default function GreetingCardPage() {
-  redirect('/');
+  return <CardPage />;
 }

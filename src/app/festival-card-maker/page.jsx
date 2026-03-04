@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'Free Festival Card Maker | Diwali, Holi, Eid, Christmas Cards Online',
@@ -30,5 +30,5 @@ export const metadata = {
 };
 
 export default function FestivalPage() {
-  redirect('/?card=festivalcards');
+  return <CardPage cardType="festivalcards" />;
 }
