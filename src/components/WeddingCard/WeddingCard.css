@@ -1178,6 +1178,9 @@
 ============================================================ */
 .wed-programs-section {
   margin-top: 24px;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 .wed-programs-header {
   margin-bottom: 14px;
@@ -1237,12 +1240,18 @@
   border-radius: 12px;
   padding: 14px;
   margin-bottom: 12px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 .wed-program-entry-header {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 12px;
+  min-width: 0;
+  overflow: hidden;
 }
 .wed-program-num {
   font-size: 12px;
@@ -1255,8 +1264,10 @@
 }
 .wed-program-name-input {
   flex: 1;
+  min-width: 0;
   font-weight: 700 !important;
   font-size: 14px !important;
+  max-width: 100%;
 }
 .wed-program-remove {
   background: rgba(200,50,50,.08);
@@ -1279,6 +1290,13 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+  min-width: 0;
+  width: 100%;
+}
+.wed-program-field {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 .wed-program-field label {
   display: block;
@@ -1290,6 +1308,9 @@
 .wed-program-field .form-input {
   font-size: 13px !important;
   padding: 8px 10px !important;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .wed-program-field--full {
   grid-column: 1 / -1;
