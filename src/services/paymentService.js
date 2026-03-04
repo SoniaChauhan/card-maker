@@ -6,33 +6,33 @@ import { encodePayload } from '../utils/payload';
 
 /* ── Card pricing (₹) ── */
 export const CARD_PRICES = {
-  birthday:        49,
-  anniversary:     49,
-  jagrata:         49,
-  biodata:         99,
-  wedding:         49,
-  resume:          79,
-  babyshower:      49,
-  namingceremony:  49,
-  housewarming:    49,
-  graduation:      49,
-  haldi:           49,
-  mehendi:         49,
-  sangeet:         49,
-  reception:       49,
-  savethedate:     49,
-  satyanarayan:    49,
-  garba:           49,
-  visitingcard:    49,
-  businessdocs:    79,
-  thankyou:        29,
-  congratulations: 29,
-  goodluck:        29,
-  festivalcards:   49,
-  holicard:        49,  // Unlimited downloads
-  whatsappinvites: 29,
-  instagramstory:  29,
-  socialevent:     29,
+  birthday:        19,
+  anniversary:     19,
+  jagrata:         19,
+  biodata:         19,
+  wedding:         19,
+  resume:          19,
+  babyshower:      19,
+  namingceremony:  19,
+  housewarming:    19,
+  graduation:      19,
+  haldi:           19,
+  mehendi:         19,
+  sangeet:         19,
+  reception:       19,
+  savethedate:     19,
+  satyanarayan:    19,
+  garba:           19,
+  visitingcard:    19,
+  businessdocs:    19,
+  thankyou:        19,
+  congratulations: 19,
+  goodluck:        19,
+  festivalcards:   19,
+  holicard:        19,
+  whatsappinvites: 19,
+  instagramstory:  19,
+  socialevent:     19,
   holiwishes:      0,   // free
   'holiwishes-en': 0,   // free
   'mothers-en':    0,   // free
@@ -54,7 +54,7 @@ export function requiresPayment(cardType) {
 
 /** Get price for a card type */
 export function getCardPrice(cardType) {
-  return CARD_PRICES[cardType] || 49;
+  return CARD_PRICES[cardType] || 19;
 }
 
 /* ── API helpers ── */
