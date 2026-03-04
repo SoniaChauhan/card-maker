@@ -327,7 +327,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
                   onClick={handleProceedToPayment}
                   style={{ display: 'block', width: '100%', marginTop: '12px', padding: '12px', background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '1rem', cursor: 'pointer' }}
                 >
-                  🔓 Pay ₹19 — Unlock Unlimited Access
+                  🔓 Pay ₹49 — Unlock Unlimited Access
                 </button>
               </div>
             )}

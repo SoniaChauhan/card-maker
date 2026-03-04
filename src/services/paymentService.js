@@ -54,7 +54,7 @@ export function requiresPayment(cardType) {
 
 /** Get price for a card type */
 export function getCardPrice(cardType) {
-  return CARD_PRICES[cardType] || 19;
+  return CARD_PRICES[cardType] || 49;
 }
 
 /* ── API helpers ── */
