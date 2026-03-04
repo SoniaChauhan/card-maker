@@ -533,10 +533,37 @@
 }
 
 /* ── Responsive ── */
+@media (max-width: 768px) {
+  .festival-card-screen {
+    padding: 24px 10px 40px;
+  }
+  .festival-card-screen .card-screen-container {
+    padding: 24px 14px;
+    border-radius: 18px;
+  }
+  .festival-card-screen .card-wrapper {
+    overflow: hidden;
+  }
+}
+
 @media (max-width: 480px) {
+  .festival-card-screen {
+    padding: 16px 8px 32px;
+  }
+  .festival-card-screen .card-screen-container {
+    padding: 18px 10px;
+    border-radius: 16px;
+    max-width: 100%;
+  }
+  .festival-card-screen .card-wrapper {
+    overflow: hidden;
+    max-width: 100%;
+  }
   .fest-card {
     padding: 24px 16px 22px;
     border-radius: 14px;
+    max-width: 100%;
+    min-width: 0;
   }
   .fest-heading {
     font-size: 1.35rem;
@@ -546,5 +573,37 @@
   }
   .fest-selector-grid {
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+  .festival-screen-title {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+  .festival-card-screen .card-actions {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .festival-card-screen .card-actions .btn-back-card,
+  .festival-card-screen .card-actions .btn-download {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .festival-card-screen {
+    padding: 12px 6px 24px;
+  }
+  .festival-card-screen .card-screen-container {
+    padding: 14px 8px;
+    border-radius: 14px;
+  }
+  .fest-card {
+    padding: 20px 12px 18px;
+    border-radius: 12px;
+  }
+  .fest-heading {
+    font-size: 1.2rem;
   }
 }

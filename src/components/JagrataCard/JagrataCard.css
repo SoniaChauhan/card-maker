@@ -174,21 +174,59 @@
 }
 
 /* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .jagrata-card-screen { padding: 30px 12px; }
+  .jagrata-card-screen .card-screen-container {
+    padding: 24px 14px;
+    border-radius: 18px;
+  }
+  .jagrata-card-screen .card-wrapper {
+    overflow: hidden;
+  }
+}
+
 @media (max-width: 480px) {
-  .jagrata-card-screen { padding: 24px 10px; }
+  .jagrata-card-screen { padding: 20px 8px; }
+  .jagrata-card-screen .card-screen-container {
+    padding: 18px 10px;
+    border-radius: 16px;
+    max-width: 100%;
+  }
+  .jagrata-card-screen .card-wrapper {
+    overflow: hidden;
+    max-width: 100%;
+  }
   .jagrata-card {
     padding: 28px 20px 24px;
     border-radius: 22px;
+    max-width: 100%;
+    min-width: 0;
   }
-  .jagrata-screen-title { font-size: 20px; }
+  .jagrata-screen-title { font-size: 20px; margin-bottom: 14px; }
   .jagrata-om { font-size: 40px; }
   .jagrata-title { font-size: 18px; }
   .jagrata-subtitle { font-size: 13px; }
   .jagrata-deco-top { font-size: 24px; letter-spacing: 4px; }
   .jagrata-event-box { padding: 12px 14px; }
+  .jagrata-card-screen .card-actions {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .jagrata-card-screen .card-actions .btn-back-card,
+  .jagrata-card-screen .card-actions .btn-download {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 360px) {
-  .jagrata-card { padding: 22px 14px 20px; }
+  .jagrata-card-screen { padding: 12px 6px; }
+  .jagrata-card-screen .card-screen-container {
+    padding: 14px 8px;
+    border-radius: 14px;
+  }
+  .jagrata-card { padding: 22px 14px 20px; border-radius: 18px; }
   .jagrata-title { font-size: 16px; }
 }

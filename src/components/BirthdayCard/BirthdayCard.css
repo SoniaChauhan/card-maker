@@ -972,6 +972,7 @@
   }
   .bday-preview-card-wrapper {
     border-radius: 16px;
+    max-width: 100%;
   }
   .bday-preview-watermark .watermark-text {
     font-size: 24px;
@@ -984,6 +985,7 @@
   /* Card internal */
   .bday-card {
     width: 100%;
+    max-width: 100%;
     min-width: 0;
     padding: 22px 16px 26px;
     min-height: auto;

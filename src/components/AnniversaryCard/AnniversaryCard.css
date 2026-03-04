@@ -971,6 +971,7 @@
   }
   .anniv-preview-card-wrapper {
     border-radius: 16px;
+    max-width: 100%;
   }
   .anniv-preview-watermark .watermark-text {
     font-size: 24px;
@@ -983,6 +984,7 @@
   /* Card internal */
   .anniv-card {
     width: 100%;
+    max-width: 100%;
     min-width: 0;
     padding: 36px 22px 30px;
     min-height: auto;
