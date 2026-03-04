@@ -365,6 +365,8 @@ body {
   animation: formIn .5s ease-out;
   position: relative;
   z-index: 2;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .form-header { text-align: center; margin-bottom: 32px; }
@@ -377,6 +379,7 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 18px 20px;
   margin-bottom: 28px;
+  min-width: 0;
 }
 
 /* Single-column stack — one input per row, no breakage */
@@ -385,10 +388,13 @@ body {
   flex-direction: column;
   gap: 16px;
   margin-bottom: 28px;
+  min-width: 0;
+  max-width: 100%;
 }
 /* Every direct child fills full width in a stack */
 .form-stack > * {
   width: 100%;
+  min-width: 0;
 }
 
 /* ---- DOB Picker ---- */
@@ -475,7 +481,7 @@ body {
   object-fit: cover;
 }
 
-.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .form-group.span-2 { grid-column: 1 / -1; }
 
 .form-group label { font-size: 13px; font-weight: 600; color: #444; }
@@ -485,6 +491,9 @@ body {
 .form-group input,
 .form-group textarea,
 .form-group select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   padding: 10px 14px;
   border: 1.5px solid #ddd;
   border-radius: 10px;
@@ -494,6 +503,29 @@ body {
   transition: border .2s, box-shadow .2s;
   resize: none;
   background: #fafafa;
+  box-sizing: border-box;
+}
+
+/* Generic form-input class for inputs outside .form-group */
+.form-input {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 10px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #333;
+  transition: border .2s, box-shadow .2s;
+  background: #fafafa;
+  box-sizing: border-box;
+}
+.form-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102,126,234,.15);
+  background: #fff;
 }
 .form-group input:focus,
 .form-group textarea:focus,
@@ -546,9 +578,13 @@ body {
 
 /* ---- Responsive ---- */
 @media (max-width: 520px) {
-  .form-card  { padding: 24px 16px 20px; border-radius: 18px; }
+  .form-card  { padding: 24px 16px 20px; border-radius: 18px; max-width: 100%; }
   .form-grid  { grid-template-columns: 1fr; gap: 14px; }
   .form-group.span-2 { grid-column: 1; }
+  .form-group input,
+  .form-group textarea,
+  .form-group select,
+  .form-input { font-size: 16px; } /* Prevent iOS zoom on focus */
   .form-header { margin-bottom: 22px; }
   .form-header-icon { font-size: 40px; }
   .form-header h2 { font-size: 20px; }
@@ -562,7 +598,7 @@ body {
   .btn-save-template { font-size: 12px; padding: 9px 22px; }
   .toast { font-size: 13px; padding: 12px 22px; max-width: 90vw; white-space: normal; text-align: center; }
   .screen-bg { padding: 20px 12px; }
-  .form-screen { padding: 20px 12px; }
+  .form-screen { padding: 20px 12px; overflow-x: hidden; }
   .card-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .lang-toggle-bar { margin-top: 10px; }
   .lp-trigger { min-width: 170px; font-size: 13px; padding: 8px 14px; }
