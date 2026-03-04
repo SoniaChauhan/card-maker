@@ -39,18 +39,16 @@ export async function POST(req) {
         return NextResponse.json(feedbacks.map(f => ({
           id: f._id.toString(),
           name: f.name,
+          email: f.email,
           rating: f.rating,
           comment: f.comment,
+          replies: f.replies || [],
           createdAt: f.createdAt,
         })));
       }
 
       /* ── Get all feedbacks (admin) ── */
       case 'admin-list': {
-        const all = await col
-          .sort({ createdAt: -1 })
-          .toArray ? undefined : undefined;
-        // proper query
         const feedbacks = await col
           .find({})
           .sort({ createdAt: -1 })
@@ -63,6 +61,7 @@ export async function POST(req) {
           rating: f.rating,
           comment: f.comment,
           approved: f.approved,
+          replies: f.replies || [],
           createdAt: f.createdAt,
         })));
       }
@@ -79,12 +78,50 @@ export async function POST(req) {
         return NextResponse.json({ ok: true });
       }
 
-      /* ── Delete feedback (admin) ── */
+      /* ── Update feedback (user — must match email) ── */
+      case 'update': {
+        const { id: updId, email: updEmail, rating: updRating, comment: updComment } = body;
+        if (!updId || !updEmail) return NextResponse.json({ error: 'Missing id or email' }, { status: 400 });
+        const { ObjectId: UpdOId } = await import('mongodb');
+        const doc = await col.findOne({ _id: new UpdOId(updId) });
+        if (!doc) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+        if (doc.email !== updEmail.trim().toLowerCase()) {
+          return NextResponse.json({ error: 'Not authorised' }, { status: 403 });
+        }
+        const updates = {};
+        if (updRating) updates.rating = Number(updRating);
+        if (updComment) updates.comment = updComment.trim();
+        await col.updateOne({ _id: new UpdOId(updId) }, { $set: updates });
+        return NextResponse.json({ ok: true });
+      }
+
+      /* ── Delete feedback (user — must match email, or admin) ── */
       case 'delete': {
-        const { id: delId } = body;
+        const { id: delId, email: delEmail } = body;
         if (!delId) return NextResponse.json({ error: 'Missing id' }, { status: 400 });
         const { ObjectId: OId } = await import('mongodb');
+        if (delEmail) {
+          const doc = await col.findOne({ _id: new OId(delId) });
+          if (!doc) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+          if (doc.email !== delEmail.trim().toLowerCase()) {
+            return NextResponse.json({ error: 'Not authorised' }, { status: 403 });
+          }
+        }
         await col.deleteOne({ _id: new OId(delId) });
+        return NextResponse.json({ ok: true });
+      }
+
+      /* ── Add reply to a feedback ── */
+      case 'reply': {
+        const { id: replyId, replyName, replyEmail, replyComment } = body;
+        if (!replyId || !replyName || !replyComment) {
+          return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
+        }
+        const { ObjectId: RId } = await import('mongodb');
+        await col.updateOne(
+          { _id: new RId(replyId) },
+          { $push: { replies: { name: replyName.trim(), email: (replyEmail || '').trim().toLowerCase(), comment: replyComment.trim(), createdAt: new Date() } } },
+        );
         return NextResponse.json({ ok: true });
       }
 

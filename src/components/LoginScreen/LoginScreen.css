@@ -1355,6 +1355,121 @@
 }
 
 /* ═══════════════════════════════════════
+   REVIEW ACTIONS (Edit / Delete / Reply)
+   ═══════════════════════════════════════ */
+.lp-review-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.lp-review-btn {
+  padding: 4px 12px;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 8px;
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.7);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+.lp-review-btn:hover { background: rgba(255,255,255,.14); color: #fff; }
+.lp-review-btn.edit:hover { border-color: #667eea; color: #667eea; }
+.lp-review-btn.delete:hover { border-color: #ff6b6b; color: #ff6b6b; }
+.lp-review-btn.reply:hover { border-color: #69f0ae; color: #69f0ae; }
+.lp-review-btn.save {
+  background: rgba(102,126,234,.2);
+  border-color: #667eea;
+  color: #a8b8ff;
+}
+.lp-review-btn.save:hover { background: rgba(102,126,234,.35); color: #fff; }
+.lp-review-btn.save:disabled { opacity: .5; cursor: not-allowed; }
+.lp-review-btn.cancel { color: #ff9999; }
+.lp-review-btn.cancel:hover { border-color: #ff6b6b; }
+
+/* Edit form inline */
+.lp-review-edit-form { margin-top: 8px; }
+.lp-review-edit-form .lp-fb-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+}
+.lp-review-edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Reply form */
+.lp-reply-form {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.lp-reply-form .lp-fb-input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 6px;
+}
+.lp-reply-form .lp-fb-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+}
+
+/* Replies list */
+.lp-review-replies {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,.06);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lp-reply-item {
+  padding: 8px 10px;
+  background: rgba(255,255,255,.04);
+  border-radius: 10px;
+  border-left: 3px solid rgba(102,126,234,.4);
+}
+.lp-reply-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.lp-reply-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.72rem;
+  flex-shrink: 0;
+}
+.lp-reply-name {
+  color: #ccc;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+.lp-reply-date {
+  font-size: 0.65rem;
+  color: #666;
+  margin-left: auto;
+}
+.lp-reply-comment {
+  color: rgba(255,255,255,.7);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  margin: 0;
+  word-break: break-word;
+}
+
+/* ═══════════════════════════════════════
    ABOUT CARD MAKER
    ═══════════════════════════════════════ */
 .lp-about {
