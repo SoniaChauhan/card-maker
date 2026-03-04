@@ -611,13 +611,26 @@
 
 .anniv-template-thumb {
   width: 120px;
-  height: 130px;
+  height: 160px;
   border-radius: 12px;
   overflow: hidden;
   border: 3px solid transparent;
   transition: all 0.2s;
   background: #fff;
   box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  position: relative;
+}
+
+.anniv-template-thumb::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.9));
+  pointer-events: none;
+  z-index: 1;
 }
 
 .anniv-template-item--selected .anniv-template-thumb {
@@ -1013,10 +1026,11 @@
   .anniversary-card-screen .carousel-arrow-left { margin-left: 10px; }
   .anniversary-card-screen .carousel-arrow-right { margin-right: 10px; }
   .anniv-template-carousel { gap: 10px; padding: 8px 4px; }
-  .anniv-template-item { width: 100px; }
-  .anniv-template-thumb { width: 100px; height: 110px; border-radius: 10px; }
-  .anniv-template-thumb-inner { transform: scale(0.13); }
-  .anniv-template-thumb-inner .anniv-card { width: 769%; }
+  .anniv-template-item { width: 105px; }
+  .anniv-template-thumb { width: 105px; height: 140px; border-radius: 10px; }
+  .anniv-template-thumb::after { height: 24px; }
+  .anniv-template-thumb-inner { transform: scale(0.135); }
+  .anniv-template-thumb-inner .anniv-card { width: 741%; }
   .anniv-template-name { font-size: 10px; margin-top: 6px; }
 
   /* Action buttons mobile */
@@ -1064,10 +1078,11 @@
   .anniv-corner { width: 70px; height: 70px; }
   .anniv-photo-img { width: 130px; height: 150px; }
 
-  .anniv-template-item { width: 88px; }
-  .anniv-template-thumb { width: 88px; height: 96px; border-radius: 8px; }
-  .anniv-template-thumb-inner { transform: scale(0.115); }
-  .anniv-template-thumb-inner .anniv-card { width: 870%; }
+  .anniv-template-item { width: 92px; }
+  .anniv-template-thumb { width: 92px; height: 120px; border-radius: 8px; }
+  .anniv-template-thumb::after { height: 20px; }
+  .anniv-template-thumb-inner { transform: scale(0.12); }
+  .anniv-template-thumb-inner .anniv-card { width: 833%; }
 
   .anniv-btn-edit,
   .anniv-btn-download {
