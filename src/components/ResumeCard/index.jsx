@@ -113,31 +113,22 @@ export default function ResumeCard({ onBack, userEmail, initialData, templateId:
       <Particles icons={PARTICLES} count={20} />
       <div className="card-screen-container">
         <p className="resume-screen-title">📄 Your Resume</p>
-        <div className={`card-wrapper screenshot-protected${!paid ? ' card-preview-locked' : ''}`}>
+        <div className={`card-wrapper screenshot-protected${paid ? '' : ' card-preview-locked'}`}>
           <ResumeCardPreview data={data} />
         </div>
 
         {!paid && (
           <div className="download-locked-badge">
-            🔒 Preview Mode — Pay ₹{getCardPrice(CARD_TYPE)} to remove watermark
+            💳 Download: ₹19 (with watermark) or ₹49 (clean)
           </div>
-        )}
-        {!paid && (
-          <button
-            className="btn-download pay-download-btn"
-            onClick={() => setShowPayment(true)}
-            style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
-          >
-            ✨ Pay ₹{getCardPrice(CARD_TYPE)} — Remove Watermark
-          </button>
         )}
 
         <CardActions
           onEdit={() => setStep('form')}
           onBack={onBack}
-          onDownload={handleDownload}
+          onDownload={paid ? handleDownload : () => setShowPayment(true)}
           downloading={downloading}
-          dlLabel={paid ? '📥 Download PDF' : '📥 Download PDF (with watermark)'}
+          dlLabel={paid ? '📥 Download PDF' : '💳 Download PDF'}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#1a73e8,#2d3748)', color: '#fff', boxShadow: '0 6px 20px rgba(26,115,232,.45)' }}
         />
         <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
@@ -152,9 +143,10 @@ export default function ResumeCard({ onBack, userEmail, initialData, templateId:
           cardLabel={CARD_LABEL}
           userEmail={userEmail}
           onClose={() => setShowPayment(false)}
-          onPaymentDone={() => {
-            setPaid(true);
-            watermarkRef.current = false;
+          onPaymentDone={(result) => {
+            const withWatermark = result?.withWatermark ?? false;
+            watermarkRef.current = withWatermark;
+            if (!withWatermark) setPaid(true);
             setShowPayment(false);
             setTimeout(() => handleDownload(), 500);
           }}

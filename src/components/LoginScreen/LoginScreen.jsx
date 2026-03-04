@@ -372,9 +372,10 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
 
   /* ═══ CARD CATEGORIES ═══ */
   const PREMIUM_CARDS = [
-    { id: 'birthday',      icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',   grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)', price: '₹49' },
-    { id: 'wedding',       icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)', price: '₹49' },
-    { id: 'anniversary',   icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)', price: '₹49' },
+    { id: 'birthday',      icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',   grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)', price: '₹19/₹49' },
+    { id: 'wedding',       icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)', price: '₹19/₹49' },
+    { id: 'anniversary',   icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27b)', price: '₹19/₹49' },
+    { id: 'biodata',       icon: '💒', name: 'Marriage Profile Designer',     desc: 'Build a traditional and detailed marriage biodata with a clean layout.',   grad: 'linear-gradient(135deg, #d4af37, #c0392b)', price: '₹19/₹49' },
   ];
 
   const HOLI_FREE_CARDS = [
@@ -617,7 +618,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
       <section className="lp-showcase">
         <div className="lp-section-header">
           <h2 className="lp-section-title">✨ Premium Card Designers</h2>
-          <span className="lp-section-price">Starting from ₹49</span>
+          <span className="lp-section-price">Starting from ₹19</span>
         </div>
         <p className="lp-section-sub">Beautiful cards that need your details — fill the form, preview &amp; download</p>
         <div className="lp-showcase-grid">

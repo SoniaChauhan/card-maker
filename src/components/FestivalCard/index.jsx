@@ -247,17 +247,17 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
         )}
         {!isHoliCard && !paid && (
           <div className="download-locked-badge">
-            🔒 Preview Mode — Pay ₹{getCardPrice(effectiveCardType)} to remove watermark
+            � Download: ₹19 (with watermark) or ₹49 (clean)
           </div>
         )}
 
-        {!paid && (
+        {!paid && isHoliCard && (
           <button
             className="btn-download pay-download-btn"
-            onClick={() => isHoliCard ? setShowEmailCheck(true) : setShowPayment(true)}
-            style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginTop: isHoliCard ? '20px' : '0', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
+            onClick={() => setShowEmailCheck(true)}
+            style={{ background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff', marginTop: '20px', marginBottom: '8px', width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700, border: 'none', borderRadius: '12px', cursor: 'pointer', boxShadow: '0 6px 20px rgba(102,126,234,.4)' }}
           >
-            {isHoliCard ? `💳 Pay ₹${getCardPrice(effectiveCardType)} & Unlock Unlimited Downloads` : `✨ Pay ₹${getCardPrice(effectiveCardType)} — Remove Watermark`}
+            💳 Pay ₹{getCardPrice(effectiveCardType)} & Unlock Unlimited Downloads
           </button>
         )}
 
@@ -265,10 +265,10 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
         <CardActions
           onEdit={() => setStep('form')}
           onBack={onBack}
-          onDownload={handleDownload}
+          onDownload={paid ? handleDownload : (isHoliCard ? handleDownload : () => setShowPayment(true))}
           downloading={downloading}
           dlBtnStyle={{ background: 'linear-gradient(135deg,#ff6b6b,#feca57)', color: '#fff', boxShadow: '0 6px 20px rgba(255,107,107,.45)' }}
-          dlLabel={paid ? '⬇️ Download Card' : '⬇️ Download (with watermark)'}
+          dlLabel={paid ? '⬇️ Download Card' : (isHoliCard ? '⬇️ Download Card' : '💳 Download Card')}
         />
         <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
           {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
@@ -356,8 +356,9 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
           cardLabel={effectiveCardLabel}
           userEmail={checkEmail.trim() || userEmail}
           onClose={() => setShowPayment(false)}
-          onPaymentDone={async () => {
+          onPaymentDone={async (result) => {
             setShowPayment(false);
+            const withWatermark = result?.withWatermark ?? false;
             const emailToCheck = checkEmail.trim() || userEmail;
             if (isHoliCard && emailToCheck) {
               // Refresh 24hr unlock status
@@ -369,8 +370,8 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
                 setVerifiedEmail(emailToCheck);
               } catch { /* ignore */ }
             } else {
-              setPaid(true);
-              watermarkRef.current = false;
+              watermarkRef.current = withWatermark;
+              if (!withWatermark) setPaid(true);
             }
             setTimeout(() => handleDownload(), 500);
           }}

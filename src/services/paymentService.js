@@ -4,35 +4,39 @@
  */
 import { encodePayload } from '../utils/payload';
 
-/* ── Card pricing (₹) ── */
+/* ── Pricing Tiers (₹) ── */
+export const PRICE_WITH_WATERMARK = 19;    // Download with small watermark
+export const PRICE_NO_WATERMARK = 49;      // Download without watermark
+
+/* ── Card pricing (base prices - use PRICE_NO_WATERMARK for full removal) ── */
 export const CARD_PRICES = {
-  birthday:        19,
-  anniversary:     19,
-  jagrata:         19,
-  biodata:         19,
-  wedding:         19,
-  resume:          19,
-  babyshower:      19,
-  namingceremony:  19,
-  housewarming:    19,
-  graduation:      19,
-  haldi:           19,
-  mehendi:         19,
-  sangeet:         19,
-  reception:       19,
-  savethedate:     19,
-  satyanarayan:    19,
-  garba:           19,
-  visitingcard:    19,
-  businessdocs:    19,
-  thankyou:        19,
-  congratulations: 19,
-  goodluck:        19,
-  festivalcards:   19,
-  holicard:        19,
-  whatsappinvites: 19,
-  instagramstory:  19,
-  socialevent:     19,
+  birthday:        PRICE_NO_WATERMARK,
+  anniversary:     PRICE_NO_WATERMARK,
+  jagrata:         PRICE_NO_WATERMARK,
+  biodata:         PRICE_NO_WATERMARK,
+  wedding:         PRICE_NO_WATERMARK,
+  resume:          PRICE_NO_WATERMARK,
+  babyshower:      PRICE_NO_WATERMARK,
+  namingceremony:  PRICE_NO_WATERMARK,
+  housewarming:    PRICE_NO_WATERMARK,
+  graduation:      PRICE_NO_WATERMARK,
+  haldi:           PRICE_NO_WATERMARK,
+  mehendi:         PRICE_NO_WATERMARK,
+  sangeet:         PRICE_NO_WATERMARK,
+  reception:       PRICE_NO_WATERMARK,
+  savethedate:     PRICE_NO_WATERMARK,
+  satyanarayan:    PRICE_NO_WATERMARK,
+  garba:           PRICE_NO_WATERMARK,
+  visitingcard:    PRICE_NO_WATERMARK,
+  businessdocs:    PRICE_NO_WATERMARK,
+  thankyou:        PRICE_NO_WATERMARK,
+  congratulations: PRICE_NO_WATERMARK,
+  goodluck:        PRICE_NO_WATERMARK,
+  festivalcards:   PRICE_NO_WATERMARK,
+  holicard:        PRICE_NO_WATERMARK,
+  whatsappinvites: PRICE_NO_WATERMARK,
+  instagramstory:  PRICE_NO_WATERMARK,
+  socialevent:     PRICE_NO_WATERMARK,
   holiwishes:      0,   // free
   'holiwishes-en': 0,   // free
   'mothers-en':    0,   // free
@@ -52,9 +56,19 @@ export function requiresPayment(cardType) {
   return !FREE_CARDS.has(cardType);
 }
 
-/** Get price for a card type */
+/** Get price for a card type (full price without watermark) */
 export function getCardPrice(cardType) {
-  return CARD_PRICES[cardType] || 49;
+  return CARD_PRICES[cardType] || PRICE_NO_WATERMARK;
+}
+
+/** Get price with watermark */
+export function getWatermarkPrice() {
+  return PRICE_WITH_WATERMARK;
+}
+
+/** Get price without watermark */
+export function getNoWatermarkPrice() {
+  return PRICE_NO_WATERMARK;
 }
 
 /* ── API helpers ── */
@@ -100,8 +114,8 @@ export async function getPaymentStatus(email, cardType) {
 }
 
 /** Create a Razorpay order. Returns { orderId, amount, currency, keyId } */
-export async function createOrder(email, cardType, cardLabel) {
-  const amount = getCardPrice(cardType);
+export async function createOrder(email, cardType, cardLabel, customAmount = null) {
+  const amount = customAmount !== null ? customAmount : getCardPrice(cardType);
   return apiOrders({ email, cardType, cardLabel, amount });
 }
 
@@ -143,17 +157,20 @@ export function loadRazorpayScript() {
  * @param {string} opts.cardType - e.g. 'birthday', 'wedding'
  * @param {string} opts.cardLabel - Display name, e.g. 'Birthday Invitation'
  * @param {string} opts.userName - User's name for prefill
+ * @param {number} [opts.amount] - Custom amount (overrides card type price)
  * @param {Function} opts.onSuccess - Called after successful verification
  * @param {Function} opts.onError - Called on failure
  * @returns {Promise<void>}
  */
-export async function startPayment({ email, cardType, cardLabel, userName, onSuccess, onError }) {
+export async function startPayment({ email, cardType, cardLabel, userName, amount, onSuccess, onError }) {
   try {
-    // 1. Check if already paid
-    const alreadyPaid = await hasUserPaid(email, cardType);
-    if (alreadyPaid) {
-      if (onSuccess) onSuccess({ alreadyPaid: true });
-      return;
+    // 1. Check if already paid (skip for watermark tier - let them pay for upgrade)
+    if (!amount || amount >= PRICE_NO_WATERMARK) {
+      const alreadyPaid = await hasUserPaid(email, cardType);
+      if (alreadyPaid) {
+        if (onSuccess) onSuccess({ alreadyPaid: true });
+        return;
+      }
     }
 
     // 2. Load Razorpay script
@@ -162,8 +179,8 @@ export async function startPayment({ email, cardType, cardLabel, userName, onSuc
       throw new Error('Failed to load Razorpay. Please check your internet connection.');
     }
 
-    // 3. Create order
-    const order = await createOrder(email, cardType, cardLabel);
+    // 3. Create order (with custom amount if provided)
+    const order = await createOrder(email, cardType, cardLabel, amount);
     if (order.alreadyPaid) {
       if (onSuccess) onSuccess({ alreadyPaid: true });
       return;
