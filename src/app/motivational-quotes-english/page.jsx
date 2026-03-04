@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'Motivational Quotes in English 2026 – Free Inspirational Cards Download',
@@ -21,5 +21,5 @@ export const metadata = {
 };
 
 export default function MotivationalEnglishPage() {
-  redirect('/?card=motivational-en');
+  return <CardPage cardType="motivational-en" />;
 }

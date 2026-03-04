@@ -1425,13 +1425,26 @@
 
 .biodata-template-thumb {
   width: 140px;
-  height: 150px;
+  height: 190px;
   border-radius: 12px;
   overflow: hidden;
   border: 3px solid transparent;
   transition: all 0.2s;
   background: #fff;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.biodata-template-thumb::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.9));
+  pointer-events: none;
+  z-index: 1;
 }
 
 .biodata-template-item--selected .biodata-template-thumb {
@@ -1611,17 +1624,28 @@
   
   .biodata-template-section {
     border-radius: 12px;
-    padding: 16px 0;
+    padding: 12px 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    gap: 4px;
   }
   
   .carousel-arrow {
-    width: 40px;
-    height: 40px;
-    font-size: 24px;
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    box-shadow: 0 2px 8px rgba(230,126,34,0.25);
   }
   
-  .carousel-arrow-left { margin-left: 8px; }
-  .carousel-arrow-right { margin-right: 8px; }
+  .carousel-arrow-left { margin-left: 6px; }
+  .carousel-arrow-right { margin-right: 6px; }
+
+  .biodata-template-carousel {
+    gap: 12px;
+    padding: 8px 4px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .biodata-template-carousel::-webkit-scrollbar { display: none; }
   
   .biodata-template-item {
     width: 120px;
@@ -1629,7 +1653,24 @@
   
   .biodata-template-thumb {
     width: 120px;
-    height: 130px;
+    height: 160px;
+  }
+
+  .biodata-template-thumb::after {
+    height: 30px;
+  }
+
+  .biodata-template-thumb-inner {
+    transform: scale(0.155);
+  }
+
+  .biodata-template-thumb-inner .biodata-card {
+    width: 645%;
+  }
+
+  .biodata-template-name {
+    font-size: 11px;
+    margin-top: 6px;
   }
   
   .biodata-action-buttons {
@@ -1676,22 +1717,96 @@
   .support-contact .support-link {
     font-size: 12px;
   }
+
+  .biodata-template-section {
+    padding: 10px 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .carousel-arrow {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+
+  .carousel-arrow-left { margin-left: 4px; }
+  .carousel-arrow-right { margin-right: 4px; }
   
   .biodata-template-item {
-    width: 100px;
+    width: 110px;
   }
   
   .biodata-template-thumb {
-    width: 100px;
-    height: 110px;
+    width: 110px;
+    height: 150px;
+    border-radius: 10px;
+  }
+
+  .biodata-template-thumb::after {
+    height: 25px;
   }
   
   .biodata-template-thumb-inner {
-    transform: scale(0.13);
+    transform: scale(0.14);
   }
   
   .biodata-template-thumb-inner .biodata-card {
-    width: 770%;
+    width: 714%;
+  }
+
+  .biodata-template-name {
+    font-size: 10px;
+    margin-top: 5px;
+  }
+}
+
+/* Responsive — Small Mobile (360px) */
+@media (max-width: 360px) {
+  .biodata-preview-screen {
+    padding: 12px 8px 32px;
+  }
+
+  .biodata-template-section {
+    padding: 8px 0;
+    border-radius: 8px;
+  }
+
+  .carousel-arrow {
+    width: 26px;
+    height: 26px;
+    font-size: 14px;
+  }
+
+  .carousel-arrow-left { margin-left: 3px; }
+  .carousel-arrow-right { margin-right: 3px; }
+
+  .biodata-template-item {
+    width: 96px;
+  }
+
+  .biodata-template-thumb {
+    width: 96px;
+    height: 130px;
+    border-radius: 8px;
+  }
+
+  .biodata-template-thumb-inner {
+    transform: scale(0.125);
+  }
+
+  .biodata-template-thumb-inner .biodata-card {
+    width: 800%;
+  }
+
+  .biodata-template-name {
+    font-size: 9px;
+  }
+
+  .biodata-btn-edit,
+  .biodata-btn-download {
+    padding: 12px 16px;
+    font-size: 14px;
   }
 }
 

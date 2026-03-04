@@ -24,21 +24,21 @@ import VisitorTracker from './components/shared/VisitorTracker';
 
 const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','festivalcards','holicard','holiwishes','holiwishes-en','holivideo','motivational','motivational-en','fathers','fathers-en','mothers','mothers-en'];
 
-function AppContent() {
+function AppContent({ initialCard }) {
   const { user, loading, isGuest } = useAuth();
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(initialCard || null);
   const [editingTemplate, setEditingTemplate] = useState(null);
 
-  /* Auto-select card when redirected from SEO pages via ?card= query param */
+  /* Auto-select card when redirected from SEO pages via ?card= query param (legacy support) */
   useEffect(() => {
+    if (initialCard) return; // Skip if already set via prop
     const params = new URLSearchParams(window.location.search);
     const card = params.get('card');
     if (card && VALID_CARDS.includes(card)) {
       setSelected(card);
-      // Clean up URL without reload
-      window.history.replaceState({}, '', '/');
+      window.history.replaceState({}, '', window.location.pathname);
     }
-  }, []);
+  }, [initialCard]);
 
   /* Activate screenshot protection globally */
   useScreenshotProtection();
@@ -99,11 +99,11 @@ function AppContent() {
   return <LoginScreen onSelect={setSelected} onEditTemplate={handleEditTemplate} />;
 }
 
-export default function App() {
+export default function App({ initialCard }) {
   return (
     <AuthProvider>
       <VisitorTracker />
-      <AppContent />
+      <AppContent initialCard={initialCard} />
     </AuthProvider>
   );
 }

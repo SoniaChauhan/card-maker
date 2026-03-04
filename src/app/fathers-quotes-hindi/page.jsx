@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'पिता पर सुविचार हिन्दी 2026 – 75 Father Quotes in Hindi Free Download',
@@ -22,5 +22,5 @@ export const metadata = {
 };
 
 export default function FathersQuotesPage() {
-  redirect('/?card=fathers');
+  return <CardPage cardType="fathers" />;
 }

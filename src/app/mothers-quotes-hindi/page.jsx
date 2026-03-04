@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'माँ पर सुविचार हिन्दी 2026 – 75 Mother Quotes in Hindi Free Download',
@@ -21,5 +21,5 @@ export const metadata = {
 };
 
 export default function MothersQuotesHindiPage() {
-  redirect('/?card=mothers');
+  return <CardPage cardType="mothers" />;
 }

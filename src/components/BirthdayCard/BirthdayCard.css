@@ -609,13 +609,26 @@
 
 .bday-template-thumb {
   width: 120px;
-  height: 130px;
+  height: 160px;
   border-radius: 12px;
   overflow: hidden;
   border: 3px solid transparent;
   transition: all 0.2s;
   background: #fff;
   box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  position: relative;
+}
+
+.bday-template-thumb::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.9));
+  pointer-events: none;
+  z-index: 1;
 }
 
 .bday-template-item--selected .bday-template-thumb {
@@ -1049,17 +1062,18 @@
     gap: 10px;
     padding: 8px 4px;
   }
-  .bday-template-item { width: 100px; }
+  .bday-template-item { width: 105px; }
   .bday-template-thumb {
-    width: 100px;
-    height: 110px;
+    width: 105px;
+    height: 140px;
     border-radius: 10px;
   }
+  .bday-template-thumb::after { height: 24px; }
   .bday-template-thumb-inner {
-    transform: scale(0.13);
+    transform: scale(0.135);
   }
   .bday-template-thumb-inner .bday-card {
-    width: 769%;
+    width: 741%;
   }
   .bday-template-name { font-size: 10px; margin-top: 6px; }
 
@@ -1130,10 +1144,10 @@
   .bday-hero-title { font-size: 16px; }
   .bday-theme-5 { padding-left: 30px; padding-right: 30px; }
 
-  .bday-template-item { width: 88px; }
-  .bday-template-thumb { width: 88px; height: 96px; border-radius: 8px; }
-  .bday-template-thumb-inner { transform: scale(0.115); }
-  .bday-template-thumb-inner .bday-card { width: 870%; }
+  .bday-template-item { width: 92px; }
+  .bday-template-thumb { width: 92px; height: 120px; border-radius: 8px; }
+  .bday-template-thumb-inner { transform: scale(0.12); }
+  .bday-template-thumb-inner .bday-card { width: 833%; }
 
   .bday-btn-edit,
   .bday-btn-download {

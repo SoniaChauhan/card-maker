@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: "Mother's Quotes in English 2026 – 75 Beautiful Mom Quotes & Cards Free Download",
@@ -22,5 +22,5 @@ export const metadata = {
 };
 
 export default function MothersQuotesPage() {
-  redirect('/?card=mothers-en');
+  return <CardPage cardType="mothers-en" />;
 }

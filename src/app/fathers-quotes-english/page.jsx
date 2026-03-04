@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import CardPage from '@/components/shared/CardPage';
 
 export const metadata = {
   title: 'Father\'s Quotes in English 2026 – 75 Inspirational Dad Quotes & Cards Download',
@@ -22,5 +22,5 @@ export const metadata = {
 };
 
 export default function FathersQuotesEnglishPage() {
-  redirect('/?card=fathers-en');
+  return <CardPage cardType="fathers-en" />;
 }
