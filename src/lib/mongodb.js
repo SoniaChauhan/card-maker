@@ -31,8 +31,9 @@ function ensureConnection() {
 
 export default { then: (resolve, reject) => ensureConnection().then(resolve, reject) };
 
-/** Helper — get the card-maker database */
+/** Helper — get the card-maker database (dev uses card-maker-dev) */
 export async function getDb() {
   const client = await ensureConnection();
-  return client.db('card-maker');
+  const dbName = process.env.NODE_ENV === 'development' ? 'card-maker-dev' : 'card-maker';
+  return client.db(dbName);
 }

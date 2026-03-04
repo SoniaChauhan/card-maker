@@ -147,6 +147,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   const [fbMsg, setFbMsg]         = useState('');
   const [reviews, setReviews]     = useState([]);
   const [reviewsLoading, setReviewsLoading] = useState(true);
+  const [submittedEmail, setSubmittedEmail] = useState('');
 
   /* Edit / Delete / Reply state */
   const [editId, setEditId]                 = useState(null);
@@ -439,8 +440,9 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
       await sendFeedback(fbName.trim(), fbEmail.trim(), fbRating, fbComment.trim());
       setFbMsg('✅ Thank you for your feedback!');
       setTimeout(() => setFbMsg(''), 4000);
+      setSubmittedEmail(fbEmail.trim().toLowerCase());
       // Add to displayed reviews instantly
-      setReviews(prev => [{ id: Date.now().toString(), name: fbName.trim(), email: fbEmail.trim().toLowerCase(), rating: fbRating, comment: fbComment.trim(), createdAt: new Date().toISOString() }, ...prev]);
+      setReviews(prev => [{ id: Date.now().toString(), name: fbName.trim(), email: fbEmail.trim().toLowerCase(), rating: fbRating, comment: fbComment.trim(), createdAt: new Date().toISOString(), replies: [] }, ...prev]);
       setFbName(''); setFbEmail(''); setFbRating(0); setFbComment('');
     } catch {
       setFbMsg('⚠️ Failed to send. Please try again.');
@@ -474,15 +476,21 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   }
 
   /* ========== DELETE FEEDBACK ========== */
-  async function deleteFeedback(reviewId, ownerEmail) {
-    if (!confirm('Delete this review?')) return;
+  async function deleteFeedback(reviewId) {
+    const delEmail = prompt('Enter the email used when posting this review to confirm deletion:');
+    if (!delEmail) return;
     try {
       const res = await fetch('/api/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'delete', id: reviewId, email: ownerEmail }),
+        body: JSON.stringify({ action: 'delete', id: reviewId, email: delEmail.trim().toLowerCase() }),
       });
-      if (res.ok) setReviews(prev => prev.filter(r => r.id !== reviewId));
+      if (res.ok) {
+        setReviews(prev => prev.filter(r => r.id !== reviewId));
+      } else {
+        const data = await res.json().catch(() => ({}));
+        alert(data.error || 'Failed to delete. Email may not match.');
+      }
     } catch { /* ignore */ }
   }
 
@@ -1064,7 +1072,8 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
               ) : (
                 <div className="lp-inline-reviews-list">
                   {reviews.map(r => {
-                    const isOwner = fbEmail && r.email && fbEmail.trim().toLowerCase() === r.email.trim().toLowerCase();
+                    const ownerCheck = (fbEmail || submittedEmail || '').trim().toLowerCase();
+                    const isOwner = ownerCheck && r.email && ownerCheck === r.email.trim().toLowerCase();
                     const isEditing = editId === r.id;
                     const isReplying = replyToId === r.id;
                     return (
@@ -1117,11 +1126,9 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
                         {!isEditing && (
                           <div className="lp-review-actions">
                             {isOwner && (
-                              <>
-                                <button className="lp-review-btn edit" onClick={() => startEdit(r)}>✏️ Edit</button>
-                                <button className="lp-review-btn delete" onClick={() => deleteFeedback(r.id, r.email)}>🗑️ Delete</button>
-                              </>
+                              <button className="lp-review-btn edit" onClick={() => startEdit(r)}>✏️ Edit</button>
                             )}
+                            <button className="lp-review-btn delete" onClick={() => deleteFeedback(r.id)}>🗑️ Delete</button>
                             <button className="lp-review-btn reply" onClick={() => openReply(r.id)}>💬 Reply</button>
                           </div>
                         )}
