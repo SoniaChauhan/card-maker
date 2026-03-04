@@ -65,7 +65,7 @@ export default function JagrataCardPreview({ data, lang = 'hi' }) {
         )}
       </div>
 
-      {message && <div className="jagrata-message">"{message}"</div>}
+      {message && <div className="jagrata-message">&ldquo;{message}&rdquo;</div>}
 
       <div className="jagrata-deco-bottom">{rc.decoBottom}</div>
       <div className="jagrata-footer-text">{t.jagFooter}</div>

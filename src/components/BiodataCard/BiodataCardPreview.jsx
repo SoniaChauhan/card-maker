@@ -161,7 +161,7 @@ export default function BiodataCardPreview({ data, lang = 'en', template = 1, co
                 <span className="bio-value">{hobbies}</span>
               </div>
             )}
-            {aboutMe && <div className="bio-about-text">"{aboutMe}"</div>}
+            {aboutMe && <div className="bio-about-text">&ldquo;{aboutMe}&rdquo;</div>}
           </div>
           <div className="bio-divider" />
         </>

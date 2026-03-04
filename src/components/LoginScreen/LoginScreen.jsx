@@ -1024,7 +1024,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
             <strong>Card Maker</strong> is a simple and intuitive online tool that helps you create birthday invitations,
             wedding cards, anniversary greetings, festival greeting cards, motivational quote cards, and professional
             documents like resumes and marriage biodata — all in one place. With a growing library of ready‑to‑use
-            templates in <strong>Hindi, English, Punjabi, and Gujarati</strong>, it's easy for anyone to design and
+            templates in <strong>Hindi, English, Punjabi, and Gujarati</strong>, it&apos;s easy for anyone to design and
             download beautiful cards quickly.
           </p>
           <p>
@@ -1034,7 +1034,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
           </p>
           <p>
             Developed by <strong>Creative Thinker Design Hub</strong>, Card Maker focuses on making design accessible
-            to everyone — from students and families to small business owners and event planners. Whether it's a festive
+            to everyone — from students and families to small business owners and event planners. Whether it&apos;s a festive
             greeting or a professional document, Card Maker helps you create polished, visually appealing cards without
             needing any design skills.
           </p>

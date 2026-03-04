@@ -59,7 +59,7 @@ export default function SubscriptionPopup({ card, userEmail, existingStatus, onC
 
         {done && status === 'pending' && (
           <p className="sub-description">
-            ✅ Request sent! {ADMIN_NAME} will review your request and you'll be notified once approved.
+            ✅ Request sent! {ADMIN_NAME} will review your request and you&apos;ll be notified once approved.
           </p>
         )}
 
