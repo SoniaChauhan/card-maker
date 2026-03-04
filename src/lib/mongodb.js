@@ -34,5 +34,6 @@ export default { then: (resolve, reject) => ensureConnection().then(resolve, rej
 /** Helper — get the card-maker database */
 export async function getDb() {
   const client = await ensureConnection();
-  return client.db('card-maker');
+  const dbName = process.env.NODE_ENV === 'development' ? 'card-maker-dev' : 'card-maker';
+  return client.db(dbName);
 }

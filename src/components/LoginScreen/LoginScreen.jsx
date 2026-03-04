@@ -476,15 +476,21 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   }
 
   /* ========== DELETE FEEDBACK ========== */
-  async function deleteFeedback(reviewId, ownerEmail) {
-    if (!confirm('Delete this review?')) return;
+  async function deleteFeedback(reviewId) {
+    const email = prompt('To delete this review, please enter the email you used when submitting it:');
+    if (!email || !email.trim()) return;
     try {
       const res = await fetch('/api/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'delete', id: reviewId, email: ownerEmail }),
+        body: JSON.stringify({ action: 'delete', id: reviewId, email: email.trim() }),
       });
-      if (res.ok) setReviews(prev => prev.filter(r => r.id !== reviewId));
+      if (res.ok) {
+        setReviews(prev => prev.filter(r => r.id !== reviewId));
+      } else {
+        const data = await res.json().catch(() => ({}));
+        alert(data.error === 'Not authorised' ? 'Email does not match. You can only delete your own review.' : 'Failed to delete review.');
+      }
     } catch { /* ignore */ }
   }
 
@@ -1120,11 +1126,9 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
                         {!isEditing && (
                           <div className="lp-review-actions">
                             {isOwner && (
-                              <>
-                                <button className="lp-review-btn edit" onClick={() => startEdit(r)}>✏️ Edit</button>
-                                <button className="lp-review-btn delete" onClick={() => deleteFeedback(r.id, r.email)}>🗑️ Delete</button>
-                              </>
+                              <button className="lp-review-btn edit" onClick={() => startEdit(r)}>✏️ Edit</button>
                             )}
+                            <button className="lp-review-btn delete" onClick={() => deleteFeedback(r.id)}>🗑️ Delete</button>
                             <button className="lp-review-btn reply" onClick={() => openReply(r.id)}>💬 Reply</button>
                           </div>
                         )}
