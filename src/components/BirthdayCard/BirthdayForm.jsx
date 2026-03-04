@@ -8,7 +8,7 @@ export default function BirthdayForm({ data, errors, onChange, onBack, onGenerat
         <div className="form-header">
           <span className="form-header-icon">�</span>
           <h2>Birthday Invitation Details</h2>
-          <p>Fill in the details and we'll create a beautiful birthday party invitation!</p>
+          <p>Fill in the details and we&apos;ll create a beautiful birthday party invitation!</p>
         </div>
 
         <div className="form-grid">

@@ -126,7 +126,7 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
           >
             <div className="pay-tier-price">FREE</div>
             <div className="pay-tier-label">With Watermark</div>
-            <div className="pay-tier-desc">"CreativeThinkerDesignHub.com" watermark on card</div>
+            <div className="pay-tier-desc">&ldquo;CreativeThinkerDesignHub.com&rdquo; watermark on card</div>
           </button>
 
           {/* ₹19 Option */}

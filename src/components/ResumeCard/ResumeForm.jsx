@@ -23,7 +23,7 @@ export default function ResumeForm({ data, errors, onChange, onBack, onGenerate 
         <div className="form-header">
           <span className="form-header-icon">📄</span>
           <h2>Resume Builder</h2>
-          <p>Fill in your details and we'll generate a professional resume you can download as PDF!</p>
+          <p>Fill in your details and we&apos;ll generate a professional resume you can download as PDF!</p>
         </div>
 
         {/* ---- Personal ---- */}

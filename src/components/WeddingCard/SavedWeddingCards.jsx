@@ -88,7 +88,7 @@ export default function SavedWeddingCards({ userEmail, onLoadTemplate, onClose }
             <span className="swc-empty-icon">📭</span>
             <p>No saved wedding cards yet.</p>
             <p className="swc-empty-hint">
-              Create a wedding card and click <strong>"Save Template"</strong> to see it here.
+              Create a wedding card and click <strong>&ldquo;Save Template&rdquo;</strong> to see it here.
             </p>
           </div>
         ) : (
