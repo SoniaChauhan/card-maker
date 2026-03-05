@@ -21,7 +21,7 @@
 
 /* ---- Section titles ---- */
 .admin-section-title {
-  color: #e8d5a0;
+  color: #c4b5fd;
   font-size: 16px;
   font-weight: 700;
   margin: 0 0 14px;
@@ -56,7 +56,7 @@
   transition: border-color .2s;
 }
 .admin-input::placeholder { color: rgba(255,255,255,.35); }
-.admin-input:focus { border-color: rgba(212,168,83,.5); }
+.admin-input:focus { border-color: rgba(102,126,234,.5); }
 
 .admin-input-reason { font-size: 13px; }
 
@@ -86,9 +86,9 @@
 }
 
 .admin-btn-unblock {
-  background: rgba(46,204,113,.12);
-  border: 1.5px solid rgba(46,204,113,.35);
-  color: #2ecc71;
+  background: rgba(102,126,234,.12);
+  border: 1.5px solid rgba(102,126,234,.35);
+  color: #667eea;
   padding: 7px 16px;
   border-radius: 20px;
   font-size: 12px;
@@ -96,8 +96,8 @@
   flex-shrink: 0;
 }
 .admin-btn-unblock:hover:not(:disabled) {
-  background: rgba(46,204,113,.22);
-  border-color: #2ecc71;
+  background: rgba(102,126,234,.22);
+  border-color: #667eea;
 }
 
 /* ---- Refresh ---- */
@@ -267,7 +267,7 @@
 .admin-req-card-name {
   font-size: 13px;
   font-weight: 700;
-  color: #e8d5a0;
+  color: #c4b5fd;
 }
 
 .admin-req-actions {
@@ -277,17 +277,17 @@
 }
 
 .admin-btn-approve {
-  background: rgba(46,204,113,.12);
-  border: 1.5px solid rgba(46,204,113,.35);
-  color: #2ecc71;
+  background: rgba(102,126,234,.12);
+  border: 1.5px solid rgba(102,126,234,.35);
+  color: #667eea;
   padding: 7px 14px;
   border-radius: 20px;
   font-size: 12px;
   white-space: nowrap;
 }
 .admin-btn-approve:hover:not(:disabled) {
-  background: rgba(46,204,113,.22);
-  border-color: #2ecc71;
+  background: rgba(102,126,234,.22);
+  border-color: #667eea;
 }
 
 .admin-btn-reject {
@@ -322,7 +322,7 @@
   display: block;
   font-size: 1.6rem;
   font-weight: 800;
-  color: #ffd700;
+  color: #a78bfa;
   line-height: 1.2;
 }
 .visitor-stat-label {
@@ -369,14 +369,14 @@
 }
 .visitor-bar-count {
   font-size: 0.65rem;
-  color: #ffd700;
+  color: #a78bfa;
   font-weight: 700;
   margin-bottom: 3px;
 }
 .visitor-bar {
   width: 100%;
   max-width: 40px;
-  background: linear-gradient(180deg, #ffd700, #ff9500);
+  background: linear-gradient(180deg, #667eea, #764ba2);
   border-radius: 6px 6px 0 0;
   min-height: 4px;
   transition: height 0.3s;
@@ -413,7 +413,7 @@
 }
 .visitor-page-count {
   font-size: 0.72rem;
-  color: #ffd700;
+  color: #a78bfa;
   font-weight: 700;
   white-space: nowrap;
 }
@@ -444,7 +444,7 @@
   min-width: 80px;
 }
 .visitor-recent-ip {
-  color: #74b9ff;
+  color: #a4b0f5;
 }
 .visitor-recent-info {
   color: #888;
@@ -488,7 +488,7 @@
   margin-bottom: 14px;
 }
 .admin-am-subtitle {
-  color: #e8d5a0;
+  color: #c4b5fd;
   font-size: 14px;
   font-weight: 600;
   margin: 0 0 6px;
@@ -525,7 +525,7 @@
   text-align: left;
   padding: 6px 8px;
   border-bottom: 1px solid rgba(255,255,255,.15);
-  color: #e8d5a0;
+  color: #c4b5fd;
   font-weight: 600;
   white-space: nowrap;
 }
@@ -534,6 +534,51 @@
   border-bottom: 1px solid rgba(255,255,255,.06);
   white-space: nowrap;
 }
-.admin-am-table tr.am-active td { color: #4ade80; }
+.admin-am-table tr.am-active td { color: #a78bfa; }
 .admin-am-table tr.am-expired td { color: #f87171; }
 .am-missing { color: #f87171; font-weight: 600; font-size: 11px; }
+
+/* ═══════ Notification Manager ═══════ */
+.admin-notif-section {
+  border-top: 2px solid rgba(102, 126, 234, 0.2);
+  margin-top: 12px;
+}
+.admin-am-subsection {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+.admin-am-subheading {
+  font-size: 14px;
+  font-weight: 700;
+  color: #c4b5fd;
+  margin: 0 0 6px;
+}
+.admin-am-label {
+  font-size: 12px;
+  color: #999;
+  margin: 0 0 8px;
+}
+.admin-am-input {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #eee;
+  font-size: 13px;
+  flex: 1 1 140px;
+  min-width: 120px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.admin-am-input:focus {
+  border-color: #667eea;
+}
+select.admin-am-input {
+  cursor: pointer;
+}
+textarea.admin-am-input {
+  font-family: inherit;
+}

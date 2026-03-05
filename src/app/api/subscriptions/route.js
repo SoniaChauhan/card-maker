@@ -7,7 +7,13 @@ import { ObjectId } from 'mongodb';
 import { getDb } from '@/lib/mongodb';
 import { decodeRequest } from '@/utils/payload';
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
+/** Support multiple admin emails (comma-separated in env var) */
+const ADMIN_EMAILS = new Set(
+  (process.env.ADMIN_EMAIL || '').split(',').map(e => e.toLowerCase().trim()).filter(Boolean)
+);
+function isAdminEmail(email) {
+  return !!email && ADMIN_EMAILS.has(email.toLowerCase().trim());
+}
 
 export async function POST(req) {
   try {
@@ -68,7 +74,7 @@ export async function POST(req) {
         const { email, cardId } = body;
         const key = email.toLowerCase().trim();
         // Super-admin bypasses payment
-        if (key === ADMIN_EMAIL) return NextResponse.json({ paid: true });
+        if (isAdminEmail(key)) return NextResponse.json({ paid: true });
         const doc = await col.findOne({ email: key, cardId, status: 'approved' });
         return NextResponse.json({ paid: !!doc });
       }

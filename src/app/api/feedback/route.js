@@ -4,6 +4,14 @@ import clientPromise from '@/lib/mongodb';
 const DB = process.env.NODE_ENV === 'development' ? 'card-maker-dev' : 'card-maker';
 const COL = 'feedbacks';
 
+/** Support multiple admin emails (comma-separated in env var) */
+const ADMIN_EMAILS = new Set(
+  (process.env.ADMIN_EMAIL || '').split(',').map(e => e.toLowerCase().trim()).filter(Boolean)
+);
+function isAdminEmail(email) {
+  return !!email && ADMIN_EMAILS.has(email.toLowerCase().trim());
+}
+
 export async function POST(req) {
   try {
     const body = await req.json();
@@ -95,17 +103,26 @@ export async function POST(req) {
         return NextResponse.json({ ok: true });
       }
 
-      /* ── Delete feedback (user — must match email, or admin) ── */
+      /* ── Delete feedback (owner must match email, or admin can delete any) ── */
       case 'delete': {
-        const { id: delId, email: delEmail } = body;
+        const { id: delId, email: delEmail, adminEmail } = body;
         if (!delId) return NextResponse.json({ error: 'Missing id' }, { status: 400 });
         const { ObjectId: OId } = await import('mongodb');
-        if (delEmail) {
-          const doc = await col.findOne({ _id: new OId(delId) });
-          if (!doc) return NextResponse.json({ error: 'Not found' }, { status: 404 });
-          if (doc.email !== delEmail.trim().toLowerCase()) {
-            return NextResponse.json({ error: 'Not authorised' }, { status: 403 });
-          }
+
+        // Admin can delete any feedback
+        if (isAdminEmail(adminEmail)) {
+          await col.deleteOne({ _id: new OId(delId) });
+          return NextResponse.json({ ok: true });
+        }
+
+        // Regular user — must provide email and it must match
+        if (!delEmail) {
+          return NextResponse.json({ error: 'Email required to delete' }, { status: 400 });
+        }
+        const doc = await col.findOne({ _id: new OId(delId) });
+        if (!doc) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+        if (doc.email !== delEmail.trim().toLowerCase()) {
+          return NextResponse.json({ error: 'Not authorised' }, { status: 403 });
         }
         await col.deleteOne({ _id: new OId(delId) });
         return NextResponse.json({ ok: true });

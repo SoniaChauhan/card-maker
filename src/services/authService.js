@@ -3,7 +3,11 @@
  */
 import { encodePayload } from '../utils/payload';
 
-export const ADMIN_EMAIL = 'soniarajvansi9876@gmail.com';
+export const ADMIN_EMAILS = [
+  'soniarajvansi9876@gmail.com',
+  'creativethinker.designhub@gmail.com',
+];
+export const ADMIN_EMAIL = ADMIN_EMAILS[0];   // primary admin (used as sender identity)
 export const ADMIN_NAME  = 'Sonia Rajvansi';
 
 async function api(body) {
@@ -55,7 +59,8 @@ export async function createOrUpdateUser(email) {
 }
 
 export function isAdmin(email) {
-  return email?.toLowerCase().trim() === ADMIN_EMAIL;
+  const e = email?.toLowerCase().trim();
+  return ADMIN_EMAILS.some(a => a === e);
 }
 
 /* ========== Plan management (admin) ========== */

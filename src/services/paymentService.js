@@ -10,6 +10,12 @@ export const PRICE_WITH_WATERMARK = 19;    // Download with small watermark (7-d
 export const PRICE_NO_WATERMARK = 49;      // Download without watermark (7-day access)
 export const PRICE_FREE = 0;               // Free with full watermark
 
+/* ── Combo Offer ── */
+export const COMBO_PRICE = 69;              // ₹69 for any 2 card types
+export const COMBO_CARD_COUNT = 2;          // Pick exactly 2 card types
+export const COMBO_DURATION_DAYS = 15;      // 15-day unlimited download
+export const COMBO_SAVINGS = (PRICE_NO_WATERMARK * 2) - COMBO_PRICE; // ₹29 saved
+
 /* ── Card pricing (base prices - use PRICE_NO_WATERMARK for full removal) ── */
 export const CARD_PRICES = {
   birthday:        PRICE_NO_WATERMARK,
@@ -109,11 +115,17 @@ async function apiPayments(body) {
   return data;
 }
 
-/** Check if user has already paid for this card type (by email or phone) */
+/** Check if user has already paid for this card type (by email or phone) — also checks combo packages */
 export async function hasUserPaid(email, cardType, phone = '') {
   if (FREE_CARDS.has(cardType)) return true; // free cards are always "paid"
   const data = await apiPayments({ action: 'check', email: email || '', phone: phone || '', cardType });
   return data.paid;
+}
+
+/** Get active combo packages for a user. Returns array of { comboCards, expiresAt } */
+export async function getUserCombos(email, phone = '') {
+  const data = await apiPayments({ action: 'getUserCombos', email: email || '', phone: phone || '' });
+  return data.combos || [];
 }
 
 /**
@@ -152,7 +164,7 @@ export async function createOrder(email, cardType, cardLabel, customAmount = nul
 }
 
 /** Verify payment after Razorpay checkout */
-export async function verifyPayment({ razorpayOrderId, razorpayPaymentId, razorpaySignature, email, phone, cardType, tier }) {
+export async function verifyPayment({ razorpayOrderId, razorpayPaymentId, razorpaySignature, email, phone, cardType, tier, comboCards }) {
   return apiPayments({
     action: 'verify',
     razorpayOrderId,
@@ -162,6 +174,7 @@ export async function verifyPayment({ razorpayOrderId, razorpayPaymentId, razorp
     phone: phone || '',
     cardType,
     tier,
+    ...(comboCards ? { comboCards } : {}),
   });
 }
 
@@ -271,6 +284,84 @@ export async function startPayment({ email, phone, cardType, cardLabel, userName
           // User closed the popup without paying
         },
       },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.on('payment.failed', function (response) {
+      if (onError) onError(new Error(response.error?.description || 'Payment failed'));
+    });
+    rzp.open();
+  } catch (err) {
+    if (onError) onError(err);
+  }
+}
+
+/**
+ * Full COMBO payment flow — creates order for 2 card types, opens Razorpay, verifies.
+ *
+ * @param {Object} opts
+ * @param {string} opts.email
+ * @param {string} [opts.phone]
+ * @param {string[]} opts.comboCards - Array of exactly 2 card type IDs
+ * @param {string} opts.userName
+ * @param {Function} opts.onSuccess
+ * @param {Function} opts.onError
+ */
+export async function startComboPayment({ email, phone, comboCards, userName, onSuccess, onError }) {
+  try {
+    if (!comboCards || comboCards.length !== COMBO_CARD_COUNT) {
+      throw new Error(`Please select exactly ${COMBO_CARD_COUNT} card types.`);
+    }
+
+    // Load Razorpay script
+    const loaded = await loadRazorpayScript();
+    if (!loaded) throw new Error('Failed to load Razorpay. Please check your internet connection.');
+
+    // Create combo order
+    const comboLabel = comboCards.join(' + ');
+    const order = await apiOrders({
+      email: email || '', phone: phone || '',
+      cardType: 'combo',
+      cardLabel: `Combo: ${comboLabel}`,
+      amount: COMBO_PRICE,
+      comboCards,
+    });
+    if (order.alreadyPaid) {
+      if (onSuccess) onSuccess({ alreadyPaid: true, comboCards });
+      return;
+    }
+
+    // Open Razorpay checkout
+    const options = {
+      key: order.keyId,
+      amount: order.amount,
+      currency: order.currency,
+      name: 'CardMaker',
+      description: `Combo Pack — ${comboLabel} — 15 Days Unlimited`,
+      order_id: order.orderId,
+      prefill: { email: email || '', name: userName || '', contact: phone || '' },
+      theme: { color: '#f97316' },
+      handler: async function (response) {
+        try {
+          const result = await verifyPayment({
+            razorpayOrderId: response.razorpay_order_id,
+            razorpayPaymentId: response.razorpay_payment_id,
+            razorpaySignature: response.razorpay_signature,
+            email: email || '', phone: phone || '',
+            cardType: 'combo',
+            tier: 'combo',
+            comboCards,
+          });
+          if (result.verified) {
+            if (onSuccess) onSuccess({ paymentId: response.razorpay_payment_id, comboCards, expiresAt: result.expiresAt });
+          } else {
+            throw new Error('Payment verification failed');
+          }
+        } catch (err) {
+          if (onError) onError(err);
+        }
+      },
+      modal: { ondismiss: function () {} },
     };
 
     const rzp = new window.Razorpay(options);

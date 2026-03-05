@@ -1,0 +1,190 @@
+/* ═══════════════════════════════════════════════
+   Free Cards Page — Full-page with Tabs
+   ═══════════════════════════════════════════════ */
+
+.fcp-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0d0d1a 0%, #1a1a2e 100%);
+  padding-bottom: 60px;
+}
+
+/* ── Top Bar ── */
+.fcp-topbar {
+  text-align: center;
+  padding: 32px 20px 16px;
+}
+.fcp-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 22px;
+  border-radius: 12px;
+  border: 1px solid rgba(102, 126, 234, 0.4);
+  background: rgba(102, 126, 234, 0.1);
+  color: #a4b0f5;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 16px;
+}
+.fcp-back-btn:hover {
+  background: rgba(102, 126, 234, 0.25);
+  color: #fff;
+  border-color: #667eea;
+}
+.fcp-page-title {
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 8px;
+}
+.fcp-page-sub {
+  color: #999;
+  font-size: 14px;
+  margin: 0 0 8px;
+}
+
+/* ── Tabs ── */
+.fcp-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px 20px;
+  flex-wrap: wrap;
+}
+.fcp-tab {
+  padding: 10px 24px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: #aaa;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.fcp-tab:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ddd;
+}
+.fcp-tab--active {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  border-color: transparent;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+}
+.fcp-tab--active:hover {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+}
+.fcp-tab-badge {
+  background: rgba(0, 0, 0, 0.2);
+  color: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 8px;
+}
+
+/* ── Wrapper ── */
+.fcp-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ── Cards Grid ── */
+.fcp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* ── Card ── */
+.fcp-card {
+  position: relative;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 28px 20px 22px;
+  text-align: center;
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.3s;
+  overflow: hidden;
+}
+.fcp-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.fcp-card-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 8px;
+  letter-spacing: 1px;
+  backdrop-filter: blur(6px);
+}
+.fcp-card-icon {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 10px;
+}
+.fcp-card-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  color: #fff;
+}
+.fcp-card-desc {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ── Empty State ── */
+.fcp-empty {
+  text-align: center;
+  padding: 60px 20px;
+}
+.fcp-empty-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 12px;
+}
+.fcp-empty-text {
+  color: #888;
+  font-size: 15px;
+  max-width: 400px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ══════ Responsive ══════ */
+@media (max-width: 768px) {
+  .fcp-page-title { font-size: 22px; }
+  .fcp-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .fcp-card { padding: 22px 16px 18px; }
+}
+@media (max-width: 480px) {
+  .fcp-topbar { padding: 20px 16px 12px; }
+  .fcp-page-title { font-size: 20px; }
+  .fcp-page-sub { font-size: 12px; }
+  .fcp-tabs { gap: 6px; }
+  .fcp-tab { padding: 8px 16px; font-size: 13px; }
+  .fcp-grid { grid-template-columns: 1fr; }
+}

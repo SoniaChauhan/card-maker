@@ -156,13 +156,13 @@ export default function BiodataPaymentPopup({ userEmail, userName, lookupPhone, 
       return;
     }
 
-    // If user already has active premium access, skip payment entirely
-    if (existingAccess?.hasAccess && existingAccess.tier === 'premium') {
+    // If user already has active premium or combo access, skip payment entirely
+    if (existingAccess?.hasAccess && (existingAccess.tier === 'premium' || existingAccess.tier === 'combo')) {
       if (onPaymentDone) {
         onPaymentDone({
           alreadyPaid: true,
           withWatermark: false,
-          tier: 'premium',
+          tier: existingAccess.tier,
           email: email || existingAccess.email || '',
           phone: phone || existingAccess.phone || '',
           expiresAt: existingAccess.expiresAt,
@@ -218,7 +218,7 @@ export default function BiodataPaymentPopup({ userEmail, userName, lookupPhone, 
     ? '⏳ Processing…'
     : selectedTier === 'free'
       ? '⬇️ Download Free (With Watermark)'
-      : existingAccess?.hasAccess && existingAccess.tier === 'premium'
+      : existingAccess?.hasAccess && (existingAccess.tier === 'premium' || existingAccess.tier === 'combo')
         ? '⬇️ Download Now (No Watermark)'
         : `Pay ₹${BIODATA_PRICE} to Download Now`;
 

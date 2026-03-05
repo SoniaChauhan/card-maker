@@ -6,6 +6,7 @@ import {
   generateOTP, storeOTP, verifyOTP,
   signUpUser, signInUser, resetPassword,
   createOrUpdateUser, userExists,
+  isAdmin, ADMIN_EMAIL,
 } from '../../services/authService';
 import { sendOTPEmail, notifyAdmin, sendFeedback } from '../../services/notificationService';
 import { isUserBlocked } from '../../services/blockService';
@@ -14,6 +15,7 @@ import AdminPanel from '../AdminPanel/AdminPanel';
 import MyTemplates from '../MyTemplates/MyTemplates';
 import DownloadHistory from '../DownloadHistory/DownloadHistory';
 import Toast from '../shared/Toast';
+import { getActiveFestivals, getAllFestivals, getUpcomingFestivals } from '../../utils/festivalCalendar';
 
 /* Preview components for sample cards */
 import WeddingCardPreview from '../WeddingCard/WeddingCardPreview';
@@ -111,7 +113,7 @@ const BIODATA_TEMPLATES = [
     otp-login-verify – Verify OTP for passwordless login
 */
 
-export default function LoginScreen({ onSelect, onEditTemplate }) {
+export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onOpenCalendar, onOpenFreeCards }) {
   const { user, login, loginAsGuest, logout, isGuest, isFreePlan, isSuperAdmin } = useAuth();
 
   const [mode, setMode]           = useState('signin');
@@ -162,6 +164,14 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   const [replyComment, setReplyComment]     = useState('');
   const [replyName, setReplyName]           = useState('');
   const [replySending, setReplySending]     = useState(false);
+
+  /* Subscriber notification state */
+  const [subEmail, setSubEmail]   = useState('');
+  const [subPhone, setSubPhone]   = useState('');
+  const [subName, setSubName]     = useState('');
+  const [subSending, setSubSending] = useState(false);
+  const [subMsg, setSubMsg]       = useState('');
+  const [showSubscribePopup, setShowSubscribePopup] = useState(true);
 
   /* Load public reviews on mount */
   useEffect(() => {
@@ -479,20 +489,27 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   }
 
   /* ========== DELETE FEEDBACK ========== */
-  async function deleteFeedback(reviewId) {
-    const delEmail = prompt('Enter the email used when posting this review to confirm deletion:');
-    if (!delEmail) return;
+  async function deleteFeedback(reviewId, ownerEmail) {
+    if (!confirm('Are you sure you want to delete this review?')) return;
+    const userEmail = (fbEmail || submittedEmail || '').trim().toLowerCase();
+    const userIsAdmin = isAdmin(userEmail);
     try {
+      const payload = { action: 'delete', id: reviewId };
+      if (userIsAdmin) {
+        payload.adminEmail = userEmail;
+      } else {
+        payload.email = ownerEmail || userEmail;
+      }
       const res = await fetch('/api/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'delete', id: reviewId, email: delEmail.trim().toLowerCase() }),
+        body: JSON.stringify(payload),
       });
       if (res.ok) {
         setReviews(prev => prev.filter(r => r.id !== reviewId));
       } else {
         const data = await res.json().catch(() => ({}));
-        alert(data.error || 'Failed to delete. Email may not match.');
+        alert(data.error || 'Failed to delete.');
       }
     } catch { /* ignore */ }
   }
@@ -517,6 +534,31 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
       }
     } catch { /* ignore */ }
     finally { setReplySending(false); }
+  }
+
+  /* ========== SUBSCRIBE FOR NOTIFICATIONS ========== */
+  async function handleSubscribe(e) {
+    e.preventDefault();
+    if (!subEmail.trim() && !subPhone.trim()) { setSubMsg('⚠️ Please enter email or phone.'); return; }
+    setSubSending(true);
+    setSubMsg('');
+    try {
+      const res = await fetch('/api/notifications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'subscribe', email: subEmail.trim(), phone: subPhone.trim(), name: subName.trim() }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSubMsg('✅ Subscribed! You\'ll get notified about new cards & festivals.');
+        setSubEmail('');
+        setSubPhone('');
+        setSubName('');
+      } else {
+        setSubMsg('❌ ' + (data.error || 'Failed'));
+      }
+    } catch { setSubMsg('❌ Something went wrong.'); }
+    finally { setSubSending(false); }
   }
 
   /* ========== RENDER ========== */
@@ -550,11 +592,11 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
     { id: 'biodata',       icon: '💒', name: 'Marriage Profile Designer',     desc: 'Build a traditional and detailed marriage biodata with a clean layout.',   grad: 'linear-gradient(135deg, #d4af37, #c0392b)', price: '₹49' },
   ];
 
-  const HOLI_FREE_CARDS = [
-    { id: 'holiwishes',    icon: '🌈', name: 'होली शुभकामनाएं (Hindi)',  desc: 'रंगों भरी होली शायरी — चुनें, रंग बदलें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #ff6f91, #ffc75f)' },
-    { id: 'holiwishes-en', icon: '🌈', name: 'Holi Wishes (English)',    desc: 'Beautiful English Holi messages — pick, customize colors & download!', grad: 'linear-gradient(135deg, #a29bfe, #ffc75f)' },
-    { id: 'holivideo',     icon: '🎬', name: 'Holi Video Wishes',        desc: 'Download colorful Holi video greetings — share on WhatsApp & social media!', grad: 'linear-gradient(135deg, #e44d26, #f7df1e)' },
-  ];
+  /* Festival calendar — auto-detect active festivals */
+  const activeFestivals = getActiveFestivals();
+  const upcomingFestivals = getUpcomingFestivals();
+  const allFestivals = getAllFestivals();
+  const [showOccasionalCards, setShowOccasionalCards] = useState(false);
 
   const FREE_CARDS_HINDI = [
     { id: 'motivational',  icon: '💪', name: 'प्रेरणादायक विचार',      desc: 'प्रेरणादायक विचार — थीम चुनें, कस्टमाइज़ करें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #0f0c29, #302b63)' },
@@ -645,6 +687,34 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         </div>
       </div>
 
+      {/* ═══════ SUBSCRIBE POPUP ═══════ */}
+      {showSubscribePopup && (
+        <div className="lp-subscribe-overlay" onClick={() => setShowSubscribePopup(false)}>
+          <div className="lp-subscribe-popup" onClick={e => e.stopPropagation()}>
+            <button className="lp-subscribe-close" onClick={() => setShowSubscribePopup(false)} aria-label="Close">✕</button>
+            <div className="lp-subscribe-icon">🔔</div>
+            <h2 className="lp-subscribe-title">Never Miss a New Card!</h2>
+            <p className="lp-subscribe-desc">
+              Subscribe to get notified when we add new card templates, festival offers, and exclusive deals — straight to your inbox.
+            </p>
+            <form className="lp-subscribe-form" onSubmit={handleSubscribe}>
+              <div className="lp-subscribe-row">
+                <input className="lp-subscribe-input" type="text" placeholder="Your name" value={subName} onChange={e => setSubName(e.target.value)} autoComplete="off" />
+                <input className="lp-subscribe-input" type="email" placeholder="Email address *" value={subEmail} onChange={e => setSubEmail(e.target.value)} autoComplete="off" />
+                <input className="lp-subscribe-input" type="tel" placeholder="WhatsApp / Phone" value={subPhone} onChange={e => setSubPhone(e.target.value)} autoComplete="off" />
+              </div>
+              <button className="lp-subscribe-btn" type="submit" disabled={subSending}>
+                {subSending ? '⏳ Subscribing…' : '🔔 Subscribe Now — It\'s Free!'}
+              </button>
+              {subMsg && <p className={`lp-subscribe-msg ${subMsg.startsWith('✅') ? 'success' : 'warn'}`}>{subMsg}</p>}
+            </form>
+            <p className="lp-subscribe-privacy">
+              📱 We&apos;ll notify you via <strong>Email</strong> &amp; <strong>WhatsApp</strong>. No spam, ever.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* ═══════ ACCOUNT PANEL OVERLAY ═══════ */}
       {user && accountTab && (
         <div className="lp-account-overlay" onClick={() => setAccountTab(null)}>
@@ -717,78 +787,92 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         </div>
       </section>
 
-      {/* ═══════ HOLI SPECIAL OFFER BANNER ═══════ */}
-      <section className="lp-offer-banner">
-        <div className="lp-offer-inner">
-          <div className="lp-offer-badge">🔥 SPECIAL OFFER</div>
-          <h2 className="lp-offer-title">🌈 Holi Celebration Card — Unlimited Downloads!</h2>
-          <p className="lp-offer-desc">
-            Pay just <strong>₹49</strong> once and download <strong>unlimited Holi cards forever</strong>!
-            Create vibrant, colorful greeting cards with festive typography.
-          </p>
-          <div className="lp-offer-features">
-            <span className="lp-offer-feature">✅ Unlimited Downloads</span>
-            <span className="lp-offer-feature">✅ Lifetime Access</span>
-            <span className="lp-offer-feature">✅ No Watermark</span>
-            <span className="lp-offer-feature">✅ HD Quality</span>
-          </div>
-          <button className="lp-offer-cta" type="button" onClick={() => handleCardClick('holicard')}>
-            🎨 Create Holi Card Now — ₹49 Only
-          </button>
-        </div>
-      </section>
-
-      {/* ═══════ HOLI SPECIAL ═══════ */}
-      <section className="lp-showcase lp-holi-section">
-        <div className="lp-section-header">
-          <h2 className="lp-section-title">🌈 Holi Special — Free Cards &amp; Videos</h2>
-          <span className="lp-section-free-tag">100% FREE</span>
-        </div>
-        <p className="lp-section-sub">Colorful Holi wishes, greeting cards &amp; video downloads — share instantly!</p>
-        <div className="lp-showcase-grid lp-free-grid">
-          {HOLI_FREE_CARDS.map(c => (
-            <button key={c.id} className="lp-showcase-card lp-free-card lp-holi-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
-              <span className="lp-free-badge">FREE</span>
-              <span className="lp-showcase-icon">{c.icon}</span>
-              <h3 className="lp-showcase-name">{c.name}</h3>
-              <p className="lp-showcase-desc">{c.desc}</p>
+      {/* ═══════ ACTIVE FESTIVAL SPECIAL OFFERS (auto-detected) ═══════ */}
+      {activeFestivals.map(f => (
+        <section key={f.key} className="lp-offer-banner" style={{ background: f.grad }}>
+          <div className="lp-offer-inner">
+            <div className="lp-offer-badge">🔥 SPECIAL OFFER</div>
+            <h2 className="lp-offer-title">{f.offerTitle}</h2>
+            <p className="lp-offer-desc" dangerouslySetInnerHTML={{ __html: f.offerDesc }} />
+            <div className="lp-offer-features">
+              {f.features.map(feat => <span key={feat} className="lp-offer-feature">✅ {feat}</span>)}
+            </div>
+            <button className="lp-offer-cta" type="button" onClick={() => handleCardClick(f.offerCard)}>
+              {f.offerCta}
             </button>
-          ))}
-        </div>
+          </div>
+        </section>
+      ))}
+
+      {/* ═══════ ACTIVE FESTIVAL FREE CARDS (if any) ═══════ */}
+      {activeFestivals.filter(f => f.freeCards.length > 0).map(f => (
+        <section key={f.key + '-free'} className="lp-showcase lp-holi-section">
+          <div className="lp-section-header">
+            <h2 className="lp-section-title">{f.icon} {f.name} Special — Free Cards & Videos</h2>
+            <span className="lp-section-free-tag">100% FREE</span>
+          </div>
+          <p className="lp-section-sub">Download & share {f.name} greetings instantly!</p>
+          <div className="lp-showcase-grid lp-free-grid">
+            {f.freeCards.map(c => (
+              <button key={c.id} className="lp-showcase-card lp-free-card lp-holi-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
+                <span className="lp-free-badge">FREE</span>
+                <span className="lp-showcase-icon">{c.icon}</span>
+                <h3 className="lp-showcase-name">{c.name}</h3>
+                <p className="lp-showcase-desc">{c.desc}</p>
+              </button>
+            ))}
+          </div>
+        </section>
+      ))}
+
+      {/* ═══════ UPCOMING FESTIVALS PREVIEW ═══════ */}
+      {upcomingFestivals.length > 0 && !activeFestivals.length && (
+        <section className="lp-upcoming-section">
+          <h2 className="lp-section-title">📅 Upcoming Festivals</h2>
+          <p className="lp-section-sub">Special offers coming soon for these festivals!</p>
+          <div className="lp-upcoming-grid">
+            {upcomingFestivals.slice(0, 4).map(f => (
+              <div key={f.key} className="lp-upcoming-card" style={{ background: f.grad }}>
+                <span className="lp-showcase-icon">{f.icon}</span>
+                <h3 className="lp-showcase-name">{f.name}</h3>
+                <span className="lp-upcoming-date">Starts {new Date(f.nextStart + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ═══════ FESTIVAL CALENDAR BUTTON ═══════ */}
+      <section className="lp-calendar-section">
+        <h2 className="lp-section-title">🗓️ Festival Calendar</h2>
+        <p className="lp-section-sub">Plan ahead! Explore all Indian festivals month‑wise and create cards for each celebration.</p>
+        <button className="lp-calendar-btn" onClick={onOpenCalendar}>
+          🗓️ Open Festival Calendar
+        </button>
       </section>
 
-      {/* ═══════ FREE CARDS ═══════ */}
+      {/* ═══════ FREE CARDS BUTTON ═══════ */}
       <section className="lp-showcase lp-free-section">
         <div className="lp-section-header">
           <h2 className="lp-section-title">🎁 Free Instant Cards</h2>
           <span className="lp-section-free-tag">100% FREE</span>
         </div>
         <p className="lp-section-sub">No form needed — just pick, customize colors &amp; download instantly!</p>
+        <button className="lp-free-cards-btn" onClick={onOpenFreeCards}>
+          🎁 Browse Free Cards
+        </button>
+      </section>
 
-        {/* ── Hindi Section ── */}
-        <h3 className="lp-free-lang-heading">🇮🇳 हिन्दी</h3>
-        <div className="lp-showcase-grid lp-free-grid">
-          {FREE_CARDS_HINDI.map(c => (
-            <button key={c.id} className="lp-showcase-card lp-free-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
-              <span className="lp-free-badge">FREE</span>
-              <span className="lp-showcase-icon">{c.icon}</span>
-              <h3 className="lp-showcase-name">{c.name}</h3>
-              <p className="lp-showcase-desc">{c.desc}</p>
-            </button>
-          ))}
-        </div>
-
-        {/* ── English Section ── */}
-        <h3 className="lp-free-lang-heading">🌐 English</h3>
-        <div className="lp-showcase-grid lp-free-grid">
-          {FREE_CARDS_ENGLISH.map(c => (
-            <button key={c.id} className="lp-showcase-card lp-free-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
-              <span className="lp-free-badge">FREE</span>
-              <span className="lp-showcase-icon">{c.icon}</span>
-              <h3 className="lp-showcase-name">{c.name}</h3>
-              <p className="lp-showcase-desc">{c.desc}</p>
-            </button>
-          ))}
+      {/* ═══════ COMBO OFFER BANNER ═══════ */}
+      <section className="lp-combo-banner-section">
+        <div className="lp-combo-banner" onClick={onOpenCombo} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && onOpenCombo?.()}>
+          <div className="lp-combo-fire">🔥</div>
+          <div className="lp-combo-content">
+            <div className="lp-combo-tag">COMBO OFFER</div>
+            <h3 className="lp-combo-title">Pick Any 2 Premium Cards — Just ₹69</h3>
+            <p className="lp-combo-desc">15 days unlimited download • No watermark • Save ₹29!</p>
+          </div>
+          <div className="lp-combo-arrow">→</div>
         </div>
       </section>
 
@@ -1083,6 +1167,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
                   {reviews.map(r => {
                     const ownerCheck = (fbEmail || submittedEmail || '').trim().toLowerCase();
                     const isOwner = ownerCheck && r.email && ownerCheck === r.email.trim().toLowerCase();
+                    const isUserAdmin = isAdmin(ownerCheck);
                     const isEditing = editId === r.id;
                     const isReplying = replyToId === r.id;
                     return (
@@ -1131,14 +1216,18 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
                           </div>
                         )}
 
-                        {/* Action buttons */}
+                        {/* Action buttons — owner: edit+delete, admin: delete, others: reply only */}
                         {!isEditing && (
                           <div className="lp-review-actions">
                             {isOwner && (
                               <button className="lp-review-btn edit" onClick={() => startEdit(r)}>✏️ Edit</button>
                             )}
-                            <button className="lp-review-btn delete" onClick={() => deleteFeedback(r.id)}>🗑️ Delete</button>
-                            <button className="lp-review-btn reply" onClick={() => openReply(r.id)}>💬 Reply</button>
+                            {(isOwner || isUserAdmin) && (
+                              <button className="lp-review-btn delete" onClick={() => deleteFeedback(r.id, r.email)}>🗑️ Delete</button>
+                            )}
+                            {!isOwner && (
+                              <button className="lp-review-btn reply" onClick={() => openReply(r.id)}>💬 Reply</button>
+                            )}
                           </div>
                         )}
 
@@ -1210,6 +1299,47 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
         </div>
       </section>
 
+      {/* ═══════ OCCASIONAL / FESTIVAL CARDS TOGGLE ═══════ */}
+      <section className="lp-occasional-section">
+        <button
+          className={`lp-occasional-toggle ${showOccasionalCards ? 'active' : ''}`}
+          type="button"
+          onClick={() => setShowOccasionalCards(prev => !prev)}
+        >
+          <span className="lp-occasional-icon">🎉</span>
+          <span className="lp-occasional-text">
+            {showOccasionalCards ? 'Hide' : 'Show'} Festival & Occasional Cards
+          </span>
+          <span className={`lp-occasional-arrow ${showOccasionalCards ? 'open' : ''}`}>▼</span>
+        </button>
+
+        {showOccasionalCards && (
+          <div className="lp-occasional-content">
+            <p className="lp-section-sub">Browse all seasonal & festival cards — Holi, Diwali, Eid, Christmas & more!</p>
+            <div className="lp-occasional-grid">
+              {allFestivals.map(f => {
+                const isActive = activeFestivals.some(af => af.key === f.key);
+                return (
+                  <button
+                    key={f.key}
+                    className={`lp-occasional-card ${isActive ? 'lp-occasional-card--active' : ''}`}
+                    style={{ background: f.grad }}
+                    type="button"
+                    onClick={() => handleCardClick(f.offerCard)}
+                  >
+                    {isActive && <span className="lp-occasional-live">🔴 LIVE</span>}
+                    <span className="lp-showcase-icon">{f.icon}</span>
+                    <h3 className="lp-showcase-name">{f.name}</h3>
+                    {f.nameHindi && <p className="lp-occasional-hindi">{f.nameHindi}</p>}
+                    <span className="lp-occasional-price">{f.offerPrice}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </section>
+
       {/* ═══════ COMING SOON ═══════ */}
       <section className="lp-coming-section">
         <h2 className="lp-section-title">🚀 Coming Soon</h2>
@@ -1224,6 +1354,8 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
           ))}
         </div>
       </section>
+
+
 
       {/* ═══════ FOOTER ═══════ */}
       <footer className="lp-footer">
