@@ -168,12 +168,12 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
 
     // If user already has active access, skip payment
     if (existingAccess?.hasAccess) {
-      const matchesTier = existingAccess.tier === 'premium' ||
+      const matchesTier = existingAccess.tier === 'premium' || existingAccess.tier === 'combo' ||
         existingAccess.tier === (selectedTier === 'watermark' ? 'watermark' : 'premium');
       if (matchesTier) {
         if (onPaymentDone) onPaymentDone({
           alreadyPaid: true,
-          withWatermark: existingAccess.tier === 'watermark',
+          withWatermark: false,
           tier: existingAccess.tier,
           email,
           phone,
@@ -233,7 +233,7 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
     if (loading) return '⏳ Processing…';
     if (selectedTier === 'free') return '⬇️ Download Free (With Watermark)';
     if (existingAccess?.hasAccess) {
-      const matchesTier = existingAccess.tier === 'premium' ||
+      const matchesTier = existingAccess.tier === 'premium' || existingAccess.tier === 'combo' ||
         existingAccess.tier === (selectedTier === 'watermark' ? 'watermark' : 'premium');
       if (matchesTier) return '⬇️ Download Now';
     }
@@ -257,7 +257,7 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
             <div className="pay-existing-info">
               <strong>You already have active access!</strong>
               <p>
-                {existingAccess.tier === 'premium' ? 'No watermark' : 'Small watermark'} access
+                {existingAccess.tier === 'combo' ? 'Combo Pack — No watermark' : existingAccess.tier === 'premium' ? 'No watermark' : 'Small watermark'} access
                 {existingAccess.expiresAt && ` until ${formatExpiry(existingAccess.expiresAt)}`}
               </p>
             </div>

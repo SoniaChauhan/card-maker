@@ -15,11 +15,21 @@ import { decodeRequest } from '@/utils/payload';
 
 const RAZORPAY_SECRET = process.env.RAZORPAY_KEY_SECRET;
 const RAZORPAY_WEBHOOK_SECRET = process.env.RAZORPAY_WEBHOOK_SECRET || RAZORPAY_SECRET;
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
+
+/** Support multiple admin emails (comma-separated in env var) */
+const ADMIN_EMAILS = new Set(
+  (process.env.ADMIN_EMAIL || '').split(',').map(e => e.toLowerCase().trim()).filter(Boolean)
+);
+function isAdminEmail(email) {
+  return !!email && ADMIN_EMAILS.has(email.toLowerCase().trim());
+}
 
 /** Card types that grant 7-day timed unlock after payment */
 const SEVEN_DAY_ACCESS_CARDS = new Set(['wedding', 'birthday', 'anniversary', 'biodata']);
 const UNLOCK_DURATION_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+
+/** Combo offer — 15-day access for 2 card types */
+const COMBO_UNLOCK_DURATION_MS = 15 * 24 * 60 * 60 * 1000; // 15 days
 
 /** Normalize phone: strip non-digits, keep last 10 digits */
 function normalizePhone(phone) {
@@ -152,7 +162,7 @@ export async function POST(req) {
     switch (action) {
       /* ── Verify payment after Razorpay checkout ── */
       case 'verify': {
-        const { razorpayOrderId, razorpayPaymentId, razorpaySignature, email, phone, cardType, tier } = body;
+        const { razorpayOrderId, razorpayPaymentId, razorpaySignature, email, phone, cardType, tier, comboCards } = body;
 
         if (!razorpayOrderId || !razorpayPaymentId || !razorpaySignature) {
           return NextResponse.json({ error: 'Missing payment details' }, { status: 400 });
@@ -165,6 +175,49 @@ export async function POST(req) {
 
         const emailKey = email ? email.toLowerCase().trim() : '';
         const phoneKey = phone ? normalizePhone(phone) : '';
+
+        // ── COMBO payment ──
+        if (cardType === 'combo' && Array.isArray(comboCards) && comboCards.length === 2) {
+          const sortedCombo = [...comboCards].sort();
+          const comboExpiry = new Date(Date.now() + COMBO_UNLOCK_DURATION_MS);
+
+          const comboSet = {
+            razorpayOrderId,
+            razorpayPaymentId,
+            razorpaySignature,
+            status: 'verified',
+            verifiedAt: new Date(),
+            tier: 'combo',
+            comboCards: sortedCombo,
+            unlockedUntil: comboExpiry,
+          };
+          if (emailKey) comboSet.email = emailKey;
+          if (phoneKey) comboSet.phone = phoneKey;
+
+          // Update order status
+          await db.collection('orders').updateOne(
+            { razorpayOrderId },
+            { $set: { status: 'paid', razorpayPaymentId, paidAt: new Date() } },
+          );
+
+          // Upsert combo payment record
+          const comboFilter = { cardType: 'combo', comboCards: sortedCombo };
+          if (emailKey) comboFilter.email = emailKey;
+          else if (phoneKey) comboFilter.phone = phoneKey;
+
+          await db.collection('payments').updateOne(
+            comboFilter,
+            {
+              $set: comboSet,
+              $setOnInsert: { cardType: 'combo', createdAt: new Date() },
+            },
+            { upsert: true },
+          );
+
+          return NextResponse.json({ verified: true, expiresAt: comboExpiry.toISOString(), comboCards: sortedCombo });
+        }
+
+        // ── Standard (non-combo) payment ──
         const paymentTier = tier || 'premium';
         const expiresAt = new Date(Date.now() + UNLOCK_DURATION_MS);
 
@@ -250,8 +303,25 @@ export async function POST(req) {
         }
 
         // Super-admin bypasses payment
-        if (emailKey && emailKey === ADMIN_EMAIL.toLowerCase().trim()) {
+        if (isAdminEmail(emailKey)) {
           return NextResponse.json({ paid: true, unlockedUntil: null, tier: 'premium' });
+        }
+
+        // ── Check for active COMBO package that includes this card type ──
+        const comboDoc = await db.collection('payments').findOne({
+          ...uf,
+          cardType: 'combo',
+          comboCards: cardType,
+          status: 'verified',
+          unlockedUntil: { $gt: new Date() },
+        });
+        if (comboDoc) {
+          return NextResponse.json({
+            paid: true,
+            unlockedUntil: comboDoc.unlockedUntil?.toISOString() || null,
+            tier: 'combo',
+            comboCards: comboDoc.comboCards,
+          });
         }
 
         if (SEVEN_DAY_ACCESS_CARDS.has(cardType)) {
@@ -368,8 +438,25 @@ export async function POST(req) {
         }
 
         // Super-admin bypasses payment
-        if (emailKey && emailKey === ADMIN_EMAIL.toLowerCase().trim()) {
+        if (isAdminEmail(emailKey)) {
           return NextResponse.json({ hasAccess: true, tier: 'premium', expiresAt: null });
+        }
+
+        // ── Check for active COMBO package that includes this card type ──
+        const comboAccessDoc = await db.collection('payments').findOne({
+          ...uf,
+          cardType: 'combo',
+          comboCards: cardType,
+          status: 'verified',
+          unlockedUntil: { $gt: new Date() },
+        });
+        if (comboAccessDoc) {
+          return NextResponse.json({
+            hasAccess: true,
+            tier: 'combo',
+            expiresAt: comboAccessDoc.unlockedUntil?.toISOString() || null,
+            comboCards: comboAccessDoc.comboCards,
+          });
         }
 
         if (SEVEN_DAY_ACCESS_CARDS.has(cardType)) {
@@ -468,7 +555,7 @@ export async function POST(req) {
           return NextResponse.json({ error: 'Both email and phone are required' }, { status: 400 });
         }
         // Only super-admin can link
-        if (!adminEmail || adminEmail.toLowerCase().trim() !== ADMIN_EMAIL.toLowerCase().trim()) {
+        if (!isAdminEmail(adminEmail)) {
           return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
         }
 
@@ -504,7 +591,7 @@ export async function POST(req) {
         const emailKey = email ? email.toLowerCase().trim() : '';
         const phoneKey = phone ? normalizePhone(phone) : '';
 
-        if (!adminEmail || adminEmail.toLowerCase().trim() !== ADMIN_EMAIL.toLowerCase().trim()) {
+        if (!isAdminEmail(adminEmail)) {
           return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
         }
 
@@ -576,7 +663,7 @@ export async function POST(req) {
         const emailKey = email ? email.toLowerCase().trim() : '';
         const phoneKey = phone ? normalizePhone(phone) : '';
 
-        if (!adminEmail || adminEmail.toLowerCase().trim() !== ADMIN_EMAIL.toLowerCase().trim()) {
+        if (!isAdminEmail(adminEmail)) {
           return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
         }
         if (!cardType) {
@@ -620,6 +707,30 @@ export async function POST(req) {
           message: `Granted ${grantTier} access for ${cardType} to ${emailKey || phoneKey} until ${expiresAt.toISOString()}`,
           expiresAt: expiresAt.toISOString(),
         });
+      }
+
+      /* ── Get active combo packages for a user ── */
+      case 'getUserCombos': {
+        const { email, phone } = body;
+        const emailKey = email ? email.toLowerCase().trim() : '';
+        const phoneKey = phone ? normalizePhone(phone) : '';
+        const uf = userFilter(emailKey, phoneKey);
+        if (!uf) return NextResponse.json({ combos: [] });
+
+        const docs = await db.collection('payments').find({
+          ...uf,
+          cardType: 'combo',
+          status: 'verified',
+          unlockedUntil: { $gt: new Date() },
+        }).toArray();
+
+        const combos = docs.map(d => ({
+          comboCards: d.comboCards || [],
+          expiresAt: d.unlockedUntil?.toISOString() || null,
+          tier: 'combo',
+        }));
+
+        return NextResponse.json({ combos });
       }
 
       default:
@@ -671,38 +782,57 @@ async function handleWebhook(req, signature) {
           { $set: { status: 'paid', razorpayPaymentId: paymentId, paidAt: new Date() } },
         );
 
-        // Build update set — add 7-day unlock for applicable cards
-        const webhookSet = {
-          razorpayOrderId: orderId,
-          razorpayPaymentId: paymentId,
-          status: 'verified',
-          verifiedAt: new Date(),
-          tier,
-        };
-        if (email) webhookSet.email = email;
-        if (phone) webhookSet.phone = phone;
-        if (SEVEN_DAY_ACCESS_CARDS.has(cardType)) {
-          webhookSet.unlockedUntil = new Date(Date.now() + UNLOCK_DURATION_MS);
-        }
+        // ── COMBO webhook ──
+        if (cardType === 'combo' && payment.notes?.comboCards) {
+          const comboCards = payment.notes.comboCards.split(',').sort();
+          const comboExpiry = new Date(Date.now() + COMBO_UNLOCK_DURATION_MS);
+          const comboFilter = { cardType: 'combo', comboCards };
+          if (email) comboFilter.email = email;
+          else if (phone) comboFilter.phone = phone;
+          const comboWebhookSet = {
+            razorpayOrderId: orderId,
+            razorpayPaymentId: paymentId,
+            status: 'verified',
+            verifiedAt: new Date(),
+            tier: 'combo',
+            comboCards,
+            unlockedUntil: comboExpiry,
+          };
+          if (email) comboWebhookSet.email = email;
+          if (phone) comboWebhookSet.phone = phone;
+          await db.collection('payments').updateOne(
+            comboFilter,
+            { $set: comboWebhookSet, $setOnInsert: { cardType: 'combo', createdAt: new Date() } },
+            { upsert: true },
+          );
+        } else {
+          // ── Standard webhook ──
+          const webhookSet = {
+            razorpayOrderId: orderId,
+            razorpayPaymentId: paymentId,
+            status: 'verified',
+            verifiedAt: new Date(),
+            tier,
+          };
+          if (email) webhookSet.email = email;
+          if (phone) webhookSet.phone = phone;
+          if (SEVEN_DAY_ACCESS_CARDS.has(cardType)) {
+            webhookSet.unlockedUntil = new Date(Date.now() + UNLOCK_DURATION_MS);
+          }
 
-        // Build upsert filter — email if available, else phone
-        const upsertFilter = { cardType, tier };
-        if (email) upsertFilter.email = email;
-        else if (phone) upsertFilter.phone = phone;
+          const upsertFilter = { cardType, tier };
+          if (email) upsertFilter.email = email;
+          else if (phone) upsertFilter.phone = phone;
 
-        // Upsert payment record with tier
-        // NOTE: Do NOT put tier/email/phone in $setOnInsert — they're in $set
-        await db.collection('payments').updateOne(
-          upsertFilter,
-          {
-            $set: webhookSet,
-            $setOnInsert: {
-              cardType,
-              createdAt: new Date(),
+          await db.collection('payments').updateOne(
+            upsertFilter,
+            {
+              $set: webhookSet,
+              $setOnInsert: { cardType, createdAt: new Date() },
             },
-          },
-          { upsert: true },
-        );
+            { upsert: true },
+          );
+        }
       }
     }
 

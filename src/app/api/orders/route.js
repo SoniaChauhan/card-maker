@@ -23,7 +23,7 @@ function normalizePhone(phone) {
 export async function POST(req) {
   try {
     const body = await decodeRequest(req);
-    const { email, phone, cardType, cardLabel, amount } = body;
+    const { email, phone, cardType, cardLabel, amount, comboCards } = body;
 
     const emailKey = email ? email.toLowerCase().trim() : '';
     const phoneKey = phone ? normalizePhone(phone) : '';
@@ -32,20 +32,35 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    // Check if user already has a verified payment for this card type
     const db = await getDb();
     const conditions = [];
     if (emailKey) conditions.push({ email: emailKey });
     if (phoneKey) conditions.push({ phone: phoneKey });
     const userQuery = conditions.length === 1 ? conditions[0] : { $or: conditions };
 
-    const existing = await db.collection('payments').findOne({
-      ...userQuery,
-      cardType,
-      status: 'verified',
-    });
-    if (existing) {
-      return NextResponse.json({ alreadyPaid: true });
+    // For combo orders, check if user already has an active combo with same cards
+    if (cardType === 'combo' && Array.isArray(comboCards) && comboCards.length === 2) {
+      const sorted = [...comboCards].sort();
+      const existingCombo = await db.collection('payments').findOne({
+        ...userQuery,
+        cardType: 'combo',
+        comboCards: sorted,
+        status: 'verified',
+        unlockedUntil: { $gt: new Date() },
+      });
+      if (existingCombo) {
+        return NextResponse.json({ alreadyPaid: true });
+      }
+    } else {
+      // Standard single-card check
+      const existing = await db.collection('payments').findOne({
+        ...userQuery,
+        cardType,
+        status: 'verified',
+      });
+      if (existing) {
+        return NextResponse.json({ alreadyPaid: true });
+      }
     }
 
     // Create Razorpay order
@@ -55,9 +70,12 @@ export async function POST(req) {
     };
     if (emailKey) notes.email = emailKey;
     if (phoneKey) notes.phone = phoneKey;
+    if (cardType === 'combo' && Array.isArray(comboCards)) {
+      notes.comboCards = comboCards.join(',');
+    }
 
     const order = await razorpay.orders.create({
-      amount: amount * 100, // Razorpay expects paise
+      amount: amount * 100,
       currency: 'INR',
       receipt: `card_${cardType}_${Date.now()}`,
       notes,
@@ -74,6 +92,9 @@ export async function POST(req) {
     };
     if (emailKey) orderDoc.email = emailKey;
     if (phoneKey) orderDoc.phone = phoneKey;
+    if (cardType === 'combo' && Array.isArray(comboCards)) {
+      orderDoc.comboCards = [...comboCards].sort();
+    }
 
     await db.collection('orders').insertOne(orderDoc);
 

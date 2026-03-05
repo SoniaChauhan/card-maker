@@ -4,7 +4,7 @@
 
 .selection-screen {
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  background: linear-gradient(135deg, #1a1a2e 0%, #0d0d1a 50%, #1e1e2e 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,7 +23,7 @@
 .selection-header h1 {
   font-size: clamp(28px, 5vw, 48px);
   font-weight: 900;
-  background: linear-gradient(90deg, #fff 0%, #e0e0ff 50%, #a0c4ff 100%);
+  background: linear-gradient(90deg, #fff 0%, #e0e0ff 50%, #c4b5fd 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -36,6 +36,74 @@
   color: rgba(255,255,255,.55);
   max-width: 420px;
   line-height: 1.6;
+}
+
+/* ═══════ Combo Offer Banner ═══════ */
+.combo-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto 36px;
+  padding: 20px 24px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(102,126,234,.12) 0%, rgba(118,75,162,.10) 100%);
+  border: 1.5px solid rgba(102,126,234,.35);
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.combo-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 10% 50%, rgba(102,126,234,.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.combo-banner:hover {
+  border-color: rgba(102,126,234,.6);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(102,126,234,.18);
+}
+.combo-banner-fire { font-size: 36px; flex-shrink: 0; }
+.combo-banner-content { flex: 1; }
+.combo-banner-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  margin-bottom: 6px;
+}
+.combo-banner-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.combo-banner-desc {
+  font-size: 13px;
+  color: #c4b5fd;
+  line-height: 1.4;
+}
+.combo-banner-arrow {
+  font-size: 24px;
+  color: #a78bfa;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+@media (max-width: 520px) {
+  .combo-banner { padding: 16px 14px; gap: 12px; border-radius: 14px; }
+  .combo-banner-fire { font-size: 28px; }
+  .combo-banner-title { font-size: 15px; }
+  .combo-banner-desc { font-size: 12px; }
 }
 
 /* ─── Category wrapper ─── */

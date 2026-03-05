@@ -88,7 +88,9 @@ const CATEGORIES = [
 
 const PARTICLES = ['⭐', '✨', '🌙', '💫', '🌟', '🎊', '🎉', '💖', '🌸', '💍'];
 
-export default function SelectionScreen({ onSelect }) {
+import { COMBO_PRICE, COMBO_SAVINGS } from '../../services/paymentService';
+
+export default function SelectionScreen({ onSelect, onOpenCombo }) {
   const [toast, setToast] = useState({ show: false, text: '' });
 
   function handleClick(card) {
@@ -107,6 +109,17 @@ export default function SelectionScreen({ onSelect }) {
       <div className="selection-header">
         <h1>✨ Card Maker</h1>
         <p>Choose an occasion and create a beautiful personalised card in minutes.</p>
+      </div>
+
+      {/* ═══════ Combo Offer Banner ═══════ */}
+      <div className="combo-banner" onClick={onOpenCombo} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && onOpenCombo?.()}>
+        <div className="combo-banner-fire">🔥</div>
+        <div className="combo-banner-content">
+          <div className="combo-banner-tag">COMBO OFFER</div>
+          <h3 className="combo-banner-title">Pick Any 2 Cards — Just ₹{COMBO_PRICE}</h3>
+          <p className="combo-banner-desc">15 days unlimited download • No watermark • Save ₹{COMBO_SAVINGS}!</p>
+        </div>
+        <div className="combo-banner-arrow">→</div>
       </div>
 
       <div className="categories-wrapper">

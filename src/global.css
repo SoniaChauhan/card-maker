@@ -103,7 +103,7 @@ body {
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%) translateY(100px);
-  background: linear-gradient(135deg, #11998e, #38ef7d);
+  background: linear-gradient(135deg, #667eea, #764ba2);
   color: #fff;
   padding: 14px 32px;
   border-radius: 50px;
@@ -422,8 +422,8 @@ body {
 }
 .dob-select:focus {
   outline: none;
-  border-color: #d4af37;
-  box-shadow: 0 0 0 3px rgba(212,175,55,.15);
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102,126,234,.15);
 }
 .dob-select.error {
   border-color: #e74c3c;
@@ -434,11 +434,11 @@ body {
   gap: 6px;
   margin-top: 4px;
   padding: 5px 14px;
-  background: linear-gradient(135deg, #fff8e7, #fdf3d4);
-  border: 1px solid #d4af37;
+  background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+  border: 1px solid #a855f7;
   border-radius: 20px;
   font-size: 13px;
-  color: #7a5800;
+  color: #5b21b6;
   width: fit-content;
 }
 .form-error-msg {

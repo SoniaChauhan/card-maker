@@ -6,7 +6,13 @@ import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/mongodb';
 import { decodeRequest } from '@/utils/payload';
 
-const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || '').toLowerCase().trim();
+/** Support multiple admin emails (comma-separated in env var) */
+const ADMIN_EMAILS = new Set(
+  (process.env.ADMIN_EMAIL || '').split(',').map(e => e.toLowerCase().trim()).filter(Boolean)
+);
+function isAdminEmail(email) {
+  return !!email && ADMIN_EMAILS.has(email.toLowerCase().trim());
+}
 
 /* Simple SHA-256 hash (matches the client-side approach) */
 async function hashPassword(pw) {
@@ -86,7 +92,7 @@ export async function POST(req) {
         if (user.password !== hashed) return NextResponse.json({ error: 'Incorrect password.' }, { status: 401 });
 
         await db.collection('users').updateOne({ email: key }, { $set: { lastLogin: new Date() } });
-        return NextResponse.json({ email: key, name: user.name || key, role: user.role || 'user', plan: user.plan || (key === ADMIN_EMAIL ? 'premium' : 'free') });
+        return NextResponse.json({ email: key, name: user.name || key, role: user.role || 'user', plan: user.plan || (isAdminEmail(key) ? 'premium' : 'free') });
       }
 
       case 'resetPassword': {
@@ -103,8 +109,8 @@ export async function POST(req) {
       case 'createOrUpdateUser': {
         const { email } = body;
         const key = email.toLowerCase().trim();
-        const role = key === ADMIN_EMAIL ? 'superadmin' : 'user';
-        const plan = key === ADMIN_EMAIL ? 'premium' : 'free';
+        const role = isAdminEmail(key) ? 'superadmin' : 'user';
+        const plan = isAdminEmail(key) ? 'premium' : 'free';
         const existing = await db.collection('users').findOne({ email: key });
 
         if (!existing) {
@@ -120,7 +126,7 @@ export async function POST(req) {
 
       case 'upgradePlan': {
         const { email, plan: newPlan, adminEmail } = body;
-        if (adminEmail?.toLowerCase().trim() !== ADMIN_EMAIL)
+        if (!isAdminEmail(adminEmail))
           return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
         const key = email.toLowerCase().trim();
         const result = await db.collection('users').updateOne({ email: key }, { $set: { plan: newPlan } });
@@ -131,7 +137,7 @@ export async function POST(req) {
 
       case 'getAllUsers': {
         const { adminEmail } = body;
-        if (adminEmail?.toLowerCase().trim() !== ADMIN_EMAIL)
+        if (!isAdminEmail(adminEmail))
           return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
         const users = await db.collection('users')
           .find({}, { projection: { password: 0 } })

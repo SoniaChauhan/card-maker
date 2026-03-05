@@ -19,6 +19,9 @@ import FathersCardEnglish from './components/FathersCardEnglish';
 import MothersCard from './components/MothersCard';
 import MothersCardHindi from './components/MothersCardHindi';
 import HoliVideo from './components/HoliVideo';
+import ComboOfferPopup from './components/shared/ComboOfferPopup';
+import FestivalCalendar from './components/FestivalCalendar/FestivalCalendar';
+import FreeCardsPage from './components/FreeCardsPage/FreeCardsPage';
 import useScreenshotProtection from './hooks/useScreenshotProtection';
 import VisitorTracker from './components/shared/VisitorTracker';
 
@@ -28,6 +31,9 @@ function AppContent({ initialCard }) {
   const { user, loading, isGuest } = useAuth();
   const [selected, setSelected] = useState(initialCard || null);
   const [editingTemplate, setEditingTemplate] = useState(null);
+  const [showCombo, setShowCombo] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [showFreeCards, setShowFreeCards] = useState(false);
 
   /* Auto-select card when redirected from SEO pages via ?card= query param (legacy support) */
   useEffect(() => {
@@ -95,8 +101,43 @@ function AppContent({ initialCard }) {
     if (selected === 'mothers')               return <MothersCardHindi {...cardProps} />;
   }
 
+  /* ---------- Calendar full page ---------- */
+  if (showCalendar) {
+    return (
+      <FestivalCalendar
+        onBack={() => setShowCalendar(false)}
+        onFestivalClick={(f) => { setShowCalendar(false); setSelected(f.offerCard); }}
+      />
+    );
+  }
+
+  /* ---------- Free Cards full page ---------- */
+  if (showFreeCards) {
+    return (
+      <FreeCardsPage
+        onBack={() => setShowFreeCards(false)}
+        onSelectCard={(cardId) => { setShowFreeCards(false); if (!user) { /* guest auto-login handled in LoginScreen */ } setSelected(cardId); }}
+      />
+    );
+  }
+
   /* ---------- Landing page — handles both logged-in and not-logged-in ---------- */
-  return <LoginScreen onSelect={setSelected} onEditTemplate={handleEditTemplate} />;
+  return (
+    <>
+      <LoginScreen onSelect={setSelected} onEditTemplate={handleEditTemplate} onOpenCombo={() => setShowCombo(true)} onOpenCalendar={() => setShowCalendar(true)} onOpenFreeCards={() => setShowFreeCards(true)} />
+      {showCombo && (
+        <ComboOfferPopup
+          userEmail={isGuest ? '' : user?.email || ''}
+          userName={user?.displayName || ''}
+          onClose={() => setShowCombo(false)}
+          onComboDone={(result) => {
+            setShowCombo(false);
+            alert(`🎉 Combo Pack activated! You now have 15-day access to ${result.comboCards?.join(' + ')}. Enjoy unlimited downloads!`);
+          }}
+        />
+      )}
+    </>
+  );
 }
 
 export default function App({ initialCard }) {

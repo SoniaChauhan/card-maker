@@ -6,7 +6,13 @@
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/mongodb';
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
+/** Support multiple admin emails (comma-separated in env var) */
+const ADMIN_EMAILS = new Set(
+  (process.env.ADMIN_EMAIL || '').split(',').map(e => e.toLowerCase().trim()).filter(Boolean)
+);
+function isAdminEmail(email) {
+  return !!email && ADMIN_EMAILS.has(email.toLowerCase().trim());
+}
 
 export async function POST(req) {
   try {

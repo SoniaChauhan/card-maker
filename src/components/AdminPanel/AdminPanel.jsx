@@ -4,8 +4,9 @@ import './AdminPanel.css';
 import { blockUser, unblockUser, getBlockedUsers } from '../../services/blockService';
 import { getPendingRequests, approveSubscription, rejectSubscription } from '../../services/subscriptionService';
 import { notifyAdmin } from '../../services/notificationService';
-import { ADMIN_EMAIL, getAllUsers, upgradePlan } from '../../services/authService';
+import { ADMIN_EMAIL, isAdmin, getAllUsers, upgradePlan } from '../../services/authService';
 import { encodePayload } from '../../utils/payload';
+import { getUpcomingFestivals, getAllFestivals } from '../../utils/festivalCalendar';
 
 export default function AdminPanel() {
   const [email, setEmail]         = useState('');
@@ -49,6 +50,19 @@ export default function AdminPanel() {
   const [feedbacks, setFeedbacks]       = useState([]);
   const [fbLoading, setFbLoading]       = useState(true);
   const [fbActing, setFbActing]         = useState(null);
+
+  /* Notification Manager */
+  const [ntSubscribers, setNtSubscribers]       = useState([]);
+  const [ntSubLoading, setNtSubLoading]         = useState(false);
+  const [ntLogs, setNtLogs]                     = useState([]);
+  const [ntLogLoading, setNtLogLoading]         = useState(false);
+  const [ntCardName, setNtCardName]             = useState('');
+  const [ntCardIcon, setNtCardIcon]             = useState('🎨');
+  const [ntCardDesc, setNtCardDesc]             = useState('');
+  const [ntSending, setNtSending]               = useState(false);
+  const [ntFestSending, setNtFestSending]       = useState(false);
+  const [ntFestOfferKey, setNtFestOfferKey]     = useState('');
+  const [ntFestOfferSending, setNtFestOfferSending] = useState(false);
 
   useEffect(() => {
     loadBlocked();
@@ -195,7 +209,7 @@ export default function AdminPanel() {
     const target = email.trim().toLowerCase();
     if (!target) return;
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(target)) { showToast('⚠️ Enter a valid email.'); return; }
-    if (target === ADMIN_EMAIL) { showToast('⚠️ Cannot block superadmin.'); return; }
+    if (isAdmin(target)) { showToast('⚠️ Cannot block superadmin.'); return; }
     if (blocked.some(b => b.email === target)) { showToast('⚠️ Already blocked.'); return; }
 
     setBlocking(true);
@@ -266,6 +280,91 @@ export default function AdminPanel() {
       else showToast('❌ ' + (data.error || 'Failed'));
     } catch (err) { showToast('❌ Grant failed: ' + err.message); }
     finally { setAmGranting(false); }
+  }
+
+  /* ── Notification Manager helpers ── */
+  async function ntApiCall(body) {
+    const res = await fetch('/api/notifications', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    return res.json();
+  }
+
+  async function loadSubscribers() {
+    setNtSubLoading(true);
+    try {
+      const data = await ntApiCall({ action: 'getSubscribers', adminEmail: ADMIN_EMAIL });
+      setNtSubscribers(data.subscribers || []);
+    } catch { /* ignore */ }
+    finally { setNtSubLoading(false); }
+  }
+
+  async function loadNotificationLog() {
+    setNtLogLoading(true);
+    try {
+      const data = await ntApiCall({ action: 'getNotificationLog', adminEmail: ADMIN_EMAIL });
+      setNtLogs(data.logs || []);
+    } catch { /* ignore */ }
+    finally { setNtLogLoading(false); }
+  }
+
+  async function handleSendFestivalReminder() {
+    const upcoming = getUpcomingFestivals();
+    if (!upcoming.length) { showToast('ℹ️ No upcoming festivals in the next 60 days.'); return; }
+    setNtFestSending(true);
+    try {
+      const data = await ntApiCall({
+        action: 'sendFestivalReminder',
+        adminEmail: ADMIN_EMAIL,
+        festivals: upcoming.map(f => ({ name: f.name, nameHindi: f.nameHindi, icon: f.icon, nextStart: f.nextStart })),
+      });
+      if (data.ok) showToast('✅ ' + data.message);
+      else showToast('❌ ' + (data.error || 'Failed'));
+    } catch (err) { showToast('❌ ' + err.message); }
+    finally { setNtFestSending(false); }
+  }
+
+  async function handleBroadcastFestivalOffer() {
+    if (!ntFestOfferKey) { showToast('⚠️ Select a festival.'); return; }
+    const allFests = getAllFestivals();
+    const fest = allFests.find(f => f.key === ntFestOfferKey);
+    if (!fest) { showToast('❌ Festival not found.'); return; }
+    if (!confirm(`Send "${fest.name}" offer email to ALL subscribers?`)) return;
+    setNtFestOfferSending(true);
+    try {
+      const data = await ntApiCall({
+        action: 'broadcastFestivalOffer',
+        adminEmail: ADMIN_EMAIL,
+        festival: { name: fest.name, nameHindi: fest.nameHindi, icon: fest.icon, grad: fest.grad, offerPrice: fest.offerPrice, offerDesc: fest.offerDesc, offerCta: fest.offerCta },
+      });
+      if (data.ok) showToast(`✅ Sent to ${data.sent}/${data.total} subscribers`);
+      else showToast('❌ ' + (data.error || 'Failed'));
+    } catch (err) { showToast('❌ ' + err.message); }
+    finally { setNtFestOfferSending(false); }
+  }
+
+  async function handleBroadcastNewCard() {
+    if (!ntCardName.trim()) { showToast('⚠️ Enter card name.'); return; }
+    if (!confirm(`Send "New Card: ${ntCardName}" notification to ALL subscribers?`)) return;
+    setNtSending(true);
+    try {
+      const data = await ntApiCall({
+        action: 'broadcastNewCard',
+        adminEmail: ADMIN_EMAIL,
+        cardName: ntCardName.trim(),
+        cardIcon: ntCardIcon || '🎨',
+        cardDescription: ntCardDesc.trim(),
+        cardUrl: 'https://www.creativethinkerdesignhub.com',
+      });
+      if (data.ok) {
+        showToast(`✅ Sent to ${data.sent}/${data.total} subscribers`);
+        setNtCardName('');
+        setNtCardDesc('');
+      } else showToast('❌ ' + (data.error || 'Failed'));
+    } catch (err) { showToast('❌ ' + err.message); }
+    finally { setNtSending(false); }
   }
 
   function formatDate(ts) {
@@ -439,7 +538,7 @@ export default function AdminPanel() {
                   </span>
                 </div>
                 <div className="admin-req-actions">
-                  {u.email !== ADMIN_EMAIL && (
+                  {!isAdmin(u.email) && (
                     <button
                       className={`admin-btn ${u.plan === 'premium' ? 'admin-btn-reject' : 'admin-btn-approve'}`}
                       onClick={() => handleTogglePlan(u.email, u.plan || 'free')}
@@ -448,7 +547,7 @@ export default function AdminPanel() {
                       {toggling === u.email ? '⏳' : u.plan === 'premium' ? '⬇️ Downgrade' : '⬆️ Upgrade'}
                     </button>
                   )}
-                  {u.email === ADMIN_EMAIL && (
+                  {isAdmin(u.email) && (
                     <span style={{ color: '#888', fontSize: '12px' }}>Admin</span>
                   )}
                 </div>
@@ -640,6 +739,111 @@ export default function AdminPanel() {
             ))}
           </div>
         )}
+      </div>
+
+      {/* ── Notification Manager ── */}
+      <div className="admin-block-section admin-notif-section">
+        <h3 className="admin-section-title">
+          🔔 Notification Manager
+          <button className="admin-refresh-sm" onClick={() => { loadSubscribers(); loadNotificationLog(); }} title="Load data">🔄</button>
+        </h3>
+        <p className="admin-am-label" style={{ color: '#aaa', fontSize: '12px', marginBottom: '12px' }}>
+          Send festival reminders to admin, broadcast new-card and festival-offer emails to all subscribers.
+        </p>
+
+        {/* Subscribers count */}
+        <div className="admin-am-row" style={{ marginBottom: '12px' }}>
+          <button className="admin-btn admin-btn-approve" onClick={loadSubscribers} disabled={ntSubLoading} style={{ marginRight: '10px' }}>
+            {ntSubLoading ? '⏳' : '👥'} Load Subscribers
+          </button>
+          {ntSubscribers.length > 0 && (
+            <span style={{ color: '#22c55e', fontWeight: '700', fontSize: '14px' }}>
+              {ntSubscribers.length} active subscriber{ntSubscribers.length !== 1 ? 's' : ''}
+            </span>
+          )}
+        </div>
+
+        {/* Subscriber list (compact) */}
+        {ntSubscribers.length > 0 && (
+          <div style={{ maxHeight: '180px', overflowY: 'auto', marginBottom: '16px', background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '10px' }}>
+            {ntSubscribers.map(s => (
+              <div key={s.id} style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '4px 0', fontSize: '12px', color: '#ccc', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                <span>{s.name || '—'}</span>
+                <span style={{ color: '#667eea' }}>{s.email || '—'}</span>
+                <span style={{ color: '#888' }}>{s.phone || '—'}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 1. Festival Reminder to Admin */}
+        <div className="admin-am-subsection">
+          <h4 className="admin-am-subheading">📅 Festival Reminder to Admin</h4>
+          <p className="admin-am-label">Sends an email to admin(s) about upcoming festivals in the next 60 days.</p>
+          <button className="admin-btn admin-btn-approve" onClick={handleSendFestivalReminder} disabled={ntFestSending}>
+            {ntFestSending ? '⏳ Sending…' : '📧 Send Festival Reminder'}
+          </button>
+        </div>
+
+        {/* 2. Broadcast Festival Offer to Subscribers */}
+        <div className="admin-am-subsection">
+          <h4 className="admin-am-subheading">🎉 Broadcast Festival Offer</h4>
+          <p className="admin-am-label">Send a festival offer email to ALL subscribers.</p>
+          <div className="admin-am-row">
+            <select className="admin-am-input" value={ntFestOfferKey} onChange={e => setNtFestOfferKey(e.target.value)}>
+              <option value="">Select festival…</option>
+              {getAllFestivals().map(f => (
+                <option key={f.key} value={f.key}>{f.icon} {f.name} — {f.offerPrice}</option>
+              ))}
+            </select>
+            <button className="admin-btn admin-btn-approve" onClick={handleBroadcastFestivalOffer} disabled={ntFestOfferSending || !ntFestOfferKey}>
+              {ntFestOfferSending ? '⏳ Sending…' : '📣 Broadcast Offer'}
+            </button>
+          </div>
+        </div>
+
+        {/* 3. Broadcast New Card Notification */}
+        <div className="admin-am-subsection">
+          <h4 className="admin-am-subheading">🆕 Broadcast New Card Added</h4>
+          <p className="admin-am-label">Notify all subscribers about a newly added card template.</p>
+          <div className="admin-am-row">
+            <input className="admin-am-input" placeholder="Card name *" value={ntCardName} onChange={e => setNtCardName(e.target.value)} />
+            <input className="admin-am-input" placeholder="Icon emoji" value={ntCardIcon} onChange={e => setNtCardIcon(e.target.value)} style={{ maxWidth: '80px' }} />
+          </div>
+          <textarea className="admin-am-input" placeholder="Short description (optional)" value={ntCardDesc} onChange={e => setNtCardDesc(e.target.value)} rows={2} style={{ width: '100%', resize: 'vertical', marginTop: '6px' }} />
+          <button className="admin-btn admin-btn-approve" onClick={handleBroadcastNewCard} disabled={ntSending || !ntCardName.trim()} style={{ marginTop: '8px' }}>
+            {ntSending ? '⏳ Sending…' : '📣 Send to All Subscribers'}
+          </button>
+        </div>
+
+        {/* 4. Notification Log */}
+        <div className="admin-am-subsection">
+          <h4 className="admin-am-subheading">📜 Notification History</h4>
+          <button className="admin-btn" onClick={loadNotificationLog} disabled={ntLogLoading} style={{ marginBottom: '8px' }}>
+            {ntLogLoading ? '⏳' : '📋'} Load History
+          </button>
+          {ntLogs.length > 0 && (
+            <div style={{ maxHeight: '200px', overflowY: 'auto', background: 'rgba(0,0,0,0.2)', borderRadius: '10px', padding: '10px' }}>
+              {ntLogs.map((l, i) => (
+                <div key={l.id || i} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '8px 0', fontSize: '12px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                    <span style={{ color: '#667eea', fontWeight: '600' }}>
+                      {l.type === 'festival_reminder' && '📅 Festival Reminder'}
+                      {l.type === 'festival_offer' && '🎉 Festival Offer'}
+                      {l.type === 'new_card' && '🆕 New Card'}
+                    </span>
+                    <span style={{ color: '#888' }}>{formatDate(l.sentAt)}</span>
+                  </div>
+                  <div style={{ color: '#ccc' }}>
+                    {l.type === 'festival_reminder' && `Sent to admin(s) — ${(l.festivals || []).join(', ')}`}
+                    {l.type === 'festival_offer' && `"${l.festival}" — ${l.sent}/${l.totalSubscribers} sent`}
+                    {l.type === 'new_card' && `"${l.cardName}" — ${l.sent}/${l.totalSubscribers} sent`}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Toast */}
