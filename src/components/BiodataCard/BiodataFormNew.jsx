@@ -286,7 +286,7 @@ export default function BiodataFormNew({ data, errors, onChange, onBack, onGener
                   placeholder="e.g. Ramesh Sharma (Father)" hideLabel />
               </FieldWithToggle>
 
-              <FieldWithToggle label="Mobile Number" name="contactPhone" required>
+              <FieldWithToggle label="Mobile Number" name="contactPhone">
                 <FormField name="contactPhone" value={data.contactPhone} onChange={onChange}
                   placeholder="e.g. +91 98765 43210" error={errors.contactPhone} hideLabel />
               </FieldWithToggle>

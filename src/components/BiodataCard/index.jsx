@@ -119,7 +119,6 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
     if (!data.fullName.trim()) err.fullName = 'Full name is required.';
     if (!data.dob) err.dob = 'Date of birth is required.';
     if (!data.education.trim()) err.education = 'Education is required.';
-    if (!data.contactPhone.trim()) err.contactPhone = 'Contact number is required.';
     return err;
   }
 
@@ -131,7 +130,6 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
         if (k === 'fullName') return 'Full Name (Step 1)';
         if (k === 'dob') return 'Date of Birth (Step 1)';
         if (k === 'education') return 'Education (Step 2)';
-        if (k === 'contactPhone') return 'Contact Phone (Step 3)';
         return k;
       }).join(', ');
       alert(`Please fill required fields: ${missingFields}`);
