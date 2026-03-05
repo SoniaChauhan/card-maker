@@ -96,8 +96,8 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
       } else {
         setOtpError(res.message || 'Failed to send OTP');
       }
-    } catch {
-      setOtpError('Network error. Try again.');
+    } catch (err) {
+      setOtpError(err.message || 'Failed to send OTP. Try again.');
     }
     setOtpLoading(false);
   }
@@ -110,13 +110,13 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
     setOtpLoading(true);
     try {
       const res = await verifyOTP(idMethod, target, otpValue);
-      if (res.ok) {
+      if (res.verified) {
         setOtpVerified(true);
       } else {
-        setOtpError(res.message || 'Invalid OTP');
+        setOtpError(res.error || 'Invalid OTP');
       }
-    } catch {
-      setOtpError('Verification failed. Try again.');
+    } catch (err) {
+      setOtpError(err.message || 'Verification failed. Try again.');
     }
     setOtpLoading(false);
   }

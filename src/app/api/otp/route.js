@@ -16,7 +16,7 @@ import { decodeRequest } from '@/utils/payload';
 // Corporate proxy / self-signed cert workaround
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-const OTP_EXPIRY_MS = 5 * 60 * 1000; // 5 minutes
+const OTP_EXPIRY_MS = 15 * 60 * 1000; // 15 minutes
 const OTP_LENGTH = 6;
 
 /** Generate a random numeric OTP */
@@ -60,7 +60,7 @@ async function sendEmailOTP(email, otp) {
       <div style="text-align:center;margin:24px 0">
         <span style="font-size:32px;font-weight:bold;letter-spacing:6px;color:#6c47ff;background:#f3f0ff;padding:12px 24px;border-radius:8px">${otp}</span>
       </div>
-      <p style="color:#888;font-size:13px">This OTP expires in 5 minutes. Do not share it with anyone.</p>
+      <p style="color:#888;font-size:13px">This OTP expires in 15 minutes. Do not share it with anyone.</p>
     </div>`,
   });
 }
@@ -118,8 +118,9 @@ async function sendSmsOTP(phone, otp) {
     return;
   }
 
-  // ── No SMS provider configured — log OTP and succeed silently ──
-  console.warn(`[OTP] SMS provider not configured. OTP for ${normalizedPhone}: ${otp}`);
+  // ── No SMS provider configured ──
+  console.error(`[OTP] SMS provider not configured. Set FAST2SMS_API_KEY or MSG91_AUTH_KEY in .env. OTP for ${normalizedPhone}: ${otp}`);
+  throw new Error('SMS service is not configured. Please contact support or use email instead.');
 }
 
 export async function POST(req) {
@@ -129,8 +130,13 @@ export async function POST(req) {
     const db = await getDb();
     const col = db.collection('otps');
 
-    // Ensure TTL index (create once — MongoDB ignores duplicate createIndex calls)
-    await col.createIndex({ createdAt: 1 }, { expireAfterSeconds: 300 }).catch(() => {});
+    // Ensure TTL index — 15 minutes. Update if already exists with old value.
+    try {
+      await col.createIndex({ createdAt: 1 }, { expireAfterSeconds: 900 });
+    } catch {
+      // Index may already exist with a different TTL — update it
+      await db.command({ collMod: 'otps', index: { keyPattern: { createdAt: 1 }, expireAfterSeconds: 900 } }).catch(() => {});
+    }
 
     switch (action) {
       /* ── Send OTP ── */

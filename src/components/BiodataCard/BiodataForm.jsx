@@ -173,7 +173,7 @@ export default function BiodataForm({ data, errors, onChange, onBack, onGenerate
 
           <FormField label="Contact Number" name="contactPhone"
             value={data.contactPhone} onChange={onChange}
-            placeholder="e.g. +91 98765 43210" required error={errors.contactPhone} />
+            placeholder="e.g. +91 98765 43210" error={errors.contactPhone} />
 
           <FormField label="Address" name="contactAddress"
             value={data.contactAddress} onChange={onChange}
