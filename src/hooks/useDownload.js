@@ -11,6 +11,7 @@ import html2canvas from 'html2canvas';
 export default function useDownload(elementId, filename, { onSuccess, downloadWidth, addWatermark = false } = {}) {
   const [downloading, setDownloading] = useState(false);
   const [toast, setToast] = useState({ text: '', show: false });
+  const [downloadedBlob, setDownloadedBlob] = useState(null);
   const watermarkRef = useRef(addWatermark);
 
   function showToast(msg) {
@@ -157,6 +158,27 @@ export default function useDownload(elementId, filename, { onSuccess, downloadWi
       } catch (_) { /* leave SVG in place */ }
     });
 
+    /* ── Pre-convert <img src="*.svg"> to base64 data URIs ──
+       html2canvas cannot reliably render external SVG files loaded via
+       <img src="/foo.svg">.  Fetch each one, convert to a base64 data-URI,
+       and swap the src so html2canvas sees a regular bitmap-like image. */
+    const svgImgRestore = [];
+    const svgImgs = Array.from(el.querySelectorAll('img')).filter(img => {
+      const src = (img.getAttribute('src') || '').toLowerCase();
+      return src.endsWith('.svg') || src.includes('.svg?');
+    });
+
+    await Promise.all(svgImgs.map(async (img) => {
+      try {
+        const originalSrc = img.getAttribute('src');
+        const resp = await fetch(originalSrc);
+        const svgText = await resp.text();
+        const base64 = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgText)));
+        img.setAttribute('src', base64);
+        svgImgRestore.push({ img, originalSrc });
+      } catch (_) { /* leave img as-is */ }
+    }));
+
     // Give the browser time to decode the data-URI images
     await new Promise(r => setTimeout(r, 300));
 
@@ -241,6 +263,12 @@ export default function useDownload(elementId, filename, { onSuccess, downloadWi
         ctx.fillText('Created using CreativeThinkerDesignHub.com', w / 2, h - bannerH / 2);
       }
 
+      /* Save the blob for sharing */
+      try {
+        const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+        if (blob) setDownloadedBlob(blob);
+      } catch (_) {}
+
       await downloadCanvas(canvas, filename);
 
       showToast(`✅ Card downloaded as "${filename}"!`);
@@ -257,6 +285,11 @@ export default function useDownload(elementId, filename, { onSuccess, downloadWi
         } catch (_) {}
       });
 
+      /* ── Restore <img src="*.svg"> original sources ── */
+      svgImgRestore.forEach(({ img, originalSrc }) => {
+        try { img.setAttribute('src', originalSrc); } catch (_) {}
+      });
+
       // Restore original dimensions
       el.style.maxWidth  = prevMaxW;
       el.style.width     = prevW;
@@ -271,5 +304,5 @@ export default function useDownload(elementId, filename, { onSuccess, downloadWi
     }
   }
 
-  return { downloading, handleDownload, toast, watermarkRef };
+  return { downloading, handleDownload, toast, watermarkRef, downloadedBlob, clearDownloadedBlob: () => setDownloadedBlob(null) };
 }

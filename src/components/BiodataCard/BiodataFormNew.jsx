@@ -104,12 +104,12 @@ export default function BiodataFormNew({ data, errors, onChange, onBack, onGener
             <div className="bio-section-card">
               <h3 className="bio-section-title">👤 Personal Details</h3>
               
-              <FieldWithToggle label="Full Name" name="fullName" required>
+              <FieldWithToggle label="Full Name" name="fullName">
                 <FormField name="fullName" value={data.fullName} onChange={onChange}
                   placeholder="e.g. Priya Sharma" error={errors.fullName} hideLabel />
               </FieldWithToggle>
 
-              <FieldWithToggle label="Date of Birth" name="dob" required>
+              <FieldWithToggle label="Date of Birth" name="dob">
                 <DobPicker value={data.dob} onChange={onChange} onAgeChange={onAgeChange}
                   error={errors.dob} hideLabel />
               </FieldWithToggle>
@@ -182,7 +182,7 @@ export default function BiodataFormNew({ data, errors, onChange, onBack, onGener
             <div className="bio-section-card">
               <h3 className="bio-section-title">🎓 Education &amp; Career</h3>
               
-              <FieldWithToggle label="Highest Education" name="education" required>
+              <FieldWithToggle label="Highest Education" name="education">
                 <FormField name="education" value={data.education} onChange={onChange}
                   placeholder="e.g. B.Tech / MBA" error={errors.education} hideLabel />
               </FieldWithToggle>

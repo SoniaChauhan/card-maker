@@ -44,13 +44,12 @@ export default function BiodataForm({ data, errors, onChange, onBack, onGenerate
         <div className="form-stack">
           <FormField label="Full Name" name="fullName"
             value={data.fullName} onChange={onChange}
-            placeholder="e.g. Priya Sharma" required error={errors.fullName} />
+            placeholder="e.g. Priya Sharma" error={errors.fullName} />
 
           <DobPicker
             value={data.dob}
             onChange={onChange}
             onAgeChange={onAgeChange}
-            required
             error={errors.dob}
           />
 
@@ -112,7 +111,7 @@ export default function BiodataForm({ data, errors, onChange, onBack, onGenerate
         <div className="form-stack">
           <FormField label="Highest Education" name="education"
             value={data.education} onChange={onChange}
-            placeholder="e.g. B.Tech / MBA / M.Sc" required error={errors.education} />
+            placeholder="e.g. B.Tech / MBA / M.Sc" error={errors.education} />
 
           <FormField label="Occupation" name="occupation"
             value={data.occupation} onChange={onChange}

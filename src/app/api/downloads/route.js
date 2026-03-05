@@ -63,6 +63,31 @@ export async function POST(req) {
         return NextResponse.json({ ok: true });
       }
 
+      /* Lookup the latest form snapshot for a user (by email or phone) + cardType.
+         Used to pre-fill forms for returning users. */
+      case 'getUserData': {
+        const { email, phone, cardType: ct } = body;
+        const filters = [];
+        if (email) filters.push({ email: email.toLowerCase().trim() });
+        if (phone) {
+          const p = phone.replace(/\D/g, '').replace(/^91/, '');
+          if (p.length >= 10) {
+            filters.push({ 'formSnapshot.contactPhone': { $regex: p.slice(-10) } });
+            filters.push({ phone: { $regex: p.slice(-10) } });
+          }
+        }
+        if (!filters.length) return NextResponse.json({ found: false });
+
+        const query = { $or: filters };
+        if (ct) query.cardType = ct;
+
+        const doc = await col.findOne(query, { sort: { downloadedAt: -1 } });
+        if (!doc || !doc.formSnapshot || Object.keys(doc.formSnapshot).length === 0) {
+          return NextResponse.json({ found: false });
+        }
+        return NextResponse.json({ found: true, formData: doc.formSnapshot, cardType: doc.cardType });
+      }
+
       default:
         return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
     }
