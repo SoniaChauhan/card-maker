@@ -7,8 +7,9 @@ const BIODATA_PRICE = PRICE_NO_WATERMARK; // ₹49
 /**
  * BiodataPaymentPopup — Two options: Free (with watermark) or ₹49 (no watermark, 7 days).
  * Supports both email and mobile number with OTP verification.
+ * Accepts optional cardType / cardLabel props to reuse for other card types.
  */
-export default function BiodataPaymentPopup({ userEmail, userName, lookupPhone, onClose, onPaymentDone }) {
+export default function BiodataPaymentPopup({ userEmail, userName, lookupPhone, onClose, onPaymentDone, cardType = 'biodata', cardLabel = 'Marriage Biodata' }) {
   const [loading, setLoading] = useState(false);
   const [checkingAccess, setCheckingAccess] = useState(false);
   const [error, setError] = useState('');
@@ -64,7 +65,7 @@ export default function BiodataPaymentPopup({ userEmail, userName, lookupPhone, 
 
       setCheckingAccess(true);
       try {
-        const access = await checkUserAccess(email, 'biodata', phone);
+        const access = await checkUserAccess(email, cardType, phone);
         setExistingAccess(access);
       } catch (err) {
         console.error('Error checking access:', err);
@@ -189,8 +190,8 @@ export default function BiodataPaymentPopup({ userEmail, userName, lookupPhone, 
     await startPayment({
       email,
       phone,
-      cardType: 'biodata',
-      cardLabel: 'Marriage Biodata',
+      cardType,
+      cardLabel,
       userName: userName || '',
       amount: BIODATA_PRICE,
       tier: 'premium',
@@ -236,7 +237,7 @@ export default function BiodataPaymentPopup({ userEmail, userName, lookupPhone, 
               <path d="M14 20l4 4 8-8" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          <h2 className="bdp-header-title">Your Biodata Is Ready!</h2>
+          <h2 className="bdp-header-title">Your {cardLabel} Is Ready!</h2>
           <p className="bdp-header-subtitle">Choose your download option</p>
           <button className="bdp-close" onClick={onClose}>✕</button>
         </div>
@@ -273,6 +274,7 @@ export default function BiodataPaymentPopup({ userEmail, userName, lookupPhone, 
             <div className="bdp-option-badge">RECOMMENDED</div>
             <div className="bdp-option-price">₹{BIODATA_PRICE}</div>
             <div className="bdp-option-label">No Watermark</div>
+            <div className="bdp-seven-day-tag">7 Days Unlimited Downloads</div>
           </button>
         </div>
 
@@ -281,7 +283,7 @@ export default function BiodataPaymentPopup({ userEmail, userName, lookupPhone, 
           <div className="bdp-feature">✓ High Resolution Image</div>
           <div className="bdp-feature">✓ Share on WhatsApp, Email</div>
           <div className="bdp-feature">✓ Print Ready Quality</div>
-          {selectedTier === 'premium' && <div className="bdp-feature">✓ 7 Days Unlimited Downloads</div>}
+          {selectedTier === 'premium' && <div className="bdp-feature bdp-feature--highlight">✓ 7 Days Unlimited Downloads — Edit & Re-download Anytime!</div>}
         </div>
 
         {/* Identity Section — only for guests on premium tier */}

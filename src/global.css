@@ -539,7 +539,7 @@ body {
 .form-group textarea.error { border-color: #e74c3c; }
 .err-msg { font-size: 12px; color: #e74c3c; font-weight: 500; }
 
-.form-actions { display: flex; gap: 14px; justify-content: center; }
+.form-actions { display: flex; gap: 14px; justify-content: space-between; margin-top: 28px; }
 
 .btn-back-form {
   padding: 12px 28px;

@@ -22,6 +22,10 @@ import WeddingCardPreview from '../WeddingCard/WeddingCardPreview';
 import BirthdayCardPreview from '../BirthdayCard/BirthdayCardPreview';
 import AnniversaryCardPreview from '../AnniversaryCard/AnniversaryCardPreview';
 import BiodataCardPreview from '../BiodataCard/BiodataCardPreview';
+import RentCardPreview from '../RentCard/RentCardPreview';
+import SalonCardPreview from '../SalonCard/SalonCardPreview';
+import '../RentCard/RentCard.css';
+import '../SalonCard/SalonCard.css';
 
 /* Sample data for each card type */
 const SAMPLE_WEDDING = {
@@ -101,6 +105,55 @@ const BIODATA_TEMPLATES = [
   { id: 6, name: 'Royal Purple', accent: '#5c3a6e' },
 ];
 
+const SAMPLE_RENT = {
+  title: 'PG / PER BED RENT AVAILABLE',
+  location: 'Sector 62, Noida — Near Metro Station',
+  rentWithoutAC: '6,500',
+  rentWithAC: '8,500',
+  features: ['2–3 Beds in Each Room', 'Separate Washroom for Every Room', 'Small Kitchen in Every Room', '24/7 Power Backup'],
+  amenities: [
+    { icon: '📶', text: 'High-Speed WiFi' },
+    { icon: '💧', text: 'RO Drinking Water' },
+    { icon: '🚿', text: 'Water Softener' },
+    { icon: '📹', text: 'Security Cameras' },
+    { icon: '🍱', text: 'Tiffin Service' },
+  ],
+  contactName: 'Rajesh Kumar',
+  contactPhone: '+91 98765 43210',
+  logo: null,
+};
+
+const SAMPLE_SALON = {
+  businessName: 'Glamour Beauty Studio',
+  tagline: 'Special Packages',
+  services: [
+    { name: 'Hair Spa', details: 'Deep conditioning treatment', price: '899', section: 'ladies' },
+    { name: 'Rica Wax (Full Arms)', details: '', price: '449', section: 'ladies' },
+    { name: 'Bridal Makeup', details: 'HD finish with airbrush', price: '15,000', section: 'ladies' },
+    { name: 'Hair Cut (Men)', details: 'Styling included', price: '199', section: 'men' },
+    { name: 'Beard Trim', details: '', price: '99', section: 'men' },
+    { name: 'Kids Hair Cut', details: '', price: '149', section: 'kids' },
+  ],
+  contactPhone: '+91 98765 43210',
+  contactName: 'Priya Sharma',
+  address: 'MG Road, New Delhi - 110001',
+  logo: null,
+  theme: 'dark-gold',
+};
+
+const SALON_THEMES = [
+  { id: 'dark-gold',  name: 'Dark & Gold (Luxury)', accent: '#d4af37' },
+  { id: 'dark-rose',  name: 'Dark & Rose', accent: '#c44569' },
+  { id: 'blush-pink', name: 'Blush Pink', accent: '#e8a0bf' },
+  { id: 'white-gold', name: 'White & Gold', accent: '#b8860b' },
+  { id: 'teal-cream', name: 'Teal & Cream', accent: '#2a9d8f' },
+];
+
+/* Rent card has a single design — show 1 template for preview consistency */
+const RENT_TEMPLATES = [
+  { id: 1, name: 'Classic Blue', accent: '#0b3d91' },
+];
+
 /*
   Modes:
     signin          – Email + Password (default)
@@ -136,7 +189,7 @@ export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onO
   const logoClickRef = useRef({ count: 0, timer: null });
 
   /* Sample preview modal state */
-  const [samplePreview, setSamplePreview] = useState(null); // null | 'wedding' | 'birthday' | 'anniversary' | 'biodata'
+  const [samplePreview, setSamplePreview] = useState(null); // null | 'wedding' | 'birthday' | 'anniversary' | 'biodata' | 'rentcard' | 'saloncard'
   const [fullPreviewTpl, setFullPreviewTpl] = useState(null); // { type: 'wedding', id: 1 } for full card preview
 
   function openAuthPopup(m = 'signin') { switchMode(m); setShowAuthPopup(true); }
@@ -171,7 +224,17 @@ export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onO
   const [subName, setSubName]     = useState('');
   const [subSending, setSubSending] = useState(false);
   const [subMsg, setSubMsg]       = useState('');
-  const [showSubscribePopup, setShowSubscribePopup] = useState(true);
+  const [showSubscribePopup, setShowSubscribePopup] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('subscribePopupDismissed') !== 'true';
+    }
+    return true;
+  });
+
+  function dismissSubscribePopup() {
+    setShowSubscribePopup(false);
+    sessionStorage.setItem('subscribePopupDismissed', 'true');
+  }
 
   /* Load public reviews on mount */
   useEffect(() => {
@@ -554,6 +617,7 @@ export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onO
         setSubEmail('');
         setSubPhone('');
         setSubName('');
+        sessionStorage.setItem('subscribePopupDismissed', 'true');
       } else {
         setSubMsg('❌ ' + (data.error || 'Failed'));
       }
@@ -590,6 +654,8 @@ export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onO
     { id: 'wedding',       icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)', price: '₹19/₹49' },
     { id: 'anniversary',   icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27b)', price: '₹19/₹49' },
     { id: 'biodata',       icon: '💒', name: 'Marriage Profile Designer',     desc: 'Build a traditional and detailed marriage biodata with a clean layout.',   grad: 'linear-gradient(135deg, #d4af37, #c0392b)', price: '₹49' },
+    { id: 'rentcard',      icon: '🏠', name: 'PG / Rent Card',                desc: 'Create professional PG & rent advertisement cards with property details.', grad: 'linear-gradient(135deg, #0b3d91, #43a047)', price: '₹49' },
+    { id: 'saloncard',     icon: '💇', name: 'Salon / Parlour Card',           desc: 'Create elegant salon service & price list cards for your beauty business.', grad: 'linear-gradient(135deg, #0a0a14, #d4af37)', price: '₹49' },
   ];
 
   /* Festival calendar — auto-detect active festivals */
@@ -689,9 +755,9 @@ export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onO
 
       {/* ═══════ SUBSCRIBE POPUP ═══════ */}
       {showSubscribePopup && (
-        <div className="lp-subscribe-overlay" onClick={() => setShowSubscribePopup(false)}>
+        <div className="lp-subscribe-overlay" onClick={dismissSubscribePopup}>
           <div className="lp-subscribe-popup" onClick={e => e.stopPropagation()}>
-            <button className="lp-subscribe-close" onClick={() => setShowSubscribePopup(false)} aria-label="Close">✕</button>
+            <button className="lp-subscribe-close" onClick={dismissSubscribePopup} aria-label="Close">✕</button>
             <div className="lp-subscribe-icon">🔔</div>
             <h2 className="lp-subscribe-title">Never Miss a New Card!</h2>
             <p className="lp-subscribe-desc">
@@ -775,6 +841,14 @@ export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onO
               <span className="lp-sample-icon">💒</span>
               <span className="lp-sample-label">Biodata Samples</span>
             </button>
+            <button className="lp-sample-btn lp-sample-btn--rentcard" onClick={() => setSamplePreview('rentcard')}>
+              <span className="lp-sample-icon">🏠</span>
+              <span className="lp-sample-label">PG/Rent Samples</span>
+            </button>
+            <button className="lp-sample-btn lp-sample-btn--saloncard" onClick={() => setSamplePreview('saloncard')}>
+              <span className="lp-sample-icon">💇</span>
+              <span className="lp-sample-label">Salon Samples</span>
+            </button>
           </div>
 
           <div className="lp-hero-stats">
@@ -786,44 +860,6 @@ export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onO
           </div>
         </div>
       </section>
-
-      {/* ═══════ ACTIVE FESTIVAL SPECIAL OFFERS (auto-detected) ═══════ */}
-      {activeFestivals.map(f => (
-        <section key={f.key} className="lp-offer-banner" style={{ background: f.grad }}>
-          <div className="lp-offer-inner">
-            <div className="lp-offer-badge">🔥 SPECIAL OFFER</div>
-            <h2 className="lp-offer-title">{f.offerTitle}</h2>
-            <p className="lp-offer-desc" dangerouslySetInnerHTML={{ __html: f.offerDesc }} />
-            <div className="lp-offer-features">
-              {f.features.map(feat => <span key={feat} className="lp-offer-feature">✅ {feat}</span>)}
-            </div>
-            <button className="lp-offer-cta" type="button" onClick={() => handleCardClick(f.offerCard)}>
-              {f.offerCta}
-            </button>
-          </div>
-        </section>
-      ))}
-
-      {/* ═══════ ACTIVE FESTIVAL FREE CARDS (if any) ═══════ */}
-      {activeFestivals.filter(f => f.freeCards.length > 0).map(f => (
-        <section key={f.key + '-free'} className="lp-showcase lp-holi-section">
-          <div className="lp-section-header">
-            <h2 className="lp-section-title">{f.icon} {f.name} Special — Free Cards & Videos</h2>
-            <span className="lp-section-free-tag">100% FREE</span>
-          </div>
-          <p className="lp-section-sub">Download & share {f.name} greetings instantly!</p>
-          <div className="lp-showcase-grid lp-free-grid">
-            {f.freeCards.map(c => (
-              <button key={c.id} className="lp-showcase-card lp-free-card lp-holi-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
-                <span className="lp-free-badge">FREE</span>
-                <span className="lp-showcase-icon">{c.icon}</span>
-                <h3 className="lp-showcase-name">{c.name}</h3>
-                <p className="lp-showcase-desc">{c.desc}</p>
-              </button>
-            ))}
-          </div>
-        </section>
-      ))}
 
       {/* ═══════ UPCOMING FESTIVALS PREVIEW ═══════ */}
       {upcomingFestivals.length > 0 && !activeFestivals.length && (
@@ -842,15 +878,6 @@ export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onO
         </section>
       )}
 
-      {/* ═══════ FESTIVAL CALENDAR BUTTON ═══════ */}
-      <section className="lp-calendar-section">
-        <h2 className="lp-section-title">🗓️ Festival Calendar</h2>
-        <p className="lp-section-sub">Plan ahead! Explore all Indian festivals month‑wise and create cards for each celebration.</p>
-        <button className="lp-calendar-btn" onClick={onOpenCalendar}>
-          🗓️ Open Festival Calendar
-        </button>
-      </section>
-
       {/* ═══════ FREE CARDS BUTTON ═══════ */}
       <section className="lp-showcase lp-free-section">
         <div className="lp-section-header">
@@ -863,19 +890,6 @@ export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onO
         </button>
       </section>
 
-      {/* ═══════ COMBO OFFER BANNER ═══════ */}
-      <section className="lp-combo-banner-section">
-        <div className="lp-combo-banner" onClick={onOpenCombo} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && onOpenCombo?.()}>
-          <div className="lp-combo-fire">🔥</div>
-          <div className="lp-combo-content">
-            <div className="lp-combo-tag">COMBO OFFER</div>
-            <h3 className="lp-combo-title">Pick Any 2 Premium Cards — Just ₹69</h3>
-            <p className="lp-combo-desc">15 days unlimited download • No watermark • Save ₹29!</p>
-          </div>
-          <div className="lp-combo-arrow">→</div>
-        </div>
-      </section>
-
       {/* ═══════ PREMIUM CARDS ═══════ */}
       <section className="lp-showcase">
         <div className="lp-section-header">
@@ -883,16 +897,47 @@ export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onO
           <span className="lp-section-price">Starting from ₹19</span>
         </div>
         <p className="lp-section-sub">Beautiful cards that need your details — fill the form, preview &amp; download</p>
+
+        {/* 7-Day Highlight + Combo Offer — side by side */}
+        <div className="lp-offer-row">
+          <div className="lp-seven-day-banner">
+            <span className="lp-seven-day-icon">🔓</span>
+            <div className="lp-seven-day-text">
+              <strong>Pay Once, Download for 7 Days!</strong>
+              <span>Edit &amp; re-download unlimited — no extra charges for 7 days.</span>
+            </div>
+          </div>
+          <div className="lp-combo-banner" onClick={onOpenCombo} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && onOpenCombo?.()}>
+            <div className="lp-combo-fire">🔥</div>
+            <div className="lp-combo-content">
+              <div className="lp-combo-tag">COMBO OFFER</div>
+              <h3 className="lp-combo-title">Any 2 Cards — Just ₹69</h3>
+              <p className="lp-combo-desc">15 days unlimited • No watermark • Save ₹29!</p>
+            </div>
+            <div className="lp-combo-arrow">→</div>
+          </div>
+        </div>
+
         <div className="lp-showcase-grid">
           {PREMIUM_CARDS.map(c => (
             <button key={c.id} className="lp-showcase-card lp-premium-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
               <span className="lp-price-badge">{c.price}</span>
+              <span className="lp-seven-day-badge">7 Days ∞ Downloads</span>
               <span className="lp-showcase-icon">{c.icon}</span>
               <h3 className="lp-showcase-name">{c.name}</h3>
               <p className="lp-showcase-desc">{c.desc}</p>
             </button>
           ))}
         </div>
+      </section>
+
+      {/* ═══════ FESTIVAL CALENDAR BUTTON ═══════ */}
+      <section className="lp-calendar-section">
+        <h2 className="lp-section-title">🗓️ Festival Calendar</h2>
+        <p className="lp-section-sub">Plan ahead! Explore all Indian festivals month‑wise and create cards for each celebration.</p>
+        <button className="lp-calendar-btn" onClick={onOpenCalendar}>
+          🗓️ Open Festival Calendar
+        </button>
       </section>
 
       {/* ═══════ NEED A CUSTOM DESIGN ═══════ */}
@@ -1386,6 +1431,8 @@ export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onO
                 {samplePreview === 'birthday' && '🎂 Birthday Invitation Templates'}
                 {samplePreview === 'anniversary' && '💍 Anniversary Card Templates'}
                 {samplePreview === 'biodata' && '💒 Marriage Biodata Templates'}
+                {samplePreview === 'rentcard' && '🏠 PG / Rent Card Preview'}
+                {samplePreview === 'saloncard' && '💇 Salon / Parlour Card Themes'}
               </h2>
               <p className="lp-sample-subtitle">Preview all design options with sample data</p>
             </div>
@@ -1446,6 +1493,34 @@ export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onO
                   <span className="lp-sample-name" style={{ color: tpl.accent }}>{tpl.name}</span>
                 </div>
               ))}
+
+              {samplePreview === 'rentcard' && RENT_TEMPLATES.map(tpl => (
+                <div key={tpl.id} className="lp-sample-card">
+                  <div className="lp-sample-preview" style={{ borderColor: tpl.accent }}>
+                    <div className="lp-sample-preview-inner lp-sample-preview--rentcard">
+                      <RentCardPreview data={SAMPLE_RENT} />
+                    </div>
+                    <button className="lp-sample-preview-btn" onClick={() => setFullPreviewTpl({ type: 'rentcard', id: tpl.id, name: tpl.name })}>
+                      👁️ Preview
+                    </button>
+                  </div>
+                  <span className="lp-sample-name" style={{ color: tpl.accent }}>{tpl.name}</span>
+                </div>
+              ))}
+
+              {samplePreview === 'saloncard' && SALON_THEMES.map(tpl => (
+                <div key={tpl.id} className="lp-sample-card">
+                  <div className="lp-sample-preview" style={{ borderColor: tpl.accent }}>
+                    <div className="lp-sample-preview-inner lp-sample-preview--saloncard">
+                      <SalonCardPreview data={{ ...SAMPLE_SALON, theme: tpl.id }} />
+                    </div>
+                    <button className="lp-sample-preview-btn" onClick={() => setFullPreviewTpl({ type: 'saloncard', id: tpl.id, name: tpl.name })}>
+                      👁️ Preview
+                    </button>
+                  </div>
+                  <span className="lp-sample-name" style={{ color: tpl.accent }}>{tpl.name}</span>
+                </div>
+              ))}
             </div>
 
             {/* Full Preview Overlay */}
@@ -1467,6 +1542,12 @@ export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onO
                     {fullPreviewTpl.type === 'biodata' && (
                       <BiodataCardPreview data={SAMPLE_BIODATA} lang="hi" template={fullPreviewTpl.id} community="hindi" />
                     )}
+                    {fullPreviewTpl.type === 'rentcard' && (
+                      <RentCardPreview data={SAMPLE_RENT} />
+                    )}
+                    {fullPreviewTpl.type === 'saloncard' && (
+                      <SalonCardPreview data={{ ...SAMPLE_SALON, theme: fullPreviewTpl.id }} />
+                    )}
                   </div>
                   <button className="lp-fullpreview-back" onClick={() => setFullPreviewTpl(null)}>
                     ← Back to Templates
@@ -1477,7 +1558,7 @@ export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onO
 
             <div className="lp-sample-actions">
               <button className="lp-sample-cta" onClick={() => { setSamplePreview(null); handleCardClick(samplePreview); }}>
-                🎨 Create Your Own {samplePreview.charAt(0).toUpperCase() + samplePreview.slice(1)} Card
+                🎨 Create Your Own {{ wedding: 'Wedding', birthday: 'Birthday', anniversary: 'Anniversary', biodata: 'Biodata', rentcard: 'PG/Rent', saloncard: 'Salon' }[samplePreview] || samplePreview} Card
               </button>
             </div>
           </div>

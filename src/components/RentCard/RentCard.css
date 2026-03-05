@@ -1,0 +1,595 @@
+/* ══════════════════════════════════════
+   PG / Rent Card — Screen & Preview
+   ══════════════════════════════════════ */
+
+/* ─── Screen layout ─── */
+.rent-card-screen {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 16px 80px;
+  overflow: hidden;
+}
+
+.rent-screen-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 18px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.35);
+}
+
+.rent-preview-container {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+.rent-preview-wrapper {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,.35);
+}
+
+/* ─── Action Buttons ─── */
+.rent-action-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 26px;
+  z-index: 2;
+  width: 100%;
+  max-width: 480px;
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+
+.rent-back-btn,
+.rent-btn-edit,
+.rent-btn-download {
+  flex: 1;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 12px;
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+  min-width: 0;
+}
+
+.rent-back-btn {
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  backdrop-filter: blur(6px);
+}
+.rent-back-btn:hover { background: rgba(255,255,255,.22); }
+
+.rent-btn-edit {
+  background: linear-gradient(135deg, #f6d365, #fda085);
+  color: #333;
+}
+.rent-btn-edit:hover { filter: brightness(1.08); }
+
+.rent-btn-download {
+  background: linear-gradient(135deg, #43e97b, #38f9d7);
+  color: #1a1a2e;
+}
+.rent-btn-download:hover { filter: brightness(1.06); }
+.rent-btn-download:disabled { opacity: .6; cursor: wait; }
+
+
+/* ══════════════════════════════════════
+   Card Preview — Matching Screenshot
+   ══════════════════════════════════════ */
+
+.rent-card {
+  width: 100%;
+  background: #f9f6ef;
+  font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif;
+  color: #222;
+  overflow: hidden;
+}
+
+/* ─── Header ─── */
+.rent-header {
+  background: linear-gradient(135deg, #0b3d91 0%, #1565c0 100%);
+  padding: 22px 20px 16px;
+  text-align: center;
+  position: relative;
+}
+
+.rent-header-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  margin-bottom: 8px;
+}
+
+.rent-header-title {
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0 0 8px;
+  text-shadow: 0 2px 6px rgba(0,0,0,.3);
+  line-height: 1.3;
+}
+
+.rent-header-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,.15);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: .88rem;
+  color: #e3f2fd;
+  font-weight: 500;
+}
+
+.rent-loc-pin { font-size: 1rem; }
+
+/* ─── Section Headings ─── */
+.rent-section {
+  padding: 10px 18px 8px;
+}
+
+.rent-section-heading {
+  background: linear-gradient(135deg, #f9a825, #f57f17);
+  color: #fff;
+  font-size: .82rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 5px 14px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(245,127,23,.25);
+}
+
+/* ─── Rent Price Row ─── */
+.rent-price-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.rent-price-card {
+  flex: 1;
+  min-width: 130px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px 10px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+  border: 1px solid #e0e0e0;
+}
+
+.rent-price-icon {
+  display: block;
+  font-size: 1.6rem;
+  margin-bottom: 4px;
+}
+
+.rent-price-label {
+  display: block;
+  font-size: .78rem;
+  color: #555;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.rent-price-value {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #d32f2f;
+}
+
+.rent-price-ac {
+  color: #1565c0;
+}
+
+.rent-price-per {
+  font-size: .68rem;
+  font-weight: 500;
+  color: #777;
+}
+
+/* ─── Features List ─── */
+.rent-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rent-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+  font-size: .92rem;
+  font-weight: 500;
+  color: #333;
+  border-bottom: 1px dashed #e0e0e0;
+}
+
+.rent-feature-item:last-child {
+  border-bottom: none;
+}
+
+.rent-check {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* ─── Amenities List ─── */
+.rent-amenity-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rent-amenity-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: .9rem;
+  font-weight: 500;
+  color: #333;
+  border-bottom: 1px dashed #e0e0e0;
+}
+
+.rent-amenity-item:last-child {
+  border-bottom: none;
+}
+
+.rent-amenity-icon {
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  width: 28px;
+  text-align: center;
+}
+
+/* ─── Contact Footer ─── */
+.rent-footer {
+  background: linear-gradient(135deg, #0b3d91 0%, #1565c0 100%);
+  padding: 14px 20px 16px;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.rent-footer-heading {
+  background: linear-gradient(135deg, #43a047, #2e7d32);
+  color: #fff;
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 4px 18px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px rgba(46,125,50,.3);
+}
+
+.rent-footer-name {
+  margin: 4px 0 2px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.rent-footer-phone {
+  margin: 2px 0 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: .5px;
+}
+
+.rent-phone-icon {
+  font-size: 1rem;
+}
+
+
+/* ══════════════════════════════════════
+   Form Styling (on white .form-card bg)
+   ══════════════════════════════════════ */
+
+.rent-form-screen .form-card {
+  max-width: 660px;
+}
+
+/* ─── Section blocks ─── */
+.rent-section-block {
+  margin-top: 20px;
+  padding: 16px;
+  background: #f8f9fc;
+  border: 1px solid #e8ecf1;
+  border-radius: 14px;
+}
+
+.rent-section-label {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.rent-section-hint {
+  margin: 0 0 12px;
+  font-size: .82rem;
+  color: #888;
+}
+
+/* ─── Preset Catalogue ─── */
+.rent-preset-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.rent-preset-group {
+  border: 1px solid #e0e4ea;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.rent-preset-cat {
+  padding: 10px 14px;
+  font-size: .9rem;
+  font-weight: 700;
+  color: #444;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.rent-preset-cat::-webkit-details-marker { display: none; }
+.rent-preset-cat::before {
+  content: '▸';
+  font-size: .75rem;
+  transition: transform .2s;
+  color: #aaa;
+}
+details[open] > .rent-preset-cat::before {
+  transform: rotate(90deg);
+}
+
+.rent-preset-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px 14px 12px;
+}
+
+.rent-preset-btn {
+  padding: 5px 12px;
+  border: 1px solid #d0d7e0;
+  border-radius: 20px;
+  background: #fff;
+  color: #444;
+  font-size: .8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+}
+.rent-preset-btn:hover:not(:disabled) {
+  background: #e8f5e9;
+  border-color: #66bb6a;
+  color: #2e7d32;
+}
+.rent-preset-btn.added {
+  background: #e8f5e9;
+  border-color: #81c784;
+  color: #388e3c;
+  cursor: default;
+  opacity: .7;
+}
+
+.rent-preset-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rent-custom-btn {
+  padding: 8px 18px;
+  border: 1.5px dashed #bbb;
+  border-radius: 10px;
+  background: #fff;
+  color: #555;
+  font-size: .85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+.rent-custom-btn:hover {
+  border-color: #667eea;
+  background: #f0f0ff;
+  color: #667eea;
+}
+.rent-sample-btn {
+  border-style: solid;
+  border-color: #f0c040;
+  color: #b8860b;
+  background: #fffde7;
+}
+.rent-sample-btn:hover {
+  background: #fff8e1;
+}
+
+/* ─── Added items — editable list ─── */
+.rent-added-list {
+  margin-top: 14px;
+}
+
+.rent-added-heading {
+  margin: 0 0 8px;
+  font-size: .92rem;
+  font-weight: 700;
+  color: #444;
+}
+
+.rent-edit-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  background: #fff;
+  border: 1px solid #e0e4ea;
+  border-radius: 10px;
+}
+
+.rent-edit-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #d0d7e0;
+  border-radius: 8px;
+  background: #f8f9fc;
+  color: #333;
+  font-size: .88rem;
+  outline: none;
+  transition: border .2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+.rent-edit-input:focus {
+  border-color: #667eea;
+  background: #fff;
+}
+.rent-edit-input::placeholder {
+  color: #aaa;
+}
+
+.rent-edit-icon {
+  font-size: 1.1rem;
+}
+
+.rent-remove-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: #ffebee;
+  color: #e53935;
+  font-size: .85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.rent-remove-btn:hover { background: #e53935; color: #fff; }
+
+
+/* ─── Responsive ─── */
+@media (max-width: 520px) {
+  .rent-header-title {
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+  }
+  .rent-price-value {
+    font-size: 1.1rem;
+  }
+  .rent-card-screen {
+    padding: 20px 10px 70px;
+  }
+
+  /* Action buttons */
+  .rent-action-buttons {
+    gap: 8px;
+    padding: 0 2px;
+    max-width: 100%;
+  }
+  .rent-back-btn,
+  .rent-btn-edit,
+  .rent-btn-download {
+    font-size: .82rem;
+    padding: 10px 8px;
+    border-radius: 10px;
+  }
+
+  /* Form sections */
+  .rent-section-block {
+    padding: 12px;
+  }
+
+  /* Preset buttons */
+  .rent-preset-items {
+    gap: 5px;
+    padding: 4px 10px 10px;
+  }
+  .rent-preset-btn {
+    font-size: .72rem;
+    padding: 4px 10px;
+    white-space: normal;
+    text-align: left;
+  }
+  .rent-preset-cat {
+    font-size: .82rem;
+    padding: 9px 10px;
+  }
+  .rent-custom-btn {
+    font-size: .78rem;
+    padding: 7px 14px;
+  }
+
+  /* Edit rows */
+  .rent-edit-row {
+    flex-wrap: wrap;
+  }
+  .rent-edit-input {
+    font-size: .82rem;
+  }
+
+  /* Price cards */
+  .rent-price-row {
+    gap: 8px;
+  }
+  .rent-price-card {
+    min-width: 110px;
+    padding: 10px 8px;
+  }
+}
+
+@media (max-width: 380px) {
+  .rent-back-btn,
+  .rent-btn-edit,
+  .rent-btn-download {
+    font-size: .75rem;
+    padding: 9px 6px;
+  }
+  .rent-header-title {
+    font-size: 1rem;
+  }
+  .rent-preset-btn {
+    font-size: .68rem;
+    padding: 3px 8px;
+  }
+}

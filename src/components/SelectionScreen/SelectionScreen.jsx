@@ -14,6 +14,8 @@ const CATEGORIES = [
       { id: 'wedding',     label: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',          icon: '💐', badge: '🌸 Royal & Classic' },
       { id: 'anniversary', label: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.',     icon: '💍', badge: '❤️ Romantic' },
       { id: 'biodata',     label: 'Marriage Profile Designer',     desc: 'Build a traditional and detailed marriage biodata with a clean layout.',      icon: '💒', badge: '🌸 Premium' },
+      { id: 'rentcard',   label: 'PG / Rent Card',                desc: 'Create professional PG & rent advertisement cards with property details.',   icon: '🏠', badge: '🏡 Property' },
+      { id: 'saloncard',  label: 'Salon / Parlour Card',           desc: 'Create elegant salon service & price list cards for your beauty business.',  icon: '💇', badge: '✨ Beauty' },
       { id: 'holiwishes',  label: 'Happy Holi Wishes',             desc: 'One-click colorful Holi greeting — no form, just download & share!',         icon: '🌈', badge: '🎨 Instant Download' },
     ],
   },

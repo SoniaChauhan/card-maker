@@ -69,6 +69,22 @@ export default function Page() {
           Modern templates with clean layouts. Resume builder online free, marriage biodata maker with photo.
         </p>
 
+        <h2>🏠 PG &amp; Rent Card Maker – Room for Rent Advertisement</h2>
+        <p>
+          Create professional PG and rent advertisement cards online. Showcase room features, amenities,
+          rent details, and contact information with beautiful templates. Perfect for PG owners, landlords,
+          and property managers. Download room for rent posters, paying guest cards, and flat for rent
+          advertisements instantly. Best rent card maker online India 2026.
+        </p>
+
+        <h2>💇 Salon Price List Card Maker – Parlour Rate Card Designer</h2>
+        <p>
+          Design stunning salon price list cards and parlour rate cards online. Create professional menu
+          cards for ladies salon, men salon, kids salon, and unisex salons. Add services with prices,
+          special offers, and salon contact details. Perfect for beauty parlours, hair salons, barber shops,
+          and spa centres. Best salon card maker online free India 2026.
+        </p>
+
         <h2>🌟 Why Choose Our Card Maker?</h2>
         <ul>
           <li>✓ <strong>Premium Templates for Every Card Type</strong> — Access a wide collection of professionally designed templates for invitations, festival greetings, announcements, business flyers, and more—each crafted to help your card look stunning and professional.</li>
@@ -103,13 +119,18 @@ export default function Page() {
         <p>No! Free cards can be downloaded without sign-up. Premium cards are accessible as guest too.</p>
         <h3>Do you support Hindi/English templates?</h3>
         <p>Yes! Card Maker supports Hindi, English, Punjabi and Gujarati with plans to add more languages.</p>
+        <h3>What types of cards can I create?</h3>
+        <p>You can create Birthday Invitations, Wedding Cards, Anniversary Greetings, Holi Wishes (Hindi &amp; English), Festival Cards, Marriage Biodata, Professional Resumes, Jagrata Invitations, PG &amp; Rent Advertisement Cards, Salon Price List Cards, and more.</p>
 
         <h2>Popular Searches</h2>
         <p>
           online card maker, invitation card maker, birthday card creator online, Holi card maker online,
           wedding card designer, free card maker, greeting card maker, card maker app, anniversary card maker,
           resume builder online free, marriage biodata maker, festival card maker,
+          rent card maker online, PG advertisement card maker, room for rent poster maker,
+          salon price list card maker, parlour rate card, salon menu card design, beauty parlour card,
           शादी का कार्ड, जन्मदिन कार्ड बनाएं, होली शायरी 2026, होली विशेज इन हिंदी,
+          किराये का कमरा, सैलून कार्ड, ब्यूटी पार्लर कार्ड,
           free birthday invitation templates, best wedding card maker online, best online card maker in india
         </p>
       </section>

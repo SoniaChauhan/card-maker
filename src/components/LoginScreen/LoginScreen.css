@@ -413,6 +413,60 @@
   letter-spacing: .3px;
 }
 
+/* ═══ 7-Day badge on each premium card ═══ */
+.lp-seven-day-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  font-size: 9px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #f97316, #ef4444);
+  padding: 3px 9px;
+  border-radius: 50px;
+  letter-spacing: .3px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, .45);
+  animation: lp-badge-pulse 2.5s ease-in-out infinite;
+}
+@keyframes lp-badge-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .85; transform: scale(1.05); }
+}
+
+/* ═══ 7-Day Highlight Banner ═══ */
+.lp-seven-day-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 640px;
+  margin: 0 auto 24px;
+  padding: 14px 22px;
+  background: linear-gradient(135deg, #fff7ed, #fef3c7);
+  border: 2px solid #f97316;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(249, 115, 22, .15);
+}
+.lp-seven-day-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+.lp-seven-day-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.lp-seven-day-text strong {
+  font-size: 15px;
+  color: #c2410c;
+}
+.lp-seven-day-text span {
+  font-size: 13px;
+  color: #78350f;
+  line-height: 1.4;
+}
+
 /* ═══ Free badge on free cards ═══ */
 .lp-free-badge {
   position: absolute;
@@ -1819,6 +1873,11 @@
   .lp-free-badge { top: 8px; right: 8px; font-size: 10px; padding: 3px 10px; }
   .lp-lang-badge { top: 8px; left: 8px; font-size: 10px; padding: 3px 10px; }
   .lp-price-badge { top: 8px; right: 8px; font-size: 10px; padding: 3px 10px; }
+  .lp-seven-day-badge { top: 8px; left: 8px; font-size: 7px; padding: 2px 7px; }
+  .lp-seven-day-banner { padding: 12px 14px; gap: 10px; margin: 0 auto 18px; }
+  .lp-seven-day-icon { font-size: 24px; }
+  .lp-seven-day-text strong { font-size: 13px; }
+  .lp-seven-day-text span { font-size: 11px; }
 
   .lp-section-header { gap: 8px; }
   .lp-section-free-tag { font-size: 12px; padding: 4px 12px; }
@@ -1885,6 +1944,11 @@
   .lp-free-badge { font-size: 9px; padding: 2px 8px; }
   .lp-lang-badge { font-size: 9px; padding: 2px 8px; }
   .lp-price-badge { font-size: 9px; padding: 2px 8px; }
+  .lp-seven-day-badge { font-size: 6px; padding: 2px 5px; top: 6px; left: 6px; }
+  .lp-seven-day-banner { padding: 10px 10px; gap: 8px; border-radius: 12px; }
+  .lp-seven-day-icon { font-size: 20px; }
+  .lp-seven-day-text strong { font-size: 11px; }
+  .lp-seven-day-text span { font-size: 10px; }
 
   .lp-readymade-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
   .lp-readymade-card { min-height: 160px; padding: 18px 10px 14px; }
@@ -2251,6 +2315,26 @@
   box-shadow: 0 8px 25px rgba(168, 85, 247, 0.3);
 }
 
+.lp-sample-btn--rentcard {
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  border-color: #3b82f6;
+  color: #1e40af;
+}
+.lp-sample-btn--rentcard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+}
+
+.lp-sample-btn--saloncard {
+  background: linear-gradient(135deg, #1a1a2e, #2d2d44);
+  border-color: #d4af37;
+  color: #d4af37;
+}
+.lp-sample-btn--saloncard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+}
+
 .lp-sample-icon {
   font-size: 36px;
 }
@@ -2390,6 +2474,20 @@
   height: 476%;
 }
 
+.lp-sample-preview--rentcard {
+  transform: scale(0.28);
+  transform-origin: top left;
+  width: 357%;
+  height: 476%;
+}
+
+.lp-sample-preview--saloncard {
+  transform: scale(0.28);
+  transform-origin: top left;
+  width: 357%;
+  height: 476%;
+}
+
 .lp-sample-name {
   display: block;
   margin-top: 12px;
@@ -2507,7 +2605,30 @@
   box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
 }
 
-/* ═══════ Combo Offer Banner (Landing Page) ═══════ */
+/* ═══ Offer Row — 7-day banner + Combo side by side ═══ */
+.lp-offer-row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  margin: 0 auto 24px;
+  align-items: stretch;
+}
+.lp-offer-row .lp-seven-day-banner {
+  flex: 1;
+  margin: 0;
+}
+.lp-offer-row .lp-combo-banner {
+  flex: 1;
+}
+
+@media (max-width: 700px) {
+  .lp-offer-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+/* ═══ Combo Offer Banner (Landing Page) ═══════ */
 .lp-combo-banner-section {
   padding: 0 24px;
   max-width: 1200px;
@@ -2884,8 +3005,8 @@
   }
   .lp-sample-btn {
     padding: 16px 20px;
-    min-width: 140px;
-    flex: 1 1 calc(50% - 12px);
+    min-width: 120px;
+    flex: 1 1 calc(33.33% - 12px);
   }
   .lp-sample-icon {
     font-size: 28px;
