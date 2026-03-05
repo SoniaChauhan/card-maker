@@ -1,5 +1,6 @@
 /**
  * Payment service — handles Razorpay order creation, checkout, and verification.
+ * Supports both email and phone as user identifiers.
  * All server communication uses encoded payloads.
  */
 import { encodePayload } from '../utils/payload';
@@ -108,21 +109,20 @@ async function apiPayments(body) {
   return data;
 }
 
-/** Check if user has already paid for this card type */
-export async function hasUserPaid(email, cardType) {
+/** Check if user has already paid for this card type (by email or phone) */
+export async function hasUserPaid(email, cardType, phone = '') {
   if (FREE_CARDS.has(cardType)) return true; // free cards are always "paid"
-  const data = await apiPayments({ action: 'check', email, cardType });
+  const data = await apiPayments({ action: 'check', email: email || '', phone: phone || '', cardType });
   return data.paid;
 }
 
 /**
  * Get detailed payment/unlock status with tier info.
  * Returns { paid: boolean, unlockedUntil: ISO-string|null, tier: 'premium'|'watermark'|null }
- * Premium = ₹49 (no watermark), Watermark = ₹19 (small watermark)
  */
-export async function getPaymentStatus(email, cardType) {
+export async function getPaymentStatus(email, cardType, phone = '') {
   if (FREE_CARDS.has(cardType)) return { paid: true, unlockedUntil: null, tier: 'premium' };
-  const data = await apiPayments({ action: 'check', email, cardType });
+  const data = await apiPayments({ action: 'check', email: email || '', phone: phone || '', cardType });
   return {
     paid: !!data.paid,
     unlockedUntil: data.unlockedUntil || null,
@@ -132,12 +132,12 @@ export async function getPaymentStatus(email, cardType) {
 }
 
 /**
- * Check if user has active access for a specific tier.
+ * Check if user has active access for a specific tier (by email or phone).
  * Returns { hasAccess: boolean, tier: 'premium'|'watermark'|null, expiresAt: ISO-string|null }
  */
-export async function checkUserAccess(email, cardType) {
+export async function checkUserAccess(email, cardType, phone = '') {
   if (FREE_CARDS.has(cardType)) return { hasAccess: true, tier: 'premium', expiresAt: null };
-  const data = await apiPayments({ action: 'checkAccess', email, cardType });
+  const data = await apiPayments({ action: 'checkAccess', email: email || '', phone: phone || '', cardType });
   return {
     hasAccess: data.hasAccess || false,
     tier: data.tier || null,
@@ -146,19 +146,20 @@ export async function checkUserAccess(email, cardType) {
 }
 
 /** Create a Razorpay order. Returns { orderId, amount, currency, keyId } */
-export async function createOrder(email, cardType, cardLabel, customAmount = null) {
+export async function createOrder(email, cardType, cardLabel, customAmount = null, phone = '') {
   const amount = customAmount !== null ? customAmount : getCardPrice(cardType);
-  return apiOrders({ email, cardType, cardLabel, amount });
+  return apiOrders({ email: email || '', phone: phone || '', cardType, cardLabel, amount });
 }
 
 /** Verify payment after Razorpay checkout */
-export async function verifyPayment({ razorpayOrderId, razorpayPaymentId, razorpaySignature, email, cardType, tier }) {
+export async function verifyPayment({ razorpayOrderId, razorpayPaymentId, razorpaySignature, email, phone, cardType, tier }) {
   return apiPayments({
     action: 'verify',
     razorpayOrderId,
     razorpayPaymentId,
     razorpaySignature,
-    email,
+    email: email || '',
+    phone: phone || '',
     cardType,
     tier,
   });
@@ -186,7 +187,8 @@ export function loadRazorpayScript() {
  * Full payment flow — creates order, opens Razorpay popup, verifies payment.
  *
  * @param {Object} opts
- * @param {string} opts.email - User email
+ * @param {string} opts.email - User email (can be '' if phone is provided)
+ * @param {string} [opts.phone] - User phone (can be '' if email is provided)
  * @param {string} opts.cardType - e.g. 'birthday', 'wedding'
  * @param {string} opts.cardLabel - Display name, e.g. 'Birthday Invitation'
  * @param {string} opts.userName - User's name for prefill
@@ -196,13 +198,13 @@ export function loadRazorpayScript() {
  * @param {Function} opts.onError - Called on failure
  * @returns {Promise<void>}
  */
-export async function startPayment({ email, cardType, cardLabel, userName, amount, tier, onSuccess, onError }) {
+export async function startPayment({ email, phone, cardType, cardLabel, userName, amount, tier, onSuccess, onError }) {
   try {
     // Determine tier from amount if not explicitly set
     const paymentTier = tier || (amount === PRICE_WITH_WATERMARK ? 'watermark' : 'premium');
 
     // 1. Check if already has access for this tier
-    const accessStatus = await checkUserAccess(email, cardType);
+    const accessStatus = await checkUserAccess(email || '', cardType, phone || '');
     if (accessStatus.hasAccess) {
       // User already has access
       if (accessStatus.tier === 'premium' || (accessStatus.tier === paymentTier)) {
@@ -219,7 +221,7 @@ export async function startPayment({ email, cardType, cardLabel, userName, amoun
     }
 
     // 3. Create order (with custom amount if provided)
-    const order = await createOrder(email, cardType, cardLabel, amount);
+    const order = await createOrder(email || '', cardType, cardLabel, amount, phone || '');
     if (order.alreadyPaid) {
       if (onSuccess) onSuccess({ alreadyPaid: true, tier: order.tier, expiresAt: order.expiresAt });
       return;
@@ -236,8 +238,9 @@ export async function startPayment({ email, cardType, cardLabel, userName, amoun
         : `${cardLabel} — No Watermark (7 Days)`,
       order_id: order.orderId,
       prefill: {
-        email,
+        email: email || '',
         name: userName || '',
+        contact: phone || '',
       },
       theme: {
         color: '#667eea',
@@ -249,7 +252,8 @@ export async function startPayment({ email, cardType, cardLabel, userName, amoun
             razorpayOrderId: response.razorpay_order_id,
             razorpayPaymentId: response.razorpay_payment_id,
             razorpaySignature: response.razorpay_signature,
-            email,
+            email: email || '',
+            phone: phone || '',
             cardType,
             tier: paymentTier,
           });
@@ -308,4 +312,27 @@ export async function sendDownloadEmail({ email, cardType, cardLabel, downloadId
     console.error('Failed to send download email:', err);
     return false;
   }
+}
+
+/* ── OTP helpers ── */
+
+async function apiOtp(body) {
+  const res = await fetch('/api/otp', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ _p: encodePayload(body) }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'OTP request failed');
+  return data;
+}
+
+/** Send OTP to email or phone. channel = 'email' | 'phone' */
+export async function sendOTP(channel, target) {
+  return apiOtp({ action: 'send', channel, target });
+}
+
+/** Verify OTP. Returns { verified: boolean } */
+export async function verifyOTP(channel, target, otp) {
+  return apiOtp({ action: 'verify', channel, target, otp });
 }

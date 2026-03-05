@@ -2107,8 +2107,9 @@
   margin-left: 32px;
 }
 
-/* Email Section */
-.bdp-email-section {
+/* Email / Identity Section */
+.bdp-email-section,
+.bdp-identity-section {
   padding: 0 16px 12px;
 }
 
@@ -2127,11 +2128,146 @@
   border-radius: 10px;
   font-size: 14px;
   transition: border-color .2s;
+  box-sizing: border-box;
 }
 
 .bdp-email-input:focus {
   outline: none;
   border-color: #f97316;
+}
+
+/* Method toggle */
+.bdp-method-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.bdp-method-btn {
+  flex: 1;
+  padding: 9px 6px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+}
+.bdp-method-btn:hover {
+  border-color: #f97316;
+  background: #fff7ed;
+}
+.bdp-method-btn--active {
+  border-color: #f97316;
+  background: linear-gradient(135deg, #fff7ed, #ffedd5);
+  color: #ea580c;
+}
+
+/* Phone row */
+.bdp-phone-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.bdp-phone-prefix {
+  background: #f3f4f6;
+  border: 2px solid #e5e7eb;
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+  padding: 12px 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+.bdp-phone-input {
+  border-radius: 0 10px 10px 0 !important;
+}
+
+/* OTP Section */
+.bdp-otp-section {
+  margin-top: 10px;
+}
+.bdp-otp-send-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: #fff;
+  transition: opacity .2s;
+}
+.bdp-otp-send-btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.bdp-otp-verify-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.bdp-otp-input {
+  flex: 1;
+  min-width: 80px;
+  padding: 10px 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 16px;
+  letter-spacing: 4px;
+  text-align: center;
+  transition: border-color .2s;
+}
+.bdp-otp-input:focus {
+  outline: none;
+  border-color: #f97316;
+}
+.bdp-otp-verify-btn {
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+}
+.bdp-otp-verify-btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.bdp-otp-timer {
+  font-size: 12px;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+.bdp-otp-resend {
+  background: none;
+  border: none;
+  color: #f97316;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+.bdp-otp-resend:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.bdp-otp-error {
+  color: #dc2626;
+  font-size: 12px;
+  margin: 6px 0 0;
+}
+.bdp-verified-badge {
+  color: #16a34a;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 8px 0 0;
 }
 
 /* Trust Note */

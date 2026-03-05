@@ -42,7 +42,7 @@ const CATEGORIES = [
     title: '🙏 Spiritual & Religious',
     id: 'spiritual',
     cards: [
-      { id: 'jagrata',      label: 'Jagrata',             desc: 'Design serene and devotional invitations for Jagrata gatherings.',    icon: '🪔', badge: '🙏 Divine Blessing' },
+      { id: 'jagrata',      label: 'Jagrata',             desc: 'Design serene and devotional invitations for Jagrata gatherings.',    icon: '🪔', badge: '🙏 Divine Blessing', comingSoon: true },
       { id: 'satyanarayan', label: 'Satyanarayan Katha',  desc: 'Create sacred invitations for Satyanarayan Katha pooja.',            icon: '🙏', badge: '🕉️ Sacred',          comingSoon: true },
       { id: 'garba',        label: 'Garba / Navratri',    desc: 'Colourful Garba and Navratri celebration invitation cards.',          icon: '💃', badge: '🔴 Festive',          comingSoon: true },
     ],
@@ -51,7 +51,7 @@ const CATEGORIES = [
     title: '💼 Professional & Documents',
     id: 'professional',
     cards: [
-      { id: 'resume',       label: 'Resume Builder',  desc: 'Design a polished resume and download it instantly in PDF format.',    icon: '📄', badge: '💼 Professional' },
+      { id: 'resume',       label: 'Resume Builder',  desc: 'Design a polished resume and download it instantly in PDF format.',    icon: '📄', badge: '💼 Professional', comingSoon: true },
       { id: 'biodata',      label: 'Marriage Profile', desc: 'Build a traditional and detailed marriage biodata with a clean layout.', icon: '💍', badge: '🌸 Traditional' },
       { id: 'visitingcard', label: 'Visiting Card',    desc: 'Design sleek and modern visiting cards for professionals.',            icon: '🪪', badge: '🏢 Modern',     comingSoon: true },
       { id: 'businessdocs', label: 'Business Docs',    desc: 'Create professional business documents and letterheads.',             icon: '📋', badge: '📊 Corporate',   comingSoon: true },
@@ -70,9 +70,9 @@ const CATEGORIES = [
       { id: 'fathers-en',       label: 'Father\'s Quotes (English)',    desc: 'Heartfelt English father\'s quotes cards — free download!',    icon: '👨‍👧', badge: '❤️ Father' },
       { id: 'mothers-en',       label: 'Mother\'s Quotes (English)',    desc: 'Beautiful English mother\'s quotes cards — free download!',    icon: '💐', badge: '💗 Mother' },
       { id: 'mothers',          label: 'Mother\'s Quotes (Hindi)',      desc: 'माँ के प्यार को शब्दों में — फ्री डाउनलोड!',          icon: '💐', badge: '💗 माँ' },
-      { id: 'holicard',           label: 'Holi Celebration Card',          desc: 'Vibrant & colorful Holi greeting card with splashes & festive typography.', icon: '🌈', badge: '🎨 Festive' },
+      { id: 'holicard',           label: 'Holi Celebration Card',          desc: 'Vibrant & colorful Holi greeting card with splashes & festive typography.', icon: '🌈', badge: '🎨 Festive', comingSoon: true },
       { id: 'holivideo',          label: 'Holi Video Wishes',              desc: 'Download colorful Holi video greetings — share on WhatsApp & social media!', icon: '🎬', badge: '🎥 Video' },
-      { id: 'festivalcards',   label: 'Festival Cards',  desc: 'Create festive cards for Diwali, Lohri, Navratri, Eid, Christmas and more.',     icon: '🎆', badge: '🪔 Festive' },
+      { id: 'festivalcards',   label: 'Festival Cards',  desc: 'Create festive cards for Diwali, Lohri, Navratri, Eid, Christmas and more.',     icon: '🎆', badge: '🪔 Festive', comingSoon: true },
     ],
   },
   {
