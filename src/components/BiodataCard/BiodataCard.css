@@ -2484,6 +2484,32 @@
   margin-bottom: 0;
 }
 
+/* 7-day unlimited tag inside premium option */
+.bdp-seven-day-tag {
+  margin-top: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #f97316, #ef4444);
+  padding: 3px 10px;
+  border-radius: 50px;
+  letter-spacing: .3px;
+  display: inline-block;
+  animation: bdp-pulse-tag 2s ease-in-out infinite;
+}
+
+@keyframes bdp-pulse-tag {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Highlighted feature row */
+.bdp-feature--highlight {
+  color: #f97316;
+  font-weight: 700;
+  grid-column: 1 / -1;
+}
+
 .bdp-option-desc {
   font-size: 11px;
   color: #718096;

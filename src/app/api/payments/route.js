@@ -24,8 +24,8 @@ function isAdminEmail(email) {
   return !!email && ADMIN_EMAILS.has(email.toLowerCase().trim());
 }
 
-/** Card types that grant 7-day timed unlock after payment */
-const SEVEN_DAY_ACCESS_CARDS = new Set(['wedding', 'birthday', 'anniversary', 'biodata']);
+/** All paid cards now get 7-day timed unlock after payment */
+// (Previously only a whitelist — now every non-free card is 7-day)
 const UNLOCK_DURATION_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 /** Combo offer — 15-day access for 2 card types */
@@ -105,7 +105,7 @@ async function recoverPaymentFromOrder(db, email, phone, cardType) {
           tier,
           ...(email ? { email } : {}),
           ...(phone ? { phone } : {}),
-          ...(SEVEN_DAY_ACCESS_CARDS.has(cardType) ? { unlockedUntil: expiresAt } : {}),
+          unlockedUntil: expiresAt,
         },
         $setOnInsert: {
           cardType,
@@ -128,7 +128,7 @@ async function recoverPaymentFromOrder(db, email, phone, cardType) {
           txnId: paidOrder.razorpayPaymentId || 'recovered',
           approvedAt: new Date(),
           tier,
-          expiresAt: SEVEN_DAY_ACCESS_CARDS.has(cardType) ? expiresAt : null,
+          expiresAt: expiresAt,
           ...(email ? { email } : {}),
           ...(phone ? { phone } : {}),
         },
@@ -233,10 +233,8 @@ export async function POST(req) {
         if (emailKey) paymentSet.email = emailKey;
         if (phoneKey) paymentSet.phone = phoneKey;
 
-        // Set/refresh the 7-day window for these card types
-        if (SEVEN_DAY_ACCESS_CARDS.has(cardType)) {
-          paymentSet.unlockedUntil = expiresAt;
-        }
+        // All paid cards get 7-day unlimited download window
+        paymentSet.unlockedUntil = expiresAt;
 
         // Update order status
         await db.collection('orders').updateOne(
@@ -276,7 +274,7 @@ export async function POST(req) {
               txnId: razorpayPaymentId,
               approvedAt: new Date(),
               tier: paymentTier,
-              expiresAt: SEVEN_DAY_ACCESS_CARDS.has(cardType) ? expiresAt : null,
+              expiresAt: expiresAt,
               ...(emailKey ? { email: emailKey } : {}),
               ...(phoneKey ? { phone: phoneKey } : {}),
             },
@@ -324,9 +322,9 @@ export async function POST(req) {
           });
         }
 
-        if (SEVEN_DAY_ACCESS_CARDS.has(cardType)) {
-          // For 7-day unlock cards, check for active unlock window
-          // Check premium tier first (₹49)
+        // All paid cards — check for active 7-day unlock window
+        // Check premium tier first (₹49)
+        {
           let doc = await db.collection('payments').findOne({
             ...uf,
             cardType,
@@ -412,18 +410,6 @@ export async function POST(req) {
 
           return NextResponse.json({ paid: false, unlockedUntil: null, tier: null });
         }
-
-        // Default: permanent access (non-7-day cards)
-        const doc = await db.collection('payments').findOne({
-          ...uf,
-          cardType,
-          status: 'verified',
-        });
-        return NextResponse.json({
-          paid: !!doc,
-          unlockedUntil: null,
-          tier: doc?.tier || (doc ? 'premium' : null),
-        });
       }
 
       /* ── Check if user has active access for a card type ── */
@@ -459,8 +445,8 @@ export async function POST(req) {
           });
         }
 
-        if (SEVEN_DAY_ACCESS_CARDS.has(cardType)) {
-          // Check premium tier first
+        // All paid cards — check for active 7-day unlock window
+        {
           let doc = await db.collection('payments').findOne({
             ...uf,
             cardType,
@@ -530,19 +516,6 @@ export async function POST(req) {
 
           return NextResponse.json({ hasAccess: false, tier: null, expiresAt: null });
         }
-
-        // Non-7-day cards: check for any verified payment
-        const doc = await db.collection('payments').findOne({
-          ...uf,
-          cardType,
-          status: 'verified',
-        });
-
-        return NextResponse.json({
-          hasAccess: !!doc,
-          tier: doc?.tier || (doc ? 'premium' : null),
-          expiresAt: null,
-        });
       }
 
       /* ── Admin: Link a phone number to existing email-based payment records ── */
@@ -685,9 +658,7 @@ export async function POST(req) {
         };
         if (emailKey) paymentSet.email = emailKey;
         if (phoneKey) paymentSet.phone = phoneKey;
-        if (SEVEN_DAY_ACCESS_CARDS.has(cardType)) {
-          paymentSet.unlockedUntil = expiresAt;
-        }
+        paymentSet.unlockedUntil = expiresAt;
 
         const upsertFilter = { cardType, tier: grantTier };
         if (emailKey) upsertFilter.email = emailKey;
@@ -816,9 +787,7 @@ async function handleWebhook(req, signature) {
           };
           if (email) webhookSet.email = email;
           if (phone) webhookSet.phone = phone;
-          if (SEVEN_DAY_ACCESS_CARDS.has(cardType)) {
-            webhookSet.unlockedUntil = new Date(Date.now() + UNLOCK_DURATION_MS);
-          }
+          webhookSet.unlockedUntil = new Date(Date.now() + UNLOCK_DURATION_MS);
 
           const upsertFilter = { cardType, tier };
           if (email) upsertFilter.email = email;

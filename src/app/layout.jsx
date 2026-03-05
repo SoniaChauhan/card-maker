@@ -55,6 +55,14 @@ export const metadata = {
     /* ── Biodata & Resume ── */
     'marriage biodata maker', 'biodata for marriage', 'online resume builder',
     'resume builder free pdf',
+    /* ── PG & Rent ── */
+    'rent card maker', 'PG advertisement card', 'room for rent card maker',
+    'flat for rent poster', 'paying guest card', 'rent poster maker free',
+    'किराये का कमरा', 'PG room card maker online',
+    /* ── Salon ── */
+    'salon card maker', 'salon price list card', 'parlour rate card maker',
+    'beauty parlour card', 'salon menu card design', 'salon card online free',
+    'सैलून कार्ड', 'ladies salon card maker', 'barber shop card',
     /* ── Brand ── */
     'Creative Thinker Design Hub', 'card maker india', 'card maker online india',
     'best card maker india 2026',
@@ -149,7 +157,7 @@ export default function RootLayout({ children }) {
                 lowPrice: '0',
                 'highPrice': '99',
                 priceCurrency: 'INR',
-                offerCount: '8',
+                offerCount: '10',
                 offers: [
                   { '@type': 'Offer', name: 'Happy Holi Wishes – Hindi', price: '0', priceCurrency: 'INR' },
                   { '@type': 'Offer', name: 'Happy Holi Wishes – English', price: '0', priceCurrency: 'INR' },
@@ -157,6 +165,8 @@ export default function RootLayout({ children }) {
                   { '@type': 'Offer', name: 'Wedding Card Designer', price: '49', priceCurrency: 'INR' },
                   { '@type': 'Offer', name: 'Anniversary Card Designer', price: '49', priceCurrency: 'INR' },
                   { '@type': 'Offer', name: 'Festival Card Designer', price: '49', priceCurrency: 'INR' },
+                  { '@type': 'Offer', name: 'PG & Rent Card Maker', price: '49', priceCurrency: 'INR' },
+                  { '@type': 'Offer', name: 'Salon Price List Card Maker', price: '49', priceCurrency: 'INR' },
                   { '@type': 'Offer', name: 'Resume Builder', price: '79', priceCurrency: 'INR' },
                   { '@type': 'Offer', name: 'Marriage Biodata Maker', price: '99', priceCurrency: 'INR' },
                 ],
@@ -214,7 +224,7 @@ export default function RootLayout({ children }) {
                   name: 'What types of cards can I create?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'You can create Birthday Invitations, Wedding Cards, Anniversary Greetings, Holi Wishes (Hindi & English), Festival Cards, Marriage Biodata, Professional Resumes, Jagrata Invitations, and more.',
+                    text: 'You can create Birthday Invitations, Wedding Cards, Anniversary Greetings, Holi Wishes (Hindi & English), Festival Cards, Marriage Biodata, Professional Resumes, Jagrata Invitations, PG & Rent Advertisement Cards, Salon Price List Cards, and more.',
                   },
                 },
                 {

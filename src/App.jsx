@@ -19,13 +19,43 @@ import FathersCardEnglish from './components/FathersCardEnglish';
 import MothersCard from './components/MothersCard';
 import MothersCardHindi from './components/MothersCardHindi';
 import HoliVideo from './components/HoliVideo';
+import RentCard from './components/RentCard';
+import SalonCard from './components/SalonCard';
 import ComboOfferPopup from './components/shared/ComboOfferPopup';
 import FestivalCalendar from './components/FestivalCalendar/FestivalCalendar';
 import FreeCardsPage from './components/FreeCardsPage/FreeCardsPage';
 import useScreenshotProtection from './hooks/useScreenshotProtection';
 import VisitorTracker from './components/shared/VisitorTracker';
 
-const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','festivalcards','holicard','holiwishes','holiwishes-en','holivideo','motivational','motivational-en','fathers','fathers-en','mothers','mothers-en'];
+const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','festivalcards','holicard','holiwishes','holiwishes-en','holivideo','motivational','motivational-en','fathers','fathers-en','mothers','mothers-en','rentcard','saloncard'];
+
+/* ── Card ID → SEO-friendly URL slug mapping ── */
+const CARD_URL_MAP = {
+  birthday:          '/birthday-invitation-maker',
+  wedding:           '/wedding-card-maker',
+  anniversary:       '/anniversary-card-maker',
+  festivalcards:     '/festival-card-maker',
+  holicard:          '/holi-card-maker-online',
+  holiwishes:        '/happy-holi-wishes-hindi',
+  'holiwishes-en':   '/happy-holi-wishes-english',
+  holivideo:         '/holi-celebration-card',
+  jagrata:           '/jagrata-invitation-card',
+  resume:            '/resume-builder-online',
+  biodata:           '/marriage-biodata-maker',
+  motivational:      '/motivational-quotes-images-download',
+  'motivational-en': '/motivational-quotes-english',
+  'mothers-en':      '/mothers-quotes-english',
+  mothers:           '/mothers-quotes-hindi',
+  fathers:           '/fathers-quotes-hindi',
+  'fathers-en':      '/fathers-quotes-english',
+  rentcard:          '/rent-card-maker',
+  saloncard:         '/salon-card-maker',
+};
+
+/* Reverse map: URL slug → card ID */
+const URL_CARD_MAP = Object.fromEntries(
+  Object.entries(CARD_URL_MAP).map(([k, v]) => [v, k])
+);
 
 function AppContent({ initialCard }) {
   const { user, loading, isGuest } = useAuth();
@@ -46,6 +76,32 @@ function AppContent({ initialCard }) {
     }
   }, [initialCard]);
 
+  /* ── Sync URL when card is selected/deselected ── */
+  useEffect(() => {
+    if (initialCard) return; // SEO route pages manage their own URL
+    if (selected) {
+      const slug = CARD_URL_MAP[selected];
+      if (slug && window.location.pathname !== slug) {
+        window.history.pushState({ card: selected }, '', slug);
+      }
+    } else if (window.location.pathname !== '/') {
+      window.history.pushState({}, '', '/');
+    }
+  }, [selected, initialCard]);
+
+  /* ── Handle browser back/forward navigation ── */
+  useEffect(() => {
+    if (initialCard) return;
+    function onPopState() {
+      const path = window.location.pathname;
+      const cardId = URL_CARD_MAP[path];
+      setSelected(cardId || null);
+      setEditingTemplate(null);
+    }
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [initialCard]);
+
   /* Activate screenshot protection globally */
   useScreenshotProtection();
 
@@ -62,7 +118,13 @@ function AppContent({ initialCard }) {
     );
 
   /* ---------- card screens ---------- */
-  function handleBack() { setSelected(null); setEditingTemplate(null); }
+  function handleBack() {
+    setSelected(null);
+    setEditingTemplate(null);
+    if (!initialCard && window.location.pathname !== '/') {
+      window.history.pushState({}, '', '/');
+    }
+  }
 
   /** Called from MyTemplates when user clicks "Edit & Generate" */
   function handleEditTemplate(tpl) {
@@ -99,6 +161,8 @@ function AppContent({ initialCard }) {
     if (selected === 'fathers-en')          return <FathersCardEnglish {...cardProps} />;
     if (selected === 'mothers-en')           return <MothersCard {...cardProps} />;
     if (selected === 'mothers')               return <MothersCardHindi {...cardProps} />;
+    if (selected === 'rentcard')              return <RentCard          {...cardProps} />;
+    if (selected === 'saloncard')             return <SalonCard         {...cardProps} />;
   }
 
   /* ---------- Calendar full page ---------- */

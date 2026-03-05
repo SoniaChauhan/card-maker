@@ -264,7 +264,7 @@ export default function AdminPanel() {
     setAmLinking(true);
     try {
       const data = await amApiCall({ action: 'linkPhone', email: amLinkEmail.trim(), phone: amLinkPhone.trim(), cardType: amLinkCard.trim() || undefined, adminEmail: ADMIN_EMAIL });
-      if (data.ok) { showToast('✅ ' + data.message); handleAmSearch(); }
+      if (data.ok) { showToast('✅ ' + data.message); setAmLinkEmail(''); setAmLinkPhone(''); setAmLinkCard(''); handleAmSearch(); }
       else showToast('❌ ' + (data.error || 'Failed'));
     } catch (err) { showToast('❌ Link failed: ' + err.message); }
     finally { setAmLinking(false); }
@@ -276,7 +276,7 @@ export default function AdminPanel() {
     setAmGranting(true);
     try {
       const data = await amApiCall({ action: 'grantAccess', email: amGrantEmail.trim(), phone: amGrantPhone.trim(), cardType: amGrantCard, tier: amGrantTier, adminEmail: ADMIN_EMAIL });
-      if (data.ok) { showToast('✅ ' + data.message); }
+      if (data.ok) { showToast('✅ ' + data.message); setAmGrantEmail(''); setAmGrantPhone(''); setAmGrantCard('biodata'); setAmGrantTier('premium'); }
       else showToast('❌ ' + (data.error || 'Failed'));
     } catch (err) { showToast('❌ Grant failed: ' + err.message); }
     finally { setAmGranting(false); }
