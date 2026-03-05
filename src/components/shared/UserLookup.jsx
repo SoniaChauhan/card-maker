@@ -26,14 +26,14 @@ export default function UserLookup({ cardType, onContinue, onSkip }) {
     try {
       const result = await getUserSavedData('', phone.trim(), cardType);
       if (result.found && result.formData) {
-        onContinue({ prefillData: result.formData, lookupId: phone.trim() });
+        onContinue({ prefillData: result.formData, lookupId: phone.trim(), lookupFound: true });
       } else {
-        onContinue({ prefillData: null, lookupId: phone.trim() });
+        onContinue({ prefillData: null, lookupId: phone.trim(), lookupFound: false });
       }
     } catch (err) {
       console.error('Lookup error:', err);
       // Even on error, let user continue with empty form
-      onContinue({ prefillData: null, lookupId: phone.trim() });
+      onContinue({ prefillData: null, lookupId: phone.trim(), lookupFound: false });
     } finally {
       setLoading(false);
     }

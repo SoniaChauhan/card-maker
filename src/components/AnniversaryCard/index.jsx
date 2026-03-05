@@ -16,7 +16,7 @@ import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 import { logDownload } from '../../services/downloadHistoryService';
-import { hasUserPaid, sendDownloadEmail } from '../../services/paymentService';
+import { hasUserPaid, checkUserAccess, sendDownloadEmail } from '../../services/paymentService';
 
 const CARD_TYPE = 'anniversary';
 const CARD_LABEL = 'Anniversary Greeting';
@@ -46,6 +46,7 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
   const [showPayment, setShowPayment] = useState(false);
   const [downloadEmail, setDownloadEmail] = useState(userEmail || '');
   const [downloadPhone, setDownloadPhone] = useState('');
+  const [lookupPhone, setLookupPhone] = useState('');
   const carouselRef = useRef(null);
 
   const filename = `anniversary-${toFilename(data.partner1 || 'card')}.png`;
@@ -68,6 +69,17 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
       watermarkRef.current = !p;
     }).catch(() => {});
   }, [userEmail, isSuperAdmin]);
+
+  /* If lookup found details, check payment access by phone */
+  useEffect(() => {
+    if (!lookupPhone || paid) return;
+    checkUserAccess('', CARD_TYPE, lookupPhone).then(access => {
+      if (access.hasAccess) {
+        setPaid(true);
+        watermarkRef.current = false;
+      }
+    }).catch(() => {});
+  }, [lookupPhone]);
 
   function scrollCarousel(direction) {
     if (carouselRef.current) {
@@ -106,10 +118,11 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
     return (
       <UserLookup
         cardType={CARD_TYPE}
-        onContinue={({ prefillData }) => {
+        onContinue={({ prefillData, lookupId, lookupFound }) => {
           if (prefillData) {
             setData(d => ({ ...d, ...prefillData, photo: null, photoPreview: prefillData.photoPreview || '' }));
           }
+          if (lookupFound && lookupId) setLookupPhone(lookupId);
           setStep('form');
         }}
         onSkip={() => setStep('form')}
@@ -227,6 +240,7 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
           cardType={CARD_TYPE}
           cardLabel={CARD_LABEL}
           userEmail={userEmail}
+          lookupPhone={lookupPhone}
           onClose={() => setShowPayment(false)}
           onPaymentDone={(result) => {
             const withWatermark = result?.withWatermark ?? false;

@@ -458,6 +458,170 @@ export async function POST(req) {
         });
       }
 
+      /* ── Admin: Link a phone number to existing email-based payment records ── */
+      case 'linkPhone': {
+        const { email, phone, cardType, adminEmail } = body;
+        const emailKey = email ? email.toLowerCase().trim() : '';
+        const phoneKey = phone ? normalizePhone(phone) : '';
+
+        if (!emailKey || !phoneKey) {
+          return NextResponse.json({ error: 'Both email and phone are required' }, { status: 400 });
+        }
+        // Only super-admin can link
+        if (!adminEmail || adminEmail.toLowerCase().trim() !== ADMIN_EMAIL.toLowerCase().trim()) {
+          return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+        }
+
+        const filter = { email: emailKey };
+        if (cardType) filter.cardType = cardType;
+
+        const result = await db.collection('payments').updateMany(
+          filter,
+          { $set: { phone: phoneKey } },
+        );
+
+        // Also update subscriptions
+        const subFilter = { email: emailKey };
+        if (cardType) subFilter.cardId = cardType;
+        await db.collection('subscriptions').updateMany(subFilter, { $set: { phone: phoneKey } });
+
+        // Also update orders
+        const orderFilter = { email: emailKey };
+        if (cardType) orderFilter.cardType = cardType;
+        await db.collection('orders').updateMany(orderFilter, { $set: { phone: phoneKey } });
+
+        return NextResponse.json({
+          ok: true,
+          matched: result.matchedCount,
+          modified: result.modifiedCount,
+          message: `Linked phone ${phoneKey} to ${emailKey} — ${result.modifiedCount} payment(s) updated`,
+        });
+      }
+
+      /* ── Admin: Search payment records by email or phone ── */
+      case 'searchPayments': {
+        const { email, phone, adminEmail } = body;
+        const emailKey = email ? email.toLowerCase().trim() : '';
+        const phoneKey = phone ? normalizePhone(phone) : '';
+
+        if (!adminEmail || adminEmail.toLowerCase().trim() !== ADMIN_EMAIL.toLowerCase().trim()) {
+          return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+        }
+
+        if (!emailKey && !phoneKey) {
+          return NextResponse.json({ error: 'Provide email or phone' }, { status: 400 });
+        }
+
+        // Build flexible filter — exact match + regex fallback for email
+        const conditions = [];
+        if (emailKey) {
+          conditions.push({ email: emailKey });
+          conditions.push({ email: { $regex: emailKey.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: 'i' } });
+        }
+        if (phoneKey) {
+          conditions.push({ phone: phoneKey });
+          // Also try matching last 10 digits at end of phone field
+          conditions.push({ phone: { $regex: phoneKey.slice(-10) + '$' } });
+        }
+        const searchFilter = { $or: conditions };
+
+        // Search across ALL three collections
+        const [payments, orders, subscriptions] = await Promise.all([
+          db.collection('payments').find(searchFilter).sort({ verifiedAt: -1 }).limit(50).toArray(),
+          db.collection('orders').find(searchFilter).sort({ createdAt: -1 }).limit(50).toArray(),
+          db.collection('subscriptions').find(searchFilter).sort({ approvedAt: -1 }).limit(50).toArray(),
+        ]);
+
+        const toDate = (v) => v instanceof Date ? v.toISOString() : v ? String(v) : null;
+
+        const mapped = [
+          ...payments.map(p => ({
+            id: p._id.toString(), source: 'payments',
+            email: p.email || '', phone: p.phone || '',
+            cardType: p.cardType || '', tier: p.tier || '',
+            status: p.status || '',
+            unlockedUntil: toDate(p.unlockedUntil),
+            verifiedAt: toDate(p.verifiedAt),
+            createdAt: toDate(p.createdAt),
+            razorpayPaymentId: p.razorpayPaymentId || '',
+          })),
+          ...orders.map(o => ({
+            id: o._id.toString(), source: 'orders',
+            email: o.email || '', phone: o.phone || '',
+            cardType: o.cardType || '', tier: o.tier || '',
+            status: o.status || '',
+            unlockedUntil: null,
+            verifiedAt: toDate(o.paidAt),
+            createdAt: toDate(o.createdAt),
+            razorpayPaymentId: o.razorpayPaymentId || o.razorpayOrderId || '',
+          })),
+          ...subscriptions.map(s => ({
+            id: s._id.toString(), source: 'subscriptions',
+            email: s.email || '', phone: s.phone || '',
+            cardType: s.cardId || s.cardType || '', tier: s.tier || '',
+            status: s.status || '',
+            unlockedUntil: toDate(s.expiresAt),
+            verifiedAt: toDate(s.approvedAt),
+            createdAt: toDate(s.requestedAt || s.createdAt),
+            razorpayPaymentId: s.txnId || '',
+          })),
+        ];
+
+        return NextResponse.json({ payments: mapped });
+      }
+
+      /* ── Admin: Manually grant access to a user by email or phone ── */
+      case 'grantAccess': {
+        const { email, phone, cardType, tier, adminEmail } = body;
+        const emailKey = email ? email.toLowerCase().trim() : '';
+        const phoneKey = phone ? normalizePhone(phone) : '';
+
+        if (!adminEmail || adminEmail.toLowerCase().trim() !== ADMIN_EMAIL.toLowerCase().trim()) {
+          return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+        }
+        if (!cardType) {
+          return NextResponse.json({ error: 'cardType is required' }, { status: 400 });
+        }
+        if (!emailKey && !phoneKey) {
+          return NextResponse.json({ error: 'Provide email or phone' }, { status: 400 });
+        }
+
+        const grantTier = tier || 'premium';
+        const expiresAt = new Date(Date.now() + UNLOCK_DURATION_MS);
+
+        const paymentSet = {
+          status: 'verified',
+          verifiedAt: new Date(),
+          tier: grantTier,
+          razorpayPaymentId: 'admin-granted',
+          razorpayOrderId: 'admin-granted',
+        };
+        if (emailKey) paymentSet.email = emailKey;
+        if (phoneKey) paymentSet.phone = phoneKey;
+        if (SEVEN_DAY_ACCESS_CARDS.has(cardType)) {
+          paymentSet.unlockedUntil = expiresAt;
+        }
+
+        const upsertFilter = { cardType, tier: grantTier };
+        if (emailKey) upsertFilter.email = emailKey;
+        else if (phoneKey) upsertFilter.phone = phoneKey;
+
+        await db.collection('payments').updateOne(
+          upsertFilter,
+          {
+            $set: paymentSet,
+            $setOnInsert: { cardType, createdAt: new Date() },
+          },
+          { upsert: true },
+        );
+
+        return NextResponse.json({
+          ok: true,
+          message: `Granted ${grantTier} access for ${cardType} to ${emailKey || phoneKey} until ${expiresAt.toISOString()}`,
+          expiresAt: expiresAt.toISOString(),
+        });
+      }
+
       default:
         return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
     }

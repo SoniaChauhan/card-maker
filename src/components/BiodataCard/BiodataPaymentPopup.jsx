@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { startPayment, checkUserAccess, sendOTP, verifyOTP, PRICE_NO_WATERMARK } from '../../services/paymentService';
 
 const BIODATA_PRICE = PRICE_NO_WATERMARK; // ₹49
@@ -8,7 +8,7 @@ const BIODATA_PRICE = PRICE_NO_WATERMARK; // ₹49
  * BiodataPaymentPopup — Two options: Free (with watermark) or ₹49 (no watermark, 7 days).
  * Supports both email and mobile number with OTP verification.
  */
-export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPaymentDone }) {
+export default function BiodataPaymentPopup({ userEmail, userName, lookupPhone, onClose, onPaymentDone }) {
   const [loading, setLoading] = useState(false);
   const [checkingAccess, setCheckingAccess] = useState(false);
   const [error, setError] = useState('');
@@ -17,15 +17,16 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
 
   // Identity input — phone only
   const idMethod = 'phone';
-  const [guestPhone, setGuestPhone] = useState('');
+  const [guestPhone, setGuestPhone] = useState(lookupPhone || '');
 
   // OTP state
   const [otpSent, setOtpSent] = useState(false);
   const [otpValue, setOtpValue] = useState('');
-  const [otpVerified, setOtpVerified] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(!!lookupPhone); // skip OTP if came from successful lookup
   const [otpLoading, setOtpLoading] = useState(false);
   const [otpError, setOtpError] = useState('');
   const [otpCountdown, setOtpCountdown] = useState(0);
+  const otpAbortRef = useRef(null); // for Web OTP API abort
 
   const isGuest = !userEmail;
   const phoneToUse = guestPhone.replace(/\D/g, '').slice(-10);
@@ -85,6 +86,8 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
       if (res.ok) {
         setOtpSent(true);
         setOtpCountdown(30);
+        // Try Web OTP API for auto-read
+        tryWebOtpAutoRead();
       } else {
         setOtpError(res.message || 'Failed to send OTP');
       }
@@ -94,13 +97,37 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
     setOtpLoading(false);
   }
 
-  async function handleVerifyOtp() {
+  /** Attempt to auto-read OTP via Web OTP API (Chrome Android) */
+  function tryWebOtpAutoRead() {
+    if (typeof window === 'undefined' || !('OTPCredential' in window)) return;
+    try {
+      const ac = new AbortController();
+      otpAbortRef.current = ac;
+      navigator.credentials.get({ otp: { transport: ['sms'] }, signal: ac.signal })
+        .then(otpCred => {
+          if (otpCred?.code) {
+            setOtpValue(otpCred.code);
+            // Auto-verify after filling
+            setTimeout(() => { handleVerifyOtp(otpCred.code); }, 200);
+          }
+        })
+        .catch(() => { /* user dismissed or not supported */ });
+    } catch (_) { /* Web OTP not available */ }
+  }
+
+  // Cleanup Web OTP listener on unmount
+  useEffect(() => {
+    return () => { if (otpAbortRef.current) otpAbortRef.current.abort(); };
+  }, []);
+
+  async function handleVerifyOtp(codeOverride) {
     setOtpError('');
-    if (otpValue.length < 4) { setOtpError('Enter the OTP'); return; }
+    const code = codeOverride || otpValue;
+    if (!code || code.length < 4) { setOtpError('Enter the OTP'); return; }
 
     setOtpLoading(true);
     try {
-      const res = await verifyOTP('phone', phoneToUse, otpValue);
+      const res = await verifyOTP('phone', phoneToUse, code);
       if (res.verified) {
         setOtpVerified(true);
       } else {
@@ -290,13 +317,15 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
                   <div className="bdp-otp-verify-row">
                     <input
                       type="text"
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
                       className="bdp-otp-input"
                       placeholder="Enter OTP"
                       maxLength={6}
                       value={otpValue}
                       onChange={e => setOtpValue(e.target.value.replace(/\D/g, ''))}
                     />
-                    <button type="button" className="bdp-otp-verify-btn" onClick={handleVerifyOtp} disabled={otpLoading}>
+                    <button type="button" className="bdp-otp-verify-btn" onClick={() => handleVerifyOtp()} disabled={otpLoading}>
                       {otpLoading ? '…' : 'Verify'}
                     </button>
                     {otpCountdown > 0

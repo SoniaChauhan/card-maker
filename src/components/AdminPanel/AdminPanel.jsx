@@ -5,6 +5,7 @@ import { blockUser, unblockUser, getBlockedUsers } from '../../services/blockSer
 import { getPendingRequests, approveSubscription, rejectSubscription } from '../../services/subscriptionService';
 import { notifyAdmin } from '../../services/notificationService';
 import { ADMIN_EMAIL, getAllUsers, upgradePlan } from '../../services/authService';
+import { encodePayload } from '../../utils/payload';
 
 export default function AdminPanel() {
   const [email, setEmail]         = useState('');
@@ -14,6 +15,21 @@ export default function AdminPanel() {
   const [blocking, setBlocking]   = useState(false);
   const [unblocking, setUnblocking] = useState(null);
   const [toast, setToast]         = useState('');
+
+  /* ── Access Manager state ── */
+  const [amSearchEmail, setAmSearchEmail] = useState('');
+  const [amSearchPhone, setAmSearchPhone] = useState('');
+  const [amPayments, setAmPayments]       = useState([]);
+  const [amSearching, setAmSearching]     = useState(false);
+  const [amLinkPhone, setAmLinkPhone]     = useState('');
+  const [amLinkEmail, setAmLinkEmail]     = useState('');
+  const [amLinkCard, setAmLinkCard]       = useState('');
+  const [amLinking, setAmLinking]         = useState(false);
+  const [amGrantEmail, setAmGrantEmail]   = useState('');
+  const [amGrantPhone, setAmGrantPhone]   = useState('');
+  const [amGrantCard, setAmGrantCard]     = useState('biodata');
+  const [amGrantTier, setAmGrantTier]     = useState('premium');
+  const [amGranting, setAmGranting]       = useState(false);
 
   /* Subscription requests */
   const [requests, setRequests]     = useState([]);
@@ -206,6 +222,50 @@ export default function AdminPanel() {
       console.error('Unblock failed:', err);
       showToast('❌ Failed to unblock user.');
     } finally { setUnblocking(null); }
+  }
+
+  /* ── Access Manager helpers ── */
+  async function amApiCall(body) {
+    const res = await fetch('/api/payments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ _p: encodePayload(body) }),
+    });
+    return res.json();
+  }
+
+  async function handleAmSearch() {
+    if (!amSearchEmail.trim() && !amSearchPhone.trim()) { showToast('⚠️ Enter email or phone to search.'); return; }
+    setAmSearching(true);
+    try {
+      const data = await amApiCall({ action: 'searchPayments', email: amSearchEmail.trim(), phone: amSearchPhone.trim(), adminEmail: ADMIN_EMAIL });
+      if (data.error) { showToast('❌ ' + data.error); setAmPayments([]); }
+      else { setAmPayments(data.payments || []); if (!data.payments?.length) showToast('No payment records found.'); }
+    } catch (err) { showToast('❌ Search failed: ' + err.message); }
+    finally { setAmSearching(false); }
+  }
+
+  async function handleAmLinkPhone() {
+    if (!amLinkEmail.trim() || !amLinkPhone.trim()) { showToast('⚠️ Both email and phone are required.'); return; }
+    setAmLinking(true);
+    try {
+      const data = await amApiCall({ action: 'linkPhone', email: amLinkEmail.trim(), phone: amLinkPhone.trim(), cardType: amLinkCard.trim() || undefined, adminEmail: ADMIN_EMAIL });
+      if (data.ok) { showToast('✅ ' + data.message); handleAmSearch(); }
+      else showToast('❌ ' + (data.error || 'Failed'));
+    } catch (err) { showToast('❌ Link failed: ' + err.message); }
+    finally { setAmLinking(false); }
+  }
+
+  async function handleAmGrant() {
+    if (!amGrantEmail.trim() && !amGrantPhone.trim()) { showToast('⚠️ Provide email or phone.'); return; }
+    if (!amGrantCard) { showToast('⚠️ Select a card type.'); return; }
+    setAmGranting(true);
+    try {
+      const data = await amApiCall({ action: 'grantAccess', email: amGrantEmail.trim(), phone: amGrantPhone.trim(), cardType: amGrantCard, tier: amGrantTier, adminEmail: ADMIN_EMAIL });
+      if (data.ok) { showToast('✅ ' + data.message); }
+      else showToast('❌ ' + (data.error || 'Failed'));
+    } catch (err) { showToast('❌ Grant failed: ' + err.message); }
+    finally { setAmGranting(false); }
   }
 
   function formatDate(ts) {
@@ -443,6 +503,85 @@ export default function AdminPanel() {
             ))}
           </div>
         )}
+      </div>
+
+      {/* ── Access Manager ── */}
+      <div className="admin-block-section">
+        <h3 className="admin-section-title">🔑 Access Manager</h3>
+        <p className="admin-am-desc">Search, link phone numbers, or grant manual access for users who paid with email.</p>
+
+        {/* Search payments */}
+        <div className="admin-am-group">
+          <h4 className="admin-am-subtitle">🔍 Search Payment Records</h4>
+          <div className="admin-am-row">
+            <input className="admin-input" placeholder="Email (e.g. user@email.com)" value={amSearchEmail} onChange={e => setAmSearchEmail(e.target.value)} />
+            <input className="admin-input" placeholder="Phone (e.g. 9876543210)" value={amSearchPhone} onChange={e => setAmSearchPhone(e.target.value.replace(/\D/g, ''))} maxLength={10} />
+            <button className="admin-btn admin-btn-approve" onClick={handleAmSearch} disabled={amSearching}>
+              {amSearching ? '⏳ Searching...' : '🔍 Search'}
+            </button>
+          </div>
+          {amPayments.length > 0 && (
+            <div className="admin-am-results">
+              <p style={{ color: 'rgba(255,255,255,.5)', fontSize: '12px', margin: '0 0 6px' }}>Found {amPayments.length} record(s)</p>
+              <table className="admin-am-table">
+                <thead>
+                  <tr><th>Source</th><th>Card</th><th>Email</th><th>Phone</th><th>Tier</th><th>Status</th><th>Txn ID</th><th>Expires</th></tr>
+                </thead>
+                <tbody>
+                  {amPayments.map(p => (
+                    <tr key={p.id + p.source} className={p.unlockedUntil && new Date(p.unlockedUntil) > new Date() ? 'am-active' : 'am-expired'}>
+                      <td><span style={{ background: p.source === 'payments' ? '#4ade80' : p.source === 'orders' ? '#60a5fa' : '#fbbf24', color: '#000', padding: '2px 6px', borderRadius: '4px', fontSize: '10px', fontWeight: 700 }}>{p.source}</span></td>
+                      <td>{p.cardType}</td>
+                      <td>{p.email || '—'}</td>
+                      <td>{p.phone || <span className="am-missing">❌ No phone</span>}</td>
+                      <td>{p.tier || '—'}</td>
+                      <td>{p.status}</td>
+                      <td style={{ fontSize: '10px', maxWidth: '120px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.razorpayPaymentId || '—'}</td>
+                      <td>{p.unlockedUntil ? new Date(p.unlockedUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {/* Link phone to email */}
+        <div className="admin-am-group">
+          <h4 className="admin-am-subtitle">🔗 Link Phone to Email</h4>
+          <p className="admin-am-hint">Adds a phone number to all payment records of an email. This lets the user access their paid content using their phone number.</p>
+          <div className="admin-am-row">
+            <input className="admin-input" placeholder="Email *" value={amLinkEmail} onChange={e => setAmLinkEmail(e.target.value)} />
+            <input className="admin-input" placeholder="Phone *" value={amLinkPhone} onChange={e => setAmLinkPhone(e.target.value.replace(/\D/g, ''))} maxLength={10} />
+            <input className="admin-input" placeholder="Card type (optional)" value={amLinkCard} onChange={e => setAmLinkCard(e.target.value)} />
+            <button className="admin-btn admin-btn-approve" onClick={handleAmLinkPhone} disabled={amLinking}>
+              {amLinking ? '⏳ Linking...' : '🔗 Link Phone'}
+            </button>
+          </div>
+        </div>
+
+        {/* Grant manual access */}
+        <div className="admin-am-group">
+          <h4 className="admin-am-subtitle">🎁 Grant Manual Access (7 days)</h4>
+          <p className="admin-am-hint">Creates a new payment record for a user — no Razorpay needed.</p>
+          <div className="admin-am-row">
+            <input className="admin-input" placeholder="Email" value={amGrantEmail} onChange={e => setAmGrantEmail(e.target.value)} />
+            <input className="admin-input" placeholder="Phone" value={amGrantPhone} onChange={e => setAmGrantPhone(e.target.value.replace(/\D/g, ''))} maxLength={10} />
+            <select className="admin-input" value={amGrantCard} onChange={e => setAmGrantCard(e.target.value)}>
+              <option value="biodata">Biodata</option>
+              <option value="wedding">Wedding</option>
+              <option value="birthday">Birthday</option>
+              <option value="anniversary">Anniversary</option>
+            </select>
+            <select className="admin-input" value={amGrantTier} onChange={e => setAmGrantTier(e.target.value)}>
+              <option value="premium">Premium (no watermark)</option>
+              <option value="watermark">Watermark</option>
+            </select>
+            <button className="admin-btn admin-btn-approve" onClick={handleAmGrant} disabled={amGranting}>
+              {amGranting ? '⏳ Granting...' : '🎁 Grant Access'}
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* ── Block User Form ── */}

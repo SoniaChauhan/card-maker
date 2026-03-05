@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './LoginScreen.css';
 import { useAuth } from '../../contexts/AuthContext';
 import {
@@ -129,6 +129,9 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
   const [accountTab, setAccountTab] = useState(null); // null | 'profile' | 'templates' | 'downloads' | 'admin'
   const [toast, setToast]           = useState({ show: false, text: '' });
   const [showAuthPopup, setShowAuthPopup] = useState(false);
+
+  /* Hidden admin login trigger — triple-click logo */
+  const logoClickRef = useRef({ count: 0, timer: null });
 
   /* Sample preview modal state */
   const [samplePreview, setSamplePreview] = useState(null); // null | 'wedding' | 'birthday' | 'anniversary' | 'biodata'
@@ -620,7 +623,13 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
 
       {/* ═══════ TOPBAR — always visible ═══════ */}
       <div className="lp-topbar">
-        <div className="lp-topbar-logo">✨ Card Maker</div>
+        <div className="lp-topbar-logo" onClick={() => {
+          const ref = logoClickRef.current;
+          ref.count += 1;
+          clearTimeout(ref.timer);
+          if (ref.count >= 3) { ref.count = 0; openAuthPopup('otp-login'); }
+          else { ref.timer = setTimeout(() => { ref.count = 0; }, 600); }
+        }}>✨ Card Maker</div>
         <div className="lp-topbar-actions">
           {user && !isGuest && (
             <>
@@ -639,7 +648,7 @@ export default function LoginScreen({ onSelect, onEditTemplate }) {
       {/* ═══════ ACCOUNT PANEL OVERLAY ═══════ */}
       {user && accountTab && (
         <div className="lp-account-overlay" onClick={() => setAccountTab(null)}>
-          <div className="lp-account-panel" onClick={e => e.stopPropagation()}>
+          <div className={`lp-account-panel${accountTab === 'admin' ? ' lp-account-panel--wide' : ''}`} onClick={e => e.stopPropagation()}>
             <button className="lp-account-close" onClick={() => setAccountTab(null)}>✕</button>
 
             {accountTab === 'profile' && (

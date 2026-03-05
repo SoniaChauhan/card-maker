@@ -189,7 +189,7 @@ export default function ProfileDashboard({ onSelect, onEditTemplate }) {
           {/* Main info card */}
           <div className="pd-profile-card">
             <h3 className="pd-profile-name">
-              {isSuperAdmin ? 'Sonia Chauhan' : (user.name || 'Card Maker User')}
+              {isSuperAdmin ? 'Sonia Rajvansi' : (user.name || 'Card Maker User')}
             </h3>
             <div className="pd-role-badge">
               {isSuperAdmin ? '⭐ Super Admin' : isFreePlan ? '🆓 Free Plan' : '💎 Premium'}
