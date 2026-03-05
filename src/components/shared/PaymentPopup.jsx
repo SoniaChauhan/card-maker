@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import './PaymentPopup.css';
 import { startPayment, checkUserAccess, sendOTP, verifyOTP, PRICE_WITH_WATERMARK, PRICE_NO_WATERMARK } from '../../services/paymentService';
 
@@ -15,7 +15,7 @@ import { startPayment, checkUserAccess, sendOTP, verifyOTP, PRICE_WITH_WATERMARK
  *   onClose     — close the popup
  *   onPaymentDone — called after successful payment verification
  */
-export default function PaymentPopup({ cardType, cardLabel, userEmail, userName, onClose, onPaymentDone }) {
+export default function PaymentPopup({ cardType, cardLabel, userEmail, userName, lookupPhone, onClose, onPaymentDone }) {
   const [loading, setLoading] = useState(false);
   const [checkingAccess, setCheckingAccess] = useState(false);
   const [error, setError] = useState('');
@@ -24,15 +24,16 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
 
   // Identity input — phone only
   const idMethod = 'phone';
-  const [guestPhone, setGuestPhone] = useState('');
+  const [guestPhone, setGuestPhone] = useState(lookupPhone || '');
 
   // OTP state
   const [otpSent, setOtpSent] = useState(false);
   const [otpValue, setOtpValue] = useState('');
-  const [otpVerified, setOtpVerified] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(!!lookupPhone); // skip OTP if came from successful lookup
   const [otpLoading, setOtpLoading] = useState(false);
   const [otpError, setOtpError] = useState('');
   const [otpCountdown, setOtpCountdown] = useState(0);
+  const otpAbortRef = useRef(null); // for Web OTP API abort
 
   const isGuest = !userEmail;
   const phoneToUse = guestPhone.replace(/\D/g, '').slice(-10);
@@ -101,22 +102,48 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
       await sendOTP('phone', phoneToUse);
       setOtpSent(true);
       setOtpCountdown(30);
+      // Try Web OTP API for auto-read
+      tryWebOtpAutoRead();
     } catch (err) {
       setOtpError(err.message || 'Failed to send OTP. Try again.');
     }
     setOtpLoading(false);
   }
 
-  async function handleVerifyOTP() {
+  /** Attempt to auto-read OTP via Web OTP API (Chrome Android) */
+  function tryWebOtpAutoRead() {
+    if (typeof window === 'undefined' || !('OTPCredential' in window)) return;
+    try {
+      const ac = new AbortController();
+      otpAbortRef.current = ac;
+      navigator.credentials.get({ otp: { transport: ['sms'] }, signal: ac.signal })
+        .then(otpCred => {
+          if (otpCred?.code) {
+            setOtpValue(otpCred.code);
+            // Auto-verify after filling
+            setTimeout(() => { handleVerifyOTP(otpCred.code); }, 200);
+          }
+        })
+        .catch(() => { /* user dismissed or not supported */ });
+    } catch (_) { /* Web OTP not available */ }
+  }
+
+  // Cleanup Web OTP listener on unmount
+  useEffect(() => {
+    return () => { if (otpAbortRef.current) otpAbortRef.current.abort(); };
+  }, []);
+
+  async function handleVerifyOTP(codeOverride) {
     setOtpError('');
-    if (!otpValue || otpValue.length < 4) {
+    const code = codeOverride || otpValue;
+    if (!code || code.length < 4) {
       setOtpError('Please enter the OTP.');
       return;
     }
 
     setOtpLoading(true);
     try {
-      const result = await verifyOTP('phone', phoneToUse, otpValue);
+      const result = await verifyOTP('phone', phoneToUse, code);
       if (result.verified) {
         setOtpVerified(true);
         setOtpError('');
@@ -307,6 +334,8 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
                   <div className="pay-otp-verify-row">
                     <input
                       type="text"
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
                       className="pay-otp-input"
                       placeholder="Enter OTP"
                       maxLength={6}
@@ -316,7 +345,7 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
                     />
                     <button
                       className="pay-otp-verify-btn"
-                      onClick={handleVerifyOTP}
+                      onClick={() => handleVerifyOTP()}
                       disabled={otpLoading || otpValue.length < 4}
                       type="button"
                     >

@@ -14,7 +14,7 @@ import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
 import { logDownload } from '../../services/downloadHistoryService';
-import { hasUserPaid, sendDownloadEmail } from '../../services/paymentService';
+import { hasUserPaid, checkUserAccess, sendDownloadEmail } from '../../services/paymentService';
 
 const CARD_TYPE = 'biodata';
 const CARD_LABEL = 'Marriage Biodata';
@@ -74,6 +74,7 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
   const [showCommunityDropdown, setShowCommunityDropdown] = useState(false);
   const [downloadEmail, setDownloadEmail] = useState(userEmail || '');
   const [downloadPhone, setDownloadPhone] = useState('');
+  const [lookupPhone, setLookupPhone] = useState('');
   const carouselRef = useRef(null);
 
   const filename = `biodata-${toFilename(data.fullName || 'card')}.png`;
@@ -103,6 +104,17 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
       watermarkRef.current = !p;
     }).catch(() => {});
   }, [userEmail, isSuperAdmin]);
+
+  /* If lookup found details, check payment access by phone */
+  useEffect(() => {
+    if (!lookupPhone || paid) return;
+    checkUserAccess('', CARD_TYPE, lookupPhone).then(access => {
+      if (access.hasAccess) {
+        setPaid(true);
+        watermarkRef.current = false;
+      }
+    }).catch(() => {});
+  }, [lookupPhone]);
 
   function onChange(e) {
     const { name, value, files } = e.target;
@@ -157,10 +169,11 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
     return (
       <UserLookup
         cardType={CARD_TYPE}
-        onContinue={({ prefillData }) => {
+        onContinue={({ prefillData, lookupId, lookupFound }) => {
           if (prefillData) {
             setData(d => ({ ...d, ...prefillData, photo: null, photoPreview: prefillData.photoPreview || '' }));
           }
+          if (lookupFound && lookupId) setLookupPhone(lookupId);
           setStep('form');
         }}
         onSkip={() => setStep('form')}
@@ -307,6 +320,7 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
       {showPayment && (
         <BiodataPaymentPopup
           userEmail={userEmail}
+          lookupPhone={lookupPhone}
           onClose={() => setShowPayment(false)}
           onPaymentDone={(result) => {
             const withWatermark = result?.withWatermark ?? false;

@@ -17,7 +17,7 @@ import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
 import { logDownload } from '../../services/downloadHistoryService';
-import { hasUserPaid, getCardPrice, sendDownloadEmail } from '../../services/paymentService';
+import { hasUserPaid, checkUserAccess, getCardPrice, sendDownloadEmail } from '../../services/paymentService';
 
 const CARD_TYPE = 'birthday';
 const CARD_LABEL = 'Birthday Invitation';
@@ -48,6 +48,7 @@ export default function BirthdayCard({ onBack, userEmail, initialData, templateI
   const [showPayment, setShowPayment] = useState(false);
   const [downloadEmail, setDownloadEmail] = useState(userEmail || '');
   const [downloadPhone, setDownloadPhone] = useState('');
+  const [lookupPhone, setLookupPhone] = useState('');
   const carouselRef = useRef(null);
 
   const filename = `birthday-${toFilename(data.birthdayPerson || 'card')}.png`;
@@ -71,6 +72,17 @@ export default function BirthdayCard({ onBack, userEmail, initialData, templateI
       watermarkRef.current = !p;
     }).catch(() => {});
   }, [userEmail, isSuperAdmin]);
+
+  /* If lookup found details, check payment access by phone */
+  useEffect(() => {
+    if (!lookupPhone || paid) return;
+    checkUserAccess('', CARD_TYPE, lookupPhone).then(access => {
+      if (access.hasAccess) {
+        setPaid(true);
+        watermarkRef.current = false;
+      }
+    }).catch(() => {});
+  }, [lookupPhone]);
 
   function scrollCarousel(direction) {
     if (carouselRef.current) {
@@ -129,10 +141,11 @@ export default function BirthdayCard({ onBack, userEmail, initialData, templateI
     return (
       <UserLookup
         cardType={CARD_TYPE}
-        onContinue={({ prefillData }) => {
+        onContinue={({ prefillData, lookupId, lookupFound }) => {
           if (prefillData) {
             setData(d => ({ ...d, ...prefillData, photo: null, photoPreview: prefillData.photoPreview || '' }));
           }
+          if (lookupFound && lookupId) setLookupPhone(lookupId);
           setStep('form');
         }}
         onSkip={() => setStep('form')}
@@ -245,12 +258,12 @@ export default function BirthdayCard({ onBack, userEmail, initialData, templateI
         />
       )}
 
-      {/* Razorpay Payment Popup */}
       {showPayment && (
         <PaymentPopup
           cardType={CARD_TYPE}
           cardLabel={CARD_LABEL}
           userEmail={userEmail}
+          lookupPhone={lookupPhone}
           onClose={() => setShowPayment(false)}
           onPaymentDone={(result) => {
             const withWatermark = result?.withWatermark ?? false;

@@ -1894,6 +1894,10 @@
   width: 90%;
   max-width: 620px;
   max-height: 75vh;
+}
+.lp-account-panel.lp-account-panel--wide {
+  max-width: 95%;
+  width: 95%;
   overflow-y: auto;
   position: relative;
   box-shadow: 0 20px 60px rgba(0, 0, 0, .5);
