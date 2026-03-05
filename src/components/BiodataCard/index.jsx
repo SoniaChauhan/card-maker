@@ -6,6 +6,10 @@ import BiodataCardPreview from './BiodataCardPreview';
 import BiodataPaymentPopup from './BiodataPaymentPopup';
 import { TEMPLATES } from './BiodataTemplateChooser';
 import Toast from '../shared/Toast';
+import ShareButtons from '../shared/ShareButtons';
+import '../shared/ShareButtons.css';
+import UserLookup from '../shared/UserLookup';
+import '../shared/UserLookup.css';
 import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
@@ -57,7 +61,7 @@ const INIT = {
 };
 
 export default function BiodataCard({ onBack, userEmail, initialData, templateId: initTplId, isSuperAdmin }) {
-  const [step, setStep] = useState('form');
+  const [step, setStep] = useState(initialData ? 'form' : 'lookup');
   const [data, setData] = useState(initialData ? { ...INIT, ...initialData } : INIT);
   const [errors, setErrors] = useState({});
   // Language is derived from community selection
@@ -74,7 +78,7 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
 
   const filename = `biodata-${toFilename(data.fullName || 'card')}.png`;
   const dlTitle = data.fullName ? `${data.fullName} Profile` : 'Marriage Profile';
-  const { downloading, handleDownload, toast, watermarkRef } = useDownload('biodata-print', filename, {
+  const { downloading, handleDownload, toast, watermarkRef, downloadedBlob, clearDownloadedBlob } = useDownload('biodata-print', filename, {
     onSuccess: async () => {
       const downloadId = await logDownload(userEmail, CARD_TYPE, 'Marriage Profile Card', dlTitle, filename, data).catch(() => null);
       if (downloadEmail) {
@@ -115,24 +119,14 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
   }
 
   function validate() {
-    const err = {};
-    if (!data.fullName.trim()) err.fullName = 'Full name is required.';
-    if (!data.dob) err.dob = 'Date of birth is required.';
-    if (!data.education.trim()) err.education = 'Education is required.';
-    return err;
+    // All fields are optional — no required validation
+    return {};
   }
 
   function onGenerate() {
     const err = validate();
     if (Object.keys(err).length) { 
       setErrors(err);
-      const missingFields = Object.keys(err).map(k => {
-        if (k === 'fullName') return 'Full Name (Step 1)';
-        if (k === 'dob') return 'Date of Birth (Step 1)';
-        if (k === 'education') return 'Education (Step 2)';
-        return k;
-      }).join(', ');
-      alert(`Please fill required fields: ${missingFields}`);
       return; 
     }
     setStep('card');
@@ -157,6 +151,21 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
         : `Failed to save template: ${e.message || e}`;
       alert(msg);
     } finally { setSaving(false); }
+  }
+
+  if (step === 'lookup') {
+    return (
+      <UserLookup
+        cardType={CARD_TYPE}
+        onContinue={({ prefillData }) => {
+          if (prefillData) {
+            setData(d => ({ ...d, ...prefillData, photo: null, photoPreview: prefillData.photoPreview || '' }));
+          }
+          setStep('form');
+        }}
+        onSkip={() => setStep('form')}
+      />
+    );
   }
 
   if (step === 'form') {
@@ -285,6 +294,15 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
       </div>
 
       {toast && <Toast message={toast.message} type={toast.type} />}
+
+      {downloadedBlob && (
+        <ShareButtons
+          blob={downloadedBlob}
+          filename={filename}
+          cardLabel={CARD_LABEL}
+          onClose={clearDownloadedBlob}
+        />
+      )}
 
       {showPayment && (
         <BiodataPaymentPopup

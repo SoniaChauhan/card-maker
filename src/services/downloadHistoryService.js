@@ -46,3 +46,12 @@ export async function getUserDownloads(email) {
 export async function deleteDownloadRecord(docId) {
   await api({ action: 'delete', docId });
 }
+
+/**
+ * Lookup saved form data for a returning user by email or phone + cardType.
+ * Returns { found: boolean, formData?: object }
+ */
+export async function getUserSavedData(email, phone, cardType) {
+  const data = await api({ action: 'getUserData', email: email || '', phone: phone || '', cardType: cardType || '' });
+  return data;
+}

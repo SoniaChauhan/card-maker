@@ -1,0 +1,108 @@
+/* ── Share Buttons Overlay ── */
+.share-buttons-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+  animation: shareFadeIn .2s ease;
+}
+@keyframes shareFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.share-buttons-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 24px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,.3);
+  animation: shareSlideUp .25s ease;
+}
+@keyframes shareSlideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.share-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #888;
+  padding: 4px 8px;
+  border-radius: 50%;
+}
+.share-close-btn:hover { background: #f0f0f0; color: #333; }
+
+.share-title {
+  font-size: 22px;
+  margin: 0 0 6px;
+  color: #333;
+}
+
+.share-subtitle {
+  font-size: 14px;
+  color: #888;
+  margin: 0 0 20px;
+}
+
+.share-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+}
+.share-btn:active { transform: scale(.97); }
+
+.share-btn-whatsapp {
+  background: #25D366;
+  color: #fff;
+}
+.share-btn-whatsapp:hover { box-shadow: 0 4px 14px rgba(37,211,102,.4); }
+
+.share-btn-email {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+}
+.share-btn-email:hover { box-shadow: 0 4px 14px rgba(102,126,234,.4); }
+
+.share-btn-more {
+  background: #f0f0f0;
+  color: #333;
+}
+.share-btn-more:hover { background: #e4e4e4; }
+
+.share-btn-icon {
+  font-size: 20px;
+}
+
+.share-done-btn {
+  background: none;
+  border: 1px solid #ddd;
+  padding: 10px 32px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+  transition: background .15s;
+}
+.share-done-btn:hover { background: #f8f8f8; }

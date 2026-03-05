@@ -8,6 +8,10 @@ import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import LanguagePicker from '../shared/LanguagePicker';
 import PaymentPopup from '../shared/PaymentPopup';
+import ShareButtons from '../shared/ShareButtons';
+import '../shared/ShareButtons.css';
+import UserLookup from '../shared/UserLookup';
+import '../shared/UserLookup.css';
 import useDownload from '../../hooks/useDownload';
 import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
@@ -34,7 +38,7 @@ const BG_SWATCHES = [
 ];
 
 export default function AnniversaryCard({ onBack, userEmail, initialData, templateId: initTplId, isSuperAdmin }) {
-  const [step, setStep]     = useState('form');
+  const [step, setStep]     = useState(initialData ? 'form' : 'lookup');
   const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
   const [errors, setErrors] = useState({});
   const [lang, setLang]     = useState('en');
@@ -46,7 +50,7 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
 
   const filename = `anniversary-${toFilename(data.partner1 || 'card')}.png`;
   const dlTitle = data.partner1 && data.partner2 ? `${data.partner1} & ${data.partner2} Anniversary` : 'Anniversary Card';
-  const { downloading, handleDownload, toast, watermarkRef } = useDownload('anniv-card-print', filename, {
+  const { downloading, handleDownload, toast, watermarkRef, downloadedBlob, clearDownloadedBlob } = useDownload('anniv-card-print', filename, {
     onSuccess: async () => {
       const downloadId = await logDownload(userEmail, CARD_TYPE, 'Anniversary Greeting Designer', dlTitle, filename, data).catch(() => null);
       if (downloadEmail) {
@@ -96,6 +100,21 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
     const err = validate();
     if (Object.keys(err).length) { setErrors(err); return; }
     setStep('card');
+  }
+
+  if (step === 'lookup') {
+    return (
+      <UserLookup
+        cardType={CARD_TYPE}
+        onContinue={({ prefillData }) => {
+          if (prefillData) {
+            setData(d => ({ ...d, ...prefillData, photo: null, photoPreview: prefillData.photoPreview || '' }));
+          }
+          setStep('form');
+        }}
+        onSkip={() => setStep('form')}
+      />
+    );
   }
 
   if (step === 'form') {
@@ -193,6 +212,15 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
       </div>
 
       <Toast text={toast.text} show={toast.show} />
+
+      {downloadedBlob && (
+        <ShareButtons
+          blob={downloadedBlob}
+          filename={filename}
+          cardLabel={CARD_LABEL}
+          onClose={clearDownloadedBlob}
+        />
+      )}
 
       {showPayment && (
         <PaymentPopup
