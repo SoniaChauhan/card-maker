@@ -69,6 +69,7 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
   const [community, setCommunity] = useState('hindi');
   const [showCommunityDropdown, setShowCommunityDropdown] = useState(false);
   const [downloadEmail, setDownloadEmail] = useState(userEmail || '');
+  const [downloadPhone, setDownloadPhone] = useState('');
   const carouselRef = useRef(null);
 
   const filename = `biodata-${toFilename(data.fullName || 'card')}.png`;
@@ -297,6 +298,7 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
             watermarkRef.current = withWatermark;
             if (!withWatermark && !isFree) setPaid(true);
             if (result?.email) setDownloadEmail(result.email);
+            if (result?.phone) setDownloadPhone(result.phone);
             setShowPayment(false);
             setTimeout(() => handleDownload(), 500);
           }}

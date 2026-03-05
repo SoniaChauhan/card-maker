@@ -41,6 +41,7 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
   const [paid, setPaid]     = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [downloadEmail, setDownloadEmail] = useState(userEmail || '');
+  const [downloadPhone, setDownloadPhone] = useState('');
   const carouselRef = useRef(null);
 
   const filename = `anniversary-${toFilename(data.partner1 || 'card')}.png`;
@@ -205,6 +206,7 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
             watermarkRef.current = withWatermark;
             if (!withWatermark && !isFree) setPaid(true);
             if (result?.email) setDownloadEmail(result.email);
+            if (result?.phone) setDownloadPhone(result.phone);
             setShowPayment(false);
             setTimeout(() => handleDownload(), 500);
           }}

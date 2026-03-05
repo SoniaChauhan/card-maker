@@ -14,7 +14,7 @@ import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
 import { logDownload } from '../../services/downloadHistoryService';
-import { hasUserPaid, getCardPrice } from '../../services/paymentService';
+import { hasUserPaid } from '../../services/paymentService';
 
 /* ── Festival definitions ── */
 export const HOLI_FESTIVAL = { id: 'holi', label: 'Holi Celebration Card', icon: '🌈', tag: 'Holi Card', desc: 'Vibrant and colorful Holi greeting card with playful splashes, gulaal effects, and festive typography.' };
@@ -359,15 +359,15 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
           onPaymentDone={async (result) => {
             setShowPayment(false);
             const withWatermark = result?.withWatermark ?? false;
-            const emailToCheck = checkEmail.trim() || userEmail;
-            if (isHoliCard && emailToCheck) {
-              // Refresh 24hr unlock status
+            const emailToCheck = result?.email || checkEmail.trim() || userEmail;
+            const phoneToCheck = result?.phone || '';
+            if (isHoliCard && (emailToCheck || phoneToCheck)) {
+              // Refresh unlock status
               try {
-                const { paid: p, unlockedUntil: u } = await getPaymentStatus(emailToCheck, effectiveCardType);
+                const p = await hasUserPaid(emailToCheck, effectiveCardType, phoneToCheck);
                 setPaid(p);
                 watermarkRef.current = !p;
-                if (u) setUnlockedUntil(u);
-                setVerifiedEmail(emailToCheck);
+                if (emailToCheck) setVerifiedEmail(emailToCheck);
               } catch { /* ignore */ }
             } else {
               watermarkRef.current = withWatermark;

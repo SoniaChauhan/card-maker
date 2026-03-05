@@ -49,6 +49,7 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
   const [paid, setPaid]     = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [downloadEmail, setDownloadEmail] = useState(userEmail || '');
+  const [downloadPhone, setDownloadPhone] = useState('');
   const carouselRef = useRef(null);
 
   const filename = `wedding-${toFilename(data.groomName || 'invitation')}.png`;
@@ -222,6 +223,7 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
             watermarkRef.current = withWatermark;
             if (!withWatermark && !isFree) setPaid(true);
             if (result?.email) setDownloadEmail(result.email);
+            if (result?.phone) setDownloadPhone(result.phone);
             setShowPayment(false);
             setTimeout(() => handleDownload(), 500);
           }}

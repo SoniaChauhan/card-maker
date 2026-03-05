@@ -428,6 +428,164 @@
   color: #a0aec0;
 }
 
+/* Identity Section (email/phone toggle) */
+.pay-identity-section {
+  margin-bottom: 12px;
+  text-align: left;
+}
+.pay-method-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.pay-method-btn {
+  flex: 1;
+  padding: 9px 6px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+}
+.pay-method-btn:hover {
+  border-color: #667eea;
+  background: #f0f4ff;
+}
+.pay-method-btn--active {
+  border-color: #667eea;
+  background: linear-gradient(135deg, #f0f4ff, #ede9fe);
+  color: #5b21b6;
+}
+
+/* Input row for phone */
+.pay-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.pay-phone-prefix {
+  background: #f7fafc;
+  border: 2px solid #e2e8f0;
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+  padding: 11px 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+}
+.pay-identity-input {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color .2s;
+}
+.pay-identity-input:focus {
+  border-color: #667eea;
+}
+.pay-identity-input:disabled {
+  background: #f7fafc;
+  color: #718096;
+}
+.pay-identity-input--phone {
+  border-radius: 0 10px 10px 0;
+}
+.pay-verified-badge {
+  display: inline-block;
+  color: #22543d;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+/* OTP Section */
+.pay-otp-section {
+  margin-top: 10px;
+}
+.pay-otp-send-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(102,126,234,.3);
+  transition: opacity .2s;
+}
+.pay-otp-send-btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.pay-otp-verify-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.pay-otp-input {
+  flex: 1;
+  min-width: 80px;
+  padding: 10px 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 16px;
+  letter-spacing: 4px;
+  text-align: center;
+  outline: none;
+  transition: border-color .2s;
+}
+.pay-otp-input:focus {
+  border-color: #667eea;
+}
+.pay-otp-verify-btn {
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #48bb78, #38a169);
+  color: #fff;
+}
+.pay-otp-verify-btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.pay-otp-timer {
+  font-size: 12px;
+  color: #a0aec0;
+  white-space: nowrap;
+  margin: 0;
+}
+.pay-otp-resend {
+  background: none;
+  border: none;
+  color: #667eea;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+.pay-otp-resend:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.pay-otp-error {
+  color: #e53e3e;
+  font-size: 12px;
+  margin: 6px 0 0;
+}
+
 /* Watermark overlay for preview */
 .card-preview-locked {
   position: relative;
