@@ -22,9 +22,8 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
   const [selectedTier, setSelectedTier] = useState('no-watermark'); // 'free', 'watermark', 'no-watermark'
   const [existingAccess, setExistingAccess] = useState(null);
 
-  // Identity input
-  const [idMethod, setIdMethod] = useState('phone'); // 'email' or 'phone'
-  const [guestEmail, setGuestEmail] = useState('');
+  // Identity input — phone only
+  const idMethod = 'phone';
   const [guestPhone, setGuestPhone] = useState('');
 
   // OTP state
@@ -36,17 +35,12 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
   const [otpCountdown, setOtpCountdown] = useState(0);
 
   const isGuest = !userEmail;
-  const emailToUse = userEmail || guestEmail.trim();
   const phoneToUse = guestPhone.replace(/\D/g, '').slice(-10);
 
   // The identifier that will be used for payment
   const identifierReady = isGuest
-    ? (idMethod === 'email' ? (isValidEmail(emailToUse) && otpVerified) : (phoneToUse.length === 10 && otpVerified))
+    ? (phoneToUse.length === 10 && otpVerified)
     : true; // logged-in users don't need OTP
-
-  function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
 
   function isValidPhone(phone) {
     return /^\d{10}$/.test(phone);
@@ -61,11 +55,10 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
 
   // Check for existing access when identifier changes (after OTP verified)
   const checkAccess = useCallback(async () => {
-    const email = idMethod === 'email' ? emailToUse : '';
-    const phone = idMethod === 'phone' ? phoneToUse : '';
+    const email = isGuest ? '' : (userEmail || '');
+    const phone = isGuest ? phoneToUse : '';
     if (!email && !phone) { setExistingAccess(null); return; }
-    if (idMethod === 'email' && !isValidEmail(email)) { setExistingAccess(null); return; }
-    if (idMethod === 'phone' && !isValidPhone(phone)) { setExistingAccess(null); return; }
+    if (isGuest && !isValidPhone(phone)) { setExistingAccess(null); return; }
 
     setCheckingAccess(true);
     try {
@@ -75,7 +68,7 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
       setExistingAccess(null);
     }
     setCheckingAccess(false);
-  }, [emailToUse, phoneToUse, idMethod, cardType]);
+  }, [userEmail, phoneToUse, isGuest, cardType]);
 
   // Check access for logged-in users immediately, or after OTP verified for guests
   useEffect(() => {
@@ -86,9 +79,8 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
     }
   }, [isGuest, otpVerified, checkAccess]);
 
-  // Reset OTP state when switching method or changing input
-  function handleMethodSwitch(method) {
-    setIdMethod(method);
+  // Reset OTP state
+  function resetOtp() {
     setOtpSent(false);
     setOtpValue('');
     setOtpVerified(false);
@@ -99,21 +91,14 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
 
   async function handleSendOTP() {
     setOtpError('');
-    const channel = idMethod;
-    const target = channel === 'email' ? emailToUse : phoneToUse;
-
-    if (channel === 'email' && !isValidEmail(target)) {
-      setOtpError('Please enter a valid email address.');
-      return;
-    }
-    if (channel === 'phone' && !isValidPhone(target)) {
+    if (!isValidPhone(phoneToUse)) {
       setOtpError('Please enter a valid 10-digit mobile number.');
       return;
     }
 
     setOtpLoading(true);
     try {
-      await sendOTP(channel, target);
+      await sendOTP('phone', phoneToUse);
       setOtpSent(true);
       setOtpCountdown(30);
     } catch (err) {
@@ -131,9 +116,7 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
 
     setOtpLoading(true);
     try {
-      const channel = idMethod;
-      const target = channel === 'email' ? emailToUse : phoneToUse;
-      const result = await verifyOTP(channel, target, otpValue);
+      const result = await verifyOTP('phone', phoneToUse, otpValue);
       if (result.verified) {
         setOtpVerified(true);
         setOtpError('');
@@ -147,9 +130,12 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
   }
 
   async function handlePay() {
+    const email = isGuest ? '' : (userEmail || '');
+    const phone = isGuest ? phoneToUse : '';
+
     // Free tier — just download with watermark, no payment or identity needed
     if (selectedTier === 'free') {
-      if (onPaymentDone) onPaymentDone({ withWatermark: true, tier: 'free', isFree: true, email: emailToUse || '', phone: phoneToUse || '' });
+      if (onPaymentDone) onPaymentDone({ withWatermark: true, tier: 'free', isFree: true, email, phone });
       return;
     }
 
@@ -162,8 +148,8 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
           alreadyPaid: true,
           withWatermark: existingAccess.tier === 'watermark',
           tier: existingAccess.tier,
-          email: emailToUse || '',
-          phone: phoneToUse || '',
+          email,
+          phone,
           expiresAt: existingAccess.expiresAt,
         });
         return;
@@ -172,20 +158,14 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
 
     // Guest needs OTP verification first
     if (isGuest && !otpVerified) {
-      setError('Please verify your identity with OTP first.');
+      setError('Please verify your mobile number with OTP first.');
       return;
     }
 
     // Validate identifier
-    if (isGuest) {
-      if (idMethod === 'email' && !isValidEmail(emailToUse)) {
-        setError('Please enter a valid email address.');
-        return;
-      }
-      if (idMethod === 'phone' && !isValidPhone(phoneToUse)) {
-        setError('Please enter a valid 10-digit mobile number.');
-        return;
-      }
+    if (isGuest && !isValidPhone(phoneToUse)) {
+      setError('Please enter a valid 10-digit mobile number.');
+      return;
     }
 
     setLoading(true);
@@ -196,8 +176,8 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
     const tier = withWatermark ? 'watermark' : 'premium';
 
     await startPayment({
-      email: emailToUse || '',
-      phone: phoneToUse || '',
+      email: email || '',
+      phone: phone || '',
       cardType,
       cardLabel: withWatermark ? `${cardLabel} (with small watermark)` : cardLabel,
       userName: userName || '',
@@ -205,7 +185,7 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
       tier,
       onSuccess: (result) => {
         setLoading(false);
-        if (onPaymentDone) onPaymentDone({ ...result, withWatermark, tier, email: emailToUse || '', phone: phoneToUse || '' });
+        if (onPaymentDone) onPaymentDone({ ...result, withWatermark, tier, email: email || '', phone: phone || '' });
       },
       onError: (err) => {
         setLoading(false);
@@ -294,52 +274,22 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
         {/* Identity input — only for guests and paid-only tiers */}
         {isGuest && selectedTier !== 'free' && (
           <div className="pay-identity-section">
-            {/* Method toggle */}
-            <div className="pay-method-toggle">
-              <button
-                className={`pay-method-btn ${idMethod === 'phone' ? 'pay-method-btn--active' : ''}`}
-                onClick={() => handleMethodSwitch('phone')}
-                type="button"
-              >
-                📱 Mobile Number
-              </button>
-              <button
-                className={`pay-method-btn ${idMethod === 'email' ? 'pay-method-btn--active' : ''}`}
-                onClick={() => handleMethodSwitch('email')}
-                type="button"
-              >
-                📧 Email
-              </button>
-            </div>
+            <p className="pay-identity-label">📱 Enter your mobile number</p>
 
-            {/* Input field */}
-            {idMethod === 'email' ? (
-              <div className="pay-input-row">
-                <input
-                  type="email"
-                  className="pay-identity-input"
-                  placeholder="your@email.com"
-                  value={guestEmail}
-                  onChange={e => { setGuestEmail(e.target.value); setOtpSent(false); setOtpVerified(false); setOtpError(''); if (error) setError(''); }}
-                  disabled={otpVerified}
-                />
-                {otpVerified && <span className="pay-verified-badge">✅ Verified</span>}
-              </div>
-            ) : (
-              <div className="pay-input-row">
-                <span className="pay-phone-prefix">+91</span>
-                <input
-                  type="tel"
-                  className="pay-identity-input pay-identity-input--phone"
-                  placeholder="9876543210"
-                  maxLength={10}
-                  value={guestPhone}
-                  onChange={e => { setGuestPhone(e.target.value.replace(/\D/g, '')); setOtpSent(false); setOtpVerified(false); setOtpError(''); if (error) setError(''); }}
-                  disabled={otpVerified}
-                />
-                {otpVerified && <span className="pay-verified-badge">✅ Verified</span>}
-              </div>
-            )}
+            {/* Phone Input */}
+            <div className="pay-input-row">
+              <span className="pay-phone-prefix">+91</span>
+              <input
+                type="tel"
+                className="pay-identity-input pay-identity-input--phone"
+                placeholder="9876543210"
+                maxLength={10}
+                value={guestPhone}
+                onChange={e => { setGuestPhone(e.target.value.replace(/\D/g, '')); setOtpSent(false); setOtpVerified(false); setOtpError(''); if (error) setError(''); }}
+                disabled={otpVerified}
+              />
+              {otpVerified && <span className="pay-verified-badge">✅ Verified</span>}
+            </div>
 
             {/* OTP section */}
             {!otpVerified && (
@@ -348,10 +298,10 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
                   <button
                     className="pay-otp-send-btn"
                     onClick={handleSendOTP}
-                    disabled={otpLoading || (idMethod === 'email' ? !isValidEmail(emailToUse) : phoneToUse.length !== 10)}
+                    disabled={otpLoading || phoneToUse.length !== 10}
                     type="button"
                   >
-                    {otpLoading ? '⏳ Sending...' : `Send OTP to ${idMethod === 'email' ? 'Email' : 'Mobile'}`}
+                    {otpLoading ? '⏳ Sending...' : 'Send OTP to Mobile'}
                   </button>
                 ) : (
                   <div className="pay-otp-verify-row">

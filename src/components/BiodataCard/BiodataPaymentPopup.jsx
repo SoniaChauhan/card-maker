@@ -15,9 +15,8 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
   const [selectedTier, setSelectedTier] = useState('premium'); // 'free' or 'premium'
   const [existingAccess, setExistingAccess] = useState(null);
 
-  // Identity input
-  const [idMethod, setIdMethod] = useState('phone'); // 'email' or 'phone'
-  const [guestEmail, setGuestEmail] = useState('');
+  // Identity input — phone only
+  const idMethod = 'phone';
   const [guestPhone, setGuestPhone] = useState('');
 
   // OTP state
@@ -29,17 +28,12 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
   const [otpCountdown, setOtpCountdown] = useState(0);
 
   const isGuest = !userEmail;
-  const emailToUse = userEmail || guestEmail.trim();
   const phoneToUse = guestPhone.replace(/\D/g, '').slice(-10);
 
   // The identifier that will be used for payment
   const identifierReady = isGuest
-    ? (idMethod === 'email' ? (isValidEmail(emailToUse) && otpVerified) : (phoneToUse.length === 10 && otpVerified))
+    ? (phoneToUse.length === 10 && otpVerified)
     : true; // logged-in users don't need OTP
-
-  function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
 
   // Reset OTP state when switching method or changing input
   const resetOtp = useCallback(() => {
@@ -61,8 +55,8 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
   // Check for existing access after OTP is verified (guest) or immediately (logged-in)
   useEffect(() => {
     async function checkAccess() {
-      const email = isGuest ? (idMethod === 'email' ? emailToUse : '') : emailToUse;
-      const phone = isGuest ? (idMethod === 'phone' ? phoneToUse : '') : '';
+      const email = isGuest ? '' : (userEmail || '');
+      const phone = isGuest ? phoneToUse : '';
 
       if (isGuest && !otpVerified) { setExistingAccess(null); return; }
       if (!email && !phone) { setExistingAccess(null); return; }
@@ -78,18 +72,16 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
       setCheckingAccess(false);
     }
     checkAccess();
-  }, [emailToUse, phoneToUse, otpVerified, isGuest, idMethod]);
+  }, [phoneToUse, otpVerified, isGuest, userEmail]);
 
   // --- OTP handlers ---
   async function handleSendOtp() {
     setOtpError('');
-    const target = idMethod === 'email' ? emailToUse : phoneToUse;
-    if (idMethod === 'email' && !isValidEmail(emailToUse)) { setOtpError('Enter a valid email'); return; }
-    if (idMethod === 'phone' && phoneToUse.length !== 10) { setOtpError('Enter a valid 10-digit mobile number'); return; }
+    if (phoneToUse.length !== 10) { setOtpError('Enter a valid 10-digit mobile number'); return; }
 
     setOtpLoading(true);
     try {
-      const res = await sendOTP(idMethod, target);
+      const res = await sendOTP('phone', phoneToUse);
       if (res.ok) {
         setOtpSent(true);
         setOtpCountdown(30);
@@ -105,11 +97,10 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
   async function handleVerifyOtp() {
     setOtpError('');
     if (otpValue.length < 4) { setOtpError('Enter the OTP'); return; }
-    const target = idMethod === 'email' ? emailToUse : phoneToUse;
 
     setOtpLoading(true);
     try {
-      const res = await verifyOTP(idMethod, target, otpValue);
+      const res = await verifyOTP('phone', phoneToUse, otpValue);
       if (res.verified) {
         setOtpVerified(true);
       } else {
@@ -129,8 +120,8 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
   }
 
   async function handlePay() {
-    const email = idMethod === 'email' ? emailToUse : '';
-    const phone = idMethod === 'phone' ? phoneToUse : '';
+    const email = isGuest ? '' : (userEmail || '');
+    const phone = isGuest ? phoneToUse : '';
 
     // Free tier — download with watermark, no payment or identity needed
     if (selectedTier === 'free') {
@@ -155,13 +146,13 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
 
     // Guest must verify OTP before paying
     if (isGuest && !otpVerified) {
-      setError('Please verify your ' + (idMethod === 'email' ? 'email' : 'mobile number') + ' first.');
+      setError('Please verify your mobile number first.');
       return;
     }
 
     // Must have at least one identifier
     if (!email && !phone) {
-      setError('Please enter your email or mobile number.');
+      setError('Please enter your mobile number.');
       return;
     }
 
@@ -269,44 +260,21 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
         {/* Identity Section — only for guests on premium tier */}
         {isGuest && selectedTier !== 'free' && (
           <div className="bdp-identity-section">
-            {/* Method toggle */}
-            <div className="bdp-method-toggle">
-              <button
-                type="button"
-                className={`bdp-method-btn ${idMethod === 'phone' ? 'bdp-method-btn--active' : ''}`}
-                onClick={() => { if (idMethod !== 'phone') { setIdMethod('phone'); resetOtp(); } }}
-              >📱 Mobile Number</button>
-              <button
-                type="button"
-                className={`bdp-method-btn ${idMethod === 'email' ? 'bdp-method-btn--active' : ''}`}
-                onClick={() => { if (idMethod !== 'email') { setIdMethod('email'); resetOtp(); } }}
-              >📧 Email</button>
-            </div>
+            <p className="bdp-identity-label">📱 Enter your mobile number</p>
 
-            {/* Input */}
-            {idMethod === 'email' ? (
+            {/* Phone Input */}
+            <div className="bdp-phone-row">
+              <span className="bdp-phone-prefix">+91</span>
               <input
-                type="email"
-                className="bdp-email-input"
-                placeholder="your@email.com"
-                value={guestEmail}
-                onChange={e => { setGuestEmail(e.target.value); if (otpSent) resetOtp(); if (error) setError(''); }}
+                type="tel"
+                className="bdp-email-input bdp-phone-input"
+                placeholder="10-digit mobile number"
+                maxLength={10}
+                value={guestPhone}
+                onChange={e => { setGuestPhone(e.target.value.replace(/\D/g, '')); if (otpSent) resetOtp(); if (error) setError(''); }}
                 disabled={otpVerified}
               />
-            ) : (
-              <div className="bdp-phone-row">
-                <span className="bdp-phone-prefix">+91</span>
-                <input
-                  type="tel"
-                  className="bdp-email-input bdp-phone-input"
-                  placeholder="10-digit mobile number"
-                  maxLength={10}
-                  value={guestPhone}
-                  onChange={e => { setGuestPhone(e.target.value.replace(/\D/g, '')); if (otpSent) resetOtp(); if (error) setError(''); }}
-                  disabled={otpVerified}
-                />
-              </div>
-            )}
+            </div>
 
             {/* OTP Flow */}
             {!otpVerified ? (
@@ -316,7 +284,7 @@ export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPa
                     type="button"
                     className="bdp-otp-send-btn"
                     onClick={handleSendOtp}
-                    disabled={otpLoading || (idMethod === 'email' ? !isValidEmail(emailToUse) : phoneToUse.length !== 10)}
+                    disabled={otpLoading || phoneToUse.length !== 10}
                   >{otpLoading ? 'Sending…' : 'Send OTP'}</button>
                 ) : (
                   <div className="bdp-otp-verify-row">

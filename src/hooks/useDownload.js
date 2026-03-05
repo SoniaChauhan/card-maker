@@ -203,8 +203,11 @@ export default function useDownload(elementId, filename, { onSuccess, downloadWi
           const clonedEl = clonedDoc.getElementById(elementId);
           if (!clonedEl) return;
 
-          /* Keep overflow as-is to preserve SVG decoration clipping */
+          /* Override overflow:hidden so header icons are not clipped.
+             The explicit width/height passed to html2canvas constrain
+             the capture area, so we don't need overflow:hidden. */
           clonedEl.style.position = 'relative';
+          clonedEl.style.overflow = 'visible';
 
           const style = clonedDoc.createElement('style');
           style.textContent = `
