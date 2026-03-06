@@ -78,8 +78,8 @@
 }
 .sub-status.pending {
   background: #fffbeb;
-  color: #f59e0b;
-  border: 1.5px solid #fde68a;
+  color: #a78bfa;
+  border: 1px solid #ddd6fe;
 }
 .sub-status.rejected {
   background: #fef2f2;

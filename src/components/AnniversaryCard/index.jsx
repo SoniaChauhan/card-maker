@@ -46,7 +46,7 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
   const [showPayment, setShowPayment] = useState(false);
   const [downloadEmail, setDownloadEmail] = useState(userEmail || '');
   const [downloadPhone, setDownloadPhone] = useState('');
-  const [lookupPhone, setLookupPhone] = useState('');
+  const [lookupEmail, setLookupEmail] = useState('');
   const carouselRef = useRef(null);
 
   const filename = `anniversary-${toFilename(data.partner1 || 'card')}.png`;
@@ -70,16 +70,16 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
     }).catch(() => {});
   }, [userEmail, isSuperAdmin]);
 
-  /* If lookup found details, check payment access by phone */
+  /* If lookup found details, check payment access by email */
   useEffect(() => {
-    if (!lookupPhone || paid) return;
-    checkUserAccess('', CARD_TYPE, lookupPhone).then(access => {
+    if (!lookupEmail || paid) return;
+    checkUserAccess(lookupEmail, CARD_TYPE).then(access => {
       if (access.hasAccess) {
         setPaid(true);
         watermarkRef.current = false;
       }
     }).catch(() => {});
-  }, [lookupPhone]);
+  }, [lookupEmail]);
 
   function scrollCarousel(direction) {
     if (carouselRef.current) {
@@ -101,11 +101,8 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
   }
 
   function validate() {
-    const err = {};
-    if (!data.partner1.trim()) err.partner1   = 'Partner 1 name is required.';
-    if (!data.partner2.trim()) err.partner2   = 'Partner 2 name is required.';
-    if (!data.date)            err.date       = 'Please select a date.';
-    return err;
+    // All fields are optional
+    return {};
   }
 
   function onGenerate() {
@@ -122,7 +119,7 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
           if (prefillData) {
             setData(d => ({ ...d, ...prefillData, photo: null, photoPreview: prefillData.photoPreview || '' }));
           }
-          if (lookupFound && lookupId) setLookupPhone(lookupId);
+          if (lookupFound && lookupId) setLookupEmail(lookupId);
           setStep('form');
         }}
         onSkip={() => setStep('form')}
@@ -209,7 +206,7 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
 
       {/* Action Buttons */}
       <div className="anniv-action-buttons">
-        <button className="anniv-back-btn" onClick={onBack}>
+        <button className="anniv-back-btn" onClick={() => setStep('form')}>
           ← Back
         </button>
         <button className="anniv-btn-edit" onClick={() => setStep('form')}>
@@ -240,7 +237,6 @@ export default function AnniversaryCard({ onBack, userEmail, initialData, templa
           cardType={CARD_TYPE}
           cardLabel={CARD_LABEL}
           userEmail={userEmail}
-          lookupPhone={lookupPhone}
           onClose={() => setShowPayment(false)}
           onPaymentDone={(result) => {
             const withWatermark = result?.withWatermark ?? false;

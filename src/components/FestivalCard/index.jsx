@@ -274,7 +274,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
 
         {/* Action Buttons */}
         <div className="fest-action-buttons">
-          <button className="fest-back-btn" onClick={onBack}>
+          <button className="fest-back-btn" onClick={() => setStep('form')}>
             ← Back
           </button>
           <button className="fest-btn-edit" onClick={() => setStep('form')}>

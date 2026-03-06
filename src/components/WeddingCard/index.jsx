@@ -54,7 +54,7 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
   const [showPayment, setShowPayment] = useState(false);
   const [downloadEmail, setDownloadEmail] = useState(userEmail || '');
   const [downloadPhone, setDownloadPhone] = useState('');
-  const [lookupPhone, setLookupPhone] = useState('');
+  const [lookupEmail, setLookupEmail] = useState('');
   const carouselRef = useRef(null);
 
   const filename = `wedding-${toFilename(data.groomName || 'invitation')}.png`;
@@ -81,16 +81,16 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
     }).catch(() => {});
   }, [userEmail, isSuperAdmin]);
 
-  /* If lookup found details, check payment access by phone */
+  /* If lookup found details, check payment access by email */
   useEffect(() => {
-    if (!lookupPhone || paid) return;
-    checkUserAccess('', CARD_TYPE, lookupPhone).then(access => {
+    if (!lookupEmail || paid) return;
+    checkUserAccess(lookupEmail, CARD_TYPE).then(access => {
       if (access.hasAccess) {
         setPaid(true);
         watermarkRef.current = false;
       }
     }).catch(() => {});
-  }, [lookupPhone]);
+  }, [lookupEmail]);
 
   function scrollCarousel(direction) {
     if (carouselRef.current) {
@@ -112,12 +112,8 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
   }
 
   function validate() {
-    const err = {};
-    if (!data.groomName.trim())    err.groomName    = 'Groom\'s name is required.';
-    if (!data.brideName.trim())    err.brideName    = 'Bride\'s name is required.';
-    if (!data.weddingDate)         err.weddingDate  = 'Wedding date is required.';
-    if (!data.weddingVenue.trim()) err.weddingVenue = 'Wedding venue is required.';
-    return err;
+    // All fields are optional
+    return {};
   }
 
   function onGenerate() {
@@ -138,7 +134,7 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
           if (prefillData) {
             setData(d => ({ ...d, ...prefillData, photo: null, photoPreview: prefillData.photoPreview || '' }));
           }
-          if (lookupFound && lookupId) setLookupPhone(lookupId);
+          if (lookupFound && lookupId) setLookupEmail(lookupId);
           setStep('form');
         }}
         onSkip={() => setStep('form')}
@@ -226,7 +222,7 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
 
       {/* Action Buttons */}
       <div className="wed-action-buttons">
-        <button className="wed-back-btn" onClick={onBack}>
+        <button className="wed-back-btn" onClick={() => setStep('form')}>
           ← Back
         </button>
         <button className="wed-btn-edit" onClick={() => setStep('form')}>
@@ -257,7 +253,6 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
           cardType={CARD_TYPE}
           cardLabel={CARD_LABEL}
           userEmail={userEmail}
-          lookupPhone={lookupPhone}
           onClose={() => setShowPayment(false)}
           onPaymentDone={(result) => {
             const withWatermark = result?.withWatermark ?? false;

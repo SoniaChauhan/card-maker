@@ -13,11 +13,11 @@ export default function AnniversaryForm({ data, errors, onChange, onBack, onGene
         <div className="form-grid">
           <FormField label="Partner 1 Name" name="partner1"
             value={data.partner1} onChange={onChange}
-            placeholder="First person's name" required error={errors.partner1} />
+            placeholder="First person's name" error={errors.partner1} />
 
           <FormField label="Partner 2 Name" name="partner2"
             value={data.partner2} onChange={onChange}
-            placeholder="Second person's name" required error={errors.partner2} />
+            placeholder="Second person's name" error={errors.partner2} />
 
           <FormField label="Years Together" name="years"
             type="number" value={data.years} onChange={onChange}
@@ -25,7 +25,7 @@ export default function AnniversaryForm({ data, errors, onChange, onBack, onGene
 
           <FormField label="Anniversary Date" name="date"
             type="date" value={data.date} onChange={onChange}
-            required error={errors.date} />
+            error={errors.date} />
 
           <FormField label="Blessing / Message" name="message"
             value={data.message} onChange={onChange}
