@@ -183,126 +183,126 @@
 }
 
 /* ═══════════════════════════════════════════════ */
-/*  Card colour themes  (Purple family palette)   */
+/*  Card colour themes  (Identity → Purple blend) */
 /* ═══════════════════════════════════════════════ */
 
 /* Featured */
-.card-option.birthday    { background: linear-gradient(135deg, #8b5cf6, #c4b5fd);  box-shadow: 0 18px 50px rgba(139,92,246,.40); }
-.card-option.birthday:hover    { box-shadow: 0 28px 70px rgba(139,92,246,.60); }
+.card-option.birthday    { background: linear-gradient(135deg, #e8703a, #7c3aed);  box-shadow: 0 18px 50px rgba(232,112,58,.35); }
+.card-option.birthday:hover    { box-shadow: 0 28px 70px rgba(232,112,58,.55); }
 .card-option.birthday::before  { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.wedding     { background: linear-gradient(135deg, #4c1d95, #7c3aed);  box-shadow: 0 18px 50px rgba(76,29,149,.40); }
-.card-option.wedding:hover     { box-shadow: 0 28px 70px rgba(76,29,149,.60); }
+.card-option.wedding     { background: linear-gradient(135deg, #d4a017, #6d28d9);  box-shadow: 0 18px 50px rgba(212,160,23,.35); }
+.card-option.wedding:hover     { box-shadow: 0 28px 70px rgba(212,160,23,.55); }
 .card-option.wedding::before   { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.anniversary { background: linear-gradient(135deg, #a855f7, #d8b4fe);  box-shadow: 0 18px 50px rgba(168,85,247,.40); }
-.card-option.anniversary:hover { box-shadow: 0 28px 70px rgba(168,85,247,.60); }
+.card-option.anniversary { background: linear-gradient(135deg, #eab308, #8b5cf6);  box-shadow: 0 18px 50px rgba(234,179,8,.35); }
+.card-option.anniversary:hover { box-shadow: 0 28px 70px rgba(234,179,8,.55); }
 .card-option.anniversary::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
 /* Family & Life Events */
-.card-option.babyshower     { background: linear-gradient(135deg, #c084fc, #e9d5ff); box-shadow: 0 18px 50px rgba(192,132,252,.40); }
-.card-option.babyshower:hover     { box-shadow: 0 28px 70px rgba(192,132,252,.55); }
+.card-option.babyshower     { background: linear-gradient(135deg, #f472b6, #c084fc); box-shadow: 0 18px 50px rgba(244,114,182,.35); }
+.card-option.babyshower:hover     { box-shadow: 0 28px 70px rgba(244,114,182,.55); }
 .card-option.babyshower::before   { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.namingceremony { background: linear-gradient(135deg, #9333ea, #c084fc); box-shadow: 0 18px 50px rgba(147,51,234,.40); }
-.card-option.namingceremony:hover { box-shadow: 0 28px 70px rgba(147,51,234,.55); }
+.card-option.namingceremony { background: linear-gradient(135deg, #06b6d4, #7c3aed); box-shadow: 0 18px 50px rgba(6,182,212,.35); }
+.card-option.namingceremony:hover { box-shadow: 0 28px 70px rgba(6,182,212,.55); }
 .card-option.namingceremony::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.housewarming   { background: linear-gradient(135deg, #7e22ce, #a78bfa); box-shadow: 0 18px 50px rgba(126,34,206,.40); }
-.card-option.housewarming:hover   { box-shadow: 0 28px 70px rgba(126,34,206,.55); }
+.card-option.housewarming   { background: linear-gradient(135deg, #f97316, #5b21b6); box-shadow: 0 18px 50px rgba(249,115,22,.35); }
+.card-option.housewarming:hover   { box-shadow: 0 28px 70px rgba(249,115,22,.55); }
 .card-option.housewarming::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.graduation     { background: linear-gradient(135deg, #4c1d95, #6d28d9); box-shadow: 0 18px 50px rgba(76,29,149,.40); }
-.card-option.graduation:hover     { box-shadow: 0 28px 70px rgba(76,29,149,.55); }
+.card-option.graduation     { background: linear-gradient(135deg, #1e3a8a, #6d28d9); box-shadow: 0 18px 50px rgba(30,58,138,.35); }
+.card-option.graduation:hover     { box-shadow: 0 28px 70px rgba(30,58,138,.55); }
 .card-option.graduation::before   { background: linear-gradient(135deg, rgba(255,255,255,.18), transparent); }
 
 /* Wedding Functions */
-.card-option.haldi       { background: linear-gradient(135deg, #7c3aed, #ddd6fe); box-shadow: 0 18px 50px rgba(124,58,237,.40); }
-.card-option.haldi:hover       { box-shadow: 0 28px 70px rgba(124,58,237,.55); }
+.card-option.haldi       { background: linear-gradient(135deg, #eab308, #7c3aed); box-shadow: 0 18px 50px rgba(234,179,8,.35); }
+.card-option.haldi:hover       { box-shadow: 0 28px 70px rgba(234,179,8,.55); }
 .card-option.haldi::before     { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.mehendi     { background: linear-gradient(135deg, #6d28d9, #a78bfa); box-shadow: 0 18px 50px rgba(109,40,217,.40); }
-.card-option.mehendi:hover     { box-shadow: 0 28px 70px rgba(109,40,217,.55); }
+.card-option.mehendi     { background: linear-gradient(135deg, #16a34a, #6d28d9); box-shadow: 0 18px 50px rgba(22,163,74,.35); }
+.card-option.mehendi:hover     { box-shadow: 0 28px 70px rgba(22,163,74,.55); }
 .card-option.mehendi::before   { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.sangeet     { background: linear-gradient(135deg, #9333ea, #d8b4fe); box-shadow: 0 18px 50px rgba(147,51,234,.40); }
-.card-option.sangeet:hover     { box-shadow: 0 28px 70px rgba(147,51,234,.55); }
+.card-option.sangeet     { background: linear-gradient(135deg, #e11d48, #8b5cf6); box-shadow: 0 18px 50px rgba(225,29,72,.35); }
+.card-option.sangeet:hover     { box-shadow: 0 28px 70px rgba(225,29,72,.55); }
 .card-option.sangeet::before   { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.reception   { background: linear-gradient(135deg, #6c5ce7, #a29bfe); box-shadow: 0 18px 50px rgba(108,92,231,.40); }
-.card-option.reception:hover   { box-shadow: 0 28px 70px rgba(108,92,231,.55); }
+.card-option.reception   { background: linear-gradient(135deg, #be185d, #5b21b6); box-shadow: 0 18px 50px rgba(190,24,93,.35); }
+.card-option.reception:hover   { box-shadow: 0 28px 70px rgba(190,24,93,.55); }
 .card-option.reception::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.savethedate { background: linear-gradient(135deg, #8b5cf6, #e9d5ff); box-shadow: 0 18px 50px rgba(139,92,246,.40); }
-.card-option.savethedate:hover { box-shadow: 0 28px 70px rgba(139,92,246,.55); }
+.card-option.savethedate { background: linear-gradient(135deg, #ec4899, #8b5cf6); box-shadow: 0 18px 50px rgba(236,72,153,.35); }
+.card-option.savethedate:hover { box-shadow: 0 28px 70px rgba(236,72,153,.55); }
 .card-option.savethedate::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
 /* Spiritual & Religious */
-.card-option.jagrata     { background: linear-gradient(135deg, #7e22ce, #c4b5fd); box-shadow: 0 18px 50px rgba(126,34,206,.40); }
-.card-option.jagrata:hover     { box-shadow: 0 28px 70px rgba(126,34,206,.60); }
+.card-option.jagrata     { background: linear-gradient(135deg, #dc2626, #7e22ce); box-shadow: 0 18px 50px rgba(220,38,38,.35); }
+.card-option.jagrata:hover     { box-shadow: 0 28px 70px rgba(220,38,38,.55); }
 .card-option.jagrata::before   { background: linear-gradient(135deg, rgba(255,255,255,.18), transparent); }
 
-.card-option.satyanarayan { background: linear-gradient(135deg, #5b21b6, #a78bfa); box-shadow: 0 18px 50px rgba(91,33,182,.40); }
-.card-option.satyanarayan:hover { box-shadow: 0 28px 70px rgba(91,33,182,.55); }
+.card-option.satyanarayan { background: linear-gradient(135deg, #f59e0b, #5b21b6); box-shadow: 0 18px 50px rgba(245,158,11,.35); }
+.card-option.satyanarayan:hover { box-shadow: 0 28px 70px rgba(245,158,11,.55); }
 .card-option.satyanarayan::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.garba       { background: linear-gradient(135deg, #a855f7, #c4b5fd); box-shadow: 0 18px 50px rgba(168,85,247,.40); }
-.card-option.garba:hover       { box-shadow: 0 28px 70px rgba(168,85,247,.55); }
+.card-option.garba       { background: linear-gradient(135deg, #ef4444, #a855f7); box-shadow: 0 18px 50px rgba(239,68,68,.35); }
+.card-option.garba:hover       { box-shadow: 0 28px 70px rgba(239,68,68,.55); }
 .card-option.garba::before     { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
 /* Professional & Documents */
-.card-option.resume      { background: linear-gradient(135deg, #4c1d95, #667eea); box-shadow: 0 18px 50px rgba(76,29,149,.40); }
-.card-option.resume:hover      { box-shadow: 0 28px 70px rgba(76,29,149,.60); }
+.card-option.resume      { background: linear-gradient(135deg, #1e3a5f, #4c1d95); box-shadow: 0 18px 50px rgba(30,58,95,.35); }
+.card-option.resume:hover      { box-shadow: 0 28px 70px rgba(30,58,95,.55); }
 .card-option.resume::before    { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.biodata     { background: linear-gradient(135deg, #5b21b6, #8b5cf6); box-shadow: 0 18px 50px rgba(91,33,182,.40); }
-.card-option.biodata:hover     { box-shadow: 0 28px 70px rgba(91,33,182,.60); }
+.card-option.biodata     { background: linear-gradient(135deg, #c026d3, #5b21b6); box-shadow: 0 18px 50px rgba(192,38,211,.35); }
+.card-option.biodata:hover     { box-shadow: 0 28px 70px rgba(192,38,211,.55); }
 .card-option.biodata::before   { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.rentcard    { background: linear-gradient(135deg, #667eea, #a78bfa); box-shadow: 0 18px 50px rgba(102,126,234,.40); }
-.card-option.rentcard:hover    { box-shadow: 0 28px 70px rgba(102,126,234,.60); }
+.card-option.rentcard    { background: linear-gradient(135deg, #0d9488, #7c3aed); box-shadow: 0 18px 50px rgba(13,148,136,.35); }
+.card-option.rentcard:hover    { box-shadow: 0 28px 70px rgba(13,148,136,.55); }
 .card-option.rentcard::before  { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.saloncard   { background: linear-gradient(135deg, #7c3aed, #c084fc); box-shadow: 0 18px 50px rgba(124,58,237,.40); }
-.card-option.saloncard:hover   { box-shadow: 0 28px 70px rgba(124,58,237,.60); }
+.card-option.saloncard   { background: linear-gradient(135deg, #d97706, #6d28d9); box-shadow: 0 18px 50px rgba(217,119,6,.35); }
+.card-option.saloncard:hover   { box-shadow: 0 28px 70px rgba(217,119,6,.55); }
 .card-option.saloncard::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.visitingcard { background: linear-gradient(135deg, #818cf8, #c4b5fd); box-shadow: 0 18px 50px rgba(129,140,248,.40); }
-.card-option.visitingcard:hover { box-shadow: 0 28px 70px rgba(129,140,248,.55); }
+.card-option.visitingcard { background: linear-gradient(135deg, #0891b2, #818cf8); box-shadow: 0 18px 50px rgba(8,145,178,.35); }
+.card-option.visitingcard:hover { box-shadow: 0 28px 70px rgba(8,145,178,.55); }
 .card-option.visitingcard::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.businessdocs { background: linear-gradient(135deg, #3b0764, #4c1d95); box-shadow: 0 18px 50px rgba(59,7,100,.40); }
-.card-option.businessdocs:hover { box-shadow: 0 28px 70px rgba(59,7,100,.55); }
+.card-option.businessdocs { background: linear-gradient(135deg, #1f2937, #3b0764); box-shadow: 0 18px 50px rgba(31,41,55,.35); }
+.card-option.businessdocs:hover { box-shadow: 0 28px 70px rgba(31,41,55,.55); }
 .card-option.businessdocs::before { background: linear-gradient(135deg, rgba(255,255,255,.18), transparent); }
 
 /* Greeting Cards */
-.card-option.thankyou    { background: linear-gradient(135deg, #a855f7, #e9d5ff); box-shadow: 0 18px 50px rgba(168,85,247,.40); }
-.card-option.thankyou:hover    { box-shadow: 0 28px 70px rgba(168,85,247,.55); }
+.card-option.thankyou    { background: linear-gradient(135deg, #f472b6, #a855f7); box-shadow: 0 18px 50px rgba(244,114,182,.35); }
+.card-option.thankyou:hover    { box-shadow: 0 28px 70px rgba(244,114,182,.55); }
 .card-option.thankyou::before  { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.congratulations { background: linear-gradient(135deg, #7c3aed, #c084fc); box-shadow: 0 18px 50px rgba(124,58,237,.40); }
-.card-option.congratulations:hover { box-shadow: 0 28px 70px rgba(124,58,237,.55); }
+.card-option.congratulations { background: linear-gradient(135deg, #059669, #7c3aed); box-shadow: 0 18px 50px rgba(5,150,105,.35); }
+.card-option.congratulations:hover { box-shadow: 0 28px 70px rgba(5,150,105,.55); }
 .card-option.congratulations::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.goodluck    { background: linear-gradient(135deg, #667eea, #c4b5fd); box-shadow: 0 18px 50px rgba(102,126,234,.40); }
-.card-option.goodluck:hover    { box-shadow: 0 28px 70px rgba(102,126,234,.55); }
+.card-option.goodluck    { background: linear-gradient(135deg, #0ea5e9, #667eea); box-shadow: 0 18px 50px rgba(14,165,233,.35); }
+.card-option.goodluck:hover    { box-shadow: 0 28px 70px rgba(14,165,233,.55); }
 .card-option.goodluck::before  { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.festivalcards { background: linear-gradient(135deg, #8b5cf6, #ddd6fe); box-shadow: 0 18px 50px rgba(139,92,246,.40); }
-.card-option.festivalcards:hover { box-shadow: 0 28px 70px rgba(139,92,246,.55); }
+.card-option.festivalcards { background: linear-gradient(135deg, #f97316, #8b5cf6); box-shadow: 0 18px 50px rgba(249,115,22,.35); }
+.card-option.festivalcards:hover { box-shadow: 0 28px 70px rgba(249,115,22,.55); }
 .card-option.festivalcards::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
 /* Social Media */
-.card-option.whatsappinvites { background: linear-gradient(135deg, #5b21b6, #7c3aed); box-shadow: 0 18px 50px rgba(91,33,182,.40); }
-.card-option.whatsappinvites:hover { box-shadow: 0 28px 70px rgba(91,33,182,.55); }
+.card-option.whatsappinvites { background: linear-gradient(135deg, #25D366, #5b21b6); box-shadow: 0 18px 50px rgba(37,211,102,.35); }
+.card-option.whatsappinvites:hover { box-shadow: 0 28px 70px rgba(37,211,102,.55); }
 .card-option.whatsappinvites::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.instagramstory { background: linear-gradient(135deg, #7c3aed, #a855f7); box-shadow: 0 18px 50px rgba(124,58,237,.40); }
-.card-option.instagramstory:hover { box-shadow: 0 28px 70px rgba(124,58,237,.55); }
+.card-option.instagramstory { background: linear-gradient(135deg, #e1306c, #7c3aed); box-shadow: 0 18px 50px rgba(225,48,108,.35); }
+.card-option.instagramstory:hover { box-shadow: 0 28px 70px rgba(225,48,108,.55); }
 .card-option.instagramstory::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
-.card-option.socialevent { background: linear-gradient(135deg, #667eea, #8b5cf6); box-shadow: 0 18px 50px rgba(102,126,234,.40); }
-.card-option.socialevent:hover { box-shadow: 0 28px 70px rgba(102,126,234,.55); }
+.card-option.socialevent { background: linear-gradient(135deg, #3b82f6, #8b5cf6); box-shadow: 0 18px 50px rgba(59,130,246,.35); }
+.card-option.socialevent:hover { box-shadow: 0 28px 70px rgba(59,130,246,.55); }
 .card-option.socialevent::before { background: linear-gradient(135deg, rgba(255,255,255,.15), transparent); }
 
 /* ─── Card inner elements ─── */

@@ -363,34 +363,34 @@
 .pd-card-status.rejected { background: #ef4444; }
 
 /* ─── Card colours (all types – purple family) ─── */
-.pd-card.birthday        { background: linear-gradient(135deg, #8b5cf6, #c4b5fd); box-shadow: 0 14px 36px rgba(139,92,246,.35); }
-.pd-card.wedding         { background: linear-gradient(135deg, #4c1d95, #7c3aed); box-shadow: 0 14px 36px rgba(76,29,149,.35); }
-.pd-card.anniversary     { background: linear-gradient(135deg, #a855f7, #d8b4fe); box-shadow: 0 14px 36px rgba(168,85,247,.35); }
-.pd-card.babyshower      { background: linear-gradient(135deg, #c084fc, #e9d5ff); box-shadow: 0 14px 36px rgba(192,132,252,.35); }
-.pd-card.namingceremony  { background: linear-gradient(135deg, #9333ea, #c084fc); box-shadow: 0 14px 36px rgba(147,51,234,.35); }
-.pd-card.housewarming    { background: linear-gradient(135deg, #7e22ce, #a78bfa); box-shadow: 0 14px 36px rgba(126,34,206,.35); }
-.pd-card.graduation      { background: linear-gradient(135deg, #4c1d95, #6d28d9); box-shadow: 0 14px 36px rgba(76,29,149,.35); }
-.pd-card.haldi           { background: linear-gradient(135deg, #7c3aed, #ddd6fe); box-shadow: 0 14px 36px rgba(124,58,237,.35); }
-.pd-card.mehendi         { background: linear-gradient(135deg, #6d28d9, #a78bfa); box-shadow: 0 14px 36px rgba(109,40,217,.35); }
-.pd-card.sangeet         { background: linear-gradient(135deg, #9333ea, #d8b4fe); box-shadow: 0 14px 36px rgba(147,51,234,.35); }
-.pd-card.reception       { background: linear-gradient(135deg, #6c5ce7, #a29bfe); box-shadow: 0 14px 36px rgba(108,92,231,.35); }
-.pd-card.savethedate     { background: linear-gradient(135deg, #8b5cf6, #e9d5ff); box-shadow: 0 14px 36px rgba(139,92,246,.35); }
-.pd-card.jagrata         { background: linear-gradient(135deg, #7e22ce, #c4b5fd); box-shadow: 0 14px 36px rgba(126,34,206,.35); }
-.pd-card.satyanarayan    { background: linear-gradient(135deg, #5b21b6, #a78bfa); box-shadow: 0 14px 36px rgba(91,33,182,.35); }
-.pd-card.garba           { background: linear-gradient(135deg, #a855f7, #c4b5fd); box-shadow: 0 14px 36px rgba(168,85,247,.35); }
-.pd-card.resume          { background: linear-gradient(135deg, #4c1d95, #667eea); box-shadow: 0 14px 36px rgba(76,29,149,.35); }
-.pd-card.biodata         { background: linear-gradient(135deg, #5b21b6, #8b5cf6); box-shadow: 0 14px 36px rgba(91,33,182,.35); }
-.pd-card.rentcard        { background: linear-gradient(135deg, #667eea, #a78bfa); box-shadow: 0 14px 36px rgba(102,126,234,.35); }
-.pd-card.saloncard       { background: linear-gradient(135deg, #7c3aed, #c084fc); box-shadow: 0 14px 36px rgba(124,58,237,.35); }
-.pd-card.visitingcard    { background: linear-gradient(135deg, #818cf8, #c4b5fd); box-shadow: 0 14px 36px rgba(129,140,248,.35); }
-.pd-card.businessdocs    { background: linear-gradient(135deg, #3b0764, #4c1d95); box-shadow: 0 14px 36px rgba(59,7,100,.35); }
-.pd-card.thankyou        { background: linear-gradient(135deg, #a855f7, #e9d5ff); box-shadow: 0 14px 36px rgba(168,85,247,.35); }
-.pd-card.congratulations { background: linear-gradient(135deg, #7c3aed, #c084fc); box-shadow: 0 14px 36px rgba(124,58,237,.35); }
-.pd-card.goodluck        { background: linear-gradient(135deg, #667eea, #c4b5fd); box-shadow: 0 14px 36px rgba(102,126,234,.35); }
-.pd-card.festivalcards   { background: linear-gradient(135deg, #8b5cf6, #ddd6fe); box-shadow: 0 14px 36px rgba(139,92,246,.35); }
-.pd-card.whatsappinvites { background: linear-gradient(135deg, #5b21b6, #7c3aed); box-shadow: 0 14px 36px rgba(91,33,182,.35); }
-.pd-card.instagramstory  { background: linear-gradient(135deg, #7c3aed, #a855f7); box-shadow: 0 14px 36px rgba(124,58,237,.35); }
-.pd-card.socialevent     { background: linear-gradient(135deg, #667eea, #8b5cf6); box-shadow: 0 14px 36px rgba(102,126,234,.35); }
+.pd-card.birthday        { background: linear-gradient(135deg, #e8703a, #7c3aed); box-shadow: 0 14px 36px rgba(232,112,58,.30); }
+.pd-card.wedding         { background: linear-gradient(135deg, #d4a017, #6d28d9); box-shadow: 0 14px 36px rgba(212,160,23,.30); }
+.pd-card.anniversary     { background: linear-gradient(135deg, #eab308, #8b5cf6); box-shadow: 0 14px 36px rgba(234,179,8,.30); }
+.pd-card.babyshower      { background: linear-gradient(135deg, #f472b6, #c084fc); box-shadow: 0 14px 36px rgba(244,114,182,.30); }
+.pd-card.namingceremony  { background: linear-gradient(135deg, #06b6d4, #7c3aed); box-shadow: 0 14px 36px rgba(6,182,212,.30); }
+.pd-card.housewarming    { background: linear-gradient(135deg, #f97316, #5b21b6); box-shadow: 0 14px 36px rgba(249,115,22,.30); }
+.pd-card.graduation      { background: linear-gradient(135deg, #1e3a8a, #6d28d9); box-shadow: 0 14px 36px rgba(30,58,138,.30); }
+.pd-card.haldi           { background: linear-gradient(135deg, #eab308, #7c3aed); box-shadow: 0 14px 36px rgba(234,179,8,.30); }
+.pd-card.mehendi         { background: linear-gradient(135deg, #16a34a, #6d28d9); box-shadow: 0 14px 36px rgba(22,163,74,.30); }
+.pd-card.sangeet         { background: linear-gradient(135deg, #e11d48, #8b5cf6); box-shadow: 0 14px 36px rgba(225,29,72,.30); }
+.pd-card.reception       { background: linear-gradient(135deg, #be185d, #5b21b6); box-shadow: 0 14px 36px rgba(190,24,93,.30); }
+.pd-card.savethedate     { background: linear-gradient(135deg, #ec4899, #8b5cf6); box-shadow: 0 14px 36px rgba(236,72,153,.30); }
+.pd-card.jagrata         { background: linear-gradient(135deg, #dc2626, #7e22ce); box-shadow: 0 14px 36px rgba(220,38,38,.30); }
+.pd-card.satyanarayan    { background: linear-gradient(135deg, #f59e0b, #5b21b6); box-shadow: 0 14px 36px rgba(245,158,11,.30); }
+.pd-card.garba           { background: linear-gradient(135deg, #ef4444, #a855f7); box-shadow: 0 14px 36px rgba(239,68,68,.30); }
+.pd-card.resume          { background: linear-gradient(135deg, #1e3a5f, #4c1d95); box-shadow: 0 14px 36px rgba(30,58,95,.30); }
+.pd-card.biodata         { background: linear-gradient(135deg, #c026d3, #5b21b6); box-shadow: 0 14px 36px rgba(192,38,211,.30); }
+.pd-card.rentcard        { background: linear-gradient(135deg, #0d9488, #7c3aed); box-shadow: 0 14px 36px rgba(13,148,136,.30); }
+.pd-card.saloncard       { background: linear-gradient(135deg, #d97706, #6d28d9); box-shadow: 0 14px 36px rgba(217,119,6,.30); }
+.pd-card.visitingcard    { background: linear-gradient(135deg, #0891b2, #818cf8); box-shadow: 0 14px 36px rgba(8,145,178,.30); }
+.pd-card.businessdocs    { background: linear-gradient(135deg, #1f2937, #3b0764); box-shadow: 0 14px 36px rgba(31,41,55,.30); }
+.pd-card.thankyou        { background: linear-gradient(135deg, #f472b6, #a855f7); box-shadow: 0 14px 36px rgba(244,114,182,.30); }
+.pd-card.congratulations { background: linear-gradient(135deg, #059669, #7c3aed); box-shadow: 0 14px 36px rgba(5,150,105,.30); }
+.pd-card.goodluck        { background: linear-gradient(135deg, #0ea5e9, #667eea); box-shadow: 0 14px 36px rgba(14,165,233,.30); }
+.pd-card.festivalcards   { background: linear-gradient(135deg, #f97316, #8b5cf6); box-shadow: 0 14px 36px rgba(249,115,22,.30); }
+.pd-card.whatsappinvites { background: linear-gradient(135deg, #25D366, #5b21b6); box-shadow: 0 14px 36px rgba(37,211,102,.30); }
+.pd-card.instagramstory  { background: linear-gradient(135deg, #e1306c, #7c3aed); box-shadow: 0 14px 36px rgba(225,48,108,.30); }
+.pd-card.socialevent     { background: linear-gradient(135deg, #3b82f6, #8b5cf6); box-shadow: 0 14px 36px rgba(59,130,246,.30); }
 
 /* ─── Free plan banner ─── */
 .pd-free-banner {
