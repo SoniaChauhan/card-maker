@@ -1,6 +1,7 @@
 /* ══════════════════════════════════════════════════════════════
    Festival Card Preview — Unique themed design per festival
    ══════════════════════════════════════════════════════════════ */
+import { T } from '../../utils/translations';
 
 /* ── Holi Template Configs (6 templates) ── */
 const HOLI_TEMPLATES = {
@@ -124,6 +125,71 @@ const THEME = {
     emoji: '🎉',
     borderColor: '#ffd700',
     dark: true,
+  },
+  dussehra: {
+    gradient: 'linear-gradient(135deg, #b71c1c 0%, #e65100 40%, #ff8f00 100%)',
+    heading: 'Happy Dussehra!',
+    subtext: 'May truth always triumph — Wishing you a victorious Vijaya Dashami',
+    emoji: '🏹',
+    borderColor: '#ff8f00',
+  },
+  sankranti: {
+    gradient: 'linear-gradient(135deg, #01579b 0%, #f9d423 50%, #ff9800 100%)',
+    heading: 'Happy Makar Sankranti!',
+    subtext: 'May the sun bring warmth, joy and sweet moments to your life',
+    emoji: '🪁',
+    borderColor: '#f9d423',
+  },
+  ganesh: {
+    gradient: 'linear-gradient(135deg, #e65100 0%, #ff8f00 40%, #ffd54f 100%)',
+    heading: 'गणपति बप्पा मोरया!',
+    subtext: 'May Lord Ganesha remove all obstacles and bring wisdom to your life',
+    emoji: '🙏',
+    borderColor: '#ff8f00',
+  },
+  janmashtami: {
+    gradient: 'linear-gradient(135deg, #1a0533 0%, #4a148c 40%, #7c4dff 100%)',
+    heading: 'Happy Janmashtami!',
+    subtext: 'May Lord Krishna fill your life with love, joy and divine blessings',
+    emoji: '🦚',
+    borderColor: '#7c4dff',
+    dark: true,
+  },
+  independenceday: {
+    gradient: 'linear-gradient(135deg, #ff9933 0%, #ffffff 50%, #138808 100%)',
+    heading: 'Happy Independence Day!',
+    subtext: 'Jai Hind! Celebrating the spirit of freedom and unity',
+    emoji: '🇮🇳',
+    borderColor: '#ff9933',
+  },
+  republicday: {
+    gradient: 'linear-gradient(135deg, #138808 0%, #ffffff 50%, #ff9933 100%)',
+    heading: 'Happy Republic Day!',
+    subtext: 'Celebrating our Constitution and the spirit of democracy — Jai Hind!',
+    emoji: '🇮🇳',
+    borderColor: '#138808',
+  },
+  karwachauth: {
+    gradient: 'linear-gradient(135deg, #4a0000 0%, #b71c1c 40%, #ffd700 100%)',
+    heading: 'Happy Karwa Chauth!',
+    subtext: 'May the moon of Karwa Chauth bless your love with eternal togetherness',
+    emoji: '🌕',
+    borderColor: '#ffd700',
+    dark: true,
+  },
+  baisakhi: {
+    gradient: 'linear-gradient(135deg, #33691e 0%, #9ccc65 40%, #ffd54f 100%)',
+    heading: 'Happy Baisakhi!',
+    subtext: 'Wishing you a joyful harvest season filled with prosperity and cheer',
+    emoji: '🌾',
+    borderColor: '#ffd54f',
+  },
+  chhath: {
+    gradient: 'linear-gradient(135deg, #bf360c 0%, #f57c00 40%, #ffd54f 100%)',
+    heading: 'Happy Chhath Puja!',
+    subtext: 'May the Sun God bless your family with health, wealth and happiness',
+    emoji: '🌅',
+    borderColor: '#f57c00',
   },
 };
 
@@ -389,6 +455,316 @@ function NewYearDecor() {
   );
 }
 
+/* ── Dussehra ── */
+function DussehraDecor() {
+  return (
+    <svg viewBox="0 0 300 120" className="fest-decor-svg" aria-hidden="true">
+      {/* Bow */}
+      <path d="M60 95 Q60 30 120 30" stroke="#8B4513" strokeWidth="3" fill="none" opacity=".7" />
+      <line x1="60" y1="95" x2="120" y2="30" stroke="#d4a76a" strokeWidth="1" opacity=".5" />
+      {/* Arrow */}
+      <line x1="90" y1="55" x2="160" y2="55" stroke="#8B4513" strokeWidth="2" opacity=".7" />
+      <polygon points="160,50 175,55 160,60" fill="#c0392b" opacity=".8" />
+      <polygon points="90,52 82,55 90,58" fill="#f39c12" opacity=".7" />
+      {/* Flames / Ravana burning */}
+      {[200, 220, 240].map((x, i) => (
+        <g key={i}>
+          <polygon points={`${x - 8},110 ${x},${70 - i * 5} ${x + 8},110`} fill="#e65100" opacity=".5" />
+          <polygon points={`${x - 5},110 ${x},${80 - i * 5} ${x + 5},110`} fill="#ff8f00" opacity=".4" />
+          <polygon points={`${x - 3},110 ${x},${88 - i * 3} ${x + 3},110`} fill="#ffd54f" opacity=".3" />
+        </g>
+      ))}
+      {/* Victory sparkles */}
+      {[[40, 20], [150, 15], [270, 25], [180, 90]].map(([x, y], i) => (
+        <circle key={`s${i}`} cx={x} cy={y} r={2} fill="#ffd700" opacity={0.4 + i * 0.1} />
+      ))}
+    </svg>
+  );
+}
+
+/* ── Makar Sankranti ── */
+function SankrantiDecor() {
+  return (
+    <svg viewBox="0 0 300 120" className="fest-decor-svg" aria-hidden="true">
+      {/* Kites */}
+      <g transform="rotate(-15 60 40)">
+        <polygon points="60,15 85,40 60,65 35,40" fill="#e74c3c" opacity=".6" />
+        <line x1="60" y1="15" x2="60" y2="65" stroke="#fff" strokeWidth="0.8" opacity=".4" />
+        <line x1="35" y1="40" x2="85" y2="40" stroke="#fff" strokeWidth="0.8" opacity=".4" />
+        <path d="M60 65 Q55 80 50 95 Q60 85 70 95 Q65 80 60 65" fill="#e74c3c" opacity=".4" />
+      </g>
+      <g transform="rotate(10 220 35)">
+        <polygon points="220,10 245,35 220,60 195,35" fill="#2980b9" opacity=".6" />
+        <line x1="220" y1="10" x2="220" y2="60" stroke="#fff" strokeWidth="0.8" opacity=".4" />
+        <line x1="195" y1="35" x2="245" y2="35" stroke="#fff" strokeWidth="0.8" opacity=".4" />
+        <path d="M220 60 Q215 75 210 90 Q220 80 230 90 Q225 75 220 60" fill="#2980b9" opacity=".4" />
+      </g>
+      {/* Kite strings */}
+      <path d="M60 65 Q100 90 150 110" stroke="#333" strokeWidth="0.5" fill="none" opacity=".3" />
+      <path d="M220 60 Q200 85 150 110" stroke="#333" strokeWidth="0.5" fill="none" opacity=".3" />
+      {/* Sun */}
+      <circle cx="150" cy="25" r="12" fill="#f9d423" opacity=".5" />
+      {[0, 45, 90, 135, 180, 225, 270, 315].map((deg, i) => {
+        const rad = deg * Math.PI / 180;
+        return <line key={i} x1={150 + 14 * Math.cos(rad)} y1={25 + 14 * Math.sin(rad)} x2={150 + 20 * Math.cos(rad)} y2={25 + 20 * Math.sin(rad)} stroke="#f9d423" strokeWidth="1.5" opacity=".4" />;
+      })}
+      {/* Small kite */}
+      <polygon points="140,80 150,90 140,100 130,90" fill="#27ae60" opacity=".4" />
+    </svg>
+  );
+}
+
+/* ── Ganesh Chaturthi ── */
+function GaneshDecor() {
+  return (
+    <svg viewBox="0 0 300 120" className="fest-decor-svg" aria-hidden="true">
+      {/* Ganesha silhouette (simplified) */}
+      <circle cx="150" cy="45" r="22" fill="#f7971e" opacity=".3" />
+      <circle cx="150" cy="45" r="16" fill="#ff8f00" opacity=".25" />
+      {/* Trunk */}
+      <path d="M150 55 Q145 70 140 75 Q138 78 142 78" stroke="#ff8f00" strokeWidth="3" fill="none" opacity=".35" />
+      {/* Ears */}
+      <ellipse cx="130" cy="42" rx="10" ry="14" fill="#f7971e" opacity=".2" transform="rotate(-10 130 42)" />
+      <ellipse cx="170" cy="42" rx="10" ry="14" fill="#f7971e" opacity=".2" transform="rotate(10 170 42)" />
+      {/* Modak */}
+      {[[50, 85], [250, 80]].map(([x, y], i) => (
+        <g key={i}>
+          <ellipse cx={x} cy={y + 5} rx="10" ry="6" fill="#f9d423" opacity=".4" />
+          <ellipse cx={x} cy={y} rx="8" ry="8" fill="#ffd54f" opacity=".35" />
+          <line x1={x} y1={y - 6} x2={x} y2={y + 4} stroke="#f7971e" strokeWidth="0.5" opacity=".3" />
+        </g>
+      ))}
+      {/* Lotus petals */}
+      {[0, 45, 90, 135, 180, 225, 270, 315].map((deg, i) => {
+        const rad = deg * Math.PI / 180;
+        const cx = 150 + 35 * Math.cos(rad);
+        const cy = 45 + 35 * Math.sin(rad);
+        return <ellipse key={i} cx={cx} cy={cy} rx="5" ry="3" fill="#ffd54f" opacity=".2" transform={`rotate(${deg} ${cx} ${cy})`} />;
+      })}
+      {/* Om symbol hint */}
+      <text x="80" y="50" fontSize="18" fill="#ff8f00" opacity=".2" fontFamily="serif">ॐ</text>
+      <text x="210" y="50" fontSize="18" fill="#ff8f00" opacity=".2" fontFamily="serif">ॐ</text>
+      {/* Diyas */}
+      {[30, 270].map((x, i) => (
+        <g key={`d${i}`}>
+          <ellipse cx={x} cy={105} rx="8" ry="4" fill="#d4a017" opacity=".5" />
+          <ellipse cx={x} cy={98} rx="3" ry="5" fill="#ff6b35" opacity=".6" />
+          <ellipse cx={x} cy={96} rx="1.5" ry="3" fill="#ffd700" opacity=".5" />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+/* ── Janmashtami ── */
+function JanmashtamiDecor() {
+  return (
+    <svg viewBox="0 0 300 120" className="fest-decor-svg" aria-hidden="true">
+      {/* Peacock feather */}
+      <ellipse cx="150" cy="50" rx="12" ry="25" fill="#1b5e20" opacity=".3" />
+      <ellipse cx="150" cy="45" rx="8" ry="18" fill="#4caf50" opacity=".25" />
+      <ellipse cx="150" cy="42" rx="5" ry="10" fill="#2196f3" opacity=".3" />
+      <circle cx="150" cy="40" r="4" fill="#1a237e" opacity=".4" />
+      <circle cx="150" cy="40" r="2" fill="#ffd700" opacity=".5" />
+      {/* Feather spine */}
+      <line x1="150" y1="20" x2="150" y2="90" stroke="#33691e" strokeWidth="1" opacity=".3" />
+      {/* Flute */}
+      <rect x="90" y="85" width="60" height="6" rx="3" fill="#8d6e63" opacity=".5" />
+      {[100, 110, 120, 130, 140].map((x, i) => (
+        <circle key={i} cx={x} cy={88} r="1.5" fill="#5d4037" opacity=".5" />
+      ))}
+      {/* Moon */}
+      <circle cx="50" cy="25" r="14" fill="#7c4dff" opacity=".2" />
+      <circle cx="55" cy="22" r="12" fill="#1a0533" opacity=".9" />
+      {/* Stars */}
+      {[[80, 15], [240, 20], [270, 50], [30, 60], [260, 90]].map(([x, y], i) => (
+        <circle key={`s${i}`} cx={x} cy={y} r={1.5 + i * 0.3} fill="#ffd700" opacity={0.3 + i * 0.08} />
+      ))}
+      {/* Matki (pot) */}
+      <ellipse cx="240" cy="70" rx="12" ry="8" fill="#8d6e63" opacity=".4" />
+      <ellipse cx="240" cy="62" rx="10" ry="5" fill="#a1887f" opacity=".3" />
+      <ellipse cx="240" cy="73" rx="14" ry="4" fill="#6d4c41" opacity=".3" />
+      {/* Butter drops */}
+      <circle cx="235" cy="58" r="2" fill="#fff9c4" opacity=".4" />
+      <circle cx="245" cy="56" r="1.5" fill="#fff9c4" opacity=".3" />
+    </svg>
+  );
+}
+
+/* ── Independence Day ── */
+function IndependenceDayDecor() {
+  return (
+    <svg viewBox="0 0 300 120" className="fest-decor-svg" aria-hidden="true">
+      {/* Tricolor bands */}
+      <rect x="0" y="0" width="300" height="8" fill="#ff9933" opacity=".4" />
+      <rect x="0" y="8" width="300" height="8" fill="#ffffff" opacity=".3" />
+      <rect x="0" y="16" width="300" height="8" fill="#138808" opacity=".4" />
+      {/* Ashoka Chakra */}
+      <circle cx="150" cy="60" r="18" fill="none" stroke="#000080" strokeWidth="1.5" opacity=".3" />
+      <circle cx="150" cy="60" r="3" fill="#000080" opacity=".3" />
+      {[0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345].map((deg, i) => {
+        const rad = deg * Math.PI / 180;
+        return <line key={i} x1={150 + 4 * Math.cos(rad)} y1={60 + 4 * Math.sin(rad)} x2={150 + 16 * Math.cos(rad)} y2={60 + 16 * Math.sin(rad)} stroke="#000080" strokeWidth="0.5" opacity=".25" />;
+      })}
+      {/* Dove / birds */}
+      <path d="M60 50 Q55 42 50 45 Q55 38 65 42 Q58 38 60 32 Q65 40 65 42 L60 50" fill="#666" opacity=".2" />
+      <path d="M240 45 Q235 37 230 40 Q235 33 245 37 Q238 33 240 27 Q245 35 245 37 L240 45" fill="#666" opacity=".2" />
+      {/* Flag pole */}
+      <line x1="30" y1="30" x2="30" y2="110" stroke="#666" strokeWidth="2" opacity=".3" />
+      <rect x="32" y="30" width="30" height="7" fill="#ff9933" opacity=".4" />
+      <rect x="32" y="37" width="30" height="7" fill="#fff" opacity=".3" />
+      <rect x="32" y="44" width="30" height="7" fill="#138808" opacity=".4" />
+      {/* Stars */}
+      {[[100, 90], [200, 95], [260, 70]].map(([x, y], i) => (
+        <circle key={`s${i}`} cx={x} cy={y} r={2} fill="#ff9933" opacity={0.3 + i * 0.1} />
+      ))}
+    </svg>
+  );
+}
+
+/* ── Republic Day ── */
+function RepublicDayDecor() {
+  return (
+    <svg viewBox="0 0 300 120" className="fest-decor-svg" aria-hidden="true">
+      {/* Tricolor bands at bottom */}
+      <rect x="0" y="104" width="300" height="6" fill="#138808" opacity=".4" />
+      <rect x="0" y="110" width="300" height="5" fill="#ffffff" opacity=".3" />
+      <rect x="0" y="115" width="300" height="5" fill="#ff9933" opacity=".4" />
+      {/* Parliament / India Gate silhouette */}
+      <rect x="110" y="55" width="80" height="40" fill="#8d6e63" opacity=".15" rx="2" />
+      <path d="M105 55 Q150 25 195 55" fill="#8d6e63" opacity=".15" />
+      {[120, 135, 150, 165, 180].map((x, i) => (
+        <rect key={i} x={x - 2} y="60" width="4" height="30" fill="#6d4c41" opacity=".12" />
+      ))}
+      {/* Ashoka pillar lion hint */}
+      <circle cx="150" cy="20" r="10" fill="#000080" opacity=".12" />
+      <rect x="145" y="28" width="10" height="8" fill="#000080" opacity=".1" />
+      {/* Tricolor swirl */}
+      <path d="M30 40 Q60 20 90 40" stroke="#ff9933" strokeWidth="2" fill="none" opacity=".3" />
+      <path d="M30 45 Q60 25 90 45" stroke="#138808" strokeWidth="2" fill="none" opacity=".3" />
+      <path d="M210 40 Q240 20 270 40" stroke="#ff9933" strokeWidth="2" fill="none" opacity=".3" />
+      <path d="M210 45 Q240 25 270 45" stroke="#138808" strokeWidth="2" fill="none" opacity=".3" />
+      {/* Stars */}
+      {[[50, 70], [250, 65], [80, 90], [220, 85]].map(([x, y], i) => (
+        <circle key={`s${i}`} cx={x} cy={y} r={2} fill={i % 2 ? '#ff9933' : '#138808'} opacity=".3" />
+      ))}
+    </svg>
+  );
+}
+
+/* ── Karwa Chauth ── */
+function KarwaChAuthDecor() {
+  return (
+    <svg viewBox="0 0 300 120" className="fest-decor-svg" aria-hidden="true">
+      {/* Full moon */}
+      <circle cx="150" cy="35" r="22" fill="#ffd700" opacity=".5" />
+      <circle cx="145" cy="30" r="4" fill="#ffecb3" opacity=".3" />
+      <circle cx="155" cy="38" r="3" fill="#ffecb3" opacity=".2" />
+      <circle cx="148" cy="42" r="2" fill="#ffecb3" opacity=".2" />
+      {/* Sieve (chalni) */}
+      <ellipse cx="80" cy="65" rx="20" ry="12" fill="none" stroke="#8d6e63" strokeWidth="2" opacity=".4" />
+      {/* Sieve mesh pattern */}
+      {[-12, -4, 4, 12].map((dx, i) => (
+        <line key={`h${i}`} x1={65} y1={65 + dx * 0.6} x2={95} y2={65 + dx * 0.6} stroke="#8d6e63" strokeWidth="0.5" opacity=".2" />
+      ))}
+      {[-8, 0, 8].map((dx, i) => (
+        <line key={`v${i}`} x1={80 + dx} y1={55} x2={80 + dx} y2={75} stroke="#8d6e63" strokeWidth="0.5" opacity=".2" />
+      ))}
+      {/* Mehendi hand */}
+      <path d="M220 90 Q220 70 230 60 Q235 55 235 65 Q240 55 240 65 Q245 55 245 65 Q250 55 250 68 Q250 80 240 90 Z" fill="#c0392b" opacity=".2" />
+      {/* Hearts */}
+      {[[40, 30], [260, 25], [120, 95], [200, 100]].map(([x, y], i) => (
+        <path key={i} d={`M${x},${y + 3} C${x - 4},${y - 2} ${x - 4},${y - 6} ${x},${y - 3} C${x + 4},${y - 6} ${x + 4},${y - 2} ${x},${y + 3}`} fill="#e74c3c" opacity={0.25 + i * 0.05} />
+      ))}
+      {/* Diyas */}
+      {[30, 270].map((x, i) => (
+        <g key={`d${i}`}>
+          <ellipse cx={x} cy={105} rx="8" ry="4" fill="#d4a017" opacity=".4" />
+          <ellipse cx={x} cy={98} rx="3" ry="5" fill="#ff6b35" opacity=".5" />
+          <ellipse cx={x} cy={96} rx="1.5" ry="3" fill="#ffd700" opacity=".4" />
+        </g>
+      ))}
+      {/* Stars around moon */}
+      {[[120, 20], [180, 18], [130, 55], [170, 50]].map(([x, y], i) => (
+        <circle key={`s${i}`} cx={x} cy={y} r={1.5} fill="#ffd700" opacity={0.3 + i * 0.08} />
+      ))}
+    </svg>
+  );
+}
+
+/* ── Baisakhi ── */
+function BaisakhiDecor() {
+  return (
+    <svg viewBox="0 0 300 120" className="fest-decor-svg" aria-hidden="true">
+      {/* Wheat stalks */}
+      {[40, 80, 220, 260].map((x, i) => (
+        <g key={i}>
+          <line x1={x} y1={110} x2={x + (i < 2 ? 5 : -5)} y2={30} stroke="#8d6e63" strokeWidth="1.5" opacity=".4" />
+          {[45, 55, 65, 75, 85].map((yOff, j) => {
+            const xOff = x + (i < 2 ? 5 : -5) * (1 - (yOff - 30) / 80);
+            return (
+              <g key={j}>
+                <ellipse cx={xOff - 5} cy={yOff} rx="4" ry="2" fill="#f9d423" opacity=".4" transform={`rotate(-30 ${xOff - 5} ${yOff})`} />
+                <ellipse cx={xOff + 5} cy={yOff} rx="4" ry="2" fill="#f9d423" opacity=".4" transform={`rotate(30 ${xOff + 5} ${yOff})`} />
+              </g>
+            );
+          })}
+        </g>
+      ))}
+      {/* Dhol drum */}
+      <ellipse cx="150" cy="75" rx="22" ry="14" fill="#8d6e63" opacity=".35" />
+      <rect x="130" y="62" width="40" height="26" rx="4" fill="#a1887f" opacity=".3" />
+      <ellipse cx="150" cy="62" rx="20" ry="12" fill="#6d4c41" opacity=".25" />
+      <line x1="130" y1="75" x2="170" y2="75" stroke="#fff" strokeWidth="0.8" opacity=".2" />
+      {/* Drum sticks */}
+      <line x1="125" y1="60" x2="115" y2="45" stroke="#5d4037" strokeWidth="2" opacity=".3" />
+      <circle cx="114" cy="44" r="3" fill="#5d4037" opacity=".3" />
+      <line x1="175" y1="60" x2="185" y2="45" stroke="#5d4037" strokeWidth="2" opacity=".3" />
+      <circle cx="186" cy="44" r="3" fill="#5d4037" opacity=".3" />
+      {/* Sun */}
+      <circle cx="150" cy="18" r="10" fill="#ffd54f" opacity=".4" />
+      {[0, 45, 90, 135, 180, 225, 270, 315].map((deg, i) => {
+        const rad = deg * Math.PI / 180;
+        return <line key={i} x1={150 + 12 * Math.cos(rad)} y1={18 + 12 * Math.sin(rad)} x2={150 + 17 * Math.cos(rad)} y2={18 + 17 * Math.sin(rad)} stroke="#ffd54f" strokeWidth="1.5" opacity=".3" />;
+      })}
+    </svg>
+  );
+}
+
+/* ── Chhath Puja ── */
+function ChhathDecor() {
+  return (
+    <svg viewBox="0 0 300 120" className="fest-decor-svg" aria-hidden="true">
+      {/* Rising sun */}
+      <circle cx="150" cy="30" r="20" fill="#f57c00" opacity=".5" />
+      <circle cx="150" cy="30" r="14" fill="#ffd54f" opacity=".4" />
+      {/* Sun rays */}
+      {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg, i) => {
+        const rad = deg * Math.PI / 180;
+        return <line key={i} x1={150 + 22 * Math.cos(rad)} y1={30 + 22 * Math.sin(rad)} x2={150 + 32 * Math.cos(rad)} y2={30 + 32 * Math.sin(rad)} stroke="#f57c00" strokeWidth="1.5" opacity=".3" />;
+      })}
+      {/* Water/river */}
+      <path d="M0 85 Q40 75 80 85 Q120 95 160 85 Q200 75 240 85 Q280 95 300 85" fill="none" stroke="#4fc3f7" strokeWidth="2" opacity=".3" />
+      <path d="M0 92 Q40 82 80 92 Q120 102 160 92 Q200 82 240 92 Q280 102 300 92" fill="none" stroke="#29b6f6" strokeWidth="1.5" opacity=".25" />
+      {/* Offering basket (soop) */}
+      <path d="M60 100 Q60 80 90 80 Q120 80 120 100" fill="#8d6e63" opacity=".3" />
+      <ellipse cx="90" cy="100" rx="30" ry="6" fill="#a1887f" opacity=".3" />
+      {/* Fruits in basket */}
+      <circle cx="80" cy="78" r="5" fill="#ff9800" opacity=".35" />
+      <circle cx="92" cy="76" r="4" fill="#f44336" opacity=".3" />
+      <circle cx="102" cy="79" r="5" fill="#ffc107" opacity=".35" />
+      {/* Diyas on water */}
+      {[190, 230, 260].map((x, i) => (
+        <g key={i}>
+          <ellipse cx={x} cy={88} rx="6" ry="3" fill="#d4a017" opacity=".4" />
+          <ellipse cx={x} cy={83} rx="2" ry="4" fill="#ff6b35" opacity=".5" />
+          <ellipse cx={x} cy={81} rx="1" ry="2" fill="#ffd700" opacity=".4" />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 const DECOR_MAP = {
   holi: HoliDecor,
   diwali: DiwaliDecor,
@@ -400,6 +776,15 @@ const DECOR_MAP = {
   mothersday: MothersDayDecor,
   fathersday: FathersDayDecor,
   newyear: NewYearDecor,
+  dussehra: DussehraDecor,
+  sankranti: SankrantiDecor,
+  ganesh: GaneshDecor,
+  janmashtami: JanmashtamiDecor,
+  independenceday: IndependenceDayDecor,
+  republicday: RepublicDayDecor,
+  karwachauth: KarwaChAuthDecor,
+  baisakhi: BaisakhiDecor,
+  chhath: ChhathDecor,
 };
 
 /* ── Main Preview ── */
@@ -408,6 +793,7 @@ export default function FestivalCardPreview({ data, lang = 'en', bgColor }) {
   const theme = THEME[festival] || THEME.holi;
   const DecorComponent = DECOR_MAP[festival] || HoliDecor;
   const isDark = theme.dark;
+  const t = T[lang] || T.en;
 
   /* Holi uses template-based layouts */
   if (festival === 'holi') {
@@ -421,6 +807,7 @@ export default function FestivalCardPreview({ data, lang = 'en', bgColor }) {
         data={data}
         bgColor={bgColor}
         DecorComponent={DecorComponent}
+        t={t}
       />
     );
   }
@@ -453,7 +840,7 @@ export default function FestivalCardPreview({ data, lang = 'en', bgColor }) {
       {/* Recipient */}
       {recipientName && (
         <div className="fest-recipient">
-          Dear <span className="fest-recipient-name">{recipientName}</span>,
+          {t.festDear} <span className="fest-recipient-name">{recipientName}</span>,
         </div>
       )}
 
@@ -470,7 +857,7 @@ export default function FestivalCardPreview({ data, lang = 'en', bgColor }) {
       {/* Sender */}
       {senderName && (
         <div className="fest-sender">
-          <span className="fest-from-label">With love,</span>
+          <span className="fest-from-label">{t.festWithLove}</span>
           <span className="fest-sender-name">{senderName}</span>
         </div>
       )}
@@ -486,7 +873,7 @@ export default function FestivalCardPreview({ data, lang = 'en', bgColor }) {
 /* ══════════════════════════════════════════════════════════════
    Holi Template Card — 6 unique layouts
    ══════════════════════════════════════════════════════════════ */
-function HoliTemplateCard({ tpl, tplId, theme, data, bgColor, DecorComponent }) {
+function HoliTemplateCard({ tpl, tplId, theme, data, bgColor, DecorComponent, t }) {
   const { senderName, recipientName, customGreeting, message, photoPreview } = data;
   const heading = customGreeting || theme.heading;
   const subtext = theme.subtext;
@@ -508,10 +895,10 @@ function HoliTemplateCard({ tpl, tplId, theme, data, bgColor, DecorComponent }) 
           <img src={tpl.image} alt="Radha Krishna playing Holi" className="holi-tpl1-img" />
         </div>
         <p className="fest-subtext">{subtext}</p>
-        {recipientName && <div className="fest-recipient">Dear <span className="fest-recipient-name">{recipientName}</span>,</div>}
+        {recipientName && <div className="fest-recipient">{t.festDear} <span className="fest-recipient-name">{recipientName}</span>,</div>}
         {message && <p className="fest-message">{message}</p>}
         {photoPreview && <div className="fest-photo-wrap"><img src={photoPreview} alt="Photo" className="fest-photo" loading="lazy" /></div>}
-        {senderName && <div className="fest-sender"><span className="fest-from-label">With love,</span><span className="fest-sender-name">{senderName}</span></div>}
+        {senderName && <div className="fest-sender"><span className="fest-from-label">{t.festWithLove}</span><span className="fest-sender-name">{senderName}</span></div>}
         <div className="fest-decor-bottom"><DecorComponent /></div>
       </div>
     );
@@ -531,10 +918,10 @@ function HoliTemplateCard({ tpl, tplId, theme, data, bgColor, DecorComponent }) 
         </div>
         <div className="holi-tpl2-body">
           <p className="fest-subtext">{subtext}</p>
-          {recipientName && <div className="fest-recipient">Dear <span className="fest-recipient-name">{recipientName}</span>,</div>}
+          {recipientName && <div className="fest-recipient">{t.festDear} <span className="fest-recipient-name">{recipientName}</span>,</div>}
           {message && <p className="fest-message">{message}</p>}
           {photoPreview && <div className="fest-photo-wrap"><img src={photoPreview} alt="Photo" className="fest-photo" loading="lazy" /></div>}
-          {senderName && <div className="fest-sender"><span className="fest-from-label">With love,</span><span className="fest-sender-name">{senderName}</span></div>}
+          {senderName && <div className="fest-sender"><span className="fest-from-label">{t.festWithLove}</span><span className="fest-sender-name">{senderName}</span></div>}
         </div>
         <div className="fest-decor-bottom"><DecorComponent /></div>
       </div>
@@ -555,12 +942,12 @@ function HoliTemplateCard({ tpl, tplId, theme, data, bgColor, DecorComponent }) 
           </div>
           <div className="holi-tpl3-text">
             <p className="fest-subtext" style={{ margin: 0 }}>{subtext}</p>
-            {recipientName && <div className="fest-recipient" style={{ marginTop: 8 }}>Dear <span className="fest-recipient-name">{recipientName}</span>,</div>}
+            {recipientName && <div className="fest-recipient" style={{ marginTop: 8 }}>{t.festDear} <span className="fest-recipient-name">{recipientName}</span>,</div>}
           </div>
         </div>
         {message && <p className="fest-message">{message}</p>}
         {photoPreview && <div className="fest-photo-wrap"><img src={photoPreview} alt="Photo" className="fest-photo" loading="lazy" /></div>}
-        {senderName && <div className="fest-sender"><span className="fest-from-label">With love,</span><span className="fest-sender-name">{senderName}</span></div>}
+        {senderName && <div className="fest-sender"><span className="fest-from-label">{t.festWithLove}</span><span className="fest-sender-name">{senderName}</span></div>}
         <div className="fest-decor-bottom"><DecorComponent /></div>
       </div>
     );
@@ -578,10 +965,10 @@ function HoliTemplateCard({ tpl, tplId, theme, data, bgColor, DecorComponent }) 
           </div>
         </div>
         <div className="holi-tpl4-content">
-          {recipientName && <div className="fest-recipient">Dear <span className="fest-recipient-name">{recipientName}</span>,</div>}
+          {recipientName && <div className="fest-recipient">{t.festDear} <span className="fest-recipient-name">{recipientName}</span>,</div>}
           {message && <p className="fest-message">{message}</p>}
           {photoPreview && <div className="fest-photo-wrap"><img src={photoPreview} alt="Photo" className="fest-photo" loading="lazy" /></div>}
-          {senderName && <div className="fest-sender"><span className="fest-from-label">With love,</span><span className="fest-sender-name">{senderName}</span></div>}
+          {senderName && <div className="fest-sender"><span className="fest-from-label">{t.festWithLove}</span><span className="fest-sender-name">{senderName}</span></div>}
           <div className="fest-decor-bottom"><DecorComponent /></div>
         </div>
       </div>
@@ -601,12 +988,12 @@ function HoliTemplateCard({ tpl, tplId, theme, data, bgColor, DecorComponent }) 
             <div className="fest-main-emoji">🌈</div>
             <h1 className="fest-heading" style={{ fontSize: '1.35rem' }}>{heading}</h1>
             <p className="fest-subtext">{subtext}</p>
-            {recipientName && <div className="fest-recipient">Dear <span className="fest-recipient-name">{recipientName}</span>,</div>}
+            {recipientName && <div className="fest-recipient">{t.festDear} <span className="fest-recipient-name">{recipientName}</span>,</div>}
           </div>
         </div>
         {message && <p className="fest-message">{message}</p>}
         {photoPreview && <div className="fest-photo-wrap"><img src={photoPreview} alt="Photo" className="fest-photo" loading="lazy" /></div>}
-        {senderName && <div className="fest-sender"><span className="fest-from-label">With love,</span><span className="fest-sender-name">{senderName}</span></div>}
+        {senderName && <div className="fest-sender"><span className="fest-from-label">{t.festWithLove}</span><span className="fest-sender-name">{senderName}</span></div>}
         <div className="fest-decor-bottom"><DecorComponent /></div>
       </div>
     );
@@ -620,7 +1007,7 @@ function HoliTemplateCard({ tpl, tplId, theme, data, bgColor, DecorComponent }) 
       <div className="fest-main-emoji">🌈</div>
       <h1 className="fest-heading">{heading}</h1>
       <p className="fest-subtext">{subtext}</p>
-      {recipientName && <div className="fest-recipient">Dear <span className="fest-recipient-name">{recipientName}</span>,</div>}
+      {recipientName && <div className="fest-recipient">{t.festDear} <span className="fest-recipient-name">{recipientName}</span>,</div>}
       {message && <p className="fest-message">{message}</p>}
       {photoPreview && <div className="fest-photo-wrap"><img src={photoPreview} alt="Photo" className="fest-photo" loading="lazy" /></div>}
       <div className="holi-tpl6-frame">
@@ -628,7 +1015,7 @@ function HoliTemplateCard({ tpl, tplId, theme, data, bgColor, DecorComponent }) 
           <img src={tpl.image} alt="Radha Krishna Holi" className="holi-tpl6-img" />
         </div>
       </div>
-      {senderName && <div className="fest-sender"><span className="fest-from-label">With love,</span><span className="fest-sender-name">{senderName}</span></div>}
+      {senderName && <div className="fest-sender"><span className="fest-from-label">{t.festWithLove}</span><span className="fest-sender-name">{senderName}</span></div>}
     </div>
   );
 }

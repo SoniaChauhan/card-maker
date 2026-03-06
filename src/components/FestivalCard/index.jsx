@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import './FestivalCard.css';
 import FestivalForm from './FestivalForm';
 import FestivalCardPreview from './FestivalCardPreview';
-import CardActions from '../shared/CardActions';
 import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import LanguagePicker from '../shared/LanguagePicker';
@@ -14,21 +13,30 @@ import { toFilename } from '../../utils/helpers';
 import { LANGUAGES } from '../../utils/translations';
 import { saveTemplate, updateTemplate } from '../../services/templateService';
 import { logDownload } from '../../services/downloadHistoryService';
-import { hasUserPaid } from '../../services/paymentService';
+import { hasUserPaid, getCardPrice } from '../../services/paymentService';
 
 /* ── Festival definitions ── */
 export const HOLI_FESTIVAL = { id: 'holi', label: 'Holi Celebration Card', icon: '🌈', tag: 'Holi Card', desc: 'Vibrant and colorful Holi greeting card with playful splashes, gulaal effects, and festive typography.' };
 
 export const FESTIVALS = [
-  { id: 'diwali',      label: 'Diwali Wishes Card',           icon: '🪔', tag: 'Diwali Card',       desc: 'Elegant Deepawali greeting card featuring diyas, rangoli, lights, and auspicious festive elements.' },
-  { id: 'lohri',       label: 'Lohri Festival Card',          icon: '🔥', tag: 'Lohri Card',        desc: 'Warm Lohri greeting card inspired by bonfire, dhol beats, winter theme, and Punjabi culture.' },
-  { id: 'navratri',    label: 'Navratri Greeting Card',       icon: '✨', tag: 'Navratri Card',     desc: 'Devotional card with Maa Durga, garba theme, and festive colors for Shubh Navratri.' },
-  { id: 'eid',         label: 'Eid Mubarak Card',             icon: '🌙', tag: 'Eid Card',          desc: 'Elegant Eid greeting card featuring moon, stars, lanterns, and traditional patterns.' },
-  { id: 'christmas',   label: 'Christmas Wishes Card',        icon: '🎄', tag: 'Christmas Card',    desc: 'Warm Christmas greeting card with Santa, snowflakes, bells, and festive ornaments.' },
-  { id: 'rakhi',       label: 'Rakhi Greeting Card',          icon: '🎎', tag: 'Rakhi Card',        desc: 'Beautiful card featuring rakhi patterns, brother-sister bond theme, and traditional motifs.' },
-  { id: 'mothersday',  label: "Mother's Day Greeting Card",   icon: '💐', tag: "Mother's Day Card", desc: 'Soft, floral design to celebrate love and gratitude for mothers.' },
-  { id: 'fathersday',  label: "Father's Day Greeting Card",   icon: '👔', tag: "Father's Day Card", desc: 'Bold and warm design celebrating fathers and their strength.' },
-  { id: 'newyear',     label: 'New Year Wishes Card',         icon: '🎉', tag: 'New Year Card',     desc: 'Sparkling theme with fireworks, lights, and a joyful greeting layout.' },
+  { id: 'diwali',          label: 'Diwali Wishes Card',           icon: '🪔', tag: 'Diwali Card',           desc: 'Elegant Deepawali greeting card featuring diyas, rangoli, lights, and auspicious festive elements.' },
+  { id: 'lohri',           label: 'Lohri Festival Card',          icon: '🔥', tag: 'Lohri Card',            desc: 'Warm Lohri greeting card inspired by bonfire, dhol beats, winter theme, and Punjabi culture.' },
+  { id: 'navratri',        label: 'Navratri Greeting Card',       icon: '✨', tag: 'Navratri Card',         desc: 'Devotional card with Maa Durga, garba theme, and festive colors for Shubh Navratri.' },
+  { id: 'dussehra',        label: 'Dussehra Greeting Card',       icon: '🏹', tag: 'Dussehra Card',         desc: 'Celebrate Vijaya Dashami with bow-arrow themes and triumph of good over evil.' },
+  { id: 'sankranti',       label: 'Makar Sankranti Card',         icon: '🪁', tag: 'Sankranti Card',        desc: 'Colorful kite theme with til-gul, sunshine, and harvest celebration.' },
+  { id: 'ganesh',          label: 'Ganesh Chaturthi Card',        icon: '🙏', tag: 'Ganesh Card',           desc: 'Auspicious Ganpati Bappa design with modak, lotus, and divine blessings.' },
+  { id: 'janmashtami',     label: 'Janmashtami Greeting Card',    icon: '🦚', tag: 'Janmashtami Card',      desc: 'Divine Krishna-themed card with peacock feather, flute, and midnight celebration.' },
+  { id: 'eid',             label: 'Eid Mubarak Card',             icon: '🌙', tag: 'Eid Card',              desc: 'Elegant Eid greeting card featuring moon, stars, lanterns, and traditional patterns.' },
+  { id: 'christmas',       label: 'Christmas Wishes Card',        icon: '🎄', tag: 'Christmas Card',        desc: 'Warm Christmas greeting card with Santa, snowflakes, bells, and festive ornaments.' },
+  { id: 'rakhi',           label: 'Rakhi Greeting Card',          icon: '🎎', tag: 'Rakhi Card',            desc: 'Beautiful card featuring rakhi patterns, brother-sister bond theme, and traditional motifs.' },
+  { id: 'mothersday',      label: "Mother's Day Greeting Card",   icon: '💐', tag: "Mother's Day Card",     desc: 'Soft, floral design to celebrate love and gratitude for mothers.' },
+  { id: 'fathersday',      label: "Father's Day Greeting Card",   icon: '👔', tag: "Father's Day Card",     desc: 'Bold and warm design celebrating fathers and their strength.' },
+  { id: 'newyear',         label: 'New Year Wishes Card',         icon: '🎉', tag: 'New Year Card',         desc: 'Sparkling theme with fireworks, lights, and a joyful greeting layout.' },
+  { id: 'independenceday', label: 'Independence Day Card',        icon: '🇮🇳', tag: 'Independence Day Card', desc: 'Tricolor patriotic theme celebrating Indian freedom and national pride.' },
+  { id: 'republicday',     label: 'Republic Day Card',            icon: '🇮🇳', tag: 'Republic Day Card',     desc: 'Patriotic design celebrating the Constitution and democratic values of India.' },
+  { id: 'karwachauth',     label: 'Karwa Chauth Card',            icon: '🌕', tag: 'Karwa Chauth Card',     desc: 'Romantic moonlit design celebrating love, devotion, and the sacred bond.' },
+  { id: 'baisakhi',        label: 'Baisakhi Festival Card',       icon: '🌾', tag: 'Baisakhi Card',         desc: 'Vibrant harvest celebration with wheat, bhangra dance, and Punjabi culture.' },
+  { id: 'chhath',          label: 'Chhath Puja Card',             icon: '🌅', tag: 'Chhath Puja Card',      desc: 'Sacred sunrise theme with water offerings, Surya dev, and divine devotion.' },
 ];
 
 const INIT = {
@@ -44,16 +52,25 @@ const INIT = {
 };
 
 const PARTICLES_MAP = {
-  holi:       ['🌈', '💜', '💛', '💚', '💙', '🎨', '✨', '🪷'],
-  diwali:     ['🪔', '✨', '🎆', '🎇', '🌟', '💫', '🕯️', '🎉'],
-  lohri:      ['🔥', '🌾', '🥜', '✨', '🎵', '🪘', '🌟', '🎊'],
-  navratri:   ['✨', '💃', '🔴', '🟡', '🟢', '🪷', '🌺', '🙏'],
-  eid:        ['🌙', '⭐', '✨', '🕌', '🏮', '🌟', '💫', '🎊'],
-  christmas:  ['🎄', '🎅', '❄️', '🔔', '⭐', '🎁', '✨', '🌟'],
-  rakhi:      ['🎎', '💖', '✨', '🌸', '🌺', '🎀', '🌟', '💐'],
-  mothersday: ['💐', '🌸', '💖', '🌹', '✨', '🌷', '💗', '🌺'],
-  fathersday: ['👔', '🏆', '⭐', '💪', '✨', '🎉', '💙', '🌟'],
-  newyear:    ['🎉', '🎆', '🎇', '✨', '🥂', '🌟', '💫', '🎊'],
+  holi:            ['🌈', '💜', '💛', '💚', '💙', '🎨', '✨', '🪷'],
+  diwali:          ['🪔', '✨', '🎆', '🎇', '🌟', '💫', '🕯️', '🎉'],
+  lohri:           ['🔥', '🌾', '🥜', '✨', '🎵', '🪘', '🌟', '🎊'],
+  navratri:        ['✨', '💃', '🔴', '🟡', '🟢', '🪷', '🌺', '🙏'],
+  dussehra:        ['🏹', '🔥', '✨', '🪔', '💫', '🎯', '🌟', '🙏'],
+  sankranti:       ['🪁', '☀️', '✨', '🌾', '🍬', '🌟', '💫', '🎊'],
+  ganesh:          ['🙏', '🪷', '✨', '🌺', '💫', '🎉', '🌟', '🪔'],
+  janmashtami:     ['🦚', '🪈', '✨', '🌙', '💫', '🌟', '🪷', '🎶'],
+  eid:             ['🌙', '⭐', '✨', '🕌', '🏮', '🌟', '💫', '🎊'],
+  christmas:       ['🎄', '🎅', '❄️', '🔔', '⭐', '🎁', '✨', '🌟'],
+  rakhi:           ['🎎', '💖', '✨', '🌸', '🌺', '🎀', '🌟', '💐'],
+  mothersday:      ['💐', '🌸', '💖', '🌹', '✨', '🌷', '💗', '🌺'],
+  fathersday:      ['👔', '🏆', '⭐', '💪', '✨', '🎉', '💙', '🌟'],
+  newyear:         ['🎉', '🎆', '🎇', '✨', '🥂', '🌟', '💫', '🎊'],
+  independenceday: ['🇮🇳', '🕊️', '✨', '⭐', '💫', '🌟', '🎉', '🪔'],
+  republicday:     ['🇮🇳', '🕊️', '✨', '⭐', '💫', '🌟', '🎊', '🪔'],
+  karwachauth:     ['🌕', '✨', '💍', '🌙', '💫', '💖', '🌟', '🪔'],
+  baisakhi:        ['🌾', '💃', '✨', '🥁', '🎵', '🌟', '💫', '🎊'],
+  chhath:          ['🌅', '☀️', '✨', '🪔', '💫', '🌟', '🙏', '🎊'],
 };
 
 const BG_SWATCHES = [
@@ -72,10 +89,12 @@ const BG_SWATCHES = [
 const CARD_TYPE = 'festivalcards';
 const CARD_LABEL = 'Festival Greeting Card';
 
-export default function FestivalCard({ onBack, userEmail, initialData, templateId: initTplId, isSuperAdmin, lockedFestival }) {
+export default function FestivalCard({ onBack, userEmail, initialData, templateId: initTplId, isSuperAdmin, lockedFestival, initialFestival }) {
   /* When lockedFestival is set, use only that festival */
   const allFestivals = lockedFestival === 'holi' ? [HOLI_FESTIVAL] : FESTIVALS;
-  const effectiveInit = lockedFestival ? { ...INIT, festival: lockedFestival } : INIT;
+  /* Use initialFestival if provided and valid, otherwise fall back to first festival in list */
+  const resolvedFestival = lockedFestival || (initialFestival && FESTIVALS.some(f => f.id === initialFestival) ? initialFestival : FESTIVALS[0].id);
+  const effectiveInit = { ...INIT, festival: resolvedFestival };
   const effectiveCardType = lockedFestival === 'holi' ? 'holicard' : CARD_TYPE;
   const effectiveCardLabel = lockedFestival === 'holi' ? 'Holi Celebration Card' : CARD_LABEL;
   const [step, setStep]     = useState('form');
@@ -156,9 +175,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
   }
 
   function validate() {
-    const err = {};
-    if (!data.senderName.trim()) err.senderName = 'Your name is required.';
-    return err;
+    return {};
   }
 
   function onGenerate() {
@@ -245,12 +262,6 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
             ✅ Unlimited downloads unlocked!
           </div>
         )}
-        {!isHoliCard && !paid && (
-          <div className="download-locked-badge">
-            � Download: ₹19 (with watermark) or ₹49 (clean)
-          </div>
-        )}
-
         {!paid && isHoliCard && (
           <button
             className="btn-download pay-download-btn"
@@ -261,18 +272,22 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
           </button>
         )}
 
-        {/* Show download actions for all cards */}
-        <CardActions
-          onEdit={() => setStep('form')}
-          onBack={onBack}
-          onDownload={paid ? handleDownload : (isHoliCard ? handleDownload : () => setShowPayment(true))}
-          downloading={downloading}
-          dlBtnStyle={{ background: 'linear-gradient(135deg,#ff6b6b,#feca57)', color: '#fff', boxShadow: '0 6px 20px rgba(255,107,107,.45)' }}
-          dlLabel={paid ? '⬇️ Download Card' : (isHoliCard ? '⬇️ Download Card' : '💳 Download Card')}
-        />
-        <button className="btn-save-template" onClick={handleSaveTemplate} disabled={saving}>
-          {saving ? '⏳ Saving…' : templateId ? '💾 Update Template' : '💾 Save Template'}
-        </button>
+        {/* Action Buttons */}
+        <div className="fest-action-buttons">
+          <button className="fest-back-btn" onClick={onBack}>
+            ← Back
+          </button>
+          <button className="fest-btn-edit" onClick={() => setStep('form')}>
+            <span className="btn-icon">✏️</span> Edit Card
+          </button>
+          <button
+            className="fest-btn-download"
+            onClick={paid ? handleDownload : (isHoliCard ? handleDownload : () => setShowPayment(true))}
+            disabled={downloading}
+          >
+            <span className="btn-icon">{paid || isHoliCard ? '⬇️' : '💳'}</span> {downloading ? 'Downloading...' : 'Download Card'}
+          </button>
+        </div>
       </div>
       <Toast text={toast.text} show={toast.show} />
 

@@ -166,7 +166,7 @@ const RENT_TEMPLATES = [
     otp-login-verify – Verify OTP for passwordless login
 */
 
-export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onOpenCalendar, onOpenFreeCards }) {
+export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate, onOpenCombo, onOpenCalendar, onOpenFreeCards }) {
   const { user, login, loginAsGuest, logout, isGuest, isFreePlan, isSuperAdmin } = useAuth();
 
   const [mode, setMode]           = useState('signin');
@@ -922,7 +922,6 @@ export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onO
           {PREMIUM_CARDS.map(c => (
             <button key={c.id} className="lp-showcase-card lp-premium-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
               <span className="lp-price-badge">{c.price}</span>
-              <span className="lp-seven-day-badge">7 Days ∞ Downloads</span>
               <span className="lp-showcase-icon">{c.icon}</span>
               <h3 className="lp-showcase-name">{c.name}</h3>
               <p className="lp-showcase-desc">{c.desc}</p>
@@ -1370,7 +1369,7 @@ export default function LoginScreen({ onSelect, onEditTemplate, onOpenCombo, onO
                     className={`lp-occasional-card ${isActive ? 'lp-occasional-card--active' : ''}`}
                     style={{ background: f.grad }}
                     type="button"
-                    onClick={() => handleCardClick(f.offerCard)}
+                    onClick={() => { if (f.offerCard === 'festivalcards') onSelectFestival?.(f.key); handleCardClick(f.offerCard); }}
                   >
                     {isActive && <span className="lp-occasional-live">🔴 LIVE</span>}
                     <span className="lp-showcase-icon">{f.icon}</span>
