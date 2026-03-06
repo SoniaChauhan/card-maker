@@ -578,17 +578,6 @@
     font-size: 1.2rem;
     margin-bottom: 8px;
   }
-  .festival-card-screen .card-actions {
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-  }
-  .festival-card-screen .card-actions .btn-back-card,
-  .festival-card-screen .card-actions .btn-download {
-    width: 100%;
-    text-align: center;
-    justify-content: center;
-  }
 }
 
 @media (max-width: 360px) {
@@ -605,5 +594,108 @@
   }
   .fest-heading {
     font-size: 1.2rem;
+  }
+}
+
+/* ═══════════════════════════════════════
+   Festival Action Buttons (modern style)
+   ═══════════════════════════════════════ */
+.fest-action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 20px;
+}
+
+.fest-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 18px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.fest-back-btn:hover {
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.5);
+}
+
+.fest-btn-edit,
+.fest-btn-download {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-family: 'Quicksand', sans-serif;
+  flex: 1;
+  min-width: 0;
+}
+
+.fest-btn-edit {
+  background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(52,73,94,0.3);
+}
+
+.fest-btn-edit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(52,73,94,0.4);
+}
+
+.fest-btn-download {
+  background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(255,107,107,0.3);
+}
+
+.fest-btn-download:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255,107,107,0.4);
+}
+
+.fest-btn-download:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.fest-btn-edit .btn-icon,
+.fest-btn-download .btn-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .fest-action-buttons {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .fest-action-buttons .fest-back-btn,
+  .fest-action-buttons .fest-btn-edit,
+  .fest-action-buttons .fest-btn-download {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
   }
 }

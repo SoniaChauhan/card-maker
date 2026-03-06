@@ -64,6 +64,7 @@ function AppContent({ initialCard }) {
   const [showCombo, setShowCombo] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [showFreeCards, setShowFreeCards] = useState(false);
+  const [festivalKey, setFestivalKey] = useState(null);
 
   /* Auto-select card when redirected from SEO pages via ?card= query param (legacy support) */
   useEffect(() => {
@@ -121,6 +122,7 @@ function AppContent({ initialCard }) {
   function handleBack() {
     setSelected(null);
     setEditingTemplate(null);
+    setFestivalKey(null);
     if (!initialCard && window.location.pathname !== '/') {
       window.history.pushState({}, '', '/');
     }
@@ -150,7 +152,7 @@ function AppContent({ initialCard }) {
     if (selected === 'biodata')     return <BiodataCard     {...cardProps} />;
     if (selected === 'wedding')     return <WeddingCard     {...cardProps} />;
     if (selected === 'resume')      return <ResumeCard      {...cardProps} />;
-    if (selected === 'festivalcards') return <FestivalCard    {...cardProps} />;
+    if (selected === 'festivalcards') return <FestivalCard    {...cardProps} initialFestival={festivalKey} />;
     if (selected === 'holicard')       return <FestivalCard    lockedFestival="holi" {...cardProps} />;
     if (selected === 'holiwishes')     return <HoliCard        {...cardProps} />;
     if (selected === 'holiwishes-en')  return <HoliCardEnglish {...cardProps} />;
@@ -170,7 +172,7 @@ function AppContent({ initialCard }) {
     return (
       <FestivalCalendar
         onBack={() => setShowCalendar(false)}
-        onFestivalClick={(f) => { setShowCalendar(false); setSelected(f.offerCard); }}
+        onFestivalClick={(f) => { setShowCalendar(false); setFestivalKey(f.key); setSelected(f.offerCard); }}
       />
     );
   }
@@ -188,7 +190,7 @@ function AppContent({ initialCard }) {
   /* ---------- Landing page — handles both logged-in and not-logged-in ---------- */
   return (
     <>
-      <LoginScreen onSelect={setSelected} onEditTemplate={handleEditTemplate} onOpenCombo={() => setShowCombo(true)} onOpenCalendar={() => setShowCalendar(true)} onOpenFreeCards={() => setShowFreeCards(true)} />
+      <LoginScreen onSelect={setSelected} onSelectFestival={setFestivalKey} onEditTemplate={handleEditTemplate} onOpenCombo={() => setShowCombo(true)} onOpenCalendar={() => setShowCalendar(true)} onOpenFreeCards={() => setShowFreeCards(true)} />
       {showCombo && (
         <ComboOfferPopup
           userEmail={isGuest ? '' : user?.email || ''}

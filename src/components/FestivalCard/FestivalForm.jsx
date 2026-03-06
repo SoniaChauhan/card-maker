@@ -90,8 +90,7 @@ export default function FestivalForm({ data, errors, onChange, onBack, onGenerat
         <div className="form-grid">
           <FormField label="Your Name" name="senderName"
             value={data.senderName} onChange={onChange}
-            placeholder="e.g. Rahul Sharma" required
-            error={errors.senderName} />
+            placeholder="e.g. Rahul Sharma (optional)" />
 
           <FormField label="Recipient Name" name="recipientName"
             value={data.recipientName} onChange={onChange}

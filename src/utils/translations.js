@@ -58,6 +58,8 @@ export const T = {
     wedInvitedGuest: '✨ Cordially Invited ✨',
     wedGuestTagline: 'Your blessings and presence mean the world to us 🌸',
     wedFooter: 'Together with our families, we request your presence',
+    festDear: 'Dear',
+    festWithLove: 'With love,',
   },
 
   /* ===================== HINDI ===================== */
@@ -105,6 +107,8 @@ export const T = {
     wedInvitedGuest: '✨ सादर निमंत्रित ✨',
     wedGuestTagline: 'आपका आशीर्वाद हमारे लिए अमूल्य है 🌸',
     wedFooter: 'कृपया अपनी उपस्थिति से हमें अनुग्रहित करें',
+    festDear: 'प्रिय',
+    festWithLove: 'सप्रेम,',
   },
 
   /* ===================== MARATHI ===================== */
@@ -152,6 +156,8 @@ export const T = {
     wedInvitedGuest: '✨ सादर निमंत्रित ✨',
     wedGuestTagline: 'तुमचे आशीर्वाद आम्हाला अमूल्य वाटते 🌸',
     wedFooter: 'कृपया आपल्या उपस्थितीने आघाढ धाला',
+    festDear: 'प्रिय',
+    festWithLove: 'सप्रेम,',
   },
 
   /* ===================== GUJARATI ===================== */
@@ -199,6 +205,8 @@ export const T = {
     wedInvitedGuest: '✨ સપ્રેમ આમંત્રણ ✨',
     wedGuestTagline: 'તમારી ઉપસ્થિતિ અને આશીર્વાદ અમૂલ્ય છે 🌸',
     wedFooter: 'કૃપા કરીને તમારી ઉપસ્થિતિથી અનુગ્રહિત કરશો',
+    festDear: 'પ્રિય',
+    festWithLove: 'સપ્રેમ,',
   },
 
   /* ===================== BENGALI ===================== */
@@ -246,6 +254,8 @@ export const T = {
     wedInvitedGuest: '✨ সশ্রদ্ধ আমন্ত্রণ ✨',
     wedGuestTagline: 'আপনার উপস্থিতি ও আশীর্বাদ আমাদের অমূল্য 🌸',
     wedFooter: 'আপনার উপস্থিতিতে আমাদের অনুগ্রহ করুন',
+    festDear: 'প্রিয়',
+    festWithLove: 'ভালোবাসায়,',
   },
 
   /* ===================== PUNJABI ===================== */
@@ -293,6 +303,8 @@ export const T = {
     wedInvitedGuest: '✨ ਸਤਿਕਾਰ ਨਾਲ ਸੱਦਾ ਪੱਤਰ ✨',
     wedGuestTagline: 'ਤੁਹਾਡੀ ਹਾਜ਼ਰੀ ਅਤੇ ਅਸ਼ੀਰਵਾਦ ਸਾਡੇ ਲਈ ਅਨਮੋਲ ਹਨ 🌸',
     wedFooter: 'ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੀ ਹਾਜ਼ਰੀ ਦੇ ਕੇ ਸਾਨੂੰ ਨਿਹਾਲ ਕਰੋ',
+    festDear: 'ਪਿਆਰੇ',
+    festWithLove: 'ਪਿਆਰ ਨਾਲ,',
   },
 };
 
