@@ -110,7 +110,7 @@ export default function SalonCard({ onBack, userEmail, initialData, isSuperAdmin
 
       {/* Action Buttons */}
       <div className="salon-action-buttons">
-        <button className="salon-back-btn" onClick={onBack}>← Back</button>
+        <button className="salon-back-btn" onClick={() => setStep('form')}>← Back</button>
         <button className="salon-btn-edit" onClick={() => setStep('form')}>
           <span className="btn-icon">✏️</span> Edit Card
         </button>

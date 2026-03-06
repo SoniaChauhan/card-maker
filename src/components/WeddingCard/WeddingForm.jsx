@@ -42,12 +42,12 @@ export default function WeddingForm({ data, errors, onChange, onBack, onGenerate
           {/* Couple */}
           <FormField label="Groom's Name" name="groomName"
             value={data.groomName} onChange={onChange}
-            placeholder="Full name of the groom" required
+            placeholder="Full name of the groom"
             error={errors.groomName} />
 
           <FormField label="Bride's Name" name="brideName"
             value={data.brideName} onChange={onChange}
-            placeholder="Full name of the bride" required
+            placeholder="Full name of the bride"
             error={errors.brideName} />
 
           <FormField label="Groom's Family / Father's Name" name="groomFamily"
@@ -61,14 +61,14 @@ export default function WeddingForm({ data, errors, onChange, onBack, onGenerate
           {/* Ceremony */}
           <FormField label="Wedding Date" name="weddingDate"
             type="date" value={data.weddingDate} onChange={onChange}
-            required error={errors.weddingDate} min={today} />
+            error={errors.weddingDate} min={today} />
 
           <FormField label="Wedding Time" name="weddingTime"
             type="time" value={data.weddingTime} onChange={onChange} />
 
           <FormField label="Wedding Venue" name="weddingVenue"
             value={data.weddingVenue} onChange={onChange}
-            placeholder="e.g. Shri Ram Marriage Garden" required
+            placeholder="e.g. Shri Ram Marriage Garden"
             error={errors.weddingVenue} />
 
           <FormField label="Venue Address" name="weddingVenueAddress"

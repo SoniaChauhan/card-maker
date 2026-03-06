@@ -128,7 +128,7 @@
 .dh-btn-preview:hover { box-shadow: 0 6px 18px rgba(102,126,234,.5); }
 
 .dh-btn-download {
-  background: linear-gradient(135deg, #00b894, #55efc4);
+  background: linear-gradient(135deg, #667eea, #a78bfa);
   color: #1a3a2a;
   box-shadow: 0 4px 12px rgba(0,184,148,.35);
 }

@@ -14,7 +14,7 @@ export default function BirthdayForm({ data, errors, onChange, onBack, onGenerat
         <div className="form-grid">
           <FormField label="Birthday Person's Name" name="birthdayPerson"
             value={data.birthdayPerson} onChange={onChange}
-            placeholder="Whose birthday is it?" required
+            placeholder="Whose birthday is it?"
             error={errors.birthdayPerson} />
 
           <FormField label="Age (Milestone)" name="age"
@@ -31,14 +31,14 @@ export default function BirthdayForm({ data, errors, onChange, onBack, onGenerat
 
           <FormField label="Date of Party" name="date"
             type="date" value={data.date} onChange={onChange}
-            required error={errors.date} min={today} />
+            error={errors.date} min={today} />
 
           <FormField label="Party Time" name="time"
             type="time" value={data.time} onChange={onChange} />
 
           <FormField label="Venue / Location" name="venue"
             value={data.venue} onChange={onChange}
-            placeholder="e.g. Home, Grand Ballroom" required
+            placeholder="e.g. Home, Grand Ballroom"
             error={errors.venue} />
 
           <FormField label="Venue Address" name="venueAddress"

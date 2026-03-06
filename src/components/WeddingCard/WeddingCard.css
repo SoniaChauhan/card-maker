@@ -1246,9 +1246,9 @@
   box-shadow: 0 3px 10px rgba(107,21,32,.15);
 }
 .wed-preset-chip--added {
-  border-color: #2d7a4a;
-  background: rgba(45,122,74,.08);
-  color: #2d7a4a;
+  border-color: #6d28d9;
+  background: rgba(109,40,217,.08);
+  color: #6d28d9;
   cursor: default;
   opacity: .7;
 }
@@ -1472,14 +1472,10 @@
     gap: 4px;
     border-radius: 16px;
   }
+  /* Hide arrow buttons on mobile — users can swipe the carousel */
   .wedding-card-screen .carousel-arrow {
-    width: 32px;
-    height: 32px;
-    font-size: 18px;
-    box-shadow: 0 2px 8px rgba(184,134,11,0.25);
+    display: none;
   }
-  .wedding-card-screen .carousel-arrow-left { margin-left: 10px; }
-  .wedding-card-screen .carousel-arrow-right { margin-right: 10px; }
   .wed-template-carousel { gap: 10px; padding: 8px 4px; }
   .wed-template-item { width: 105px; }
   .wed-template-thumb { width: 105px; height: 140px; border-radius: 10px; }

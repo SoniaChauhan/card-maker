@@ -76,14 +76,14 @@
 .rent-back-btn:hover { background: rgba(255,255,255,.22); }
 
 .rent-btn-edit {
-  background: linear-gradient(135deg, #f6d365, #fda085);
-  color: #333;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
 }
 .rent-btn-edit:hover { filter: brightness(1.08); }
 
 .rent-btn-download {
-  background: linear-gradient(135deg, #43e97b, #38f9d7);
-  color: #1a1a2e;
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  color: #fff;
 }
 .rent-btn-download:hover { filter: brightness(1.06); }
 .rent-btn-download:disabled { opacity: .6; cursor: wait; }
@@ -277,7 +277,7 @@
 }
 
 .rent-footer-heading {
-  background: linear-gradient(135deg, #43a047, #2e7d32);
+  background: linear-gradient(135deg, #43a047, #6d28d9);
   color: #fff;
   font-size: .78rem;
   font-weight: 800;
@@ -398,14 +398,14 @@ details[open] > .rent-preset-cat::before {
   white-space: nowrap;
 }
 .rent-preset-btn:hover:not(:disabled) {
-  background: #e8f5e9;
-  border-color: #66bb6a;
-  color: #2e7d32;
+  background: #f5f3ff;
+  border-color: #8b5cf6;
+  color: #6d28d9;
 }
 .rent-preset-btn.added {
-  background: #e8f5e9;
-  border-color: #81c784;
-  color: #388e3c;
+  background: #f5f3ff;
+  border-color: #a78bfa;
+  color: #7c3aed;
   cursor: default;
   opacity: .7;
 }

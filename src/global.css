@@ -310,8 +310,8 @@ body {
   margin: 2px 6px;
 }
 .lp-item:hover   { background: #f5f5f5; }
-.lp-item--active { background: #fff3e0; color: #b35900; font-weight: 700; }
-.lp-check { font-size: 13px; color: #e67e22; font-weight: 900; }
+.lp-item--active { background: #f5f3ff; color: #6d28d9; font-weight: 700; }
+.lp-check { font-size: 13px; color: #7c3aed; font-weight: 900; }
 .lp-no-result {
   padding: 14px 18px;
   font-size: 13px;

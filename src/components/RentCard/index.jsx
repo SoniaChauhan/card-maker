@@ -112,7 +112,7 @@ export default function RentCard({ onBack, userEmail, initialData, isSuperAdmin 
 
       {/* Action Buttons */}
       <div className="rent-action-buttons">
-        <button className="rent-back-btn" onClick={onBack}>← Back</button>
+        <button className="rent-back-btn" onClick={() => setStep('form')}>← Back</button>
         <button className="rent-btn-edit" onClick={() => setStep('form')}>
           <span className="btn-icon">✏️</span> Edit Card
         </button>

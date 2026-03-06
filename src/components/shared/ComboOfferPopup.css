@@ -225,12 +225,7 @@
   align-items: center;
   gap: 6px;
 }
-.combo-phone-prefix {
-  font-size: 14px;
-  color: #9ca3af;
-  font-weight: 600;
-}
-.combo-phone-input {
+.combo-email-input {
   flex: 1;
   padding: 11px 14px;
   border-radius: 12px;
@@ -240,9 +235,12 @@
   font-size: 14px;
   outline: none;
   transition: border-color 0.2s;
+  width: 100%;
+  box-sizing: border-box;
 }
-.combo-phone-input:focus { border-color: #667eea; }
-.combo-phone-input:disabled { opacity: 0.6; }
+.combo-email-input::placeholder { color: rgba(255,255,255,0.35); }
+.combo-email-input:focus { border-color: #667eea; }
+.combo-email-input:disabled { opacity: 0.6; }
 .combo-verified { font-size: 18px; margin-left: 4px; }
 
 .combo-otp-section { margin-top: 10px; }

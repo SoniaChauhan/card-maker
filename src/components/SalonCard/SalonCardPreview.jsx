@@ -60,7 +60,7 @@ const SalonCardPreview = forwardRef(function SalonCardPreview({ data }, ref) {
       {/* Header */}
       <div className="salon-header">
         {logo && <img className="salon-logo" src={logo} alt="" />}
-        <h1 className="salon-biz-name">{businessName || 'Your Salon Name'}</h1>
+        {businessName && <h1 className="salon-biz-name">{businessName}</h1>}
         {tagline && <div className="salon-tagline">{tagline}</div>}
       </div>
 

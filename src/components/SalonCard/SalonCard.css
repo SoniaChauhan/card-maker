@@ -76,14 +76,14 @@
 .salon-back-btn:hover { background: rgba(255,255,255,.22); }
 
 .salon-btn-edit {
-  background: linear-gradient(135deg, #f6d365, #fda085);
-  color: #333;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
 }
 .salon-btn-edit:hover { filter: brightness(1.08); }
 
 .salon-btn-download {
-  background: linear-gradient(135deg, #43e97b, #38f9d7);
-  color: #1a1a2e;
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  color: #fff;
 }
 .salon-btn-download:hover { filter: brightness(1.06); }
 .salon-btn-download:disabled { opacity: .6; cursor: wait; }
@@ -507,14 +507,14 @@ details[open] > .salon-preset-cat::before {
   white-space: nowrap;
 }
 .salon-preset-btn:hover:not(:disabled) {
-  background: #e8f5e9;
-  border-color: #66bb6a;
-  color: #2e7d32;
+  background: #f5f3ff;
+  border-color: #8b5cf6;
+  color: #6d28d9;
 }
 .salon-preset-btn.added {
-  background: #e8f5e9;
-  border-color: #81c784;
-  color: #388e3c;
+  background: #f5f3ff;
+  border-color: #a78bfa;
+  color: #7c3aed;
   cursor: default;
   opacity: .7;
 }
@@ -548,7 +548,7 @@ details[open] > .salon-preset-cat::before {
   background: #fffde7;
 }
 .salon-sample-btn:hover {
-  background: #fff8e1;
+  background: #faf5ff;
 }
 
 /* ─── Editable service rows ─── */
@@ -621,12 +621,12 @@ details[open] > .salon-preset-cat::before {
   color: #c2185b;
 }
 .salon-badge-men {
-  background: #e3f2fd;
-  color: #1565c0;
+  background: #ede9fe;
+  color: #6d28d9;
 }
 .salon-badge-kids {
-  background: #fff8e1;
-  color: #f57f17;
+  background: #faf5ff;
+  color: #7c3aed;
 }
 
 .salon-edit-price-row {

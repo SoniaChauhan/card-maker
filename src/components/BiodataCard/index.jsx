@@ -74,7 +74,7 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
   const [showCommunityDropdown, setShowCommunityDropdown] = useState(false);
   const [downloadEmail, setDownloadEmail] = useState(userEmail || '');
   const [downloadPhone, setDownloadPhone] = useState('');
-  const [lookupPhone, setLookupPhone] = useState('');
+  const [lookupEmail, setLookupEmail] = useState('');
   const carouselRef = useRef(null);
 
   const filename = `biodata-${toFilename(data.fullName || 'card')}.png`;
@@ -105,16 +105,16 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
     }).catch(() => {});
   }, [userEmail, isSuperAdmin]);
 
-  /* If lookup found details, check payment access by phone */
+  /* If lookup found details, check payment access by email */
   useEffect(() => {
-    if (!lookupPhone || paid) return;
-    checkUserAccess('', CARD_TYPE, lookupPhone).then(access => {
+    if (!lookupEmail || paid) return;
+    checkUserAccess(lookupEmail, CARD_TYPE).then(access => {
       if (access.hasAccess) {
         setPaid(true);
         watermarkRef.current = false;
       }
     }).catch(() => {});
-  }, [lookupPhone]);
+  }, [lookupEmail]);
 
   function onChange(e) {
     const { name, value, files } = e.target;
@@ -173,7 +173,7 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
           if (prefillData) {
             setData(d => ({ ...d, ...prefillData, photo: null, photoPreview: prefillData.photoPreview || '' }));
           }
-          if (lookupFound && lookupId) setLookupPhone(lookupId);
+          if (lookupFound && lookupId) setLookupEmail(lookupId);
           setStep('form');
         }}
         onSkip={() => setStep('form')}
@@ -264,7 +264,7 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
       {/* Action Buttons with Community Dropdown */}
       <div className="biodata-action-buttons">
         {/* Back Button */}
-        <button className="biodata-back-btn" onClick={onBack}>
+        <button className="biodata-back-btn" onClick={() => setStep('form')}>
           ← Back
         </button>
 
@@ -320,7 +320,6 @@ export default function BiodataCard({ onBack, userEmail, initialData, templateId
       {showPayment && (
         <BiodataPaymentPopup
           userEmail={userEmail}
-          lookupPhone={lookupPhone}
           onClose={() => setShowPayment(false)}
           onPaymentDone={(result) => {
             const withWatermark = result?.withWatermark ?? false;

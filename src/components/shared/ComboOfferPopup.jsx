@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './ComboOfferPopup.css';
 import {
   startComboPayment, checkUserAccess, sendOTP, verifyOTP,
@@ -15,41 +15,42 @@ const COMBO_ELIGIBLE_CARDS = [
   { id: 'wedding',     label: 'Wedding Invitation',            icon: '💐' },
   { id: 'anniversary', label: 'Anniversary Greeting',          icon: '💍' },
   { id: 'biodata',     label: 'Marriage Biodata / Profile',    icon: '💒' },
+  { id: 'rentcard',    label: 'PG / Rent Card',                icon: '🏠' },
+  { id: 'saloncard',   label: 'Salon / Parlour Card',          icon: '💇' },
 ];
 
 /**
  * ComboOfferPopup — lets user pick 2 card types and pay ₹69 for 15-day access.
+ * Email-only OTP verification for guest users.
  *
  * Props:
  *   userEmail   — logged-in user email (may be '' for guests)
  *   userName    — user display name
- *   lookupPhone — phone from UserLookup (optional)
  *   onClose     — close the popup
  *   onComboDone — called after successful combo payment { comboCards, expiresAt }
  */
-export default function ComboOfferPopup({ userEmail, userName, lookupPhone, onClose, onComboDone }) {
+export default function ComboOfferPopup({ userEmail, userName, onClose, onComboDone }) {
   const [selected, setSelected] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Identity — phone only (for guests)
-  const [guestPhone, setGuestPhone] = useState(lookupPhone || '');
+  // Identity — email only (for guests)
+  const [guestEmail, setGuestEmail] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [otpValue, setOtpValue] = useState('');
-  const [otpVerified, setOtpVerified] = useState(!!lookupPhone);
+  const [otpVerified, setOtpVerified] = useState(false);
   const [otpLoading, setOtpLoading] = useState(false);
   const [otpError, setOtpError] = useState('');
   const [otpCountdown, setOtpCountdown] = useState(0);
-  const otpAbortRef = useRef(null);
 
   const isGuest = !userEmail;
-  const phoneToUse = guestPhone.replace(/\D/g, '').slice(-10);
-  const identifierReady = isGuest ? (phoneToUse.length === 10 && otpVerified) : true;
+  const emailToUse = guestEmail.trim();
+  const identifierReady = isGuest ? (isValidEmail(emailToUse) && otpVerified) : true;
 
   // Existing access per card
   const [accessMap, setAccessMap] = useState({});
 
-  function isValidPhone(p) { return /^\d{10}$/.test(p); }
+  function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 
   // Toggle card selection
   function toggleCard(cardId) {
@@ -68,27 +69,21 @@ export default function ComboOfferPopup({ userEmail, userName, lookupPhone, onCl
     return () => clearTimeout(t);
   }, [otpCountdown]);
 
-  // Cleanup Web OTP
-  useEffect(() => {
-    return () => { if (otpAbortRef.current) otpAbortRef.current.abort(); };
-  }, []);
-
   // Check existing access for each eligible card
   const checkAllAccess = useCallback(async () => {
-    const email = isGuest ? '' : (userEmail || '');
-    const phone = isGuest ? phoneToUse : '';
-    if (!email && !phone) return;
+    const email = isGuest ? emailToUse : (userEmail || '');
+    if (!email) return;
     const map = {};
     await Promise.all(
       COMBO_ELIGIBLE_CARDS.map(async (c) => {
         try {
-          const a = await checkUserAccess(email, c.id, phone);
+          const a = await checkUserAccess(email, c.id);
           map[c.id] = a;
         } catch { map[c.id] = null; }
       })
     );
     setAccessMap(map);
-  }, [userEmail, phoneToUse, isGuest]);
+  }, [userEmail, emailToUse, isGuest]);
 
   useEffect(() => {
     if (!isGuest) checkAllAccess();
@@ -97,22 +92,12 @@ export default function ComboOfferPopup({ userEmail, userName, lookupPhone, onCl
 
   async function handleSendOTP() {
     setOtpError('');
-    if (!isValidPhone(phoneToUse)) { setOtpError('Enter a valid 10-digit number.'); return; }
+    if (!isValidEmail(emailToUse)) { setOtpError('Enter a valid email address.'); return; }
     setOtpLoading(true);
     try {
-      await sendOTP('phone', phoneToUse);
+      await sendOTP('email', emailToUse);
       setOtpSent(true);
       setOtpCountdown(30);
-      // Web OTP API
-      if (typeof window !== 'undefined' && 'OTPCredential' in window) {
-        try {
-          const ac = new AbortController();
-          otpAbortRef.current = ac;
-          navigator.credentials.get({ otp: { transport: ['sms'] }, signal: ac.signal })
-            .then(otpCred => { if (otpCred?.code) { setOtpValue(otpCred.code); setTimeout(() => handleVerifyOTP(otpCred.code), 200); } })
-            .catch(() => {});
-        } catch (_) {}
-      }
     } catch (err) { setOtpError(err.message || 'Failed to send OTP.'); }
     setOtpLoading(false);
   }
@@ -123,7 +108,7 @@ export default function ComboOfferPopup({ userEmail, userName, lookupPhone, onCl
     if (!code || code.length < 4) { setOtpError('Enter the OTP.'); return; }
     setOtpLoading(true);
     try {
-      const r = await verifyOTP('phone', phoneToUse, code);
+      const r = await verifyOTP('email', emailToUse, code);
       if (r.verified) { setOtpVerified(true); setOtpError(''); }
       else setOtpError('Invalid OTP.');
     } catch (err) { setOtpError(err.message || 'OTP verification failed.'); }
@@ -136,19 +121,18 @@ export default function ComboOfferPopup({ userEmail, userName, lookupPhone, onCl
       return;
     }
     if (isGuest && !otpVerified) {
-      setError('Please verify your mobile number first.');
+      setError('Please verify your email address first.');
       return;
     }
 
     setLoading(true);
     setError('');
 
-    const email = isGuest ? '' : (userEmail || '');
-    const phone = isGuest ? phoneToUse : '';
+    const email = isGuest ? emailToUse : (userEmail || '');
 
     await startComboPayment({
       email,
-      phone,
+      phone: '',
       comboCards: selected,
       userName: userName || '',
       onSuccess: (result) => {
@@ -223,16 +207,14 @@ export default function ComboOfferPopup({ userEmail, userName, lookupPhone, onCl
         {/* Identity section for guests */}
         {isGuest && (
           <div className="combo-identity">
-            <p className="combo-identity-label">📱 Verify your mobile number</p>
+            <p className="combo-identity-label">✉️ Verify your email address</p>
             <div className="combo-input-row">
-              <span className="combo-phone-prefix">+91</span>
               <input
-                type="tel"
-                className="combo-phone-input"
-                placeholder="9876543210"
-                maxLength={10}
-                value={guestPhone}
-                onChange={e => { setGuestPhone(e.target.value.replace(/\D/g, '')); setOtpSent(false); setOtpVerified(false); setOtpError(''); }}
+                type="email"
+                className="combo-email-input"
+                placeholder="yourname@email.com"
+                value={guestEmail}
+                onChange={e => { setGuestEmail(e.target.value); setOtpSent(false); setOtpVerified(false); setOtpError(''); }}
                 disabled={otpVerified}
               />
               {otpVerified && <span className="combo-verified">✅</span>}
@@ -241,7 +223,7 @@ export default function ComboOfferPopup({ userEmail, userName, lookupPhone, onCl
               <div className="combo-otp-section">
                 {!otpSent ? (
                   <button className="combo-otp-btn" onClick={handleSendOTP}
-                    disabled={otpLoading || phoneToUse.length !== 10} type="button">
+                    disabled={otpLoading || !isValidEmail(emailToUse)} type="button">
                     {otpLoading ? '⏳ Sending…' : 'Send OTP'}
                   </button>
                 ) : (
