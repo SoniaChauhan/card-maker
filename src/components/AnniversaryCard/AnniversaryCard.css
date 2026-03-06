@@ -1034,22 +1034,26 @@
   /* Action buttons mobile */
   .anniv-action-buttons {
     gap: 8px;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
   }
   .anniv-back-btn {
     width: 100%;
     order: 3;
-    padding: 10px;
-    font-size: 13px;
+    padding: 8px 10px;
+    font-size: 12px;
     border-radius: 10px;
   }
   .anniv-btn-edit,
   .anniv-btn-download {
-    flex: 1;
-    padding: 13px 10px;
-    font-size: 13px;
-    border-radius: 12px;
-    gap: 6px;
+    flex: 1 1 40%;
+    min-width: 0;
+    padding: 10px 8px;
+    font-size: 12px;
+    border-radius: 10px;
+    gap: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
@@ -1084,8 +1088,8 @@
 
   .anniv-btn-edit,
   .anniv-btn-download {
-    padding: 12px 8px;
-    font-size: 12px;
-    border-radius: 10px;
+    padding: 9px 6px;
+    font-size: 11px;
+    border-radius: 8px;
   }
 }

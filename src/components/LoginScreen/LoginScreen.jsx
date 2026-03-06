@@ -218,24 +218,6 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
   const [replyName, setReplyName]           = useState('');
   const [replySending, setReplySending]     = useState(false);
 
-  /* Subscriber notification state */
-  const [subEmail, setSubEmail]   = useState('');
-  const [subPhone, setSubPhone]   = useState('');
-  const [subName, setSubName]     = useState('');
-  const [subSending, setSubSending] = useState(false);
-  const [subMsg, setSubMsg]       = useState('');
-  const [showSubscribePopup, setShowSubscribePopup] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return sessionStorage.getItem('subscribePopupDismissed') !== 'true';
-    }
-    return true;
-  });
-
-  function dismissSubscribePopup() {
-    setShowSubscribePopup(false);
-    sessionStorage.setItem('subscribePopupDismissed', 'true');
-  }
-
   /* Load public reviews on mount */
   useEffect(() => {
     async function loadReviews() {
@@ -599,32 +581,6 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
     finally { setReplySending(false); }
   }
 
-  /* ========== SUBSCRIBE FOR NOTIFICATIONS ========== */
-  async function handleSubscribe(e) {
-    e.preventDefault();
-    if (!subEmail.trim() && !subPhone.trim()) { setSubMsg('⚠️ Please enter email or phone.'); return; }
-    setSubSending(true);
-    setSubMsg('');
-    try {
-      const res = await fetch('/api/notifications', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'subscribe', email: subEmail.trim(), phone: subPhone.trim(), name: subName.trim() }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setSubMsg('✅ Subscribed! You\'ll get notified about new cards & festivals.');
-        setSubEmail('');
-        setSubPhone('');
-        setSubName('');
-        sessionStorage.setItem('subscribePopupDismissed', 'true');
-      } else {
-        setSubMsg('❌ ' + (data.error || 'Failed'));
-      }
-    } catch { setSubMsg('❌ Something went wrong.'); }
-    finally { setSubSending(false); }
-  }
-
   /* ========== RENDER ========== */
   const titles = {
     'signin':           'Welcome Back',
@@ -752,34 +708,6 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
           {/* Sign In/Sign Up removed - all users are guests */}
         </div>
       </div>
-
-      {/* ═══════ SUBSCRIBE POPUP ═══════ */}
-      {showSubscribePopup && (
-        <div className="lp-subscribe-overlay" onClick={dismissSubscribePopup}>
-          <div className="lp-subscribe-popup" onClick={e => e.stopPropagation()}>
-            <button className="lp-subscribe-close" onClick={dismissSubscribePopup} aria-label="Close">✕</button>
-            <div className="lp-subscribe-icon">🔔</div>
-            <h2 className="lp-subscribe-title">Never Miss a New Card!</h2>
-            <p className="lp-subscribe-desc">
-              Subscribe to get notified when we add new card templates, festival offers, and exclusive deals — straight to your inbox.
-            </p>
-            <form className="lp-subscribe-form" onSubmit={handleSubscribe}>
-              <div className="lp-subscribe-row">
-                <input className="lp-subscribe-input" type="text" placeholder="Your name" value={subName} onChange={e => setSubName(e.target.value)} autoComplete="off" />
-                <input className="lp-subscribe-input" type="email" placeholder="Email address *" value={subEmail} onChange={e => setSubEmail(e.target.value)} autoComplete="off" />
-                <input className="lp-subscribe-input" type="tel" placeholder="WhatsApp / Phone" value={subPhone} onChange={e => setSubPhone(e.target.value)} autoComplete="off" />
-              </div>
-              <button className="lp-subscribe-btn" type="submit" disabled={subSending}>
-                {subSending ? '⏳ Subscribing…' : '🔔 Subscribe Now — It\'s Free!'}
-              </button>
-              {subMsg && <p className={`lp-subscribe-msg ${subMsg.startsWith('✅') ? 'success' : 'warn'}`}>{subMsg}</p>}
-            </form>
-            <p className="lp-subscribe-privacy">
-              📱 We&apos;ll notify you via <strong>Email</strong> &amp; <strong>WhatsApp</strong>. No spam, ever.
-            </p>
-          </div>
-        </div>
-      )}
 
       {/* ═══════ ACCOUNT PANEL OVERLAY ═══════ */}
       {user && accountTab && (
