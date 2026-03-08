@@ -1,19 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import FormField from '../shared/FormField';
-
-const DEFAULT_FEATURES = [
-  '2–3 Beds in Each Room',
-  'Separate Washroom for Every Room',
-  'Small Kitchen in Every Room',
-];
-
-const DEFAULT_AMENITIES = [
-  { icon: '📶', text: 'High-Speed WiFi' },
-  { icon: '💧', text: 'RO Drinking Water' },
-  { icon: '🚿', text: 'Water Softener (Soft Water – Hair Friendly)' },
-  { icon: '📹', text: 'Security Cameras' },
-  { icon: '🍱', text: 'Tiffin Service (On Demand)' },
-];
+import { RENT_TEMPLATES, PROPERTY_TYPES, PROPERTY_TYPE_CONFIG, DEFAULT_FEATURES, DEFAULT_AMENITIES } from './rentConstants';
+import RentCardPreview from './RentCardPreview';
 
 /* ══════════════════════════════════════════════════
    Preset catalogues — Room Features & Amenities
@@ -191,11 +179,16 @@ const AMENITY_PRESETS = [
   },
 ];
 
-export { DEFAULT_FEATURES, DEFAULT_AMENITIES };
-
-export default function RentForm({ data, errors, onChange, onBack, onGenerate, onFeatureChange, onAmenityChange }) {
+export default function RentForm({
+  data, errors, onChange, onBack, onGenerate,
+  onFeatureChange, onAmenityChange,
+  onPropertyTypeChange, onTemplateChange,
+  addPropertyImages, removePropertyImage, updatePropertyImageLabel,
+}) {
   const features  = data.features  || [];
   const amenities = data.amenities || [];
+  const imgInputRef = useRef(null);
+  const cfg = PROPERTY_TYPE_CONFIG[data.propertyType] || PROPERTY_TYPE_CONFIG.pg;
 
   /* ── Feature helpers ── */
   function addFeature()        { onFeatureChange([...features, '']); }
@@ -214,8 +207,8 @@ export default function RentForm({ data, errors, onChange, onBack, onGenerate, o
   function isAmenityAdded(text) { return amenities.some(a => a.text === text); }
 
   function loadDefaults() {
-    onFeatureChange([...DEFAULT_FEATURES]);
-    onAmenityChange([...DEFAULT_AMENITIES]);
+    onFeatureChange([...cfg.defaultFeatures]);
+    onAmenityChange(cfg.defaultAmenities.map(a => ({ ...a })));
   }
 
   return (
@@ -227,24 +220,74 @@ export default function RentForm({ data, errors, onChange, onBack, onGenerate, o
           <p>Fill in property details and we&apos;ll generate a professional rent advertisement card!</p>
         </div>
 
+        {/* ══ Property Type Tabs ══ */}
+        <div className="rent-section-block">
+          <h3 className="rent-section-label">🏷️ Property Type</h3>
+          <p className="rent-section-hint">Select what type of property you&apos;re listing.</p>
+          <div className="rent-type-tabs">
+            {PROPERTY_TYPES.map(pt => (
+              <button
+                key={pt.id}
+                type="button"
+                className={`rent-type-tab${data.propertyType === pt.id ? ' active' : ''}`}
+                onClick={() => onPropertyTypeChange(pt.id)}
+              >
+                {pt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* ══ Template / Color Theme Picker ══ */}
+        <div className="rent-section-block">
+          <h3 className="rent-section-label">🎨 Card Design &amp; Color Theme</h3>
+          <p className="rent-section-hint">Choose a color theme for your card. Tap to preview.</p>
+          <div className="rent-tpl-grid">
+            {RENT_TEMPLATES.map(tpl => (
+              <button
+                key={tpl.id}
+                type="button"
+                className={`rent-tpl-card${data.selectedTemplate === tpl.id ? ' active' : ''}`}
+                onClick={() => onTemplateChange(tpl.id)}
+              >
+                <div className="rent-tpl-preview-mini">
+                  <div className="rent-tpl-swatch" style={{ background: tpl.headerBg }} />
+                  <div className="rent-tpl-swatch rent-tpl-swatch--heading" style={{ background: tpl.headingBg }} />
+                  <div className="rent-tpl-swatch" style={{ background: tpl.footerBg }} />
+                </div>
+                <span className="rent-tpl-name">{tpl.name}</span>
+                {data.selectedTemplate === tpl.id && <span className="rent-tpl-check">✓</span>}
+              </button>
+            ))}
+          </div>
+
+          {/* Live mini-preview */}
+          <div className="rent-tpl-live-preview">
+            <p className="rent-section-hint" style={{ marginBottom: 8 }}>📋 Live Preview</p>
+            <div className="rent-tpl-live-wrap">
+              <RentCardPreview data={data} />
+            </div>
+          </div>
+        </div>
+
         <div className="form-grid">
           <FormField label="Card Title" name="title"
             value={data.title} onChange={onChange}
-            placeholder="e.g. PG / PER BED RENT AVAILABLE"
+            placeholder={cfg.titlePlaceholder}
             error={errors.title} span />
 
           <FormField label="Location / Address" name="location"
             value={data.location} onChange={onChange}
-            placeholder="e.g. Beta 1, Block A – Near Beta Plaza"
+            placeholder={cfg.locationPlaceholder}
             error={errors.location} span />
 
-          <FormField label="Rent Without AC (₹)" name="rentWithoutAC"
+          <FormField label={cfg.rentLabel1} name="rentWithoutAC"
             value={data.rentWithoutAC} onChange={onChange}
-            placeholder="e.g. 5500" type="number" />
+            placeholder={cfg.rentPlaceholder1} type="number" />
 
-          <FormField label="Rent With AC (₹)" name="rentWithAC"
+          <FormField label={cfg.rentLabel2} name="rentWithAC"
             value={data.rentWithAC} onChange={onChange}
-            placeholder="e.g. 8000" type="number" />
+            placeholder={cfg.rentPlaceholder2} type="number" />
 
           <FormField label="Contact Person Name" name="contactName"
             value={data.contactName} onChange={onChange}
@@ -259,7 +302,7 @@ export default function RentForm({ data, errors, onChange, onBack, onGenerate, o
 
         {/* ══ Room Features — Presets + Custom ══ */}
         <div className="rent-section-block">
-          <h3 className="rent-section-label">🛏️ Room Features</h3>
+          <h3 className="rent-section-label">{cfg.featuresLabel}</h3>
           <p className="rent-section-hint">Tap features to add them to your card, or add your own.</p>
 
           <div className="rent-preset-list">
@@ -312,7 +355,7 @@ export default function RentForm({ data, errors, onChange, onBack, onGenerate, o
 
         {/* ══ Amenities — Presets + Custom ══ */}
         <div className="rent-section-block">
-          <h3 className="rent-section-label">✨ Amenities</h3>
+          <h3 className="rent-section-label">{cfg.amenitiesLabel}</h3>
           <p className="rent-section-hint">Choose amenities from categories below, or add custom ones.</p>
 
           <div className="rent-preset-list">
@@ -375,6 +418,44 @@ export default function RentForm({ data, errors, onChange, onBack, onGenerate, o
         <div className="rent-section-block">
           <h3 className="rent-section-label">🖼️ Logo (optional)</h3>
           <input type="file" name="logo" accept="image/*" onChange={onChange} />
+        </div>
+
+        {/* ══ Property Images Upload ══ */}
+        <div className="rent-section-block">
+          <h3 className="rent-section-label">📸 Property Images (up to 6)</h3>
+          <p className="rent-section-hint">Upload room photos, building exterior, or property images to showcase on your card.</p>
+
+          <div className="rent-img-grid">
+            {(data.propertyImages || []).map((img, i) => (
+              <div key={i} className="rent-img-thumb">
+                <img src={img.src} alt={img.label || `Property ${i + 1}`} />
+                <input
+                  className="rent-img-label-input"
+                  type="text"
+                  placeholder="Caption (optional)"
+                  value={img.label}
+                  onChange={e => updatePropertyImageLabel(i, e.target.value)}
+                />
+                <button type="button" className="rent-img-remove" onClick={() => removePropertyImage(i)}>✕</button>
+              </div>
+            ))}
+
+            {(data.propertyImages || []).length < 6 && (
+              <button type="button" className="rent-img-add" onClick={() => imgInputRef.current?.click()}>
+                <span className="rent-img-add-icon">＋</span>
+                <span>Add Photo</span>
+              </button>
+            )}
+          </div>
+
+          <input
+            ref={imgInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            style={{ display: 'none' }}
+            onChange={e => { addPropertyImages(e.target.files); e.target.value = ''; }}
+          />
         </div>
 
         {/* ── Actions ── */}

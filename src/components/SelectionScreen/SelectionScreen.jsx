@@ -16,6 +16,7 @@ const CATEGORIES = [
       { id: 'biodata',     label: 'Marriage Profile Designer',     desc: 'Build a traditional and detailed marriage biodata with a clean layout.',      icon: '💒', badge: '🌸 Premium' },
       { id: 'rentcard',   label: 'PG / Rent Card',                desc: 'Create professional PG & rent advertisement cards with property details.',   icon: '🏠', badge: '🏡 Property' },
       { id: 'saloncard',  label: 'Salon / Parlour Card',           desc: 'Create elegant salon service & price list cards for your beauty business.',  icon: '💇', badge: '✨ Beauty' },
+      { id: 'cardresume', label: 'Card Resume Maker',              desc: 'Create a compact card-style resume — share on WhatsApp & LinkedIn!',         icon: '🪪', badge: '💎 Premium' },
       { id: 'holiwishes',  label: 'Happy Holi Wishes',             desc: 'One-click colorful Holi greeting — no form, just download & share!',         icon: '🌈', badge: '🎨 Instant Download' },
     ],
   },
@@ -54,6 +55,7 @@ const CATEGORIES = [
     id: 'professional',
     cards: [
       { id: 'resume',       label: 'Resume Builder',  desc: 'Design a polished resume and download it instantly in PDF format.',    icon: '📄', badge: '💼 Professional', comingSoon: true },
+      { id: 'cardresume',   label: 'Card Resume Maker', desc: 'Create a compact card-style resume — perfect for WhatsApp, LinkedIn & social sharing.', icon: '🪪', badge: '💎 Premium' },
       { id: 'biodata',      label: 'Marriage Profile', desc: 'Build a traditional and detailed marriage biodata with a clean layout.', icon: '💍', badge: '🌸 Traditional' },
       { id: 'visitingcard', label: 'Visiting Card',    desc: 'Design sleek and modern visiting cards for professionals.',            icon: '🪪', badge: '🏢 Modern',     comingSoon: true },
       { id: 'businessdocs', label: 'Business Docs',    desc: 'Create professional business documents and letterheads.',             icon: '📋', badge: '📊 Corporate',   comingSoon: true },

@@ -2,8 +2,8 @@
 import { useState, useEffect, useRef } from 'react';
 import './RentCard.css';
 import RentForm from './RentForm';
-import { DEFAULT_FEATURES, DEFAULT_AMENITIES } from './RentForm';
 import RentCardPreview from './RentCardPreview';
+import { DEFAULT_FEATURES, DEFAULT_AMENITIES, RENT_TEMPLATES, PROPERTY_TYPES, PROPERTY_TYPE_CONFIG } from './rentConstants';
 import BiodataPaymentPopup from '../BiodataCard/BiodataPaymentPopup';
 import '../BiodataCard/BiodataCard.css';
 import Particles from '../shared/Particles';
@@ -20,6 +20,8 @@ const CARD_LABEL = 'PG / Rent Card';
 const PARTICLES = ['🏠', '🏡', '🛏️', '🔑', '🪟', '💡', '🏢', '✨'];
 
 const INIT = {
+  propertyType: 'pg',
+  selectedTemplate: 1,
   title: 'PG / PER BED RENT AVAILABLE',
   location: '',
   rentWithoutAC: '',
@@ -30,6 +32,8 @@ const INIT = {
   contactPhone: '',
   logo: null,
   logoPreview: '',
+  propertyImages: [],       // array of { src, label } — max 6
+  propertyImagesPreview: [],
 };
 
 export default function RentCard({ onBack, userEmail, initialData, isSuperAdmin }) {
@@ -71,6 +75,44 @@ export default function RentCard({ onBack, userEmail, initialData, isSuperAdmin 
     }
   }
 
+  /* ── Property image helpers (max 6) ── */
+  function addPropertyImages(fileList) {
+    const remaining = 6 - (data.propertyImages || []).length;
+    const toAdd = Array.from(fileList).slice(0, remaining);
+    toAdd.forEach(file => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setData(d => {
+          const imgs = [...(d.propertyImages || []), { src: reader.result, label: '' }];
+          return { ...d, propertyImages: imgs };
+        });
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+  function removePropertyImage(idx) {
+    setData(d => ({ ...d, propertyImages: (d.propertyImages || []).filter((_, i) => i !== idx) }));
+  }
+  function updatePropertyImageLabel(idx, label) {
+    setData(d => ({
+      ...d,
+      propertyImages: (d.propertyImages || []).map((img, i) => i === idx ? { ...img, label } : img),
+    }));
+  }
+
+  /* ── Property type change — loads type-specific defaults ── */
+  function onPropertyTypeChange(typeId) {
+    const pt = PROPERTY_TYPES.find(t => t.id === typeId);
+    const cfg = PROPERTY_TYPE_CONFIG[typeId] || PROPERTY_TYPE_CONFIG.pg;
+    setData(d => ({
+      ...d,
+      propertyType: typeId,
+      title: pt?.titleDefault || d.title,
+      features: [...cfg.defaultFeatures],
+      amenities: cfg.defaultAmenities.map(a => ({ ...a })),
+    }));
+  }
+
   function validate() {
     return {};
   }
@@ -92,6 +134,11 @@ export default function RentCard({ onBack, userEmail, initialData, isSuperAdmin 
         onGenerate={onGenerate}
         onFeatureChange={(features) => setData(d => ({ ...d, features }))}
         onAmenityChange={(amenities) => setData(d => ({ ...d, amenities }))}
+        onPropertyTypeChange={onPropertyTypeChange}
+        onTemplateChange={(id) => setData(d => ({ ...d, selectedTemplate: id }))}
+        addPropertyImages={addPropertyImages}
+        removePropertyImage={removePropertyImage}
+        updatePropertyImageLabel={updatePropertyImageLabel}
       />
     );
   }

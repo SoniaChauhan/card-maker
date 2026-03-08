@@ -20,7 +20,8 @@ export default function SavedWeddingCards({ userEmail, onLoadTemplate, onClose }
   const [previewTpl, setPreviewTpl] = useState(null);
   const [toast, setToast]         = useState({ show: false, text: '' });
 
-  useEffect(() => { loadTemplates(); }, [userEmail]);
+  useEffect(() => { loadTemplates(); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userEmail]);
 
   async function loadTemplates() {
     setLoading(true);

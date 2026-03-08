@@ -21,13 +21,14 @@ import MothersCardHindi from './components/MothersCardHindi';
 import HoliVideo from './components/HoliVideo';
 import RentCard from './components/RentCard';
 import SalonCard from './components/SalonCard';
+import CardResume from './components/CardResume';
 import ComboOfferPopup from './components/shared/ComboOfferPopup';
 import FestivalCalendar from './components/FestivalCalendar/FestivalCalendar';
 import FreeCardsPage from './components/FreeCardsPage/FreeCardsPage';
 import useScreenshotProtection from './hooks/useScreenshotProtection';
 import VisitorTracker from './components/shared/VisitorTracker';
 
-const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','festivalcards','holicard','holiwishes','holiwishes-en','holivideo','motivational','motivational-en','fathers','fathers-en','mothers','mothers-en','rentcard','saloncard'];
+const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','cardresume','festivalcards','holicard','holiwishes','holiwishes-en','holivideo','motivational','motivational-en','fathers','fathers-en','mothers','mothers-en','rentcard','saloncard'];
 
 /* ── Card ID → SEO-friendly URL slug mapping ── */
 const CARD_URL_MAP = {
@@ -41,6 +42,7 @@ const CARD_URL_MAP = {
   holivideo:         '/holi-celebration-card',
   jagrata:           '/jagrata-invitation-card',
   resume:            '/resume-builder-online',
+  cardresume:        '/card-resume-maker',
   biodata:           '/marriage-biodata-maker',
   motivational:      '/motivational-quotes-images-download',
   'motivational-en': '/motivational-quotes-english',
@@ -233,6 +235,7 @@ function AppContent({ initialCard }) {
     if (selected === 'mothers')               return <>{subscribePopupJSX}<MothersCardHindi {...cardProps} /></>;
     if (selected === 'rentcard')              return <>{subscribePopupJSX}<RentCard          {...cardProps} /></>;
     if (selected === 'saloncard')             return <>{subscribePopupJSX}<SalonCard         {...cardProps} /></>;
+    if (selected === 'cardresume')             return <>{subscribePopupJSX}<CardResume        {...cardProps} /></>;
   }
 
   /* ---------- Calendar full page ---------- */

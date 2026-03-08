@@ -69,6 +69,7 @@ export default function ShareButtons({ blob, filename, cardLabel, onClose }) {
           <span className="share-viewer-title">{cardLabel || 'Card'} Preview</span>
         </div>
         <div className="share-viewer-body">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={blobUrl} alt={cardLabel || 'Downloaded card'} className="share-viewer-img" />
         </div>
       </div>

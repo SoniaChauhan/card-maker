@@ -119,7 +119,7 @@ export default function ResumeCard({ onBack, userEmail, initialData, templateId:
 
         {!paid && (
           <div className="download-locked-badge">
-            💳 Download: ₹19 (with watermark) or ₹49 (clean)
+            💳 Download: ₹99 (clean, no watermark)
           </div>
         )}
 

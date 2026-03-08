@@ -309,6 +309,60 @@
   font-size: 1rem;
 }
 
+/* ─── Property Type Badge (in preview) ─── */
+.rent-property-badge {
+  display: inline-block;
+  background: rgba(255,255,255,.2);
+  color: #fff;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 14px;
+  border-radius: 20px;
+  margin-bottom: 6px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,.25);
+}
+
+/* ─── Property Images in Preview ─── */
+.rent-images-section { padding-bottom: 4px !important; }
+
+.rent-images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.rent-image-cell {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+
+.rent-image-photo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.rent-image-caption {
+  display: block;
+  font-size: .68rem;
+  color: #555;
+  text-align: center;
+  padding: 3px 4px;
+  background: #f9f9f9;
+  border-top: 1px solid #eee;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 
 /* ══════════════════════════════════════
    Form Styling (on white .form-card bg)
@@ -508,6 +562,229 @@ details[open] > .rent-preset-cat::before {
 .rent-remove-btn:hover { background: #e53935; color: #fff; }
 
 
+/* ═══════════════════════════════════════
+   Property Type Tabs
+   ═══════════════════════════════════════ */
+.rent-type-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rent-type-tab {
+  padding: 9px 18px;
+  border: 2px solid #e0e4ea;
+  border-radius: 12px;
+  background: #fff;
+  font-size: .85rem;
+  font-weight: 600;
+  color: #555;
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+}
+.rent-type-tab:hover {
+  border-color: #667eea;
+  background: #f5f3ff;
+  color: #5b21b6;
+}
+.rent-type-tab.active {
+  border-color: #667eea;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(102, 126, 234, .3);
+}
+
+
+/* ═══════════════════════════════════════
+   Template / Color Theme Picker
+   ═══════════════════════════════════════ */
+.rent-tpl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.rent-tpl-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 8px 8px;
+  border: 2px solid #e0e4ea;
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  transition: all .22s;
+}
+.rent-tpl-card:hover {
+  border-color: #a78bfa;
+  box-shadow: 0 3px 12px rgba(139, 92, 246, .15);
+}
+.rent-tpl-card.active {
+  border-color: #7c3aed;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, .25);
+  background: #faf5ff;
+}
+
+.rent-tpl-preview-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.rent-tpl-swatch {
+  height: 14px;
+  border-radius: 3px;
+}
+.rent-tpl-swatch--heading {
+  height: 8px;
+  width: 65%;
+  margin: 0 auto;
+  border-radius: 4px;
+}
+
+.rent-tpl-name {
+  font-size: .72rem;
+  font-weight: 600;
+  color: #555;
+  text-align: center;
+}
+.rent-tpl-card.active .rent-tpl-name { color: #5b21b6; }
+
+.rent-tpl-check {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: .7rem;
+  font-weight: 800;
+  color: #fff;
+  background: #7c3aed;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Live mini preview ─── */
+.rent-tpl-live-preview {
+  margin-top: 8px;
+  padding: 12px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+}
+
+.rent-tpl-live-wrap {
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,.12);
+  font-size: .7rem;
+  pointer-events: none;
+}
+.rent-tpl-live-wrap .rent-card {
+  transform-origin: top left;
+}
+
+
+/* ═══════════════════════════════════════
+   Property Images Upload (Form)
+   ═══════════════════════════════════════ */
+.rent-img-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.rent-img-thumb {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #e0e4ea;
+  background: #f9f9f9;
+}
+.rent-img-thumb img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.rent-img-label-input {
+  width: 100%;
+  padding: 6px 8px;
+  border: none;
+  border-top: 1px solid #eee;
+  font-size: .78rem;
+  color: #444;
+  background: #fff;
+  outline: none;
+  box-sizing: border-box;
+}
+.rent-img-label-input:focus {
+  background: #f5f3ff;
+}
+
+.rent-img-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(229, 57, 53, .85);
+  color: #fff;
+  font-size: .72rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s;
+  backdrop-filter: blur(4px);
+}
+.rent-img-remove:hover { background: #c62828; }
+
+.rent-img-add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 120px;
+  border: 2px dashed #c0c7d0;
+  border-radius: 12px;
+  background: #fff;
+  color: #888;
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+.rent-img-add:hover {
+  border-color: #667eea;
+  background: #f5f3ff;
+  color: #5b21b6;
+}
+
+.rent-img-add-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+
 /* ─── Responsive ─── */
 @media (max-width: 520px) {
   .rent-header-title {
@@ -576,6 +853,35 @@ details[open] > .rent-preset-cat::before {
     min-width: 110px;
     padding: 10px 8px;
   }
+
+  /* ── New: property type tabs ── */
+  .rent-type-tabs {
+    gap: 6px;
+  }
+  .rent-type-tab {
+    padding: 7px 12px;
+    font-size: .76rem;
+  }
+
+  /* ── New: template grid ── */
+  .rent-tpl-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .rent-tpl-name { font-size: .65rem; }
+
+  /* ── New: image grid ── */
+  .rent-img-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .rent-img-add { min-height: 100px; font-size: .75rem; }
+
+  /* ── Preview images ── */
+  .rent-images-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
 }
 
 @media (max-width: 380px) {
@@ -591,5 +897,15 @@ details[open] > .rent-preset-cat::before {
   .rent-preset-btn {
     font-size: .68rem;
     padding: 3px 8px;
+  }
+  .rent-type-tab {
+    padding: 6px 10px;
+    font-size: .7rem;
+  }
+  .rent-tpl-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .rent-img-grid {
+    grid-template-columns: 1fr 1fr;
   }
 }

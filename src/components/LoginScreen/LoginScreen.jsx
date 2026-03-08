@@ -15,7 +15,7 @@ import AdminPanel from '../AdminPanel/AdminPanel';
 import MyTemplates from '../MyTemplates/MyTemplates';
 import DownloadHistory from '../DownloadHistory/DownloadHistory';
 import Toast from '../shared/Toast';
-import { getActiveFestivals, getAllFestivals, getUpcomingFestivals } from '../../utils/festivalCalendar';
+import { getActiveFestivals, getUpcomingFestivals } from '../../utils/festivalCalendar';
 
 /* Preview components for sample cards */
 import WeddingCardPreview from '../WeddingCard/WeddingCardPreview';
@@ -23,9 +23,12 @@ import BirthdayCardPreview from '../BirthdayCard/BirthdayCardPreview';
 import AnniversaryCardPreview from '../AnniversaryCard/AnniversaryCardPreview';
 import BiodataCardPreview from '../BiodataCard/BiodataCardPreview';
 import RentCardPreview from '../RentCard/RentCardPreview';
+import { PROPERTY_TYPES, PROPERTY_TYPE_CONFIG } from '../RentCard/rentConstants';
 import SalonCardPreview from '../SalonCard/SalonCardPreview';
+import { TEMPLATES as RESUME_TPL_LIST } from '../CardResume/ResumeTemplates';
 import '../RentCard/RentCard.css';
 import '../SalonCard/SalonCard.css';
+import '../CardResume/CardResume.css';
 
 /* Sample data for each card type */
 const SAMPLE_WEDDING = {
@@ -106,6 +109,8 @@ const BIODATA_TEMPLATES = [
 ];
 
 const SAMPLE_RENT = {
+  propertyType: 'pg',
+  selectedTemplate: 1,
   title: 'PG / PER BED RENT AVAILABLE',
   location: 'Sector 62, Noida — Near Metro Station',
   rentWithoutAC: '6,500',
@@ -121,6 +126,7 @@ const SAMPLE_RENT = {
   contactName: 'Rajesh Kumar',
   contactPhone: '+91 98765 43210',
   logo: null,
+  propertyImages: [],
 };
 
 const SAMPLE_SALON = {
@@ -149,10 +155,126 @@ const SALON_THEMES = [
   { id: 'teal-cream', name: 'Teal & Cream', accent: '#2a9d8f' },
 ];
 
-/* Rent card has a single design — show 1 template for preview consistency */
+/* Sample resume data for template previews — full data matching TemplateSelector */
+const SAMPLE_RESUME = {
+  fullName: 'Priya Sharma',
+  jobTitle: 'Senior Software Engineer',
+  email: 'priya.sharma@example.com',
+  phone: '+91 98765 43210',
+  location: 'Bangalore, India 560001',
+  linkedin: 'linkedin.com/in/priyasharma',
+  summary: 'Dynamic Senior Software Engineer with extensive experience specializing in Angular and React.js. Proven track record in developing robust applications and enhancing team collaboration. Adept at integrating complex APIs and optimizing performance, while ensuring client requirements are met through innovative solutions and effective communication.',
+  experience: [
+    { title: 'Senior Software Engineer', company: 'Wipro Technologies', from: '12/2022', to: 'Current', location: 'Greater Noida, India', desc: 'Developed and maintained front-end applications for Dealer Management System (DMS) using Angular.\nImplemented unit test cases using Jest for robust and reliable code.\nWorked on multiple dashboards including Windsurf Dashboard, Tooling Dashboard, KPI Dashboard, and Metrics Dashboard.\nIntegrated and managed tools like Codebeamer and Jama for requirement and project management.\nCollaborated on full-stack development using Angular, React.js, Node.js, .NET, and Python.\nUtilized tools such as pgAdmin, Docker, Git, and MongoDB for database management, containerization, version control, and data handling.' },
+    { title: 'Software Engineer', company: 'Magic EdTech', from: '06/2021', to: '11/2022', location: 'Greater Noida, India', desc: 'Established efficient communication channels within the team, leading to better collaboration among members during project development phases.\nCoordinated with other engineers to evaluate and improve software and hardware interfaces.\nTested methodology with writing and execution of test plans, debugging and testing scripts and tools.\nFocused on Accessibility compliance for web applications.\nDeveloped features using React.js, Angular, Redux, and TypeScript.' },
+    { title: 'Software Engineer', company: 'Hocalwire', from: '02/2021', to: '05/2021', location: 'Noida, India', desc: 'Debug and troubleshoot template-related issues.\nParticipate in code reviews and contribute to best practices for templating and front-end development.\nDevelop and maintain Jade/Pug templates for rendering dynamic HTML content.\nCollaborate with designers and back-end developers to implement responsive and user-friendly interfaces.\nOptimize templates for performance and scalability.' },
+    { title: 'Software Engineer', company: 'Enco Engineer Combine Pvt Ltd', from: '11/2019', to: '01/2021', location: 'Gurgaon, India', desc: 'Develop and maintain ERP web applications for multiple business modules (HR, Finance, Sales, Marketing).\nDesign and implement dynamic and responsive forms using Angular.\nIntegrate RESTful APIs and third-party services into ERP systems.\nCollaborate with cross-functional teams to gather requirements and deliver scalable solutions.\nOptimize application performance and ensure security compliance.\nTroubleshoot and resolve technical issues across ERP modules.\nParticipate in code reviews and maintain best practices in software development.' },
+    { title: 'Software Engineer', company: 'Educo Internation Pvt Ltd', from: '09/2018', to: '08/2019', location: 'New Delhi, India', desc: 'Developed and maintained interactive web applications using HTML, JavaScript, jQuery, and SVG for dynamic and responsive user interfaces.\nImplemented mathematical and logical algorithms to solve complex problems and enhance application functionality.\nDesigned and integrated social science-based animations to create engaging and educational user experiences.\nOptimized front-end performance and ensured cross-browser compatibility for seamless user interaction.\nCollaborated with teams to deliver data-driven visualizations and interactive content for diverse domains.' },
+  ],
+  education: [
+    { degree: 'Bachelor of Technology: Computer Science', institution: 'Guru Govind Singh Indraprastha University', year: '07/2018', location: 'New Delhi, India' },
+  ],
+  skills: 'React.js, Angular, Node.js, Python, .NET, Jest, Docker, Git, MongoDB, pgAdmin, Client Requirements',
+  languages: 'Hindi: Native speaker, English: Professional',
+  interests: 'Full-stack Development, Open Source Contributions, Tech Community',
+  photo: null,
+  photoPreview: '',
+};
+
+/* Resume template configs for sample preview — pick 6 popular ones */
+const RESUME_TEMPLATES = RESUME_TPL_LIST.slice(0, 6).map(t => ({
+  id: t.id, name: t.name, accent: t.color, Component: t.Component,
+}));
+
+/* Rent card colour themes for landing-page sample previews */
 const RENT_TEMPLATES = [
-  { id: 1, name: 'Classic Blue', accent: '#0b3d91' },
+  { id: 1, name: 'Classic Blue',   accent: '#0b3d91' },
+  { id: 2, name: 'Royal Purple',   accent: '#4a148c' },
+  { id: 3, name: 'Forest Green',   accent: '#1b5e20' },
+  { id: 4, name: 'Sunset Orange',  accent: '#e65100' },
+  { id: 5, name: 'Midnight Dark',  accent: '#212121' },
+  { id: 6, name: 'Cherry Red',     accent: '#b71c1c' },
 ];
+
+/* Sample data per template — varied property types for richer previews */
+const SAMPLE_RENT_BY_TPL = {
+  1: {
+    propertyType: 'pg', selectedTemplate: 1,
+    title: 'PG / PER BED RENT AVAILABLE',
+    location: 'Sector 62, Noida — Near Metro Station',
+    rentWithoutAC: '6,500', rentWithAC: '8,500',
+    features: ['2–3 Beds in Each Room', 'Separate Washroom for Every Room', 'Small Kitchen in Every Room', '24/7 Power Backup'],
+    amenities: [
+      { icon: '📶', text: 'High-Speed WiFi' }, { icon: '💧', text: 'RO Drinking Water' },
+      { icon: '🚿', text: 'Water Softener' }, { icon: '📹', text: 'Security Cameras' },
+      { icon: '🍱', text: 'Tiffin Service' },
+    ],
+    contactName: 'Rajesh Kumar', contactPhone: '+91 98765 43210', logo: null, propertyImages: [],
+  },
+  2: {
+    propertyType: 'flat', selectedTemplate: 2,
+    title: 'SPACIOUS 2 BHK FLAT FOR RENT',
+    location: 'Indirapuram, Ghaziabad — Near Vaishali Metro',
+    rentWithoutAC: '12,000', rentWithAC: '15,000',
+    features: ['2 Bedrooms + Hall + Kitchen', 'Modular Kitchen', 'Attached Balcony', 'Reserved Car Parking'],
+    amenities: [
+      { icon: '🏋️', text: 'Gym Access' }, { icon: '🏊', text: 'Swimming Pool' },
+      { icon: '🔒', text: '24×7 Security' }, { icon: '⚡', text: 'Power Backup' },
+      { icon: '🌿', text: 'Garden & Park' },
+    ],
+    contactName: 'Anita Verma', contactPhone: '+91 99887 65432', logo: null, propertyImages: [],
+  },
+  3: {
+    propertyType: 'room', selectedTemplate: 3,
+    title: 'FURNISHED ROOM AVAILABLE',
+    location: 'Laxmi Nagar, Delhi — Near Metro Gate 2',
+    rentWithoutAC: '5,000', rentWithAC: '7,500',
+    features: ['Fully Furnished', 'Attached Washroom', 'Separate Entry', 'No Owner Restriction'],
+    amenities: [
+      { icon: '📶', text: 'WiFi Included' }, { icon: '💧', text: 'RO Water' },
+      { icon: '🧹', text: 'Daily Cleaning' }, { icon: '🚗', text: 'Bike Parking' },
+    ],
+    contactName: 'Sunil Sharma', contactPhone: '+91 88776 54321', logo: null, propertyImages: [],
+  },
+  4: {
+    propertyType: 'hostel', selectedTemplate: 4,
+    title: 'BOYS HOSTEL — BEDS AVAILABLE',
+    location: 'Kota, Rajasthan — Near Allen Coaching',
+    rentWithoutAC: '4,000', rentWithAC: '6,000',
+    features: ['Triple Sharing Rooms', 'Mess Facility', '24/7 Hot Water', 'Study Hall'],
+    amenities: [
+      { icon: '📶', text: 'High-Speed WiFi' }, { icon: '🍳', text: 'Veg & Non-Veg Mess' },
+      { icon: '🧺', text: 'Laundry Service' }, { icon: '📹', text: 'CCTV Surveillance' },
+      { icon: '🛺', text: 'Auto Stand Nearby' },
+    ],
+    contactName: 'Mahesh Jain', contactPhone: '+91 77665 43210', logo: null, propertyImages: [],
+  },
+  5: {
+    propertyType: 'shop', selectedTemplate: 5,
+    title: 'PRIME SHOP SPACE FOR RENT',
+    location: 'MG Road, Gurugram — Ground Floor, Main Market',
+    rentWithoutAC: '25,000', rentWithAC: '',
+    features: ['350 sq ft Carpet Area', 'Glass Front Façade', 'Separate Electric Meter', 'Ample Footfall Location'],
+    amenities: [
+      { icon: '🚗', text: 'Customer Parking' }, { icon: '⚡', text: '3-Phase Power' },
+      { icon: '💧', text: '24×7 Water' }, { icon: '🔒', text: 'Roller Shutter' },
+    ],
+    contactName: 'Vikram Singh', contactPhone: '+91 99001 23456', logo: null, propertyImages: [],
+  },
+  6: {
+    propertyType: 'pg', selectedTemplate: 6,
+    title: 'GIRLS PG — SAFE & HOMELY',
+    location: 'Koramangala, Bangalore — Near Forum Mall',
+    rentWithoutAC: '7,000', rentWithAC: '9,500',
+    features: ['Single / Double Sharing', 'Home-Cooked Meals', 'Attached Washroom', 'No Curfew'],
+    amenities: [
+      { icon: '📶', text: 'WiFi Included' }, { icon: '🧹', text: 'Housekeeping' },
+      { icon: '🔐', text: 'Biometric Lock' }, { icon: '💧', text: 'RO + Geyser' },
+      { icon: '🏥', text: 'Clinic Nearby' },
+    ],
+    contactName: 'Priya Nair', contactPhone: '+91 98123 45678', logo: null, propertyImages: [],
+  },
+};
 
 /*
   Modes:
@@ -188,9 +310,15 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
   /* Hidden admin login trigger — triple-click logo */
   const logoClickRef = useRef({ count: 0, timer: null });
 
-  /* Sample preview modal state */
-  const [samplePreview, setSamplePreview] = useState(null); // null | 'wedding' | 'birthday' | 'anniversary' | 'biodata' | 'rentcard' | 'saloncard'
-  const [fullPreviewTpl, setFullPreviewTpl] = useState(null); // { type: 'wedding', id: 1 } for full card preview
+  /* Full preview overlay state */
+  const [fullPreviewTpl, setFullPreviewTpl] = useState(null);
+
+  /* Rent property-type tab state for landing page showcase */
+  const [activeRentType, setActiveRentType] = useState('pg');
+
+  /* Header state */
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [tplDropdownOpen, setTplDropdownOpen] = useState(false);
 
   function openAuthPopup(m = 'signin') { switchMode(m); setShowAuthPopup(true); }
   function closeAuthPopup() { setShowAuthPopup(false); resetForm(); }
@@ -606,20 +734,18 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
 
   /* ═══ CARD CATEGORIES ═══ */
   const PREMIUM_CARDS = [
-    { id: 'birthday',      icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',   grad: 'linear-gradient(135deg, #ff6b6b, #ee5a24)', price: '₹19/₹49' },
-    { id: 'wedding',       icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #f7971e, #ffd200)', price: '₹19/₹49' },
-    { id: 'anniversary',   icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27b)', price: '₹19/₹49' },
-    { id: 'biodata',       icon: '💒', name: 'Marriage Profile Designer',     desc: 'Build a traditional and detailed marriage biodata with a clean layout.',   grad: 'linear-gradient(135deg, #d4af37, #c0392b)', price: '₹49' },
-    { id: 'rentcard',      icon: '🏠', name: 'PG / Rent Card',                desc: 'Create professional PG & rent advertisement cards with property details.', grad: 'linear-gradient(135deg, #0b3d91, #43a047)', price: '₹49' },
-    { id: 'saloncard',     icon: '💇', name: 'Salon / Parlour Card',           desc: 'Create elegant salon service & price list cards for your beauty business.', grad: 'linear-gradient(135deg, #0a0a14, #d4af37)', price: '₹49' },
+    { id: 'birthday',      icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',   grad: 'linear-gradient(135deg, #c084fc, #818cf8, #a78bfa)', price: '₹19/₹49' },
+    { id: 'wedding',       icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #a78bfa, #f0abfc, #c084fc)', price: '₹19/₹49' },
+    { id: 'anniversary',   icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #e9d5ff, #c4b5fd, #a78bfa)', price: '₹19/₹49' },
+    { id: 'biodata',       icon: '💒', name: 'Marriage Profile Designer',     desc: 'Build a traditional and detailed marriage biodata with a clean layout.',   grad: 'linear-gradient(135deg, #d8b4fe, #93c5fd, #a78bfa)', price: '₹49' },
+    { id: 'rentcard',      icon: '🏠', name: 'PG / Rent Card',                desc: 'PG, Flat, Room, Hostel & Shop cards with 6 themes, amenities & dynamic layouts.', grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)', price: '₹49' },
+    { id: 'saloncard',     icon: '💇', name: 'Salon / Parlour Card',           desc: 'Create elegant salon service & price list cards for your beauty business.', grad: 'linear-gradient(135deg, #c084fc, #f9a8d4, #d8b4fe)', price: '₹49' },
+    { id: 'cardresume',    icon: '🪪', name: 'Professional Resume Maker',      desc: 'Download your job‑ready resume. Perfect for freshers & professionals.',       grad: 'linear-gradient(135deg, #7c3aed, #a78bfa, #818cf8)', price: '₹99' },
   ];
 
   /* Festival calendar — auto-detect active festivals */
   const activeFestivals = getActiveFestivals();
   const upcomingFestivals = getUpcomingFestivals();
-  const allFestivals = getAllFestivals();
-  const [showOccasionalCards, setShowOccasionalCards] = useState(false);
-
   const FREE_CARDS_HINDI = [
     { id: 'motivational',  icon: '💪', name: 'प्रेरणादायक विचार',      desc: 'प्रेरणादायक विचार — थीम चुनें, कस्टमाइज़ करें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #0f0c29, #302b63)' },
     { id: 'fathers',       icon: '👨‍👧', name: 'पिता पर सुविचार',        desc: 'पिता के प्यार को शब्दों में — थीम चुनें और फ्री डाउनलोड करें!', grad: 'linear-gradient(135deg, #2d3436, #636e72)' },
@@ -642,72 +768,80 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
     if (onSelect) onSelect(cardId);
   }
 
-  function handleComingSoon(cardName) {
-    setToast({ show: true, text: `🚀 "${cardName}" is coming soon! Stay tuned.` });
-    setTimeout(() => setToast({ show: false, text: '' }), 2500);
-  }
-
-  const comingSoonCards = [
-    /* Moved here — not ready yet */
-    { icon: '🪔', name: 'Jagrata Invite',      desc: 'Design serene and devotional invitations for Jagrata gatherings.',       grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
-    { icon: '📄', name: 'Resume Builder',      desc: 'Design a polished resume and download it instantly in PDF format.',      grad: 'linear-gradient(135deg, #38b2ac, #319795)' },
-    { icon: '💍', name: 'Marriage Profile',     desc: 'Build a traditional and detailed marriage biodata with a clean layout.', grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
-    /* Spiritual & Religious */
-    { icon: '🙏', name: 'Satyanarayan Katha', desc: 'Create sacred invitations for Satyanarayan Katha pooja.',             grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
-    { icon: '💃', name: 'Garba / Navratri',   desc: 'Colourful Garba and Navratri celebration invitation cards.',           grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
-    /* Wedding Functions */
-    { icon: '💛', name: 'Haldi',              desc: 'Bright and cheerful Haldi ceremony invitation cards.',                 grad: 'linear-gradient(135deg, #f9d423, #f7971e)' },
-    { icon: '🌿', name: 'Mehendi',            desc: 'Beautiful Mehendi night invitation with intricate design vibes.',      grad: 'linear-gradient(135deg, #38b2ac, #69f0ae)' },
-    { icon: '🎶', name: 'Sangeet',            desc: 'Create fun and musical Sangeet night invitation cards.',              grad: 'linear-gradient(135deg, #667eea, #764ba2)' },
-    { icon: '🥂', name: 'Reception',          desc: 'Design elegant reception party invitations for the big day.',         grad: 'linear-gradient(135deg, #c471f5, #fa71cd)' },
-    { icon: '📅', name: 'Save the Date',      desc: 'Send gorgeous Save the Date cards to your loved ones.',               grad: 'linear-gradient(135deg, #ee5a6f, #f0c27f)' },
-    /* Family & Life Events */
-    { icon: '🍼', name: 'Baby Shower',        desc: 'Design adorable invitations for a joyful baby shower celebration.',   grad: 'linear-gradient(135deg, #fda085, #f6d365)' },
-    { icon: '🪷', name: 'Naming Ceremony',    desc: 'Create elegant naming ceremony invitations with cultural themes.',    grad: 'linear-gradient(135deg, #a18cd1, #fbc2eb)' },
-    { icon: '🏠', name: 'Housewarming',       desc: 'Welcome guests to your new home with a warm invitation card.',        grad: 'linear-gradient(135deg, #f7971e, #ffd200)' },
-    { icon: '🎓', name: 'Graduation / Farewell', desc: 'Celebrate academic milestones with stylish graduation invitations.', grad: 'linear-gradient(135deg, #667eea, #764ba2)' },
-    /* Professional & Documents */
-    { icon: '🪪', name: 'Visiting Card',      desc: 'Design sleek and modern visiting cards for professionals.',           grad: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
-    { icon: '📋', name: 'Business Docs',      desc: 'Create professional business documents and letterheads.',             grad: 'linear-gradient(135deg, #667eea, #764ba2)' },
-    /* Greeting Cards */
-    { icon: '🙏', name: 'Thank You',          desc: 'Express gratitude with elegant and heartfelt thank you cards.',       grad: 'linear-gradient(135deg, #fda085, #f6d365)' },
-    { icon: '🎊', name: 'Congratulations',    desc: 'Celebrate achievements with vibrant congratulations cards.',          grad: 'linear-gradient(135deg, #f857a6, #ff5858)' },
-    { icon: '🍀', name: 'Good Luck',          desc: 'Send warm good luck wishes with charming card designs.',              grad: 'linear-gradient(135deg, #43e97b, #38f9d7)' },
-    /* Social Media */
-    { icon: '💬', name: 'WhatsApp Invites',   desc: 'Create WhatsApp-optimised invitation cards ready to share.',          grad: 'linear-gradient(135deg, #43e97b, #38f9d7)' },
-    { icon: '📸', name: 'Instagram Story Templates', desc: 'Design eye-catching Instagram story templates for events.',    grad: 'linear-gradient(135deg, #c471f5, #fa71cd)' },
-    { icon: '🌐', name: 'Social Event Cards', desc: 'Create shareable event cards for social media platforms.',            grad: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
-  ];
-
   const displayName = user?.name || user?.email?.split('@')[0] || '';
   const initial = displayName.charAt(0).toUpperCase();
 
   return (
     <div className="login-page">
 
-      {/* ═══════ TOPBAR — always visible ═══════ */}
-      <div className="lp-topbar">
-        <div className="lp-topbar-logo" onClick={() => {
-          const ref = logoClickRef.current;
-          ref.count += 1;
-          clearTimeout(ref.timer);
-          if (ref.count >= 3) { ref.count = 0; openAuthPopup('otp-login'); }
-          else { ref.timer = setTimeout(() => { ref.count = 0; }, 600); }
-        }}>✨ Card Maker</div>
-        <div className="lp-topbar-actions">
-          {user && !isGuest && (
-            <>
-              <button className={`lp-topbar-btn ${accountTab === 'profile' ? 'active' : ''}`} onClick={() => setAccountTab(accountTab === 'profile' ? null : 'profile')}>👤 Profile</button>
-              <button className={`lp-topbar-btn ${accountTab === 'templates' ? 'active' : ''}`} onClick={() => setAccountTab(accountTab === 'templates' ? null : 'templates')}>📋 Templates</button>
-              <button className={`lp-topbar-btn ${accountTab === 'downloads' ? 'active' : ''}`} onClick={() => setAccountTab(accountTab === 'downloads' ? null : 'downloads')}>📥 Downloads</button>
-              {isSuperAdmin && (
-                <button className={`lp-topbar-btn ${accountTab === 'admin' ? 'active' : ''}`} onClick={() => setAccountTab(accountTab === 'admin' ? null : 'admin')}>⚙️ Admin</button>
+      {/* ═══════ HEADER — full navigation bar ═══════ */}
+      <header className="lp-header">
+        <div className="lp-header-inner">
+
+          {/* Logo + Brand */}
+          <div className="lp-header-brand" onClick={() => {
+            const ref = logoClickRef.current;
+            ref.count += 1;
+            clearTimeout(ref.timer);
+            if (ref.count >= 3) { ref.count = 0; openAuthPopup('otp-login'); }
+            else { ref.timer = setTimeout(() => { ref.count = 0; }, 600); }
+          }}>
+            <span className="lp-header-logo">✨</span>
+            <div className="lp-header-brand-text">
+              <span className="lp-header-brand-name">Card Maker</span>
+              <span className="lp-header-tagline">Design Cards, Invites &amp; Resumes — Instantly</span>
+            </div>
+          </div>
+
+          {/* Hamburger for mobile */}
+          <button className="lp-header-hamburger" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">
+            {mobileMenuOpen ? '✕' : '☰'}
+          </button>
+
+          {/* Navigation */}
+          <nav className={`lp-header-nav${mobileMenuOpen ? ' open' : ''}`}>
+
+            {/* Templates Dropdown */}
+            <div className="lp-nav-dropdown-wrap">
+              <button className="lp-nav-link lp-nav-dropdown-trigger" onClick={() => setTplDropdownOpen(!tplDropdownOpen)}>
+                Templates <span className={`lp-nav-chevron${tplDropdownOpen ? ' open' : ''}`}>▾</span>
+              </button>
+              {tplDropdownOpen && (
+                <div className="lp-nav-dropdown" onClick={() => { setTplDropdownOpen(false); setMobileMenuOpen(false); }}>
+                  <button className="lp-nav-dropdown-item" onClick={() => handleCardClick('wedding')}>💐 Wedding Cards</button>
+                  <button className="lp-nav-dropdown-item" onClick={() => handleCardClick('birthday')}>🎂 Birthday Invites</button>
+                  <button className="lp-nav-dropdown-item" onClick={() => handleCardClick('anniversary')}>💍 Anniversary Cards</button>
+                  <button className="lp-nav-dropdown-item" onClick={() => handleCardClick('biodata')}>💒 Marriage Biodata</button>
+                  <button className="lp-nav-dropdown-item" onClick={() => handleCardClick('rentcard')}>🏠 PG / Rent Cards</button>
+                  <button className="lp-nav-dropdown-item" onClick={() => handleCardClick('saloncard')}>💇 Salon Cards</button>
+                  <button className="lp-nav-dropdown-item" onClick={() => handleCardClick('cardresume')}>📄 Resume Builder</button>
+                </div>
               )}
-            </>
-          )}
-          {/* Sign In/Sign Up removed - all users are guests */}
+            </div>
+
+            {/* Nav links */}
+            <a className="lp-nav-link" href="#lp-card-seo-anchor" onClick={() => setMobileMenuOpen(false)}>Features</a>
+            <a className="lp-nav-link" href="/blog/best-online-card-maker-in-india" onClick={() => setMobileMenuOpen(false)}>Blog</a>
+
+            {/* Logged-in user tabs */}
+            {user && !isGuest && (
+              <>
+                <button className={`lp-nav-link${accountTab === 'profile' ? ' active' : ''}`} onClick={() => { setAccountTab(accountTab === 'profile' ? null : 'profile'); setMobileMenuOpen(false); }}>👤 Profile</button>
+                <button className={`lp-nav-link${accountTab === 'templates' ? ' active' : ''}`} onClick={() => { setAccountTab(accountTab === 'templates' ? null : 'templates'); setMobileMenuOpen(false); }}>📋 My Templates</button>
+                <button className={`lp-nav-link${accountTab === 'downloads' ? ' active' : ''}`} onClick={() => { setAccountTab(accountTab === 'downloads' ? null : 'downloads'); setMobileMenuOpen(false); }}>📥 Downloads</button>
+                {isSuperAdmin && (
+                  <button className={`lp-nav-link${accountTab === 'admin' ? ' active' : ''}`} onClick={() => { setAccountTab(accountTab === 'admin' ? null : 'admin'); setMobileMenuOpen(false); }}>⚙️ Admin</button>
+                )}
+              </>
+            )}
+
+            {/* CTA Button */}
+            <button className="lp-header-cta" onClick={() => { setMobileMenuOpen(false); document.getElementById('lp-cards-anchor')?.scrollIntoView({ behavior: 'smooth' }); }}>
+              🎨 Start Creating
+            </button>
+          </nav>
         </div>
-      </div>
+      </header>
 
       {/* ═══════ ACCOUNT PANEL OVERLAY ═══════ */}
       {user && accountTab && (
@@ -748,36 +882,8 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
             Create Beautiful Cards <span className="lp-accent">in Minutes</span>
           </h1>
           <p className="lp-hero-sub">
-            See how your invitation cards will look! Click below to preview sample templates with pre-filled data.
+            Design stunning invitations, biodata, resumes &amp; more — browse template previews below and start creating instantly.
           </p>
-
-          {/* Sample Preview Buttons */}
-          <div className="lp-sample-buttons">
-            <button className="lp-sample-btn lp-sample-btn--wedding" onClick={() => setSamplePreview('wedding')}>
-              <span className="lp-sample-icon">💐</span>
-              <span className="lp-sample-label">Wedding Samples</span>
-            </button>
-            <button className="lp-sample-btn lp-sample-btn--birthday" onClick={() => setSamplePreview('birthday')}>
-              <span className="lp-sample-icon">🎂</span>
-              <span className="lp-sample-label">Birthday Samples</span>
-            </button>
-            <button className="lp-sample-btn lp-sample-btn--anniversary" onClick={() => setSamplePreview('anniversary')}>
-              <span className="lp-sample-icon">💍</span>
-              <span className="lp-sample-label">Anniversary Samples</span>
-            </button>
-            <button className="lp-sample-btn lp-sample-btn--biodata" onClick={() => setSamplePreview('biodata')}>
-              <span className="lp-sample-icon">💒</span>
-              <span className="lp-sample-label">Biodata Samples</span>
-            </button>
-            <button className="lp-sample-btn lp-sample-btn--rentcard" onClick={() => setSamplePreview('rentcard')}>
-              <span className="lp-sample-icon">🏠</span>
-              <span className="lp-sample-label">PG/Rent Samples</span>
-            </button>
-            <button className="lp-sample-btn lp-sample-btn--saloncard" onClick={() => setSamplePreview('saloncard')}>
-              <span className="lp-sample-icon">💇</span>
-              <span className="lp-sample-label">Salon Samples</span>
-            </button>
-          </div>
 
           <div className="lp-hero-stats">
             <div className="lp-stat"><span className="lp-stat-num">23+</span><span className="lp-stat-label">Card Types</span></div>
@@ -806,20 +912,8 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
         </section>
       )}
 
-      {/* ═══════ FREE CARDS BUTTON ═══════ */}
-      <section className="lp-showcase lp-free-section">
-        <div className="lp-section-header">
-          <h2 className="lp-section-title">🎁 Free Instant Cards</h2>
-          <span className="lp-section-free-tag">100% FREE</span>
-        </div>
-        <p className="lp-section-sub">No form needed — just pick, customize colors &amp; download instantly!</p>
-        <button className="lp-free-cards-btn" onClick={onOpenFreeCards}>
-          🎁 Browse Free Cards
-        </button>
-      </section>
-
       {/* ═══════ PREMIUM CARDS ═══════ */}
-      <section className="lp-showcase">
+      <section className="lp-showcase" id="lp-cards-anchor">
         <div className="lp-section-header">
           <h2 className="lp-section-title">✨ Premium Card Designers</h2>
           <span className="lp-section-price">Starting from ₹19</span>
@@ -858,11 +952,293 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
         </div>
       </section>
 
-      {/* ═══════ FESTIVAL CALENDAR BUTTON ═══════ */}
-      <section className="lp-calendar-section">
+      {/* ═══════ CARD-TYPE SEO SECTIONS ═══════ */}
+      <div className="lp-card-seo" id="lp-card-seo-anchor">
+
+        {/* ── Birthday Invitation Card Maker ── */}
+        <section className="lp-cseo-section">
+          <div className="lp-cseo-icon-wrap lp-cseo--birthday">🎂</div>
+          <h2 className="lp-cseo-title">Birthday Invitation Card Maker</h2>
+          <p className="lp-cseo-desc">
+            Create stunning <strong>birthday invitation cards online</strong> in minutes. Our <strong>birthday invite maker</strong> offers beautiful <strong>birthday card templates</strong> for kids, adults, and themed birthday parties. Design a <strong>digital birthday party invitation</strong>, customize colors, text &amp; photos, and download instantly — perfect for sharing on WhatsApp, Instagram, or printing.
+          </p>
+          <div className="lp-cseo-features">
+            <span>✓ Kids &amp; Adult Templates</span>
+            <span>✓ Live Preview</span>
+            <span>✓ Hindi &amp; English</span>
+            <span>✓ HD PNG Download</span>
+          </div>
+          <div className="lp-cseo-actions">
+            <button className="lp-cseo-btn" type="button" onClick={() => handleCardClick('birthday')}>🎂 Create Birthday Invite →</button>
+          </div>
+          <div className="lp-cseo-samples">
+            <p className="lp-cseo-samples-label">👀 Preview Templates</p>
+            <div className="lp-cseo-samples-row">
+              {BIRTHDAY_TEMPLATES.map(tpl => (
+                <div key={tpl.id} className="lp-cseo-tpl" onClick={() => setFullPreviewTpl({ type: 'birthday', id: tpl.id, name: tpl.name })}>
+                  <div className="lp-cseo-tpl-preview">
+                    <div className="lp-sample-preview-inner lp-sample-preview--birthday">
+                      <BirthdayCardPreview data={{ ...SAMPLE_BIRTHDAY, selectedTemplate: tpl.id }} lang="en" template={tpl.id} />
+                    </div>
+                  </div>
+                  <span className="lp-cseo-tpl-name">{tpl.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Wedding Invitation Card Maker ── */}
+        <section className="lp-cseo-section">
+          <div className="lp-cseo-icon-wrap lp-cseo--wedding">💐</div>
+          <h2 className="lp-cseo-title">Wedding Invitation Card Maker</h2>
+          <p className="lp-cseo-desc">
+            Design elegant <strong>wedding invitation cards online</strong> with our <strong>wedding invite maker</strong>. Choose from <strong>royal wedding card designs</strong> and <strong>Indian wedding invitation templates</strong> — including Sikh, Hindu, Muslim &amp; Christian styles. Add photos, family details, venue info, and <strong>create wedding cards online</strong> in Hindi, English, Punjabi or Gujarati.
+          </p>
+          <div className="lp-cseo-features">
+            <span>✓ 7+ Royal Templates</span>
+            <span>✓ Multi-Language</span>
+            <span>✓ Photo Upload</span>
+            <span>✓ Print &amp; Share Ready</span>
+          </div>
+          <div className="lp-cseo-actions">
+            <button className="lp-cseo-btn" type="button" onClick={() => handleCardClick('wedding')}>💐 Create Wedding Card →</button>
+          </div>
+          <div className="lp-cseo-samples">
+            <p className="lp-cseo-samples-label">👀 Preview Templates</p>
+            <div className="lp-cseo-samples-row">
+              {WEDDING_TEMPLATES.map(tpl => (
+                <div key={tpl.id} className="lp-cseo-tpl" onClick={() => setFullPreviewTpl({ type: 'wedding', id: tpl.id, name: tpl.name })}>
+                  <div className="lp-cseo-tpl-preview">
+                    <div className="lp-sample-preview-inner lp-sample-preview--wedding">
+                      <WeddingCardPreview data={{ ...SAMPLE_WEDDING, selectedTemplate: tpl.id }} lang="en" template={tpl.id} />
+                    </div>
+                  </div>
+                  <span className="lp-cseo-tpl-name">{tpl.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Anniversary Greeting Card Maker ── */}
+        <section className="lp-cseo-section">
+          <div className="lp-cseo-icon-wrap lp-cseo--anniversary">💍</div>
+          <h2 className="lp-cseo-title">Anniversary Greeting Card Creator</h2>
+          <p className="lp-cseo-desc">
+            Celebrate milestones with our <strong>anniversary greeting card maker</strong>. Create beautiful <strong>wedding anniversary wishes cards</strong> and <strong>digital anniversary cards</strong> with elegant designs, couple photos, and heartfelt messages. Our <strong>anniversary card design online</strong> tool offers <strong>anniversary invitation templates</strong> for 25th, 50th, and every special year.
+          </p>
+          <div className="lp-cseo-features">
+            <span>✓ 6 Elegant Themes</span>
+            <span>✓ Couple Photo</span>
+            <span>✓ Emotional Designs</span>
+            <span>✓ Instant Download</span>
+          </div>
+          <div className="lp-cseo-actions">
+            <button className="lp-cseo-btn" type="button" onClick={() => handleCardClick('anniversary')}>💍 Create Anniversary Card →</button>
+          </div>
+          <div className="lp-cseo-samples">
+            <p className="lp-cseo-samples-label">👀 Preview Templates</p>
+            <div className="lp-cseo-samples-row">
+              {ANNIVERSARY_TEMPLATES.map(tpl => (
+                <div key={tpl.id} className="lp-cseo-tpl" onClick={() => setFullPreviewTpl({ type: 'anniversary', id: tpl.id, name: tpl.name })}>
+                  <div className="lp-cseo-tpl-preview">
+                    <div className="lp-sample-preview-inner lp-sample-preview--anniversary">
+                      <AnniversaryCardPreview data={{ ...SAMPLE_ANNIVERSARY, selectedTemplate: tpl.id }} lang="en" template={tpl.id} />
+                    </div>
+                  </div>
+                  <span className="lp-cseo-tpl-name">{tpl.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Marriage Biodata Maker ── */}
+        <section className="lp-cseo-section">
+          <div className="lp-cseo-icon-wrap lp-cseo--biodata">💒</div>
+          <h2 className="lp-cseo-title">Marriage Biodata / Marriage Profile Maker</h2>
+          <p className="lp-cseo-desc">
+            Build a professional <strong>marriage biodata</strong> with our easy‑to‑use <strong>biodata for marriage online</strong> tool. Our <strong>marriage biodata maker</strong> supports <strong>Hindu marriage biodata</strong>, Sikh, Muslim &amp; Jain formats with the <strong>Indian wedding biodata format</strong> that families expect. Add personal details, family info, education, career, and a beautiful photo — ready for <strong>marriage profile design</strong> sharing.
+          </p>
+          <div className="lp-cseo-features">
+            <span>✓ 6 Community Formats</span>
+            <span>✓ Hindi / English / Punjabi</span>
+            <span>✓ Photo &amp; Family Details</span>
+            <span>✓ PDF Download</span>
+          </div>
+          <div className="lp-cseo-actions">
+            <button className="lp-cseo-btn" type="button" onClick={() => handleCardClick('biodata')}>💒 Create Marriage Biodata →</button>
+          </div>
+          <div className="lp-cseo-samples">
+            <p className="lp-cseo-samples-label">👀 Preview Templates</p>
+            <div className="lp-cseo-samples-row">
+              {BIODATA_TEMPLATES.map(tpl => (
+                <div key={tpl.id} className="lp-cseo-tpl" onClick={() => setFullPreviewTpl({ type: 'biodata', id: tpl.id, name: tpl.name })}>
+                  <div className="lp-cseo-tpl-preview">
+                    <div className="lp-sample-preview-inner lp-sample-preview--biodata">
+                      <BiodataCardPreview data={SAMPLE_BIODATA} lang="en" template={tpl.id} community="hindi" />
+                    </div>
+                  </div>
+                  <span className="lp-cseo-tpl-name">{tpl.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── PG / Rent Card Maker ── */}
+        <section className="lp-cseo-section">
+          <div className="lp-cseo-icon-wrap lp-cseo--rent">🏠</div>
+          <h2 className="lp-cseo-title">PG / Rent Advertisement Card Maker</h2>
+          <p className="lp-cseo-desc">
+            Create professional <strong>PG advertisement cards</strong> and <strong>rental room ad cards</strong> in seconds. Our <strong>PG for rent digital card</strong> maker helps landlords and PG owners design eye‑catching <strong>property rent advertisement templates</strong> with room details, amenities, rent pricing &amp; contact info. <strong>Create rent cards online</strong> and share instantly on social media or print for notice boards.
+          </p>
+
+          {/* Property Type Showcase — interactive */}
+          <div className="lp-rent-proptype">
+            <h3 className="lp-rent-proptype-title">🏷️ Property Type</h3>
+            <p className="lp-rent-proptype-hint">Select what type of property you&apos;re listing.</p>
+            <div className="lp-rent-proptype-tabs">
+              {PROPERTY_TYPES.map(pt => (
+                <button key={pt.id} type="button"
+                  className={`lp-rent-proptype-tab${activeRentType === pt.id ? ' active' : ''}`}
+                  onClick={() => setActiveRentType(pt.id)}
+                >{pt.label}</button>
+              ))}
+            </div>
+
+            {/* Dynamic feature pills based on selected property type */}
+            {(() => {
+              const cfg = PROPERTY_TYPE_CONFIG[activeRentType] || PROPERTY_TYPE_CONFIG.pg;
+              return (
+                <div className="lp-rent-proptype-details">
+                  <div className="lp-rent-proptype-col">
+                    <h4 className="lp-rent-proptype-subhead">{cfg.featuresLabel}</h4>
+                    <ul className="lp-rent-proptype-list">
+                      {cfg.defaultFeatures.map((f, i) => <li key={i}>✅ {f}</li>)}
+                    </ul>
+                  </div>
+                  <div className="lp-rent-proptype-col">
+                    <h4 className="lp-rent-proptype-subhead">{cfg.amenitiesLabel}</h4>
+                    <ul className="lp-rent-proptype-list">
+                      {cfg.defaultAmenities.map((a, i) => <li key={i}>{a.icon} {a.text}</li>)}
+                    </ul>
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
+
+          <div className="lp-cseo-features">
+            <span>✓ {(PROPERTY_TYPE_CONFIG[activeRentType] || PROPERTY_TYPE_CONFIG.pg).featuresHeading}</span>
+            <span>✓ {(PROPERTY_TYPE_CONFIG[activeRentType] || PROPERTY_TYPE_CONFIG.pg).priceLabel1} &amp; {(PROPERTY_TYPE_CONFIG[activeRentType] || PROPERTY_TYPE_CONFIG.pg).priceLabel2}</span>
+            <span>✓ Contact &amp; Logo</span>
+            <span>✓ 6 Professional Color Themes</span>
+          </div>
+          <div className="lp-cseo-actions">
+            <button className="lp-cseo-btn" type="button" onClick={() => handleCardClick('rentcard')}>🏠 Create Rent Card →</button>
+          </div>
+          <div className="lp-cseo-samples">
+            <p className="lp-cseo-samples-label">👀 Preview Templates — 6 Color Themes</p>
+            <div className="lp-cseo-samples-row">
+              {RENT_TEMPLATES.map(tpl => (
+                <div key={tpl.id} className="lp-cseo-tpl" onClick={() => setFullPreviewTpl({ type: 'rentcard', id: tpl.id, name: tpl.name })}>
+                  <div className="lp-cseo-tpl-preview">
+                    <div className="lp-sample-preview-inner lp-sample-preview--rentcard">
+                      <RentCardPreview data={SAMPLE_RENT_BY_TPL[tpl.id] || SAMPLE_RENT} />
+                    </div>
+                  </div>
+                  <span className="lp-cseo-tpl-name">{tpl.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Salon / Parlour Card Maker ── */}
+        <section className="lp-cseo-section">
+          <div className="lp-cseo-icon-wrap lp-cseo--salon">💇</div>
+          <h2 className="lp-cseo-title">Salon / Parlour Price Card Designer</h2>
+          <p className="lp-cseo-desc">
+            Design a professional <strong>salon price list card</strong> for your business. Our <strong>beauty parlour service card</strong> maker lets you create stunning <strong>salon menu card designs</strong> with categorized services for ladies, men &amp; kids. Showcase treatments, packages &amp; pricing with a beautiful <strong>beauty service price card</strong> — perfect as a <strong>parlour rate card design</strong> for printing or WhatsApp sharing.
+          </p>
+          <div className="lp-cseo-features">
+            <span>✓ 5 Premium Themes</span>
+            <span>✓ Ladies / Men / Kids Sections</span>
+            <span>✓ Logo &amp; Contact</span>
+            <span>✓ Print‑Ready Quality</span>
+          </div>
+          <div className="lp-cseo-actions">
+            <button className="lp-cseo-btn" type="button" onClick={() => handleCardClick('saloncard')}>💇 Create Salon Card →</button>
+          </div>
+          <div className="lp-cseo-samples">
+            <p className="lp-cseo-samples-label">👀 Preview Themes</p>
+            <div className="lp-cseo-samples-row">
+              {SALON_THEMES.map(tpl => (
+                <div key={tpl.id} className="lp-cseo-tpl" onClick={() => setFullPreviewTpl({ type: 'saloncard', id: tpl.id, name: tpl.name })}>
+                  <div className="lp-cseo-tpl-preview">
+                    <div className="lp-sample-preview-inner lp-sample-preview--saloncard">
+                      <SalonCardPreview data={{ ...SAMPLE_SALON, theme: tpl.id }} />
+                    </div>
+                  </div>
+                  <span className="lp-cseo-tpl-name">{tpl.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Resume / CV Builder ── */}
+        <section className="lp-cseo-section">
+          <div className="lp-cseo-icon-wrap lp-cseo--resume">📄</div>
+          <h2 className="lp-cseo-title">Professional Resume / CV Builder Online</h2>
+          <p className="lp-cseo-desc">
+            Build a professional <strong>resume online</strong> in minutes with our easy‑to‑use <strong>resume maker</strong>. Our <strong>ATS‑friendly resume builder</strong> offers clean, modern templates designed for freshers and experienced professionals alike. Create a job‑ready <strong>CV online</strong>, add your skills, experience &amp; education, and download as <strong>PDF or Word</strong> — perfect for Naukri, LinkedIn, and email applications.
+          </p>
+          <div className="lp-cseo-features">
+            <span>✓ 14 Professional Templates</span>
+            <span>✓ ATS Friendly</span>
+            <span>✓ PDF &amp; Word Download</span>
+            <span>✓ Mobile Responsive</span>
+          </div>
+          <div className="lp-cseo-actions">
+            <button className="lp-cseo-btn" type="button" onClick={() => handleCardClick('cardresume')}>📄 Create Resume →</button>
+          </div>
+          <div className="lp-cseo-samples">
+            <p className="lp-cseo-samples-label">👀 Preview Templates</p>
+            <div className="lp-cseo-samples-row lp-cseo-samples-row--resume">
+              {RESUME_TEMPLATES.map(tpl => (
+                <div key={tpl.id} className="lp-rcard">
+                  <div className="lp-rcard-preview">
+                    <div className="lp-rcard-scaler">
+                      <tpl.Component data={SAMPLE_RESUME} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      {/* ═══════ FREE CARDS BUTTON ═══════ */}
+      <section className="lp-showcase lp-free-section">
+        <div className="lp-section-header">
+          <h2 className="lp-section-title">🎁 Free Instant Cards</h2>
+          <span className="lp-section-free-tag">100% FREE</span>
+        </div>
+        <p className="lp-section-sub">No form needed — just pick, customize colors &amp; download instantly!</p>
+        <button className="lp-free-cards-btn" onClick={onOpenFreeCards}>
+          🎁 Browse Free Cards
+        </button>
+      </section>
+
+      <section className="lp-showcase lp-calendar-section">
         <h2 className="lp-section-title">🗓️ Festival Calendar</h2>
         <p className="lp-section-sub">Plan ahead! Explore all Indian festivals month‑wise and create cards for each celebration.</p>
-        <button className="lp-calendar-btn" onClick={onOpenCalendar}>
+        <button className="lp-free-cards-btn" onClick={onOpenCalendar}>
           🗓️ Open Festival Calendar
         </button>
       </section>
@@ -1271,223 +1647,114 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
         </div>
       </section>
 
-      {/* ═══════ OCCASIONAL / FESTIVAL CARDS TOGGLE ═══════ */}
-      <section className="lp-occasional-section">
-        <button
-          className={`lp-occasional-toggle ${showOccasionalCards ? 'active' : ''}`}
-          type="button"
-          onClick={() => setShowOccasionalCards(prev => !prev)}
-        >
-          <span className="lp-occasional-icon">🎉</span>
-          <span className="lp-occasional-text">
-            {showOccasionalCards ? 'Hide' : 'Show'} Festival & Occasional Cards
-          </span>
-          <span className={`lp-occasional-arrow ${showOccasionalCards ? 'open' : ''}`}>▼</span>
-        </button>
 
-        {showOccasionalCards && (
-          <div className="lp-occasional-content">
-            <p className="lp-section-sub">Browse all seasonal & festival cards — Holi, Diwali, Eid, Christmas & more!</p>
-            <div className="lp-occasional-grid">
-              {allFestivals.map(f => {
-                const isActive = activeFestivals.some(af => af.key === f.key);
-                return (
-                  <button
-                    key={f.key}
-                    className={`lp-occasional-card ${isActive ? 'lp-occasional-card--active' : ''}`}
-                    style={{ background: f.grad }}
-                    type="button"
-                    onClick={() => { if (f.offerCard === 'festivalcards') onSelectFestival?.(f.key); handleCardClick(f.offerCard); }}
-                  >
-                    {isActive && <span className="lp-occasional-live">🔴 LIVE</span>}
-                    <span className="lp-showcase-icon">{f.icon}</span>
-                    <h3 className="lp-showcase-name">{f.name}</h3>
-                    {f.nameHindi && <p className="lp-occasional-hindi">{f.nameHindi}</p>}
-                    <span className="lp-occasional-price">{f.offerPrice}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </section>
-
-      {/* ═══════ COMING SOON ═══════ */}
-      <section className="lp-coming-section">
-        <h2 className="lp-section-title">🚀 Coming Soon</h2>
-        <p className="lp-section-sub">{comingSoonCards.length} more card types on the way!</p>
-        <div className="lp-coming-grid">
-          {comingSoonCards.map(c => (
-            <div key={c.name} className="lp-coming-card" style={{ background: c.grad }} onClick={() => handleComingSoon(c.name)} role="button" tabIndex={0}>
-              <span className="lp-showcase-icon">{c.icon}</span>
-              <h3 className="lp-showcase-name">{c.name}</h3>
-              <span className="lp-coming-badge">Coming Soon</span>
-            </div>
-          ))}
-        </div>
-      </section>
 
 
 
       {/* ═══════ FOOTER ═══════ */}
       <footer className="lp-footer">
-        <p className="lp-footer-love">Made with ❤️ by <strong>Creative Thinker Design Hub</strong></p>
-        <div className="lp-footer-nav">
-          <a href="https://mail.google.com/mail/?view=cm&to=creativethinker.designhub@gmail.com&su=Inquiry%20-%20Card%20Maker" target="_blank" rel="noopener noreferrer" className="lp-footer-link">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20 4h-16c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-12c0-1.1-.9-2-2-2zm0 4l-8 5-8-5v-2l8 5 8-5v2z"/></svg>
-            Email Us
-          </a>
-          <span className="lp-footer-dot">·</span>
-          <span className="lp-footer-link disabled" title="Coming soon">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.97 0-1.75-.79-1.75-1.76s.78-1.76 1.75-1.76 1.75.79 1.75 1.76-.78 1.76-1.75 1.76zm13.5 11.27h-3v-5.34c0-3.18-4-2.94-4 0v5.34h-3v-10h3v1.77c1.4-2.59 7-2.78 7 2.48v5.75z"/></svg>
-            LinkedIn
-          </span>
+        <div className="lp-footer-top-line" />
+        <div className="lp-footer-inner">
+          {/* Column 1 — Brand */}
+          <div className="lp-footer-col lp-footer-brand">
+            <h3 className="lp-footer-brand-title">✨ Creative Thinker Design Hub</h3>
+            <p className="lp-footer-tagline">Create invitations, greetings, biodata, rent cards &amp; resumes in minutes.</p>
+            <button className="lp-footer-cta" type="button" onClick={() => document.getElementById('lp-cards-anchor')?.scrollIntoView({ behavior: 'smooth' })}>
+              🎨 Start Creating →
+            </button>
+          </div>
+
+          {/* Column 2 — Quick Links */}
+          <div className="lp-footer-col">
+            <h4 className="lp-footer-heading">Quick Links</h4>
+            <nav className="lp-footer-links">
+              <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Home</button>
+              <button type="button" onClick={() => document.getElementById('lp-cards-anchor')?.scrollIntoView({ behavior: 'smooth' })}>All Templates</button>
+              <button type="button" onClick={() => handleCardClick('birthday')}>Birthday Invitation</button>
+              <button type="button" onClick={() => handleCardClick('wedding')}>Wedding Invitation</button>
+              <button type="button" onClick={() => handleCardClick('anniversary')}>Anniversary Cards</button>
+              <button type="button" onClick={() => handleCardClick('biodata')}>Marriage Biodata</button>
+              <button type="button" onClick={() => handleCardClick('cardresume')}>Resume Maker</button>
+            </nav>
+          </div>
+
+          {/* Column 3 — Support */}
+          <div className="lp-footer-col">
+            <h4 className="lp-footer-heading">Support</h4>
+            <nav className="lp-footer-links">
+              <button type="button" onClick={() => document.querySelector('.lp-about')?.scrollIntoView({ behavior: 'smooth' })}>About Us</button>
+              <button type="button" onClick={() => document.querySelector('.lp-faq')?.scrollIntoView({ behavior: 'smooth' })}>FAQ</button>
+              <a href="https://mail.google.com/mail/?view=cm&to=creativethinker.designhub@gmail.com&su=Support%20-%20Card%20Maker" target="_blank" rel="noopener noreferrer">Contact Support</a>
+              <a href="https://mail.google.com/mail/?view=cm&to=creativethinker.designhub@gmail.com&su=Bug%20Report%20-%20Card%20Maker" target="_blank" rel="noopener noreferrer">Report an Issue</a>
+              <a href="https://mail.google.com/mail/?view=cm&to=creativethinker.designhub@gmail.com&su=Feature%20Request%20-%20Card%20Maker" target="_blank" rel="noopener noreferrer">Feature Request</a>
+            </nav>
+          </div>
+
+          {/* Column 4 — Connect */}
+          <div className="lp-footer-col">
+            <h4 className="lp-footer-heading">Connect With Us</h4>
+            <div className="lp-footer-socials">
+              <span className="lp-footer-social lp-footer-social--disabled" title="Instagram">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              </span>
+              <span className="lp-footer-social lp-footer-social--disabled" title="LinkedIn">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.97 0-1.75-.79-1.75-1.76s.78-1.76 1.75-1.76 1.75.79 1.75 1.76-.78 1.76-1.75 1.76zm13.5 11.27h-3v-5.34c0-3.18-4-2.94-4 0v5.34h-3v-10h3v1.77c1.4-2.59 7-2.78 7 2.48v5.75z"/></svg>
+              </span>
+              <span className="lp-footer-social lp-footer-social--disabled" title="YouTube">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              </span>
+              <span className="lp-footer-social lp-footer-social--disabled" title="Facebook">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385h-3.047v-3.47h3.047v-2.642c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953h-1.514c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385c5.738-.9 10.126-5.864 10.126-11.854z"/></svg>
+              </span>
+              <span className="lp-footer-social lp-footer-social--disabled" title="Pinterest">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 0c-6.627 0-12 5.372-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146 1.124.347 2.317.535 3.554.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+              </span>
+              <a href="https://mail.google.com/mail/?view=cm&to=creativethinker.designhub@gmail.com&su=Inquiry%20-%20Card%20Maker" target="_blank" rel="noopener noreferrer" className="lp-footer-social" title="Email Us">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20 4h-16c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-12c0-1.1-.9-2-2-2zm0 4l-8 5-8-5v-2l8 5 8-5v2z"/></svg>
+              </a>
+            </div>
+          </div>
         </div>
-        <p className="lp-footer-copy">© 2026 Creative Thinker Design Hub. All Rights Reserved.</p>
+
+        {/* Bottom bar */}
+        <div className="lp-footer-bottom">
+          <p className="lp-footer-copy">© 2026 Creative Thinker Design Hub. All Rights Reserved.</p>
+          <p className="lp-footer-love">Made with ❤️ in India</p>
+        </div>
       </footer>
 
-      {/* ═══════ SAMPLE PREVIEW MODAL ═══════ */}
-      {samplePreview && (
-        <div className="lp-sample-overlay" onClick={() => setSamplePreview(null)}>
-          <div className="lp-sample-modal" onClick={e => e.stopPropagation()}>
-            <button className="lp-sample-close" onClick={() => setSamplePreview(null)}>✕</button>
-            
-            <div className="lp-sample-header">
-              <h2 className="lp-sample-title">
-                {samplePreview === 'wedding' && '💐 Wedding Invitation Templates'}
-                {samplePreview === 'birthday' && '🎂 Birthday Invitation Templates'}
-                {samplePreview === 'anniversary' && '💍 Anniversary Card Templates'}
-                {samplePreview === 'biodata' && '💒 Marriage Biodata Templates'}
-                {samplePreview === 'rentcard' && '🏠 PG / Rent Card Preview'}
-                {samplePreview === 'saloncard' && '💇 Salon / Parlour Card Themes'}
-              </h2>
-              <p className="lp-sample-subtitle">Preview all design options with sample data</p>
+      {/* ═══════ FULL PREVIEW OVERLAY (standalone) ═══════ */}
+      {fullPreviewTpl && (
+        <div className="lp-fullpreview-overlay" onClick={() => setFullPreviewTpl(null)}>
+          <div className={`lp-fullpreview-wrap${fullPreviewTpl.type === 'resume' ? ' lp-fullpreview-wrap--resume' : ''}`} onClick={e => e.stopPropagation()}>
+            <button className="lp-fullpreview-close" onClick={() => setFullPreviewTpl(null)}>✕</button>
+            <h3 className="lp-fullpreview-title">{fullPreviewTpl.name}</h3>
+            <div className="lp-fullpreview-card">
+              {fullPreviewTpl.type === 'wedding' && (
+                <WeddingCardPreview data={{ ...SAMPLE_WEDDING, selectedTemplate: fullPreviewTpl.id }} lang="en" template={fullPreviewTpl.id} />
+              )}
+              {fullPreviewTpl.type === 'birthday' && (
+                <BirthdayCardPreview data={{ ...SAMPLE_BIRTHDAY, selectedTemplate: fullPreviewTpl.id }} lang="en" template={fullPreviewTpl.id} />
+              )}
+              {fullPreviewTpl.type === 'anniversary' && (
+                <AnniversaryCardPreview data={{ ...SAMPLE_ANNIVERSARY, selectedTemplate: fullPreviewTpl.id }} lang="en" template={fullPreviewTpl.id} />
+              )}
+              {fullPreviewTpl.type === 'biodata' && (
+                <BiodataCardPreview data={SAMPLE_BIODATA} lang="en" template={fullPreviewTpl.id} community="hindi" />
+              )}
+              {fullPreviewTpl.type === 'rentcard' && (
+                <RentCardPreview data={SAMPLE_RENT_BY_TPL[fullPreviewTpl.id] || SAMPLE_RENT} />
+              )}
+              {fullPreviewTpl.type === 'saloncard' && (
+                <SalonCardPreview data={{ ...SAMPLE_SALON, theme: fullPreviewTpl.id }} />
+              )}
+              {fullPreviewTpl.type === 'resume' && fullPreviewTpl.Component && (
+                <fullPreviewTpl.Component data={SAMPLE_RESUME} />
+              )}
             </div>
-
-            <div className="lp-sample-grid">
-              {samplePreview === 'wedding' && WEDDING_TEMPLATES.map(tpl => (
-                <div key={tpl.id} className="lp-sample-card">
-                  <div className="lp-sample-preview" style={{ borderColor: tpl.accent }}>
-                    <div className="lp-sample-preview-inner lp-sample-preview--wedding">
-                      <WeddingCardPreview data={{ ...SAMPLE_WEDDING, selectedTemplate: tpl.id }} lang="en" template={tpl.id} />
-                    </div>
-                    <button className="lp-sample-preview-btn" onClick={() => setFullPreviewTpl({ type: 'wedding', id: tpl.id, name: tpl.name })}>
-                      👁️ Preview
-                    </button>
-                  </div>
-                  <span className="lp-sample-name" style={{ color: tpl.accent }}>{tpl.name}</span>
-                </div>
-              ))}
-
-              {samplePreview === 'birthday' && BIRTHDAY_TEMPLATES.map(tpl => (
-                <div key={tpl.id} className="lp-sample-card">
-                  <div className="lp-sample-preview" style={{ borderColor: tpl.accent }}>
-                    <div className="lp-sample-preview-inner lp-sample-preview--birthday">
-                      <BirthdayCardPreview data={{ ...SAMPLE_BIRTHDAY, selectedTemplate: tpl.id }} lang="en" template={tpl.id} />
-                    </div>
-                    <button className="lp-sample-preview-btn" onClick={() => setFullPreviewTpl({ type: 'birthday', id: tpl.id, name: tpl.name })}>
-                      👁️ Preview
-                    </button>
-                  </div>
-                  <span className="lp-sample-name" style={{ color: tpl.accent }}>{tpl.name}</span>
-                </div>
-              ))}
-
-              {samplePreview === 'anniversary' && ANNIVERSARY_TEMPLATES.map(tpl => (
-                <div key={tpl.id} className="lp-sample-card">
-                  <div className="lp-sample-preview" style={{ borderColor: tpl.accent }}>
-                    <div className="lp-sample-preview-inner lp-sample-preview--anniversary">
-                      <AnniversaryCardPreview data={{ ...SAMPLE_ANNIVERSARY, selectedTemplate: tpl.id }} lang="en" template={tpl.id} />
-                    </div>
-                    <button className="lp-sample-preview-btn" onClick={() => setFullPreviewTpl({ type: 'anniversary', id: tpl.id, name: tpl.name })}>
-                      👁️ Preview
-                    </button>
-                  </div>
-                  <span className="lp-sample-name" style={{ color: tpl.accent }}>{tpl.name}</span>
-                </div>
-              ))}
-
-              {samplePreview === 'biodata' && BIODATA_TEMPLATES.map(tpl => (
-                <div key={tpl.id} className="lp-sample-card">
-                  <div className="lp-sample-preview" style={{ borderColor: tpl.accent }}>
-                    <div className="lp-sample-preview-inner lp-sample-preview--biodata">
-                      <BiodataCardPreview data={SAMPLE_BIODATA} lang="hi" template={tpl.id} community="hindi" />
-                    </div>
-                    <button className="lp-sample-preview-btn" onClick={() => setFullPreviewTpl({ type: 'biodata', id: tpl.id, name: tpl.name })}>
-                      👁️ Preview
-                    </button>
-                  </div>
-                  <span className="lp-sample-name" style={{ color: tpl.accent }}>{tpl.name}</span>
-                </div>
-              ))}
-
-              {samplePreview === 'rentcard' && RENT_TEMPLATES.map(tpl => (
-                <div key={tpl.id} className="lp-sample-card">
-                  <div className="lp-sample-preview" style={{ borderColor: tpl.accent }}>
-                    <div className="lp-sample-preview-inner lp-sample-preview--rentcard">
-                      <RentCardPreview data={SAMPLE_RENT} />
-                    </div>
-                    <button className="lp-sample-preview-btn" onClick={() => setFullPreviewTpl({ type: 'rentcard', id: tpl.id, name: tpl.name })}>
-                      👁️ Preview
-                    </button>
-                  </div>
-                  <span className="lp-sample-name" style={{ color: tpl.accent }}>{tpl.name}</span>
-                </div>
-              ))}
-
-              {samplePreview === 'saloncard' && SALON_THEMES.map(tpl => (
-                <div key={tpl.id} className="lp-sample-card">
-                  <div className="lp-sample-preview" style={{ borderColor: tpl.accent }}>
-                    <div className="lp-sample-preview-inner lp-sample-preview--saloncard">
-                      <SalonCardPreview data={{ ...SAMPLE_SALON, theme: tpl.id }} />
-                    </div>
-                    <button className="lp-sample-preview-btn" onClick={() => setFullPreviewTpl({ type: 'saloncard', id: tpl.id, name: tpl.name })}>
-                      👁️ Preview
-                    </button>
-                  </div>
-                  <span className="lp-sample-name" style={{ color: tpl.accent }}>{tpl.name}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Full Preview Overlay */}
-            {fullPreviewTpl && (
-              <div className="lp-fullpreview-overlay" onClick={() => setFullPreviewTpl(null)}>
-                <div className="lp-fullpreview-wrap" onClick={e => e.stopPropagation()}>
-                  <button className="lp-fullpreview-close" onClick={() => setFullPreviewTpl(null)}>✕</button>
-                  <h3 className="lp-fullpreview-title">{fullPreviewTpl.name}</h3>
-                  <div className="lp-fullpreview-card">
-                    {fullPreviewTpl.type === 'wedding' && (
-                      <WeddingCardPreview data={{ ...SAMPLE_WEDDING, selectedTemplate: fullPreviewTpl.id }} lang="en" template={fullPreviewTpl.id} />
-                    )}
-                    {fullPreviewTpl.type === 'birthday' && (
-                      <BirthdayCardPreview data={{ ...SAMPLE_BIRTHDAY, selectedTemplate: fullPreviewTpl.id }} lang="en" template={fullPreviewTpl.id} />
-                    )}
-                    {fullPreviewTpl.type === 'anniversary' && (
-                      <AnniversaryCardPreview data={{ ...SAMPLE_ANNIVERSARY, selectedTemplate: fullPreviewTpl.id }} lang="en" template={fullPreviewTpl.id} />
-                    )}
-                    {fullPreviewTpl.type === 'biodata' && (
-                      <BiodataCardPreview data={SAMPLE_BIODATA} lang="hi" template={fullPreviewTpl.id} community="hindi" />
-                    )}
-                    {fullPreviewTpl.type === 'rentcard' && (
-                      <RentCardPreview data={SAMPLE_RENT} />
-                    )}
-                    {fullPreviewTpl.type === 'saloncard' && (
-                      <SalonCardPreview data={{ ...SAMPLE_SALON, theme: fullPreviewTpl.id }} />
-                    )}
-                  </div>
-                  <button className="lp-fullpreview-back" onClick={() => setFullPreviewTpl(null)}>
-                    ← Back to Templates
-                  </button>
-                </div>
-              </div>
-            )}
-
-            <div className="lp-sample-actions">
-              <button className="lp-sample-cta" onClick={() => { setSamplePreview(null); handleCardClick(samplePreview); }}>
-                🎨 Create Your Own {{ wedding: 'Wedding', birthday: 'Birthday', anniversary: 'Anniversary', biodata: 'Biodata', rentcard: 'PG/Rent', saloncard: 'Salon' }[samplePreview] || samplePreview} Card
-              </button>
-            </div>
+            <button className="lp-fullpreview-back" onClick={() => setFullPreviewTpl(null)}>
+              ← Back
+            </button>
           </div>
         </div>
       )}

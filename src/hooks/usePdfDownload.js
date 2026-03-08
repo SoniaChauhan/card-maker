@@ -52,11 +52,12 @@ export default function usePdfDownload(elementId, filename, { onSuccess, addWate
     try {
       const html2pdf = (await import('html2pdf.js')).default;
       const opt = {
-        margin: 0,
+        margin: [6, 0, 6, 0],
         filename,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true, logging: false, width: 794 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'], avoid: ['.rt-entry', '.rt-entry-sm', '.rt-tl-entry', '.rt-fm-entry', '.rt-sidebar-section', '.rt-contact-list', '.rt-lang-table'] },
       };
       await html2pdf().set(opt).from(el).save();
       showToast('✅ PDF downloaded!');
