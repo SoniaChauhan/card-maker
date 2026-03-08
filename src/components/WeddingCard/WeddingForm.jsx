@@ -238,6 +238,7 @@ export default function WeddingForm({ data, errors, onChange, onBack, onGenerate
             </label>
             <input type="file" id="wedding-photo" name="photo" accept="image/*" onChange={onChange} />
             {data.photoPreview && (
+              // eslint-disable-next-line @next/next/no-img-element
               <img src={data.photoPreview} alt="Wedding card photo preview - custom wedding invitation" className="card-photo-preview card-photo-preview--circle" loading="lazy" />
             )}
           </div>
