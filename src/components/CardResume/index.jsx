@@ -120,6 +120,8 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
   const [editorShowPreview, setEditorShowPreview] = useState(true);
   const [editorInitialStep, setEditorInitialStep] = useState(null);
   const [buildMode, setBuildMode] = useState(false);
+  const [showFormatChoice, setShowFormatChoice] = useState(false);
+  const [downloadDone, setDownloadDone] = useState(false);
 
   const pdfFilename = `resume-${toFilename(data.fullName || 'professional')}.pdf`;
   const dlTitle  = data.fullName ? `${data.fullName} Resume` : 'Resume';
@@ -132,6 +134,18 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
   });
 
   const [downloadingWord, setDownloadingWord] = useState(false);
+
+  /** Wrappers that set downloadDone after completion */
+  async function downloadPdf() {
+    await handlePdfDownload();
+    setShowFormatChoice(false);
+    setDownloadDone(true);
+  }
+  async function downloadWord() {
+    await handleWordDownload();
+    setShowFormatChoice(false);
+    setDownloadDone(true);
+  }
 
   function showToast(msg) {
     setToastState({ text: msg, show: true });
@@ -617,21 +631,12 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
         <div className="cr-preview-bottom-bar">
           <button className="cr-preview-prev-btn" onClick={() => { setEditorShowForm(true); setEditorInitialStep(5); setStep('editor'); }}>← Previous</button>
           <div className="cr-preview-download-group">
-            {paid && (
-              <button
-                className="cr-preview-word-btn"
-                onClick={handleWordDownload}
-                disabled={downloadingWord}
-              >
-                📝 {downloadingWord ? 'Saving…' : 'Word Format'}
-              </button>
-            )}
             <button
               className="cr-preview-download-btn"
-              onClick={paid ? handlePdfDownload : () => setShowPayment(true)}
-              disabled={downloading}
+              onClick={paid ? () => setShowFormatChoice(true) : () => setShowPayment(true)}
+              disabled={downloading || downloadingWord}
             >
-              📥 {downloading ? 'Saving PDF…' : paid ? 'Download PDF' : '💳 Download Resume'}
+              📥 {downloading || downloadingWord ? 'Saving…' : paid ? 'Download Resume' : '💳 Download Resume'}
             </button>
           </div>
         </div>
@@ -655,9 +660,43 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
             watermarkRef.current = withWatermark;
             if (!withWatermark && !isFree) setPaid(true);
             setShowPayment(false);
-            setTimeout(() => handlePdfDownload(), 500);
+            setShowFormatChoice(true);
           }}
         />
+      )}
+
+      {/* ── Format Choice Popup ── */}
+      {showFormatChoice && (
+        <div className="cr-format-overlay" onClick={() => setShowFormatChoice(false)}>
+          <div className="cr-format-popup" onClick={e => e.stopPropagation()}>
+            <h3 className="cr-format-title">📥 Choose Download Format</h3>
+            <p className="cr-format-desc">Select your preferred format to download the resume.</p>
+            <div className="cr-format-btns">
+              <button className="cr-format-btn cr-format-pdf" onClick={downloadPdf} disabled={downloading}>
+                📄 {downloading ? 'Saving…' : 'Download PDF'}
+              </button>
+              <button className="cr-format-btn cr-format-word" onClick={downloadWord} disabled={downloadingWord}>
+                📝 {downloadingWord ? 'Saving…' : 'Download Word'}
+              </button>
+            </div>
+            <button className="cr-format-close" onClick={() => setShowFormatChoice(false)}>✕ Cancel</button>
+          </div>
+        </div>
+      )}
+
+      {/* ── Download Done — Back Button ── */}
+      {downloadDone && !showFormatChoice && (
+        <div className="cr-download-done-bar">
+          <span>✅ Resume downloaded successfully!</span>
+          <div className="cr-done-btns">
+            <button className="cr-done-back-btn" onClick={() => { setDownloadDone(false); setEditorShowForm(true); setStep('editor'); }}>
+              ← Back to Editor
+            </button>
+            <button className="cr-done-again-btn" onClick={() => { setDownloadDone(false); setShowFormatChoice(true); }}>
+              📥 Download Again
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
