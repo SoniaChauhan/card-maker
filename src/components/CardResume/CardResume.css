@@ -2406,6 +2406,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
   padding: 8px 16px;
   background: #f0f4f8;
   border-bottom: 1px solid #e2e8f0;
@@ -2724,6 +2726,153 @@
   margin: 0;
 }
 
+/* ── Format Choice Popup ── */
+.cr-format-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+}
+.cr-format-popup {
+  background: #fff;
+  border-radius: 18px;
+  padding: 32px 28px 24px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .18);
+  text-align: center;
+  animation: crFormatIn .25s ease-out;
+}
+@keyframes crFormatIn {
+  from { opacity: 0; transform: scale(.92) translateY(12px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.cr-format-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 8px;
+}
+.cr-format-desc {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0 0 24px;
+}
+.cr-format-btns {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.cr-format-btn {
+  flex: 1;
+  padding: 14px 10px;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+}
+.cr-format-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .1);
+}
+.cr-format-btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+.cr-format-pdf {
+  border-color: #3b82f6;
+  color: #1d4ed8;
+  background: #eff6ff;
+}
+.cr-format-pdf:hover:not(:disabled) {
+  background: #dbeafe;
+}
+.cr-format-word {
+  border-color: #10b981;
+  color: #047857;
+  background: #ecfdf5;
+}
+.cr-format-word:hover:not(:disabled) {
+  background: #d1fae5;
+}
+.cr-format-close {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 6px 12px;
+  transition: color .2s;
+}
+.cr-format-close:hover { color: #475569; }
+
+/* ── Download Done Bar ── */
+.cr-download-done-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #065f46, #047857);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  z-index: 9998;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, .15);
+  animation: crDoneSlide .3s ease-out;
+}
+@keyframes crDoneSlide {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+.cr-done-btns {
+  display: flex;
+  gap: 10px;
+}
+.cr-done-back-btn,
+.cr-done-again-btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+}
+.cr-done-back-btn {
+  background: #fff;
+  color: #047857;
+}
+.cr-done-back-btn:hover { background: #ecfdf5; }
+.cr-done-again-btn {
+  background: rgba(255, 255, 255, .15);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .3);
+}
+.cr-done-again-btn:hover { background: rgba(255, 255, 255, .25); }
+
+@media (max-width: 480px) {
+  .cr-format-popup { padding: 24px 18px 18px; }
+  .cr-format-title { font-size: 17px; }
+  .cr-format-btns { flex-direction: column; gap: 10px; }
+  .cr-format-btn { padding: 12px 10px; font-size: 14px; }
+  .cr-download-done-bar { flex-direction: column; text-align: center; gap: 10px; padding: 12px 16px; font-size: 13px; }
+  .cr-done-btns { width: 100%; }
+  .cr-done-back-btn, .cr-done-again-btn { flex: 1; padding: 8px 12px; font-size: 13px; }
+}
+
 /* ── Editor Responsive ── */
 @media (max-width: 900px) {
   .cr-editor-screen { flex-direction: column; height: auto; min-height: 100vh; }
@@ -2736,10 +2885,25 @@
   .cr-editor-right { height: auto; }
   .cr-editor-form-panel { max-height: none; min-height: 300px; }
   .cr-editor-preview-panel { min-height: 400px; }
+  .cr-editor-preview-header { font-size: 12px; padding: 8px 12px; }
 }
 @media (max-width: 480px) {
   .cr-editor-templates { max-height: 180px; padding: 10px; }
   .cr-editor-tpl-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .cr-editor-preview-header {
+    font-size: 11px;
+    padding: 6px 10px;
+    gap: 4px;
+  }
+  .cr-editor-preview-header > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+    flex: 1;
+  }
+  .cr-editor-form-hide { font-size: 10px; padding: 3px 8px; white-space: nowrap; }
+  .cr-color-dot-sm { width: 14px; height: 14px; }
   .sf-container { padding: 14px 12px; }
   .sf-steps { overflow-x: auto; padding-bottom: 4px; }
   .sf-step { min-width: 40px; }
