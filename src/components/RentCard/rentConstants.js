@@ -1,0 +1,190 @@
+/* ═══════════════════════════════════════
+   Shared constants for PG / Rent Card
+   ═══════════════════════════════════════ */
+
+/* ─── Template colour themes ─── */
+export const RENT_TEMPLATES = [
+  { id: 1, name: 'Classic Blue',   headerBg: 'linear-gradient(135deg,#0b3d91,#1565c0)', footerBg: 'linear-gradient(135deg,#0b3d91,#1565c0)', headingBg: 'linear-gradient(135deg,#f9a825,#f57f17)', accentColor: '#1565c0', priceColor: '#d32f2f', acPriceColor: '#1565c0' },
+  { id: 2, name: 'Royal Purple',   headerBg: 'linear-gradient(135deg,#4a148c,#7c4dff)', footerBg: 'linear-gradient(135deg,#4a148c,#7c4dff)', headingBg: 'linear-gradient(135deg,#ff6d00,#ffab00)', accentColor: '#7c4dff', priceColor: '#c62828', acPriceColor: '#4a148c' },
+  { id: 3, name: 'Forest Green',   headerBg: 'linear-gradient(135deg,#1b5e20,#43a047)', footerBg: 'linear-gradient(135deg,#1b5e20,#43a047)', headingBg: 'linear-gradient(135deg,#ff8f00,#ffc107)', accentColor: '#2e7d32', priceColor: '#d32f2f', acPriceColor: '#1b5e20' },
+  { id: 4, name: 'Sunset Orange',  headerBg: 'linear-gradient(135deg,#e65100,#ff9800)', footerBg: 'linear-gradient(135deg,#bf360c,#e65100)', headingBg: 'linear-gradient(135deg,#1565c0,#42a5f5)', accentColor: '#e65100', priceColor: '#b71c1c', acPriceColor: '#e65100' },
+  { id: 5, name: 'Midnight Dark',  headerBg: 'linear-gradient(135deg,#212121,#424242)', footerBg: 'linear-gradient(135deg,#212121,#424242)', headingBg: 'linear-gradient(135deg,#fdd835,#f9a825)', accentColor: '#fdd835', priceColor: '#d32f2f', acPriceColor: '#1565c0' },
+  { id: 6, name: 'Cherry Red',     headerBg: 'linear-gradient(135deg,#b71c1c,#e53935)', footerBg: 'linear-gradient(135deg,#b71c1c,#c62828)', headingBg: 'linear-gradient(135deg,#00897b,#26a69a)', accentColor: '#e53935', priceColor: '#1565c0', acPriceColor: '#b71c1c' },
+];
+
+/* ─── Property types ─── */
+export const PROPERTY_TYPES = [
+  { id: 'pg',        label: '🏠 PG',              titleDefault: 'PG / PER BED RENT AVAILABLE' },
+  { id: 'flat',      label: '🏢 Flat',             titleDefault: 'FLAT FOR RENT' },
+  { id: 'room',      label: '🚪 Separate Room',    titleDefault: 'SEPARATE ROOM AVAILABLE' },
+  { id: 'hostel',    label: '🏨 Hostel',            titleDefault: 'HOSTEL BEDS AVAILABLE' },
+  { id: 'shop',      label: '🏪 Shop / Commercial', titleDefault: 'SHOP / COMMERCIAL SPACE FOR RENT' },
+];
+
+/* ═══════════════════════════════════════
+   Per-property-type configuration
+   – features, amenities, labels, placeholders
+   ═══════════════════════════════════════ */
+export const PROPERTY_TYPE_CONFIG = {
+  pg: {
+    featuresHeading: 'ROOM FEATURES',
+    amenitiesHeading: 'AMENITIES',
+    priceLabel1: 'Without AC',
+    priceLabel2: 'With AC',
+    priceIcon1: '🪭',
+    priceIcon2: '❄️',
+    priceSuffix: ' / Per Bed',
+    rentLabel1: 'Rent Without AC (₹)',
+    rentLabel2: 'Rent With AC (₹)',
+    rentPlaceholder1: 'e.g. 5500',
+    rentPlaceholder2: 'e.g. 8000',
+    locationPlaceholder: 'e.g. Sector 62, Noida — Near Metro Station',
+    titlePlaceholder: 'e.g. PG / PER BED RENT AVAILABLE',
+    featuresLabel: '🛏️ Room Features',
+    amenitiesLabel: '✨ Amenities',
+    defaultFeatures: [
+      '2–3 Beds in Each Room',
+      'Separate Washroom for Every Room',
+      'Small Kitchen in Every Room',
+      '24/7 Power Backup',
+    ],
+    defaultAmenities: [
+      { icon: '📶', text: 'High-Speed WiFi' },
+      { icon: '💧', text: 'RO Drinking Water' },
+      { icon: '🚿', text: 'Water Softener (Soft Water – Hair Friendly)' },
+      { icon: '📹', text: 'Security Cameras' },
+      { icon: '🍱', text: 'Tiffin Service (On Demand)' },
+    ],
+  },
+  flat: {
+    featuresHeading: 'FLAT FEATURES',
+    amenitiesHeading: 'SOCIETY AMENITIES',
+    priceLabel1: 'Monthly Rent',
+    priceLabel2: 'With Maintenance',
+    priceIcon1: '🏠',
+    priceIcon2: '🧾',
+    priceSuffix: ' / Month',
+    rentLabel1: 'Monthly Rent (₹)',
+    rentLabel2: 'Rent + Maintenance (₹)',
+    rentPlaceholder1: 'e.g. 12000',
+    rentPlaceholder2: 'e.g. 15000 (including society charges)',
+    locationPlaceholder: 'e.g. Indirapuram, Ghaziabad — Near Vaishali Metro',
+    titlePlaceholder: 'e.g. SPACIOUS 2 BHK FLAT FOR RENT',
+    featuresLabel: '🏢 Flat Features',
+    amenitiesLabel: '🏗️ Society Amenities',
+    defaultFeatures: [
+      '2 BHK — Hall + Kitchen + Balcony',
+      'Modular Kitchen with Chimney',
+      'Attached Washroom in Master Bedroom',
+      'Reserved Car Parking',
+      'Vitrified Flooring Throughout',
+    ],
+    defaultAmenities: [
+      { icon: '🏋️', text: 'Gym / Fitness Centre' },
+      { icon: '🏊', text: 'Swimming Pool' },
+      { icon: '🔐', text: '24×7 Gated Security' },
+      { icon: '⚡', text: 'Power Backup' },
+      { icon: '🌿', text: 'Landscaped Garden & Park' },
+      { icon: '🛗', text: 'Lift in Every Block' },
+    ],
+  },
+  room: {
+    featuresHeading: 'ROOM FEATURES',
+    amenitiesHeading: 'AMENITIES INCLUDED',
+    priceLabel1: 'Without AC',
+    priceLabel2: 'With AC',
+    priceIcon1: '🪭',
+    priceIcon2: '❄️',
+    priceSuffix: ' / Month',
+    rentLabel1: 'Rent Without AC (₹)',
+    rentLabel2: 'Rent With AC (₹)',
+    rentPlaceholder1: 'e.g. 5000',
+    rentPlaceholder2: 'e.g. 7500',
+    locationPlaceholder: 'e.g. Laxmi Nagar, Delhi — Near Metro Gate 2',
+    titlePlaceholder: 'e.g. FURNISHED ROOM AVAILABLE',
+    featuresLabel: '🚪 Room Features',
+    amenitiesLabel: '✨ Amenities Included',
+    defaultFeatures: [
+      'Fully Furnished Room',
+      'Attached Washroom',
+      'Separate Entry',
+      'No Owner Restriction',
+      'Balcony / Window with Ventilation',
+    ],
+    defaultAmenities: [
+      { icon: '📶', text: 'WiFi Included' },
+      { icon: '💧', text: 'RO Drinking Water' },
+      { icon: '🧹', text: 'Daily Cleaning' },
+      { icon: '🏍️', text: 'Bike / Car Parking' },
+      { icon: '⚡', text: '24×7 Electricity' },
+    ],
+  },
+  hostel: {
+    featuresHeading: 'HOSTEL FEATURES',
+    amenitiesHeading: 'HOSTEL AMENITIES',
+    priceLabel1: 'Without AC',
+    priceLabel2: 'With AC',
+    priceIcon1: '🪭',
+    priceIcon2: '❄️',
+    priceSuffix: ' / Per Bed',
+    rentLabel1: 'Rent Without AC (₹)',
+    rentLabel2: 'Rent With AC (₹)',
+    rentPlaceholder1: 'e.g. 4000',
+    rentPlaceholder2: 'e.g. 6000',
+    locationPlaceholder: 'e.g. Kota, Rajasthan — Near Allen Coaching',
+    titlePlaceholder: 'e.g. BOYS HOSTEL — BEDS AVAILABLE',
+    featuresLabel: '🏨 Hostel Features',
+    amenitiesLabel: '🏨 Hostel Amenities',
+    defaultFeatures: [
+      'Triple / Double Sharing Rooms',
+      'Mess / Food Facility',
+      '24/7 Hot Water — Geyser',
+      'Study Hall / Reading Room',
+      'Personal Locker for Each Bed',
+    ],
+    defaultAmenities: [
+      { icon: '📶', text: 'High-Speed WiFi' },
+      { icon: '🍳', text: 'Veg & Non-Veg Mess' },
+      { icon: '🧺', text: 'Laundry Service' },
+      { icon: '📹', text: 'CCTV Surveillance' },
+      { icon: '🛺', text: 'Auto / Bus Stand Nearby' },
+      { icon: '🏥', text: 'Medical Store Nearby' },
+    ],
+  },
+  shop: {
+    featuresHeading: 'PROPERTY FEATURES',
+    amenitiesHeading: 'FACILITIES & LOCATION',
+    priceLabel1: 'Monthly Rent',
+    priceLabel2: 'Security Deposit',
+    priceIcon1: '🏪',
+    priceIcon2: '🔒',
+    priceSuffix: ' / Month',
+    rentLabel1: 'Monthly Rent (₹)',
+    rentLabel2: 'Security Deposit (₹)',
+    rentPlaceholder1: 'e.g. 25000',
+    rentPlaceholder2: 'e.g. 100000',
+    locationPlaceholder: 'e.g. MG Road, Gurugram — Ground Floor, Main Market',
+    titlePlaceholder: 'e.g. PRIME SHOP SPACE FOR RENT',
+    featuresLabel: '🏪 Property Features',
+    amenitiesLabel: '📍 Facilities & Location',
+    defaultFeatures: [
+      '350 sq ft Carpet Area',
+      'Glass Front Façade / Shutter',
+      'Separate Electric Meter',
+      'Washroom Inside',
+      'Ground Floor — High Footfall',
+    ],
+    defaultAmenities: [
+      { icon: '🚗', text: 'Customer Parking Available' },
+      { icon: '⚡', text: '3-Phase Power Supply' },
+      { icon: '💧', text: '24×7 Water Supply' },
+      { icon: '🔒', text: 'Roller Shutter / Security' },
+      { icon: '🏪', text: 'Main Market — High Footfall' },
+      { icon: '🏦', text: 'Bank / ATM Nearby' },
+    ],
+  },
+};
+
+/* ─── Legacy default features & amenities (PG fallback) ─── */
+export const DEFAULT_FEATURES = PROPERTY_TYPE_CONFIG.pg.defaultFeatures;
+export const DEFAULT_AMENITIES = PROPERTY_TYPE_CONFIG.pg.defaultAmenities;

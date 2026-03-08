@@ -167,7 +167,7 @@ export default function RootLayout({ children }) {
                   { '@type': 'Offer', name: 'Festival Card Designer', price: '49', priceCurrency: 'INR' },
                   { '@type': 'Offer', name: 'PG & Rent Card Maker', price: '49', priceCurrency: 'INR' },
                   { '@type': 'Offer', name: 'Salon Price List Card Maker', price: '49', priceCurrency: 'INR' },
-                  { '@type': 'Offer', name: 'Resume Builder', price: '79', priceCurrency: 'INR' },
+                  { '@type': 'Offer', name: 'Resume Builder', price: '99', priceCurrency: 'INR' },
                   { '@type': 'Offer', name: 'Marriage Biodata Maker', price: '99', priceCurrency: 'INR' },
                 ],
               },

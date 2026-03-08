@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
 import './PaymentPopup.css';
-import { startPayment, checkUserAccess, sendOTP, verifyOTP, PRICE_WITH_WATERMARK, PRICE_NO_WATERMARK } from '../../services/paymentService';
+import { startPayment, checkUserAccess, sendOTP, verifyOTP, PRICE_WITH_WATERMARK, PRICE_NO_WATERMARK, getCardPrice } from '../../services/paymentService';
 
 /**
  * PaymentPopup — shows pricing tiers for card download.
@@ -172,7 +172,7 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
     setLoading(true);
     setError('');
 
-    const payPrice = selectedTier === 'watermark' ? PRICE_WITH_WATERMARK : PRICE_NO_WATERMARK;
+    const payPrice = selectedTier === 'watermark' ? PRICE_WITH_WATERMARK : getCardPrice(cardType);
     const withWatermark = selectedTier === 'watermark';
     const tier = withWatermark ? 'watermark' : 'premium';
 
@@ -212,7 +212,7 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
       if (matchesTier) return '⬇️ Download Now';
     }
     if (selectedTier === 'watermark') return `💳 Pay ₹${PRICE_WITH_WATERMARK} — Download with Small Watermark`;
-    return `✨ Pay ₹${PRICE_NO_WATERMARK} — Download Clean Card`;
+    return `✨ Pay ₹${getCardPrice(cardType)} — Download Clean Card`;
   }
 
   return (
@@ -266,7 +266,7 @@ export default function PaymentPopup({ cardType, cardLabel, userEmail, userName,
             type="button"
           >
             <div className="pay-tier-badge">RECOMMENDED</div>
-            <div className="pay-tier-price">₹{PRICE_NO_WATERMARK}</div>
+            <div className="pay-tier-price">₹{getCardPrice(cardType)}</div>
             <div className="pay-tier-label">No Watermark</div>
             <div className="pay-tier-desc">Clean, professional card</div>
           </button>

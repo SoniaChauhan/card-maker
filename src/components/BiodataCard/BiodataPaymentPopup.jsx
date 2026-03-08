@@ -1,15 +1,15 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
-import { startPayment, checkUserAccess, sendOTP, verifyOTP, PRICE_NO_WATERMARK } from '../../services/paymentService';
-
-const BIODATA_PRICE = PRICE_NO_WATERMARK; // ₹49
+import { startPayment, checkUserAccess, sendOTP, verifyOTP, PRICE_NO_WATERMARK, CARD_PRICES } from '../../services/paymentService';
 
 /**
- * BiodataPaymentPopup — Two options: Free (with watermark) or ₹49 (no watermark, 7 days).
+ * BiodataPaymentPopup — Two options: Free (with watermark) or paid (no watermark, 7 days).
  * Supports email OTP verification for guest users.
  * Accepts optional cardType / cardLabel props to reuse for other card types.
+ * Price is looked up from CARD_PRICES by cardType (e.g. cardresume → ₹99).
  */
 export default function BiodataPaymentPopup({ userEmail, userName, onClose, onPaymentDone, cardType = 'biodata', cardLabel = 'Marriage Biodata' }) {
+  const BIODATA_PRICE = CARD_PRICES[cardType] ?? PRICE_NO_WATERMARK;
   const [loading, setLoading] = useState(false);
   const [checkingAccess, setCheckingAccess] = useState(false);
   const [error, setError] = useState('');

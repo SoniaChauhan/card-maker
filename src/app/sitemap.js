@@ -28,6 +28,7 @@ export default function sitemap() {
     { url: `${BASE_URL}/motivational-quotes-english`,        lastModified: now, changeFrequency: 'monthly', priority: 0.80 },
     { url: `${BASE_URL}/rent-card-maker`,                    lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
     { url: `${BASE_URL}/salon-card-maker`,                   lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${BASE_URL}/card-resume-maker`,                  lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
 
     /* ── Blog articles ── */
     { url: `${BASE_URL}/blog/how-to-make-holi-card-online`,         lastModified: now, changeFrequency: 'monthly', priority: 0.70 },

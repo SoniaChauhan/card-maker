@@ -8,6 +8,7 @@ import { encodePayload } from '../utils/payload';
 /* ── Pricing Tiers (₹) ── */
 export const PRICE_WITH_WATERMARK = 19;    // Download with small watermark (7-day access)
 export const PRICE_NO_WATERMARK = 49;      // Download without watermark (7-day access)
+export const PRICE_RESUME = 99;            // Resume maker — flat ₹99 (no watermark tiers)
 export const PRICE_FREE = 0;               // Free with full watermark
 
 /* ── Combo Offer ── */
@@ -23,7 +24,7 @@ export const CARD_PRICES = {
   jagrata:         PRICE_NO_WATERMARK,
   biodata:         PRICE_NO_WATERMARK,
   wedding:         PRICE_NO_WATERMARK,
-  resume:          PRICE_NO_WATERMARK,
+  resume:          PRICE_RESUME,
   babyshower:      PRICE_NO_WATERMARK,
   namingceremony:  PRICE_NO_WATERMARK,
   housewarming:    PRICE_NO_WATERMARK,
@@ -47,6 +48,7 @@ export const CARD_PRICES = {
   socialevent:     PRICE_NO_WATERMARK,
   saloncard:       PRICE_NO_WATERMARK,
   rentcard:        PRICE_NO_WATERMARK,
+  cardresume:      PRICE_RESUME,
   holiwishes:      0,   // free
   'holiwishes-en': 0,   // free
   'mothers-en':    0,   // free
@@ -66,9 +68,11 @@ export function isSevenDayAccessCard(cardType) {
   return !FREE_CARDS.has(cardType);
 }
 
-/** Card types that only have ₹49 option (no ₹19 tier) */
+/** Card types that only have one paid tier (no ₹19 watermark tier) */
 export const NO_SMALL_WATERMARK_CARDS = new Set([
   'biodata',
+  'resume',
+  'cardresume',
 ]);
 
 /** Check if this card type requires payment */
