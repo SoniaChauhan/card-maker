@@ -349,7 +349,7 @@ export default function TemplateSelector({
               <div className="ts-upload-icon">📥</div>
               <h3 className="ts-upload-title">Upload Your Resume</h3>
               <p className="ts-upload-desc">
-                Upload a PDF or Word file — we'll extract your details and fill the form automatically!
+                Upload a PDF or Word file — we&apos;ll extract your details and fill the form automatically!
               </p>
               <p className="ts-upload-verified-badge">✅ Verified: {uploadEmail}</p>
               <button className="ts-upload-btn" onClick={() => onUploadResume(uploadEmail.trim())}>
@@ -460,7 +460,7 @@ export default function TemplateSelector({
                 <div className="ts-otp-modal-icon">📧</div>
                 <h3 className="ts-otp-modal-title">Verify Your Email</h3>
                 <p className="ts-otp-modal-desc">
-                  Enter your email address. We'll send a one‑time password to verify your identity before uploading.
+                  Enter your email address. We&apos;ll send a one‑time password to verify your identity before uploading.
                 </p>
                 <div className="ts-otp-modal-field">
                   <input
@@ -483,7 +483,7 @@ export default function TemplateSelector({
                 <div className="ts-otp-modal-icon">🔐</div>
                 <h3 className="ts-otp-modal-title">Enter OTP</h3>
                 <p className="ts-otp-modal-desc">
-                  We've sent a verification code to <strong>{uploadEmail}</strong>. Enter it below.
+                  We&apos;ve sent a verification code to <strong>{uploadEmail}</strong>. Enter it below.
                 </p>
                 <button
                   type="button"
