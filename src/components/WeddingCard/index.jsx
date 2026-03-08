@@ -79,7 +79,7 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
       setPaid(p);
       watermarkRef.current = !p;
     }).catch(() => {});
-  }, [userEmail, isSuperAdmin]);
+  }, [userEmail, isSuperAdmin, watermarkRef]);
 
   /* If lookup found details, check payment access by email */
   useEffect(() => {
@@ -90,7 +90,8 @@ export default function WeddingCard({ onBack, userEmail, initialData, templateId
         watermarkRef.current = false;
       }
     }).catch(() => {});
-  }, [lookupEmail]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lookupEmail, paid, watermarkRef]);
 
   function scrollCarousel(direction) {
     if (carouselRef.current) {

@@ -29,7 +29,8 @@ function ensureConnection() {
   return clientPromise;
 }
 
-export default { then: (resolve, reject) => ensureConnection().then(resolve, reject) };
+const clientPromiseThenable = { then: (resolve, reject) => ensureConnection().then(resolve, reject) };
+export default clientPromiseThenable;
 
 /** Helper — get the card-maker database (dev uses card-maker-dev) */
 export async function getDb() {
