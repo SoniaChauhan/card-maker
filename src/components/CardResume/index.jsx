@@ -122,6 +122,7 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
   const [buildMode, setBuildMode] = useState(false);
   const [showFormatChoice, setShowFormatChoice] = useState(false);
   const [downloadDone, setDownloadDone] = useState(false);
+  const [freeDownload, setFreeDownload] = useState(false);
 
   const pdfFilename = `resume-${toFilename(data.fullName || 'professional')}.pdf`;
   const dlTitle  = data.fullName ? `${data.fullName} Resume` : 'Resume';
@@ -633,7 +634,7 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
           <div className="cr-preview-download-group">
             <button
               className="cr-preview-download-btn"
-              onClick={paid ? () => setShowFormatChoice(true) : () => setShowPayment(true)}
+              onClick={paid ? () => { setFreeDownload(false); setShowFormatChoice(true); } : () => setShowPayment(true)}
               disabled={downloading || downloadingWord}
             >
               📥 {downloading || downloadingWord ? 'Saving…' : paid ? 'Download Resume' : '💳 Download Resume'}
@@ -659,6 +660,7 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
             const isFree = result?.isFree ?? false;
             watermarkRef.current = withWatermark;
             if (!withWatermark && !isFree) setPaid(true);
+            setFreeDownload(isFree || withWatermark);
             setShowPayment(false);
             setShowFormatChoice(true);
           }}
@@ -675,9 +677,11 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
               <button className="cr-format-btn cr-format-pdf" onClick={downloadPdf} disabled={downloading}>
                 📄 {downloading ? 'Saving…' : 'Download PDF'}
               </button>
-              <button className="cr-format-btn cr-format-word" onClick={downloadWord} disabled={downloadingWord}>
-                📝 {downloadingWord ? 'Saving…' : 'Download Word'}
-              </button>
+              {!freeDownload && (
+                <button className="cr-format-btn cr-format-word" onClick={downloadWord} disabled={downloadingWord}>
+                  📝 {downloadingWord ? 'Saving…' : 'Download Word'}
+                </button>
+              )}
             </div>
             <button className="cr-format-close" onClick={() => setShowFormatChoice(false)}>✕ Cancel</button>
           </div>
