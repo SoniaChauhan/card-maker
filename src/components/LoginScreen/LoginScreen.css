@@ -28,6 +28,8 @@
   width: 100%;
   text-align: center;
   padding: 48px var(--lp-gutter);
+  position: relative;
+  overflow: hidden;
 }
 .lp-hero-inner {
   max-width: var(--lp-max);
@@ -241,6 +243,8 @@
   margin: 0 0 4px;
   letter-spacing: -0.5px;
   text-shadow: 0 2px 12px rgba(0,0,0,.3);
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 .lp-section-sub {
   font-size: 15px;
@@ -405,7 +409,12 @@
   box-sizing: border-box;
   max-width: 100%;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
+/* Templates appear before SEO content within each card section */
+.lp-cseo-section > .lp-cseo-samples { order: 3; }
+.lp-cseo-section > .lp-anniversary-seo { order: 4; }
 .lp-cseo-section:hover {
   box-shadow: 0 12px 40px rgba(124, 58, 237, .14);
   transform: translateY(-2px);
@@ -1536,7 +1545,7 @@
   50% { opacity: .5; }
 }
 .lp-occasional-card .lp-showcase-icon { font-size: 36px; margin-bottom: 6px; position: relative; }
-.lp-occasional-card .lp-showcase-name { font-size: 12px; font-weight: 700; margin: 0 0 2px; position: relative; }
+.lp-occasional-card .lp-showcase-name { font-size: 12px; font-weight: 700; margin: 0 0 2px; position: relative; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: break-word; }
 .lp-occasional-hindi {
   font-size: 10px;
   opacity: .7;
@@ -2166,6 +2175,56 @@
 }
 
 /* ═══════════════════════════════════════
+   ANNIVERSARY SEO CONTENT SECTION
+   ═══════════════════════════════════════ */
+.lp-anniversary-seo {
+  width: 100%;
+  max-width: var(--lp-max);
+  margin: 0 auto;
+  padding: 48px var(--lp-gutter);
+  box-sizing: border-box;
+}
+.lp-anniversary-seo-body {
+  margin-top: 20px;
+  text-align: left;
+}
+.lp-anniversary-seo-body p {
+  color: rgba(255,255,255,.78);
+  font-size: 0.96rem;
+  line-height: 1.75;
+  margin-bottom: 14px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.lp-anniversary-seo-body strong {
+  color: #c4b5fd;
+}
+.lp-anniversary-seo-subtitle {
+  color: #e0e7ff;
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 18px 0 10px;
+}
+.lp-anniversary-seo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+}
+.lp-anniversary-seo-list li {
+  color: rgba(255,255,255,.75);
+  font-size: 0.95rem;
+  padding: 6px 0 6px 22px;
+  position: relative;
+}
+.lp-anniversary-seo-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #a78bfa;
+  font-weight: 700;
+}
+
+/* ═══════════════════════════════════════
    HOW IT WORKS — Steps section
    ═══════════════════════════════════════ */
 .lp-how-it-works {
@@ -2310,6 +2369,30 @@
   font-weight: 700;
   color: #e0d4ff;
   margin: 0 0 14px;
+}
+.lp-reviews-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+.lp-reviews-avg-stars {
+  color: #fbbf24;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+.lp-reviews-avg-text {
+  color: rgba(255,255,255,.6);
+}
+.lp-reviews-verified {
+  background: rgba(34,197,94,.15);
+  color: #4ade80;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
 }
 .lp-inline-reviews-list {
   display: flex;
@@ -2827,6 +2910,10 @@
   }
   .lp-fb-row { flex-direction: column; }
   .lp-fb-input { flex: none; }
+
+  /* SEO content sections — tablet */
+  .lp-anniversary-seo { padding: 32px var(--lp-gutter); }
+  .lp-anniversary-seo-subtitle { font-size: 0.98rem; }
 }
 
 /* Mobile (≤ 480px) — primary mobile-app target */
@@ -2915,6 +3002,12 @@
   .lp-cseo-actions { flex-direction: column; }
   .lp-rent-proptype-tabs { gap: 6px; }
   .lp-rent-proptype-tab { padding: 7px 12px; font-size: .76rem; }
+
+  /* SEO content sections — mobile */
+  .lp-anniversary-seo { padding: 20px var(--lp-gutter); }
+  .lp-anniversary-seo-body p { font-size: 0.88rem; line-height: 1.65; }
+  .lp-anniversary-seo-subtitle { font-size: 0.92rem; margin: 14px 0 8px; }
+  .lp-anniversary-seo-list li { font-size: 0.88rem; padding: 5px 0 5px 20px; }
 }
 
 /* Small mobile / compact (≤ 360px) */
@@ -2953,6 +3046,11 @@
   .login-card { padding: 18px 12px 16px; }
   .login-card h2 { font-size: 17px; }
   .lp-custom-design { padding: 20px 12px; }
+
+  /* SEO content sections — compact */
+  .lp-anniversary-seo { padding: 16px var(--lp-gutter); }
+  .lp-anniversary-seo-body p { font-size: 0.84rem; }
+  .lp-anniversary-seo-list li { font-size: 0.84rem; }
 }
 
 /* ═══════════════════════════════════════
@@ -3878,11 +3976,14 @@
   font-weight: 800;
   color: #fff;
   margin-bottom: 4px;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 .lp-combo-desc {
   font-size: 13px;
   color: #c4b5fd;
   line-height: 1.4;
+  overflow-wrap: break-word;
 }
 .lp-combo-arrow {
   font-size: 28px;
@@ -4471,5 +4572,378 @@
   }
   .lp-header-logo {
     font-size: 20px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   TRUST BADGES — below hero stats
+   ═══════════════════════════════════════════════════════ */
+.lp-trust-badges {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+  padding: 0 16px;
+}
+.lp-trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: rgba(255,255,255,.7);
+  letter-spacing: 0.3px;
+}
+.lp-trust-badge-icon {
+  font-size: 20px;
+  filter: drop-shadow(0 2px 4px rgba(124, 58, 237, .3));
+}
+
+/* ═══════════════════════════════════════════════════════
+   RATING STARS — card page section headers
+   ═══════════════════════════════════════════════════════ */
+.lp-cseo-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 8px;
+}
+.lp-cseo-rating-text {
+  font-size: 13px;
+  color: rgba(255,255,255,.5);
+  letter-spacing: 1.5px;
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════
+   FAQ SECTION — landing page FAQs
+   ═══════════════════════════════════════════════════════ */
+.lp-faq-section {
+  padding: 48px var(--lp-gutter);
+  max-width: var(--lp-max);
+  width: 100%;
+  margin: 0 auto;
+}
+.lp-faq-list {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.lp-faq-item {
+  background: rgba(124, 58, 237, .06);
+  border: 1px solid rgba(167, 139, 250, .18);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: background .2s;
+}
+.lp-faq-item[open] {
+  background: rgba(124, 58, 237, .10);
+}
+.lp-faq-q {
+  padding: 16px 20px;
+  font-weight: 700;
+  font-size: 15px;
+  color: #e0d4ff;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.lp-faq-q::after {
+  content: '+';
+  font-size: 20px;
+  font-weight: 400;
+  color: #a78bfa;
+  transition: transform .2s;
+}
+.lp-faq-item[open] .lp-faq-q::after {
+  content: '−';
+}
+.lp-faq-q::-webkit-details-marker { display: none; }
+.lp-faq-a {
+  padding: 0 20px 16px;
+  font-size: 14px;
+  color: rgba(255,255,255,.65);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════
+   RELATED CARDS — grid at bottom of card-seo sections
+   ═══════════════════════════════════════════════════════ */
+.lp-related-cards {
+  margin-top: 48px;
+  padding: 36px var(--lp-gutter);
+  max-width: var(--lp-max);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+.lp-related-cards-title {
+  font-size: clamp(20px, 2.5vw, 28px);
+  font-weight: 800;
+  color: #fff;
+  text-align: center;
+  margin: 0 0 8px;
+}
+.lp-related-cards-sub {
+  font-size: 14px;
+  color: #b0b0b0;
+  text-align: center;
+  margin: 0 0 24px;
+}
+.lp-related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+.lp-related-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(124, 58, 237, .06);
+  border: 1px solid rgba(167, 139, 250, .15);
+  border-radius: 14px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all .25s ease;
+  text-align: left;
+}
+.lp-related-item:hover {
+  background: rgba(124, 58, 237, .14);
+  border-color: rgba(167, 139, 250, .35);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(124, 58, 237, .15);
+}
+.lp-related-item-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+.lp-related-item-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #e0e0e0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TEMPLATE LOADING SHIMMER
+   ═══════════════════════════════════════════════════════ */
+@keyframes lp-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.lp-cseo-tpl-preview {
+  position: relative;
+}
+.lp-cseo-tpl-preview::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent 0%, rgba(167,139,250,.08) 40%, rgba(167,139,250,.15) 50%, rgba(167,139,250,.08) 60%, transparent 100%);
+  background-size: 200% 100%;
+  animation: lp-shimmer 2s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.lp-cseo-tpl-preview:not(:has(img)):not(:has(svg)):not(:has(canvas))::before {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════
+   ENHANCED HOVER EFFECTS — premium card grid
+   ═══════════════════════════════════════════════════════ */
+.lp-premium-card {
+  transition: transform .35s cubic-bezier(.21,1.02,.73,1), box-shadow .35s ease;
+}
+.lp-premium-card:hover {
+  transform: scale(1.07) translateY(-4px);
+  box-shadow:
+    0 24px 56px rgba(124, 58, 237, .35),
+    0 10px 24px rgba(167, 139, 250, .25),
+    inset 0 1px 0 rgba(255,255,255,.1);
+}
+.lp-premium-card:hover .lp-showcase-icon {
+  animation: lp-icon-bounce .5s ease;
+}
+@keyframes lp-icon-bounce {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.2) rotate(-5deg); }
+  70%  { transform: scale(.95) rotate(2deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   INCREASED SECTION SPACING
+   ═══════════════════════════════════════════════════════ */
+.lp-card-seo {
+  gap: 40px;
+}
+.lp-showcase + .lp-showcase {
+  margin-top: 48px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   DECORATIVE ILLUSTRATIONS — section accents
+   ═══════════════════════════════════════════════════════ */
+.lp-cseo-section::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(167,139,250,.10) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.lp-cseo-section::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: -20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99,102,241,.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure content stays above decorative elements */
+.lp-cseo-icon-wrap,
+.lp-cseo-title,
+.lp-cseo-desc,
+.lp-cseo-features,
+.lp-cseo-actions,
+.lp-cseo-samples,
+.lp-anniversary-seo,
+.lp-cseo-rating,
+.lp-rent-proptype {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hero sparkle illustrations */
+.lp-hero::before {
+  content: '✦';
+  position: absolute;
+  top: 20%;
+  left: 8%;
+  font-size: 24px;
+  color: rgba(167,139,250,.3);
+  animation: lp-twinkle 3s ease-in-out infinite;
+  pointer-events: none;
+}
+.lp-hero::after {
+  content: '✧';
+  position: absolute;
+  bottom: 15%;
+  right: 10%;
+  font-size: 18px;
+  color: rgba(196,181,253,.25);
+  animation: lp-twinkle 4s ease-in-out infinite 1s;
+  pointer-events: none;
+}
+@keyframes lp-twinkle {
+  0%, 100% { opacity: .3; transform: scale(1) rotate(0deg); }
+  50%      { opacity: 1; transform: scale(1.3) rotate(15deg); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE — new elements
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .lp-trust-badges { gap: 20px; }
+  .lp-trust-badge { font-size: 12px; }
+  .lp-related-grid { grid-template-columns: repeat(2, 1fr); }
+  .lp-cseo-section::before,
+  .lp-cseo-section::after { display: none; }
+  .lp-faq-section { padding: 32px 16px; }
+  .lp-faq-q { font-size: 14px; padding: 14px 16px; }
+  .lp-faq-a { font-size: 13px; padding: 0 16px 14px; }
+}
+@media (max-width: 480px) {
+  .lp-trust-badges { gap: 12px; }
+  .lp-trust-badge { font-size: 11px; gap: 5px; }
+  .lp-trust-badge-icon { font-size: 16px; }
+  .lp-related-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .lp-related-item { padding: 10px 12px; }
+  .lp-related-item-icon { font-size: 22px; }
+  .lp-related-item-name { font-size: 12px; }
+  .lp-faq-q { font-size: 13px; }
+}
+@media (max-width: 360px) {
+  .lp-related-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE FIX-UP — ultra-small screens (380px & below)
+   ═══════════════════════════════════════════════════════ */
+
+/* Hero CTA buttons — stack & shrink on narrow phones */
+@media (max-width: 380px) {
+  .lp-hero-actions {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .lp-hero-cta {
+    padding: 13px 20px;
+    font-size: 15px;
+    width: 100%;
+    justify-content: center;
+  }
+  .lp-hero-signin {
+    padding: 11px 20px;
+    font-size: 13px;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+/* Stats strip — smaller divider on phones */
+@media (max-width: 480px) {
+  .lp-stat-divider {
+    height: 24px;
+    width: 0.5px;
+  }
+  .lp-hero-stats { gap: 16px; }
+}
+
+/* Offer banner — less padding on phones */
+@media (max-width: 480px) {
+  .lp-offer-inner {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+}
+
+/* Template thumbnails — tighter on 360px */
+@media (max-width: 360px) {
+  .lp-cseo-tpl { width: 75px; }
+  .lp-cseo-tpl-preview { width: 75px; }
+  .lp-cseo-tpl-name { font-size: 8.5px; }
+  .lp-cseo-samples-row { gap: 8px; }
+}
+
+/* Resume cards — scale down on narrow screens */
+@media (max-width: 360px) {
+  .lp-rcard { width: 130px; }
+  .lp-rcard-scaler { transform: scale(0.16); }
+}
+
+/* Custom design section — less padding on very small */
+@media (max-width: 360px) {
+  .lp-custom-design {
+    padding: 18px 12px;
+    border-radius: 12px;
   }
 }
