@@ -28,6 +28,76 @@ export const metadata = {
   robots: { index: true, follow: true },
 };
 
+const FAQ_DATA = [
+  {
+    question: 'How can I make a free greeting card online?',
+    answer: 'Simply choose a template, customize text and photos, preview your design, and download — all for free in your browser.',
+  },
+  {
+    question: 'What occasions can I create greeting cards for?',
+    answer: 'Birthdays, weddings, anniversaries, festivals (Diwali, Holi, Eid, Christmas), thank-you cards, congratulations, and more.',
+  },
+  {
+    question: 'Can I personalize greeting cards with photos?',
+    answer: 'Yes! Upload your own photos and add personalized messages to make each card unique.',
+  },
+  {
+    question: 'Do I need to sign up to use the greeting card maker?',
+    answer: 'No signup is required. You can start creating greeting cards instantly in your browser.',
+  },
+  {
+    question: 'In what format can I download my greeting card?',
+    answer: 'Download your greeting card as a high-quality PNG image, ready for sharing on WhatsApp, Instagram, or printing.',
+  },
+];
+
 export default function GreetingCardPage() {
-  return <CardPage />;
+  return (
+    <>
+      <CardPage />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: FAQ_DATA.map((faq) => ({
+              '@type': 'Question',
+              name: faq.question,
+              acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+            })),
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://creativethinkerdesignhub.com' },
+              { '@type': 'ListItem', position: 2, name: 'Greeting Card Maker', item: 'https://creativethinkerdesignhub.com/greeting-card-maker' },
+            ],
+          }),
+        }}
+      />
+      <section className="seo-content" aria-hidden="true">
+        <h1>Free Greeting Card Maker Online</h1>
+        <p>
+          Create beautiful greeting cards for every occasion with our free online card maker. Choose from 100+
+          aesthetic templates for birthdays, weddings, festivals, thank-you messages, and more. Customize text,
+          colors, and photos with our easy-to-use editor and download instantly.
+        </p>
+        <p>
+          Share your greeting cards on WhatsApp, Instagram, Facebook, or print them for gifting. No app
+          installation or signup required — fast and simple for all users.
+        </p>
+        <h2>Frequently Asked Questions</h2>
+        {FAQ_DATA.map((faq, i) => (
+          <div key={i}><h3>{faq.question}</h3><p>{faq.answer}</p></div>
+        ))}
+      </section>
+    </>
+  );
 }

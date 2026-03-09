@@ -4,6 +4,7 @@ export default function robots() {
       {
         userAgent: '*',
         allow: '/',
+        disallow: ['/api/', '/_next/'],
       },
     ],
     sitemap: 'https://creativethinkerdesignhub.com/sitemap.xml',

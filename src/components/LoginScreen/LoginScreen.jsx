@@ -892,6 +892,14 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
             <div className="lp-stat-divider" />
             <div className="lp-stat"><span className="lp-stat-num">5</span><span className="lp-stat-label">Languages</span></div>
           </div>
+
+          {/* Trust Badges */}
+          <div className="lp-trust-badges">
+            <div className="lp-trust-badge"><span className="lp-trust-badge-icon">🔒</span> Secure Downloads</div>
+            <div className="lp-trust-badge"><span className="lp-trust-badge-icon">⚡</span> Instant Preview</div>
+            <div className="lp-trust-badge"><span className="lp-trust-badge-icon">🇮🇳</span> Made in India</div>
+            <div className="lp-trust-badge"><span className="lp-trust-badge-icon">📱</span> Works on All Devices</div>
+          </div>
         </div>
       </section>
 
@@ -959,6 +967,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
         <section className="lp-cseo-section">
           <div className="lp-cseo-icon-wrap lp-cseo--birthday">🎂</div>
           <h2 className="lp-cseo-title">Birthday Invitation Card Maker</h2>
+          <div className="lp-cseo-rating"><span className="lp-cseo-rating-text">Simple • Fast • Professional</span></div>
           <p className="lp-cseo-desc">
             Create stunning <strong>birthday invitation cards online</strong> in minutes. Our <strong>birthday invite maker</strong> offers beautiful <strong>birthday card templates</strong> for kids, adults, and themed birthday parties. Design a <strong>digital birthday party invitation</strong>, customize colors, text &amp; photos, and download instantly — perfect for sharing on WhatsApp, Instagram, or printing.
           </p>
@@ -986,12 +995,40 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
               ))}
             </div>
           </div>
+
+          {/* ═══════ BIRTHDAY SEO CONTENT ═══════ */}
+          <div id="birthday-seo-content" className="lp-anniversary-seo">
+            <h2 className="lp-section-title">⭐ About Our Birthday Card Maker</h2>
+            <div className="lp-anniversary-seo-body">
+              <p>
+                Birthdays are meant to be special, and the perfect card can make the celebration even more memorable. With our <strong>Free Birthday Card Maker</strong>, you can design unique and personalized birthday cards in just a few minutes. Whether you want to create a fun card for kids, a cute birthday wish for friends, or a stylish birthday invitation, our tool offers everything you need in one place.
+              </p>
+              <p>
+                Choose from a wide collection of colorful, modern, cartoon, floral, minimal, and photo‑based birthday templates. Customize your card by adding the birthday person&apos;s name, age, photos, stickers, quotes, and personalized messages. Our editor gives you a live preview so you can see changes instantly.
+              </p>
+              <p>
+                After designing, download your <strong>birthday card</strong> instantly in high‑quality PNG format. Share it on WhatsApp, Instagram, or print it for gifting. No signup or app installation is required — easy and fast for all users.
+              </p>
+              <h3 className="lp-anniversary-seo-subtitle">Our birthday card maker is perfect for:</h3>
+              <ul className="lp-anniversary-seo-list">
+                <li>Kids&apos; birthday invitation cards</li>
+                <li>Adult &amp; friend birthday greetings</li>
+                <li>Funny birthday wishes</li>
+                <li>Photo birthday cards for family</li>
+                <li>Simple and elegant birthday invitations</li>
+              </ul>
+              <p>
+                Design a birthday card that stands out and brings a smile to your loved one&apos;s face — all within minutes.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* ── Wedding Invitation Card Maker ── */}
         <section className="lp-cseo-section">
           <div className="lp-cseo-icon-wrap lp-cseo--wedding">💐</div>
           <h2 className="lp-cseo-title">Wedding Invitation Card Maker</h2>
+          <div className="lp-cseo-rating"><span className="lp-cseo-rating-text">Simple • Fast • Professional</span></div>
           <p className="lp-cseo-desc">
             Design elegant <strong>wedding invitation cards online</strong> with our <strong>wedding invite maker</strong>. Choose from <strong>royal wedding card designs</strong> and <strong>Indian wedding invitation templates</strong> — including Sikh, Hindu, Muslim &amp; Christian styles. Add photos, family details, venue info, and <strong>create wedding cards online</strong> in Hindi, English, Punjabi or Gujarati.
           </p>
@@ -1019,12 +1056,40 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
               ))}
             </div>
           </div>
+
+          {/* ═══════ WEDDING SEO CONTENT ═══════ */}
+          <div id="wedding-seo-content" className="lp-anniversary-seo">
+            <h2 className="lp-section-title">⭐ About Our Wedding Invitation Card Maker</h2>
+            <div className="lp-anniversary-seo-body">
+              <p>
+                Your wedding is one of the most memorable days of your life, and your invitation card should reflect that beauty. Our <strong>Free Wedding Invitation Card Maker</strong> allows you to create elegant, modern, and traditional shaadi cards in just a few minutes. Whether you&apos;re planning a simple ceremony or a grand celebration, our designer-made templates make it easy to create the perfect wedding invite.
+              </p>
+              <p>
+                Choose from a wide range of royal, floral, pastel, minimalist, Hindu wedding, Muslim wedding, Sikh wedding, Christian wedding, and traditional <strong>Indian wedding invitation</strong> designs. Customize everything — add names, event dates, timings, venue details, RSVP info, photos, and personal messages. Use our live preview editor to see real-time changes before downloading.
+              </p>
+              <p>
+                Once your design is ready, download your <strong>wedding invitation card</strong> instantly in high‑quality PNG format. Share it digitally on WhatsApp, Instagram, or print it for distribution. No signup or app installation required — fast and simple for all users.
+              </p>
+              <h3 className="lp-anniversary-seo-subtitle">Our wedding card maker is perfect for:</h3>
+              <ul className="lp-anniversary-seo-list">
+                <li>Digital shaadi card invitations</li>
+                <li>Simple &amp; modern wedding invites</li>
+                <li>Traditional Indian wedding cards</li>
+                <li>Photo wedding invitation designs</li>
+                <li>Engagement &amp; ring ceremony invitations</li>
+              </ul>
+              <p>
+                Create your beautiful wedding invitation card today — elegant, unique, and unforgettable.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* ── Anniversary Greeting Card Maker ── */}
         <section className="lp-cseo-section">
           <div className="lp-cseo-icon-wrap lp-cseo--anniversary">💍</div>
           <h2 className="lp-cseo-title">Anniversary Greeting Card Creator</h2>
+          <div className="lp-cseo-rating"><span className="lp-cseo-rating-text">Simple • Fast • Professional</span></div>
           <p className="lp-cseo-desc">
             Celebrate milestones with our <strong>anniversary greeting card maker</strong>. Create beautiful <strong>wedding anniversary wishes cards</strong> and <strong>digital anniversary cards</strong> with elegant designs, couple photos, and heartfelt messages. Our <strong>anniversary card design online</strong> tool offers <strong>anniversary invitation templates</strong> for 25th, 50th, and every special year.
           </p>
@@ -1052,12 +1117,39 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
               ))}
             </div>
           </div>
+
+          {/* ═══════ ANNIVERSARY SEO CONTENT ═══════ */}
+          <div id="anniversary-seo-content" className="lp-anniversary-seo">
+            <h2 className="lp-section-title">⭐ About Our Anniversary Card Maker</h2>
+            <div className="lp-anniversary-seo-body">
+              <p>
+                Celebrating a milestone with your loved ones becomes even more special with a beautifully crafted anniversary card. Our <strong>Anniversary Card Maker</strong> lets you design personalized cards online in just a few minutes. Whether you&apos;re creating a <strong>wedding anniversary greeting</strong>, a couple celebration card, or a heartfelt wish for parents or friends, our tool offers everything you need in one simple platform.
+              </p>
+              <p>
+                Choose from a variety of elegant, romantic, floral, classic, and modern templates designed to match every style. Personalize each card by adding names, photos, anniversary dates, heartfelt messages, quotes, and more. The editor is easy to use, and all changes are visible instantly with our live preview feature.
+              </p>
+              <p>
+                Once you finish your design, download your <strong>anniversary card</strong> instantly in high‑quality PNG format. You can share it on WhatsApp, Instagram, or print it for gifting. No signup or app installation is required — perfect for users who want a quick and beautiful card without hassle.
+              </p>
+              <h3 className="lp-anniversary-seo-subtitle">Our tool is ideal for:</h3>
+              <ul className="lp-anniversary-seo-list">
+                <li>Wedding anniversary wishes</li>
+                <li>Couple photo anniversary cards</li>
+                <li>Parents&apos; or friends&apos; anniversary greetings</li>
+                <li>Simple and elegant anniversary invitation cards</li>
+              </ul>
+              <p>
+                Make every anniversary unforgettable with a custom card that truly reflects your love and emotions.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* ── Marriage Biodata Maker ── */}
         <section className="lp-cseo-section">
           <div className="lp-cseo-icon-wrap lp-cseo--biodata">💒</div>
           <h2 className="lp-cseo-title">Marriage Biodata / Marriage Profile Maker</h2>
+          <div className="lp-cseo-rating"><span className="lp-cseo-rating-text">Simple • Fast • Professional</span></div>
           <p className="lp-cseo-desc">
             Build a professional <strong>marriage biodata</strong> with our easy‑to‑use <strong>biodata for marriage online</strong> tool. Our <strong>marriage biodata maker</strong> supports <strong>Hindu marriage biodata</strong>, Sikh, Muslim &amp; Jain formats with the <strong>Indian wedding biodata format</strong> that families expect. Add personal details, family info, education, career, and a beautiful photo — ready for <strong>marriage profile design</strong> sharing.
           </p>
@@ -1065,7 +1157,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
             <span>✓ 6 Community Formats</span>
             <span>✓ Hindi / English / Punjabi</span>
             <span>✓ Photo &amp; Family Details</span>
-            <span>✓ PDF Download</span>
+            <span>✓ PNG Download</span>
           </div>
           <div className="lp-cseo-actions">
             <button className="lp-cseo-btn" type="button" onClick={() => handleCardClick('biodata')}>💒 Create Marriage Biodata →</button>
@@ -1085,12 +1177,32 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
               ))}
             </div>
           </div>
+
+          {/* ═══════ BIODATA SEO CONTENT ═══════ */}
+          <div id="biodata-seo-content" className="lp-anniversary-seo">
+            <h2 className="lp-section-title">⭐ About Our Marriage Biodata Maker</h2>
+            <div className="lp-anniversary-seo-body">
+              <p>
+                Your marriage biodata is the first impression for any suitable match, and a well‑designed profile makes all the difference. With our <strong>Free Marriage Biodata Maker</strong>, you can create a clean, professional, and beautifully formatted biodata in just a few minutes. Whether you need a biodata for Hindu marriage, Muslim marriage, Sikh marriage, Jain marriage, Christian marriage, or a simple traditional <strong>Shaadi biodata</strong>, our templates are designed to suit every community and preference.
+              </p>
+              <p>
+                Choose from a variety of elegant and modern layouts and easily add your personal details, including name, age, date of birth, height, education, occupation, family background, partner preferences, and more. You can also upload a photo and customize colors, fonts, and sections as needed. Our live preview editor ensures every detail is perfectly aligned.
+              </p>
+              <p>
+                Once your <strong>marriage biodata</strong> is ready, download it instantly in high-quality PNG format. You can print it, share it on WhatsApp, or email it to relatives, matrimonial agents, or potential matches. No app installation or signup required.
+              </p>
+              <p>
+                Create a biodata that stands out — professional, clean, and ready for your marriage journey.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* ── PG / Rent Card Maker ── */}
         <section className="lp-cseo-section">
           <div className="lp-cseo-icon-wrap lp-cseo--rent">🏠</div>
           <h2 className="lp-cseo-title">PG / Rent Advertisement Card Maker</h2>
+          <div className="lp-cseo-rating"><span className="lp-cseo-rating-text">Simple • Fast • Professional</span></div>
           <p className="lp-cseo-desc">
             Create professional <strong>PG advertisement cards</strong> and <strong>rental room ad cards</strong> in seconds. Our <strong>PG for rent digital card</strong> maker helps landlords and PG owners design eye‑catching <strong>property rent advertisement templates</strong> with room details, amenities, rent pricing &amp; contact info. <strong>Create rent cards online</strong> and share instantly on social media or print for notice boards.
           </p>
@@ -1154,12 +1266,41 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
               ))}
             </div>
           </div>
+
+          {/* ── PG/Rent SEO Content ── */}
+          <div className="lp-anniversary-seo" id="pgrent-seo-content">
+            <h2 className="lp-section-title">🏠 About Our PG &amp; Rent Card Maker</h2>
+            <div className="lp-anniversary-seo-body">
+              <p>
+                Managing rental properties becomes easier when you share information clearly and professionally.
+                With our Free PG &amp; Rent Card Maker, you can create clean and attractive rent cards for PG
+                accommodations, hostels, flats, shops, rooms, and rental properties in just a few minutes —
+                no design skills needed. Choose from ready-made templates designed for PG owners, hostel managers,
+                rental brokers, flat owners, and small landlords. Customize your rent card by adding amenities,
+                pricing, room type, rules, food availability, Wi-Fi options, deposit details, and contact
+                information. Download your card instantly in high-quality PNG format.
+              </p>
+              <h3 className="lp-anniversary-seo-subtitle">Our rent card maker is perfect for:</h3>
+              <ul className="lp-anniversary-seo-list">
+                <li>PG / Hostel accommodation cards</li>
+                <li>Room or flat rent cards</li>
+                <li>Shop rent announcement cards</li>
+                <li>Monthly rental information cards</li>
+                <li>Student hostel &amp; PG contacts</li>
+              </ul>
+              <p>
+                Create a professional and informative rent card that makes renting easier and more transparent.
+                No app or signup required — simple and fast for all users.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* ── Salon / Parlour Card Maker ── */}
         <section className="lp-cseo-section">
           <div className="lp-cseo-icon-wrap lp-cseo--salon">💇</div>
           <h2 className="lp-cseo-title">Salon / Parlour Price Card Designer</h2>
+          <div className="lp-cseo-rating"><span className="lp-cseo-rating-text">Simple • Fast • Professional</span></div>
           <p className="lp-cseo-desc">
             Design a professional <strong>salon price list card</strong> for your business. Our <strong>beauty parlour service card</strong> maker lets you create stunning <strong>salon menu card designs</strong> with categorized services for ladies, men &amp; kids. Showcase treatments, packages &amp; pricing with a beautiful <strong>beauty service price card</strong> — perfect as a <strong>parlour rate card design</strong> for printing or WhatsApp sharing.
           </p>
@@ -1187,12 +1328,40 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
               ))}
             </div>
           </div>
+
+          {/* ── Salon SEO Content ── */}
+          <div className="lp-anniversary-seo" id="salon-seo-content">
+            <h2 className="lp-section-title">💄 About Our Salon &amp; Beauty Parlour Card Maker</h2>
+            <div className="lp-anniversary-seo-body">
+              <p>
+                Make your beauty business stand out with clean, attractive, and easy-to-share cards. Our Free
+                Salon &amp; Beauty Parlour Card Maker helps you design professional cards in minutes — ideal for
+                service menus, price lists, festive offers, bridal packages, monthly memberships, visiting cards,
+                and appointment reminders. Choose from elegant templates tailored for salons, parlours, beauty
+                studios, nail art, spa &amp; wellness centers, makeup artists, mehndi artists, and home salons.
+                Customize every detail and download instantly in high-quality PNG format.
+              </p>
+              <h3 className="lp-anniversary-seo-subtitle">Perfect for:</h3>
+              <ul className="lp-anniversary-seo-list">
+                <li>Service &amp; price list cards</li>
+                <li>Festival / seasonal offer cards</li>
+                <li>Bridal &amp; party makeup packages</li>
+                <li>Spa &amp; wellness service menus</li>
+                <li>Visiting / appointment cards</li>
+              </ul>
+              <p>
+                Create stylish salon cards that attract more bookings and keep clients coming back.
+                No signup or app required — fast and business-friendly.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* ── Resume / CV Builder ── */}
         <section className="lp-cseo-section">
           <div className="lp-cseo-icon-wrap lp-cseo--resume">📄</div>
           <h2 className="lp-cseo-title">Professional Resume / CV Builder Online</h2>
+          <div className="lp-cseo-rating"><span className="lp-cseo-rating-text">Simple • Fast • Professional</span></div>
           <p className="lp-cseo-desc">
             Build a professional <strong>resume online</strong> in minutes with our easy‑to‑use <strong>resume maker</strong>. Our <strong>ATS‑friendly resume builder</strong> offers clean, modern templates designed for freshers and experienced professionals alike. Create a job‑ready <strong>CV online</strong>, add your skills, experience &amp; education, and download as <strong>PDF or Word</strong> — perfect for Naukri, LinkedIn, and email applications.
           </p>
@@ -1219,40 +1388,67 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
               ))}
             </div>
           </div>
+
+          {/* ── Resume SEO Content ── */}
+          <div className="lp-anniversary-seo" id="resume-seo-content">
+            <h2 className="lp-section-title">📄 About Our Resume Maker</h2>
+            <div className="lp-anniversary-seo-body">
+              <p>
+                A professional resume is the first step toward your dream job. With our Free Online Resume Maker,
+                you can create a clean, modern, and job-ready resume in just a few minutes. Whether you are a fresher,
+                a student, or an experienced professional, our resume templates are crafted to help you stand out and
+                make a strong first impression. Choose from a range of HR-approved templates designed for IT jobs,
+                non-technical roles, designers, developers, accountants, teachers, marketing professionals, and more.
+                Customize everything easily — add your personal details, education, work experience, skills, projects,
+                certifications, and profile summary. Download your resume instantly in high-quality PDF or Word format.
+              </p>
+              <h3 className="lp-anniversary-seo-subtitle">Our resume maker is perfect for:</h3>
+              <ul className="lp-anniversary-seo-list">
+                <li>Fresher resumes (10th / 12th / Graduates)</li>
+                <li>Experienced professionals (1–15 years)</li>
+                <li>Student internship resumes</li>
+                <li>IT &amp; non-IT job resume formats</li>
+                <li>Modern and clean one-page resumes</li>
+              </ul>
+              <p>
+                Create a resume that gets noticed — professional, polished, and ready for your next opportunity.
+                No signup or app installation required — simple, fast, and beginner-friendly.
+              </p>
+            </div>
+          </div>
         </section>
 
       </div>
 
-      {/* ═══════ FREE CARDS BUTTON ═══════ */}
-      <section className="lp-showcase lp-free-section">
-        <div className="lp-section-header">
-          <h2 className="lp-section-title">🎁 Free Instant Cards</h2>
-          <span className="lp-section-free-tag">100% FREE</span>
-        </div>
-        <p className="lp-section-sub">No form needed — just pick, customize colors &amp; download instantly!</p>
-        <button className="lp-free-cards-btn" onClick={onOpenFreeCards}>
-          🎁 Browse Free Cards
-        </button>
-      </section>
-
-      <section className="lp-showcase lp-calendar-section">
-        <h2 className="lp-section-title">🗓️ Festival Calendar</h2>
-        <p className="lp-section-sub">Plan ahead! Explore all Indian festivals month‑wise and create cards for each celebration.</p>
-        <button className="lp-free-cards-btn" onClick={onOpenCalendar}>
-          🗓️ Open Festival Calendar
-        </button>
-      </section>
-
-      {/* ═══════ NEED A CUSTOM DESIGN ═══════ */}
-      <section className="lp-custom-design-section">
-        <h2 className="lp-section-title">🎨 Need a Custom Design?</h2>
-        <div className="lp-custom-design">
-          <p className="lp-text">
-            Looking for a card that is fully personalized and tailored to your exact theme, event, or business branding?
-            We offer custom card design services created exclusively by Creative Thinker Design Hub.
-          </p>
-          <p className="lp-text">📩 Email us your requirements at: <strong>creativethinker.designhub@gmail.com</strong></p>
-          <p className="lp-text lp-brand-subtle">Our team will create a unique, high-quality design specifically for you.</p>
+      {/* ═══════ FREQUENTLY ASKED QUESTIONS ═══════ */}
+      <section className="lp-faq-section">
+        <h2 className="lp-section-title">❓ Frequently Asked Questions</h2>
+        <p className="lp-section-sub">Got questions? We&apos;ve got answers.</p>
+        <div className="lp-faq-list">
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">Is Card Maker free to use?</summary>
+            <p className="lp-faq-a">Card Maker is a premium tool that lets you create professional-quality cards. We also have a separate &quot;Free Instant Cards&quot; section where you can download cards with a watermark at no cost.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">What types of cards can I create?</summary>
+            <p className="lp-faq-a">You can create birthday invitations, wedding cards, anniversary greetings, marriage biodata, PG/rent ads, salon price cards, professional resumes, festival cards, and more.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">Can I download my card as PNG or PDF?</summary>
+            <p className="lp-faq-a">All cards are downloaded in high-quality PNG format. Only resumes support PDF and Word downloads.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">Do I need to sign up to use Card Maker?</summary>
+            <p className="lp-faq-a">No signup is needed to browse templates and preview designs. You only need an account to download your final card.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">Which languages are supported?</summary>
+            <p className="lp-faq-a">We support Hindi, English, Punjabi, Gujarati, and Marathi across most card types.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">Can I share my card on WhatsApp or Instagram?</summary>
+            <p className="lp-faq-a">Yes! Once downloaded, your card is ready to share on any platform — WhatsApp, Instagram, Facebook, email, or print.</p>
+          </details>
         </div>
       </section>
 
@@ -1279,7 +1475,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
           <div className="lp-step">
             <span className="lp-step-num">4</span>
             <h3>Download Instantly</h3>
-            <p>Download your card as high-quality PNG or PDF. Share via WhatsApp, print, or email!</p>
+            <p>Download your card as high-quality PNG (or PDF &amp; Word for resumes). Share via WhatsApp, print, or email!</p>
           </div>
         </div>
       </section>
@@ -1461,7 +1657,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
             <ul className="lp-features">
               <li><strong>✓ Premium Templates for Every Card Type</strong> — Access a wide collection of professionally designed templates for invitations, festival greetings, announcements, business flyers, and more—each crafted to help your card look stunning and professional.</li>
               <li><strong>✓ Real‑Time Editing with Live Preview</strong> — Customize your card easily with instant live preview. Change colors, text, images, and layout while seeing updates in real time.</li>
-              <li><strong>✓ High‑Resolution PNG &amp; PDF Downloads</strong> — Download print‑ready, high‑quality PNG and PDF files ideal for sharing on WhatsApp, Instagram, Facebook, or printing.</li>
+              <li><strong>✓ High‑Resolution PNG Downloads</strong> — Download print‑ready, high‑quality PNG files ideal for sharing on WhatsApp, Instagram, Facebook, or printing. Resumes also support PDF &amp; Word formats.</li>
               <li><strong>✓ Multi‑Language Support</strong> — Design your cards in multiple languages to suit your personal, cultural, or business needs.</li>
               <li><strong>✓ Works Smoothly on All Devices</strong> — Create beautiful cards from your desktop, tablet, or mobile. Our platform is fully responsive and optimized for every screen size.</li>
             </ul>
@@ -1506,6 +1702,13 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
             {/* Real user reviews displayed inside this section */}
             <div className="lp-inline-reviews">
               <h5 className="lp-inline-reviews-title">💬 What Our Users Say</h5>
+              {reviews.length > 0 && (
+                <div className="lp-reviews-summary">
+                  <span className="lp-reviews-avg-stars">{'★'.repeat(Math.round(reviews.reduce((s,r) => s + r.rating, 0) / reviews.length))}</span>
+                  <span className="lp-reviews-avg-text">{(reviews.reduce((s,r) => s + r.rating, 0) / reviews.length).toFixed(1)}/5 from {reviews.length} review{reviews.length !== 1 ? 's' : ''}</span>
+                  <span className="lp-reviews-verified">✓ Verified</span>
+                </div>
+              )}
               {reviewsLoading ? (
                 <p className="lp-reviews-loading">Loading reviews…</p>
               ) : reviews.length === 0 ? (
@@ -1622,6 +1825,39 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
         </div>
       </section>
 
+      {/* ═══════ FREE CARDS BUTTON ═══════ */}
+      <section className="lp-showcase lp-free-section">
+        <div className="lp-section-header">
+          <h2 className="lp-section-title">🎁 Free Instant Cards</h2>
+          <span className="lp-section-free-tag">100% FREE</span>
+        </div>
+        <p className="lp-section-sub">No form needed — just pick, customize colors &amp; download instantly!</p>
+        <button className="lp-free-cards-btn" onClick={onOpenFreeCards}>
+          🎁 Browse Free Cards
+        </button>
+      </section>
+
+      <section className="lp-showcase lp-calendar-section">
+        <h2 className="lp-section-title">🗓️ Festival Calendar</h2>
+        <p className="lp-section-sub">Plan ahead! Explore all Indian festivals month‑wise and create cards for each celebration.</p>
+        <button className="lp-free-cards-btn" onClick={onOpenCalendar}>
+          🗓️ Open Festival Calendar
+        </button>
+      </section>
+
+      {/* ═══════ NEED A CUSTOM DESIGN ═══════ */}
+      <section className="lp-custom-design-section">
+        <h2 className="lp-section-title">🎨 Need a Custom Design?</h2>
+        <div className="lp-custom-design">
+          <p className="lp-text">
+            Looking for a card that is fully personalized and tailored to your exact theme, event, or business branding?
+            We offer custom card design services created exclusively by Creative Thinker Design Hub.
+          </p>
+          <p className="lp-text">📩 Email us your requirements at: <strong>creativethinker.designhub@gmail.com</strong></p>
+          <p className="lp-text lp-brand-subtle">Our team will create a unique, high-quality design specifically for you.</p>
+        </div>
+      </section>
+
       {/* ═══════ ABOUT CARD MAKER ═══════ */}
       <section className="lp-about">
         <h2 className="lp-section-title">📖 About Card Maker</h2>
@@ -1635,8 +1871,8 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
           </p>
           <p>
             Our editor lets you customize text, colors, fonts, and images with a smooth live preview experience.
-            Once your design is ready, you can download it instantly in high‑quality PNG or PDF format, perfect for
-            printing or sharing on WhatsApp, Instagram, or email.
+            Once your design is ready, you can download it instantly in high‑quality PNG format, perfect for
+            printing or sharing on WhatsApp, Instagram, or email. Resumes also support PDF and Word downloads.
           </p>
           <p>
             Developed by <strong>Creative Thinker Design Hub</strong>, Card Maker focuses on making design accessible
