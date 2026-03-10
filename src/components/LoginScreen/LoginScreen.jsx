@@ -25,7 +25,7 @@ import BiodataCardPreview from '../BiodataCard/BiodataCardPreview';
 import RentCardPreview from '../RentCard/RentCardPreview';
 import { PROPERTY_TYPES, PROPERTY_TYPE_CONFIG } from '../RentCard/rentConstants';
 import SalonCardPreview from '../SalonCard/SalonCardPreview';
-import { TEMPLATES as RESUME_TPL_LIST } from '../CardResume/ResumeTemplates';
+import { TEMPLATES as RESUME_TPL_LIST, SAMPLE_PROFILES } from '../CardResume/ResumeTemplates';
 import '../RentCard/RentCard.css';
 import '../SalonCard/SalonCard.css';
 import '../CardResume/CardResume.css';
@@ -72,40 +72,95 @@ const SAMPLE_BIODATA = {
 
 /* Template configs for sample preview */
 const WEDDING_TEMPLATES = [
-  { id: 1, name: 'Classic Gold', accent: '#b8860b' },
-  { id: 2, name: 'Gold Ornate', accent: '#c9a84c' },
-  { id: 3, name: 'Garden Floral', accent: '#3a7a4a' },
-  { id: 4, name: 'Warm Peach', accent: '#c4756a' },
-  { id: 5, name: 'Royal Maroon', accent: '#3d0a12' },
-  { id: 6, name: 'Divine Love', accent: '#c9976a' },
-  { id: 7, name: 'Sacred Border', accent: '#8b6914' },
+  { id: 1,  name: 'Classic Gold',     accent: '#b8860b' },
+  { id: 2,  name: 'Gold Ornate',      accent: '#c9a84c' },
+  { id: 3,  name: 'Garden Floral',    accent: '#3a7a4a' },
+  { id: 4,  name: 'Warm Peach',       accent: '#c4756a' },
+  { id: 5,  name: 'Royal Maroon',     accent: '#3d0a12' },
+  { id: 6,  name: 'Divine Love',      accent: '#c9976a' },
+  { id: 7,  name: 'Sacred Border',    accent: '#8b6914' },
+  { id: 8,  name: 'Midnight Navy',    accent: '#1b2a4a' },
+  { id: 9,  name: 'Lavender Dream',   accent: '#7b5ea7' },
+  { id: 10, name: 'Rose Garden',      accent: '#c45b78' },
+  { id: 11, name: 'Teal Royale',      accent: '#1a6b6a' },
+  { id: 12, name: 'Champagne Toast',  accent: '#b8976a' },
+  { id: 13, name: 'Emerald Palace',   accent: '#1a5a3a' },
+  { id: 14, name: 'Ivory Lace',       accent: '#a08a6a' },
+  { id: 15, name: 'Sunset Amber',     accent: '#c47820' },
+  { id: 16, name: 'Regal Purple',     accent: '#5a2a7a' },
+  { id: 17, name: 'Lotus Pink',       accent: '#d4748a' },
+  { id: 18, name: 'Ocean Blue',       accent: '#2a6a9a' },
+  { id: 19, name: 'Marigold Festive', accent: '#d4882a' },
+  { id: 20, name: 'Black Tie',        accent: '#1a1a1a' },
 ];
 
 const BIRTHDAY_TEMPLATES = [
-  { id: 1, name: 'Space Adventure', accent: '#2c3e6b' },
-  { id: 2, name: 'Pastel Balloons', accent: '#c4937f' },
-  { id: 3, name: 'Cute Stars', accent: '#c67a5c' },
-  { id: 4, name: 'Party Confetti', accent: '#d98a4b' },
-  { id: 5, name: 'Sunshine Floral', accent: '#b87f7f' },
-  { id: 6, name: 'Animal Friends', accent: '#9e7b5a' },
+  { id: 1,  name: 'Space Adventure',  accent: '#2c3e6b' },
+  { id: 2,  name: 'Pastel Balloons',  accent: '#c4937f' },
+  { id: 3,  name: 'Cute Stars',       accent: '#c67a5c' },
+  { id: 4,  name: 'Party Confetti',   accent: '#d98a4b' },
+  { id: 5,  name: 'Sunshine Floral',  accent: '#b87f7f' },
+  { id: 6,  name: 'Animal Friends',   accent: '#9e7b5a' },
+  { id: 7,  name: 'Candy Pop',        accent: '#e85090' },
+  { id: 8,  name: 'Ocean Splash',     accent: '#1a8a9a' },
+  { id: 9,  name: 'Jungle Safari',    accent: '#4a7a2a' },
+  { id: 10, name: 'Princess Castle',  accent: '#9a5abc' },
+  { id: 11, name: 'Superhero Pow',    accent: '#c42020' },
+  { id: 12, name: 'Unicorn Magic',    accent: '#c488d0' },
+  { id: 13, name: 'Dino Roar',        accent: '#5a8848' },
+  { id: 14, name: 'Ice Cream Dream',  accent: '#d4748a' },
+  { id: 15, name: 'Pirate Treasure',  accent: '#2a3a5a' },
+  { id: 16, name: 'Garden Butterfly', accent: '#7a6aaa' },
+  { id: 17, name: 'Race Car',         accent: '#b82020' },
+  { id: 18, name: 'Rainbow Bright',   accent: '#e87040' },
+  { id: 19, name: 'Teddy Picnic',     accent: '#a07850' },
+  { id: 20, name: 'Neon Glow',        accent: '#0a0a1a' },
 ];
 
 const ANNIVERSARY_TEMPLATES = [
-  { id: 1, name: 'Royal Gold Floral', accent: '#c9a84c' },
-  { id: 2, name: 'Rose Gold Romance', accent: '#d4a373' },
-  { id: 3, name: 'Emerald Laurels', accent: '#5a8a4a' },
-  { id: 4, name: 'Mandala Rings', accent: '#d4af37' },
-  { id: 5, name: 'Vintage Frame', accent: '#b8860b' },
-  { id: 6, name: 'Minimal Swirl', accent: '#c9a84c' },
+  { id: 1,  name: 'Royal Gold Floral',  accent: '#c9a84c' },
+  { id: 2,  name: 'Rose Gold Romance',  accent: '#d4a373' },
+  { id: 3,  name: 'Emerald Laurels',    accent: '#5a8a4a' },
+  { id: 4,  name: 'Mandala Rings',      accent: '#d4af37' },
+  { id: 5,  name: 'Vintage Frame',      accent: '#b8860b' },
+  { id: 6,  name: 'Minimal Swirl',      accent: '#c9a84c' },
+  { id: 7,  name: 'Midnight Sapphire',  accent: '#7b9ec7' },
+  { id: 8,  name: 'Blush Petal',        accent: '#d4748a' },
+  { id: 9,  name: 'Champagne Glow',     accent: '#c4a35a' },
+  { id: 10, name: 'Teal Elegance',      accent: '#2a8a7a' },
+  { id: 11, name: 'Burgundy Velvet',    accent: '#8b2252' },
+  { id: 12, name: 'Ivory Classic',      accent: '#8b7355' },
+  { id: 13, name: 'Sunset Coral',       accent: '#e07050' },
+  { id: 14, name: 'Silver Moonlight',   accent: '#a8b8c8' },
+  { id: 15, name: 'Lavender Dreams',    accent: '#9b7db8' },
+  { id: 16, name: 'Forest & Amber',     accent: '#c8a840' },
+  { id: 17, name: 'Ocean Breeze',       accent: '#4a90b8' },
+  { id: 18, name: 'Marigold Festive',   accent: '#e0a030' },
+  { id: 19, name: 'Copper Rose',        accent: '#c87850' },
+  { id: 20, name: 'Pearl White',        accent: '#b0b8c0' },
 ];
 
 const BIODATA_TEMPLATES = [
-  { id: 1, name: 'Classic Gold', accent: '#d4af37' },
-  { id: 2, name: 'Royal Blue', accent: '#1a3a5c' },
-  { id: 3, name: 'Elegant Green', accent: '#2d5a3d' },
-  { id: 4, name: 'Pink Blossom', accent: '#d4748a' },
-  { id: 5, name: 'Modern Minimal', accent: '#4a4a4a' },
-  { id: 6, name: 'Royal Purple', accent: '#5c3a6e' },
+  { id: 1,  name: 'Classic Gold',        accent: '#d4af37' },
+  { id: 2,  name: 'Royal Blue',          accent: '#1a3a5c' },
+  { id: 3,  name: 'Elegant Green',       accent: '#2d5a3d' },
+  { id: 4,  name: 'Pink Blossom',        accent: '#d4748a' },
+  { id: 5,  name: 'Modern Minimal',      accent: '#4a4a4a' },
+  { id: 6,  name: 'Royal Purple',        accent: '#5c3a6e' },
+  { id: 7,  name: 'Burgundy Rich',       accent: '#6e1a2a' },
+  { id: 8,  name: 'Teal Heritage',       accent: '#1a5a5a' },
+  { id: 9,  name: 'Saffron Sunrise',     accent: '#c06020' },
+  { id: 10, name: 'Midnight Navy',       accent: '#1a2a4a' },
+  { id: 11, name: 'Rose Quartz',         accent: '#b06080' },
+  { id: 12, name: 'Olive Traditional',   accent: '#5a6e30' },
+  { id: 13, name: 'Copper Charm',        accent: '#a06840' },
+  { id: 14, name: 'Sapphire Jewel',      accent: '#2050a0' },
+  { id: 15, name: 'Lavender Grace',      accent: '#7a50a0' },
+  { id: 16, name: 'Mahogany Classic',    accent: '#5a2a18' },
+  { id: 17, name: 'Peacock Teal',        accent: '#0a6a6a' },
+  { id: 18, name: 'Coral Festive',       accent: '#d05040' },
+  { id: 19, name: 'Slate Formal',        accent: '#4a5568' },
+  { id: 20, name: 'Marigold Auspicious', accent: '#c89020' },
 ];
 
 const SAMPLE_RENT = {
@@ -148,11 +203,26 @@ const SAMPLE_SALON = {
 };
 
 const SALON_THEMES = [
-  { id: 'dark-gold',  name: 'Dark & Gold (Luxury)', accent: '#d4af37' },
-  { id: 'dark-rose',  name: 'Dark & Rose', accent: '#c44569' },
-  { id: 'blush-pink', name: 'Blush Pink', accent: '#e8a0bf' },
-  { id: 'white-gold', name: 'White & Gold', accent: '#b8860b' },
-  { id: 'teal-cream', name: 'Teal & Cream', accent: '#2a9d8f' },
+  { id: 'dark-gold',     name: 'Dark & Gold (Luxury)', accent: '#d4af37' },
+  { id: 'dark-rose',     name: 'Dark & Rose',          accent: '#c44569' },
+  { id: 'blush-pink',    name: 'Blush Pink',           accent: '#e8a0bf' },
+  { id: 'white-gold',    name: 'White & Gold',         accent: '#b8860b' },
+  { id: 'teal-cream',    name: 'Teal & Cream',         accent: '#2a9d8f' },
+  { id: 'midnight-plum', name: 'Midnight Plum',        accent: '#c890e8' },
+  { id: 'sage-green',    name: 'Sage Green',           accent: '#5a7a48' },
+  { id: 'coral-peach',   name: 'Coral Peach',          accent: '#d06040' },
+  { id: 'navy-silver',   name: 'Navy & Silver',        accent: '#a0b0c0' },
+  { id: 'lavender-mist', name: 'Lavender Mist',        accent: '#7a58a0' },
+  { id: 'mocha-cream',   name: 'Mocha Cream',          accent: '#6a4a28' },
+  { id: 'ruby-black',    name: 'Ruby & Black',         accent: '#d03050' },
+  { id: 'mint-fresh',    name: 'Mint Fresh',           accent: '#2a8060' },
+  { id: 'sunset-amber',  name: 'Sunset Amber',         accent: '#c08020' },
+  { id: 'ice-blue',      name: 'Ice Blue',             accent: '#3070a0' },
+  { id: 'mauve-silk',    name: 'Mauve Silk',           accent: '#9a5078' },
+  { id: 'forest-bronze', name: 'Forest & Bronze',      accent: '#c0a060' },
+  { id: 'champagne',     name: 'Champagne',            accent: '#8a7038' },
+  { id: 'berry-wine',    name: 'Berry Wine',           accent: '#e080a0' },
+  { id: 'pearl-gray',    name: 'Pearl Gray',           accent: '#5a5a68' },
 ];
 
 /* Sample resume data for template previews — full data matching TemplateSelector */
@@ -181,19 +251,34 @@ const SAMPLE_RESUME = {
   photoPreview: '',
 };
 
-/* Resume template configs for sample preview — pick 6 popular ones */
-const RESUME_TEMPLATES = RESUME_TPL_LIST.slice(0, 6).map(t => ({
+/* Resume template configs for sample preview — show all templates with diverse profiles */
+const RESUME_TEMPLATES = RESUME_TPL_LIST.map((t, i) => ({
   id: t.id, name: t.name, accent: t.color, Component: t.Component,
+  sampleData: SAMPLE_PROFILES[i % SAMPLE_PROFILES.length],
 }));
 
 /* Rent card colour themes for landing-page sample previews */
 const RENT_TEMPLATES = [
-  { id: 1, name: 'Classic Blue',   accent: '#0b3d91' },
-  { id: 2, name: 'Royal Purple',   accent: '#4a148c' },
-  { id: 3, name: 'Forest Green',   accent: '#1b5e20' },
-  { id: 4, name: 'Sunset Orange',  accent: '#e65100' },
-  { id: 5, name: 'Midnight Dark',  accent: '#212121' },
-  { id: 6, name: 'Cherry Red',     accent: '#b71c1c' },
+  { id: 1,  name: 'Classic Blue',     accent: '#0b3d91' },
+  { id: 2,  name: 'Royal Purple',     accent: '#4a148c' },
+  { id: 3,  name: 'Forest Green',     accent: '#1b5e20' },
+  { id: 4,  name: 'Sunset Orange',    accent: '#e65100' },
+  { id: 5,  name: 'Midnight Dark',    accent: '#212121' },
+  { id: 6,  name: 'Cherry Red',       accent: '#b71c1c' },
+  { id: 7,  name: 'Teal Wave',        accent: '#00695c' },
+  { id: 8,  name: 'Rose Gold',        accent: '#8d6e63' },
+  { id: 9,  name: 'Sky Horizon',      accent: '#0277bd' },
+  { id: 10, name: 'Burgundy Wine',    accent: '#880e4f' },
+  { id: 11, name: 'Olive Earthy',     accent: '#33691e' },
+  { id: 12, name: 'Indigo Night',     accent: '#1a237e' },
+  { id: 13, name: 'Coral Breeze',     accent: '#d84315' },
+  { id: 14, name: 'Steel Gray',       accent: '#37474f' },
+  { id: 15, name: 'Plum Delight',     accent: '#6a1b9a' },
+  { id: 16, name: 'Ocean Deep',       accent: '#004d40' },
+  { id: 17, name: 'Amber Gold',       accent: '#e65100' },
+  { id: 18, name: 'Slate Blue',       accent: '#455a64' },
+  { id: 19, name: 'Emerald Luxe',     accent: '#2e7d32' },
+  { id: 20, name: 'Charcoal Premium', accent: '#1a1a1a' },
 ];
 
 /* Sample data per template — varied property types for richer previews */
@@ -273,6 +358,174 @@ const SAMPLE_RENT_BY_TPL = {
       { icon: '🏥', text: 'Clinic Nearby' },
     ],
     contactName: 'Priya Nair', contactPhone: '+91 98123 45678', logo: null, propertyImages: [],
+  },
+  7: {
+    propertyType: 'flat', selectedTemplate: 7,
+    title: '3 BHK LUXURY FLAT FOR RENT',
+    location: 'Powai, Mumbai — Near Hiranandani Gardens',
+    rentWithoutAC: '35,000', rentWithAC: '40,000',
+    features: ['3 BHK + Servant Room', 'Italian Marble Flooring', 'Modular Kitchen', 'Covered Parking × 2'],
+    amenities: [
+      { icon: '🏊', text: 'Infinity Pool' }, { icon: '🏋️', text: 'Premium Gym' },
+      { icon: '🌿', text: 'Rooftop Garden' }, { icon: '🔐', text: '24×7 Security' },
+    ],
+    contactName: 'Sanjay Mehta', contactPhone: '+91 99012 34567', logo: null, propertyImages: [],
+  },
+  8: {
+    propertyType: 'pg', selectedTemplate: 8,
+    title: 'WORKING WOMEN PG — PREMIUM',
+    location: 'HSR Layout, Bangalore — Near Silk Board',
+    rentWithoutAC: '8,000', rentWithAC: '10,500',
+    features: ['Single & Double Sharing', 'Home-Cooked Meals (Veg)', 'Hot Water 24×7', 'Weekly Room Cleaning'],
+    amenities: [
+      { icon: '📶', text: 'High-Speed WiFi' }, { icon: '🧹', text: 'Housekeeping' },
+      { icon: '🔐', text: 'Biometric Access' }, { icon: '🏥', text: 'First Aid Kit' },
+    ],
+    contactName: 'Lakshmi Devi', contactPhone: '+91 87654 32109', logo: null, propertyImages: [],
+  },
+  9: {
+    propertyType: 'room', selectedTemplate: 9,
+    title: 'INDEPENDENT ROOM — NEAR IT PARK',
+    location: 'Whitefield, Bangalore — Near ITPL',
+    rentWithoutAC: '6,500', rentWithAC: '9,000',
+    features: ['Fully Furnished', 'Private Washroom', 'Separate Entrance', 'Balcony Attached'],
+    amenities: [
+      { icon: '📶', text: 'WiFi Included' }, { icon: '🚗', text: 'Parking Available' },
+      { icon: '💧', text: 'RO + Geyser' }, { icon: '🛒', text: 'Grocery Store Nearby' },
+    ],
+    contactName: 'Arun Kumar', contactPhone: '+91 76543 21098', logo: null, propertyImages: [],
+  },
+  10: {
+    propertyType: 'hostel', selectedTemplate: 10,
+    title: 'GIRLS HOSTEL — SAFE & CLEAN',
+    location: 'Andheri West, Mumbai — Near Station',
+    rentWithoutAC: '5,500', rentWithAC: '7,500',
+    features: ['Double & Triple Sharing', 'Meal Included', 'Hot Water', 'Study Room'],
+    amenities: [
+      { icon: '📶', text: 'WiFi Included' }, { icon: '🍳', text: 'Veg Meals' },
+      { icon: '📹', text: 'CCTV Security' }, { icon: '🧺', text: 'Laundry Service' },
+    ],
+    contactName: 'Meena Shah', contactPhone: '+91 65432 10987', logo: null, propertyImages: [],
+  },
+  11: {
+    propertyType: 'shop', selectedTemplate: 11,
+    title: 'COMMERCIAL SPACE — PRIME LOCATION',
+    location: 'Connaught Place, Delhi — Inner Circle',
+    rentWithoutAC: '50,000', rentWithAC: '',
+    features: ['500 sq ft Carpet Area', 'High Street Frontage', 'Ready to Move', '24/7 Access'],
+    amenities: [
+      { icon: '🚗', text: 'Valet Parking' }, { icon: '⚡', text: 'Power Backup' },
+      { icon: '🔒', text: 'Security Guard' }, { icon: '🛗', text: 'Lift Access' },
+    ],
+    contactName: 'Rohit Kapoor', contactPhone: '+91 54321 09876', logo: null, propertyImages: [],
+  },
+  12: {
+    propertyType: 'pg', selectedTemplate: 12,
+    title: 'BOYS PG — NEAR UNIVERSITY',
+    location: 'Vijay Nagar, Indore — Near DA-IICT',
+    rentWithoutAC: '4,500', rentWithAC: '6,500',
+    features: ['Triple Sharing', 'Tiffin Service', 'Study Area', 'Laundry Facility'],
+    amenities: [
+      { icon: '📶', text: 'High-Speed WiFi' }, { icon: '💧', text: 'RO Water' },
+      { icon: '📹', text: 'CCTV Cameras' }, { icon: '🏪', text: 'Canteen Nearby' },
+    ],
+    contactName: 'Deepak Joshi', contactPhone: '+91 43210 98765', logo: null, propertyImages: [],
+  },
+  13: {
+    propertyType: 'flat', selectedTemplate: 13,
+    title: '1 BHK FURNISHED FLAT',
+    location: 'Wakad, Pune — Near Hinjewadi IT Park',
+    rentWithoutAC: '14,000', rentWithAC: '17,000',
+    features: ['1 BHK Fully Furnished', 'Modular Kitchen', 'Reserved Parking', 'Balcony with View'],
+    amenities: [
+      { icon: '🏋️', text: 'Gym Available' }, { icon: '🏊', text: 'Pool Access' },
+      { icon: '🔐', text: 'Gated Security' }, { icon: '🌿', text: 'Garden Area' },
+    ],
+    contactName: 'Sneha Patil', contactPhone: '+91 32109 87654', logo: null, propertyImages: [],
+  },
+  14: {
+    propertyType: 'room', selectedTemplate: 14,
+    title: 'SPACIOUS ROOM — FAMILY AREA',
+    location: 'Gomti Nagar, Lucknow — Near Phoenix Mall',
+    rentWithoutAC: '5,500', rentWithAC: '7,000',
+    features: ['Spacious Room + Kitchen', 'Attached Washroom', 'Separate Entry', 'Ground Floor'],
+    amenities: [
+      { icon: '📶', text: 'WiFi Available' }, { icon: '💧', text: 'Water Supply 24×7' },
+      { icon: '🚗', text: 'Two-Wheeler Parking' }, { icon: '🏪', text: 'Market Nearby' },
+    ],
+    contactName: 'Ramesh Gupta', contactPhone: '+91 21098 76543', logo: null, propertyImages: [],
+  },
+  15: {
+    propertyType: 'hostel', selectedTemplate: 15,
+    title: 'CO-LIVING SPACE — MODERN',
+    location: 'Marathahalli, Bangalore — Near ORR',
+    rentWithoutAC: '7,000', rentWithAC: '9,500',
+    features: ['Single & Double Sharing', 'Fully Furnished', 'Common Kitchen', 'Lounge Area'],
+    amenities: [
+      { icon: '📶', text: 'Fiber WiFi' }, { icon: '🧹', text: 'Daily Housekeeping' },
+      { icon: '🍳', text: 'Kitchen Access' }, { icon: '🎮', text: 'Gaming Zone' },
+    ],
+    contactName: 'Kiran Reddy', contactPhone: '+91 10987 65432', logo: null, propertyImages: [],
+  },
+  16: {
+    propertyType: 'shop', selectedTemplate: 16,
+    title: 'OFFICE SPACE FOR RENT',
+    location: 'BKC, Mumbai — Near Platina Building',
+    rentWithoutAC: '75,000', rentWithAC: '',
+    features: ['1200 sq ft Built-Up', 'Fully Furnished', 'Conference Room', 'Pantry Area'],
+    amenities: [
+      { icon: '🚗', text: 'Reserved Parking' }, { icon: '⚡', text: 'UPS Backup' },
+      { icon: '🔒', text: 'Card Access Security' }, { icon: '🛗', text: 'High-Speed Lifts' },
+    ],
+    contactName: 'Nitin Deshmukh', contactPhone: '+91 09876 54321', logo: null, propertyImages: [],
+  },
+  17: {
+    propertyType: 'pg', selectedTemplate: 17,
+    title: 'EXECUTIVE PG — FURNISHED',
+    location: 'Thane West, Mumbai — Near Viviana Mall',
+    rentWithoutAC: '9,000', rentWithAC: '12,000',
+    features: ['Single Occupancy', 'AC Room', 'Attached Washroom', 'Meals Included'],
+    amenities: [
+      { icon: '📶', text: 'WiFi + DTH' }, { icon: '🧺', text: 'Laundry' },
+      { icon: '🔐', text: 'Digital Lock' }, { icon: '🚿', text: 'Geyser + RO' },
+    ],
+    contactName: 'Vishal Thakur', contactPhone: '+91 98765 12345', logo: null, propertyImages: [],
+  },
+  18: {
+    propertyType: 'flat', selectedTemplate: 18,
+    title: '2 BHK SEMI-FURNISHED FLAT',
+    location: 'Salt Lake, Kolkata — Sector V IT Hub',
+    rentWithoutAC: '15,000', rentWithAC: '18,000',
+    features: ['2 BHK + Dining', 'Wardrobe in Both Rooms', 'Balcony Attached', 'Covered Parking'],
+    amenities: [
+      { icon: '🔐', text: 'Gated Complex' }, { icon: '🌿', text: 'Children Play Area' },
+      { icon: '⚡', text: 'Generator Backup' }, { icon: '🛒', text: 'Supermarket Inside' },
+    ],
+    contactName: 'Debashis Roy', contactPhone: '+91 87654 56789', logo: null, propertyImages: [],
+  },
+  19: {
+    propertyType: 'room', selectedTemplate: 19,
+    title: 'FURNISHED ROOM FOR BACHELORS',
+    location: 'Baner, Pune — Near Balewadi Stadium',
+    rentWithoutAC: '7,000', rentWithAC: '9,000',
+    features: ['Bed + Wardrobe + Desk', 'Private Washroom', 'Separate Entry', 'First Floor'],
+    amenities: [
+      { icon: '📶', text: 'WiFi Included' }, { icon: '💧', text: '24×7 Water' },
+      { icon: '🚗', text: 'Bike Parking' }, { icon: '🏪', text: 'Food Street Nearby' },
+    ],
+    contactName: 'Amit Kulkarni', contactPhone: '+91 76543 89012', logo: null, propertyImages: [],
+  },
+  20: {
+    propertyType: 'hostel', selectedTemplate: 20,
+    title: 'PREMIUM STUDENTS HOSTEL',
+    location: 'Rajouri Garden, Delhi — Near Metro',
+    rentWithoutAC: '5,000', rentWithAC: '7,000',
+    features: ['Double Sharing AC Rooms', 'Study Hall', 'Indoor Games', 'Mess Facility'],
+    amenities: [
+      { icon: '📶', text: 'High-Speed WiFi' }, { icon: '🍳', text: 'North & South Meals' },
+      { icon: '📹', text: 'CCTV Security' }, { icon: '🧺', text: 'Laundry Machine' },
+    ],
+    contactName: 'Naveen Singh', contactPhone: '+91 65432 78901', logo: null, propertyImages: [],
   },
 };
 
@@ -972,7 +1225,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
             Create stunning <strong>birthday invitation cards online</strong> in minutes. Our <strong>birthday invite maker</strong> offers beautiful <strong>birthday card templates</strong> for kids, adults, and themed birthday parties. Design a <strong>digital birthday party invitation</strong>, customize colors, text &amp; photos, and download instantly — perfect for sharing on WhatsApp, Instagram, or printing.
           </p>
           <div className="lp-cseo-features">
-            <span>✓ Kids &amp; Adult Templates</span>
+            <span>✓ 20 Kids &amp; Adult Templates</span>
             <span>✓ Live Preview</span>
             <span>✓ Hindi &amp; English</span>
             <span>✓ HD PNG Download</span>
@@ -1033,7 +1286,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
             Design elegant <strong>wedding invitation cards online</strong> with our <strong>wedding invite maker</strong>. Choose from <strong>royal wedding card designs</strong> and <strong>Indian wedding invitation templates</strong> — including Sikh, Hindu, Muslim &amp; Christian styles. Add photos, family details, venue info, and <strong>create wedding cards online</strong> in Hindi, English, Punjabi or Gujarati.
           </p>
           <div className="lp-cseo-features">
-            <span>✓ 7+ Royal Templates</span>
+            <span>✓ 20 Royal Templates</span>
             <span>✓ Multi-Language</span>
             <span>✓ Photo Upload</span>
             <span>✓ Print &amp; Share Ready</span>
@@ -1094,7 +1347,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
             Celebrate milestones with our <strong>anniversary greeting card maker</strong>. Create beautiful <strong>wedding anniversary wishes cards</strong> and <strong>digital anniversary cards</strong> with elegant designs, couple photos, and heartfelt messages. Our <strong>anniversary card design online</strong> tool offers <strong>anniversary invitation templates</strong> for 25th, 50th, and every special year.
           </p>
           <div className="lp-cseo-features">
-            <span>✓ 6 Elegant Themes</span>
+            <span>✓ 20 Elegant Themes</span>
             <span>✓ Couple Photo</span>
             <span>✓ Emotional Designs</span>
             <span>✓ Instant Download</span>
@@ -1154,7 +1407,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
             Build a professional <strong>marriage biodata</strong> with our easy‑to‑use <strong>biodata for marriage online</strong> tool. Our <strong>marriage biodata maker</strong> supports <strong>Hindu marriage biodata</strong>, Sikh, Muslim &amp; Jain formats with the <strong>Indian wedding biodata format</strong> that families expect. Add personal details, family info, education, career, and a beautiful photo — ready for <strong>marriage profile design</strong> sharing.
           </p>
           <div className="lp-cseo-features">
-            <span>✓ 6 Community Formats</span>
+            <span>✓ 20 Community Formats</span>
             <span>✓ Hindi / English / Punjabi</span>
             <span>✓ Photo &amp; Family Details</span>
             <span>✓ PNG Download</span>
@@ -1246,13 +1499,13 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
             <span>✓ {(PROPERTY_TYPE_CONFIG[activeRentType] || PROPERTY_TYPE_CONFIG.pg).featuresHeading}</span>
             <span>✓ {(PROPERTY_TYPE_CONFIG[activeRentType] || PROPERTY_TYPE_CONFIG.pg).priceLabel1} &amp; {(PROPERTY_TYPE_CONFIG[activeRentType] || PROPERTY_TYPE_CONFIG.pg).priceLabel2}</span>
             <span>✓ Contact &amp; Logo</span>
-            <span>✓ 6 Professional Color Themes</span>
+            <span>✓ 20 Professional Color Themes</span>
           </div>
           <div className="lp-cseo-actions">
             <button className="lp-cseo-btn" type="button" onClick={() => handleCardClick('rentcard')}>🏠 Create Rent Card →</button>
           </div>
           <div className="lp-cseo-samples">
-            <p className="lp-cseo-samples-label">👀 Preview Templates — 6 Color Themes</p>
+            <p className="lp-cseo-samples-label">👀 Preview Templates — 20 Color Themes</p>
             <div className="lp-cseo-samples-row">
               {RENT_TEMPLATES.map(tpl => (
                 <div key={tpl.id} className="lp-cseo-tpl" onClick={() => setFullPreviewTpl({ type: 'rentcard', id: tpl.id, name: tpl.name })}>
@@ -1305,7 +1558,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
             Design a professional <strong>salon price list card</strong> for your business. Our <strong>beauty parlour service card</strong> maker lets you create stunning <strong>salon menu card designs</strong> with categorized services for ladies, men &amp; kids. Showcase treatments, packages &amp; pricing with a beautiful <strong>beauty service price card</strong> — perfect as a <strong>parlour rate card design</strong> for printing or WhatsApp sharing.
           </p>
           <div className="lp-cseo-features">
-            <span>✓ 5 Premium Themes</span>
+            <span>✓ 20 Premium Themes</span>
             <span>✓ Ladies / Men / Kids Sections</span>
             <span>✓ Logo &amp; Contact</span>
             <span>✓ Print‑Ready Quality</span>
@@ -1366,7 +1619,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
             Build a professional <strong>resume online</strong> in minutes with our easy‑to‑use <strong>resume maker</strong>. Our <strong>ATS‑friendly resume builder</strong> offers clean, modern templates designed for freshers and experienced professionals alike. Create a job‑ready <strong>CV online</strong>, add your skills, experience &amp; education, and download as <strong>PDF or Word</strong> — perfect for Naukri, LinkedIn, and email applications.
           </p>
           <div className="lp-cseo-features">
-            <span>✓ 14 Professional Templates</span>
+            <span>✓ 20 Professional Templates</span>
             <span>✓ ATS Friendly</span>
             <span>✓ PDF &amp; Word Download</span>
             <span>✓ Mobile Responsive</span>
@@ -1378,12 +1631,13 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
             <p className="lp-cseo-samples-label">👀 Preview Templates</p>
             <div className="lp-cseo-samples-row lp-cseo-samples-row--resume">
               {RESUME_TEMPLATES.map(tpl => (
-                <div key={tpl.id} className="lp-rcard">
+                <div key={tpl.id} className="lp-rcard" style={{ cursor: 'pointer' }} onClick={() => setFullPreviewTpl({ type: 'resume', id: tpl.id, name: tpl.name, Component: tpl.Component, sampleData: tpl.sampleData })}>
                   <div className="lp-rcard-preview">
                     <div className="lp-rcard-scaler">
-                      <tpl.Component data={SAMPLE_RESUME} />
+                      <tpl.Component data={tpl.sampleData} />
                     </div>
                   </div>
+                  <span className="lp-cseo-tpl-name">{tpl.name}</span>
                 </div>
               ))}
             </div>
@@ -1985,7 +2239,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
                 <SalonCardPreview data={{ ...SAMPLE_SALON, theme: fullPreviewTpl.id }} />
               )}
               {fullPreviewTpl.type === 'resume' && fullPreviewTpl.Component && (
-                <fullPreviewTpl.Component data={SAMPLE_RESUME} />
+                <fullPreviewTpl.Component data={fullPreviewTpl.sampleData || SAMPLE_RESUME} />
               )}
             </div>
             <button className="lp-fullpreview-back" onClick={() => setFullPreviewTpl(null)}>

@@ -584,78 +584,175 @@ function AnimalBottomDecor() {
   );
 }
 
-/* ─── Main Preview Component ─── */
+/* ═══════════════════════════════════════════════════
+   MAIN PREVIEW — 5 LAYOUT FAMILIES
+   Layout A (1-4):  Classic centered with SVG decorations
+   Layout B (5-8):  Photo-dominant hero overlay
+   Layout C (9-12): Two-column (details left, photo right)
+   Layout D (13-16): Event card with horizontal bands
+   Layout E (17-20): Modern minimal badge style
+   ═══════════════════════════════════════════════════ */
+function getLayout(tpl) {
+  if (tpl <= 4) return 'A';
+  if (tpl <= 8) return 'B';
+  if (tpl <= 12) return 'C';
+  if (tpl <= 16) return 'D';
+  return 'E';
+}
+
 const BirthdayCardPreview = forwardRef(function BirthdayCardPreview({ data, lang, template = 1, bgColor, fontFamily, accentColor }, ref) {
   const t = T[lang] || T.en;
   const tpl = template || 1;
   const themeClass = `bday-theme-${tpl}`;
+  const layout = getLayout(tpl);
   const customStyle = {
     ...(bgColor ? { background: bgColor } : {}),
     ...(fontFamily ? { '--card-font': `'${fontFamily}', sans-serif` } : {}),
     ...(accentColor ? { '--card-accent': accentColor } : {}),
   };
 
-  return (
-    <div className={`bday-card ${themeClass}`} ref={ref} style={customStyle}>
+  const hasPhoto = data.photoPreview || (typeof data.photo === 'string' && data.photo);
+  const photoSrc = data.photoPreview || data.photo;
 
-      {/* Theme-specific top decoration */}
-      {tpl === 1 && <SpaceTopDecor />}
-      {tpl === 2 && <><PastelTopDecor /><PastelBunting /></>}
-      {tpl === 3 && <CuteStarsTopDecor />}
-      {tpl === 4 && <PartyTopDecor />}
-      {tpl === 5 && <FloralSideDecor />}
-      {tpl === 6 && <AnimalBunting />}
+  /* ─── LAYOUT A: Classic Centered with SVG Decorations ─── */
+  if (layout === 'A') {
+    return (
+      <div className={`bday-card ${themeClass}`} ref={ref} style={customStyle}>
+        {tpl === 1 && <SpaceTopDecor />}
+        {tpl === 2 && <><PastelTopDecor /><PastelBunting /></>}
+        {tpl === 3 && <CuteStarsTopDecor />}
+        {tpl === 4 && <PartyTopDecor />}
 
-      {/* Subtitle */}
-      <p className="bday-subtitle">{t.bdayJoinUs}</p>
+        <p className="bday-subtitle">{t.bdayJoinUs}</p>
+        <h1 className="bday-hero-name">{data.birthdayPerson || 'Name'}</h1>
+        <p className="bday-hero-title">{t.bdayTitle}</p>
+        {data.age && <div className="bday-age-badge">{t.bdayMilestone(data.age)}</div>}
 
-      {/* Hero name */}
-      <h1 className="bday-hero-name">{data.birthdayPerson || 'Name'}</h1>
-      <p className="bday-hero-title">{t.bdayTitle}</p>
+        {tpl === 1 && <SpaceAstronaut />}
+        {tpl === 3 && <><CuteStarsScatter /><CuteGirlIllustration /></>}
+        {tpl === 4 && <PartyGirlIllustration />}
 
-      {/* Age badge */}
-      {data.age && <div className="bday-age-badge">{t.bdayMilestone(data.age)}</div>}
+        {hasPhoto && <div className="bday-photo-frame"><img className="bday-photo" src={photoSrc} alt="Birthday" loading="lazy" /></div>}
+        {data.date && <p className="bday-event-line">📅 {formatDate(data.date, lang)}</p>}
+        {data.time && <p className="bday-event-line">🕐 {formatTime(data.time, lang)}</p>}
+        {data.venue && <p className="bday-venue-line">📍 {data.venue}</p>}
+        {data.venueAddress && <p className="bday-address-line">{data.venueAddress}</p>}
+        {data.hostName && <p className="bday-event-line">{t.bdayHostedBy}: {data.hostName}</p>}
+        {data.guestName && <p className="bday-guest-tag">{t.bdayWishLine}: <span className="bday-guest-name">{data.guestName}</span></p>}
+        {data.message && <p className="bday-message">{data.message}</p>}
 
-      {/* Center illustration */}
-      {tpl === 1 && <SpaceAstronaut />}
-      {tpl === 2 && null}
-      {tpl === 3 && <><CuteStarsScatter /><CuteGirlIllustration /></>}
-      {tpl === 4 && <PartyGirlIllustration />}
-      {tpl === 5 && <SunshineFace />}
-      {tpl === 6 && <AnimalFriends />}
+        {tpl === 1 && <SpaceBottomDecor />}
+        {tpl === 2 && <PastelBottomDecor />}
+        {tpl === 3 && <CuteBottomDecor />}
+        {tpl === 4 && <PartyBottomDecor />}
+      </div>
+    );
+  }
 
-      {/* Photo */}
-      {(data.photoPreview || (typeof data.photo === 'string' && data.photo)) && (
-        <div className="bday-photo-frame">
-          <img className="bday-photo" src={data.photoPreview || data.photo} alt="Birthday invitation card photo - online birthday card maker" loading="lazy" />
+  /* ─── LAYOUT B: Photo-Dominant Hero Overlay ─── */
+  if (layout === 'B') {
+    return (
+      <div className={`bday-card bday-layout-b ${themeClass}`} ref={ref} style={customStyle}>
+        <div className="bday-b-hero">
+          {hasPhoto && <img className="bday-b-hero-img" src={photoSrc} alt="" />}
+          <div className="bday-b-hero-overlay" />
+          <div className="bday-b-hero-text">
+            {data.age && <div className="bday-b-age">{data.age}</div>}
+            <p className="bday-b-subtitle">{t.bdayTitle}</p>
+          </div>
         </div>
-      )}
+        <div className="bday-b-body">
+          <h1 className="bday-b-name">{data.birthdayPerson || 'Name'}</h1>
+          <div className="bday-b-details">
+            {data.date && <p>📅 {formatDate(data.date, lang)}</p>}
+            {data.time && <p>🕐 {formatTime(data.time, lang)}</p>}
+            {data.venue && <p>📍 {data.venue}</p>}
+            {data.venueAddress && <p className="bday-b-addr">{data.venueAddress}</p>}
+          </div>
+          {data.hostName && <p className="bday-b-host">{t.bdayHostedBy}: {data.hostName}</p>}
+          {data.guestName && <p className="bday-b-guest">{t.bdayWishLine}: <span>{data.guestName}</span></p>}
+          {data.message && <p className="bday-b-msg">&ldquo;{data.message}&rdquo;</p>}
+        </div>
+      </div>
+    );
+  }
 
-      {/* Event details */}
-      {data.date && <p className="bday-event-line">📅 {formatDate(data.date, lang)}</p>}
-      {data.time && <p className="bday-event-line">🕐 {formatTime(data.time, lang)}</p>}
-      {data.venue && <p className="bday-venue-line">📍 {data.venue}</p>}
-      {data.venueAddress && <p className="bday-address-line">{data.venueAddress}</p>}
+  /* ─── LAYOUT C: Two-Column (Details Left, Photo Right) ─── */
+  if (layout === 'C') {
+    return (
+      <div className={`bday-card bday-layout-c ${themeClass}`} ref={ref} style={customStyle}>
+        <div className="bday-c-columns">
+          <div className="bday-c-left">
+            <p className="bday-c-subtitle">{t.bdayJoinUs}</p>
+            <h1 className="bday-c-name">{data.birthdayPerson || 'Name'}</h1>
+            <p className="bday-c-title">{t.bdayTitle}</p>
+            {data.age && <div className="bday-c-age">{data.age}<span>th</span></div>}
+            <div className="bday-c-divider" />
+            {data.date && <p className="bday-c-detail">📅 {formatDate(data.date, lang)}</p>}
+            {data.time && <p className="bday-c-detail">🕐 {formatTime(data.time, lang)}</p>}
+            {data.venue && <p className="bday-c-detail">📍 {data.venue}</p>}
+            {data.venueAddress && <p className="bday-c-detail bday-c-addr">{data.venueAddress}</p>}
+            {data.hostName && <p className="bday-c-detail">{t.bdayHostedBy}: {data.hostName}</p>}
+          </div>
+          <div className="bday-c-right">
+            {hasPhoto && <div className="bday-c-photo-wrap"><img className="bday-c-photo" src={photoSrc} alt="" /></div>}
+            {data.guestName && <p className="bday-c-guest">{t.bdayWishLine}: <span>{data.guestName}</span></p>}
+            {data.message && <p className="bday-c-msg">&ldquo;{data.message}&rdquo;</p>}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-      {/* Host */}
-      {data.hostName && <p className="bday-event-line">{t.bdayHostedBy}: {data.hostName}</p>}
+  /* ─── LAYOUT D: Event Card with Horizontal Bands ─── */
+  if (layout === 'D') {
+    return (
+      <div className={`bday-card bday-layout-d ${themeClass}`} ref={ref} style={customStyle}>
+        <div className="bday-d-top-band">
+          <span className="bday-d-tag">{t.bdayJoinUs}</span>
+        </div>
+        <div className="bday-d-content">
+          <h1 className="bday-d-name">{data.birthdayPerson || 'Name'}</h1>
+          <p className="bday-d-title">{t.bdayTitle}</p>
+          {data.age && <div className="bday-d-age-row"><span className="bday-d-age-num">{data.age}</span><span className="bday-d-age-label">Years</span></div>}
+          {hasPhoto && <div className="bday-d-photo-circle"><img className="bday-d-photo" src={photoSrc} alt="" /></div>}
+          <div className="bday-d-info-grid">
+            {data.date && <div className="bday-d-info-item"><span className="bday-d-icon">📅</span><span>{formatDate(data.date, lang)}</span></div>}
+            {data.time && <div className="bday-d-info-item"><span className="bday-d-icon">🕐</span><span>{formatTime(data.time, lang)}</span></div>}
+            {data.venue && <div className="bday-d-info-item"><span className="bday-d-icon">📍</span><span>{data.venue}</span></div>}
+          </div>
+          {data.venueAddress && <p className="bday-d-addr">{data.venueAddress}</p>}
+          {data.message && <p className="bday-d-msg">&ldquo;{data.message}&rdquo;</p>}
+        </div>
+        <div className="bday-d-bottom-band">
+          {data.hostName && <span>{t.bdayHostedBy}: {data.hostName}</span>}
+          {data.guestName && <span>{t.bdayWishLine}: {data.guestName}</span>}
+        </div>
+      </div>
+    );
+  }
 
-      {/* Guest */}
-      {data.guestName && (
-        <p className="bday-guest-tag">
-          {t.bdayWishLine}: <span className="bday-guest-name">{data.guestName}</span>
-        </p>
-      )}
-
-      {/* Message */}
-      {data.message && <p className="bday-message">{data.message}</p>}
-
-      {/* Bottom decoration */}
-      {tpl === 1 && <SpaceBottomDecor />}
-      {tpl === 2 && <PastelBottomDecor />}
-      {tpl === 3 && <CuteBottomDecor />}
-      {tpl === 4 && <PartyBottomDecor />}
-      {tpl === 6 && <AnimalBottomDecor />}
+  /* ─── LAYOUT E: Modern Minimal Badge Style ─── */
+  return (
+    <div className={`bday-card bday-layout-e ${themeClass}`} ref={ref} style={customStyle}>
+      <div className="bday-e-frame">
+        <div className="bday-e-header">✦ {t.bdayJoinUs} ✦</div>
+        <h1 className="bday-e-name">{data.birthdayPerson || 'Name'}</h1>
+        <p className="bday-e-title">{t.bdayTitle}</p>
+        {data.age && <div className="bday-e-age-badge">{data.age}</div>}
+        {hasPhoto && <div className="bday-e-photo-frame"><img src={photoSrc} alt="" className="bday-e-photo" /></div>}
+        <div className="bday-e-divider">━━━━━━━━━</div>
+        <div className="bday-e-details">
+          {data.date && <p>📅 {formatDate(data.date, lang)}</p>}
+          {data.time && <p>🕐 {formatTime(data.time, lang)}</p>}
+          {data.venue && <p>📍 {data.venue}</p>}
+          {data.venueAddress && <p className="bday-e-addr">{data.venueAddress}</p>}
+        </div>
+        {data.hostName && <p className="bday-e-host">{t.bdayHostedBy}: {data.hostName}</p>}
+        {data.guestName && <p className="bday-e-guest">{t.bdayWishLine}: <span>{data.guestName}</span></p>}
+        {data.message && <p className="bday-e-msg">&ldquo;{data.message}&rdquo;</p>}
+        <div className="bday-e-footer">❦</div>
+      </div>
     </div>
   );
 });

@@ -167,8 +167,21 @@ function SwirlDecor() {
 
 
 /* ═══════════════════════════════════════════════════
-   MAIN PREVIEW COMPONENT
+   MAIN PREVIEW COMPONENT — 5 LAYOUT FAMILIES
+   Layout A (1-4):  Classic centered with decorations
+   Layout B (5-8):  Photo-dominant overlay
+   Layout C (9-12): Side-by-side (photo left, details right)
+   Layout D (13-16): Years badge prominent / timeline
+   Layout E (17-20): Modern minimal strip
    ═══════════════════════════════════════════════════ */
+function getLayout(tpl) {
+  if (tpl <= 4) return 'A';
+  if (tpl <= 8) return 'B';
+  if (tpl <= 12) return 'C';
+  if (tpl <= 16) return 'D';
+  return 'E';
+}
+
 const AnniversaryCardPreview = forwardRef(function AnniversaryCardPreview(
   { data, lang = 'en', template = 1, bgColor, fontFamily, accentColor },
   ref
@@ -176,6 +189,7 @@ const AnniversaryCardPreview = forwardRef(function AnniversaryCardPreview(
   const t = T[lang] || T.en;
   const tpl = template || 1;
   const themeClass = `anniv-theme-${tpl}`;
+  const layout = getLayout(tpl);
   const customStyle = {
     ...(bgColor ? { background: bgColor } : {}),
     ...(fontFamily ? { '--card-font': `'${fontFamily}', serif` } : {}),
@@ -184,121 +198,120 @@ const AnniversaryCardPreview = forwardRef(function AnniversaryCardPreview(
 
   const { partner1, partner2, years, date, message, photoPreview } = data;
 
-  return (
-    <div id="anniv-card-print" className={`anniv-card ${themeClass}`} ref={ref} style={customStyle}>
+  /* ─── LAYOUT A: Classic Centered with Decorations ─── */
+  if (layout === 'A') {
+    return (
+      <div id="anniv-card-print" className={`anniv-card ${themeClass}`} ref={ref} style={customStyle}>
+        {tpl === 1 && <><GoldFloralCorner flip="anniv-flip-none" /><GoldFloralCorner flip="anniv-flip-h" /><GoldFloralCorner flip="anniv-flip-v" /><GoldFloralCorner flip="anniv-flip-hv" /><GoldSideVine side="left" /><GoldSideVine side="right" /><InnerBorder /></>}
+        {tpl === 2 && <RoseGoldDecor />}
+        {tpl === 3 && <LaurelDecor />}
+        {tpl === 4 && <MandalaDecor />}
 
-      {/* Template-specific top decorations */}
-      {tpl === 1 && (
-        <>
-          <GoldFloralCorner flip="anniv-flip-none" />
-          <GoldFloralCorner flip="anniv-flip-h" />
-          <GoldFloralCorner flip="anniv-flip-v" />
-          <GoldFloralCorner flip="anniv-flip-hv" />
-          <GoldSideVine side="left" />
-          <GoldSideVine side="right" />
-          <InnerBorder />
-        </>
-      )}
-      {tpl === 2 && <RoseGoldDecor />}
-      {tpl === 3 && <LaurelDecor />}
-      {tpl === 4 && <MandalaDecor />}
-      {tpl === 5 && <VintageFrameDecor />}
-      {tpl === 6 && <SwirlDecor />}
-
-      {/* ─── Card Content ─── */}
-      <div className="anniv-content">
-        {/* Title */}
-        <h1 className="anniv-title-main">
-          {t.annivTitle || 'Happy Anniversary!'}
-        </h1>
-
-        {/* Couple names */}
-        <p className="anniv-couple-names">
-          {partner1 || 'Partner 1'} <span className="anniv-amp">&amp;</span> {partner2 || 'Partner 2'}
-        </p>
-
-        {/* Years badge */}
-        {years && (
-          <div className="anniv-years-badge">
-            {t.annivBadge ? t.annivBadge(ordinal(parseInt(years, 10))) : `${years} Years`}
-          </div>
-        )}
-
-        {/* Couple image — user photo or default */}
-        <div className="anniv-photo-wrap">
-          <div className="anniv-photo-frame">
-            <img
-              src={photoPreview || '/default-anniversary-couple.avif'}
-              alt={`${partner1 || 'Partner 1'} & ${partner2 || 'Partner 2'}`}
-              className="anniv-photo-img"
-            />
-          </div>
+        <div className="anniv-content">
+          <h1 className="anniv-title-main">{t.annivTitle || 'Happy Anniversary!'}</h1>
+          <p className="anniv-couple-names">{partner1 || 'Partner 1'} <span className="anniv-amp">&amp;</span> {partner2 || 'Partner 2'}</p>
+          {years && <div className="anniv-years-badge">{t.annivBadge ? t.annivBadge(ordinal(parseInt(years, 10))) : `${years} Years`}</div>}
+          <div className="anniv-photo-wrap"><div className="anniv-photo-frame"><img src={photoPreview || '/default-anniversary-couple.avif'} alt={`${partner1 || 'Partner 1'} & ${partner2 || 'Partner 2'}`} className="anniv-photo-img" /></div></div>
+          {message && <p className="anniv-message-text">&ldquo;{message}&rdquo;</p>}
+          {date && <p className="anniv-date-line">{formatDate(date, lang)}</p>}
         </div>
 
-        {/* Message / Blessing */}
-        {message && <p className="anniv-message-text">&ldquo;{message}&rdquo;</p>}
-
-        {/* Date */}
-        {date && <p className="anniv-date-line">{formatDate(date, lang)}</p>}
+        {tpl === 1 && <svg className="anniv-bot-strip" viewBox="0 0 420 40" fill="none" style={{ marginTop: 'auto' }}><path d="M80 20 Q130 5 180 20 Q230 35 280 20 Q330 5 380 20" stroke="#c9a84c" strokeWidth="1" fill="none" opacity=".3" /><circle cx="130" cy="18" r="2" fill="#c9a84c" opacity=".3" /><circle cx="210" cy="22" r="2.5" fill="#c9a84c" opacity=".35" /><circle cx="290" cy="18" r="2" fill="#c9a84c" opacity=".3" /></svg>}
+        {tpl === 2 && <svg className="anniv-bot-strip" viewBox="0 0 420 35" fill="none">{[100, 170, 250, 320].map((x, i) => <path key={i} d={`M${x} 16 C${x} 11,${x - 5} 8,${x - 5} 13 C${x - 5} 18,${x} 22,${x} 22 C${x} 22,${x + 5} 18,${x + 5} 13 C${x + 5} 8,${x} 11,${x} 16`} fill="#d4a373" opacity={0.2 + i * 0.04} />)}<line x1="40" y1="18" x2="380" y2="18" stroke="#d4a373" strokeWidth=".4" opacity=".25" /></svg>}
+        {tpl === 3 && <svg className="anniv-bot-strip" viewBox="0 0 420 35" fill="none"><g transform="translate(150,18)">{[0, 1, 2, 3].map(i => <ellipse key={i} cx={-i * 9} cy={i * 3} rx="7" ry="3.5" fill="#5a8a4a" opacity=".45" transform={`rotate(${25 + i * 8} ${-i * 9} ${i * 3})`} />)}</g><g transform="translate(270,18)">{[0, 1, 2, 3].map(i => <ellipse key={i} cx={i * 9} cy={i * 3} rx="7" ry="3.5" fill="#5a8a4a" opacity=".45" transform={`rotate(${-25 - i * 8} ${i * 9} ${i * 3})`} />)}</g></svg>}
+        {tpl === 4 && <svg className="anniv-bot-strip" viewBox="0 0 420 40" fill="none"><g transform="translate(210,20)"><circle cx="0" cy="0" r="14" stroke="#d4af37" strokeWidth=".7" fill="none" opacity=".25" />{Array.from({ length: 8 }, (_, i) => i * 45).map(a => <ellipse key={a} cx={Math.cos(a * Math.PI / 180) * 18} cy={Math.sin(a * Math.PI / 180) * 18} rx="4" ry="2" fill="#d4af37" opacity=".2" transform={`rotate(${a} ${Math.cos(a * Math.PI / 180) * 18} ${Math.sin(a * Math.PI / 180) * 18})`} />)}</g></svg>}
       </div>
+    );
+  }
 
-      {/* Bottom decorations for all templates */}
-      {tpl === 1 && (
-        <svg className="anniv-bot-strip" viewBox="0 0 420 40" fill="none" style={{ marginTop: 'auto' }}>
-          <path d="M80 20 Q130 5 180 20 Q230 35 280 20 Q330 5 380 20" stroke="#c9a84c" strokeWidth="1" fill="none" opacity=".3" />
-          <circle cx="130" cy="18" r="2" fill="#c9a84c" opacity=".3" />
-          <circle cx="210" cy="22" r="2.5" fill="#c9a84c" opacity=".35" />
-          <circle cx="290" cy="18" r="2" fill="#c9a84c" opacity=".3" />
-        </svg>
-      )}
-      {tpl === 2 && (
-        <svg className="anniv-bot-strip" viewBox="0 0 420 35" fill="none">
-          {[100, 170, 250, 320].map((x, i) => (
-            <path key={i} d={`M${x} 16 C${x} 11,${x - 5} 8,${x - 5} 13 C${x - 5} 18,${x} 22,${x} 22 C${x} 22,${x + 5} 18,${x + 5} 13 C${x + 5} 8,${x} 11,${x} 16`}
-              fill="#d4a373" opacity={0.2 + i * 0.04} />
-          ))}
-          <line x1="40" y1="18" x2="380" y2="18" stroke="#d4a373" strokeWidth=".4" opacity=".25" />
-        </svg>
-      )}
-      {tpl === 3 && (
-        <svg className="anniv-bot-strip" viewBox="0 0 420 35" fill="none">
-          <g transform="translate(150,18)">
-            {[0, 1, 2, 3].map(i => (
-              <ellipse key={i} cx={-i * 9} cy={i * 3} rx="7" ry="3.5"
-                fill="#5a8a4a" opacity=".45"
-                transform={`rotate(${25 + i * 8} ${-i * 9} ${i * 3})`} />
-            ))}
-          </g>
-          <g transform="translate(270,18)">
-            {[0, 1, 2, 3].map(i => (
-              <ellipse key={i} cx={i * 9} cy={i * 3} rx="7" ry="3.5"
-                fill="#5a8a4a" opacity=".45"
-                transform={`rotate(${-25 - i * 8} ${i * 9} ${i * 3})`} />
-            ))}
-          </g>
-        </svg>
-      )}
-      {tpl === 4 && (
-        <svg className="anniv-bot-strip" viewBox="0 0 420 40" fill="none">
-          <g transform="translate(210,20)">
-            <circle cx="0" cy="0" r="14" stroke="#d4af37" strokeWidth=".7" fill="none" opacity=".25" />
-            {Array.from({ length: 8 }, (_, i) => i * 45).map(a => (
-              <ellipse key={a}
-                cx={Math.cos(a * Math.PI / 180) * 18} cy={Math.sin(a * Math.PI / 180) * 18}
-                rx="4" ry="2" fill="#d4af37" opacity=".2"
-                transform={`rotate(${a} ${Math.cos(a * Math.PI / 180) * 18} ${Math.sin(a * Math.PI / 180) * 18})`} />
-            ))}
-          </g>
-        </svg>
-      )}
-      {tpl === 6 && (
-        <svg className="anniv-bot-strip" viewBox="0 0 420 30" fill="none">
-          <path d="M155 15 C180 4,240 4,265 15" stroke="#c9a84c" strokeWidth="1" fill="none" opacity=".4" />
-          <circle cx="210" cy="7" r="1.8" fill="#c9a84c" opacity=".35" />
-          <line x1="60" y1="15" x2="145" y2="15" stroke="#c9a84c" strokeWidth=".4" opacity=".25" />
-          <line x1="275" y1="15" x2="360" y2="15" stroke="#c9a84c" strokeWidth=".4" opacity=".25" />
-        </svg>
-      )}
+  /* ─── LAYOUT B: Photo-Dominant Overlay ─── */
+  if (layout === 'B') {
+    return (
+      <div id="anniv-card-print" className={`anniv-card anniv-layout-b ${themeClass}`} ref={ref} style={customStyle}>
+        <div className="anniv-b-photo-bg">
+          <img src={photoPreview || '/default-anniversary-couple.avif'} alt="" className="anniv-b-bg-img" />
+          <div className="anniv-b-overlay" />
+        </div>
+        <div className="anniv-b-content">
+          <div className="anniv-b-top-deco">✦ ✦ ✦</div>
+          <h1 className="anniv-title-main">{t.annivTitle || 'Happy Anniversary!'}</h1>
+          <p className="anniv-couple-names">{partner1 || 'Partner 1'} <span className="anniv-amp">&amp;</span> {partner2 || 'Partner 2'}</p>
+          {years && <div className="anniv-b-years">{years}<span className="anniv-b-years-label"> Years Together</span></div>}
+          {message && <p className="anniv-message-text">&ldquo;{message}&rdquo;</p>}
+          {date && <p className="anniv-date-line">{formatDate(date, lang)}</p>}
+        </div>
+      </div>
+    );
+  }
+
+  /* ─── LAYOUT C: Side-by-Side (Photo Left, Details Right) ─── */
+  if (layout === 'C') {
+    return (
+      <div id="anniv-card-print" className={`anniv-card anniv-layout-c ${themeClass}`} ref={ref} style={customStyle}>
+        <div className="anniv-c-columns">
+          <div className="anniv-c-left">
+            <div className="anniv-c-photo-frame">
+              <img src={photoPreview || '/default-anniversary-couple.avif'} alt="" className="anniv-c-photo" />
+            </div>
+          </div>
+          <div className="anniv-c-right">
+            <div className="anniv-c-right-inner">
+              <div className="anniv-c-deco-line" />
+              <h1 className="anniv-c-title">{t.annivTitle || 'Happy Anniversary!'}</h1>
+              <p className="anniv-c-names">{partner1 || 'Partner 1'} <span className="anniv-amp">&amp;</span> {partner2 || 'Partner 2'}</p>
+              {years && <div className="anniv-c-years-badge">{years} <span>Years</span></div>}
+              {message && <p className="anniv-c-message">&ldquo;{message}&rdquo;</p>}
+              {date && <p className="anniv-c-date">{formatDate(date, lang)}</p>}
+              <div className="anniv-c-deco-line" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ─── LAYOUT D: Years Badge Prominent / Timeline ─── */
+  if (layout === 'D') {
+    return (
+      <div id="anniv-card-print" className={`anniv-card anniv-layout-d ${themeClass}`} ref={ref} style={customStyle}>
+        <div className="anniv-d-top-strip" />
+        <div className="anniv-d-content">
+          {years && <div className="anniv-d-big-years"><span className="anniv-d-num">{years}</span><span className="anniv-d-suffix">th</span><div className="anniv-d-years-label">Anniversary</div></div>}
+          <div className="anniv-d-couple-row">
+            <span className="anniv-d-name">{partner1 || 'Partner 1'}</span>
+            <span className="anniv-d-heart">♥</span>
+            <span className="anniv-d-name">{partner2 || 'Partner 2'}</span>
+          </div>
+          <div className="anniv-d-photo-circle">
+            <img src={photoPreview || '/default-anniversary-couple.avif'} alt="" className="anniv-d-photo" />
+          </div>
+          {message && <p className="anniv-d-message">&ldquo;{message}&rdquo;</p>}
+          {date && <p className="anniv-d-date">{formatDate(date, lang)}</p>}
+        </div>
+        <div className="anniv-d-bottom-strip" />
+      </div>
+    );
+  }
+
+  /* ─── LAYOUT E: Modern Minimal Strip ─── */
+  return (
+    <div id="anniv-card-print" className={`anniv-card anniv-layout-e ${themeClass}`} ref={ref} style={customStyle}>
+      <div className="anniv-e-border">
+        <div className="anniv-e-inner">
+          <div className="anniv-e-top-line">✦ CELEBRATING LOVE ✦</div>
+          <h1 className="anniv-e-title">{t.annivTitle || 'Happy Anniversary!'}</h1>
+          <div className="anniv-e-photo-row">
+            <div className="anniv-e-photo-frame">
+              <img src={photoPreview || '/default-anniversary-couple.avif'} alt="" className="anniv-e-photo" />
+            </div>
+          </div>
+          <p className="anniv-e-names">{partner1 || 'Partner 1'} <span className="anniv-e-amp">&amp;</span> {partner2 || 'Partner 2'}</p>
+          {years && <div className="anniv-e-years">{years} Years of Togetherness</div>}
+          {message && <p className="anniv-e-message">&ldquo;{message}&rdquo;</p>}
+          {date && <p className="anniv-e-date">{formatDate(date, lang)}</p>}
+          <div className="anniv-e-bottom-line">❦ ━━━━━━━━━━━━ ❦</div>
+        </div>
+      </div>
     </div>
   );
 });

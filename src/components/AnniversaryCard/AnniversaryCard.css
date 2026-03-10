@@ -226,6 +226,7 @@
   align-items: center;
   text-align: center;
   overflow: hidden;
+  color: #3a2808;
   font-family: var(--card-font, 'Lora', Georgia, serif);
 }
 
@@ -386,6 +387,7 @@
 ================================================================ */
 .anniv-theme-1 {
   background: linear-gradient(170deg, #14264a 0%, #1a2f5a 40%, #0f1e3e 100%);
+  color: #c0d0e0;
 }
 .anniv-theme-1 .anniv-title-main     { color: #c9a84c; }
 .anniv-theme-1 .anniv-couple-names   { color: #c9a84c; }
@@ -400,6 +402,7 @@
 ================================================================ */
 .anniv-theme-2 {
   background: linear-gradient(170deg, #2a1520 0%, #3d1e2e 40%, #1a0e15 100%);
+  color: #e0c8d0;
 }
 .anniv-theme-2 .anniv-title-main     { color: #d4a373; }
 .anniv-theme-2 .anniv-couple-names   { color: #e8c9a8; }
@@ -429,6 +432,7 @@
 ================================================================ */
 .anniv-theme-4 {
   background: linear-gradient(170deg, #1a0a2e 0%, #2d1b4e 40%, #0f0518 100%);
+  color: #d0c0e0;
 }
 .anniv-theme-4 .anniv-title-main     { color: #d4af37; }
 .anniv-theme-4 .anniv-couple-names   { color: #e0c868; }
@@ -457,6 +461,7 @@
 ================================================================ */
 .anniv-theme-6 {
   background: linear-gradient(170deg, #2d3436 0%, #3a3f41 40%, #1e2122 100%);
+  color: #d0d0c8;
 }
 .anniv-theme-6 .anniv-title-main     { color: #c9a84c; }
 .anniv-theme-6 .anniv-couple-names   { color: #e0d8c0; }
@@ -465,6 +470,208 @@
 .anniv-theme-6 .anniv-message-text   { color: rgba(255,255,255,.7); }
 .anniv-theme-6 .anniv-date-line      { color: #c9a84c; }
 .anniv-theme-6 .anniv-photo-frame    { border-color: #c9a84c; }
+
+/* ================================================================
+   THEME 7 — Midnight Sapphire
+================================================================ */
+.anniv-theme-7 {
+  background: linear-gradient(170deg, #0a1628 0%, #162844 40%, #0a1020 100%);
+  color: #b8c8e0;
+}
+.anniv-theme-7 .anniv-title-main     { color: #7b9ec7; }
+.anniv-theme-7 .anniv-couple-names   { color: #a8c8e8; }
+.anniv-theme-7 .anniv-amp            { color: #7b9ec7; }
+.anniv-theme-7 .anniv-years-badge    { background: rgba(123,158,199,.2); color: #7b9ec7; border: 1px solid rgba(123,158,199,.4); }
+.anniv-theme-7 .anniv-message-text   { color: rgba(200,220,255,.8); }
+.anniv-theme-7 .anniv-date-line      { color: #7b9ec7; }
+.anniv-theme-7 .anniv-photo-frame    { border-color: #7b9ec7; }
+
+/* ================================================================
+   THEME 8 — Blush Petal
+================================================================ */
+.anniv-theme-8 {
+  background: linear-gradient(170deg, #fff0f3 0%, #ffe0e8 50%, #ffd0d8 100%);
+}
+.anniv-theme-8 .anniv-title-main     { color: #c44068; }
+.anniv-theme-8 .anniv-couple-names   { color: #8a2040; }
+.anniv-theme-8 .anniv-amp            { color: #d4748a; }
+.anniv-theme-8 .anniv-years-badge    { background: #d4748a; color: #fff; border: none; }
+.anniv-theme-8 .anniv-message-text   { color: #6a4050; }
+.anniv-theme-8 .anniv-date-line      { color: #c44068; }
+.anniv-theme-8 .anniv-photo-frame    { border-color: #d4748a; }
+
+/* ================================================================
+   THEME 9 — Champagne Glow
+================================================================ */
+.anniv-theme-9 {
+  background: linear-gradient(170deg, #fdf8ee 0%, #f5ecd0 50%, #ede0b8 100%);
+}
+.anniv-theme-9 .anniv-title-main     { color: #8a7030; }
+.anniv-theme-9 .anniv-couple-names   { color: #5a4818; }
+.anniv-theme-9 .anniv-amp            { color: #c4a35a; }
+.anniv-theme-9 .anniv-years-badge    { background: #c4a35a; color: #fff; border: none; }
+.anniv-theme-9 .anniv-message-text   { color: #6a5a38; }
+.anniv-theme-9 .anniv-date-line      { color: #8a7030; }
+.anniv-theme-9 .anniv-photo-frame    { border-color: #c4a35a; }
+
+/* ================================================================
+   THEME 10 — Teal Elegance
+================================================================ */
+.anniv-theme-10 {
+  background: linear-gradient(170deg, #0a2a28 0%, #1a4a44 40%, #0a2020 100%);
+  color: #c0e0d8;
+}
+.anniv-theme-10 .anniv-title-main     { color: #60c8b8; }
+.anniv-theme-10 .anniv-couple-names   { color: #90e8d8; }
+.anniv-theme-10 .anniv-amp            { color: #c88060; }
+.anniv-theme-10 .anniv-years-badge    { background: rgba(96,200,184,.2); color: #60c8b8; border: 1px solid rgba(96,200,184,.4); }
+.anniv-theme-10 .anniv-message-text   { color: rgba(200,240,230,.8); }
+.anniv-theme-10 .anniv-date-line      { color: #c88060; }
+.anniv-theme-10 .anniv-photo-frame    { border-color: #60c8b8; }
+
+/* ================================================================
+   THEME 11 — Burgundy Velvet
+================================================================ */
+.anniv-theme-11 {
+  background: linear-gradient(170deg, #2a0a18 0%, #4a1830 40%, #1a0810 100%);
+  color: #e0c8d0;
+}
+.anniv-theme-11 .anniv-title-main     { color: #d4a040; }
+.anniv-theme-11 .anniv-couple-names   { color: #e8c880; }
+.anniv-theme-11 .anniv-amp            { color: #d4a040; }
+.anniv-theme-11 .anniv-years-badge    { background: rgba(212,160,64,.2); color: #d4a040; border: 1px solid rgba(212,160,64,.4); }
+.anniv-theme-11 .anniv-message-text   { color: rgba(255,220,230,.8); }
+.anniv-theme-11 .anniv-date-line      { color: #d4a040; }
+.anniv-theme-11 .anniv-photo-frame    { border-color: #d4a040; }
+
+/* ================================================================
+   THEME 12 — Ivory Classic
+================================================================ */
+.anniv-theme-12 {
+  background: linear-gradient(170deg, #faf8f0 0%, #f0ece0 50%, #e8e0d0 100%);
+}
+.anniv-theme-12 .anniv-title-main     { color: #5a4020; }
+.anniv-theme-12 .anniv-couple-names   { color: #3a2810; }
+.anniv-theme-12 .anniv-amp            { color: #8b7355; }
+.anniv-theme-12 .anniv-years-badge    { background: #8b7355; color: #fff; border: none; }
+.anniv-theme-12 .anniv-message-text   { color: #5a4a38; }
+.anniv-theme-12 .anniv-date-line      { color: #5a4020; }
+.anniv-theme-12 .anniv-photo-frame    { border-color: #8b7355; }
+
+/* ================================================================
+   THEME 13 — Sunset Coral
+================================================================ */
+.anniv-theme-13 {
+  background: linear-gradient(170deg, #fff5f0 0%, #ffe8dd 50%, #ffd8c8 100%);
+}
+.anniv-theme-13 .anniv-title-main     { color: #c05030; }
+.anniv-theme-13 .anniv-couple-names   { color: #8a3020; }
+.anniv-theme-13 .anniv-amp            { color: #e07050; }
+.anniv-theme-13 .anniv-years-badge    { background: #e07050; color: #fff; border: none; }
+.anniv-theme-13 .anniv-message-text   { color: #6a4035; }
+.anniv-theme-13 .anniv-date-line      { color: #c05030; }
+.anniv-theme-13 .anniv-photo-frame    { border-color: #e07050; }
+
+/* ================================================================
+   THEME 14 — Silver Moonlight
+================================================================ */
+.anniv-theme-14 {
+  background: linear-gradient(170deg, #1a1e28 0%, #2a3040 40%, #101418 100%);
+  color: #c0c8d0;
+}
+.anniv-theme-14 .anniv-title-main     { color: #a8b8c8; }
+.anniv-theme-14 .anniv-couple-names   { color: #c8d0d8; }
+.anniv-theme-14 .anniv-amp            { color: #a8b8c8; }
+.anniv-theme-14 .anniv-years-badge    { background: rgba(168,184,200,.2); color: #a8b8c8; border: 1px solid rgba(168,184,200,.4); }
+.anniv-theme-14 .anniv-message-text   { color: rgba(200,210,220,.8); }
+.anniv-theme-14 .anniv-date-line      { color: #a8b8c8; }
+.anniv-theme-14 .anniv-photo-frame    { border-color: #a8b8c8; }
+
+/* ================================================================
+   THEME 15 — Lavender Dreams
+================================================================ */
+.anniv-theme-15 {
+  background: linear-gradient(170deg, #f0e8f8 0%, #e0d0f0 50%, #d0c0e8 100%);
+}
+.anniv-theme-15 .anniv-title-main     { color: #6a4a8a; }
+.anniv-theme-15 .anniv-couple-names   { color: #4a2a6a; }
+.anniv-theme-15 .anniv-amp            { color: #9b7db8; }
+.anniv-theme-15 .anniv-years-badge    { background: #9b7db8; color: #fff; border: none; }
+.anniv-theme-15 .anniv-message-text   { color: #5a4068; }
+.anniv-theme-15 .anniv-date-line      { color: #6a4a8a; }
+.anniv-theme-15 .anniv-photo-frame    { border-color: #9b7db8; }
+
+/* ================================================================
+   THEME 16 — Forest & Amber
+================================================================ */
+.anniv-theme-16 {
+  background: linear-gradient(170deg, #0a1a10 0%, #1a3820 40%, #081008 100%);
+  color: #c0d8c0;
+}
+.anniv-theme-16 .anniv-title-main     { color: #c8a840; }
+.anniv-theme-16 .anniv-couple-names   { color: #e0c868; }
+.anniv-theme-16 .anniv-amp            { color: #c8a840; }
+.anniv-theme-16 .anniv-years-badge    { background: rgba(200,168,64,.2); color: #c8a840; border: 1px solid rgba(200,168,64,.4); }
+.anniv-theme-16 .anniv-message-text   { color: rgba(200,230,200,.8); }
+.anniv-theme-16 .anniv-date-line      { color: #c8a840; }
+.anniv-theme-16 .anniv-photo-frame    { border-color: #c8a840; }
+
+/* ================================================================
+   THEME 17 — Ocean Breeze
+================================================================ */
+.anniv-theme-17 {
+  background: linear-gradient(170deg, #e8f4f8 0%, #d0e8f0 50%, #b8d8e8 100%);
+}
+.anniv-theme-17 .anniv-title-main     { color: #2a6080; }
+.anniv-theme-17 .anniv-couple-names   { color: #1a4060; }
+.anniv-theme-17 .anniv-amp            { color: #4a90b8; }
+.anniv-theme-17 .anniv-years-badge    { background: #4a90b8; color: #fff; border: none; }
+.anniv-theme-17 .anniv-message-text   { color: #3a5060; }
+.anniv-theme-17 .anniv-date-line      { color: #2a6080; }
+.anniv-theme-17 .anniv-photo-frame    { border-color: #4a90b8; }
+
+/* ================================================================
+   THEME 18 — Marigold Festive
+================================================================ */
+.anniv-theme-18 {
+  background: linear-gradient(170deg, #fdf5e0 0%, #f8e8b0 50%, #f0d880 100%);
+}
+.anniv-theme-18 .anniv-title-main     { color: #8a6010; }
+.anniv-theme-18 .anniv-couple-names   { color: #5a3a08; }
+.anniv-theme-18 .anniv-amp            { color: #e0a030; }
+.anniv-theme-18 .anniv-years-badge    { background: #e0a030; color: #fff; border: none; }
+.anniv-theme-18 .anniv-message-text   { color: #6a5020; }
+.anniv-theme-18 .anniv-date-line      { color: #8a6010; }
+.anniv-theme-18 .anniv-photo-frame    { border-color: #e0a030; }
+
+/* ================================================================
+   THEME 19 — Copper Rose
+================================================================ */
+.anniv-theme-19 {
+  background: linear-gradient(170deg, #1a1010 0%, #3a2018 40%, #1a0a08 100%);
+  color: #e0c8b8;
+}
+.anniv-theme-19 .anniv-title-main     { color: #c87850; }
+.anniv-theme-19 .anniv-couple-names   { color: #e8a880; }
+.anniv-theme-19 .anniv-amp            { color: #c87850; }
+.anniv-theme-19 .anniv-years-badge    { background: rgba(200,120,80,.2); color: #c87850; border: 1px solid rgba(200,120,80,.4); }
+.anniv-theme-19 .anniv-message-text   { color: rgba(240,210,190,.8); }
+.anniv-theme-19 .anniv-date-line      { color: #c87850; }
+.anniv-theme-19 .anniv-photo-frame    { border-color: #c87850; }
+
+/* ================================================================
+   THEME 20 — Pearl White
+================================================================ */
+.anniv-theme-20 {
+  background: linear-gradient(170deg, #f8f8fa 0%, #eef0f4 50%, #e0e4e8 100%);
+}
+.anniv-theme-20 .anniv-title-main     { color: #5a6070; }
+.anniv-theme-20 .anniv-couple-names   { color: #3a4050; }
+.anniv-theme-20 .anniv-amp            { color: #b0b8c0; }
+.anniv-theme-20 .anniv-years-badge    { background: #8090a0; color: #fff; border: none; }
+.anniv-theme-20 .anniv-message-text   { color: #5a6068; }
+.anniv-theme-20 .anniv-date-line      { color: #5a6070; }
+.anniv-theme-20 .anniv-photo-frame    { border-color: #b0b8c0; }
 
 /* ================================================================
    Background Color Picker
@@ -1093,3 +1300,77 @@
     border-radius: 8px;
   }
 }
+
+/* ══════════════════════════════════════════════════════════
+   LAYOUT B — Photo-Dominant Overlay
+   ══════════════════════════════════════════════════════════ */
+.anniv-layout-b { position: relative; overflow: hidden; padding: 0; }
+.anniv-b-photo-bg { position: absolute; inset: 0; z-index: 0; }
+.anniv-b-bg-img { width: 100%; height: 100%; object-fit: cover; }
+.anniv-b-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.15) 0%, rgba(0,0,0,.65) 60%); }
+.anniv-b-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; padding: 32px 24px; color: #fff; text-align: center; text-shadow: 0 1px 6px rgba(0,0,0,.5); }
+.anniv-b-top-deco { letter-spacing: 8px; font-size: 14px; opacity: .7; margin-bottom: 8px; }
+.anniv-layout-b .anniv-title-main { color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,.4); }
+.anniv-layout-b .anniv-couple-names { color: #fff; }
+.anniv-b-years { font-size: 42px; font-weight: 700; line-height: 1; margin: 10px 0; }
+.anniv-b-years-label { font-size: 14px; font-weight: 400; letter-spacing: 2px; }
+.anniv-layout-b .anniv-message-text { color: rgba(255,255,255,.9); font-size: 13px; }
+.anniv-layout-b .anniv-date-line { color: rgba(255,255,255,.8); }
+
+/* ══════════════════════════════════════════════════════════
+   LAYOUT C — Side-by-Side (Photo Left, Details Right)
+   ══════════════════════════════════════════════════════════ */
+.anniv-layout-c { padding: 0; overflow: hidden; }
+.anniv-c-columns { display: grid; grid-template-columns: 45% 55%; height: 100%; }
+.anniv-c-left { display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(0,0,0,.04); }
+.anniv-c-photo-frame { width: 100%; aspect-ratio: 3/4; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.15); }
+.anniv-c-photo { width: 100%; height: 100%; object-fit: cover; }
+.anniv-c-right { display: flex; align-items: center; padding: 20px; }
+.anniv-c-right-inner { text-align: center; width: 100%; }
+.anniv-c-deco-line { height: 2px; width: 50px; margin: 12px auto; background: var(--card-accent, #c9a84c); opacity: .5; border-radius: 2px; }
+.anniv-c-title { font-size: 20px; margin: 8px 0; color: var(--card-accent, #c9a84c); }
+.anniv-c-names { font-size: 16px; font-weight: 600; margin: 6px 0; }
+.anniv-c-years-badge { display: inline-block; font-size: 32px; font-weight: 700; margin: 8px 0; color: var(--card-accent, #c9a84c); }
+.anniv-c-years-badge span { display: block; font-size: 12px; font-weight: 400; letter-spacing: 3px; text-transform: uppercase; }
+.anniv-c-message { font-size: 12px; font-style: italic; margin: 8px 0; opacity: .8; }
+.anniv-c-date { font-size: 11px; opacity: .6; margin-top: 6px; }
+
+@media (max-width: 420px) {
+  .anniv-c-columns { grid-template-columns: 1fr; grid-template-rows: 40% 60%; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   LAYOUT D — Years Badge Prominent / Timeline
+   ══════════════════════════════════════════════════════════ */
+.anniv-layout-d { padding: 0; display: flex; flex-direction: column; }
+.anniv-d-top-strip { height: 6px; background: var(--card-accent, #c9a84c); }
+.anniv-d-bottom-strip { height: 6px; background: var(--card-accent, #c9a84c); margin-top: auto; }
+.anniv-d-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 20px; text-align: center; }
+.anniv-d-big-years { margin-bottom: 12px; line-height: 1; }
+.anniv-d-num { font-size: 72px; font-weight: 800; color: var(--card-accent, #c9a84c); }
+.anniv-d-suffix { font-size: 24px; vertical-align: super; color: var(--card-accent, #c9a84c); }
+.anniv-d-years-label { font-size: 14px; letter-spacing: 6px; text-transform: uppercase; opacity: .7; margin-top: -4px; }
+.anniv-d-couple-row { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 600; margin: 10px 0; }
+.anniv-d-heart { color: var(--card-accent, #c9a84c); font-size: 20px; }
+.anniv-d-photo-circle { width: 120px; height: 120px; border-radius: 50%; overflow: hidden; border: 3px solid var(--card-accent, #c9a84c); margin: 12px 0; }
+.anniv-d-photo { width: 100%; height: 100%; object-fit: cover; }
+.anniv-d-message { font-size: 12px; font-style: italic; max-width: 80%; margin: 8px 0; opacity: .8; }
+.anniv-d-date { font-size: 11px; opacity: .6; }
+
+/* ══════════════════════════════════════════════════════════
+   LAYOUT E — Modern Minimal Double-Border
+   ══════════════════════════════════════════════════════════ */
+.anniv-layout-e { padding: 10px; }
+.anniv-e-border { border: 2px solid var(--card-accent, #c9a84c); border-radius: 6px; height: 100%; display: flex; flex-direction: column; }
+.anniv-e-inner { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 16px; text-align: center; }
+.anniv-e-top-line { font-size: 10px; letter-spacing: 4px; opacity: .5; margin-bottom: 6px; }
+.anniv-e-title { font-size: 22px; color: var(--card-accent, #c9a84c); margin: 4px 0; }
+.anniv-e-photo-row { margin: 12px 0; }
+.anniv-e-photo-frame { width: 140px; height: 140px; border-radius: 50%; overflow: hidden; border: 3px solid var(--card-accent, #c9a84c); margin: 0 auto; }
+.anniv-e-photo { width: 100%; height: 100%; object-fit: cover; }
+.anniv-e-names { font-size: 18px; font-weight: 600; margin: 8px 0; }
+.anniv-e-amp { color: var(--card-accent, #c9a84c); margin: 0 6px; }
+.anniv-e-years { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; opacity: .6; margin: 4px 0; }
+.anniv-e-message { font-size: 12px; font-style: italic; max-width: 85%; margin: 8px 0; opacity: .8; }
+.anniv-e-date { font-size: 11px; opacity: .6; }
+.anniv-e-bottom-line { font-size: 12px; opacity: .4; margin-top: 8px; letter-spacing: 2px; }

@@ -17,6 +17,7 @@
   text-align: center;
   overflow: hidden;
   background: #faf6f0;
+  color: #3a2808;
   border: 2px solid var(--card-accent, #e8dcc8);
   border-radius: 24px;
   font-family: var(--card-font, 'Quicksand', sans-serif);
@@ -188,6 +189,7 @@
 .bday-theme-1 {
   background: linear-gradient(170deg, #0f1b3d 0%, #1a2d5e 40%, #2a4270 100%);
   border-color: #3a5a8a;
+  color: #d0e8ff;
 }
 .bday-theme-1 .bday-hero-name,
 .bday-theme-1 .bday-hero-title { color: #f0d860; }
@@ -273,6 +275,200 @@
 .bday-theme-6 .bday-age-badge   { background: #e65100; }
 .bday-theme-6 .bday-event-line  { color: #bf360c; }
 .bday-theme-6 .bday-photo       { border-color: #ff8a65; }
+
+/* ═══════════════════════════════════════
+   Theme 7 — Candy Pop
+   ═══════════════════════════════════════ */
+.bday-theme-7 {
+  background: linear-gradient(170deg, #ffe0f0 0%, #ffd0e8 50%, #ffc0e0 100%);
+  border-color: #e85090;
+}
+.bday-theme-7 .bday-hero-name, .bday-theme-7 .bday-hero-title { color: #c03070; }
+.bday-theme-7 .bday-subtitle { color: #e87040; }
+.bday-theme-7 .bday-age-badge { background: #e85090; }
+.bday-theme-7 .bday-event-line { color: #a03060; }
+.bday-theme-7 .bday-photo { border-color: #e87040; }
+
+/* ═══════════════════════════════════════
+   Theme 8 — Ocean Splash
+   ═══════════════════════════════════════ */
+.bday-theme-8 {
+  background: linear-gradient(170deg, #e0f7fa 0%, #b2ebf2 50%, #80deea 100%);
+  border-color: #26c6da;
+}
+.bday-theme-8 .bday-hero-name, .bday-theme-8 .bday-hero-title { color: #00695c; }
+.bday-theme-8 .bday-subtitle { color: #0097a7; }
+.bday-theme-8 .bday-age-badge { background: #1a8a9a; }
+.bday-theme-8 .bday-event-line { color: #00695c; }
+.bday-theme-8 .bday-photo { border-color: #26c6da; }
+
+/* ═══════════════════════════════════════
+   Theme 9 — Jungle Safari
+   ═══════════════════════════════════════ */
+.bday-theme-9 {
+  background: linear-gradient(170deg, #e8f5e9 0%, #c8e6c9 50%, #a5d6a7 100%);
+  border-color: #66bb6a;
+}
+.bday-theme-9 .bday-hero-name, .bday-theme-9 .bday-hero-title { color: #2e7d32; }
+.bday-theme-9 .bday-subtitle { color: #a07840; }
+.bday-theme-9 .bday-age-badge { background: #4a7a2a; }
+.bday-theme-9 .bday-event-line { color: #33691e; }
+.bday-theme-9 .bday-photo { border-color: #a5d6a7; }
+
+/* ═══════════════════════════════════════
+   Theme 10 — Princess Castle
+   ═══════════════════════════════════════ */
+.bday-theme-10 {
+  background: linear-gradient(170deg, #f3e5f5 0%, #e1bee7 50%, #ce93d8 100%);
+  border-color: #ba68c8;
+}
+.bday-theme-10 .bday-hero-name, .bday-theme-10 .bday-hero-title { color: #6a1b9a; }
+.bday-theme-10 .bday-subtitle { color: #ab47bc; }
+.bday-theme-10 .bday-age-badge { background: #9a5abc; }
+.bday-theme-10 .bday-event-line { color: #6a1b9a; }
+.bday-theme-10 .bday-photo { border-color: #ce93d8; }
+
+/* ═══════════════════════════════════════
+   Theme 11 — Superhero Pow
+   ═══════════════════════════════════════ */
+.bday-theme-11 {
+  background: linear-gradient(170deg, #ffebee 0%, #ffcdd2 50%, #ef9a9a 100%);
+  border-color: #ef5350;
+}
+.bday-theme-11 .bday-hero-name, .bday-theme-11 .bday-hero-title { color: #b71c1c; }
+.bday-theme-11 .bday-subtitle { color: #1565c0; }
+.bday-theme-11 .bday-age-badge { background: #c42020; }
+.bday-theme-11 .bday-event-line { color: #b71c1c; }
+.bday-theme-11 .bday-photo { border-color: #1565c0; }
+
+/* ═══════════════════════════════════════
+   Theme 12 — Unicorn Magic
+   ═══════════════════════════════════════ */
+.bday-theme-12 {
+  background: linear-gradient(170deg, #f8e8ff 0%, #e8d0f8 50%, #d8c0f0 100%);
+  border-color: #c488d0;
+}
+.bday-theme-12 .bday-hero-name, .bday-theme-12 .bday-hero-title { color: #8a3a9a; }
+.bday-theme-12 .bday-subtitle { color: #60a0c0; }
+.bday-theme-12 .bday-age-badge { background: #c488d0; }
+.bday-theme-12 .bday-event-line { color: #8a3a9a; }
+.bday-theme-12 .bday-photo { border-color: #60a0c0; }
+
+/* ═══════════════════════════════════════
+   Theme 13 — Dino Roar
+   ═══════════════════════════════════════ */
+.bday-theme-13 {
+  background: linear-gradient(170deg, #f1f8e9 0%, #dcedc8 50%, #c5e1a5 100%);
+  border-color: #8bc34a;
+}
+.bday-theme-13 .bday-hero-name, .bday-theme-13 .bday-hero-title { color: #33691e; }
+.bday-theme-13 .bday-subtitle { color: #8d6e63; }
+.bday-theme-13 .bday-age-badge { background: #5a8848; }
+.bday-theme-13 .bday-event-line { color: #33691e; }
+.bday-theme-13 .bday-photo { border-color: #8d6e63; }
+
+/* ═══════════════════════════════════════
+   Theme 14 — Ice Cream Dream
+   ═══════════════════════════════════════ */
+.bday-theme-14 {
+  background: linear-gradient(170deg, #fef0f2 0%, #fce4ea 50%, #f8d8e0 100%);
+  border-color: #f48fb1;
+}
+.bday-theme-14 .bday-hero-name, .bday-theme-14 .bday-hero-title { color: #c2185b; }
+.bday-theme-14 .bday-subtitle { color: #80cbc4; }
+.bday-theme-14 .bday-age-badge { background: #d4748a; }
+.bday-theme-14 .bday-event-line { color: #c2185b; }
+.bday-theme-14 .bday-photo { border-color: #80cbc4; }
+
+/* ═══════════════════════════════════════
+   Theme 15 — Pirate Treasure
+   ═══════════════════════════════════════ */
+.bday-theme-15 {
+  background: linear-gradient(170deg, #1a2a4a 0%, #2a3a5a 40%, #1a2a4a 100%);
+  border-color: #4a6a8a;
+  color: #b0c8e8;
+}
+.bday-theme-15 .bday-hero-name, .bday-theme-15 .bday-hero-title { color: #ffd54f; }
+.bday-theme-15 .bday-subtitle { color: #90caf9; }
+.bday-theme-15 .bday-age-badge { background: #c9a84c; }
+.bday-theme-15 .bday-event-line { color: #b0c8e8; }
+.bday-theme-15 .bday-venue-line { color: #90aad0; }
+.bday-theme-15 .bday-address-line { color: #7090b0; }
+.bday-theme-15 .bday-guest-tag { color: #90aad0; }
+.bday-theme-15 .bday-guest-name { color: #ffd54f; }
+.bday-theme-15 .bday-message { color: #90aad0; }
+.bday-theme-15 .bday-photo { border-color: #ffd54f; }
+
+/* ═══════════════════════════════════════
+   Theme 16 — Garden Butterfly
+   ═══════════════════════════════════════ */
+.bday-theme-16 {
+  background: linear-gradient(170deg, #f0e8f8 0%, #e0d0f0 50%, #d0c0e8 100%);
+  border-color: #b8a0d0;
+}
+.bday-theme-16 .bday-hero-name, .bday-theme-16 .bday-hero-title { color: #5a3a8a; }
+.bday-theme-16 .bday-subtitle { color: #7aaa7a; }
+.bday-theme-16 .bday-age-badge { background: #7a6aaa; }
+.bday-theme-16 .bday-event-line { color: #5a3a8a; }
+.bday-theme-16 .bday-photo { border-color: #7aaa7a; }
+
+/* ═══════════════════════════════════════
+   Theme 17 — Race Car
+   ═══════════════════════════════════════ */
+.bday-theme-17 {
+  background: linear-gradient(170deg, #f5f5f5 0%, #e0e0e0 50%, #bdbdbd 100%);
+  border-color: #b82020;
+}
+.bday-theme-17 .bday-hero-name, .bday-theme-17 .bday-hero-title { color: #b82020; }
+.bday-theme-17 .bday-subtitle { color: #424242; }
+.bday-theme-17 .bday-age-badge { background: #b82020; }
+.bday-theme-17 .bday-event-line { color: #424242; }
+.bday-theme-17 .bday-photo { border-color: #b82020; }
+
+/* ═══════════════════════════════════════
+   Theme 18 — Rainbow Bright
+   ═══════════════════════════════════════ */
+.bday-theme-18 {
+  background: linear-gradient(170deg, #fff9c4 0%, #ffccbc 40%, #f8bbd0 70%, #e1bee7 100%);
+  border-color: #e87040;
+}
+.bday-theme-18 .bday-hero-name, .bday-theme-18 .bday-hero-title { color: #d84315; }
+.bday-theme-18 .bday-subtitle { color: #7b1fa2; }
+.bday-theme-18 .bday-age-badge { background: #e87040; }
+.bday-theme-18 .bday-event-line { color: #c62828; }
+.bday-theme-18 .bday-photo { border-color: #7b1fa2; }
+
+/* ═══════════════════════════════════════
+   Theme 19 — Teddy Picnic
+   ═══════════════════════════════════════ */
+.bday-theme-19 {
+  background: linear-gradient(170deg, #fef5e8 0%, #f5e8d0 50%, #ecdcc0 100%);
+  border-color: #c4a882;
+}
+.bday-theme-19 .bday-hero-name, .bday-theme-19 .bday-hero-title { color: #6d4c41; }
+.bday-theme-19 .bday-subtitle { color: #a1887f; }
+.bday-theme-19 .bday-age-badge { background: #a07850; }
+.bday-theme-19 .bday-event-line { color: #5d4037; }
+.bday-theme-19 .bday-photo { border-color: #a1887f; }
+
+/* ═══════════════════════════════════════
+   Theme 20 — Neon Glow
+   ═══════════════════════════════════════ */
+.bday-theme-20 {
+  background: linear-gradient(170deg, #0a0a1a 0%, #1a0a2a 40%, #0a0a1a 100%);
+  border-color: #7c4dff;
+  color: #c0b0e0;
+}
+.bday-theme-20 .bday-hero-name, .bday-theme-20 .bday-hero-title { color: #00e5ff; }
+.bday-theme-20 .bday-subtitle { color: #ea80fc; }
+.bday-theme-20 .bday-age-badge { background: #7c4dff; }
+.bday-theme-20 .bday-event-line { color: #b0e0ff; }
+.bday-theme-20 .bday-venue-line { color: #90c0e8; }
+.bday-theme-20 .bday-address-line { color: #80b0d0; }
+.bday-theme-20 .bday-guest-tag { color: #ea80fc; }
+.bday-theme-20 .bday-guest-name { color: #00e5ff; }
+.bday-theme-20 .bday-message { color: #b090d0; }
+.bday-theme-20 .bday-photo { border-color: #7c4dff; }
 
 /* ═══════════════════════════════════════
    Birthday Screen — background & layout
@@ -1153,3 +1349,88 @@
 
   .birthday-card-screen .tpl-chooser-grid { grid-template-columns: 1fr; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   LAYOUT B — Photo-Dominant Hero Overlay
+   ══════════════════════════════════════════════════════════ */
+.bday-layout-b { padding: 0; display: flex; flex-direction: column; }
+.bday-b-hero { position: relative; height: 45%; min-height: 180px; overflow: hidden; }
+.bday-b-hero-img { width: 100%; height: 100%; object-fit: cover; }
+.bday-b-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,.55) 100%); }
+.bday-b-hero-text { position: absolute; bottom: 12px; left: 0; right: 0; text-align: center; color: #fff; z-index: 1; }
+.bday-b-age { font-size: 48px; font-weight: 800; line-height: 1; text-shadow: 0 2px 8px rgba(0,0,0,.4); }
+.bday-b-subtitle { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; opacity: .9; }
+.bday-b-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px 20px; text-align: center; }
+.bday-b-name { font-size: 22px; font-weight: 700; margin: 0 0 4px; color: var(--card-accent, #e85d5d); }
+.bday-b-details { margin: 8px 0; font-size: 13px; line-height: 1.8; }
+.bday-b-addr { font-size: 11px; opacity: .6; }
+.bday-b-host { font-size: 12px; opacity: .7; margin: 4px 0; }
+.bday-b-guest { font-size: 12px; }
+.bday-b-guest span { font-weight: 600; color: var(--card-accent, #e85d5d); }
+.bday-b-msg { font-size: 12px; font-style: italic; opacity: .7; margin-top: 6px; }
+
+/* ══════════════════════════════════════════════════════════
+   LAYOUT C — Two-Column (Details Left, Photo Right)
+   ══════════════════════════════════════════════════════════ */
+.bday-layout-c { padding: 0; overflow: hidden; }
+.bday-c-columns { display: grid; grid-template-columns: 55% 45%; height: 100%; }
+.bday-c-left { padding: 24px 16px; display: flex; flex-direction: column; justify-content: center; }
+.bday-c-subtitle { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; opacity: .6; margin: 0 0 4px; }
+.bday-c-name { font-size: 24px; font-weight: 700; margin: 0 0 2px; color: var(--card-accent, #e85d5d); }
+.bday-c-title { font-size: 13px; opacity: .7; margin: 0 0 4px; }
+.bday-c-age { font-size: 40px; font-weight: 800; color: var(--card-accent, #e85d5d); line-height: 1; margin: 4px 0; }
+.bday-c-age span { font-size: 16px; font-weight: 400; vertical-align: super; }
+.bday-c-divider { height: 2px; width: 40px; background: var(--card-accent, #e85d5d); opacity: .4; margin: 8px 0; border-radius: 2px; }
+.bday-c-detail { font-size: 12px; margin: 2px 0; line-height: 1.6; }
+.bday-c-addr { font-size: 11px; opacity: .6; }
+.bday-c-right { background: rgba(0,0,0,.03); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; }
+.bday-c-photo-wrap { width: 100%; aspect-ratio: 3/4; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+.bday-c-photo { width: 100%; height: 100%; object-fit: cover; }
+.bday-c-guest { font-size: 11px; margin-top: 8px; }
+.bday-c-guest span { font-weight: 600; color: var(--card-accent, #e85d5d); }
+.bday-c-msg { font-size: 11px; font-style: italic; opacity: .7; margin-top: 4px; text-align: center; }
+
+@media (max-width: 420px) {
+  .bday-c-columns { grid-template-columns: 1fr; grid-template-rows: 55% 45%; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   LAYOUT D — Event Card with Horizontal Bands
+   ══════════════════════════════════════════════════════════ */
+.bday-layout-d { padding: 0; display: flex; flex-direction: column; }
+.bday-d-top-band { padding: 10px 16px; text-align: center; background: var(--card-accent, #e85d5d); color: #fff; }
+.bday-d-tag { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; }
+.bday-d-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px 20px; text-align: center; }
+.bday-d-name { font-size: 24px; font-weight: 700; margin: 0 0 2px; }
+.bday-d-title { font-size: 13px; opacity: .7; margin: 0 0 6px; }
+.bday-d-age-row { display: flex; align-items: baseline; gap: 4px; margin: 4px 0 8px; }
+.bday-d-age-num { font-size: 52px; font-weight: 800; color: var(--card-accent, #e85d5d); line-height: 1; }
+.bday-d-age-label { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; opacity: .5; }
+.bday-d-photo-circle { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; border: 3px solid var(--card-accent, #e85d5d); margin: 8px 0; }
+.bday-d-photo { width: 100%; height: 100%; object-fit: cover; }
+.bday-d-info-grid { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin: 8px 0; font-size: 12px; }
+.bday-d-info-item { display: flex; align-items: center; gap: 4px; }
+.bday-d-icon { font-size: 14px; }
+.bday-d-addr { font-size: 11px; opacity: .5; }
+.bday-d-msg { font-size: 12px; font-style: italic; opacity: .7; max-width: 85%; margin: 6px 0; }
+.bday-d-bottom-band { padding: 10px 16px; background: var(--card-accent, #e85d5d); color: #fff; display: flex; justify-content: center; gap: 20px; font-size: 11px; margin-top: auto; }
+
+/* ══════════════════════════════════════════════════════════
+   LAYOUT E — Modern Minimal Badge Style
+   ══════════════════════════════════════════════════════════ */
+.bday-layout-e { padding: 12px; }
+.bday-e-frame { border: 2px solid var(--card-accent, #e85d5d); border-radius: 8px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 16px; text-align: center; }
+.bday-e-header { font-size: 10px; letter-spacing: 4px; opacity: .5; margin-bottom: 6px; }
+.bday-e-name { font-size: 24px; font-weight: 700; color: var(--card-accent, #e85d5d); margin: 0 0 2px; }
+.bday-e-title { font-size: 13px; opacity: .7; margin: 0 0 6px; }
+.bday-e-age-badge { width: 56px; height: 56px; border-radius: 50%; background: var(--card-accent, #e85d5d); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; margin: 6px 0; }
+.bday-e-photo-frame { width: 110px; height: 110px; border-radius: 50%; overflow: hidden; border: 3px solid var(--card-accent, #e85d5d); margin: 8px 0; }
+.bday-e-photo { width: 100%; height: 100%; object-fit: cover; }
+.bday-e-divider { font-size: 10px; opacity: .3; letter-spacing: 2px; margin: 6px 0; color: var(--card-accent, #e85d5d); }
+.bday-e-details { font-size: 12px; line-height: 1.8; margin: 4px 0; }
+.bday-e-addr { font-size: 11px; opacity: .5; }
+.bday-e-host { font-size: 11px; opacity: .6; margin: 4px 0; }
+.bday-e-guest { font-size: 12px; }
+.bday-e-guest span { font-weight: 600; color: var(--card-accent, #e85d5d); }
+.bday-e-msg { font-size: 12px; font-style: italic; opacity: .7; max-width: 85%; margin: 6px 0; }
+.bday-e-footer { font-size: 16px; opacity: .4; margin-top: 8px; }

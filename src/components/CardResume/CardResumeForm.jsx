@@ -4,6 +4,7 @@ import RichTextEditor from './RichTextEditor';
 
 const EMPTY_EXP = { title: '', company: '', from: '', to: '', location: '', desc: '' };
 const EMPTY_EDU = { degree: '', institution: '', year: '', location: '' };
+const EMPTY_PROJECT = { name: '', tech: '', desc: '' };
 
 export default function CardResumeForm({ data, errors, onChange, onBack, onGenerate, templateName }) {
 
@@ -145,6 +146,35 @@ export default function CardResumeForm({ data, errors, onChange, onBack, onGener
           </div>
         ))}
         <button type="button" className="resume-add-btn" onClick={() => addEntry('education', EMPTY_EDU)}>+ Add Education</button>
+
+        {/* ── Projects ── */}
+        <h3 className="cr-form-section-title">🚀 Projects</h3>
+        {data.projects.map((proj, i) => (
+          <div key={i} className="resume-entry-form">
+            <div className="resume-entry-form-header">
+              <strong>Project #{i + 1}</strong>
+              <button type="button" className="resume-remove-btn" onClick={() => removeEntry('projects', i)}>✕</button>
+            </div>
+            <div className="form-grid">
+              <FormField label="Project Name" name={`proj-name-${i}`}
+                value={proj.name} onChange={e => updateEntry('projects', i, 'name', e.target.value)}
+                placeholder="e.g. E-Commerce Platform" />
+              <FormField label="Technologies" name={`proj-tech-${i}`}
+                value={proj.tech} onChange={e => updateEntry('projects', i, 'tech', e.target.value)}
+                placeholder="e.g. React, Node.js, MongoDB" />
+              <div style={{ gridColumn: '1 / -1' }}>
+                <label className="form-label" style={{ display: 'block', marginBottom: 6, fontWeight: 600, fontSize: 13.5, color: '#344054' }}>Description</label>
+                <RichTextEditor
+                  value={proj.desc}
+                  onChange={(html) => updateEntry('projects', i, 'desc', html)}
+                  placeholder="Brief description of the project…"
+                  rows={3}
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+        <button type="button" className="resume-add-btn" onClick={() => addEntry('projects', EMPTY_PROJECT)}>+ Add Project</button>
 
         {/* ── Skills ── */}
         <h3 className="cr-form-section-title">🛠️ Skills</h3>

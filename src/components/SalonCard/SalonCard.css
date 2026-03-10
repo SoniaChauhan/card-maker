@@ -183,6 +183,226 @@
 .salon-theme-teal-cream .salon-leaf { color: #00897b; }
 .salon-theme-teal-cream .salon-footer-phone { color: #00695c; }
 
+/* ─── Theme: Midnight Plum ─── */
+.salon-theme-midnight-plum {
+  background: linear-gradient(160deg, #1a0a20 0%, #2a1438 50%, #1a0a20 100%);
+  color: #e8d8f0;
+}
+.salon-theme-midnight-plum .salon-biz-name { color: #c890e8; text-shadow: 0 2px 12px rgba(200,144,232,.25); }
+.salon-theme-midnight-plum .salon-tagline { color: #d8c0e8; }
+.salon-theme-midnight-plum .salon-divider-icon,
+.salon-theme-midnight-plum .salon-divider-line { color: #c890e8; border-color: rgba(200,144,232,.3); }
+.salon-theme-midnight-plum .salon-service-price { color: #c890e8; }
+.salon-theme-midnight-plum .salon-corner { border-color: rgba(200,144,232,.25); }
+.salon-theme-midnight-plum .salon-leaf { color: #c890e8; }
+.salon-theme-midnight-plum .salon-footer-phone { color: #c890e8; }
+
+/* ─── Theme: Sage Green ─── */
+.salon-theme-sage-green {
+  background: linear-gradient(160deg, #f0f5ee 0%, #e0ead8 50%, #f0f5ee 100%);
+  color: #3a4a30;
+}
+.salon-theme-sage-green .salon-biz-name { color: #5a7a48; }
+.salon-theme-sage-green .salon-tagline { color: #4a6038; }
+.salon-theme-sage-green .salon-divider-icon,
+.salon-theme-sage-green .salon-divider-line { color: #7a9a68; border-color: rgba(122,154,104,.3); }
+.salon-theme-sage-green .salon-service-price { color: #5a7a48; }
+.salon-theme-sage-green .salon-service-name { color: #3a4a30; }
+.salon-theme-sage-green .salon-corner { border-color: rgba(90,122,72,.2); }
+.salon-theme-sage-green .salon-leaf { color: #7a9a68; }
+.salon-theme-sage-green .salon-footer-phone { color: #5a7a48; }
+
+/* ─── Theme: Coral Peach ─── */
+.salon-theme-coral-peach {
+  background: linear-gradient(160deg, #fff5f0 0%, #ffe8dd 50%, #fff5f0 100%);
+  color: #5a3830;
+}
+.salon-theme-coral-peach .salon-biz-name { color: #d06040; }
+.salon-theme-coral-peach .salon-tagline { color: #8a5040; }
+.salon-theme-coral-peach .salon-divider-icon,
+.salon-theme-coral-peach .salon-divider-line { color: #e08060; border-color: rgba(224,128,96,.3); }
+.salon-theme-coral-peach .salon-service-price { color: #d06040; }
+.salon-theme-coral-peach .salon-service-name { color: #5a3830; }
+.salon-theme-coral-peach .salon-corner { border-color: rgba(208,96,64,.15); }
+.salon-theme-coral-peach .salon-leaf { color: #e08060; }
+.salon-theme-coral-peach .salon-footer-phone { color: #d06040; }
+
+/* ─── Theme: Navy & Silver ─── */
+.salon-theme-navy-silver {
+  background: linear-gradient(160deg, #0a1428 0%, #162040 50%, #0a1428 100%);
+  color: #c8d0d8;
+}
+.salon-theme-navy-silver .salon-biz-name { color: #a0b0c0; text-shadow: 0 2px 12px rgba(160,176,192,.25); }
+.salon-theme-navy-silver .salon-tagline { color: #90a0b0; }
+.salon-theme-navy-silver .salon-divider-icon,
+.salon-theme-navy-silver .salon-divider-line { color: #a0b0c0; border-color: rgba(160,176,192,.3); }
+.salon-theme-navy-silver .salon-service-price { color: #a0b0c0; }
+.salon-theme-navy-silver .salon-corner { border-color: rgba(160,176,192,.25); }
+.salon-theme-navy-silver .salon-leaf { color: #a0b0c0; }
+.salon-theme-navy-silver .salon-footer-phone { color: #a0b0c0; }
+
+/* ─── Theme: Lavender Mist ─── */
+.salon-theme-lavender-mist {
+  background: linear-gradient(160deg, #f0e8f8 0%, #e8daf0 50%, #f0e8f8 100%);
+  color: #4a3858;
+}
+.salon-theme-lavender-mist .salon-biz-name { color: #7a58a0; }
+.salon-theme-lavender-mist .salon-tagline { color: #6a4888; }
+.salon-theme-lavender-mist .salon-divider-icon,
+.salon-theme-lavender-mist .salon-divider-line { color: #9a78b8; border-color: rgba(154,120,184,.3); }
+.salon-theme-lavender-mist .salon-service-price { color: #7a58a0; }
+.salon-theme-lavender-mist .salon-service-name { color: #4a3858; }
+.salon-theme-lavender-mist .salon-corner { border-color: rgba(122,88,160,.15); }
+.salon-theme-lavender-mist .salon-leaf { color: #9a78b8; }
+.salon-theme-lavender-mist .salon-footer-phone { color: #7a58a0; }
+
+/* ─── Theme: Mocha Cream ─── */
+.salon-theme-mocha-cream {
+  background: linear-gradient(160deg, #f8f0e8 0%, #efe0d0 50%, #f8f0e8 100%);
+  color: #4a3828;
+}
+.salon-theme-mocha-cream .salon-biz-name { color: #6a4a28; }
+.salon-theme-mocha-cream .salon-tagline { color: #5a4030; }
+.salon-theme-mocha-cream .salon-divider-icon,
+.salon-theme-mocha-cream .salon-divider-line { color: #8a6a48; border-color: rgba(138,106,72,.3); }
+.salon-theme-mocha-cream .salon-service-price { color: #6a4a28; }
+.salon-theme-mocha-cream .salon-service-name { color: #4a3828; }
+.salon-theme-mocha-cream .salon-corner { border-color: rgba(106,74,40,.15); }
+.salon-theme-mocha-cream .salon-leaf { color: #8a6a48; }
+.salon-theme-mocha-cream .salon-footer-phone { color: #6a4a28; }
+
+/* ─── Theme: Ruby & Black ─── */
+.salon-theme-ruby-black {
+  background: linear-gradient(160deg, #0a0a0a 0%, #1a0a10 50%, #0a0a0a 100%);
+  color: #e8d0d0;
+}
+.salon-theme-ruby-black .salon-biz-name { color: #d03050; text-shadow: 0 2px 12px rgba(208,48,80,.25); }
+.salon-theme-ruby-black .salon-tagline { color: #e0a0a0; }
+.salon-theme-ruby-black .salon-divider-icon,
+.salon-theme-ruby-black .salon-divider-line { color: #d03050; border-color: rgba(208,48,80,.3); }
+.salon-theme-ruby-black .salon-service-price { color: #d03050; }
+.salon-theme-ruby-black .salon-corner { border-color: rgba(208,48,80,.25); }
+.salon-theme-ruby-black .salon-leaf { color: #d03050; }
+.salon-theme-ruby-black .salon-footer-phone { color: #d03050; }
+
+/* ─── Theme: Mint Fresh ─── */
+.salon-theme-mint-fresh {
+  background: linear-gradient(160deg, #e8f8f0 0%, #d0f0e0 50%, #e8f8f0 100%);
+  color: #2a4a38;
+}
+.salon-theme-mint-fresh .salon-biz-name { color: #2a8060; }
+.salon-theme-mint-fresh .salon-tagline { color: #3a6050; }
+.salon-theme-mint-fresh .salon-divider-icon,
+.salon-theme-mint-fresh .salon-divider-line { color: #40a078; border-color: rgba(64,160,120,.3); }
+.salon-theme-mint-fresh .salon-service-price { color: #2a8060; }
+.salon-theme-mint-fresh .salon-service-name { color: #2a4a38; }
+.salon-theme-mint-fresh .salon-corner { border-color: rgba(42,128,96,.15); }
+.salon-theme-mint-fresh .salon-leaf { color: #40a078; }
+.salon-theme-mint-fresh .salon-footer-phone { color: #2a8060; }
+
+/* ─── Theme: Sunset Amber ─── */
+.salon-theme-sunset-amber {
+  background: linear-gradient(160deg, #fdf5e0 0%, #f8e8c0 50%, #fdf5e0 100%);
+  color: #4a3818;
+}
+.salon-theme-sunset-amber .salon-biz-name { color: #c08020; }
+.salon-theme-sunset-amber .salon-tagline { color: #8a6020; }
+.salon-theme-sunset-amber .salon-divider-icon,
+.salon-theme-sunset-amber .salon-divider-line { color: #d0a040; border-color: rgba(208,160,64,.3); }
+.salon-theme-sunset-amber .salon-service-price { color: #c08020; }
+.salon-theme-sunset-amber .salon-service-name { color: #4a3818; }
+.salon-theme-sunset-amber .salon-corner { border-color: rgba(192,128,32,.15); }
+.salon-theme-sunset-amber .salon-leaf { color: #d0a040; }
+.salon-theme-sunset-amber .salon-footer-phone { color: #c08020; }
+
+/* ─── Theme: Ice Blue ─── */
+.salon-theme-ice-blue {
+  background: linear-gradient(160deg, #e8f0f8 0%, #d0e4f0 50%, #e8f0f8 100%);
+  color: #2a3a4a;
+}
+.salon-theme-ice-blue .salon-biz-name { color: #3070a0; }
+.salon-theme-ice-blue .salon-tagline { color: #405868; }
+.salon-theme-ice-blue .salon-divider-icon,
+.salon-theme-ice-blue .salon-divider-line { color: #5090b8; border-color: rgba(80,144,184,.3); }
+.salon-theme-ice-blue .salon-service-price { color: #3070a0; }
+.salon-theme-ice-blue .salon-service-name { color: #2a3a4a; }
+.salon-theme-ice-blue .salon-corner { border-color: rgba(48,112,160,.15); }
+.salon-theme-ice-blue .salon-leaf { color: #5090b8; }
+.salon-theme-ice-blue .salon-footer-phone { color: #3070a0; }
+
+/* ─── Theme: Mauve Silk ─── */
+.salon-theme-mauve-silk {
+  background: linear-gradient(160deg, #f8f0f4 0%, #f0dce8 50%, #f8f0f4 100%);
+  color: #4a3040;
+}
+.salon-theme-mauve-silk .salon-biz-name { color: #9a5078; }
+.salon-theme-mauve-silk .salon-tagline { color: #7a4060; }
+.salon-theme-mauve-silk .salon-divider-icon,
+.salon-theme-mauve-silk .salon-divider-line { color: #b07098; border-color: rgba(176,112,152,.3); }
+.salon-theme-mauve-silk .salon-service-price { color: #9a5078; }
+.salon-theme-mauve-silk .salon-service-name { color: #4a3040; }
+.salon-theme-mauve-silk .salon-corner { border-color: rgba(154,80,120,.15); }
+.salon-theme-mauve-silk .salon-leaf { color: #b07098; }
+.salon-theme-mauve-silk .salon-footer-phone { color: #9a5078; }
+
+/* ─── Theme: Forest & Bronze ─── */
+.salon-theme-forest-bronze {
+  background: linear-gradient(160deg, #0a1810 0%, #1a3020 50%, #0a1810 100%);
+  color: #d0dcc8;
+}
+.salon-theme-forest-bronze .salon-biz-name { color: #c0a060; text-shadow: 0 2px 12px rgba(192,160,96,.25); }
+.salon-theme-forest-bronze .salon-tagline { color: #a0b890; }
+.salon-theme-forest-bronze .salon-divider-icon,
+.salon-theme-forest-bronze .salon-divider-line { color: #c0a060; border-color: rgba(192,160,96,.3); }
+.salon-theme-forest-bronze .salon-service-price { color: #c0a060; }
+.salon-theme-forest-bronze .salon-corner { border-color: rgba(192,160,96,.25); }
+.salon-theme-forest-bronze .salon-leaf { color: #c0a060; }
+.salon-theme-forest-bronze .salon-footer-phone { color: #c0a060; }
+
+/* ─── Theme: Champagne ─── */
+.salon-theme-champagne {
+  background: linear-gradient(160deg, #faf8f0 0%, #f0e8d0 50%, #faf8f0 100%);
+  color: #4a4030;
+}
+.salon-theme-champagne .salon-biz-name { color: #8a7038; }
+.salon-theme-champagne .salon-tagline { color: #6a5830; }
+.salon-theme-champagne .salon-divider-icon,
+.salon-theme-champagne .salon-divider-line { color: #b09050; border-color: rgba(176,144,80,.3); }
+.salon-theme-champagne .salon-service-price { color: #8a7038; }
+.salon-theme-champagne .salon-service-name { color: #4a4030; }
+.salon-theme-champagne .salon-corner { border-color: rgba(138,112,56,.15); }
+.salon-theme-champagne .salon-leaf { color: #b09050; }
+.salon-theme-champagne .salon-footer-phone { color: #8a7038; }
+
+/* ─── Theme: Berry Wine ─── */
+.salon-theme-berry-wine {
+  background: linear-gradient(160deg, #1a0810 0%, #301020 50%, #1a0810 100%);
+  color: #f0d0e0;
+}
+.salon-theme-berry-wine .salon-biz-name { color: #e080a0; text-shadow: 0 2px 12px rgba(224,128,160,.25); }
+.salon-theme-berry-wine .salon-tagline { color: #d0a0b8; }
+.salon-theme-berry-wine .salon-divider-icon,
+.salon-theme-berry-wine .salon-divider-line { color: #e080a0; border-color: rgba(224,128,160,.3); }
+.salon-theme-berry-wine .salon-service-price { color: #e080a0; }
+.salon-theme-berry-wine .salon-corner { border-color: rgba(224,128,160,.25); }
+.salon-theme-berry-wine .salon-leaf { color: #e080a0; }
+.salon-theme-berry-wine .salon-footer-phone { color: #e080a0; }
+
+/* ─── Theme: Pearl Gray ─── */
+.salon-theme-pearl-gray {
+  background: linear-gradient(160deg, #f4f4f6 0%, #e8e8ec 50%, #f4f4f6 100%);
+  color: #3a3a40;
+}
+.salon-theme-pearl-gray .salon-biz-name { color: #5a5a68; }
+.salon-theme-pearl-gray .salon-tagline { color: #6a6a78; }
+.salon-theme-pearl-gray .salon-divider-icon,
+.salon-theme-pearl-gray .salon-divider-line { color: #8888a0; border-color: rgba(136,136,160,.3); }
+.salon-theme-pearl-gray .salon-service-price { color: #5a5a68; }
+.salon-theme-pearl-gray .salon-service-name { color: #3a3a40; }
+.salon-theme-pearl-gray .salon-corner { border-color: rgba(90,90,104,.15); }
+.salon-theme-pearl-gray .salon-leaf { color: #8888a0; }
+.salon-theme-pearl-gray .salon-footer-phone { color: #5a5a68; }
+
 
 /* ─── Decorative Corners ─── */
 .salon-corner {
@@ -774,4 +994,362 @@ details[open] > .salon-preset-cat::before {
     font-size: .75rem;
     padding: 9px 6px;
   }
+}
+
+
+/* ══════════════════════════════════════════════════
+   LAYOUT B — Two-Column Grid
+   ══════════════════════════════════════════════════ */
+.salon-layout-b {
+  padding: 0;
+}
+.salon-b-accent-bar {
+  height: 6px;
+  background: currentColor;
+  opacity: .25;
+}
+.salon-b-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 24px 12px;
+}
+.salon-layout-b .salon-logo {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 0;
+}
+.salon-b-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 0 20px 16px;
+}
+.salon-b-section {
+  background: rgba(128,128,128,.06);
+  border-radius: 10px;
+  padding: 12px;
+}
+.salon-b-section-title {
+  font-size: .78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  opacity: .7;
+}
+.salon-b-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px dotted rgba(128,128,128,.15);
+  gap: 4px;
+}
+.salon-b-item:last-child { border-bottom: none; }
+.salon-b-item-name {
+  font-size: .88rem;
+  font-weight: 600;
+}
+.salon-b-item-details {
+  font-size: .72rem;
+  opacity: .6;
+  font-style: italic;
+  width: 100%;
+}
+.salon-layout-b .salon-service-price {
+  font-size: 1.05rem;
+}
+.salon-b-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  border-top: 1px solid rgba(128,128,128,.12);
+  gap: 8px;
+}
+.salon-b-footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.salon-layout-b .salon-footer-name,
+.salon-layout-b .salon-footer-phone,
+.salon-layout-b .salon-footer-address {
+  margin: 0;
+  text-align: left;
+}
+
+@media (max-width: 400px) {
+  .salon-b-grid { grid-template-columns: 1fr; }
+}
+
+
+/* ══════════════════════════════════════════════════
+   LAYOUT C — Service Cards (Numbered)
+   ══════════════════════════════════════════════════ */
+.salon-layout-c {
+  padding: 28px 20px 24px;
+}
+.salon-c-header {
+  text-align: center;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+.salon-c-logo {
+  margin-bottom: 8px;
+}
+.salon-c-header-line {
+  width: 60px;
+  height: 2px;
+  background: currentColor;
+  opacity: .3;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+.salon-c-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+.salon-c-card {
+  border: 1px solid rgba(128,128,128,.18);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: box-shadow .2s;
+}
+.salon-c-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.salon-c-card-num {
+  font-size: .68rem;
+  font-weight: 700;
+  opacity: .35;
+  letter-spacing: 1px;
+}
+.salon-layout-c .salon-service-price {
+  font-size: 1.1rem;
+}
+.salon-c-card-name {
+  font-size: .92rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.salon-c-card-details {
+  font-size: .72rem;
+  opacity: .6;
+  font-style: italic;
+}
+.salon-c-footer {
+  text-align: center;
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+}
+.salon-c-footer-line {
+  width: 60px;
+  height: 2px;
+  background: currentColor;
+  opacity: .2;
+  margin: 0 auto 12px;
+  border-radius: 2px;
+}
+
+@media (max-width: 380px) {
+  .salon-c-cards { grid-template-columns: 1fr; }
+}
+
+
+/* ══════════════════════════════════════════════════
+   LAYOUT D — Horizontal Banded / Minimal
+   ══════════════════════════════════════════════════ */
+.salon-layout-d {
+  padding: 0;
+}
+.salon-d-top {
+  text-align: center;
+  padding: 24px 20px 14px;
+}
+.salon-d-logo-row {
+  margin-bottom: 6px;
+}
+.salon-d-name {
+  font-style: normal;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.salon-d-band {
+  text-align: center;
+  padding: 8px 0;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  background: rgba(128,128,128,.08);
+  opacity: .75;
+}
+.salon-d-services {
+  padding: 12px 20px 16px;
+}
+.salon-d-group {
+  margin-bottom: 10px;
+}
+.salon-d-group:last-child { margin-bottom: 0; }
+.salon-d-group-title {
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  opacity: .7;
+}
+.salon-d-table {
+  display: flex;
+  flex-direction: column;
+}
+.salon-d-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 12px;
+  border-radius: 6px;
+}
+.salon-d-row-alt {
+  background: rgba(128,128,128,.05);
+}
+.salon-d-row-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+.salon-d-dot {
+  font-size: .4rem;
+  opacity: .5;
+  flex-shrink: 0;
+}
+.salon-layout-d .salon-service-name {
+  font-size: .88rem;
+}
+.salon-layout-d .salon-service-price {
+  font-size: 1.05rem;
+}
+.salon-d-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-top: 1px solid rgba(128,128,128,.1);
+  font-size: .82rem;
+}
+.salon-d-contact .salon-footer-name,
+.salon-d-contact .salon-footer-phone,
+.salon-d-contact .salon-footer-address {
+  margin: 0;
+  font-size: .82rem;
+}
+
+
+/* ══════════════════════════════════════════════════
+   LAYOUT E — Premium Table with Ornate Border
+   ══════════════════════════════════════════════════ */
+.salon-layout-e {
+  padding: 10px;
+}
+.salon-e-border {
+  border: 2px solid rgba(128,128,128,.2);
+  border-radius: 8px;
+  padding: 4px;
+}
+.salon-e-border-inner {
+  border: 1px solid rgba(128,128,128,.12);
+  border-radius: 6px;
+  padding: 20px 18px;
+}
+.salon-e-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+.salon-e-logo {
+  width: 56px;
+  height: 56px;
+}
+.salon-e-titles {
+  flex: 1;
+}
+.salon-e-ornament {
+  text-align: center;
+  font-size: .75rem;
+  letter-spacing: 1px;
+  opacity: .4;
+  margin: 10px 0;
+}
+.salon-e-services {
+  margin: 8px 0;
+}
+.salon-e-group {
+  margin-bottom: 12px;
+}
+.salon-e-group:last-child { margin-bottom: 0; }
+.salon-e-group-label {
+  font-size: .76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  opacity: .7;
+}
+.salon-e-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .85rem;
+}
+.salon-e-table th {
+  text-align: left;
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(128,128,128,.2);
+  opacity: .6;
+}
+.salon-e-table th:last-child { text-align: right; }
+.salon-e-table td {
+  padding: 8px;
+  vertical-align: top;
+}
+.salon-e-row-alt td {
+  background: rgba(128,128,128,.04);
+}
+.salon-e-td-name {
+  font-weight: 600;
+}
+.salon-e-td-details {
+  font-size: .78rem;
+  opacity: .6;
+  font-style: italic;
+}
+.salon-e-td-price {
+  text-align: right;
+  font-weight: 800;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+.salon-e-footer {
+  text-align: center;
 }

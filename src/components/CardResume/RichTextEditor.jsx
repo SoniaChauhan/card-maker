@@ -1,6 +1,14 @@
 'use client';
 import { useRef, useCallback, useEffect } from 'react';
 
+/* strip HTML tags & decode entities so stored HTML values become clean text */
+function stripHtml(str) {
+  if (!str || !/<|&\w+;/.test(str)) return str; // already plain text
+  const tmp = document.createElement('div');
+  tmp.innerHTML = str;
+  return tmp.innerText || tmp.textContent || '';
+}
+
 /* ── tiny toolbar rich-text editor using contentEditable ── */
 const BUTTONS = [
   { cmd: 'bold',          icon: 'B',  cls: 'rte-b',  title: 'Bold' },
@@ -19,18 +27,18 @@ export default function RichTextEditor({ value, onChange, placeholder, rows = 4 
   const editorRef = useRef(null);
   const initialized = useRef(false);
 
-  /* sync HTML → parent on every input */
+  /* sync plain text → parent on every input (templates expect plain text, not HTML) */
   const handleInput = useCallback(() => {
     if (editorRef.current) {
-      onChange(editorRef.current.innerHTML);
+      onChange(editorRef.current.innerText);
     }
   }, [onChange]);
 
-  /* set initial content once */
+  /* set initial content once — convert stored value to plain text lines */
   const refCb = useCallback((node) => {
     editorRef.current = node;
     if (node && !initialized.current) {
-      node.innerHTML = value || '';
+      node.innerText = stripHtml(value || '');
       initialized.current = true;
     }
   }, []);  // eslint-disable-line react-hooks/exhaustive-deps
@@ -38,11 +46,19 @@ export default function RichTextEditor({ value, onChange, placeholder, rows = 4 
   /* sync when parent value is reset externally (e.g. reset button) */
   useEffect(() => {
     if (editorRef.current && initialized.current) {
-      if (editorRef.current.innerHTML !== (value || '')) {
-        editorRef.current.innerHTML = value || '';
+      const clean = stripHtml(value || '');
+      if (editorRef.current.innerText !== clean) {
+        editorRef.current.innerText = clean;
       }
     }
   }, [value]);
+
+  /* paste as plain text so stray HTML tags are never inserted */
+  const handlePaste = useCallback((e) => {
+    e.preventDefault();
+    const text = e.clipboardData.getData('text/plain');
+    document.execCommand('insertText', false, text);
+  }, []);
 
   /* execute formatting command */
   function exec(cmd) {
@@ -86,6 +102,7 @@ export default function RichTextEditor({ value, onChange, placeholder, rows = 4 
         contentEditable
         suppressContentEditableWarning
         onInput={handleInput}
+        onPaste={handlePaste}
         onBlur={handleInput}
         data-placeholder={placeholder}
         style={{ minHeight: minH }}
