@@ -7,13 +7,15 @@ const STEPS = [
   { id: 1, label: 'Heading' },
   { id: 2, label: 'Work History' },
   { id: 3, label: 'Education' },
-  { id: 4, label: 'Skills' },
-  { id: 5, label: 'Summary' },
-  { id: 6, label: 'Finalize' },
+  { id: 4, label: 'Projects' },
+  { id: 5, label: 'Skills' },
+  { id: 6, label: 'Summary' },
+  { id: 7, label: 'Finalize' },
 ];
 
 const EMPTY_EXP = { title: '', company: '', from: '', to: '', location: '', desc: '' };
 const EMPTY_EDU = { degree: '', institution: '', year: '', location: '' };
+const EMPTY_PROJECT = { name: '', tech: '', desc: '' };
 
 export default function StepResumeForm({ data, errors = {}, onChange, onGenerate, onStepChange, initialStep }) {
   const [currentStep, setCurrentStep] = useState(initialStep || 1);
@@ -38,7 +40,7 @@ export default function StepResumeForm({ data, errors = {}, onChange, onGenerate
     onChange({ target: { name: field, value: updated } });
   }
 
-  const nextStep = () => { if (currentStep < 6) setCurrentStep(s => s + 1); };
+  const nextStep = () => { if (currentStep < 7) setCurrentStep(s => s + 1); };
   const prevStep = () => { if (currentStep > 1) setCurrentStep(s => s - 1); };
 
   function resetSection(step) {
@@ -57,10 +59,13 @@ export default function StepResumeForm({ data, errors = {}, onChange, onGenerate
         onChange({ target: { name: 'education', value: [{ ...EMPTY_EDU }] } });
         break;
       case 4:
+        onChange({ target: { name: 'projects', value: [{ ...EMPTY_PROJECT }] } });
+        break;
+      case 5:
         onChange({ target: { name: 'skills', value: '' } });
         onChange({ target: { name: 'languages', value: '' } });
         break;
-      case 5:
+      case 6:
         onChange({ target: { name: 'summary', value: '' } });
         onChange({ target: { name: 'interests', value: '' } });
         break;
@@ -99,7 +104,7 @@ export default function StepResumeForm({ data, errors = {}, onChange, onGenerate
               <button type="button" className="sf-reset-btn" onClick={() => resetSection(1)}>🔄 Reset</button>
             </div>
             <div className="form-grid">
-              <FormField label="Full Name" name="fullName" value={data.fullName} onChange={onChange} placeholder="e.g. Priya Sharma" required error={errors.fullName} />
+              <FormField label="Full Name" name="fullName" value={data.fullName} onChange={onChange} placeholder="e.g. Your Full Name" required error={errors.fullName} />
               <FormField label="Job Title" name="jobTitle" value={data.jobTitle} onChange={onChange} placeholder="e.g. Senior Software Engineer" />
               <FormField label="Email" name="email" type="email" value={data.email} onChange={onChange} placeholder="you@email.com" error={errors.email} />
               <FormField label="Phone" name="phone" value={data.phone} onChange={onChange} placeholder="+91 98765 43210" />
@@ -171,12 +176,39 @@ export default function StepResumeForm({ data, errors = {}, onChange, onGenerate
           </>
         )}
 
-        {/* Step 4: Skills & Languages */}
+        {/* Step 4: Projects */}
         {currentStep === 4 && (
           <>
             <div className="sf-step-title-row">
-              <h3 className="sf-step-title">🛠️ Skills &amp; Languages</h3>
+              <h3 className="sf-step-title">🚀 Projects</h3>
               <button type="button" className="sf-reset-btn" onClick={() => resetSection(4)}>🔄 Reset</button>
+            </div>
+            {data.projects.map((proj, i) => (
+              <div key={i} className="resume-entry-form">
+                <div className="resume-entry-form-header">
+                  <strong>Project #{i + 1}</strong>
+                  {data.projects.length > 1 && <button type="button" className="resume-remove-btn" onClick={() => removeEntry('projects', i)}>✕</button>}
+                </div>
+                <div className="form-grid">
+                  <FormField label="Project Name" name={`proj-name-${i}`} value={proj.name} onChange={e => updateEntry('projects', i, 'name', e.target.value)} placeholder="e.g. E-Commerce Platform" />
+                  <FormField label="Technologies" name={`proj-tech-${i}`} value={proj.tech} onChange={e => updateEntry('projects', i, 'tech', e.target.value)} placeholder="e.g. React, Node.js, MongoDB" />
+                  <div style={{ gridColumn: '1 / -1' }}>
+                    <label className="form-label" style={{ display: 'block', marginBottom: 6, fontWeight: 600, fontSize: 13.5, color: '#344054' }}>Description</label>
+                    <RichTextEditor value={proj.desc} onChange={(html) => updateEntry('projects', i, 'desc', html)} placeholder="Brief description of the project…" rows={3} />
+                  </div>
+                </div>
+              </div>
+            ))}
+            <button type="button" className="resume-add-btn" onClick={() => addEntry('projects', EMPTY_PROJECT)}>+ Add Project</button>
+          </>
+        )}
+
+        {/* Step 5: Skills & Languages */}
+        {currentStep === 5 && (
+          <>
+            <div className="sf-step-title-row">
+              <h3 className="sf-step-title">🛠️ Skills &amp; Languages</h3>
+              <button type="button" className="sf-reset-btn" onClick={() => resetSection(5)}>🔄 Reset</button>
             </div>
             <div className="form-grid">
               <FormField label="Skills (comma-separated)" name="skills" value={data.skills} onChange={onChange} placeholder="e.g. React.js, Angular, Node.js, Python" span />
@@ -185,12 +217,12 @@ export default function StepResumeForm({ data, errors = {}, onChange, onGenerate
           </>
         )}
 
-        {/* Step 5: Summary */}
-        {currentStep === 5 && (
+        {/* Step 6: Summary */}
+        {currentStep === 6 && (
           <>
             <div className="sf-step-title-row">
               <h3 className="sf-step-title">📝 Professional Summary</h3>
-              <button type="button" className="sf-reset-btn" onClick={() => resetSection(5)}>🔄 Reset</button>
+              <button type="button" className="sf-reset-btn" onClick={() => resetSection(6)}>🔄 Reset</button>
             </div>
             <div style={{ marginBottom: 16 }}>
               <label className="form-label" style={{ display: 'block', marginBottom: 6, fontWeight: 600, fontSize: 13.5, color: '#344054' }}>Summary</label>
@@ -202,8 +234,8 @@ export default function StepResumeForm({ data, errors = {}, onChange, onGenerate
           </>
         )}
 
-        {/* Step 6: Finalize */}
-        {currentStep === 6 && (
+        {/* Step 7: Finalize */}
+        {currentStep === 7 && (
           <>
             <h3 className="sf-step-title">✅ Review &amp; Finalize</h3>
             <div className="sf-finalize-summary">
@@ -212,6 +244,7 @@ export default function StepResumeForm({ data, errors = {}, onChange, onGenerate
               <div className="sf-finalize-item"><span className="sf-finalize-label">Email</span><span className="sf-finalize-value">{data.email || '—'}</span></div>
               <div className="sf-finalize-item"><span className="sf-finalize-label">Experience</span><span className="sf-finalize-value">{data.experience?.length || 0} entries</span></div>
               <div className="sf-finalize-item"><span className="sf-finalize-label">Education</span><span className="sf-finalize-value">{data.education?.length || 0} entries</span></div>
+              <div className="sf-finalize-item"><span className="sf-finalize-label">Projects</span><span className="sf-finalize-value">{data.projects?.length || 0} entries</span></div>
               <div className="sf-finalize-item"><span className="sf-finalize-label">Skills</span><span className="sf-finalize-value">{data.skills ? data.skills.split(',').length + ' skills' : '—'}</span></div>
             </div>
             <p className="sf-finalize-note">Review the live preview above, then click &ldquo;Generate Resume&rdquo; to download.</p>
@@ -223,8 +256,8 @@ export default function StepResumeForm({ data, errors = {}, onChange, onGenerate
       <div className="sf-nav">
         {currentStep > 1 && <button className="sf-nav-btn sf-nav-prev" onClick={prevStep}>← Previous</button>}
         <div style={{ flex: 1 }} />
-        {currentStep < 6 && <button className="sf-nav-btn sf-nav-next" onClick={nextStep}>Next →</button>}
-        {currentStep === 6 && <button className="sf-nav-btn sf-nav-generate" onClick={onGenerate}>📄 Generate Resume</button>}
+        {currentStep < 7 && <button className="sf-nav-btn sf-nav-next" onClick={nextStep}>Next →</button>}
+        {currentStep === 7 && <button className="sf-nav-btn sf-nav-generate" onClick={onGenerate}>📄 Generate Resume</button>}
       </div>
     </div>
   );

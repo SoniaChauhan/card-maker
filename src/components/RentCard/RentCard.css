@@ -909,3 +909,158 @@ details[open] > .rent-preset-cat::before {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+
+/* ══════════════════════════════════════════════════
+   LAYOUT B — Two-Column Split
+   ══════════════════════════════════════════════════ */
+.rent-b-header-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+.rent-b-header-text { text-align: left; }
+.rent-layout-b .rent-header-title { font-size: 1.2rem; text-align: left; }
+.rent-b-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.rent-b-col-left,
+.rent-b-col-right {
+  padding: 10px 16px;
+}
+.rent-b-col-left { border-right: 1px solid #e0e0e0; }
+.rent-b-price-block { margin-bottom: 12px; }
+.rent-b-price-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: .9rem;
+  border-bottom: 1px dashed #e0e0e0;
+}
+.rent-b-price-item:last-child { border-bottom: none; }
+.rent-b-price-item strong { font-size: 1.15rem; font-weight: 900; }
+.rent-layout-b .rent-section-heading { font-size: .72rem; padding: 4px 10px; margin-bottom: 8px; }
+.rent-layout-b .rent-feature-item,
+.rent-layout-b .rent-amenity-item { font-size: .82rem; padding: 4px 0; }
+@media (max-width: 440px) {
+  .rent-b-columns { grid-template-columns: 1fr; }
+  .rent-b-col-left { border-right: none; border-bottom: 1px solid #e0e0e0; }
+}
+
+
+/* ══════════════════════════════════════════════════
+   LAYOUT C — Compact Card-Based with Chips
+   ══════════════════════════════════════════════════ */
+.rent-c-top-bar { height: 8px; }
+.rent-c-body { padding: 18px 18px 10px; }
+.rent-c-title-row { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+.rent-c-title-row .rent-header-logo { width: 44px; height: 44px; border: 2px solid #ddd; flex-shrink: 0; }
+.rent-c-badge { border: none; font-size: .65rem; padding: 2px 10px; border-radius: 4px; color: #fff; margin-bottom: 4px; }
+.rent-c-title { font-size: 1.15rem; font-weight: 800; margin: 0; line-height: 1.3; color: #222; text-transform: uppercase; letter-spacing: .5px; }
+.rent-c-location { font-size: .82rem; color: #666; margin: 4px 0 0; }
+.rent-c-images { margin-bottom: 12px; }
+.rent-c-price-row { display: flex; gap: 10px; margin-bottom: 14px; }
+.rent-c-price-card {
+  flex: 1;
+  border: 2px solid;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+.rent-c-price-label { display: block; font-size: .72rem; color: #666; font-weight: 600; }
+.rent-c-price-val { display: block; font-size: 1.4rem; font-weight: 900; }
+.rent-c-price-suffix { display: block; font-size: .65rem; color: #999; }
+.rent-c-section { margin-bottom: 12px; }
+.rent-c-section-label { font-size: .72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #888; margin-bottom: 6px; }
+.rent-c-chip-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+.rent-c-chip {
+  font-size: .78rem;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: #f4f4f4;
+  color: #444;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.rent-c-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  padding: 12px 18px;
+  font-size: .9rem;
+}
+.rent-c-footer .rent-footer-name,
+.rent-c-footer .rent-footer-phone { margin: 0; color: #fff; }
+
+
+/* ══════════════════════════════════════════════════
+   LAYOUT D — Horizontal Header + Inline Details
+   ══════════════════════════════════════════════════ */
+.rent-d-header { padding: 18px 18px 12px; }
+.rent-d-header-top { display: flex; gap: 12px; align-items: center; margin-bottom: 8px; }
+.rent-d-logo { width: 40px; height: 40px; }
+.rent-d-header-info { flex: 1; }
+.rent-layout-d .rent-header-title { font-size: 1.1rem; text-align: left; margin-bottom: 0; }
+.rent-d-location { font-size: .82rem; color: #e3f2fd; opacity: .85; margin-bottom: 8px; }
+.rent-d-prices { display: flex; flex-wrap: wrap; gap: 12px; }
+.rent-d-price { font-size: .85rem; color: #fff; background: rgba(255,255,255,.12); padding: 4px 12px; border-radius: 6px; }
+.rent-d-price strong { font-weight: 900; }
+.rent-d-body { padding: 12px 18px; }
+.rent-d-section { margin-bottom: 14px; }
+.rent-d-section-title { font-size: .78rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+.rent-d-feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; }
+.rent-d-feature { font-size: .85rem; padding: 4px 0; color: #444; }
+.rent-d-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border-top: 3px solid;
+  font-size: .88rem;
+  font-weight: 600;
+}
+.rent-d-footer-label { font-weight: 800; text-transform: uppercase; letter-spacing: 1px; font-size: .75rem; }
+.rent-d-footer-phone { font-weight: 800; font-size: 1rem; }
+
+
+/* ══════════════════════════════════════════════════
+   LAYOUT E — Premium Real Estate Style
+   ══════════════════════════════════════════════════ */
+.rent-e-hero { position: relative; min-height: 120px; }
+.rent-e-hero-overlay { padding: 24px 20px; text-align: center; }
+.rent-e-logo { width: 56px; height: 56px; margin-bottom: 10px; }
+.rent-e-hero-title { font-size: 1.6rem; font-weight: 900; color: #fff; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 2px 8px rgba(0,0,0,.3); line-height: 1.25; }
+.rent-e-location { font-size: .88rem; color: #e3f2fd; margin-top: 6px; }
+.rent-e-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 4px;
+}
+.rent-e-images .rent-image-cell { border-radius: 0; border: none; }
+.rent-e-price-strip {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding: 10px 18px;
+  color: #fff;
+}
+.rent-e-price-item { text-align: center; }
+.rent-e-price-lbl { display: block; font-size: .68rem; font-weight: 600; opacity: .85; text-transform: uppercase; letter-spacing: 1px; }
+.rent-e-price-val { display: block; font-size: 1.4rem; font-weight: 900; }
+.rent-e-body { padding: 14px 18px; }
+.rent-e-section { margin-bottom: 14px; }
+.rent-e-section-title { font-size: .82rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin: 0 0 8px; color: #333; border-bottom: 2px solid #e0e0e0; padding-bottom: 4px; }
+.rent-e-list { display: flex; flex-direction: column; gap: 4px; }
+.rent-e-list-item { font-size: .88rem; display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+.rent-e-bullet { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.rent-e-amenity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.rent-e-amenity-card { font-size: .82rem; display: flex; align-items: center; gap: 6px; padding: 6px 10px; background: #f8f8f8; border-radius: 8px; }
+.rent-e-amenity-icon { font-size: 1.1rem; }

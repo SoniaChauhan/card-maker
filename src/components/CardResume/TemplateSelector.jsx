@@ -1,6 +1,6 @@
 'use client';
 import { useState, useMemo, useEffect, useRef, useCallback, memo } from 'react';
-import { TEMPLATES, getTemplateById, COLOR_PRESETS } from './ResumeTemplates';
+import { TEMPLATES, getTemplateById, COLOR_PRESETS, SAMPLE_PROFILES } from './ResumeTemplates';
 import { sendOTP, verifyOTP } from '../../services/paymentService';
 import Particles from '../shared/Particles';
 import StepResumeForm from './StepResumeForm';
@@ -8,30 +8,7 @@ import StepResumeForm from './StepResumeForm';
 const PARTICLES = ['📄', '✨', '💼', '🎓', '⭐', '💎', '🖊️', '💡'];
 
 /* ── Sample data for template thumbnails ── */
-const SAMPLE = {
-  fullName: 'Priya Sharma',
-  jobTitle: 'Senior Software Engineer',
-  email: 'priya.sharma@example.com',
-  phone: '+91 98765 43210',
-  location: 'Bangalore, India 560001',
-  linkedin: 'linkedin.com/in/priyasharma',
-  summary: 'Dynamic Senior Software Engineer with extensive experience specializing in Angular and React.js. Proven track record in developing robust applications and enhancing team collaboration. Adept at integrating complex APIs and optimizing performance, while ensuring client requirements are met through innovative solutions and effective communication.',
-  experience: [
-    { title: 'Senior Software Engineer', company: 'Wipro Technologies', from: '12/2022', to: 'Current', location: 'Greater Noida, India', desc: 'Developed and maintained front-end applications for Dealer Management System (DMS) using Angular.\nImplemented unit test cases using Jest for robust and reliable code.\nWorked on multiple dashboards including Windsurf Dashboard, Tooling Dashboard, KPI Dashboard, and Metrics Dashboard.\nIntegrated and managed tools like Codebeamer and Jama for requirement and project management.\nCollaborated on full-stack development using Angular, React.js, Node.js, .NET, and Python.\nUtilized tools such as pgAdmin, Docker, Git, and MongoDB for database management, containerization, version control, and data handling.' },
-    { title: 'Software Engineer', company: 'Magic EdTech', from: '06/2021', to: '11/2022', location: 'Greater Noida, India', desc: 'Established efficient communication channels within the team, leading to better collaboration among members during project development phases.\nCoordinated with other engineers to evaluate and improve software and hardware interfaces.\nTested methodology with writing and execution of test plans, debugging and testing scripts and tools.\nFocused on Accessibility compliance for web applications.\nDeveloped features using React.js, Angular, Redux, and TypeScript.' },
-    { title: 'Software Engineer', company: 'Hocalwire', from: '02/2021', to: '05/2021', location: 'Noida, India', desc: 'Debug and troubleshoot template-related issues.\nParticipate in code reviews and contribute to best practices for templating and front-end development.\nDevelop and maintain Jade/Pug templates for rendering dynamic HTML content.\nCollaborate with designers and back-end developers to implement responsive and user-friendly interfaces.\nOptimize templates for performance and scalability.' },
-    { title: 'Software Engineer', company: 'Enco Engineer Combine Pvt Ltd', from: '11/2019', to: '01/2021', location: 'Gurgaon, India', desc: 'Develop and maintain ERP web applications for multiple business modules (HR, Finance, Sales, Marketing).\nDesign and implement dynamic and responsive forms using Angular.\nIntegrate RESTful APIs and third-party services into ERP systems.\nCollaborate with cross-functional teams to gather requirements and deliver scalable solutions.\nOptimize application performance and ensure security compliance.\nTroubleshoot and resolve technical issues across ERP modules.\nParticipate in code reviews and maintain best practices in software development.' },
-    { title: 'Software Engineer', company: 'Educo Internation Pvt Ltd', from: '09/2018', to: '08/2019', location: 'New Delhi, India', desc: 'Developed and maintained interactive web applications using HTML, JavaScript, jQuery, and SVG for dynamic and responsive user interfaces.\nImplemented mathematical and logical algorithms to solve complex problems and enhance application functionality.\nDesigned and integrated social science-based animations to create engaging and educational user experiences.\nOptimized front-end performance and ensured cross-browser compatibility for seamless user interaction.\nCollaborated with teams to deliver data-driven visualizations and interactive content for diverse domains.' },
-  ],
-  education: [
-    { degree: 'Bachelor of Technology: Computer Science', institution: 'Guru Govind Singh Indraprastha University', year: '07/2018', location: 'New Delhi, India' },
-  ],
-  skills: 'React.js, Angular, Node.js, Python, .NET, Jest, Docker, Git, MongoDB, pgAdmin, Client Requirements',
-  languages: 'Hindi: Native speaker, English: Professional',
-  interests: 'Full-stack Development, Open Source Contributions, Tech Community',
-  photo: null,
-  photoPreview: '',
-};
+const SAMPLE_MAP = Object.fromEntries(TEMPLATES.map((t, i) => [t.id, SAMPLE_PROFILES[i % SAMPLE_PROFILES.length]]));
 
 /* ── Filter options ── */
 const HEADSHOT_OPTIONS = [
@@ -49,12 +26,12 @@ const STYLE_OPTIONS = [
 ];
 
 /* Memoized template thumbnail — never re-renders on userData changes */
-const TemplateThumbnail = memo(function TemplateThumbnail({ tpl, onSelect, onPreview }) {
+const TemplateThumbnail = memo(function TemplateThumbnail({ tpl, sampleData, onSelect, onPreview }) {
   return (
     <div className="ts-template-card" onClick={() => onSelect(tpl.id)}>
       <div className="ts-preview-wrap">
         <div className="ts-preview-scaler">
-          <tpl.Component data={SAMPLE} />
+          <tpl.Component data={sampleData} />
         </div>
       </div>
       <div className="ts-btn-row">
@@ -99,8 +76,9 @@ export default function TemplateSelector({
     1: /^(contact|name|personal|phone|email|location|profile)$/i,
     2: /^(experience|work|employment)$/i,
     3: /^(education|training|academic)$/i,
-    4: /^(skills|languages|technical|competenc)$/i,
-    5: /^(summary|objective|interests|hobbies)$/i,
+    4: /^(project)$/i,
+    5: /^(skills|languages|technical|competenc)$/i,
+    6: /^(summary|objective|interests|hobbies)$/i,
   };
 
   /* Highlight the matching section in the live preview */
@@ -113,7 +91,7 @@ export default function TemplateSelector({
       el.classList.remove('rt-hl-active');
     });
 
-    if (activeFormStep >= 6) return; // Finalize = no highlight
+    if (activeFormStep >= 7) return; // Finalize = no highlight
 
     const pattern = STEP_SECTION_MAP[activeFormStep];
     if (!pattern) return;
@@ -273,7 +251,7 @@ export default function TemplateSelector({
 
       <div className="ts-header">
         <h1>PROFESSIONAL RESUME TEMPLATES</h1>
-        <p>Choose from 15+ tailored-built templates that have landed thousands of people like you the jobs they were dreaming of.</p>
+        <p>Choose from 20 tailored-built templates that have landed thousands of people like you the jobs they were dreaming of.</p>
       </div>
 
       {/* Hero Action Buttons */}
@@ -335,6 +313,7 @@ export default function TemplateSelector({
               <TemplateThumbnail
                 key={tpl.id}
                 tpl={tpl}
+                sampleData={SAMPLE_MAP[tpl.id]}
                 onSelect={onSelect}
                 onPreview={handlePreviewTpl}
               />
@@ -545,7 +524,7 @@ export default function TemplateSelector({
                 ))}
               </div>
               <div style={previewColor ? { '--rt-accent': previewColor } : undefined}>
-                <TplComp data={SAMPLE} accentColor={previewColor} />
+                <TplComp data={SAMPLE_MAP[previewTpl.id]} accentColor={previewColor} />
               </div>
             </div>
           </div>

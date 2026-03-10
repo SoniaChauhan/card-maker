@@ -2,11 +2,26 @@ import { useState } from 'react';
 import FormField from '../shared/FormField';
 
 const THEME_OPTIONS = [
-  { value: 'dark-gold',  label: '🌑 Dark & Gold (Luxury)' },
-  { value: 'dark-rose',  label: '🌹 Dark & Rose' },
-  { value: 'blush-pink', label: '🌸 Blush Pink' },
-  { value: 'white-gold', label: '✨ White & Gold' },
-  { value: 'teal-cream', label: '🍃 Teal & Cream' },
+  { value: 'dark-gold',     label: '🌑 Dark & Gold (Luxury)' },
+  { value: 'dark-rose',     label: '🌹 Dark & Rose' },
+  { value: 'blush-pink',    label: '🌸 Blush Pink' },
+  { value: 'white-gold',    label: '✨ White & Gold' },
+  { value: 'teal-cream',    label: '🍃 Teal & Cream' },
+  { value: 'midnight-plum', label: '🔮 Midnight Plum' },
+  { value: 'sage-green',    label: '🌿 Sage Green' },
+  { value: 'coral-peach',   label: '🍑 Coral Peach' },
+  { value: 'navy-silver',   label: '🌙 Navy & Silver' },
+  { value: 'lavender-mist', label: '💜 Lavender Mist' },
+  { value: 'mocha-cream',   label: '☕ Mocha Cream' },
+  { value: 'ruby-black',    label: '💎 Ruby & Black' },
+  { value: 'mint-fresh',    label: '🌱 Mint Fresh' },
+  { value: 'sunset-amber',  label: '🌅 Sunset Amber' },
+  { value: 'ice-blue',      label: '❄️ Ice Blue' },
+  { value: 'mauve-silk',    label: '🎀 Mauve Silk' },
+  { value: 'forest-bronze', label: '🌲 Forest & Bronze' },
+  { value: 'champagne',     label: '🥂 Champagne' },
+  { value: 'berry-wine',    label: '🍇 Berry Wine' },
+  { value: 'pearl-gray',    label: '🤍 Pearl Gray' },
 ];
 
 const DEFAULT_SERVICES = [

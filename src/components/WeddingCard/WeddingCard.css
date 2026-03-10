@@ -940,6 +940,394 @@
 
 
 /* ============================================================
+   THEME 8 — Midnight Navy (deep navy + silver/white)
+============================================================ */
+.wed-theme-8 {
+  background: linear-gradient(180deg, #0d1b2a 0%, #1b2a4a 40%, #0d1b2a 100%);
+  color: #d8dce8;
+  box-shadow: 0 0 0 2px #6a8ab0, 0 0 0 5px rgba(106,138,176,.15), 0 40px 80px rgba(0,0,0,.6);
+}
+.wed-theme-8 .wed-inner-frame { border-color: rgba(106,138,176,.25); }
+.wed-theme-8 .wed-divider-line { background: linear-gradient(180deg, transparent, #6a8ab0 10%, #6a8ab0 90%, transparent); }
+.wed-theme-8 .wed-shlok { color: #8aaac8; }
+.wed-theme-8 .wed-svg-stroke { stroke: #8aaac8; }
+.wed-theme-8 .wed-svg-fill { fill: #8aaac8; }
+.wed-theme-8 .wed-photo-frame { background: linear-gradient(145deg, #6a8ab0, #a0b8d0, #6a8ab0); }
+.wed-theme-8 .wed-photo { border-color: #0d1b2a; }
+.wed-theme-8 .wed-groom-name, .wed-theme-8 .wed-bride-name { color: #e0e8f0; }
+.wed-theme-8 .wed-amp { color: #6a8ab0; }
+.wed-theme-8 .wed-together { color: #8aaac8; }
+.wed-theme-8 .wed-family-name { color: #c0cad8; }
+.wed-theme-8 .wed-event-heading { color: #8aaac8; }
+.wed-theme-8 .wed-program-name { color: #e0e8f0; }
+.wed-theme-8 .wed-detail { color: #a0b0c0; }
+.wed-theme-8 .wed-blessing { color: #8a9ab0; }
+.wed-theme-8 .wed-wl-label { color: #8aaac8; }
+.wed-theme-8 .wed-wl-name { color: #c0cad8; }
+.wed-theme-8 .wed-message { color: #8a9ab0; border-top-color: rgba(106,138,176,.2); }
+.wed-theme-8 .wed-svg-orn-center { fill: #6a8ab0; }
+.wed-theme-8 .wed-svg-orn-stem { stroke: #6a8ab0; }
+.wed-theme-8 .wed-svg-orn-leaf { fill: #5a8a7a; }
+
+
+/* ============================================================
+   THEME 9 — Lavender Dream (soft lavender + lilac)
+============================================================ */
+.wed-theme-9 {
+  background: linear-gradient(180deg, #f5f0fa 0%, #ece0f5 50%, #f5f0fa 100%);
+  box-shadow: 0 0 0 2px #7b5ea7, 0 0 0 5px rgba(123,94,167,.12), 0 40px 80px rgba(0,0,0,.45);
+}
+.wed-theme-9 .wed-inner-frame { border-color: rgba(123,94,167,.2); }
+.wed-theme-9 .wed-divider-line { background: linear-gradient(180deg, transparent, #7b5ea7 10%, #7b5ea7 90%, transparent); }
+.wed-theme-9 .wed-shlok { color: #6a4a8a; }
+.wed-theme-9 .wed-svg-stroke { stroke: #7b5ea7; }
+.wed-theme-9 .wed-svg-fill { fill: #7b5ea7; }
+.wed-theme-9 .wed-photo-frame { background: linear-gradient(145deg, #7b5ea7, #b8a0d0, #7b5ea7); }
+.wed-theme-9 .wed-groom-name, .wed-theme-9 .wed-bride-name { color: #3a2060; }
+.wed-theme-9 .wed-amp { color: #7b5ea7; }
+.wed-theme-9 .wed-together { color: #9070b8; }
+.wed-theme-9 .wed-family-name { color: #4a2a6a; }
+.wed-theme-9 .wed-event-heading { color: #7b5ea7; }
+.wed-theme-9 .wed-program-name { color: #3a2060; }
+.wed-theme-9 .wed-detail { color: #4a3a5a; }
+.wed-theme-9 .wed-blessing { color: #7a6a90; }
+.wed-theme-9 .wed-wl-label { color: #7a6a90; }
+.wed-theme-9 .wed-message { color: #7a6a90; border-top-color: rgba(123,94,167,.15); }
+.wed-theme-9 .wed-svg-orn-center { fill: #7b5ea7; }
+.wed-theme-9 .wed-svg-orn-stem { stroke: #7b5ea7; }
+.wed-theme-9 .wed-svg-orn-leaf { fill: #8a7aaa; }
+
+
+/* ============================================================
+   THEME 10 — Rose Garden (blush pink + dusty rose)
+============================================================ */
+.wed-theme-10 {
+  background: linear-gradient(180deg, #fef0f2 0%, #fce0e6 50%, #fef0f2 100%);
+  box-shadow: 0 0 0 2px #c45b78, 0 0 0 5px rgba(196,91,120,.12), 0 40px 80px rgba(0,0,0,.45);
+}
+.wed-theme-10 .wed-inner-frame { border-color: rgba(196,91,120,.2); }
+.wed-theme-10 .wed-divider-line { background: linear-gradient(180deg, transparent, #c45b78 10%, #c45b78 90%, transparent); }
+.wed-theme-10 .wed-shlok { color: #a04a60; }
+.wed-theme-10 .wed-svg-stroke { stroke: #c45b78; }
+.wed-theme-10 .wed-svg-fill { fill: #c45b78; }
+.wed-theme-10 .wed-photo-frame { background: linear-gradient(145deg, #c45b78, #e8a0b0, #c45b78); }
+.wed-theme-10 .wed-groom-name, .wed-theme-10 .wed-bride-name { color: #6a1a30; }
+.wed-theme-10 .wed-amp { color: #c45b78; }
+.wed-theme-10 .wed-together { color: #d06888; }
+.wed-theme-10 .wed-family-name { color: #5a1828; }
+.wed-theme-10 .wed-event-heading { color: #c45b78; }
+.wed-theme-10 .wed-program-name { color: #6a1a30; }
+.wed-theme-10 .wed-detail { color: #5a2a38; }
+.wed-theme-10 .wed-blessing { color: #a06878; }
+.wed-theme-10 .wed-wl-label { color: #a06878; }
+.wed-theme-10 .wed-message { color: #a06878; border-top-color: rgba(196,91,120,.15); }
+.wed-theme-10 .wed-svg-orn-center { fill: #c45b78; }
+.wed-theme-10 .wed-svg-orn-stem { stroke: #c45b78; }
+.wed-theme-10 .wed-svg-orn-leaf { fill: #8aaa7a; }
+
+
+/* ============================================================
+   THEME 11 — Teal Royale (rich teal + copper gold)
+============================================================ */
+.wed-theme-11 {
+  background: linear-gradient(180deg, #0a2a2a 0%, #1a4a4a 40%, #0a2a2a 100%);
+  color: #d0e0d8;
+  box-shadow: 0 0 0 2px #c9976a, 0 0 0 5px rgba(201,151,106,.15), 0 40px 80px rgba(0,0,0,.6);
+}
+.wed-theme-11 .wed-inner-frame { border-color: rgba(201,151,106,.25); }
+.wed-theme-11 .wed-divider-line { background: linear-gradient(180deg, transparent, #c9976a 10%, #c9976a 90%, transparent); }
+.wed-theme-11 .wed-shlok { color: #8abab0; }
+.wed-theme-11 .wed-svg-stroke { stroke: #c9976a; }
+.wed-theme-11 .wed-svg-fill { fill: #c9976a; }
+.wed-theme-11 .wed-photo-frame { background: linear-gradient(145deg, #c9976a, #e8c8a0, #c9976a); }
+.wed-theme-11 .wed-photo { border-color: #0a2a2a; }
+.wed-theme-11 .wed-groom-name, .wed-theme-11 .wed-bride-name { color: #e0d8c0; }
+.wed-theme-11 .wed-amp { color: #c9976a; }
+.wed-theme-11 .wed-together { color: #c9976a; }
+.wed-theme-11 .wed-family-name { color: #c0d0b8; }
+.wed-theme-11 .wed-event-heading { color: #c9976a; }
+.wed-theme-11 .wed-program-name { color: #e0d8c0; }
+.wed-theme-11 .wed-detail { color: #a0b8b0; }
+.wed-theme-11 .wed-blessing { color: #8aaa98; }
+.wed-theme-11 .wed-wl-label { color: #c9976a; }
+.wed-theme-11 .wed-wl-name { color: #c0d0b8; }
+.wed-theme-11 .wed-message { color: #8aaa98; border-top-color: rgba(201,151,106,.2); }
+.wed-theme-11 .wed-svg-orn-center { fill: #c9976a; }
+.wed-theme-11 .wed-svg-orn-stem { stroke: #c9976a; }
+.wed-theme-11 .wed-svg-orn-leaf { fill: #5a9a7a; }
+
+
+/* ============================================================
+   THEME 12 — Champagne Toast (warm champagne + soft gold)
+============================================================ */
+.wed-theme-12 {
+  background: linear-gradient(180deg, #faf6ee 0%, #f2e8d4 50%, #faf6ee 100%);
+  box-shadow: 0 0 0 2px #b8976a, 0 0 0 5px rgba(184,151,106,.12), 0 40px 80px rgba(0,0,0,.45);
+}
+.wed-theme-12 .wed-inner-frame { border-color: rgba(184,151,106,.22); }
+.wed-theme-12 .wed-divider-line { background: linear-gradient(180deg, transparent, #b8976a 10%, #b8976a 90%, transparent); }
+.wed-theme-12 .wed-shlok { color: #8a7050; }
+.wed-theme-12 .wed-svg-stroke { stroke: #b8976a; }
+.wed-theme-12 .wed-svg-fill { fill: #b8976a; }
+.wed-theme-12 .wed-photo-frame { background: linear-gradient(145deg, #b8976a, #dac8a0, #b8976a); }
+.wed-theme-12 .wed-groom-name, .wed-theme-12 .wed-bride-name { color: #4a3018; }
+.wed-theme-12 .wed-amp { color: #b8976a; }
+.wed-theme-12 .wed-together { color: #b89870; }
+.wed-theme-12 .wed-family-name { color: #5a3818; }
+.wed-theme-12 .wed-event-heading { color: #b8976a; }
+.wed-theme-12 .wed-program-name { color: #4a3018; }
+.wed-theme-12 .wed-detail { color: #5a4828; }
+.wed-theme-12 .wed-blessing { color: #8a7858; }
+.wed-theme-12 .wed-wl-label { color: #8a7858; }
+.wed-theme-12 .wed-message { color: #8a7858; border-top-color: rgba(184,151,106,.18); }
+.wed-theme-12 .wed-svg-orn-center { fill: #b8976a; }
+.wed-theme-12 .wed-svg-orn-stem { stroke: #b8976a; }
+.wed-theme-12 .wed-svg-orn-leaf { fill: #8a9a6a; }
+
+
+/* ============================================================
+   THEME 13 — Emerald Palace (deep emerald + gold filigree)
+============================================================ */
+.wed-theme-13 {
+  background: linear-gradient(180deg, #0a2a18 0%, #1a4a30 40%, #0a2a18 100%);
+  color: #d0e0c8;
+  box-shadow: 0 0 0 2px #c9a84c, 0 0 0 5px rgba(201,168,76,.18), 0 40px 80px rgba(0,0,0,.6);
+}
+.wed-theme-13 .wed-inner-frame { border-color: rgba(201,168,76,.25); }
+.wed-theme-13 .wed-divider-line { background: linear-gradient(180deg, transparent, #c9a84c 10%, #c9a84c 90%, transparent); }
+.wed-theme-13 .wed-shlok { color: #a0c090; }
+.wed-theme-13 .wed-svg-stroke { stroke: #c9a84c; }
+.wed-theme-13 .wed-svg-fill { fill: #c9a84c; }
+.wed-theme-13 .wed-photo-frame { background: linear-gradient(145deg, #c9a84c, #e8d5a0, #c9a84c); }
+.wed-theme-13 .wed-photo { border-color: #0a2a18; }
+.wed-theme-13 .wed-groom-name, .wed-theme-13 .wed-bride-name { color: #e0d8b0; }
+.wed-theme-13 .wed-amp { color: #c9a84c; }
+.wed-theme-13 .wed-together { color: #c9a84c; }
+.wed-theme-13 .wed-family-name { color: #c0d0a8; }
+.wed-theme-13 .wed-event-heading { color: #c9a84c; }
+.wed-theme-13 .wed-program-name { color: #e0d8b0; }
+.wed-theme-13 .wed-detail { color: #a0b890; }
+.wed-theme-13 .wed-blessing { color: #8aaa80; }
+.wed-theme-13 .wed-wl-label { color: #c9a84c; }
+.wed-theme-13 .wed-wl-name { color: #c0d0a8; }
+.wed-theme-13 .wed-message { color: #8aaa80; border-top-color: rgba(201,168,76,.2); }
+.wed-theme-13 .wed-svg-orn-center { fill: #c9a84c; }
+.wed-theme-13 .wed-svg-orn-stem { stroke: #c9a84c; }
+.wed-theme-13 .wed-svg-orn-leaf { fill: #5aaa6a; }
+
+
+/* ============================================================
+   THEME 14 — Ivory Lace (delicate ivory + warm tan)
+============================================================ */
+.wed-theme-14 {
+  background: linear-gradient(180deg, #fefcf5 0%, #f5efe0 50%, #fefcf5 100%);
+  box-shadow: 0 0 0 2px #a08a6a, 0 0 0 5px rgba(160,138,106,.12), 0 40px 80px rgba(0,0,0,.4);
+}
+.wed-theme-14 .wed-inner-frame { border: 2px dashed rgba(160,138,106,.3); }
+.wed-theme-14 .wed-divider-line { background: linear-gradient(180deg, transparent, #a08a6a 10%, #a08a6a 90%, transparent); }
+.wed-theme-14 .wed-shlok { color: #8a7a58; }
+.wed-theme-14 .wed-svg-stroke { stroke: #a08a6a; }
+.wed-theme-14 .wed-svg-fill { fill: #a08a6a; }
+.wed-theme-14 .wed-photo-frame { background: linear-gradient(145deg, #a08a6a, #d0c0a0, #a08a6a); }
+.wed-theme-14 .wed-groom-name, .wed-theme-14 .wed-bride-name { color: #4a3818; }
+.wed-theme-14 .wed-amp { color: #a08a6a; }
+.wed-theme-14 .wed-together { color: #a08a6a; }
+.wed-theme-14 .wed-family-name { color: #5a4828; }
+.wed-theme-14 .wed-event-heading { color: #a08a6a; }
+.wed-theme-14 .wed-program-name { color: #4a3818; }
+.wed-theme-14 .wed-detail { color: #5a4a30; }
+.wed-theme-14 .wed-blessing { color: #8a7a60; }
+.wed-theme-14 .wed-wl-label { color: #8a7a60; }
+.wed-theme-14 .wed-message { color: #8a7a60; border-top-color: rgba(160,138,106,.15); }
+.wed-theme-14 .wed-svg-orn-center { fill: #a08a6a; }
+.wed-theme-14 .wed-svg-orn-stem { stroke: #a08a6a; }
+.wed-theme-14 .wed-svg-orn-leaf { fill: #8a9a6a; }
+
+
+/* ============================================================
+   THEME 15 — Sunset Amber (warm amber + burnt orange)
+============================================================ */
+.wed-theme-15 {
+  background: linear-gradient(180deg, #fef5e8 0%, #fce8c8 50%, #fef5e8 100%);
+  box-shadow: 0 0 0 2px #c47820, 0 0 0 5px rgba(196,120,32,.12), 0 40px 80px rgba(0,0,0,.45);
+}
+.wed-theme-15 .wed-inner-frame { border-color: rgba(196,120,32,.22); }
+.wed-theme-15 .wed-divider-line { background: linear-gradient(180deg, transparent, #c47820 10%, #c47820 90%, transparent); }
+.wed-theme-15 .wed-shlok { color: #a06818; }
+.wed-theme-15 .wed-svg-stroke { stroke: #c47820; }
+.wed-theme-15 .wed-svg-fill { fill: #c47820; }
+.wed-theme-15 .wed-photo-frame { background: linear-gradient(145deg, #c47820, #e8a850, #c47820); }
+.wed-theme-15 .wed-groom-name, .wed-theme-15 .wed-bride-name { color: #5a2a08; }
+.wed-theme-15 .wed-amp { color: #c47820; }
+.wed-theme-15 .wed-together { color: #d08830; }
+.wed-theme-15 .wed-family-name { color: #5a3010; }
+.wed-theme-15 .wed-event-heading { color: #c47820; }
+.wed-theme-15 .wed-program-name { color: #5a2a08; }
+.wed-theme-15 .wed-detail { color: #5a3818; }
+.wed-theme-15 .wed-blessing { color: #a07838; }
+.wed-theme-15 .wed-wl-label { color: #a07838; }
+.wed-theme-15 .wed-message { color: #a07838; border-top-color: rgba(196,120,32,.15); }
+.wed-theme-15 .wed-svg-orn-center { fill: #c47820; }
+.wed-theme-15 .wed-svg-orn-stem { stroke: #c47820; }
+.wed-theme-15 .wed-svg-orn-leaf { fill: #7a9a5a; }
+
+
+/* ============================================================
+   THEME 16 — Regal Purple (royal purple + platinum)
+============================================================ */
+.wed-theme-16 {
+  background: linear-gradient(180deg, #1a0a2a 0%, #2a1848 40%, #1a0a2a 100%);
+  color: #d8d0e8;
+  box-shadow: 0 0 0 2px #a080c0, 0 0 0 5px rgba(160,128,192,.15), 0 40px 80px rgba(0,0,0,.6);
+}
+.wed-theme-16 .wed-inner-frame { border-color: rgba(160,128,192,.25); }
+.wed-theme-16 .wed-divider-line { background: linear-gradient(180deg, transparent, #a080c0 10%, #a080c0 90%, transparent); }
+.wed-theme-16 .wed-shlok { color: #b8a0d0; }
+.wed-theme-16 .wed-svg-stroke { stroke: #a080c0; }
+.wed-theme-16 .wed-svg-fill { fill: #a080c0; }
+.wed-theme-16 .wed-photo-frame { background: linear-gradient(145deg, #a080c0, #c8b0e0, #a080c0); }
+.wed-theme-16 .wed-photo { border-color: #1a0a2a; }
+.wed-theme-16 .wed-groom-name, .wed-theme-16 .wed-bride-name { color: #e0d8f0; }
+.wed-theme-16 .wed-amp { color: #a080c0; }
+.wed-theme-16 .wed-together { color: #b8a0d0; }
+.wed-theme-16 .wed-family-name { color: #c0b8d0; }
+.wed-theme-16 .wed-event-heading { color: #a080c0; }
+.wed-theme-16 .wed-program-name { color: #e0d8f0; }
+.wed-theme-16 .wed-detail { color: #a098b8; }
+.wed-theme-16 .wed-blessing { color: #9088a8; }
+.wed-theme-16 .wed-wl-label { color: #a080c0; }
+.wed-theme-16 .wed-wl-name { color: #c0b8d0; }
+.wed-theme-16 .wed-message { color: #9088a8; border-top-color: rgba(160,128,192,.2); }
+.wed-theme-16 .wed-svg-orn-center { fill: #a080c0; }
+.wed-theme-16 .wed-svg-orn-stem { stroke: #a080c0; }
+.wed-theme-16 .wed-svg-orn-leaf { fill: #7a8aaa; }
+
+
+/* ============================================================
+   THEME 17 — Lotus Pink (centered, soft pink + rose)
+============================================================ */
+.wed-theme-17 {
+  background: linear-gradient(180deg, #fef2f4 0%, #fce4ea 50%, #fef2f4 100%);
+  box-shadow: 0 0 0 2px #d4748a, 0 0 0 5px rgba(212,116,138,.12), 0 40px 80px rgba(0,0,0,.45);
+}
+.wed-theme-17 .wed-inner-frame { border-color: rgba(212,116,138,.22); }
+.wed-theme-17 .wed-name-center { color: #7a2040; }
+.wed-theme-17 .wed-amp-center { color: #d4748a; }
+.wed-theme-17 .wed-tagline { color: #a06070; }
+.wed-theme-17 .wed-photo-frame { background: linear-gradient(145deg, #d4748a, #f0b0c0, #d4748a); }
+.wed-theme-17 .wed-split-heading { color: #d4748a; }
+.wed-theme-17 .wed-split-sub { color: #a06070; }
+.wed-theme-17 .wed-split-family { color: #5a1828; }
+.wed-theme-17 .wed-split-divider { background: linear-gradient(180deg, transparent, #d4748a 10%, #d4748a 90%, transparent); }
+.wed-theme-17 .wed-event-heading { color: #d4748a; }
+.wed-theme-17 .wed-program-name { color: #7a2040; }
+.wed-theme-17 .wed-detail { color: #5a2838; }
+.wed-theme-17 .wed-wl-label { color: #a06070; }
+.wed-theme-17 .wed-wl-name { color: #5a1828; }
+.wed-theme-17 .wed-message { color: #a06070; border-top-color: rgba(212,116,138,.18); }
+.wed-theme-17 .wed-svg-orn-center { fill: #d4748a; }
+.wed-theme-17 .wed-svg-orn-stem { stroke: #d4748a; }
+.wed-theme-17 .wed-svg-orn-leaf { fill: #8aaa7a; }
+.wed-theme-17 .wed-svg-divine-stroke { stroke: #d4748a; }
+.wed-theme-17 .wed-svg-divine-fill { fill: #d4748a; }
+.wed-theme-17 .wed-svg-divine-arch { stroke: #d4748a; }
+.wed-theme-17 .wed-svg-divine-accent { stroke: #e8889a; }
+.wed-theme-17 .wed-svg-divine-flower { fill: #f0b0c0; }
+
+
+/* ============================================================
+   THEME 18 — Ocean Blue (centered, serene blue + pearl)
+============================================================ */
+.wed-theme-18 {
+  background: linear-gradient(180deg, #f0f5fa 0%, #d8e8f5 50%, #f0f5fa 100%);
+  box-shadow: 0 0 0 2px #2a6a9a, 0 0 0 5px rgba(42,106,154,.12), 0 40px 80px rgba(0,0,0,.45);
+}
+.wed-theme-18 .wed-inner-frame { border-color: rgba(42,106,154,.2); }
+.wed-theme-18 .wed-name-center { color: #1a3a5a; }
+.wed-theme-18 .wed-amp-center { color: #2a6a9a; }
+.wed-theme-18 .wed-tagline { color: #4a7a9a; }
+.wed-theme-18 .wed-photo-frame { background: linear-gradient(145deg, #2a6a9a, #6aaaca, #2a6a9a); }
+.wed-theme-18 .wed-split-heading { color: #2a6a9a; }
+.wed-theme-18 .wed-split-sub { color: #4a7a9a; }
+.wed-theme-18 .wed-split-family { color: #1a3a5a; }
+.wed-theme-18 .wed-split-divider { background: linear-gradient(180deg, transparent, #2a6a9a 10%, #2a6a9a 90%, transparent); }
+.wed-theme-18 .wed-event-heading { color: #2a6a9a; }
+.wed-theme-18 .wed-program-name { color: #1a3a5a; }
+.wed-theme-18 .wed-detail { color: #2a4a5a; }
+.wed-theme-18 .wed-wl-label { color: #4a7a9a; }
+.wed-theme-18 .wed-wl-name { color: #1a3a5a; }
+.wed-theme-18 .wed-message { color: #4a7a9a; border-top-color: rgba(42,106,154,.15); }
+.wed-theme-18 .wed-svg-orn-center { fill: #2a6a9a; }
+.wed-theme-18 .wed-svg-orn-stem { stroke: #2a6a9a; }
+.wed-theme-18 .wed-svg-orn-leaf { fill: #5a9a8a; }
+.wed-theme-18 .wed-svg-divine-stroke { stroke: #2a6a9a; }
+.wed-theme-18 .wed-svg-divine-fill { fill: #2a6a9a; }
+.wed-theme-18 .wed-svg-divine-arch { stroke: #2a6a9a; }
+.wed-theme-18 .wed-svg-divine-accent { stroke: #4a8ab0; }
+.wed-theme-18 .wed-svg-divine-flower { fill: #8ac0e0; }
+
+
+/* ============================================================
+   THEME 19 — Marigold Festive (vibrant orange, Indian festive)
+============================================================ */
+.wed-theme-19 {
+  background: linear-gradient(180deg, #fef8e8 0%, #fcecc0 50%, #fef8e8 100%);
+  box-shadow: 0 0 0 2px #d4882a, 0 0 0 5px rgba(212,136,42,.12), 0 40px 80px rgba(0,0,0,.45);
+}
+.wed-theme-19 .wed-inner-frame { border-color: rgba(212,136,42,.25); }
+.wed-theme-19 .wed-divider-line { background: linear-gradient(180deg, transparent, #d4882a 10%, #d4882a 90%, transparent); }
+.wed-theme-19 .wed-shlok { color: #a06818; }
+.wed-theme-19 .wed-svg-stroke { stroke: #d4882a; }
+.wed-theme-19 .wed-svg-fill { fill: #d4882a; }
+.wed-theme-19 .wed-photo-frame { background: linear-gradient(145deg, #d4882a, #f0b860, #d4882a); }
+.wed-theme-19 .wed-groom-name, .wed-theme-19 .wed-bride-name { color: #5a2808; }
+.wed-theme-19 .wed-amp { color: #d4882a; }
+.wed-theme-19 .wed-together { color: #d4882a; }
+.wed-theme-19 .wed-family-name { color: #5a3010; }
+.wed-theme-19 .wed-event-heading { color: #d4882a; }
+.wed-theme-19 .wed-program-name { color: #5a2808; }
+.wed-theme-19 .wed-detail { color: #5a3818; }
+.wed-theme-19 .wed-blessing { color: #a07828; }
+.wed-theme-19 .wed-wl-label { color: #a07828; }
+.wed-theme-19 .wed-message { color: #a07828; border-top-color: rgba(212,136,42,.18); }
+.wed-theme-19 .wed-svg-orn-center { fill: #d4882a; }
+.wed-theme-19 .wed-svg-orn-stem { stroke: #d4882a; }
+.wed-theme-19 .wed-svg-orn-leaf { fill: #6a9a4a; }
+
+
+/* ============================================================
+   THEME 20 — Black Tie (sophisticated black + gold lettering)
+============================================================ */
+.wed-theme-20 {
+  background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 40%, #0a0a0a 100%);
+  color: #d8d0c0;
+  box-shadow: 0 0 0 2px #c9a84c, 0 0 0 5px rgba(201,168,76,.2), 0 40px 80px rgba(0,0,0,.7);
+}
+.wed-theme-20 .wed-inner-frame { border-color: rgba(201,168,76,.2); }
+.wed-theme-20 .wed-divider-line { background: linear-gradient(180deg, transparent, #c9a84c 10%, #c9a84c 90%, transparent); }
+.wed-theme-20 .wed-shlok { color: #a09060; }
+.wed-theme-20 .wed-svg-stroke { stroke: #c9a84c; }
+.wed-theme-20 .wed-svg-fill { fill: #c9a84c; }
+.wed-theme-20 .wed-photo-frame { background: linear-gradient(145deg, #c9a84c, #e8d5a0, #c9a84c); }
+.wed-theme-20 .wed-photo { border-color: #0a0a0a; }
+.wed-theme-20 .wed-groom-name, .wed-theme-20 .wed-bride-name { color: #f0e8d0; }
+.wed-theme-20 .wed-amp { color: #c9a84c; }
+.wed-theme-20 .wed-together { color: #c9a84c; }
+.wed-theme-20 .wed-family-name { color: #d0c8a0; }
+.wed-theme-20 .wed-event-heading { color: #c9a84c; }
+.wed-theme-20 .wed-program-name { color: #f0e8d0; }
+.wed-theme-20 .wed-detail { color: #a09878; }
+.wed-theme-20 .wed-blessing { color: #908868; }
+.wed-theme-20 .wed-wl-label { color: #c9a84c; }
+.wed-theme-20 .wed-wl-name { color: #d0c8a0; }
+.wed-theme-20 .wed-guest-invite { color: #908868; }
+.wed-theme-20 .wed-message { color: #908868; border-top-color: rgba(201,168,76,.2); }
+.wed-theme-20 .wed-svg-orn-center { fill: #c9a84c; }
+.wed-theme-20 .wed-svg-orn-stem { stroke: #c9a84c; }
+.wed-theme-20 .wed-svg-orn-leaf { fill: #6a8a5a; }
+
+
+/* ============================================================
    RESPONSIVE — Centered layout
 ============================================================ */
 @media (max-width: 740px) {
@@ -1531,4 +1919,66 @@
     border-radius: 10px;
   }
 }
+
+/* ══════════════════════════════════════════════════════════
+   LAYOUT C — Photo Hero + Details Below
+   ══════════════════════════════════════════════════════════ */
+.wed-layout-c { padding: 0; display: flex; flex-direction: column; }
+.wed-c-hero { position: relative; height: 42%; min-height: 200px; overflow: hidden; }
+.wed-c-hero-img { width: 100%; height: 100%; object-fit: cover; }
+.wed-c-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,.6) 100%); }
+.wed-c-hero-text { position: absolute; bottom: 16px; left: 0; right: 0; text-align: center; color: #fff; z-index: 1; text-shadow: 0 1px 6px rgba(0,0,0,.4); }
+.wed-c-names { font-size: 22px; font-weight: 700; }
+.wed-c-names span { margin: 0 6px; opacity: .8; }
+.wed-c-tagline { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; opacity: .8; margin-top: 2px; }
+.wed-c-body { flex: 1; padding: 16px 20px; text-align: center; overflow-y: auto; }
+.wed-c-families { font-size: 12px; opacity: .6; margin-bottom: 10px; }
+.wed-c-sep { margin: 0 6px; }
+.wed-c-events { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px; }
+.wed-c-event { text-align: center; }
+.wed-c-event h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--card-accent, #c9a84c); margin: 0 0 4px; }
+.wed-c-event p { font-size: 12px; margin: 1px 0; }
+.wed-c-sub { font-size: 11px; opacity: .5; }
+.wed-c-msg { font-size: 12px; font-style: italic; opacity: .7; margin-top: 8px; }
+
+/* ══════════════════════════════════════════════════════════
+   LAYOUT D — Single Column Elegant Sections
+   ══════════════════════════════════════════════════════════ */
+.wed-layout-d { padding: 0; display: flex; flex-direction: column; }
+.wed-d-strip { height: 6px; background: var(--card-accent, #c9a84c); }
+.wed-d-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 24px; text-align: center; overflow-y: auto; }
+.wed-d-header-deco { font-size: 12px; letter-spacing: 6px; opacity: .4; margin-bottom: 6px; }
+.wed-d-couple { margin-bottom: 6px; }
+.wed-d-name { font-size: 22px; font-weight: 700; }
+.wed-d-amp { font-size: 16px; margin: 0 8px; color: var(--card-accent, #c9a84c); }
+.wed-d-invite { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; opacity: .5; margin: 4px 0; }
+.wed-d-families { font-size: 12px; opacity: .6; margin-bottom: 8px; }
+.wed-d-photo-frame { width: 120px; height: 120px; border-radius: 50%; overflow: hidden; border: 3px solid var(--card-accent, #c9a84c); margin: 8px 0; }
+.wed-d-photo { width: 100%; height: 100%; object-fit: cover; }
+.wed-d-divider { height: 1px; width: 60px; background: var(--card-accent, #c9a84c); opacity: .3; margin: 8px auto; }
+.wed-d-section { margin: 4px 0; }
+.wed-d-sec-title { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--card-accent, #c9a84c); margin: 0 0 4px; }
+.wed-d-section p { font-size: 12px; margin: 1px 0; }
+.wed-d-sub { font-size: 11px; opacity: .5; }
+.wed-d-msg { font-size: 12px; font-style: italic; opacity: .7; margin-top: 6px; }
+
+/* ══════════════════════════════════════════════════════════
+   LAYOUT E — Modern Minimal Card
+   ══════════════════════════════════════════════════════════ */
+.wed-layout-e { padding: 12px; }
+.wed-e-border { border: 2px solid var(--card-accent, #c9a84c); border-radius: 6px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 16px; text-align: center; overflow-y: auto; }
+.wed-e-top-line { font-size: 10px; letter-spacing: 3px; opacity: .4; margin-bottom: 8px; }
+.wed-e-couple { margin-bottom: 6px; }
+.wed-e-name { font-size: 22px; font-weight: 700; }
+.wed-e-amp { font-size: 16px; margin: 0 8px; color: var(--card-accent, #c9a84c); }
+.wed-e-photo-circle { width: 110px; height: 110px; border-radius: 50%; overflow: hidden; border: 3px solid var(--card-accent, #c9a84c); margin: 8px 0; }
+.wed-e-photo { width: 100%; height: 100%; object-fit: cover; }
+.wed-e-families { font-size: 12px; opacity: .6; margin: 4px 0; }
+.wed-e-divider { font-size: 10px; opacity: .3; letter-spacing: 2px; color: var(--card-accent, #c9a84c); margin: 6px 0; }
+.wed-e-events { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin: 6px 0; }
+.wed-e-event h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--card-accent, #c9a84c); margin: 0 0 3px; }
+.wed-e-event p { font-size: 12px; margin: 1px 0; }
+.wed-e-sub { font-size: 11px; opacity: .5; }
+.wed-e-msg { font-size: 12px; font-style: italic; opacity: .7; margin-top: 6px; }
+.wed-e-bottom-line { font-size: 16px; opacity: .4; margin-top: 10px; }
 

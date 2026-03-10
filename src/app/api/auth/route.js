@@ -66,8 +66,8 @@ export async function POST(req) {
         const existing = await db.collection('users').findOne({ email: key });
         if (existing) return NextResponse.json({ error: 'Account already exists. Please sign in.' }, { status: 409 });
 
-        const role = key === ADMIN_EMAIL ? 'superadmin' : 'user';
-        const plan = key === ADMIN_EMAIL ? 'premium' : 'free';
+        const role = isAdminEmail(key) ? 'superadmin' : 'user';
+        const plan = isAdminEmail(key) ? 'premium' : 'free';
         const hashed = await hashPassword(password);
 
         await db.collection('users').insertOne({

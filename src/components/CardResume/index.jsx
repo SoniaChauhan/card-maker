@@ -1,10 +1,10 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import './CardResume.css';
 import TemplateSelector from './TemplateSelector';
 import CardResumeForm from './CardResumeForm';
 import StepResumeForm from './StepResumeForm';
-import { getTemplateById, COLOR_PRESETS, TEMPLATES } from './ResumeTemplates';
+import { getTemplateById, COLOR_PRESETS, TEMPLATES, SAMPLE_PROFILES, DEFAULT_SECTION_ORDER, TEMPLATE_COLUMN_DEFAULTS } from './ResumeTemplates';
 import { parseResumeFile } from './resumeParser';
 import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
@@ -77,8 +77,7 @@ const INIT = {
   photo: null, photoPreview: '',
 };
 
-/* Static sample data for template thumbnails — never changes */
-const SAMPLE_DATA = { ...INIT };
+
 
 const PARTICLES = ['📄', '✨', '💼', '🎓', '⭐', '💎', '🖊️', '💡'];
 
@@ -118,11 +117,229 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
   const [autoLoading, setAutoLoading] = useState(false);
   const [editorShowForm, setEditorShowForm] = useState(true);
   const [editorShowPreview, setEditorShowPreview] = useState(true);
+  const [showTplSidebar, setShowTplSidebar] = useState(true);
   const [editorInitialStep, setEditorInitialStep] = useState(null);
   const [buildMode, setBuildMode] = useState(false);
   const [showFormatChoice, setShowFormatChoice] = useState(false);
   const [downloadDone, setDownloadDone] = useState(false);
   const [freeDownload, setFreeDownload] = useState(false);
+  const [activeFormStep, setActiveFormStep] = useState(1);
+  const previewRef = useRef(null);
+  const dragRef = useRef({ section: null, overSection: null, pos: null, fromCol: null });
+  const scrollRAF = useRef(null);
+
+  /* Map form step number → data-section name(s) for highlight */
+  const STEP_SECTION_MAP = { 2: 'experience', 3: 'education', 4: 'projects', 5: 'skills', 6: 'summary' };
+  const SECTION_STEP_MAP = { experience: 2, education: 3, projects: 4, skills: 5, summary: 6, languages: 5, interests: 5 };
+
+  /* Highlight the active section in the live preview + make sections draggable */
+  useEffect(() => {
+    const el = previewRef.current;
+    if (!el) return;
+    el.querySelectorAll('[data-section]').forEach(node => {
+      node.classList.remove('rt-hl-active');
+      node.setAttribute('draggable', 'true');
+      node.classList.add('rt-section-draggable');
+    });
+    const sectionName = STEP_SECTION_MAP[activeFormStep];
+    if (sectionName) {
+      el.querySelectorAll(`[data-section="${sectionName}"]`).forEach(node => node.classList.add('rt-hl-active'));
+    }
+  });
+
+  const onStepChange = useCallback((step) => setActiveFormStep(step), []);
+
+  /* Click a section in live preview → jump to that form step */
+  function handlePreviewSectionClick(e) {
+    const sectionEl = e.target.closest('[data-section]');
+    if (!sectionEl) return;
+    const name = sectionEl.getAttribute('data-section');
+    const step = SECTION_STEP_MAP[name];
+    if (step) {
+      setEditorShowForm(true);
+      setEditorInitialStep(step);
+    }
+  }
+
+  /* ── Helper: detect which column a section element is in ── */
+  function getColumnOfElement(el) {
+    let parent = el.parentElement;
+    while (parent && parent !== previewRef.current) {
+      const cls = parent.className || '';
+      // Check most specific patterns first — order matters!
+      if (cls.includes('-right')) return 'right';
+      if (cls.includes('-left')) return 'left';
+      if (cls.includes('-main')) return 'left';
+      // -side but NOT -sidebar (e.g. rt-col-side, rt-cp-side)
+      if (/-side\b/.test(cls)) return 'right';
+      parent = parent.parentElement;
+    }
+    return 'full'; // single-column layout
+  }
+
+  /* ── Helper: detect column from any element (for drop on empty space) ── */
+  function getColumnFromDropTarget(el) {
+    let node = el;
+    while (node && node !== previewRef.current) {
+      const cls = node.className || '';
+      if (cls.includes('-right')) return 'right';
+      if (cls.includes('-left')) return 'left';
+      if (cls.includes('-main')) return 'left';
+      if (/-side\b/.test(cls)) return 'right';
+      node = node.parentElement;
+    }
+    return 'full';
+  }
+
+  /* ── Auto-scroll during drag ── */
+  function startAutoScroll(clientY) {
+    cancelAnimationFrame(scrollRAF.current);
+    const container = previewRef.current;
+    if (!container) return;
+    const rect = container.getBoundingClientRect();
+    const edgeSize = 50;
+    const speed = 8;
+    function tick() {
+      if (!container) return;
+      if (clientY < rect.top + edgeSize) {
+        container.scrollTop -= speed;
+      } else if (clientY > rect.bottom - edgeSize) {
+        container.scrollTop += speed;
+      }
+      scrollRAF.current = requestAnimationFrame(tick);
+    }
+    tick();
+  }
+  function stopAutoScroll() {
+    cancelAnimationFrame(scrollRAF.current);
+  }
+
+  /* ── Section drag-and-drop in live preview (2-column + auto-scroll) ── */
+  function handleSectionDragStart(e) {
+    const sectionEl = e.target.closest('[data-section]');
+    if (!sectionEl) return;
+    const name = sectionEl.getAttribute('data-section');
+    dragRef.current.section = name;
+    dragRef.current.fromCol = getColumnOfElement(sectionEl);
+    sectionEl.classList.add('rt-section-dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    try { e.dataTransfer.setData('text/plain', name); } catch {}
+  }
+
+  function handleSectionDragOver(e) {
+    e.preventDefault();
+    startAutoScroll(e.clientY);
+    const sectionEl = e.target.closest('[data-section]');
+    const container = previewRef.current;
+    if (container) container.querySelectorAll('[data-section]').forEach(n => n.classList.remove('rt-drop-above', 'rt-drop-below'));
+    if (!sectionEl) return;
+    const name = sectionEl.getAttribute('data-section');
+    if (name === dragRef.current.section) return;
+    const rect = sectionEl.getBoundingClientRect();
+    const mid = rect.top + rect.height / 2;
+    const pos = e.clientY < mid ? 'above' : 'below';
+    sectionEl.classList.add(pos === 'above' ? 'rt-drop-above' : 'rt-drop-below');
+    dragRef.current.overSection = name;
+    dragRef.current.pos = pos;
+  }
+
+  function handleSectionDrop(e) {
+    e.preventDefault();
+    stopAutoScroll();
+    const { section: from, overSection: to, pos } = dragRef.current;
+
+    // Detect target column from the drop point (even if not on a section)
+    const targetEl = e.target.closest('[data-section]');
+    const dropCol = targetEl ? getColumnOfElement(targetEl) : getColumnFromDropTarget(e.target);
+    const fromCol = dragRef.current.fromCol;
+
+    // If dropped on empty column space (no target section), handle cross-column move
+    if (from && !to && dropCol !== 'full' && fromCol !== dropCol) {
+      const defaults = TEMPLATE_COLUMN_DEFAULTS[selectedTemplate] || {};
+      const colConfig = data.columnConfig
+        ? { left: [...(data.columnConfig.left || [])], right: [...(data.columnConfig.right || [])] }
+        : { left: [...(defaults.left || [])], right: [...(defaults.right || [])] };
+      const srcKey = fromCol === 'left' ? 'left' : 'right';
+      const dstKey = dropCol === 'left' ? 'left' : 'right';
+      colConfig[srcKey] = colConfig[srcKey].filter(k => k !== from);
+      if (!colConfig[dstKey].includes(from)) colConfig[dstKey].push(from);
+      setData(d => ({ ...d, columnConfig: colConfig }));
+      cleanupDrag();
+      return;
+    }
+
+    if (!from || !to || from === to) { cleanupDrag(); return; }
+
+    // Update sectionOrder
+    const order = [...(data.sectionOrder || DEFAULT_SECTION_ORDER)];
+    const fromIdx = order.indexOf(from);
+    const toIdx = order.indexOf(to);
+    if (fromIdx < 0 || toIdx < 0) { cleanupDrag(); return; }
+    order.splice(fromIdx, 1);
+    const insertIdx = pos === 'above' ? order.indexOf(to) : order.indexOf(to) + 1;
+    order.splice(insertIdx, 0, from);
+
+    const toCol = targetEl ? getColumnOfElement(targetEl) : dropCol;
+
+    // If dragged between columns, update columnConfig
+    if (fromCol !== toCol && fromCol !== 'full' && toCol !== 'full') {
+      const defaults = TEMPLATE_COLUMN_DEFAULTS[selectedTemplate] || {};
+      const colConfig = data.columnConfig
+        ? { left: [...(data.columnConfig.left || [])], right: [...(data.columnConfig.right || [])] }
+        : { left: [...(defaults.left || [])], right: [...(defaults.right || [])] };
+      // Remove from source column
+      const srcKey = fromCol === 'left' ? 'left' : 'right';
+      const dstKey = toCol === 'left' ? 'left' : 'right';
+      colConfig[srcKey] = colConfig[srcKey].filter(k => k !== from);
+      // Add to target column at the right position
+      const dstArr = colConfig[dstKey];
+      const dstIdx = dstArr.indexOf(to);
+      if (dstIdx >= 0) {
+        const insertAt = pos === 'above' ? dstIdx : dstIdx + 1;
+        dstArr.splice(insertAt, 0, from);
+      } else {
+        dstArr.push(from);
+      }
+      setData(d => ({ ...d, sectionOrder: order, columnConfig: colConfig }));
+    } else {
+      // Same column or single-column: just update order
+      // Also update within-column order in columnConfig if applicable
+      if (fromCol !== 'full' && (data.columnConfig || TEMPLATE_COLUMN_DEFAULTS[selectedTemplate])) {
+        const defaults = TEMPLATE_COLUMN_DEFAULTS[selectedTemplate] || {};
+        const colConfig = data.columnConfig
+          ? { left: [...(data.columnConfig.left || [])], right: [...(data.columnConfig.right || [])] }
+          : { left: [...(defaults.left || [])], right: [...(defaults.right || [])] };
+        const colKey = fromCol === 'left' ? 'left' : 'right';
+        const colArr = colConfig[colKey];
+        const ci = colArr.indexOf(from);
+        const cj = colArr.indexOf(to);
+        if (ci >= 0 && cj >= 0) {
+          colArr.splice(ci, 1);
+          const cInsert = pos === 'above' ? colArr.indexOf(to) : colArr.indexOf(to) + 1;
+          colArr.splice(cInsert, 0, from);
+          setData(d => ({ ...d, sectionOrder: order, columnConfig: colConfig }));
+        } else {
+          setData(d => ({ ...d, sectionOrder: order }));
+        }
+      } else {
+        setData(d => ({ ...d, sectionOrder: order }));
+      }
+    }
+    cleanupDrag();
+  }
+
+  function handleSectionDragEnd() {
+    stopAutoScroll();
+    cleanupDrag();
+  }
+
+  function cleanupDrag() {
+    const container = previewRef.current;
+    if (container) container.querySelectorAll('[data-section]').forEach(n => {
+      n.classList.remove('rt-section-dragging', 'rt-drop-above', 'rt-drop-below');
+    });
+    dragRef.current = { section: null, overSection: null, pos: null, fromCol: null };
+  }
 
   const pdfFilename = `resume-${toFilename(data.fullName || 'professional')}.pdf`;
   const dlTitle  = data.fullName ? `${data.fullName} Resume` : 'Resume';
@@ -236,19 +453,20 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
   function handleSelectTemplate(tplId) {
     setSelectedTemplate(tplId);
     if (!importDone && !buildMode) {
-      setData({ ...INIT });
+      const idx = TEMPLATES.findIndex(t => t.id === tplId);
+      setData({ ...SAMPLE_PROFILES[(idx >= 0 ? idx : 0) % SAMPLE_PROFILES.length] });
       setStep('editor');
     }
     // When importDone or buildMode, just update selectedTemplate — stay on templates page
   }
 
-  /* ── Build from scratch — blank form on templates page ── */
+  /* ── Build from scratch — blank form and open editor ── */
   function handleBuildResume(tplId) {
     setData({ ...BLANK });
     setSelectedTemplate(tplId);
     setBuildMode(true);
     setEditorShowForm(true);
-    // Stay on 'templates' step — the editor panel shows via buildMode
+    setStep('editor');
   }
 
   /* ── Check for existing resume data after email verification ── */
@@ -468,19 +686,23 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
         {hiddenFileInput}
 
         {/* Left: Template Thumbnails */}
+        {showTplSidebar ? (
         <div className="cr-editor-templates">
-          <button className="cr-editor-back" onClick={() => { setData({ ...BLANK }); setStep('templates'); }}>← Back</button>
+          <div className="cr-editor-templates-topbar">
+            <button className="cr-editor-back" onClick={() => { setData({ ...BLANK }); setBuildMode(false); setStep('templates'); }}>← Back</button>
+            <button className="cr-tpl-toggle-btn" onClick={() => setShowTplSidebar(false)}>Hide Templates ◀</button>
+          </div>
           <h3 className="cr-editor-templates-title">Choose Template</h3>
           <div className="cr-editor-tpl-grid">
-            {TEMPLATES.map(t => (
+            {TEMPLATES.map((t, i) => (
               <div
                 key={t.id}
                 className={`cr-editor-tpl-card${selectedTemplate === t.id ? ' cr-editor-tpl-active' : ''}`}
-                onClick={() => { setSelectedTemplate(t.id); setData({ ...INIT }); }}
+                onClick={() => { setSelectedTemplate(t.id); setData({ ...SAMPLE_PROFILES[i % SAMPLE_PROFILES.length] }); }}
               >
                 <div className="cr-editor-tpl-preview">
                   <div className="cr-editor-tpl-scaler">
-                    <t.Component data={SAMPLE_DATA} />
+                    <t.Component data={SAMPLE_PROFILES[i % SAMPLE_PROFILES.length]} />
                   </div>
                 </div>
                 <span className="cr-editor-tpl-name">{t.name}</span>
@@ -488,6 +710,9 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
             ))}
           </div>
         </div>
+        ) : (
+          <button className="cr-tpl-toggle-btn" onClick={() => setShowTplSidebar(true)}>▶ Templates</button>
+        )}
 
         {/* Right: Form (top, toggleable) + Preview (bottom) */}
         <div className="cr-editor-right">
@@ -509,6 +734,7 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
                 errors={errors}
                 onChange={onChange}
                 onGenerate={onGenerate}
+                onStepChange={onStepChange}
                 initialStep={editorInitialStep}
               />
             </div>
@@ -531,7 +757,15 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
                 <button className="cr-editor-form-hide" onClick={() => setEditorShowPreview(false)}>Hide preview ▲</button>
               </div>
             </div>
-            <div className="cr-editor-preview-body">
+            <div
+              className="cr-editor-preview-body"
+              ref={previewRef}
+              onClick={handlePreviewSectionClick}
+              onDragStart={handleSectionDragStart}
+              onDragOver={handleSectionDragOver}
+              onDrop={handleSectionDrop}
+              onDragEnd={handleSectionDragEnd}
+            >
               <div style={accentColor ? { '--rt-accent': accentColor } : undefined}>
                 <TemplateComponent data={data} accentColor={accentColor} />
               </div>
@@ -587,7 +821,7 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
         <button className="cr-editor-back" onClick={onBack}>🏠 Home</button>
         <h3 className="cr-editor-templates-title">Choose Template</h3>
         <div className="cr-editor-tpl-grid">
-          {TEMPLATES.map(t => (
+          {TEMPLATES.map((t, i) => (
             <div
               key={t.id}
               className={`cr-editor-tpl-card${selectedTemplate === t.id ? ' cr-editor-tpl-active' : ''}`}
@@ -595,7 +829,7 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
             >
               <div className="cr-editor-tpl-preview">
                 <div className="cr-editor-tpl-scaler">
-                  <t.Component data={SAMPLE_DATA} />
+                  <t.Component data={SAMPLE_PROFILES[i % SAMPLE_PROFILES.length]} />
                 </div>
               </div>
               <span className="cr-editor-tpl-name">{t.name}</span>

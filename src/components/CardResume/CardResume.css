@@ -606,6 +606,22 @@
   color: #6c63ff !important;
 }
 
+/* ── Inline editing hover & active states ── */
+.rt-inline-hover {
+  outline: 1px dashed rgba(74, 123, 167, 0.5);
+  outline-offset: 2px;
+  cursor: text;
+  border-radius: 3px;
+}
+.rt-inline-editing {
+  outline: 2px solid #4A7BA7 !important;
+  outline-offset: 2px;
+  background: rgba(74, 123, 167, 0.06) !important;
+  cursor: text;
+  border-radius: 3px;
+  min-height: 1em;
+}
+
 /* When editor is showing, make template column narrower and match height */
 .ts-split-layout:has(.ts-editor-col) {
   align-items: stretch;
@@ -1409,7 +1425,12 @@
   font-size: 16px;
   color: #666;
   margin: 4px 0 8px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
 }
+.rt-clean-contact > span + span::before { content: '  \2022  '; }
 
 /* ═══════════════════════════════════════════════════════════
    TEMPLATE 3 — Hexagon Modern
@@ -1472,7 +1493,12 @@
   font-size: 16px;
   color: #777;
   margin: 6px 0 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
 }
+.rt-elegant-contact > span + span::before { content: '  \2022  '; }
 
 /* ═══════════════════════════════════════════════════════════
    TEMPLATE 5 — Bold Executive
@@ -1535,7 +1561,11 @@
   font-size: 16px;
   color: #666;
   margin: 4px 0 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
 }
+.rt-simple-contact > span + span::before { content: ' | '; }
 
 /* ═══════════════════════════════════════════════════════════
    TEMPLATE 7 — Dark Header Pro
@@ -1585,7 +1615,12 @@
   font-weight: 700;
   color: #333;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
 }
+.rt-darkpro-strip > span + span::before { content: '  \2022  '; }
 
 /* ═══════════════════════════════════════════════════════════
    TEMPLATE 8 — Teal Corporate
@@ -1597,7 +1632,12 @@
   padding: 10px 30px;
   font-size: 16px;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
 }
+.rt-teal-bar > span + span::before { content: '  \2022  '; }
 .rt-teal-name {
   font-size: 34px;
   font-weight: 900;
@@ -1642,7 +1682,11 @@
   font-size: 16px;
   color: #666;
   margin-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
 }
+.rt-sidebar-contact > span + span::before { content: '  \2022  '; }
 .rt-sidebar-body {
   display: flex;
 }
@@ -2251,6 +2295,15 @@
 }
 .cr-editor-templates::-webkit-scrollbar { width: 5px; }
 .cr-editor-templates::-webkit-scrollbar-thumb { background: rgba(255,255,255,.25); border-radius: 4px; }
+.cr-editor-templates-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.cr-editor-templates-topbar .cr-editor-back { margin-bottom: 0; }
+.cr-editor-templates-topbar .cr-tpl-toggle-btn { margin: 0; position: static; }
 .cr-editor-back {
   background: rgba(255,255,255,.15);
   color: #fff;
@@ -2327,6 +2380,27 @@
   min-width: 0;
   height: 100vh;
   overflow: hidden;
+}
+
+/* ── Template panel toggle button ── */
+.cr-tpl-toggle-btn {
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin: 6px 8px;
+  background: linear-gradient(135deg, #1a1145, #2d1b69);
+  color: #fff;
+  border: none;
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+.cr-tpl-toggle-btn:hover {
+  opacity: 1;
 }
 
 /* Form Panel (top) */
@@ -2883,6 +2957,7 @@
   }
   .cr-editor-tpl-grid { grid-template-columns: repeat(4, 1fr); }
   .cr-editor-right { height: auto; }
+  .cr-tpl-toggle-btn { display: none; }
   .cr-editor-form-panel { max-height: none; min-height: 300px; }
   .cr-editor-preview-panel { min-height: 400px; }
   .cr-editor-preview-header { font-size: 12px; padding: 8px 12px; }
@@ -2956,4 +3031,162 @@
 .rt-p {
   break-inside: auto;
   page-break-inside: auto;
+}
+
+/* ── Drag-and-drop section reorder ── */
+.rt-section-draggable {
+  position: relative;
+  cursor: grab;
+  transition: box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.rt-section-draggable:hover {
+  outline: 1.5px dashed rgba(0,0,0,0.15);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.rt-section-dragging {
+  opacity: 0.4;
+  outline: 1.5px dashed #999;
+  outline-offset: 2px;
+  border-radius: 4px;
+  background: rgba(248,248,248,0.6);
+}
+
+.rt-drop-above {
+  box-shadow: 0 -2.5px 0 0 var(--rt-accent, #4A7BA7);
+}
+
+.rt-drop-below {
+  box-shadow: 0 2.5px 0 0 var(--rt-accent, #4A7BA7);
+}
+
+/* ── Drag-and-drop internal item reorder ── */
+.rt-item-draggable {
+  position: relative;
+  cursor: grab;
+  transition: box-shadow 0.12s ease, opacity 0.12s ease;
+}
+
+.rt-item-draggable:hover {
+  outline: 1px dashed rgba(0,0,0,0.12);
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+
+.rt-item-dragging {
+  opacity: 0.35;
+  outline: 1px dashed #999;
+  outline-offset: 1px;
+  border-radius: 3px;
+  background: rgba(245,245,250,0.5);
+}
+
+.rt-item-drop-above {
+  box-shadow: 0 -2px 0 0 var(--rt-accent, #4A7BA7);
+}
+
+.rt-item-drop-below {
+  box-shadow: 0 2px 0 0 var(--rt-accent, #4A7BA7);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TEMPLATE 15 — Gradient Header
+═══════════════════════════════════════════════════════════ */
+.rt-grad { font-family: 'Segoe UI', Tahoma, sans-serif; }
+.rt-grad-header {
+  background: linear-gradient(135deg, var(--rt-accent, #667eea), color-mix(in srgb, var(--rt-accent, #667eea) 60%, #764ba2));
+  color: #fff; padding: 32px 28px 24px; text-align: center;
+}
+.rt-grad-name { font-size: 26px; font-weight: 700; margin: 0; letter-spacing: 1px; }
+.rt-grad-job { font-size: 14px; margin-top: 4px; opacity: .9; }
+.rt-grad-contact { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: center; margin-top: 12px; font-size: 12px; opacity: .85; }
+.rt-grad-body { padding: 20px 28px; }
+.rt-grad-body .rt-sh { font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--rt-accent, #667eea); border-bottom: 2px solid var(--rt-accent, #667eea); padding-bottom: 4px; margin: 18px 0 10px; }
+.rt-grad-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.rt-grad-pill { background: color-mix(in srgb, var(--rt-accent, #667eea) 12%, transparent); color: var(--rt-accent, #667eea); padding: 3px 10px; border-radius: 12px; font-size: 12px; }
+
+/* ═══════════════════════════════════════════════════════════
+   TEMPLATE 16 — Metro Blocks
+═══════════════════════════════════════════════════════════ */
+.rt-metro { font-family: 'Segoe UI', Tahoma, sans-serif; }
+.rt-metro-header { padding: 28px 28px 20px; border-bottom: 3px solid var(--rt-accent, #e74c3c); }
+.rt-metro-name { font-size: 26px; font-weight: 700; margin: 0; color: #222; }
+.rt-metro-job { font-size: 14px; color: var(--rt-accent, #e74c3c); margin-top: 2px; font-weight: 600; }
+.rt-metro-contact { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 10px; font-size: 12px; color: #555; }
+.rt-metro-body { padding: 16px 28px; }
+.rt-metro-card { background: #fafafa; border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; border-left: 4px solid var(--rt-accent, #e74c3c); }
+.rt-metro-tag { display: inline-block; background: var(--rt-accent, #e74c3c); color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 2px 10px; border-radius: 3px; margin-bottom: 8px; }
+
+/* ═══════════════════════════════════════════════════════════
+   TEMPLATE 17 — Left Accent Bar
+═══════════════════════════════════════════════════════════ */
+.rt-accentbar { font-family: 'Segoe UI', Tahoma, sans-serif; }
+.rt-accentbar-header { padding: 28px 28px 16px; text-align: center; }
+.rt-accentbar-name { font-size: 28px; font-weight: 700; margin: 0; color: var(--rt-accent, #16a085); }
+.rt-accentbar-job { font-size: 14px; color: #555; margin-top: 2px; }
+.rt-accentbar-contact { display: flex; flex-wrap: wrap; gap: 6px 14px; justify-content: center; margin-top: 10px; font-size: 12px; color: #666; }
+.rt-accent-sec { display: flex; gap: 0; margin: 0 28px 14px; }
+.rt-accent-bar { width: 4px; flex-shrink: 0; background: var(--rt-accent, #16a085); border-radius: 2px; }
+.rt-accent-content { flex: 1; padding-left: 14px; }
+.rt-accent-sh { font-size: 13px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--rt-accent, #16a085); margin: 0 0 6px; font-weight: 700; }
+
+/* ═══════════════════════════════════════════════════════════
+   TEMPLATE 18 — Magazine Split
+═══════════════════════════════════════════════════════════ */
+.rt-mag { font-family: 'Segoe UI', Tahoma, sans-serif; }
+.rt-mag-header { display: flex; align-items: center; gap: 16px; padding: 24px 28px; background: var(--rt-accent, #8e44ad); color: #fff; }
+.rt-mag-photo { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,.4); flex-shrink: 0; }
+.rt-mag-name { font-size: 24px; font-weight: 700; margin: 0; }
+.rt-mag-job { font-size: 13px; opacity: .9; margin-top: 2px; }
+.rt-mag-body { display: flex; gap: 0; min-height: 400px; }
+.rt-mag-left { width: 34%; background: #f5f0f8; padding: 18px 16px; }
+.rt-mag-right { flex: 1; padding: 18px 20px; }
+.rt-mag-sh { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--rt-accent, #8e44ad); margin: 14px 0 6px; font-weight: 700; border-bottom: 1px solid #ddd; padding-bottom: 3px; }
+.rt-mag-contact-sec { margin-bottom: 8px; }
+.rt-mag-contact-sec .rt-contact-list { font-size: 12px; }
+
+/* ═══════════════════════════════════════════════════════════
+   TEMPLATE 19 — Compact Grid
+═══════════════════════════════════════════════════════════ */
+.rt-compact { font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 12px; }
+.rt-compact-header { padding: 18px 24px 14px; border-bottom: 2px solid var(--rt-accent, #34495e); }
+.rt-compact-name { font-size: 22px; font-weight: 700; margin: 0; color: var(--rt-accent, #34495e); }
+.rt-compact-job { font-size: 12px; color: #666; margin-top: 1px; }
+.rt-compact-contact { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 8px; font-size: 11px; color: #777; }
+.rt-compact-sec { padding: 0 24px; margin-bottom: 10px; }
+.rt-compact-sh { font-size: 12px; text-transform: uppercase; letter-spacing: 1.4px; font-weight: 700; color: var(--rt-accent, #34495e); margin: 12px 0 4px; border-bottom: 1px solid #e0e0e0; padding-bottom: 2px; }
+.rt-compact-skills { display: flex; flex-wrap: wrap; gap: 4px; }
+.rt-compact-chip { background: #f0f0f0; padding: 2px 8px; border-radius: 3px; font-size: 11px; }
+.rt-compact-entry { margin-bottom: 6px; }
+.rt-compact-entry-head { display: flex; justify-content: space-between; align-items: baseline; }
+.rt-compact-date { font-size: 11px; color: #888; white-space: nowrap; margin-left: 8px; }
+
+/* ═══════════════════════════════════════════════════════════
+   TEMPLATE 20 — Creative Zigzag
+═══════════════════════════════════════════════════════════ */
+.rt-zigzag { font-family: 'Segoe UI', Tahoma, sans-serif; }
+.rt-zz-header { text-align: center; padding: 28px 28px 20px; border-bottom: 3px solid var(--rt-accent, #d35400); }
+.rt-zz-name { font-size: 28px; font-weight: 800; margin: 0; color: var(--rt-accent, #d35400); }
+.rt-zz-job { font-size: 14px; color: #555; margin-top: 2px; }
+.rt-zz-contact { display: flex; flex-wrap: wrap; gap: 6px 14px; justify-content: center; margin-top: 10px; font-size: 12px; color: #666; }
+.rt-zz-body { padding: 16px 28px; }
+.rt-zz-sec { display: flex; gap: 0; margin-bottom: 16px; }
+.rt-zz-sec:nth-child(even) { flex-direction: row-reverse; text-align: right; }
+.rt-zz-sec:nth-child(even) .rt-ul { list-style-position: inside; padding-left: 0; }
+.rt-zz-label { writing-mode: vertical-lr; text-orientation: mixed; transform: rotate(180deg); background: var(--rt-accent, #d35400); color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; padding: 10px 6px; display: flex; align-items: center; justify-content: center; min-width: 28px; border-radius: 3px; }
+.rt-zz-content { flex: 1; padding: 8px 14px; }
+
+@media print {
+  .rt-section-draggable { cursor: default; }
+  .rt-section-draggable:hover { outline: none; }
+  .rt-section-dragging,
+  .rt-drop-above,
+  .rt-drop-below { opacity: 1; box-shadow: none; outline: none; background: none; }
+  .rt-item-draggable { cursor: default; }
+  .rt-item-draggable:hover { outline: none; }
+  .rt-item-dragging,
+  .rt-item-drop-above,
+  .rt-item-drop-below { opacity: 1; box-shadow: none; outline: none; background: none; }
 }
