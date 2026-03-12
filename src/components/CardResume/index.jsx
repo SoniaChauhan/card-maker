@@ -93,6 +93,7 @@ const BLANK = {
   interests: '',
   experience: [{ title: '', company: '', from: '', to: '', location: '', desc: '' }],
   education: [{ degree: '', institution: '', year: '', location: '' }],
+  projects: [{ name: '', tech: '', desc: '' }],
   skills: '',
   languages: '',
   photo: null, photoPreview: '',
@@ -101,7 +102,7 @@ const BLANK = {
 export default function CardResume({ onBack, userEmail, initialData, templateId: initTplId, isSuperAdmin }) {
   const [step, setStep] = useState('templates');         // templates | upload | form | preview
   const [selectedTemplate, setSelectedTemplate] = useState('artsy-corner');
-  const [data, setData]     = useState(initialData ? { ...INIT, ...initialData } : INIT);
+  const [data, setData]     = useState(initialData ? { ...BLANK, ...initialData } : BLANK);
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
   const [templateId, setTemplateId] = useState(initTplId || null);
@@ -391,7 +392,15 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
         const existing = templates.find(t => t.cardType === CARD_TYPE);
         if (!cancelled && existing && existing.formData) {
           const saved = existing.formData;
-          const merged = mergeNonEmpty(INIT, saved);
+          const merged = mergeNonEmpty(BLANK, saved);
+          // Only auto-load if data is meaningful (has name or experience)
+          const hasName = merged.fullName && merged.fullName.trim();
+          const hasExp = Array.isArray(merged.experience) && merged.experience.some(e => e.title || e.company);
+          if (!hasName && !hasExp) {
+            // Data is essentially empty — just keep templateId for future saves
+            setTemplateId(existing.id);
+            return;
+          }
           const tplChoice = saved.selectedTemplate || TEMPLATES[0]?.id || 'artsy-corner';
           const colorChoice = saved.accentColor || '';
           setData({
@@ -406,11 +415,6 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
           setImportDone(true);
           verifiedEmailRef.current = userEmail;
           showToast('✅ Welcome back! Your saved resume loaded automatically.');
-          // Re-save complete merged data so future loads are clean
-          try {
-            const name = merged.fullName ? `${merged.fullName} Resume` : 'Resume Template';
-            await updateTemplate(existing.id, name, { ...merged, email: saved.email || userEmail, selectedTemplate: tplChoice, accentColor: colorChoice });
-          } catch (e) { console.error('Re-save merged data failed:', e); }
         }
       } catch (err) {
         console.error('Auto-load resume error:', err);
@@ -488,10 +492,18 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
       const existing = templates.find(t => t.cardType === CARD_TYPE);
       if (existing && existing.formData) {
         const saved = existing.formData;
-        // Merge saved data with INIT defaults — fills any gaps left by parser
-        const merged = mergeNonEmpty(INIT, saved);
+        // Merge saved data with BLANK defaults — fills any gaps left by parser
+        const merged = mergeNonEmpty(BLANK, saved);
         const tplChoice = saved.selectedTemplate || TEMPLATES[0]?.id || 'artsy-corner';
         const colorChoice = saved.accentColor || '';
+        // Check if saved data is meaningful (has name + some content)
+        const hasName = merged.fullName && merged.fullName.trim();
+        const hasExp = Array.isArray(merged.experience) && merged.experience.some(e => e.title || e.company);
+        if (!hasName && !hasExp) {
+          // Saved data is essentially empty — keep templateId for future saves but show upload panel
+          setTemplateId(existing.id);
+          return false;
+        }
         setData({
           ...merged,
           email: saved.email || email,
@@ -503,11 +515,6 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
         setTemplateId(existing.id);
         setImportDone(true);
         showToast('✅ Found your saved resume! Details loaded automatically.');
-        // Re-save the complete merged data so future loads are clean
-        try {
-          const name = merged.fullName ? `${merged.fullName} Resume` : 'Resume Template';
-          await updateTemplate(existing.id, name, { ...merged, email: saved.email || email, selectedTemplate: tplChoice, accentColor: colorChoice });
-        } catch (e) { console.error('Re-save merged data failed:', e); }
         return true; // has existing data
       }
     } catch (err) {
@@ -532,8 +539,8 @@ export default function CardResume({ onBack, userEmail, initialData, templateId:
     showToast('⏳ Parsing your resume…');
     try {
       const parsed = await parseResumeFile(file);
-      // Merge parsed data with INIT defaults so we always get a complete resume
-      const merged = mergeNonEmpty(INIT, parsed);
+      // Merge parsed data with BLANK defaults so we always get a complete resume
+      const merged = mergeNonEmpty(BLANK, parsed);
       const tplChoice = TEMPLATES[0]?.id || 'artsy-corner';
       // Also keep the verified email
       const email = verifiedEmailRef.current || parsed.email || data.email || '';

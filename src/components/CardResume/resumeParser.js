@@ -50,7 +50,25 @@ async function extractTextFromPDF(file) {
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const content = await page.getTextContent();
-    pages.push(content.items.map(item => item.str).join(' '));
+    // Group text items by their vertical position (y-coordinate) to preserve line breaks.
+    // Items on the same line share a similar transform[5] (y) value.
+    let lastY = null;
+    const parts = [];
+    for (const item of content.items) {
+      const y = item.transform ? item.transform[5] : null;
+      if (lastY !== null && y !== null && Math.abs(y - lastY) > 2) {
+        parts.push('\n');
+      } else if (parts.length > 0) {
+        // Same line — add space if needed between items
+        const prev = parts[parts.length - 1];
+        if (prev && !prev.endsWith(' ') && !item.str.startsWith(' ')) {
+          parts.push(' ');
+        }
+      }
+      parts.push(item.str);
+      lastY = y;
+    }
+    pages.push(parts.join(''));
   }
   return pages.join('\n');
 }
@@ -85,6 +103,7 @@ function parseResumeText(text) {
     summary: '',
     experience: [],
     education: [],
+    projects: [],
     skills: '',
     languages: '',
     interests: '',
@@ -196,6 +215,14 @@ function parseResumeText(text) {
   }
   if (data.education.length === 0) {
     data.education = [{ degree: '', institution: '', year: '', location: '' }];
+  }
+
+  // Parse projects
+  if (sections.projects) {
+    data.projects = parseProjectEntries(sections.projects);
+  }
+  if (data.projects.length === 0) {
+    data.projects = [{ name: '', tech: '', desc: '' }];
   }
 
   return data;
@@ -372,6 +399,38 @@ function parseEducationEntries(text) {
       if (yearMatch && !current.year) current.year = yearMatch[0];
       else if (!current.institution) current.institution = line.trim();
       else if (!current.location && line.length < 40) current.location = line.trim();
+    }
+  }
+  if (current) entries.push(current);
+
+  return entries;
+}
+
+/* ── Parse project entries ── */
+function parseProjectEntries(text) {
+  const entries = [];
+  const lines = text.split('\n').filter(l => l.trim());
+  let current = null;
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    const isBullet = /^[\s•·\-\*▪►●○◆‣⦿]/.test(trimmed);
+
+    if (!isBullet && trimmed.length > 3 && trimmed.length < 100) {
+      // Likely a project name/title line
+      if (current) entries.push(current);
+      // Try to split "Name — Tech" or "Name | Tech" or "Name (Tech)"
+      const splitMatch = trimmed.match(/^(.+?)(?:\s*[|–—]\s*|\s*\(([^)]+)\)\s*)(.*)$/);
+      if (splitMatch) {
+        current = { name: splitMatch[1].trim(), tech: (splitMatch[2] || splitMatch[3] || '').trim(), desc: '' };
+      } else {
+        current = { name: trimmed, tech: '', desc: '' };
+      }
+    } else if (current) {
+      const cleaned = trimmed.replace(/^[\s•·\-\*▪►●○◆‣⦿]+/, '').trim();
+      if (cleaned) {
+        current.desc = current.desc ? current.desc + '\n' + cleaned : cleaned;
+      }
     }
   }
   if (current) entries.push(current);
