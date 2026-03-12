@@ -261,12 +261,8 @@ export default function TemplateSelector({
             ⏳ Loading your saved resume…
           </span>
         ) : (
-          <button className={`ts-hero-btn ts-hero-import${(showUpload || showEditor) ? ' active' : ''}`} onClick={handleImportClick}>
-            {importDone
-              ? (showEditor ? 'Hide editor' : '✏️ Open editor')
-              : otpVerified
-                ? (showUpload ? 'Hide upload' : 'Upload resume')
-                : 'Import existing resume'}
+          <button className={`ts-hero-btn ts-hero-import${(showUpload || showEditor || otpVerified || importDone) ? ' active' : ''}`} onClick={handleImportClick}>
+            Import existing resume
           </button>
         )}
         <button className={`ts-hero-btn ts-hero-build${buildMode ? ' active' : ''}`} onClick={() => { if (filtered.length) onBuildResume(filtered[0].id); }}>
@@ -321,8 +317,8 @@ export default function TemplateSelector({
           </div>
         </div>
 
-        {/* Right: Upload Panel (only after OTP verified, before import, and NOT auto-loaded) */}
-        {showUpload && otpVerified && !importDone && !autoLoaded && (
+        {/* Right: Upload Panel (only after OTP verified, before import) */}
+        {showUpload && otpVerified && !importDone && (
           <div className="ts-upload-col">
             <div className="ts-upload-card">
               <div className="ts-upload-icon">📥</div>
