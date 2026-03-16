@@ -997,15 +997,15 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
   ];
 
   const AI_FREE_CARDS = [
-    { id: 'aitextimage', icon: '🎨', name: 'AI Text + Image Card',  desc: 'Upload photo, add text, choose layout — create personalised cards instantly!', grad: 'linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6)' },
-    { id: 'aifaceswap',  icon: '🎭', name: 'AI Themed Card Maker',  desc: 'Pick a theme, upload your face & get a personalised themed card!',             grad: 'linear-gradient(135deg, #6366f1, #8b5cf6, #c084fc)' },
-    { id: 'videomaker',  icon: '🎬', name: 'Video Card Maker',      desc: 'Upload photos & a song — create a video slideshow with transitions!',          grad: 'linear-gradient(135deg, #3b82f6, #6366f1, #a78bfa)' },
+    { id: 'aitextimage', icon: '🎨', name: 'AI Text + Image Card',  desc: 'Upload photo, add text, choose layout — create personalised cards instantly!', grad: 'linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6)', alt: 'AI Text to Image Card Maker online free' },
+    { id: 'aifaceswap',  icon: '🎭', name: 'AI Themed Card Maker',  desc: 'Pick a theme, upload your face & get a personalised themed card!',             grad: 'linear-gradient(135deg, #6366f1, #8b5cf6, #c084fc)', alt: 'AI Themed Card Maker free online' },
+    { id: 'videomaker',  icon: '🎬', name: 'Video Card Maker',      desc: 'Upload photos & a song — create a video slideshow with transitions!',          grad: 'linear-gradient(135deg, #3b82f6, #6366f1, #a78bfa)', alt: 'Video Card Maker with photos and music online' },
   ];
 
   const VIDEO_TOOLS = [
-    { id: 'videotrimmer',   icon: '✂️', name: 'Video Trimmer / Cropper', desc: 'Upload a video, trim it into clips & download — all in your browser!',      grad: 'linear-gradient(135deg, #22d3ee, #a78bfa, #f472b6)' },
-    { id: 'mp4tomp3',       icon: '🎵', name: 'MP4 → MP3 Converter',    desc: 'Extract audio from any video — choose quality & download instantly!',         grad: 'linear-gradient(135deg, #34d399, #60a5fa, #c084fc)' },
-    { id: 'videoaudioswap', icon: '🔊', name: 'Video Audio Replacer',    desc: 'Replace video sound with a new song — adjust volumes & download!',           grad: 'linear-gradient(135deg, #f472b6, #818cf8, #34d399)' },
+    { id: 'videotrimmer',   icon: '✂️', name: 'Video Trimmer / Cropper', desc: 'Upload a video, trim it into clips & download — all in your browser!',      grad: 'linear-gradient(135deg, #22d3ee, #a78bfa, #f472b6)', alt: 'Free online video trimmer and cropper tool' },
+    { id: 'mp4tomp3',       icon: '🎵', name: 'MP4 → MP3 Converter',    desc: 'Extract audio from any video — choose quality & download instantly!',         grad: 'linear-gradient(135deg, #34d399, #60a5fa, #c084fc)', alt: 'Free MP4 to MP3 converter tool online' },
+    { id: 'videoaudioswap', icon: '🔊', name: 'Video Audio Replacer',    desc: 'Replace video sound with a new song — adjust volumes & download!',           grad: 'linear-gradient(135deg, #f472b6, #818cf8, #34d399)', alt: 'Replace audio in video online free tool' },
   ];
 
   /* Festival calendar — auto-detect active festivals */
@@ -1171,16 +1171,17 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
       </section>
 
       {/* ═══════ POPULAR AI CARD MAKERS ═══════ */}
-      <section className="lp-upcoming-section">
+      <section className="lp-upcoming-section" aria-label="Free AI card makers and festival greeting card tools">
         <h2 className="lp-section-title">⭐ Popular AI Card Makers</h2>
         <p className="lp-section-sub">Create stunning cards instantly with free online tools.</p>
+        <p className="lp-seo-keywords">Create free online greeting cards, invitations and festival cards using AI. Make birthday cards, wedding cards, and digital invites instantly — no watermark.</p>
 
         <div className="lp-upcoming-grid lp-ai-free-grid">
           {/* AI Free Cards */}
           {AI_FREE_CARDS.map(c => (
-            <button key={c.id} className="lp-upcoming-card lp-ai-free-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
+            <button key={c.id} className="lp-upcoming-card lp-ai-free-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)} aria-label={c.alt}>
               <span className="lp-ai-free-tag">✨ FREE</span>
-              <span className="lp-showcase-icon">{c.icon}</span>
+              <span className="lp-showcase-icon" role="img" aria-label={c.alt}>{c.icon}</span>
               <h3 className="lp-showcase-name">{c.name}</h3>
               <p className="lp-ai-free-desc">{c.desc}</p>
               <span className="lp-ai-free-cta">Try Now →</span>
@@ -1188,9 +1189,9 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
           ))}
           {/* Visible Festival Cards (7 days before → 1 day after) */}
           {visibleFestivals.map(f => (
-            <button key={f.key} className="lp-upcoming-card lp-ai-free-card lp-festival-free-card" style={{ background: f.grad }} type="button" onClick={() => { if (onSelectFestival) onSelectFestival(f.key); handleCardClick(f.offerCard); }}>
+            <button key={f.key} className="lp-upcoming-card lp-ai-free-card lp-festival-free-card" style={{ background: f.grad }} type="button" onClick={() => { if (onSelectFestival) onSelectFestival(f.key); handleCardClick(f.offerCard); }} aria-label={`${f.name} card maker online free`}>
               <span className="lp-ai-free-tag">🆓 FREE</span>
-              <span className="lp-showcase-icon">{f.icon}</span>
+              <span className="lp-showcase-icon" role="img" aria-label={`${f.name} greeting card`}>{f.icon}</span>
               <h3 className="lp-showcase-name">{f.name}</h3>
               <p className="lp-ai-free-desc">{f.seoTagline}</p>
               <span className="lp-ai-free-cta">Create Free Card →</span>
@@ -1201,15 +1202,16 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
       </section>
 
       {/* ═══════ FREE VIDEO EDITING TOOLS ═══════ */}
-      <section className="lp-upcoming-section">
+      <section className="lp-upcoming-section" aria-label="Free online video editing tools — trim, convert and edit videos">
         <h2 className="lp-section-title">🔧 Free Video Editing Tools</h2>
         <p className="lp-section-sub">Quick online tools — trim, extract audio &amp; edit videos.</p>
+        <p className="lp-seo-keywords">Use free online video tools to trim videos, extract MP3 audio from MP4, and replace sound in videos — all inside your browser, no upload needed.</p>
 
         <div className="lp-upcoming-grid lp-ai-free-grid">
           {VIDEO_TOOLS.map(c => (
-            <button key={c.id} className="lp-upcoming-card lp-ai-free-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
+            <button key={c.id} className="lp-upcoming-card lp-ai-free-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)} aria-label={c.alt}>
               <span className="lp-ai-free-tag">✨ FREE</span>
-              <span className="lp-showcase-icon">{c.icon}</span>
+              <span className="lp-showcase-icon" role="img" aria-label={c.alt}>{c.icon}</span>
               <h3 className="lp-showcase-name">{c.name}</h3>
               <p className="lp-ai-free-desc">{c.desc}</p>
               <span className="lp-ai-free-cta">Try Now →</span>

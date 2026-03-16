@@ -263,6 +263,14 @@
   border-radius: 3px;
   margin: 12px auto 0;
 }
+.lp-seo-keywords {
+  font-size: 13px;
+  color: rgba(176, 176, 176, 0.85);
+  max-width: 680px;
+  margin: 10px auto 0;
+  line-height: 1.55;
+  letter-spacing: 0.1px;
+}
 .lp-brand-line {
   font-size: 13.5px;
   color: #c4b5fd;
