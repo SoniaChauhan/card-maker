@@ -63,6 +63,9 @@ export default function AdminPanel() {
   const [ntFestSending, setNtFestSending]       = useState(false);
   const [ntFestOfferKey, setNtFestOfferKey]     = useState('');
   const [ntFestOfferSending, setNtFestOfferSending] = useState(false);
+  const [ntUnnotifiedCards, setNtUnnotifiedCards] = useState([]);
+  const [ntAutoSending, setNtAutoSending]       = useState(false);
+  const [ntMarkingAll, setNtMarkingAll]         = useState(false);
 
   useEffect(() => {
     loadBlocked();
@@ -70,6 +73,7 @@ export default function AdminPanel() {
     loadUsers();
     loadVisitorStats();
     loadFeedbacks();
+    checkUnnotifiedCards();
   }, []);
 
   async function loadBlocked() {
@@ -343,6 +347,41 @@ export default function AdminPanel() {
       else showToast('❌ ' + (data.error || 'Failed'));
     } catch (err) { showToast('❌ ' + err.message); }
     finally { setNtFestOfferSending(false); }
+  }
+
+  async function checkUnnotifiedCards() {
+    try {
+      const data = await ntApiCall({ action: 'getUnnotifiedCards', adminEmail: ADMIN_EMAIL });
+      if (data.unnotified) setNtUnnotifiedCards(data.unnotified);
+    } catch (err) { console.error('Failed to check unnotified cards:', err); }
+  }
+
+  async function handleAutoNotifyNewCards() {
+    if (ntUnnotifiedCards.length === 0) { showToast('⚠️ No new cards to notify.'); return; }
+    const names = ntUnnotifiedCards.map(c => c.name).join(', ');
+    if (!confirm(`Send notification for ${ntUnnotifiedCards.length} new card(s) to ALL subscribers?\n\n${names}`)) return;
+    setNtAutoSending(true);
+    try {
+      const data = await ntApiCall({ action: 'autoNotifyNewCards', adminEmail: ADMIN_EMAIL });
+      if (data.ok) {
+        showToast(`✅ Notified ${data.subscriberCount} subscribers about ${data.cards.length} new card(s): ${data.cards.join(', ')}`);
+        setNtUnnotifiedCards([]);
+      } else showToast('❌ ' + (data.error || data.message || 'Failed'));
+    } catch (err) { showToast('❌ ' + err.message); }
+    finally { setNtAutoSending(false); }
+  }
+
+  async function handleMarkAllNotified() {
+    if (!confirm('Mark ALL current cards as notified WITHOUT sending emails? Use this for existing cards that subscribers already know about.')) return;
+    setNtMarkingAll(true);
+    try {
+      const data = await ntApiCall({ action: 'markAllCardsNotified', adminEmail: ADMIN_EMAIL });
+      if (data.ok) {
+        showToast(`✅ ${data.message}`);
+        setNtUnnotifiedCards([]);
+      } else showToast('❌ ' + (data.error || 'Failed'));
+    } catch (err) { showToast('❌ ' + err.message); }
+    finally { setNtMarkingAll(false); }
   }
 
   async function handleBroadcastNewCard() {
@@ -773,6 +812,30 @@ export default function AdminPanel() {
                 <span style={{ color: '#888' }}>{s.phone || '—'}</span>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* 🆕 Auto-detect unnotified cards alert */}
+        {ntUnnotifiedCards.length > 0 && (
+          <div style={{ background: 'linear-gradient(135deg, rgba(234,179,8,0.15), rgba(249,115,22,0.12))', border: '1px solid rgba(234,179,8,0.4)', borderRadius: '14px', padding: '16px', marginBottom: '16px' }}>
+            <h4 style={{ margin: '0 0 8px', color: '#fbbf24', fontSize: '15px' }}>
+              ⚠️ {ntUnnotifiedCards.length} New Card{ntUnnotifiedCards.length !== 1 ? 's' : ''} Not Yet Announced to Subscribers!
+            </h4>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '12px' }}>
+              {ntUnnotifiedCards.map(c => (
+                <span key={c.id} style={{ background: 'rgba(255,255,255,0.1)', padding: '4px 10px', borderRadius: '8px', fontSize: '12px', color: '#fff' }}>
+                  {c.icon} {c.name}
+                </span>
+              ))}
+            </div>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <button className="admin-btn admin-btn-approve" onClick={handleAutoNotifyNewCards} disabled={ntAutoSending} style={{ fontSize: '13px' }}>
+                {ntAutoSending ? '⏳ Sending…' : `📣 Notify Subscribers about ${ntUnnotifiedCards.length} Card(s)`}
+              </button>
+              <button className="admin-btn" onClick={handleMarkAllNotified} disabled={ntMarkingAll} style={{ fontSize: '12px', opacity: 0.7 }} title="Mark all current cards as notified without sending emails">
+                {ntMarkingAll ? '⏳' : '✓'} Mark All as Already Notified
+              </button>
+            </div>
           </div>
         )}
 

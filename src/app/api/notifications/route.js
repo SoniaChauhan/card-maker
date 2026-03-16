@@ -11,6 +11,8 @@
  *   sendFestivalReminder — admin: email reminders for upcoming festivals
  *   broadcastNewCard    — admin: notify all subscribers about a new card
  *   getNotificationLog  — admin: view sent notification history
+ *   getUnnotifiedCards  — admin: get cards that haven't been announced yet
+ *   autoNotifyNewCards  — admin: auto-send notifications for all unannounced cards
  */
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/mongodb';
@@ -26,6 +28,38 @@ const ADMIN_EMAILS = new Set(
 function isAdminEmail(email) {
   return !!email && ADMIN_EMAILS.has(email.toLowerCase().trim());
 }
+
+/**
+ * Master card registry — every card type in the app.
+ * When you add a new card, add it here too.
+ * The `autoNotifyNewCards` action checks this list against
+ * the `notified_cards` collection to find unannounced cards.
+ */
+const CARD_REGISTRY = [
+  { id: 'birthday',          name: 'Birthday Invite Designer',          icon: '🎂', desc: 'Create personalised birthday party invitations with ease.', url: '/birthday-invitation-maker' },
+  { id: 'wedding',           name: 'Wedding Invite Designer',           icon: '💐', desc: 'Create royal and classic wedding invitations with beautiful themes.', url: '/wedding-card-maker' },
+  { id: 'anniversary',       name: 'Anniversary Greeting Designer',     icon: '💍', desc: 'Craft elegant anniversary greetings to celebrate love.', url: '/anniversary-card-maker' },
+  { id: 'biodata',           name: 'Marriage Profile Designer',         icon: '💒', desc: 'Build a traditional and detailed marriage biodata.', url: '/marriage-biodata-maker' },
+  { id: 'rentcard',          name: 'PG / Rent Card',                    icon: '🏠', desc: 'Create professional PG & rent advertisement cards.', url: '/rent-card-maker' },
+  { id: 'saloncard',         name: 'Salon / Parlour Card',              icon: '💇', desc: 'Create elegant salon service & price list cards.', url: '/salon-card-maker' },
+  { id: 'cardresume',        name: 'Card Resume Maker',                 icon: '🪪', desc: 'Create a compact card-style resume.', url: '/card-resume-maker' },
+  { id: 'resume',            name: 'Resume Builder',                    icon: '📄', desc: 'Design a polished resume and download it instantly.', url: '/resume-builder-online' },
+  { id: 'festivalcards',     name: 'Festival Cards',                    icon: '🎆', desc: 'Create festive cards for Diwali, Navratri, Eid & more.', url: '/festival-card-maker' },
+  { id: 'holicard',          name: 'Holi Celebration Card',             icon: '🌈', desc: 'Vibrant & colorful Holi greeting card.', url: '/holi-card-maker-online' },
+  { id: 'holiwishes',        name: 'Happy Holi Wishes (Hindi)',         icon: '🎨', desc: 'One-click colorful Holi greeting in Hindi.', url: '/happy-holi-wishes-hindi' },
+  { id: 'holiwishes-en',     name: 'Happy Holi Wishes (English)',       icon: '🎨', desc: 'One-click colorful Holi greeting in English.', url: '/happy-holi-wishes-english' },
+  { id: 'holivideo',         name: 'Holi Video Wishes',                 icon: '🎬', desc: 'Download colorful Holi video greetings.', url: '/holi-celebration-card' },
+  { id: 'motivational',      name: 'Motivational Quotes (Hindi)',       icon: '💪', desc: 'Download beautiful motivational quotes cards in Hindi.', url: '/motivational-quotes-images-download' },
+  { id: 'motivational-en',   name: 'Motivational Quotes (English)',     icon: '💪', desc: 'Download inspiring English motivational quotes cards.', url: '/motivational-quotes-english' },
+  { id: 'fathers',           name: "Father's Quotes (Hindi)",           icon: '👨\u200D👧', desc: 'पिता के प्यार को शब्दों में — फ्री डाउनलोड!', url: '/fathers-quotes-hindi' },
+  { id: 'fathers-en',        name: "Father's Quotes (English)",         icon: '👨\u200D👧', desc: "Heartfelt English father's quotes cards.", url: '/fathers-quotes-english' },
+  { id: 'mothers',           name: "Mother's Quotes (Hindi)",           icon: '💐', desc: 'माँ के प्यार को शब्दों में — फ्री डाउनलोड!', url: '/mothers-quotes-hindi' },
+  { id: 'mothers-en',        name: "Mother's Quotes (English)",         icon: '💐', desc: "Beautiful English mother's quotes cards.", url: '/mothers-quotes-english' },
+  { id: 'aitextimage',       name: 'AI Text + Image Card',              icon: '🎨', desc: 'Upload photo, add text, choose layout — create personalised cards!', url: '/ai-text-image-card' },
+  { id: 'aifaceswap',        name: 'AI Themed Card Maker',              icon: '🎭', desc: 'Pick a theme, upload your face & get a personalised card!', url: '/ai-themed-card-maker' },
+  { id: 'videomaker',        name: 'Video Card Maker',                  icon: '🎬', desc: 'Upload photos & a song to create a video slideshow with transitions!', url: '/video-maker' },
+  { id: 'videotrimmer',      name: 'Video Trimmer / Cropper',           icon: '✂️', desc: 'Upload a video, trim it into clips & download — all in your browser!', url: '/video-trimmer' },
+];
 
 function getTransporter() {
   return nodemailer.createTransport({
@@ -303,6 +337,14 @@ export async function POST(req) {
           sentBy: adminEmail,
         });
 
+        // Also mark this card as notified to prevent duplicate auto-notifications
+        const notifiedCol = db.collection('notified_cards');
+        await notifiedCol.updateOne(
+          { cardId: cardName.toLowerCase().replace(/\s+/g, '') },
+          { $set: { cardId: cardName.toLowerCase().replace(/\s+/g, ''), cardName, notifiedAt: new Date(), subscriberCount: sent } },
+          { upsert: true },
+        );
+
         return NextResponse.json({ ok: true, sent, failed, total: subs.length });
       }
 
@@ -316,6 +358,119 @@ export async function POST(req) {
         return NextResponse.json({
           logs: logs.map(l => ({ ...l, id: l._id.toString(), _id: undefined })),
         });
+      }
+
+      /* ── Admin: Get cards that have NOT been notified yet ── */
+      case 'getUnnotifiedCards': {
+        const { adminEmail } = body;
+        if (!isAdminEmail(adminEmail)) {
+          return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+        }
+        const notifiedCol = db.collection('notified_cards');
+        const notified = await notifiedCol.find({}).toArray();
+        const notifiedIds = new Set(notified.map(n => n.cardId));
+        const unnotified = CARD_REGISTRY.filter(c => !notifiedIds.has(c.id));
+        return NextResponse.json({ unnotified, total: unnotified.length });
+      }
+
+      /* ── Admin: Auto-notify subscribers about ALL unannounced cards ── */
+      case 'autoNotifyNewCards': {
+        const { adminEmail } = body;
+        if (!isAdminEmail(adminEmail)) {
+          return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+        }
+
+        const notifiedCol = db.collection('notified_cards');
+        const notified = await notifiedCol.find({}).toArray();
+        const notifiedIds = new Set(notified.map(n => n.cardId));
+        const unnotified = CARD_REGISTRY.filter(c => !notifiedIds.has(c.id));
+
+        if (unnotified.length === 0) {
+          return NextResponse.json({ ok: true, message: 'All cards already notified.', sent: 0, cards: [] });
+        }
+
+        const subs = await subCol.find({ active: true, email: { $exists: true, $ne: '' } }).toArray();
+        if (subs.length === 0) {
+          // Mark all as notified even if no subscribers
+          for (const card of unnotified) {
+            await notifiedCol.updateOne(
+              { cardId: card.id },
+              { $set: { cardId: card.id, cardName: card.name, notifiedAt: new Date(), subscriberCount: 0 } },
+              { upsert: true },
+            );
+          }
+          return NextResponse.json({ ok: true, message: 'No subscribers to notify.', sent: 0, cards: unnotified.map(c => c.name) });
+        }
+
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.creativethinkerdesignhub.com';
+        let totalSent = 0;
+        let totalFailed = 0;
+        const notifiedCards = [];
+
+        for (const card of unnotified) {
+          const cardUrl = `${baseUrl}${card.url}`;
+          const subject = `${card.icon} New Card Added — ${card.name} | Card Maker`;
+          const html = newCardNotificationHtml(card.name, card.icon, card.desc, cardUrl);
+          let sent = 0;
+          let failed = 0;
+
+          for (const sub of subs) {
+            try {
+              await sendMail(sub.email, subject, html);
+              sent++;
+            } catch {
+              failed++;
+            }
+          }
+
+          totalSent += sent;
+          totalFailed += failed;
+          notifiedCards.push(card.name);
+
+          // Mark this card as notified
+          await notifiedCol.updateOne(
+            { cardId: card.id },
+            { $set: { cardId: card.id, cardName: card.name, notifiedAt: new Date(), subscriberCount: sent } },
+            { upsert: true },
+          );
+
+          // Log each card notification
+          await logCol.insertOne({
+            type: 'new_card',
+            cardName: card.name,
+            totalSubscribers: subs.length,
+            sent,
+            failed,
+            sentAt: new Date(),
+            sentBy: adminEmail,
+            auto: true,
+          });
+        }
+
+        return NextResponse.json({
+          ok: true,
+          cards: notifiedCards,
+          totalSent,
+          totalFailed,
+          subscriberCount: subs.length,
+        });
+      }
+
+      /* ── Admin: Mark all current cards as notified (skip sending emails) ── */
+      case 'markAllCardsNotified': {
+        const { adminEmail } = body;
+        if (!isAdminEmail(adminEmail)) {
+          return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+        }
+        const notifiedCol = db.collection('notified_cards');
+        for (const card of CARD_REGISTRY) {
+          await notifiedCol.updateOne(
+            { cardId: card.id },
+            { $set: { cardId: card.id, cardName: card.name, notifiedAt: new Date(), subscriberCount: 0, markedManually: true } },
+            { upsert: true },
+          );
+        }
+        return NextResponse.json({ ok: true, message: `Marked ${CARD_REGISTRY.length} cards as notified.` });
       }
 
       default:

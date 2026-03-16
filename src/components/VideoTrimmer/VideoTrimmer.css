@@ -1,0 +1,409 @@
+/* ═══════════════════════════════════════
+   Video Trimmer — Complete Styles
+   ═══════════════════════════════════════ */
+
+.vt-screen {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a1a, #1a1035, #0d1b2a);
+  padding: 24px 16px 60px;
+  color: #fff;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  position: relative;
+}
+
+/* ── Back button ── */
+.vt-back {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.vt-back:hover {
+  background: rgba(255, 255, 255, 0.22);
+  transform: translateX(-3px);
+}
+
+/* ── Header ── */
+.vt-header {
+  text-align: center;
+  padding: 60px 0 20px;
+}
+.vt-header h2 {
+  font-size: 2rem;
+  margin: 0 0 8px;
+  background: linear-gradient(135deg, #22d3ee, #a78bfa, #f472b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.vt-header p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* ── Steps ── */
+.vt-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 24px auto 30px;
+  max-width: 480px;
+}
+.vt-step-dot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s;
+}
+.vt-step-dot span {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s;
+}
+.vt-step-dot.active { color: #fff; }
+.vt-step-dot.active span {
+  background: linear-gradient(135deg, #22d3ee, #a78bfa);
+  border-color: #a78bfa;
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.5);
+}
+.vt-step-dot.done span {
+  background: #22c55e;
+  border-color: #22c55e;
+}
+.vt-step-dot.done { color: rgba(255, 255, 255, 0.7); }
+.vt-step-line {
+  flex: 1;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  max-width: 60px;
+}
+
+/* ── Section ── */
+.vt-section {
+  max-width: 720px;
+  margin: 0 auto;
+  animation: vtFadeIn 0.4s ease;
+}
+@keyframes vtFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Drop zone ── */
+.vt-drop-zone {
+  border: 2px dashed rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  padding: 60px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.04);
+}
+.vt-drop-zone:hover, .vt-drop-zone.drag-over {
+  border-color: #22d3ee;
+  background: rgba(34, 211, 238, 0.06);
+  transform: scale(1.01);
+}
+.vt-drop-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+.vt-drop-zone p {
+  margin: 4px 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.05rem;
+}
+.vt-drop-zone small {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.85rem;
+}
+
+/* ── Video player wrapper ── */
+.vt-video-wrap {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: #000;
+  margin-bottom: 16px;
+}
+.vt-video-player {
+  width: 100%;
+  display: block;
+  max-height: 50vh;
+}
+
+/* ── Playback controls ── */
+.vt-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.vt-ctrl-btn {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.vt-ctrl-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+}
+.vt-ctrl-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.vt-time-display {
+  margin-left: auto;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Timeline section ── */
+.vt-timeline-section {
+  margin-bottom: 20px;
+}
+.vt-trim-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.vt-trim-badge {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.vt-trim-badge span { color: rgba(255, 255, 255, 0.6); }
+.vt-trim-badge strong { color: #fff; }
+.vt-clip-len strong { color: #22d3ee; }
+
+/* ── Timeline bar ── */
+.vt-timeline {
+  position: relative;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  user-select: none;
+  overflow: visible;
+}
+.vt-timeline-selected {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(34, 211, 238, 0.2);
+  border-top: 3px solid #22d3ee;
+  border-bottom: 3px solid #22d3ee;
+  pointer-events: none;
+}
+.vt-playhead {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: #f472b6;
+  box-shadow: 0 0 8px rgba(244, 114, 182, 0.6);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ── Handles ── */
+.vt-handle {
+  position: absolute;
+  top: -6px;
+  bottom: -6px;
+  width: 20px;
+  cursor: ew-resize;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(-50%);
+}
+.vt-handle-grip {
+  width: 18px;
+  height: 40px;
+  background: #22d3ee;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #0a0a1a;
+  font-weight: 900;
+  box-shadow: 0 2px 8px rgba(34, 211, 238, 0.4);
+  transition: background 0.2s;
+}
+.vt-handle:hover .vt-handle-grip,
+.vt-handle:active .vt-handle-grip {
+  background: #67e8f9;
+}
+
+/* ── Manual time inputs ── */
+.vt-manual-inputs {
+  display: flex;
+  gap: 14px;
+}
+.vt-manual-inputs label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  gap: 4px;
+}
+.vt-manual-inputs input {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #fff;
+  font-size: 0.9rem;
+  width: 120px;
+  font-variant-numeric: tabular-nums;
+}
+.vt-manual-inputs input:focus {
+  outline: none;
+  border-color: #22d3ee;
+}
+
+/* ── Error ── */
+.vt-error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 10px;
+  padding: 10px 16px;
+  color: #f87171;
+  font-size: 0.9rem;
+  margin: 12px 0;
+}
+
+/* ── Buttons ── */
+.vt-btn-primary {
+  padding: 15px 24px;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #22d3ee, #a78bfa);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+.vt-btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(34, 211, 238, 0.35);
+}
+.vt-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.vt-btn-secondary {
+  padding: 14px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.vt-btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
+.vt-btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* ── Progress bar ── */
+.vt-progress-bar {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  height: 12px;
+  margin-top: 16px;
+  overflow: hidden;
+}
+.vt-progress-fill {
+  height: 100%;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #22d3ee, #a78bfa, #f472b6);
+  transition: width 0.3s ease;
+  box-shadow: 0 0 16px rgba(167, 139, 250, 0.4);
+}
+
+/* ── Done badge ── */
+.vt-done-badge {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #22c55e;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 12px;
+}
+
+/* ── Clip summary ── */
+.vt-clip-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.vt-summary-item {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .vt-screen { padding: 16px 12px 48px; }
+  .vt-header h2 { font-size: 1.5rem; }
+  .vt-btn-row { flex-direction: column; }
+  .vt-manual-inputs { flex-direction: column; }
+  .vt-manual-inputs input { width: 100%; }
+  .vt-trim-info { flex-direction: column; gap: 6px; }
+  .vt-controls { flex-wrap: wrap; }
+  .vt-steps { gap: 8px; }
+  .vt-step-dot { font-size: 0.78rem; }
+}
