@@ -29,6 +29,15 @@ function captureAudioViaPlayback(url, onProgress) {
     video.src = url;
     video.preload = 'auto';
     video.playsInline = true;
+    video.muted = true;           // bypass browser autoplay policy
+    video.crossOrigin = 'anonymous';
+
+    let settled = false;
+    function finish(fn, val) {
+      if (settled) return;
+      settled = true;
+      fn(val);
+    }
 
     function cleanup(ctx, nodes) {
       if (nodes) nodes.forEach(n => { try { n.disconnect(); } catch {} });
@@ -41,7 +50,7 @@ function captureAudioViaPlayback(url, onProgress) {
     video.addEventListener('loadedmetadata', async () => {
       const duration = video.duration;
       if (!duration || !isFinite(duration)) {
-        reject(new Error('Cannot determine video duration'));
+        finish(reject, new Error('Cannot determine video duration'));
         return;
       }
 
@@ -51,11 +60,14 @@ function captureAudioViaPlayback(url, onProgress) {
         ctx = new AudioContext({ sampleRate });
         if (ctx.state === 'suspended') await ctx.resume();
       } catch {
-        reject(new Error('AudioContext unavailable'));
+        finish(reject, new Error('AudioContext unavailable'));
         return;
       }
 
       const source = ctx.createMediaElementSource(video);
+      // Unmute AFTER createMediaElementSource — audio now flows through
+      // the Web Audio graph, not through the element's speakers.
+      video.muted = false;
       const processor = ctx.createScriptProcessor(4096, 2, 2);
       const muteGain = ctx.createGain();
       muteGain.gain.value = 0; // keep speakers silent
@@ -85,7 +97,7 @@ function captureAudioViaPlayback(url, onProgress) {
       video.addEventListener('ended', () => {
         cleanup(ctx, [processor, muteGain, source]);
         const totalLen = leftChunks.reduce((a, c) => a + c.length, 0);
-        if (totalLen === 0) { reject(new Error('Video has no audio track')); return; }
+        if (totalLen === 0) { finish(reject, new Error('Video has no audio track')); return; }
 
         // Check for silence — video may lack an actual audio stream
         let hasSound = false;
@@ -95,7 +107,7 @@ function captureAudioViaPlayback(url, onProgress) {
           }
           if (hasSound) break;
         }
-        if (!hasSound) { reject(new Error('Video has no audio track')); return; }
+        if (!hasSound) { finish(reject, new Error('Video has no audio track')); return; }
 
         // Concatenate captured samples
         const left = new Float32Array(totalLen);
@@ -107,7 +119,7 @@ function captureAudioViaPlayback(url, onProgress) {
           off += leftChunks[i].length;
         }
 
-        resolve({
+        finish(resolve, {
           sampleRate,
           numberOfChannels: 2,
           length: totalLen,
@@ -117,16 +129,44 @@ function captureAudioViaPlayback(url, onProgress) {
 
       video.addEventListener('error', () => {
         cleanup(ctx, [processor, muteGain, source]);
-        reject(new Error('Playback error'));
+        finish(reject, new Error('Playback error'));
       });
 
-      try { await video.play(); } catch {
+      // Safety timeout — if video never ends, abandon after duration + 10s
+      const safetyMs = (duration + 10) * 1000;
+      setTimeout(() => {
+        if (!settled) {
+          cleanup(ctx, [processor, muteGain, source]);
+          // If we captured some audio, use it even if ended didn't fire
+          const totalLen = leftChunks.reduce((a, c) => a + c.length, 0);
+          if (totalLen > 0) {
+            const left = new Float32Array(totalLen);
+            const right = new Float32Array(totalLen);
+            let off = 0;
+            for (let i = 0; i < leftChunks.length; i++) {
+              left.set(leftChunks[i], off);
+              right.set(rightChunks[i], off);
+              off += leftChunks[i].length;
+            }
+            finish(resolve, {
+              sampleRate,
+              numberOfChannels: 2,
+              length: totalLen,
+              getChannelData: (ch) => ch === 0 ? left : right,
+            });
+          } else {
+            finish(reject, new Error('Audio capture timed out'));
+          }
+        }
+      }, safetyMs);
+
+      try { await video.play(); } catch (playErr) {
         cleanup(ctx, [processor, muteGain, source]);
-        reject(new Error('Could not start video playback'));
+        finish(reject, new Error('Could not start video playback: ' + (playErr?.message || '')));
       }
     });
 
-    video.addEventListener('error', () => reject(new Error('Could not load video')));
+    video.addEventListener('error', () => finish(reject, new Error('Could not load video')));
   });
 }
 
@@ -278,11 +318,14 @@ export default function Mp4ToMp3({ onBack }) {
       setStep('done');
     } catch (err) {
       console.error('Conversion failed:', err);
-      setError(
-        err?.message === 'Video has no audio track'
-          ? 'This video does not contain an audio track.'
-          : 'Failed to extract audio. The video may not contain an audio track, or try a different format.'
-      );
+      const msg = err?.message || '';
+      if (msg.includes('no audio track')) {
+        setError('This video does not contain an audio track.');
+      } else if (msg.includes('Could not start video playback')) {
+        setError('Browser blocked audio extraction. Please try clicking "Convert" again, or use a different browser.');
+      } else {
+        setError('Failed to extract audio. The video may not contain an audio track, or try a different format.');
+      }
       setStep('upload');
     } finally {
       setConverting(false);
