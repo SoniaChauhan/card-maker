@@ -131,7 +131,15 @@ export default function VideoMaker({ onBack }) {
       const FPS = 30;
       const TRANS_FRAMES = Math.round(FPS * 0.8); // 0.8s transition
       const HOLD_FRAMES = Math.round(duration * FPS);
-      const TOTAL = images.length * HOLD_FRAMES + (images.length - 1) * TRANS_FRAMES;
+
+      // Calculate slideshow duration for one pass of images
+      const onePassFrames = images.length * HOLD_FRAMES + (images.length - 1) * TRANS_FRAMES;
+      const onePassSec = onePassFrames / FPS;
+
+      // If audio is longer than one pass, loop images to fill the full audio duration
+      const audioDur = audio?.duration || 0;
+      const targetSec = audioDur > onePassSec ? audioDur : onePassSec;
+      const TOTAL = Math.round(targetSec * FPS);
 
       /* ── load all images into bitmaps ── */
       const bitmaps = await Promise.all(
@@ -198,84 +206,88 @@ export default function VideoMaker({ onBack }) {
         ctx.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh);
       }
 
+      /* ── draw frames — loop images until audio finishes ── */
       let frameIdx = 0;
-      for (let i = 0; i < images.length; i++) {
-        /* hold phase */
-        for (let f = 0; f < HOLD_FRAMES; f++) {
-          ctx.clearRect(0, 0, W, H);
-          ctx.fillStyle = '#000';
-          ctx.fillRect(0, 0, W, H);
-          drawCover(ctx, bitmaps[i], W, H);
-          frameIdx++;
-          setProgress(Math.round((frameIdx / TOTAL) * 100));
-          await new Promise(r => requestAnimationFrame(r));
-        }
-        /* transition to next image */
-        if (i < images.length - 1) {
-          for (let f = 0; f < TRANS_FRAMES; f++) {
-            const t = f / TRANS_FRAMES; // 0 → 1
+      while (frameIdx < TOTAL) {
+        for (let i = 0; i < images.length && frameIdx < TOTAL; i++) {
+          /* hold phase */
+          for (let f = 0; f < HOLD_FRAMES && frameIdx < TOTAL; f++) {
             ctx.clearRect(0, 0, W, H);
             ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, W, H);
-
-            switch (transition) {
-              case 'fade':
-                ctx.globalAlpha = 1 - t;
-                drawCover(ctx, bitmaps[i], W, H);
-                ctx.globalAlpha = t;
-                drawCover(ctx, bitmaps[i + 1], W, H);
-                ctx.globalAlpha = 1;
-                break;
-              case 'slideLeft':
-                ctx.save();
-                ctx.translate(-W * t, 0);
-                drawCover(ctx, bitmaps[i], W, H);
-                ctx.translate(W, 0);
-                drawCover(ctx, bitmaps[i + 1], W, H);
-                ctx.restore();
-                break;
-              case 'slideRight':
-                ctx.save();
-                ctx.translate(W * t, 0);
-                drawCover(ctx, bitmaps[i], W, H);
-                ctx.translate(-W, 0);
-                drawCover(ctx, bitmaps[i + 1], W, H);
-                ctx.restore();
-                break;
-              case 'zoomIn':
-                ctx.globalAlpha = 1 - t;
-                ctx.save();
-                ctx.translate(W / 2, H / 2);
-                ctx.scale(1 + t * 0.3, 1 + t * 0.3);
-                ctx.translate(-W / 2, -H / 2);
-                drawCover(ctx, bitmaps[i], W, H);
-                ctx.restore();
-                ctx.globalAlpha = t;
-                drawCover(ctx, bitmaps[i + 1], W, H);
-                ctx.globalAlpha = 1;
-                break;
-              case 'zoomOut':
-                ctx.globalAlpha = 1 - t;
-                drawCover(ctx, bitmaps[i], W, H);
-                ctx.globalAlpha = t;
-                ctx.save();
-                ctx.translate(W / 2, H / 2);
-                ctx.scale(1.3 - t * 0.3, 1.3 - t * 0.3);
-                ctx.translate(-W / 2, -H / 2);
-                drawCover(ctx, bitmaps[i + 1], W, H);
-                ctx.restore();
-                ctx.globalAlpha = 1;
-                break;
-              default:
-                ctx.globalAlpha = 1 - t;
-                drawCover(ctx, bitmaps[i], W, H);
-                ctx.globalAlpha = t;
-                drawCover(ctx, bitmaps[i + 1], W, H);
-                ctx.globalAlpha = 1;
-            }
+            drawCover(ctx, bitmaps[i], W, H);
             frameIdx++;
             setProgress(Math.round((frameIdx / TOTAL) * 100));
             await new Promise(r => requestAnimationFrame(r));
+          }
+          /* transition to next image */
+          const nextIdx = (i + 1) % images.length;
+          if (i < images.length - 1 || frameIdx < TOTAL) {
+            for (let f = 0; f < TRANS_FRAMES && frameIdx < TOTAL; f++) {
+              const t = f / TRANS_FRAMES; // 0 → 1
+              ctx.clearRect(0, 0, W, H);
+              ctx.fillStyle = '#000';
+              ctx.fillRect(0, 0, W, H);
+
+              switch (transition) {
+                case 'fade':
+                  ctx.globalAlpha = 1 - t;
+                  drawCover(ctx, bitmaps[i], W, H);
+                  ctx.globalAlpha = t;
+                  drawCover(ctx, bitmaps[nextIdx], W, H);
+                  ctx.globalAlpha = 1;
+                  break;
+                case 'slideLeft':
+                  ctx.save();
+                  ctx.translate(-W * t, 0);
+                  drawCover(ctx, bitmaps[i], W, H);
+                  ctx.translate(W, 0);
+                  drawCover(ctx, bitmaps[nextIdx], W, H);
+                  ctx.restore();
+                  break;
+                case 'slideRight':
+                  ctx.save();
+                  ctx.translate(W * t, 0);
+                  drawCover(ctx, bitmaps[i], W, H);
+                  ctx.translate(-W, 0);
+                  drawCover(ctx, bitmaps[nextIdx], W, H);
+                  ctx.restore();
+                  break;
+                case 'zoomIn':
+                  ctx.globalAlpha = 1 - t;
+                  ctx.save();
+                  ctx.translate(W / 2, H / 2);
+                  ctx.scale(1 + t * 0.3, 1 + t * 0.3);
+                  ctx.translate(-W / 2, -H / 2);
+                  drawCover(ctx, bitmaps[i], W, H);
+                  ctx.restore();
+                  ctx.globalAlpha = t;
+                  drawCover(ctx, bitmaps[nextIdx], W, H);
+                  ctx.globalAlpha = 1;
+                  break;
+                case 'zoomOut':
+                  ctx.globalAlpha = 1 - t;
+                  drawCover(ctx, bitmaps[i], W, H);
+                  ctx.globalAlpha = t;
+                  ctx.save();
+                  ctx.translate(W / 2, H / 2);
+                  ctx.scale(1.3 - t * 0.3, 1.3 - t * 0.3);
+                  ctx.translate(-W / 2, -H / 2);
+                  drawCover(ctx, bitmaps[nextIdx], W, H);
+                  ctx.restore();
+                  ctx.globalAlpha = 1;
+                  break;
+                default:
+                  ctx.globalAlpha = 1 - t;
+                  drawCover(ctx, bitmaps[i], W, H);
+                  ctx.globalAlpha = t;
+                  drawCover(ctx, bitmaps[nextIdx], W, H);
+                  ctx.globalAlpha = 1;
+              }
+              frameIdx++;
+              setProgress(Math.round((frameIdx / TOTAL) * 100));
+              await new Promise(r => requestAnimationFrame(r));
+            }
           }
         }
       }
@@ -317,9 +329,11 @@ export default function VideoMaker({ onBack }) {
   }
 
   /* ── total estimated video length ── */
-  const estLength = images.length > 0
-    ? (images.length * duration + (images.length - 1) * 0.8).toFixed(1)
+  const slideshowLength = images.length > 0
+    ? images.length * duration + (images.length - 1) * 0.8
     : 0;
+  const audioDuration = audio?.duration || 0;
+  const estLength = Math.max(slideshowLength, audioDuration).toFixed(1);
 
   /* ═══════════════ RENDER ═══════════════ */
   return (
