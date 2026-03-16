@@ -20,153 +20,122 @@ function formatSize(bytes) {
 }
 
 /**
- * Fallback: capture audio by playing the video through Web Audio API.
- * Used when decodeAudioData cannot parse the video container format.
+ * Extract PCM audio from a video using the most reliable browser path:
+ * 1. Play the <video> element (browser handles any codec it supports)
+ * 2. captureStream() → MediaRecorder records audio as WebM/Opus
+ * 3. decodeAudioData on the WebM blob (always works — it's a simple audio container)
+ * This avoids decodeAudioData failing on complex MP4 containers.
  */
-function captureAudioViaPlayback(url, onProgress) {
+function extractAudioViaCaptureStream(videoEl, videoUrl, durationHint, onProgress) {
   return new Promise((resolve, reject) => {
-    const video = document.createElement('video');
-    video.src = url;
-    video.preload = 'auto';
-    video.playsInline = true;
-    video.muted = true;           // bypass browser autoplay policy
-    video.crossOrigin = 'anonymous';
-
     let settled = false;
-    function finish(fn, val) {
-      if (settled) return;
-      settled = true;
-      fn(val);
-    }
+    const finish = (fn, val) => { if (settled) return; settled = true; fn(val); };
 
-    function cleanup(ctx, nodes) {
-      if (nodes) nodes.forEach(n => { try { n.disconnect(); } catch {} });
-      if (ctx) try { ctx.close(); } catch {}
-      video.pause();
-      video.removeAttribute('src');
-      video.load();
-    }
+    // Clone into a fresh element so we don't disturb the preview
+    const vid = document.createElement('video');
+    vid.src = videoUrl;
+    vid.preload = 'auto';
+    vid.playsInline = true;
+    vid.crossOrigin = 'anonymous';
 
-    video.addEventListener('loadedmetadata', async () => {
-      const duration = video.duration;
-      if (!duration || !isFinite(duration)) {
-        finish(reject, new Error('Cannot determine video duration'));
-        return;
-      }
+    vid.addEventListener('loadedmetadata', async () => {
+      const duration = vid.duration || durationHint || 30;
 
-      const sampleRate = 44100;
-      let ctx;
+      // Get a MediaStream from the video element
+      let stream;
       try {
-        ctx = new AudioContext({ sampleRate });
-        if (ctx.state === 'suspended') await ctx.resume();
+        stream = vid.captureStream ? vid.captureStream() : vid.mozCaptureStream();
       } catch {
-        finish(reject, new Error('AudioContext unavailable'));
+        finish(reject, new Error('captureStream not supported'));
         return;
       }
 
-      const source = ctx.createMediaElementSource(video);
-      // Unmute AFTER createMediaElementSource — audio now flows through
-      // the Web Audio graph, not through the element's speakers.
-      video.muted = false;
-      const processor = ctx.createScriptProcessor(4096, 2, 2);
-      const muteGain = ctx.createGain();
-      muteGain.gain.value = 0; // keep speakers silent
+      const audioTracks = stream.getAudioTracks();
+      if (!audioTracks.length) {
+        vid.pause();
+        finish(reject, new Error('Video has no audio track'));
+        return;
+      }
 
-      // source → processor → muteGain(0) → destination
-      // processor must be connected to destination to fire onaudioprocess
-      source.connect(processor);
-      processor.connect(muteGain);
-      muteGain.connect(ctx.destination);
+      // Record only the audio track
+      const audioStream = new MediaStream(audioTracks);
+      let recorder;
+      try {
+        const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+          ? 'audio/webm;codecs=opus'
+          : MediaRecorder.isTypeSupported('audio/webm')
+            ? 'audio/webm'
+            : '';
+        recorder = new MediaRecorder(audioStream, mimeType ? { mimeType } : undefined);
+      } catch {
+        vid.pause();
+        finish(reject, new Error('MediaRecorder unavailable'));
+        return;
+      }
 
-      const leftChunks = [];
-      const rightChunks = [];
+      const chunks = [];
+      recorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
 
-      processor.onaudioprocess = (e) => {
-        leftChunks.push(new Float32Array(e.inputBuffer.getChannelData(0)));
-        rightChunks.push(new Float32Array(
-          e.inputBuffer.numberOfChannels > 1
-            ? e.inputBuffer.getChannelData(1)
-            : e.inputBuffer.getChannelData(0)
-        ));
-        if (onProgress && duration > 0) {
-          const pct = Math.min(video.currentTime / duration, 1);
-          onProgress(10 + Math.round(pct * 80));
+      recorder.onstop = async () => {
+        vid.pause();
+        vid.removeAttribute('src');
+        vid.load();
+        stream.getTracks().forEach(t => t.stop());
+
+        if (!chunks.length) { finish(reject, new Error('No audio data captured')); return; }
+
+        try {
+          const webmBlob = new Blob(chunks, { type: 'audio/webm' });
+          const webmBuffer = await webmBlob.arrayBuffer();
+          onProgress?.(85);
+
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const audioBuffer = await ctx.decodeAudioData(webmBuffer);
+          try { ctx.close(); } catch {}
+          onProgress?.(90);
+          finish(resolve, audioBuffer);
+        } catch (decErr) {
+          finish(reject, new Error('Could not decode captured audio: ' + (decErr?.message || '')));
         }
       };
 
-      video.addEventListener('ended', () => {
-        cleanup(ctx, [processor, muteGain, source]);
-        const totalLen = leftChunks.reduce((a, c) => a + c.length, 0);
-        if (totalLen === 0) { finish(reject, new Error('Video has no audio track')); return; }
+      recorder.onerror = () => {
+        vid.pause();
+        finish(reject, new Error('Recording failed'));
+      };
 
-        // Check for silence — video may lack an actual audio stream
-        let hasSound = false;
-        for (const c of leftChunks) {
-          for (let i = 0; i < c.length; i += 100) {
-            if (Math.abs(c[i]) > 0.0001) { hasSound = true; break; }
-          }
-          if (hasSound) break;
+      // Progress updates while playing
+      const progressInterval = setInterval(() => {
+        if (duration > 0) {
+          const pct = Math.min(vid.currentTime / duration, 1);
+          onProgress?.(10 + Math.round(pct * 70));
         }
-        if (!hasSound) { finish(reject, new Error('Video has no audio track')); return; }
+      }, 500);
 
-        // Concatenate captured samples
-        const left = new Float32Array(totalLen);
-        const right = new Float32Array(totalLen);
-        let off = 0;
-        for (let i = 0; i < leftChunks.length; i++) {
-          left.set(leftChunks[i], off);
-          right.set(rightChunks[i], off);
-          off += leftChunks[i].length;
-        }
-
-        finish(resolve, {
-          sampleRate,
-          numberOfChannels: 2,
-          length: totalLen,
-          getChannelData: (ch) => ch === 0 ? left : right,
-        });
+      vid.addEventListener('ended', () => {
+        clearInterval(progressInterval);
+        onProgress?.(80);
+        if (recorder.state === 'recording') recorder.stop();
       });
 
-      video.addEventListener('error', () => {
-        cleanup(ctx, [processor, muteGain, source]);
-        finish(reject, new Error('Playback error'));
+      vid.addEventListener('error', () => {
+        clearInterval(progressInterval);
+        if (recorder.state === 'recording') recorder.stop();
+        finish(reject, new Error('Video playback error'));
       });
 
-      // Safety timeout — if video never ends, abandon after duration + 10s
-      const safetyMs = (duration + 10) * 1000;
-      setTimeout(() => {
-        if (!settled) {
-          cleanup(ctx, [processor, muteGain, source]);
-          // If we captured some audio, use it even if ended didn't fire
-          const totalLen = leftChunks.reduce((a, c) => a + c.length, 0);
-          if (totalLen > 0) {
-            const left = new Float32Array(totalLen);
-            const right = new Float32Array(totalLen);
-            let off = 0;
-            for (let i = 0; i < leftChunks.length; i++) {
-              left.set(leftChunks[i], off);
-              right.set(rightChunks[i], off);
-              off += leftChunks[i].length;
-            }
-            finish(resolve, {
-              sampleRate,
-              numberOfChannels: 2,
-              length: totalLen,
-              getChannelData: (ch) => ch === 0 ? left : right,
-            });
-          } else {
-            finish(reject, new Error('Audio capture timed out'));
-          }
-        }
-      }, safetyMs);
-
-      try { await video.play(); } catch (playErr) {
-        cleanup(ctx, [processor, muteGain, source]);
-        finish(reject, new Error('Could not start video playback: ' + (playErr?.message || '')));
+      // Start recording + playback
+      recorder.start();
+      try {
+        await vid.play();
+      } catch (playErr) {
+        clearInterval(progressInterval);
+        recorder.stop();
+        finish(reject, new Error('Could not play video: ' + (playErr?.message || '')));
       }
     });
 
-    video.addEventListener('error', () => finish(reject, new Error('Could not load video')));
+    vid.addEventListener('error', () => finish(reject, new Error('Could not load video')));
   });
 }
 
@@ -250,7 +219,7 @@ export default function Mp4ToMp3({ onBack }) {
       let audioBuffer;
       let usedFallback = false;
 
-      // Method 1 (fast): decodeAudioData — works for many video formats
+      // Method 1 (fast): direct decodeAudioData — works for simple containers
       try {
         setProgress(5);
         const arrayBuffer = await videoFile.arrayBuffer();
@@ -259,9 +228,12 @@ export default function Mp4ToMp3({ onBack }) {
         audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
         try { audioCtx.close(); } catch {}
       } catch {
-        // Method 2 (fallback): real-time audio capture via video playback
+        // Method 2 (reliable): play video → captureStream → MediaRecorder → decode WebM
         usedFallback = true;
-        audioBuffer = await captureAudioViaPlayback(videoUrl, setProgress);
+        setProgress(10);
+        audioBuffer = await extractAudioViaCaptureStream(
+          videoElRef.current, videoUrl, videoDuration, setProgress
+        );
       }
 
       const sampleRate = audioBuffer.sampleRate;
