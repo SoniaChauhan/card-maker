@@ -26,6 +26,12 @@ export default function sitemap() {
     { url: `${BASE_URL}/ai-text-image-card`,                 lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
     { url: `${BASE_URL}/ai-themed-card-maker`,               lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
 
+    /* ── Video tools pages ── */
+    { url: `${BASE_URL}/video-maker`,                        lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${BASE_URL}/video-trimmer`,                      lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${BASE_URL}/mp4-to-mp3-converter`,               lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${BASE_URL}/video-audio-replacer`,               lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
+
     /* ── Wishes & quotes pages ── */
     { url: `${BASE_URL}/happy-holi-wishes-hindi`,            lastModified: now, changeFrequency: 'weekly',  priority: 0.80 },
     { url: `${BASE_URL}/happy-holi-wishes-english`,          lastModified: now, changeFrequency: 'weekly',  priority: 0.80 },
@@ -44,5 +50,8 @@ export default function sitemap() {
     { url: `${BASE_URL}/blog/how-to-make-holi-card-online`,         lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
     { url: `${BASE_URL}/blog/birthday-invitation-wording-ideas`,    lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
     { url: `${BASE_URL}/blog/how-to-create-marriage-biodata`,       lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
+    { url: `${BASE_URL}/blog/free-online-video-trimmer`,            lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
+    { url: `${BASE_URL}/blog/mp4-to-mp3-converter-free`,            lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
+    { url: `${BASE_URL}/blog/replace-video-audio-online-free`,      lastModified: now, changeFrequency: 'monthly', priority: 0.70 },
   ];
 }

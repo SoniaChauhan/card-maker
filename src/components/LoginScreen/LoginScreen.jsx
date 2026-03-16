@@ -997,12 +997,15 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
   ];
 
   const AI_FREE_CARDS = [
-    { id: 'aitextimage', icon: '🎨', name: 'AI Text + Image Card',  desc: 'Upload photo, add text, choose layout — create personalised cards instantly!', grad: 'linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6)' },
-    { id: 'aifaceswap',  icon: '🎭', name: 'AI Themed Card Maker',  desc: 'Pick a theme, upload your face & get a personalised themed card!',             grad: 'linear-gradient(135deg, #f59e0b, #ef4444, #8b5cf6)' },
-    { id: 'videomaker',  icon: '🎬', name: 'Video Card Maker',      desc: 'Upload photos & a song — create a video slideshow with transitions!',          grad: 'linear-gradient(135deg, #6366f1, #ec4899, #f59e0b)' },
-    { id: 'videotrimmer', icon: '✂️', name: 'Video Trimmer / Cropper', desc: 'Upload a video, trim it into clips & download — all in your browser!',          grad: 'linear-gradient(135deg, #22d3ee, #a78bfa, #f472b6)' },
-    { id: 'mp4tomp3',      icon: '🎵', name: 'MP4 to MP3 Converter',    desc: 'Extract audio from any video — choose quality & download instantly!',             grad: 'linear-gradient(135deg, #34d399, #60a5fa, #c084fc)' },
-    { id: 'videoaudioswap', icon: '🔊', name: 'Video Audio Replacer',    desc: 'Replace video sound with a new song — adjust volumes & download!',               grad: 'linear-gradient(135deg, #f472b6, #818cf8, #34d399)' },
+    { id: 'aitextimage', icon: '🎨', name: 'AI Text to Image Card Maker',  desc: 'Upload photo, add text, choose layout — create personalised cards instantly!', grad: 'linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6)', alt: 'AI Text to Image Card Maker online free', link: '/ai-text-image-card' },
+    { id: 'aifaceswap',  icon: '🎭', name: 'AI Themed Card Generator',  desc: 'Pick a theme, upload your face & get a personalised themed card!',             grad: 'linear-gradient(135deg, #6366f1, #8b5cf6, #c084fc)', alt: 'AI Themed Card Maker free online', link: '/ai-themed-card-maker' },
+    { id: 'videomaker',  icon: '🎬', name: 'Video Card Maker',      desc: 'Upload photos & a song — create a video slideshow with transitions!',          grad: 'linear-gradient(135deg, #3b82f6, #6366f1, #a78bfa)', alt: 'Video Card Maker with photos and music online', link: '/video-maker' },
+  ];
+
+  const VIDEO_TOOLS = [
+    { id: 'videotrimmer',   icon: '✂️', name: 'Video Trimmer / Cropper', desc: 'Upload a video, trim it into clips & download — all in your browser!',      grad: 'linear-gradient(135deg, #22d3ee, #a78bfa, #f472b6)', alt: 'Free online video trimmer and cropper tool', link: '/video-trimmer' },
+    { id: 'mp4tomp3',       icon: '🎵', name: 'MP4 to MP3 Converter',    desc: 'Extract audio from any video — choose quality & download instantly!',         grad: 'linear-gradient(135deg, #34d399, #60a5fa, #c084fc)', alt: 'Free MP4 to MP3 converter tool online', link: '/mp4-to-mp3-converter' },
+    { id: 'videoaudioswap', icon: '🔊', name: 'Video Audio Replacer',    desc: 'Replace video sound with a new song — adjust volumes & download!',           grad: 'linear-gradient(135deg, #f472b6, #818cf8, #34d399)', alt: 'Replace audio in video online free tool', link: '/video-audio-replacer' },
   ];
 
   /* Festival calendar — auto-detect active festivals */
@@ -1167,27 +1170,29 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
         </div>
       </section>
 
-      {/* ═══════ UPCOMING FESTIVALS + FREE AI CARDS ═══════ */}
-      <section className="lp-upcoming-section">
-        <h2 className="lp-section-title">🎉 Free Festival Cards &amp; 🤖 AI Card Makers</h2>
-        <p className="lp-section-sub">Create stunning festival greeting cards &amp; AI-powered personalised cards — <strong>100% free, no watermark!</strong></p>
+      {/* ═══════ POPULAR AI CARD MAKERS ═══════ */}
+      <section className="lp-upcoming-section" aria-label="Online card maker, AI card generator, free greeting card maker">
+        <h2 className="lp-section-title">⭐ Popular AI Card Makers</h2>
+        <p className="lp-section-sub">Create stunning cards instantly with free online tools.</p>
+        <p className="lp-seo-keywords">Create free online greeting cards, invitations and festival cards using AI. Make birthday cards, wedding cards, and digital invites instantly — no watermark.</p>
 
         <div className="lp-upcoming-grid lp-ai-free-grid">
           {/* AI Free Cards */}
           {AI_FREE_CARDS.map(c => (
-            <button key={c.id} className="lp-upcoming-card lp-ai-free-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
+            <button key={c.id} className="lp-upcoming-card lp-ai-free-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)} aria-label={c.alt}>
               <span className="lp-ai-free-tag">✨ FREE</span>
-              <span className="lp-showcase-icon">{c.icon}</span>
+              <span className="lp-showcase-icon" role="img" aria-label={c.alt}>{c.icon}</span>
               <h3 className="lp-showcase-name">{c.name}</h3>
               <p className="lp-ai-free-desc">{c.desc}</p>
               <span className="lp-ai-free-cta">Try Now →</span>
+              <a href={c.link} className="lp-card-seo-link" onClick={e => e.preventDefault()}>Learn more →</a>
             </button>
           ))}
           {/* Visible Festival Cards (7 days before → 1 day after) */}
           {visibleFestivals.map(f => (
-            <button key={f.key} className="lp-upcoming-card lp-festival-free-card" style={{ background: f.grad }} type="button" onClick={() => { if (onSelectFestival) onSelectFestival(f.key); handleCardClick(f.offerCard); }}>
+            <button key={f.key} className="lp-upcoming-card lp-ai-free-card lp-festival-free-card" style={{ background: f.grad }} type="button" onClick={() => { if (onSelectFestival) onSelectFestival(f.key); handleCardClick(f.offerCard); }} aria-label={`${f.name} card maker online free`}>
               <span className="lp-ai-free-tag">🆓 FREE</span>
-              <span className="lp-showcase-icon">{f.icon}</span>
+              <span className="lp-showcase-icon" role="img" aria-label={`${f.name} greeting card`}>{f.icon}</span>
               <h3 className="lp-showcase-name">{f.name}</h3>
               <p className="lp-ai-free-desc">{f.seoTagline}</p>
               <span className="lp-ai-free-cta">Create Free Card →</span>
@@ -1195,6 +1200,26 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
           ))}
         </div>
 
+      </section>
+
+      {/* ═══════ FREE VIDEO EDITING TOOLS ═══════ */}
+      <section className="lp-upcoming-section" aria-label="Free online video trimmer, MP4 to MP3 converter, audio replacer tool">
+        <h2 className="lp-section-title">🔧 Free Video Editing Tools</h2>
+        <p className="lp-section-sub">Quick online tools — trim, extract audio &amp; edit videos.</p>
+        <p className="lp-seo-keywords">Use free online video tools to trim videos, extract MP3 audio from MP4, and replace sound in videos — all inside your browser, no upload needed.</p>
+
+        <div className="lp-upcoming-grid lp-ai-free-grid">
+          {VIDEO_TOOLS.map(c => (
+            <button key={c.id} className="lp-upcoming-card lp-ai-free-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)} aria-label={c.alt}>
+              <span className="lp-ai-free-tag">✨ FREE</span>
+              <span className="lp-showcase-icon" role="img" aria-label={c.alt}>{c.icon}</span>
+              <h3 className="lp-showcase-name">{c.name}</h3>
+              <p className="lp-ai-free-desc">{c.desc}</p>
+              <span className="lp-ai-free-cta">Try Now →</span>
+              <a href={c.link} className="lp-card-seo-link" onClick={e => e.preventDefault()}>Learn more →</a>
+            </button>
+          ))}
+        </div>
       </section>
 
       {/* ═══════ PREMIUM CARDS ═══════ */}
@@ -1699,29 +1724,45 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
       </div>
 
       {/* ═══════ FREQUENTLY ASKED QUESTIONS ═══════ */}
-      <section className="lp-faq-section">
+      <section className="lp-faq-section" aria-label="Frequently asked questions about free card maker and video tools">
         <h2 className="lp-section-title">❓ Frequently Asked Questions</h2>
-        <p className="lp-section-sub">Got questions? We&apos;ve got answers.</p>
+        <p className="lp-section-sub">Quick answers about our free card maker &amp; video tools.</p>
         <div className="lp-faq-list">
           <details className="lp-faq-item">
-            <summary className="lp-faq-q">Is Card Maker free to use?</summary>
-            <p className="lp-faq-a">Card Maker is a premium tool that lets you create professional-quality cards. We also have a separate &quot;Free Instant Cards&quot; section where you can download cards with a watermark at no cost.</p>
+            <summary className="lp-faq-q">What is the best free card maker online?</summary>
+            <p className="lp-faq-a">Card Maker by Creative Thinker Design Hub is one of the best free online card makers in India. Create birthday invitations, wedding cards, festival greeting cards, and AI-powered personalised cards — all free with no watermark on free cards.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">Can I create greeting cards without watermark?</summary>
+            <p className="lp-faq-a">Yes! AI cards, festival cards, Holi wishes, motivational quotes, and all video tools are 100% free with no watermark. Premium cards (birthday, wedding, anniversary) offer a clean no-watermark download at ₹49.</p>
           </details>
           <details className="lp-faq-item">
             <summary className="lp-faq-q">What types of cards can I create?</summary>
-            <p className="lp-faq-a">You can create birthday invitations, wedding cards, anniversary greetings, marriage biodata, PG/rent ads, salon price cards, professional resumes, festival cards, and more.</p>
+            <p className="lp-faq-a">You can create birthday invitations, wedding cards, anniversary greetings, marriage biodata, PG/rent ads, salon price cards, professional resumes, festival cards, AI-powered cards, and more.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">How do I make festival cards online?</summary>
+            <p className="lp-faq-a">Simply click on the festival card you want (Eid, Diwali, Holi, etc.), customise the text and design, preview it, and download instantly. No signup required for free festival cards.</p>
           </details>
           <details className="lp-faq-item">
             <summary className="lp-faq-q">Can I download my card as PNG or PDF?</summary>
             <p className="lp-faq-a">All cards are downloaded in high-quality PNG format. Only resumes support PDF and Word downloads.</p>
           </details>
           <details className="lp-faq-item">
-            <summary className="lp-faq-q">Do I need to sign up to use Card Maker?</summary>
-            <p className="lp-faq-a">No signup is needed to browse templates and preview designs. You only need an account to download your final card.</p>
-          </details>
-          <details className="lp-faq-item">
             <summary className="lp-faq-q">Which languages are supported?</summary>
             <p className="lp-faq-a">We support Hindi, English, Punjabi, Gujarati, and Marathi across most card types.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">Is your video trimmer free to use?</summary>
+            <p className="lp-faq-a">Yes! All our video tools — Video Trimmer, MP4 to MP3 Converter, and Video Audio Replacer — are completely free. Everything processes in your browser, no files are uploaded to any server.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">Can I convert MP4 video to MP3 audio for free?</summary>
+            <p className="lp-faq-a">Absolutely! Use our free MP4 to MP3 Converter to extract audio from any video. Choose quality from 64kbps to 320kbps and download real MP3 files — all in your browser.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">Do I need to install any software?</summary>
+            <p className="lp-faq-a">No installation needed! Card Maker is a web app that works directly in your browser on desktop, tablet, and mobile devices. Just open the website and start creating.</p>
           </details>
           <details className="lp-faq-item">
             <summary className="lp-faq-q">Can I share my card on WhatsApp or Instagram?</summary>
@@ -2192,7 +2233,17 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
             </nav>
           </div>
 
-          {/* Column 3 — Support */}
+          {/* Column 3 — Quick Tools */}
+          <div className="lp-footer-col">
+            <h4 className="lp-footer-heading">Quick Tools</h4>
+            <nav className="lp-footer-links">
+              <a href="/video-trimmer">Video Trimmer</a>
+              <a href="/mp4-to-mp3-converter">MP4 to MP3 Converter</a>
+              <a href="/video-audio-replacer">Audio Replace Tool</a>
+            </nav>
+          </div>
+
+          {/* Column 4 — Support */}
           <div className="lp-footer-col">
             <h4 className="lp-footer-heading">Support</h4>
             <nav className="lp-footer-links">
@@ -2204,7 +2255,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
             </nav>
           </div>
 
-          {/* Column 4 — Connect */}
+          {/* Column 5 — Connect */}
           <div className="lp-footer-col">
             <h4 className="lp-footer-heading">Connect With Us</h4>
             <div className="lp-footer-socials">

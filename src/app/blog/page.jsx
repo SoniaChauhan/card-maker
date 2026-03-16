@@ -61,6 +61,24 @@ const BLOG_POSTS = [
     excerpt:
       'Create colorful Holi greeting cards online with free templates. Add wishes in Hindi & English and share instantly.',
   },
+  {
+    title: 'Free Online Video Trimmer — Trim & Cut Videos Instantly',
+    slug: '/blog/free-online-video-trimmer',
+    excerpt:
+      'Trim and cut videos online for free — no watermark, no software. Upload, select start & end time, and download your trimmed clip instantly.',
+  },
+  {
+    title: 'Free MP4 to MP3 Converter — Extract Audio from Video',
+    slug: '/blog/mp4-to-mp3-converter-free',
+    excerpt:
+      'Convert MP4 video to real MP3 audio online for free. Choose quality from 64kbps to 320kbps and download instantly — all in your browser.',
+  },
+  {
+    title: 'Free Video Audio Replacer — Change Background Sound Easily',
+    slug: '/blog/replace-video-audio-online-free',
+    excerpt:
+      'Remove original video sound, add new music or voiceover, adjust volumes, and download. No software, no watermark — 100% browser-based.',
+  },
 ];
 
 export default function BlogIndex() {

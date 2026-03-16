@@ -5,7 +5,7 @@ import './VideoMaker.css';
 const MAX_IMAGES = 20;
 const MIN_IMAGES = 2;
 const ACCEPTED_IMAGE = 'image/jpeg,image/png,image/webp,image/avif';
-const ACCEPTED_AUDIO = 'audio/mpeg,audio/wav,audio/ogg,audio/aac,audio/mp4';
+const ACCEPTED_AUDIO = 'audio/mpeg,audio/wav,audio/ogg,audio/aac,audio/mp4,audio/webm';
 const TRANSITIONS = ['fade', 'slideLeft', 'slideRight', 'zoomIn', 'zoomOut'];
 const TRANSITION_LABELS = { fade: '✨ Fade', slideLeft: '👈 Slide Left', slideRight: '👉 Slide Right', zoomIn: '🔍 Zoom In', zoomOut: '🔎 Zoom Out' };
 
