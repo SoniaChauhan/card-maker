@@ -1001,6 +1001,8 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
     { id: 'aifaceswap',  icon: '🎭', name: 'AI Themed Card Maker',  desc: 'Pick a theme, upload your face & get a personalised themed card!',             grad: 'linear-gradient(135deg, #f59e0b, #ef4444, #8b5cf6)' },
     { id: 'videomaker',  icon: '🎬', name: 'Video Card Maker',      desc: 'Upload photos & a song — create a video slideshow with transitions!',          grad: 'linear-gradient(135deg, #6366f1, #ec4899, #f59e0b)' },
     { id: 'videotrimmer', icon: '✂️', name: 'Video Trimmer / Cropper', desc: 'Upload a video, trim it into clips & download — all in your browser!',          grad: 'linear-gradient(135deg, #22d3ee, #a78bfa, #f472b6)' },
+    { id: 'mp4tomp3',      icon: '🎵', name: 'MP4 to MP3 Converter',    desc: 'Extract audio from any video — choose quality & download instantly!',             grad: 'linear-gradient(135deg, #34d399, #60a5fa, #c084fc)' },
+    { id: 'videoaudioswap', icon: '🔊', name: 'Video Audio Replacer',    desc: 'Replace video sound with a new song — adjust volumes & download!',               grad: 'linear-gradient(135deg, #f472b6, #818cf8, #34d399)' },
   ];
 
   /* Festival calendar — auto-detect active festivals */

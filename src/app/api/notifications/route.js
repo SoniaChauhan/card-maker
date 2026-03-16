@@ -59,6 +59,8 @@ const CARD_REGISTRY = [
   { id: 'aifaceswap',        name: 'AI Themed Card Maker',              icon: '🎭', desc: 'Pick a theme, upload your face & get a personalised card!', url: '/ai-themed-card-maker' },
   { id: 'videomaker',        name: 'Video Card Maker',                  icon: '🎬', desc: 'Upload photos & a song to create a video slideshow with transitions!', url: '/video-maker' },
   { id: 'videotrimmer',      name: 'Video Trimmer / Cropper',           icon: '✂️', desc: 'Upload a video, trim it into clips & download — all in your browser!', url: '/video-trimmer' },
+  { id: 'mp4tomp3',           name: 'MP4 to MP3 Converter',              icon: '🎵', desc: 'Extract audio from any video — choose quality & download instantly!', url: '/mp4-to-mp3-converter' },
+  { id: 'videoaudioswap',    name: 'Video Audio Replacer',              icon: '🔊', desc: 'Replace video sound with a new song — adjust volumes & download!', url: '/video-audio-replacer' },
 ];
 
 function getTransporter() {

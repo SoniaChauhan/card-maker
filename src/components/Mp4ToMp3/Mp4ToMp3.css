@@ -1,0 +1,372 @@
+/* ═══════════════════════════════════════
+   MP4 to MP3 Converter — Styles
+   ═══════════════════════════════════════ */
+
+.m2m-screen {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0f1e, #1a0a2e, #0d1a2a);
+  padding: 24px 16px 60px;
+  color: #fff;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  position: relative;
+}
+
+/* ── Back ── */
+.m2m-back {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.m2m-back:hover {
+  background: rgba(255, 255, 255, 0.22);
+  transform: translateX(-3px);
+}
+
+/* ── Header ── */
+.m2m-header {
+  text-align: center;
+  padding: 60px 0 20px;
+}
+.m2m-header h2 {
+  font-size: 2rem;
+  margin: 0 0 8px;
+  background: linear-gradient(135deg, #34d399, #60a5fa, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.m2m-header p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* ── Steps ── */
+.m2m-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 24px auto 30px;
+  max-width: 480px;
+}
+.m2m-step-dot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s;
+}
+.m2m-step-dot span {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s;
+}
+.m2m-step-dot.active { color: #fff; }
+.m2m-step-dot.active span {
+  background: linear-gradient(135deg, #34d399, #60a5fa);
+  border-color: #60a5fa;
+  box-shadow: 0 0 12px rgba(96, 165, 250, 0.5);
+}
+.m2m-step-dot.done span { background: #22c55e; border-color: #22c55e; }
+.m2m-step-dot.done { color: rgba(255, 255, 255, 0.7); }
+.m2m-step-line {
+  flex: 1;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  max-width: 60px;
+}
+
+/* ── Section ── */
+.m2m-section {
+  max-width: 640px;
+  margin: 0 auto;
+  animation: m2mFadeIn 0.4s ease;
+}
+@keyframes m2mFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Drop zone ── */
+.m2m-drop-zone {
+  border: 2px dashed rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  padding: 60px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.04);
+}
+.m2m-drop-zone:hover, .m2m-drop-zone.drag-over {
+  border-color: #34d399;
+  background: rgba(52, 211, 153, 0.06);
+  transform: scale(1.01);
+}
+.m2m-drop-icon { font-size: 3rem; margin-bottom: 12px; }
+.m2m-drop-zone p { margin: 4px 0; color: rgba(255, 255, 255, 0.8); font-size: 1.05rem; }
+.m2m-drop-zone small { color: rgba(255, 255, 255, 0.4); font-size: 0.85rem; }
+
+/* ── File card ── */
+.m2m-file-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 16px;
+}
+.m2m-file-preview {
+  width: 120px;
+  height: 80px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #000;
+}
+.m2m-mini-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.m2m-file-info { flex: 1; min-width: 0; }
+.m2m-file-name {
+  margin: 0 0 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  word-break: break-all;
+}
+.m2m-file-meta {
+  display: flex;
+  gap: 14px;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+.m2m-file-change {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.m2m-file-change:hover { background: rgba(255, 255, 255, 0.15); }
+
+/* ── Quality selector ── */
+.m2m-quality-section {
+  margin-top: 20px;
+}
+.m2m-quality-section h3 {
+  font-size: 1rem;
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+.m2m-quality-options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.m2m-quality-btn {
+  padding: 12px 8px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.m2m-quality-btn strong { font-size: 0.9rem; color: #fff; }
+.m2m-quality-btn small { font-size: 0.72rem; color: rgba(255, 255, 255, 0.45); }
+.m2m-quality-btn:hover { background: rgba(255, 255, 255, 0.1); }
+.m2m-quality-btn.selected {
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.2), rgba(96, 165, 250, 0.2));
+  border-color: #34d399;
+  box-shadow: 0 0 12px rgba(52, 211, 153, 0.2);
+}
+.m2m-quality-btn.selected strong { color: #34d399; }
+
+/* ── Error ── */
+.m2m-error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 10px;
+  padding: 10px 16px;
+  color: #f87171;
+  font-size: 0.9rem;
+  margin: 12px 0;
+}
+
+/* ── Buttons ── */
+.m2m-btn-primary {
+  display: block;
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #34d399, #60a5fa);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+.m2m-btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(52, 211, 153, 0.35);
+}
+.m2m-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.m2m-btn-secondary {
+  padding: 14px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.m2m-btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
+.m2m-btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+.m2m-btn-row .m2m-btn-primary { flex: 1; margin-top: 0; }
+
+/* ── Converting card ── */
+.m2m-converting-card {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 40px 24px;
+}
+.m2m-spin-icon {
+  font-size: 3rem;
+  animation: m2mSpin 2s linear infinite;
+  margin-bottom: 16px;
+}
+@keyframes m2mSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.m2m-converting-card h3 { margin: 0 0 8px; font-size: 1.2rem; }
+.m2m-converting-card p { color: rgba(255, 255, 255, 0.55); font-size: 0.9rem; margin: 0 0 20px; }
+.m2m-progress-bar {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  height: 12px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.m2m-progress-fill {
+  height: 100%;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #34d399, #60a5fa, #c084fc);
+  transition: width 0.3s ease;
+  box-shadow: 0 0 16px rgba(52, 211, 153, 0.4);
+}
+.m2m-progress-text {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Done badge ── */
+.m2m-done-badge {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #22c55e;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 12px;
+}
+
+/* ── Audio card ── */
+.m2m-audio-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.m2m-audio-icon { font-size: 2.2rem; flex-shrink: 0; }
+.m2m-audio-info { flex: 1; min-width: 0; }
+.m2m-audio-name {
+  margin: 0 0 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  word-break: break-all;
+}
+.m2m-audio-player {
+  width: 100%;
+  height: 36px;
+  border-radius: 8px;
+}
+
+/* ── Summary ── */
+.m2m-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.m2m-summary-item {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .m2m-screen { padding: 16px 12px 48px; }
+  .m2m-header h2 { font-size: 1.5rem; }
+  .m2m-file-card { flex-direction: column; text-align: center; }
+  .m2m-file-preview { width: 100%; height: 140px; }
+  .m2m-quality-options { grid-template-columns: repeat(2, 1fr); }
+  .m2m-btn-row { flex-direction: column; }
+  .m2m-audio-card { flex-direction: column; text-align: center; }
+  .m2m-steps { gap: 8px; }
+  .m2m-step-dot { font-size: 0.78rem; }
+  .m2m-summary { flex-direction: column; }
+}

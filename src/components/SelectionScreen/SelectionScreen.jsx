@@ -14,6 +14,8 @@ const CATEGORIES = [
       { id: 'aifaceswap',  label: 'AI Themed Card Maker',       desc: 'Pick a theme (Haldi, Mehendi, Diwali…), upload your face photo & get a personalised card!', icon: '🎭', badge: '🤖 AI • Free' },
       { id: 'videomaker',  label: 'Video Card Maker',            desc: 'Upload photos & a song to create a beautiful video slideshow with transitions — all in your browser!', icon: '🎬', badge: '🆕 NEW • Free' },
       { id: 'videotrimmer', label: 'Video Trimmer / Cropper',      desc: 'Upload a video, select start & end points on a visual timeline, and download your trimmed clip — free!', icon: '✂️', badge: '🆕 NEW • Free' },
+      { id: 'mp4tomp3',      label: 'MP4 to MP3 Converter',         desc: 'Extract audio from any video — choose quality, convert & download instantly in your browser!', icon: '🎵', badge: '🆕 NEW • Free' },
+      { id: 'videoaudioswap', label: 'Video Audio Replacer',        desc: 'Upload a video, remove its sound & replace with a new song — adjust volumes & download!', icon: '🔊', badge: '🆕 NEW • Free' },
     ],
   },
   {
