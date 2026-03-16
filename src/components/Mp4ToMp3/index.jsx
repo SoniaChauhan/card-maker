@@ -212,7 +212,7 @@ export default function Mp4ToMp3({ onBack }) {
       }
 
       // Encode to MP3 using lamejs
-      const lamejs = await import('lamejs');
+      const lamejs = (await import('@breezystack/lamejs')).default;
       const kbps = Math.round(bitrate / 1000);
       const encoder = new lamejs.Mp3Encoder(numChannels, sampleRate, kbps);
       const mp3Chunks = [];
