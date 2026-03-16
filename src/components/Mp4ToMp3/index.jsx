@@ -86,7 +86,7 @@ export default function Mp4ToMp3({ onBack }) {
     if (vid) setVideoDuration(vid.duration);
   }
 
-  /* ── Convert: extract audio using Web Audio API + MediaRecorder ── */
+  /* ── Convert: decode audio → encode MP3 with lamejs ── */
   async function handleConvert() {
     if (!videoFile || !videoUrl) return;
     setConverting(true);
@@ -96,69 +96,63 @@ export default function Mp4ToMp3({ onBack }) {
     if (audioUrl) { URL.revokeObjectURL(audioUrl); setAudioUrl(null); setAudioBlob(null); }
 
     try {
-      // Create a hidden video element for playback
-      const vid = document.createElement('video');
-      vid.src = videoUrl;
-      vid.muted = false;
-      vid.playsInline = true;
-      await new Promise((resolve, reject) => {
-        vid.onloadeddata = resolve;
-        vid.onerror = reject;
-        vid.load();
-      });
+      // 1. Read video file into ArrayBuffer
+      setProgress(5);
+      const arrayBuffer = await videoFile.arrayBuffer();
 
-      // Setup AudioContext to capture audio from video
+      // 2. Decode audio from the video
+      setProgress(10);
       const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const source = audioCtx.createMediaElementSource(vid);
-      const dest = audioCtx.createMediaStreamDestination();
-      source.connect(dest);
-      // Don't connect to speakers to avoid echo
+      const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+      try { audioCtx.close(); } catch {}
 
-      // MediaRecorder on audio stream
-      let mimeType = 'audio/webm;codecs=opus';
-      if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'audio/webm';
-      if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'audio/ogg;codecs=opus';
+      const sampleRate = audioBuffer.sampleRate;
+      const numChannels = Math.min(audioBuffer.numberOfChannels, 2); // max stereo
+      const samples = [];
+      for (let ch = 0; ch < numChannels; ch++) {
+        samples.push(audioBuffer.getChannelData(ch));
+      }
 
-      const recorder = new MediaRecorder(dest.stream, {
-        mimeType,
-        audioBitsPerSecond: bitrate,
-      });
-      const chunks = [];
-      recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
-      const recDone = new Promise(resolve => { recorder.onstop = resolve; });
+      // 3. Encode to MP3 using lamejs
+      const lamejs = await import('lamejs');
+      const kbps = Math.round(bitrate / 1000);
+      const encoder = new lamejs.Mp3Encoder(numChannels, sampleRate, kbps);
+      const mp3Chunks = [];
+      const blockSize = 1152;
+      const totalSamples = samples[0].length;
 
-      // Play and record
-      recorder.start(100);
-      vid.currentTime = 0;
-      vid.play();
-
-      // Track progress
-      const duration = vid.duration || videoDuration;
-      const progressInterval = setInterval(() => {
-        if (vid.currentTime > 0 && duration > 0) {
-          setProgress(Math.min(99, Math.round((vid.currentTime / duration) * 100)));
+      function floatTo16BitPCM(float32Array) {
+        const int16 = new Int16Array(float32Array.length);
+        for (let i = 0; i < float32Array.length; i++) {
+          const s = Math.max(-1, Math.min(1, float32Array[i]));
+          int16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
         }
-      }, 200);
+        return int16;
+      }
 
-      // Wait for video to end
-      await new Promise(resolve => {
-        vid.onended = resolve;
-        vid.onpause = () => {
-          // In case video pauses before ending (unlikely)
-          if (vid.currentTime >= duration - 0.1) resolve();
-        };
-      });
+      for (let i = 0; i < totalSamples; i += blockSize) {
+        const end = Math.min(i + blockSize, totalSamples);
+        let mp3buf;
+        if (numChannels === 1) {
+          mp3buf = encoder.encodeBuffer(floatTo16BitPCM(samples[0].subarray(i, end)));
+        } else {
+          mp3buf = encoder.encodeBuffer(
+            floatTo16BitPCM(samples[0].subarray(i, end)),
+            floatTo16BitPCM(samples[1].subarray(i, end))
+          );
+        }
+        if (mp3buf.length > 0) mp3Chunks.push(mp3buf);
+        // Progress: 10% → 95%
+        if (i % (blockSize * 50) === 0) {
+          setProgress(10 + Math.round((i / totalSamples) * 85));
+        }
+      }
 
-      clearInterval(progressInterval);
+      const flush = encoder.flush();
+      if (flush.length > 0) mp3Chunks.push(flush);
       setProgress(100);
 
-      recorder.stop();
-      vid.pause();
-      try { audioCtx.close(); } catch {}
-      await recDone;
-
-      const ext = mimeType.includes('ogg') ? 'ogg' : 'webm';
-      const blob = new Blob(chunks, { type: mimeType });
+      const blob = new Blob(mp3Chunks, { type: 'audio/mpeg' });
       const url = URL.createObjectURL(blob);
       setAudioBlob(blob);
       setAudioUrl(url);
@@ -176,10 +170,9 @@ export default function Mp4ToMp3({ onBack }) {
   /* ── Download ── */
   function handleDownload() {
     if (!audioUrl) return;
-    const ext = audioBlob?.type?.includes('ogg') ? 'ogg' : 'webm';
     const a = document.createElement('a');
     a.href = audioUrl;
-    a.download = `${videoName || 'audio'}.${ext}`;
+    a.download = `${videoName || 'audio'}.mp3`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -323,7 +316,7 @@ export default function Mp4ToMp3({ onBack }) {
           <div className="m2m-audio-card">
             <div className="m2m-audio-icon">🎵</div>
             <div className="m2m-audio-info">
-              <p className="m2m-audio-name">{videoName || 'audio'}.{audioBlob?.type?.includes('ogg') ? 'ogg' : 'webm'}</p>
+              <p className="m2m-audio-name">{videoName || 'audio'}.mp3</p>
               <audio src={audioUrl} controls className="m2m-audio-player" />
             </div>
           </div>
