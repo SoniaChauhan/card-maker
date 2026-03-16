@@ -1170,10 +1170,10 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
         </div>
       </section>
 
-      {/* ═══════ UPCOMING FESTIVALS + FREE AI CARDS ═══════ */}
+      {/* ═══════ POPULAR AI CARD MAKERS ═══════ */}
       <section className="lp-upcoming-section">
-        <h2 className="lp-section-title">🎉 Free Festival Cards &amp; 🤖 AI Card Makers</h2>
-        <p className="lp-section-sub">Create stunning festival greeting cards &amp; AI-powered personalised cards — <strong>100% free, no watermark!</strong></p>
+        <h2 className="lp-section-title">⭐ Popular AI Card Makers</h2>
+        <p className="lp-section-sub">Create stunning cards instantly with free online tools.</p>
 
         <div className="lp-upcoming-grid lp-ai-free-grid">
           {/* AI Free Cards */}
@@ -1188,7 +1188,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
           ))}
           {/* Visible Festival Cards (7 days before → 1 day after) */}
           {visibleFestivals.map(f => (
-            <button key={f.key} className="lp-upcoming-card lp-festival-free-card" style={{ background: f.grad }} type="button" onClick={() => { if (onSelectFestival) onSelectFestival(f.key); handleCardClick(f.offerCard); }}>
+            <button key={f.key} className="lp-upcoming-card lp-ai-free-card lp-festival-free-card" style={{ background: f.grad }} type="button" onClick={() => { if (onSelectFestival) onSelectFestival(f.key); handleCardClick(f.offerCard); }}>
               <span className="lp-ai-free-tag">🆓 FREE</span>
               <span className="lp-showcase-icon">{f.icon}</span>
               <h3 className="lp-showcase-name">{f.name}</h3>
