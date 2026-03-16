@@ -26,13 +26,15 @@ import AITextImageCard from './components/AITextImageCard';
 import AIFaceSwapCard from './components/AIFaceSwapCard';
 import VideoMaker from './components/VideoMaker';
 import VideoTrimmer from './components/VideoTrimmer';
+import Mp4ToMp3 from './components/Mp4ToMp3';
+import VideoAudioSwap from './components/VideoAudioSwap';
 import ComboOfferPopup from './components/shared/ComboOfferPopup';
 import FestivalCalendar from './components/FestivalCalendar/FestivalCalendar';
 import FreeCardsPage from './components/FreeCardsPage/FreeCardsPage';
 import useScreenshotProtection from './hooks/useScreenshotProtection';
 import VisitorTracker from './components/shared/VisitorTracker';
 
-const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','cardresume','festivalcards','holicard','holiwishes','holiwishes-en','holivideo','motivational','motivational-en','fathers','fathers-en','mothers','mothers-en','rentcard','saloncard','aitextimage','aifaceswap','videomaker','videotrimmer'];
+const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','cardresume','festivalcards','holicard','holiwishes','holiwishes-en','holivideo','motivational','motivational-en','fathers','fathers-en','mothers','mothers-en','rentcard','saloncard','aitextimage','aifaceswap','videomaker','videotrimmer','mp4tomp3','videoaudioswap'];
 
 /* ── Card ID → SEO-friendly URL slug mapping ── */
 const CARD_URL_MAP = {
@@ -60,6 +62,8 @@ const CARD_URL_MAP = {
   aifaceswap:        '/ai-themed-card-maker',
   videomaker:        '/video-maker',
   videotrimmer:      '/video-trimmer',
+  mp4tomp3:          '/mp4-to-mp3-converter',
+  videoaudioswap:    '/video-audio-replacer',
 };
 
 /* Reverse map: URL slug → card ID */
@@ -248,6 +252,8 @@ function AppContent({ initialCard }) {
     if (selected === 'aifaceswap')             return <>{subscribePopupJSX}<AIFaceSwapCard    {...cardProps} /></>;
     if (selected === 'videomaker')              return <>{subscribePopupJSX}<VideoMaker         onBack={handleBack} /></>;
     if (selected === 'videotrimmer')             return <>{subscribePopupJSX}<VideoTrimmer        onBack={handleBack} /></>;
+    if (selected === 'mp4tomp3')                  return <>{subscribePopupJSX}<Mp4ToMp3            onBack={handleBack} /></>;
+    if (selected === 'videoaudioswap')            return <>{subscribePopupJSX}<VideoAudioSwap      onBack={handleBack} /></>;
   }
 
   /* ---------- Calendar full page ---------- */
