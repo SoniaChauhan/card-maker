@@ -24,13 +24,15 @@ import SalonCard from './components/SalonCard';
 import CardResume from './components/CardResume';
 import AITextImageCard from './components/AITextImageCard';
 import AIFaceSwapCard from './components/AIFaceSwapCard';
+import VideoMaker from './components/VideoMaker';
+import VideoTrimmer from './components/VideoTrimmer';
 import ComboOfferPopup from './components/shared/ComboOfferPopup';
 import FestivalCalendar from './components/FestivalCalendar/FestivalCalendar';
 import FreeCardsPage from './components/FreeCardsPage/FreeCardsPage';
 import useScreenshotProtection from './hooks/useScreenshotProtection';
 import VisitorTracker from './components/shared/VisitorTracker';
 
-const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','cardresume','festivalcards','holicard','holiwishes','holiwishes-en','holivideo','motivational','motivational-en','fathers','fathers-en','mothers','mothers-en','rentcard','saloncard','aitextimage','aifaceswap'];
+const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','cardresume','festivalcards','holicard','holiwishes','holiwishes-en','holivideo','motivational','motivational-en','fathers','fathers-en','mothers','mothers-en','rentcard','saloncard','aitextimage','aifaceswap','videomaker','videotrimmer'];
 
 /* ── Card ID → SEO-friendly URL slug mapping ── */
 const CARD_URL_MAP = {
@@ -56,6 +58,8 @@ const CARD_URL_MAP = {
   saloncard:         '/salon-card-maker',
   aitextimage:       '/ai-text-image-card',
   aifaceswap:        '/ai-themed-card-maker',
+  videomaker:        '/video-maker',
+  videotrimmer:      '/video-trimmer',
 };
 
 /* Reverse map: URL slug → card ID */
@@ -242,6 +246,8 @@ function AppContent({ initialCard }) {
     if (selected === 'cardresume')             return <>{subscribePopupJSX}<CardResume        {...cardProps} /></>;
     if (selected === 'aitextimage')            return <>{subscribePopupJSX}<AITextImageCard   {...cardProps} /></>;
     if (selected === 'aifaceswap')             return <>{subscribePopupJSX}<AIFaceSwapCard    {...cardProps} /></>;
+    if (selected === 'videomaker')              return <>{subscribePopupJSX}<VideoMaker         onBack={handleBack} /></>;
+    if (selected === 'videotrimmer')             return <>{subscribePopupJSX}<VideoTrimmer        onBack={handleBack} /></>;
   }
 
   /* ---------- Calendar full page ---------- */

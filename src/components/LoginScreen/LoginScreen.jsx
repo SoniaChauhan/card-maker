@@ -999,6 +999,8 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
   const AI_FREE_CARDS = [
     { id: 'aitextimage', icon: '🎨', name: 'AI Text + Image Card',  desc: 'Upload photo, add text, choose layout — create personalised cards instantly!', grad: 'linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6)' },
     { id: 'aifaceswap',  icon: '🎭', name: 'AI Themed Card Maker',  desc: 'Pick a theme, upload your face & get a personalised themed card!',             grad: 'linear-gradient(135deg, #f59e0b, #ef4444, #8b5cf6)' },
+    { id: 'videomaker',  icon: '🎬', name: 'Video Card Maker',      desc: 'Upload photos & a song — create a video slideshow with transitions!',          grad: 'linear-gradient(135deg, #6366f1, #ec4899, #f59e0b)' },
+    { id: 'videotrimmer', icon: '✂️', name: 'Video Trimmer / Cropper', desc: 'Upload a video, trim it into clips & download — all in your browser!',          grad: 'linear-gradient(135deg, #22d3ee, #a78bfa, #f472b6)' },
   ];
 
   /* Festival calendar — auto-detect active festivals */
