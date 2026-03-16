@@ -189,6 +189,46 @@ export default function RootLayout({ children }) {
               mainEntity: [
                 {
                   '@type': 'Question',
+                  name: 'What is the best free card maker online?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Card Maker by Creative Thinker Design Hub is one of the best free online card makers. Create birthday invitations, wedding cards, festival greeting cards, and AI-powered personalised cards — all free with no watermark on free cards.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'Can I create greeting cards without watermark?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes! AI cards, festival cards, Holi wishes, motivational quotes, and all video tools are 100% free with no watermark. Premium cards (birthday, wedding, anniversary) offer a clean no-watermark download at ₹49.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'How do I make festival cards online?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Simply click on the festival card you want (Eid, Diwali, Holi, etc.), customise the text and design, preview it, and download instantly. No signup required for free festival cards.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'Is your video trimmer free to use?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes! All video tools — Video Trimmer, MP4 to MP3 Converter, and Video Audio Replacer — are completely free. Everything processes in your browser, no files are uploaded to any server.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'Can I convert MP4 video to MP3 audio for free?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Absolutely! Use our free MP4 to MP3 Converter to extract audio from any video. Choose quality from 64kbps to 320kbps and download real MP3 files — all in your browser.',
+                  },
+                },
+                {
+                  '@type': 'Question',
                   name: 'How can I create a card online?',
                   acceptedAnswer: {
                     '@type': 'Answer',
@@ -197,18 +237,10 @@ export default function RootLayout({ children }) {
                 },
                 {
                   '@type': 'Question',
-                  name: 'Is Card Maker free to use?',
+                  name: 'Do I need to install any software?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Yes! Holi wishes cards (Hindi & English) are 100% free — no sign-up required. Premium card designers like birthday, wedding, anniversary, and festival cards are available at ₹19 (with watermark) or ₹49 (clean, no watermark).',
-                  },
-                },
-                {
-                  '@type': 'Question',
-                  name: 'Do I need to sign up to download cards?',
-                  acceptedAnswer: {
-                    '@type': 'Answer',
-                    text: 'No! Free cards like Holi wishes can be downloaded without signing up. For premium cards, you can use them as a guest or create an account to save templates and download history.',
+                    text: 'No installation needed! Card Maker is a web app that works directly in your browser on desktop, tablet, and mobile devices. Just open the website and start creating.',
                   },
                 },
                 {
@@ -224,15 +256,7 @@ export default function RootLayout({ children }) {
                   name: 'What types of cards can I create?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'You can create Birthday Invitations, Wedding Cards, Anniversary Greetings, Holi Wishes (Hindi & English), Festival Cards, Marriage Biodata, Professional Resumes, Jagrata Invitations, PG & Rent Advertisement Cards, Salon Price List Cards, and more.',
-                  },
-                },
-                {
-                  '@type': 'Question',
-                  name: 'Can I download cards as PDF?',
-                  acceptedAnswer: {
-                    '@type': 'Answer',
-                    text: 'Yes! Resumes and biodata can be downloaded as PDF files. Invitation cards and greeting cards are downloaded as high-quality PNG images perfect for printing and sharing.',
+                    text: 'You can create Birthday Invitations, Wedding Cards, Anniversary Greetings, Holi Wishes (Hindi & English), Festival Cards, Marriage Biodata, Professional Resumes, Jagrata Invitations, PG & Rent Cards, Salon Price List Cards, AI Cards, and more.',
                   },
                 },
                 {
@@ -243,6 +267,28 @@ export default function RootLayout({ children }) {
                     text: 'Absolutely! Card Maker works on all devices — desktop, tablet, and mobile phones. The interface is fully responsive and optimised for touch screens.',
                   },
                 },
+              ],
+            }),
+          }}
+        />
+        {/* Structured Data – BreadcrumbList */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+                { '@type': 'ListItem', position: 2, name: 'AI Text to Image Card', item: `${SITE_URL}/ai-text-image-card` },
+                { '@type': 'ListItem', position: 3, name: 'AI Themed Card Maker', item: `${SITE_URL}/ai-themed-card-maker` },
+                { '@type': 'ListItem', position: 4, name: 'Video Card Maker', item: `${SITE_URL}/video-maker` },
+                { '@type': 'ListItem', position: 5, name: 'Video Trimmer', item: `${SITE_URL}/video-trimmer` },
+                { '@type': 'ListItem', position: 6, name: 'MP4 to MP3 Converter', item: `${SITE_URL}/mp4-to-mp3-converter` },
+                { '@type': 'ListItem', position: 7, name: 'Video Audio Replacer', item: `${SITE_URL}/video-audio-replacer` },
+                { '@type': 'ListItem', position: 8, name: 'Birthday Invitation Maker', item: `${SITE_URL}/birthday-invitation-maker` },
+                { '@type': 'ListItem', position: 9, name: 'Wedding Card Maker', item: `${SITE_URL}/wedding-card-maker` },
+                { '@type': 'ListItem', position: 10, name: 'Festival Card Maker', item: `${SITE_URL}/festival-card-maker` },
               ],
             }),
           }}

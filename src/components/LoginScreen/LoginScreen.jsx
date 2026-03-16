@@ -997,15 +997,15 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
   ];
 
   const AI_FREE_CARDS = [
-    { id: 'aitextimage', icon: '🎨', name: 'AI Text + Image Card',  desc: 'Upload photo, add text, choose layout — create personalised cards instantly!', grad: 'linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6)', alt: 'AI Text to Image Card Maker online free' },
-    { id: 'aifaceswap',  icon: '🎭', name: 'AI Themed Card Maker',  desc: 'Pick a theme, upload your face & get a personalised themed card!',             grad: 'linear-gradient(135deg, #6366f1, #8b5cf6, #c084fc)', alt: 'AI Themed Card Maker free online' },
-    { id: 'videomaker',  icon: '🎬', name: 'Video Card Maker',      desc: 'Upload photos & a song — create a video slideshow with transitions!',          grad: 'linear-gradient(135deg, #3b82f6, #6366f1, #a78bfa)', alt: 'Video Card Maker with photos and music online' },
+    { id: 'aitextimage', icon: '🎨', name: 'AI Text to Image Card Maker',  desc: 'Upload photo, add text, choose layout — create personalised cards instantly!', grad: 'linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6)', alt: 'AI Text to Image Card Maker online free', link: '/ai-text-image-card' },
+    { id: 'aifaceswap',  icon: '🎭', name: 'AI Themed Card Generator',  desc: 'Pick a theme, upload your face & get a personalised themed card!',             grad: 'linear-gradient(135deg, #6366f1, #8b5cf6, #c084fc)', alt: 'AI Themed Card Maker free online', link: '/ai-themed-card-maker' },
+    { id: 'videomaker',  icon: '🎬', name: 'Video Card Maker',      desc: 'Upload photos & a song — create a video slideshow with transitions!',          grad: 'linear-gradient(135deg, #3b82f6, #6366f1, #a78bfa)', alt: 'Video Card Maker with photos and music online', link: '/video-maker' },
   ];
 
   const VIDEO_TOOLS = [
-    { id: 'videotrimmer',   icon: '✂️', name: 'Video Trimmer / Cropper', desc: 'Upload a video, trim it into clips & download — all in your browser!',      grad: 'linear-gradient(135deg, #22d3ee, #a78bfa, #f472b6)', alt: 'Free online video trimmer and cropper tool' },
-    { id: 'mp4tomp3',       icon: '🎵', name: 'MP4 → MP3 Converter',    desc: 'Extract audio from any video — choose quality & download instantly!',         grad: 'linear-gradient(135deg, #34d399, #60a5fa, #c084fc)', alt: 'Free MP4 to MP3 converter tool online' },
-    { id: 'videoaudioswap', icon: '🔊', name: 'Video Audio Replacer',    desc: 'Replace video sound with a new song — adjust volumes & download!',           grad: 'linear-gradient(135deg, #f472b6, #818cf8, #34d399)', alt: 'Replace audio in video online free tool' },
+    { id: 'videotrimmer',   icon: '✂️', name: 'Video Trimmer / Cropper', desc: 'Upload a video, trim it into clips & download — all in your browser!',      grad: 'linear-gradient(135deg, #22d3ee, #a78bfa, #f472b6)', alt: 'Free online video trimmer and cropper tool', link: '/video-trimmer' },
+    { id: 'mp4tomp3',       icon: '🎵', name: 'MP4 to MP3 Converter',    desc: 'Extract audio from any video — choose quality & download instantly!',         grad: 'linear-gradient(135deg, #34d399, #60a5fa, #c084fc)', alt: 'Free MP4 to MP3 converter tool online', link: '/mp4-to-mp3-converter' },
+    { id: 'videoaudioswap', icon: '🔊', name: 'Video Audio Replacer',    desc: 'Replace video sound with a new song — adjust volumes & download!',           grad: 'linear-gradient(135deg, #f472b6, #818cf8, #34d399)', alt: 'Replace audio in video online free tool', link: '/video-audio-replacer' },
   ];
 
   /* Festival calendar — auto-detect active festivals */
@@ -1171,7 +1171,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
       </section>
 
       {/* ═══════ POPULAR AI CARD MAKERS ═══════ */}
-      <section className="lp-upcoming-section" aria-label="Free AI card makers and festival greeting card tools">
+      <section className="lp-upcoming-section" aria-label="Online card maker, AI card generator, free greeting card maker">
         <h2 className="lp-section-title">⭐ Popular AI Card Makers</h2>
         <p className="lp-section-sub">Create stunning cards instantly with free online tools.</p>
         <p className="lp-seo-keywords">Create free online greeting cards, invitations and festival cards using AI. Make birthday cards, wedding cards, and digital invites instantly — no watermark.</p>
@@ -1185,6 +1185,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
               <h3 className="lp-showcase-name">{c.name}</h3>
               <p className="lp-ai-free-desc">{c.desc}</p>
               <span className="lp-ai-free-cta">Try Now →</span>
+              <a href={c.link} className="lp-card-seo-link" onClick={e => e.preventDefault()}>Learn more →</a>
             </button>
           ))}
           {/* Visible Festival Cards (7 days before → 1 day after) */}
@@ -1202,7 +1203,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
       </section>
 
       {/* ═══════ FREE VIDEO EDITING TOOLS ═══════ */}
-      <section className="lp-upcoming-section" aria-label="Free online video editing tools — trim, convert and edit videos">
+      <section className="lp-upcoming-section" aria-label="Free online video trimmer, MP4 to MP3 converter, audio replacer tool">
         <h2 className="lp-section-title">🔧 Free Video Editing Tools</h2>
         <p className="lp-section-sub">Quick online tools — trim, extract audio &amp; edit videos.</p>
         <p className="lp-seo-keywords">Use free online video tools to trim videos, extract MP3 audio from MP4, and replace sound in videos — all inside your browser, no upload needed.</p>
@@ -1215,6 +1216,7 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
               <h3 className="lp-showcase-name">{c.name}</h3>
               <p className="lp-ai-free-desc">{c.desc}</p>
               <span className="lp-ai-free-cta">Try Now →</span>
+              <a href={c.link} className="lp-card-seo-link" onClick={e => e.preventDefault()}>Learn more →</a>
             </button>
           ))}
         </div>
@@ -2297,6 +2299,38 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
       )}
 
       <Toast text={toast.text} show={toast.show} />
+
+      {/* ═══════ FAQ SECTION ═══════ */}
+      <section className="lp-faq-section" aria-label="Frequently asked questions about free card maker and video tools">
+        <h2 className="lp-section-title">❓ Frequently Asked Questions</h2>
+        <p className="lp-section-sub">Quick answers about our free card maker &amp; video tools.</p>
+        <div className="lp-faq-list">
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">What is the best free card maker online?</summary>
+            <p className="lp-faq-a">Card Maker by Creative Thinker Design Hub is one of the best free online card makers in India. Create birthday invitations, wedding cards, festival greeting cards, and AI-powered personalised cards — all free with no watermark on free cards.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">Can I create greeting cards without watermark?</summary>
+            <p className="lp-faq-a">Yes! AI cards, festival cards, Holi wishes, motivational quotes, and all video tools are 100% free with no watermark. Premium cards (birthday, wedding, anniversary) offer a clean no-watermark download at ₹49.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">How do I make festival cards online?</summary>
+            <p className="lp-faq-a">Simply click on the festival card you want (Eid, Diwali, Holi, etc.), customise the text and design, preview it, and download instantly. No signup required for free festival cards.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">Is your video trimmer free to use?</summary>
+            <p className="lp-faq-a">Yes! All our video tools — Video Trimmer, MP4 to MP3 Converter, and Video Audio Replacer — are completely free. Everything processes in your browser, no files are uploaded to any server.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">Can I convert MP4 video to MP3 audio for free?</summary>
+            <p className="lp-faq-a">Absolutely! Use our free MP4 to MP3 Converter to extract audio from any video. Choose quality from 64kbps to 320kbps and download real MP3 files — all in your browser.</p>
+          </details>
+          <details className="lp-faq-item">
+            <summary className="lp-faq-q">Do I need to install any software?</summary>
+            <p className="lp-faq-a">No installation needed! Card Maker is a web app that works directly in your browser on desktop, tablet, and mobile devices. Just open the website and start creating.</p>
+          </details>
+        </div>
+      </section>
     </div>
   );
 }
