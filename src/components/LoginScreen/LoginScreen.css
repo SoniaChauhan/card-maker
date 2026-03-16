@@ -2822,8 +2822,8 @@
 /* Inner grid */
 .lp-footer-inner {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
-  gap: 40px;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
+  gap: 36px;
   max-width: var(--lp-max);
   margin: 0 auto;
   padding: 56px var(--lp-gutter) 40px;
