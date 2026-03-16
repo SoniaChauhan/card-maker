@@ -110,7 +110,7 @@ export default function FestivalCard({ onBack, userEmail, initialData, templateI
   const dlTitle = data.recipientName ? `${festival.label} for ${data.recipientName}` : festival.label;
   const { downloading, handleDownload, toast } = useDownload('festival-card-print', filename, {
     onSuccess: () => logDownload(userEmail, 'festival', 'Festival Greeting Card', dlTitle, filename, data).catch(() => {}),
-    addWatermark: false,
+    addWatermark: true,
   });
 
   function onChange(e) {

@@ -59,7 +59,7 @@ export default function AITextImageCard({ onBack, userEmail }) {
       await logDownload(userEmail, CARD_TYPE, 'AI Text+Image Card', data.title || 'Untitled', filename, {}).catch(() => null);
     },
     downloadWidth: 800,
-    addWatermark: false,
+    addWatermark: true,
   });
 
   function onChange(e) {
