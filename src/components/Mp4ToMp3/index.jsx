@@ -19,6 +19,117 @@ function formatSize(bytes) {
   return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
 }
 
+/**
+ * Fallback: capture audio by playing the video through Web Audio API.
+ * Used when decodeAudioData cannot parse the video container format.
+ */
+function captureAudioViaPlayback(url, onProgress) {
+  return new Promise((resolve, reject) => {
+    const video = document.createElement('video');
+    video.src = url;
+    video.preload = 'auto';
+    video.playsInline = true;
+
+    function cleanup(ctx, nodes) {
+      if (nodes) nodes.forEach(n => { try { n.disconnect(); } catch {} });
+      if (ctx) try { ctx.close(); } catch {}
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
+    }
+
+    video.addEventListener('loadedmetadata', async () => {
+      const duration = video.duration;
+      if (!duration || !isFinite(duration)) {
+        reject(new Error('Cannot determine video duration'));
+        return;
+      }
+
+      const sampleRate = 44100;
+      let ctx;
+      try {
+        ctx = new AudioContext({ sampleRate });
+        if (ctx.state === 'suspended') await ctx.resume();
+      } catch {
+        reject(new Error('AudioContext unavailable'));
+        return;
+      }
+
+      const source = ctx.createMediaElementSource(video);
+      const processor = ctx.createScriptProcessor(4096, 2, 2);
+      const muteGain = ctx.createGain();
+      muteGain.gain.value = 0; // keep speakers silent
+
+      // source → processor → muteGain(0) → destination
+      // processor must be connected to destination to fire onaudioprocess
+      source.connect(processor);
+      processor.connect(muteGain);
+      muteGain.connect(ctx.destination);
+
+      const leftChunks = [];
+      const rightChunks = [];
+
+      processor.onaudioprocess = (e) => {
+        leftChunks.push(new Float32Array(e.inputBuffer.getChannelData(0)));
+        rightChunks.push(new Float32Array(
+          e.inputBuffer.numberOfChannels > 1
+            ? e.inputBuffer.getChannelData(1)
+            : e.inputBuffer.getChannelData(0)
+        ));
+        if (onProgress && duration > 0) {
+          const pct = Math.min(video.currentTime / duration, 1);
+          onProgress(10 + Math.round(pct * 80));
+        }
+      };
+
+      video.addEventListener('ended', () => {
+        cleanup(ctx, [processor, muteGain, source]);
+        const totalLen = leftChunks.reduce((a, c) => a + c.length, 0);
+        if (totalLen === 0) { reject(new Error('Video has no audio track')); return; }
+
+        // Check for silence — video may lack an actual audio stream
+        let hasSound = false;
+        for (const c of leftChunks) {
+          for (let i = 0; i < c.length; i += 100) {
+            if (Math.abs(c[i]) > 0.0001) { hasSound = true; break; }
+          }
+          if (hasSound) break;
+        }
+        if (!hasSound) { reject(new Error('Video has no audio track')); return; }
+
+        // Concatenate captured samples
+        const left = new Float32Array(totalLen);
+        const right = new Float32Array(totalLen);
+        let off = 0;
+        for (let i = 0; i < leftChunks.length; i++) {
+          left.set(leftChunks[i], off);
+          right.set(rightChunks[i], off);
+          off += leftChunks[i].length;
+        }
+
+        resolve({
+          sampleRate,
+          numberOfChannels: 2,
+          length: totalLen,
+          getChannelData: (ch) => ch === 0 ? left : right,
+        });
+      });
+
+      video.addEventListener('error', () => {
+        cleanup(ctx, [processor, muteGain, source]);
+        reject(new Error('Playback error'));
+      });
+
+      try { await video.play(); } catch {
+        cleanup(ctx, [processor, muteGain, source]);
+        reject(new Error('Could not start video playback'));
+      }
+    });
+
+    video.addEventListener('error', () => reject(new Error('Could not load video')));
+  });
+}
+
 export default function Mp4ToMp3({ onBack }) {
   const [videoFile, setVideoFile] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
@@ -96,15 +207,22 @@ export default function Mp4ToMp3({ onBack }) {
     if (audioUrl) { URL.revokeObjectURL(audioUrl); setAudioUrl(null); setAudioBlob(null); }
 
     try {
-      // 1. Read video file into ArrayBuffer
-      setProgress(5);
-      const arrayBuffer = await videoFile.arrayBuffer();
+      let audioBuffer;
+      let usedFallback = false;
 
-      // 2. Decode audio from the video
-      setProgress(10);
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-      try { audioCtx.close(); } catch {}
+      // Method 1 (fast): decodeAudioData — works for many video formats
+      try {
+        setProgress(5);
+        const arrayBuffer = await videoFile.arrayBuffer();
+        setProgress(10);
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+        try { audioCtx.close(); } catch {}
+      } catch {
+        // Method 2 (fallback): real-time audio capture via video playback
+        usedFallback = true;
+        audioBuffer = await captureAudioViaPlayback(videoUrl, setProgress);
+      }
 
       const sampleRate = audioBuffer.sampleRate;
       const numChannels = Math.min(audioBuffer.numberOfChannels, 2); // max stereo
@@ -113,13 +231,15 @@ export default function Mp4ToMp3({ onBack }) {
         samples.push(audioBuffer.getChannelData(ch));
       }
 
-      // 3. Encode to MP3 using lamejs
+      // Encode to MP3 using lamejs
       const lamejs = await import('lamejs');
       const kbps = Math.round(bitrate / 1000);
       const encoder = new lamejs.Mp3Encoder(numChannels, sampleRate, kbps);
       const mp3Chunks = [];
       const blockSize = 1152;
       const totalSamples = samples[0].length;
+      const encodeBase = usedFallback ? 90 : 10;
+      const encodeRange = usedFallback ? 9 : 85;
 
       function floatTo16BitPCM(float32Array) {
         const int16 = new Int16Array(float32Array.length);
@@ -142,9 +262,8 @@ export default function Mp4ToMp3({ onBack }) {
           );
         }
         if (mp3buf.length > 0) mp3Chunks.push(mp3buf);
-        // Progress: 10% → 95%
         if (i % (blockSize * 50) === 0) {
-          setProgress(10 + Math.round((i / totalSamples) * 85));
+          setProgress(encodeBase + Math.round((i / totalSamples) * encodeRange));
         }
       }
 
@@ -159,7 +278,11 @@ export default function Mp4ToMp3({ onBack }) {
       setStep('done');
     } catch (err) {
       console.error('Conversion failed:', err);
-      setError('Failed to extract audio. The video may not contain an audio track, or try a different format.');
+      setError(
+        err?.message === 'Video has no audio track'
+          ? 'This video does not contain an audio track.'
+          : 'Failed to extract audio. The video may not contain an audio track, or try a different format.'
+      );
       setStep('upload');
     } finally {
       setConverting(false);
