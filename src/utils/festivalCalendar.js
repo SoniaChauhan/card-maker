@@ -452,4 +452,30 @@ export function getUpcomingFestivals(now = new Date()) {
     .sort((a, b) => a.nextStart.localeCompare(b.nextStart));
 }
 
+/**
+ * Get festivals visible on the landing page.
+ * Logic: show from 7 days BEFORE the festival start date until 1 day AFTER.
+ * @param {Date} [now] — optional date override for testing
+ * @returns {Array} — sorted by nearest start date, with `festivalStart` attached
+ */
+export function getVisibleFestivals(now = new Date()) {
+  const today = now.toISOString().slice(0, 10);
+  const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+  const ONE_DAY_MS = 1 * 24 * 60 * 60 * 1000;
+
+  return FESTIVAL_CALENDAR
+    .map(f => {
+      const match = f.dates.find(d => {
+        const showFrom = new Date(new Date(d.start + 'T00:00:00').getTime() - SEVEN_DAYS_MS)
+          .toISOString().slice(0, 10);
+        const hideAfter = new Date(new Date(d.start + 'T00:00:00').getTime() + ONE_DAY_MS)
+          .toISOString().slice(0, 10);
+        return today >= showFrom && today <= hideAfter;
+      });
+      return match ? { ...f, festivalStart: match.start } : null;
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.festivalStart.localeCompare(b.festivalStart));
+}
+
 export default FESTIVAL_CALENDAR;

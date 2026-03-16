@@ -613,7 +613,7 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1, bg
         <div className="wed-body">
           <div className="wed-col wed-col-left">
             <div className="wed-shlok">तेनु सुपती प्राप्त</div>
-            <div className="wed-jaimala"><img src="/default-wedding-couple.jpg" alt="Wedding couple" className="wed-jaimala-img" loading="lazy" /></div>
+            <div className="wed-jaimala"><JaimalaArt /></div>
             {photoPreview && <div className="wed-photo-wrap">{tpl === 3 && <PhotoWreath />}<div className="wed-photo-frame"><img src={photoPreview} alt="Couple" className="wed-photo" loading="lazy" /></div></div>}
             <div className="wed-couple"><div className="wed-name wed-groom-name">{groomName || 'Groom'}</div><div className="wed-amp">&amp;</div><div className="wed-name wed-bride-name">{brideName || 'Bride'}</div></div>
             <div className="wed-together">TOGETHER WITH THEIR FAMILIES</div>
@@ -640,7 +640,7 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1, bg
     return (
       <div id="wedding-card-print" className={`wedding-card wed-centered ${themeClass}`} style={customStyle}>
         <div className="wed-inner-frame" />
-        <div className="wed-jaimala"><img src="/default-wedding-couple.jpg" alt="Wedding couple" className="wed-jaimala-img" loading="lazy" /></div>
+        <div className="wed-jaimala"><JaimalaArt /></div>
         <div className="wed-avatars"><span className="wed-avatar-icon">🤵</span><span className="wed-avatar-icon">👰</span></div>
         <div className="wed-couple-center"><div className="wed-name-center">{groomName || 'Groom'}</div><div className="wed-amp-center">&amp;</div><div className="wed-name-center">{brideName || 'Bride'}</div></div>
         <div className="wed-tagline">Two hearts, one soul</div>
@@ -667,7 +667,7 @@ export default function WeddingCardPreview({ data, lang = 'en', template = 1, bg
     return (
       <div id="wedding-card-print" className={`wedding-card wed-layout-c ${themeClass}`} style={customStyle}>
         <div className="wed-c-hero">
-          <img src={photoPreview || '/default-wedding-couple.jpg'} alt="" className="wed-c-hero-img" />
+          {photoPreview ? <img src={photoPreview} alt="" className="wed-c-hero-img" /> : <div className="wed-jaimala" style={{ padding: '20px 0' }}><JaimalaArt /></div>}
           <div className="wed-c-hero-overlay" />
           <div className="wed-c-hero-text">
             <div className="wed-c-names">{groomName || 'Groom'} <span>&amp;</span> {brideName || 'Bride'}</div>

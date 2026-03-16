@@ -22,6 +22,10 @@ export default function sitemap() {
     { url: `${BASE_URL}/holi-celebration-card`,              lastModified: now, changeFrequency: 'weekly',  priority: 0.80 },
     { url: `${BASE_URL}/jagrata-invitation-card`,            lastModified: now, changeFrequency: 'monthly', priority: 0.75 },
 
+    /* ── AI-powered card pages ── */
+    { url: `${BASE_URL}/ai-text-image-card`,                 lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${BASE_URL}/ai-themed-card-maker`,               lastModified: now, changeFrequency: 'monthly', priority: 0.85 },
+
     /* ── Wishes & quotes pages ── */
     { url: `${BASE_URL}/happy-holi-wishes-hindi`,            lastModified: now, changeFrequency: 'weekly',  priority: 0.80 },
     { url: `${BASE_URL}/happy-holi-wishes-english`,          lastModified: now, changeFrequency: 'weekly',  priority: 0.80 },
