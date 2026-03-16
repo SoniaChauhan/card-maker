@@ -15,7 +15,7 @@ import AdminPanel from '../AdminPanel/AdminPanel';
 import MyTemplates from '../MyTemplates/MyTemplates';
 import DownloadHistory from '../DownloadHistory/DownloadHistory';
 import Toast from '../shared/Toast';
-import { getActiveFestivals, getUpcomingFestivals } from '../../utils/festivalCalendar';
+import { getActiveFestivals, getVisibleFestivals } from '../../utils/festivalCalendar';
 
 /* Preview components for sample cards */
 import WeddingCardPreview from '../WeddingCard/WeddingCardPreview';
@@ -996,9 +996,14 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
     { id: 'cardresume',    icon: '🪪', name: 'Professional Resume Maker',      desc: 'Download your job‑ready resume. Perfect for freshers & professionals.',       grad: 'linear-gradient(135deg, #7c3aed, #a78bfa, #818cf8)', price: '₹99' },
   ];
 
+  const AI_FREE_CARDS = [
+    { id: 'aitextimage', icon: '🎨', name: 'AI Text + Image Card',  desc: 'Upload photo, add text, choose layout — create personalised cards instantly!', grad: 'linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6)' },
+    { id: 'aifaceswap',  icon: '🎭', name: 'AI Themed Card Maker',  desc: 'Pick a theme, upload your face & get a personalised themed card!',             grad: 'linear-gradient(135deg, #f59e0b, #ef4444, #8b5cf6)' },
+  ];
+
   /* Festival calendar — auto-detect active festivals */
   const activeFestivals = getActiveFestivals();
-  const upcomingFestivals = getUpcomingFestivals();
+  const visibleFestivals = getVisibleFestivals();
   const FREE_CARDS_HINDI = [
     { id: 'motivational',  icon: '💪', name: 'प्रेरणादायक विचार',      desc: 'प्रेरणादायक विचार — थीम चुनें, कस्टमाइज़ करें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #0f0c29, #302b63)' },
     { id: 'fathers',       icon: '👨‍👧', name: 'पिता पर सुविचार',        desc: 'पिता के प्यार को शब्दों में — थीम चुनें और फ्री डाउनलोड करें!', grad: 'linear-gradient(135deg, #2d3436, #636e72)' },
@@ -1068,6 +1073,8 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
                   <button className="lp-nav-dropdown-item" onClick={() => handleCardClick('rentcard')}>🏠 PG / Rent Cards</button>
                   <button className="lp-nav-dropdown-item" onClick={() => handleCardClick('saloncard')}>💇 Salon Cards</button>
                   <button className="lp-nav-dropdown-item" onClick={() => handleCardClick('cardresume')}>📄 Resume Builder</button>
+                  <button className="lp-nav-dropdown-item" onClick={() => handleCardClick('aitextimage')}>🎨 AI Text+Image Card</button>
+                  <button className="lp-nav-dropdown-item" onClick={() => handleCardClick('aifaceswap')}>🎭 AI Themed Card</button>
                 </div>
               )}
             </div>
@@ -1156,22 +1163,35 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
         </div>
       </section>
 
-      {/* ═══════ UPCOMING FESTIVALS PREVIEW ═══════ */}
-      {upcomingFestivals.length > 0 && !activeFestivals.length && (
-        <section className="lp-upcoming-section">
-          <h2 className="lp-section-title">📅 Upcoming Festivals</h2>
-          <p className="lp-section-sub">Special offers coming soon for these festivals!</p>
-          <div className="lp-upcoming-grid">
-            {upcomingFestivals.slice(0, 4).map(f => (
-              <div key={f.key} className="lp-upcoming-card" style={{ background: f.grad }}>
-                <span className="lp-showcase-icon">{f.icon}</span>
-                <h3 className="lp-showcase-name">{f.name}</h3>
-                <span className="lp-upcoming-date">Starts {new Date(f.nextStart + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
+      {/* ═══════ UPCOMING FESTIVALS + FREE AI CARDS ═══════ */}
+      <section className="lp-upcoming-section">
+        <h2 className="lp-section-title">🎉 Free Festival Cards &amp; 🤖 AI Card Makers</h2>
+        <p className="lp-section-sub">Create stunning festival greeting cards &amp; AI-powered personalised cards — <strong>100% free, no watermark!</strong></p>
+
+        <div className="lp-upcoming-grid lp-ai-free-grid">
+          {/* AI Free Cards */}
+          {AI_FREE_CARDS.map(c => (
+            <button key={c.id} className="lp-upcoming-card lp-ai-free-card" style={{ background: c.grad }} type="button" onClick={() => handleCardClick(c.id)}>
+              <span className="lp-ai-free-tag">✨ FREE</span>
+              <span className="lp-showcase-icon">{c.icon}</span>
+              <h3 className="lp-showcase-name">{c.name}</h3>
+              <p className="lp-ai-free-desc">{c.desc}</p>
+              <span className="lp-ai-free-cta">Try Now →</span>
+            </button>
+          ))}
+          {/* Visible Festival Cards (7 days before → 1 day after) */}
+          {visibleFestivals.map(f => (
+            <button key={f.key} className="lp-upcoming-card lp-festival-free-card" style={{ background: f.grad }} type="button" onClick={() => { if (onSelectFestival) onSelectFestival(f.key); handleCardClick(f.offerCard); }}>
+              <span className="lp-ai-free-tag">🆓 FREE</span>
+              <span className="lp-showcase-icon">{f.icon}</span>
+              <h3 className="lp-showcase-name">{f.name}</h3>
+              <p className="lp-ai-free-desc">{f.seoTagline}</p>
+              <span className="lp-ai-free-cta">Create Free Card →</span>
+            </button>
+          ))}
+        </div>
+
+      </section>
 
       {/* ═══════ PREMIUM CARDS ═══════ */}
       <section className="lp-showcase" id="lp-cards-anchor">

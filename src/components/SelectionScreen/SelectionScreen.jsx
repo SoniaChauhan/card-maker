@@ -7,6 +7,14 @@ import Toast from '../shared/Toast';
 /* ─── Card catalogue grouped by category ─── */
 const CATEGORIES = [
   {
+    title: '🤖 AI-Powered',
+    id: 'ai',
+    cards: [
+      { id: 'aitextimage', label: 'AI Text + Image Card',       desc: 'Upload your photo, add text, choose layout — create stunning personalised cards instantly!',        icon: '🎨', badge: '✨ NEW • Free' },
+      { id: 'aifaceswap',  label: 'AI Themed Card Maker',       desc: 'Pick a theme (Haldi, Mehendi, Diwali…), upload your face photo & get a personalised card!', icon: '🎭', badge: '🤖 AI • Free' },
+    ],
+  },
+  {
     title: '⭐ Featured',
     id: 'featured',
     cards: [

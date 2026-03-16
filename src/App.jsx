@@ -22,13 +22,15 @@ import HoliVideo from './components/HoliVideo';
 import RentCard from './components/RentCard';
 import SalonCard from './components/SalonCard';
 import CardResume from './components/CardResume';
+import AITextImageCard from './components/AITextImageCard';
+import AIFaceSwapCard from './components/AIFaceSwapCard';
 import ComboOfferPopup from './components/shared/ComboOfferPopup';
 import FestivalCalendar from './components/FestivalCalendar/FestivalCalendar';
 import FreeCardsPage from './components/FreeCardsPage/FreeCardsPage';
 import useScreenshotProtection from './hooks/useScreenshotProtection';
 import VisitorTracker from './components/shared/VisitorTracker';
 
-const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','cardresume','festivalcards','holicard','holiwishes','holiwishes-en','holivideo','motivational','motivational-en','fathers','fathers-en','mothers','mothers-en','rentcard','saloncard'];
+const VALID_CARDS = ['birthday','anniversary','jagrata','biodata','wedding','resume','cardresume','festivalcards','holicard','holiwishes','holiwishes-en','holivideo','motivational','motivational-en','fathers','fathers-en','mothers','mothers-en','rentcard','saloncard','aitextimage','aifaceswap'];
 
 /* ── Card ID → SEO-friendly URL slug mapping ── */
 const CARD_URL_MAP = {
@@ -52,6 +54,8 @@ const CARD_URL_MAP = {
   'fathers-en':      '/fathers-quotes-english',
   rentcard:          '/rent-card-maker',
   saloncard:         '/salon-card-maker',
+  aitextimage:       '/ai-text-image-card',
+  aifaceswap:        '/ai-themed-card-maker',
 };
 
 /* Reverse map: URL slug → card ID */
@@ -236,6 +240,8 @@ function AppContent({ initialCard }) {
     if (selected === 'rentcard')              return <>{subscribePopupJSX}<RentCard          {...cardProps} /></>;
     if (selected === 'saloncard')             return <>{subscribePopupJSX}<SalonCard         {...cardProps} /></>;
     if (selected === 'cardresume')             return <>{subscribePopupJSX}<CardResume        {...cardProps} /></>;
+    if (selected === 'aitextimage')            return <>{subscribePopupJSX}<AITextImageCard   {...cardProps} /></>;
+    if (selected === 'aifaceswap')             return <>{subscribePopupJSX}<AIFaceSwapCard    {...cardProps} /></>;
   }
 
   /* ---------- Calendar full page ---------- */

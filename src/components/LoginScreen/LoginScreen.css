@@ -1423,7 +1423,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 14px;
-  max-width: 700px;
+  max-width: 1200px;
   margin: 20px auto 0;
 }
 .lp-upcoming-card {
@@ -1436,6 +1436,8 @@
   text-align: center;
   border: 2px dashed rgba(255,255,255,.25);
   transition: transform .2s;
+  cursor: pointer;
+  font-family: inherit;
 }
 .lp-upcoming-card:hover { transform: translateY(-2px); }
 .lp-upcoming-card .lp-showcase-icon { font-size: 36px; margin-bottom: 6px; }
@@ -1447,6 +1449,91 @@
   padding: 3px 10px;
   border-radius: 20px;
   margin-top: 4px;
+}
+
+/* Sub heading inside upcoming section */
+.lp-upcoming-sub-heading {
+  color: rgba(255,255,255,.85);
+  font-size: 15px;
+  font-weight: 600;
+  margin: 18px 0 10px;
+  text-align: center;
+}
+
+/* AI Free cards grid — wider cards */
+.lp-ai-free-grid {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  max-width: 1200px;
+}
+.lp-ai-free-card {
+  cursor: pointer;
+  border: 2px solid rgba(255,255,255,.18);
+  border-style: solid;
+  position: relative;
+  padding: 22px 14px 16px;
+  transition: transform .2s, box-shadow .2s;
+}
+.lp-ai-free-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,0,0,.35);
+  border-color: rgba(255,255,255,.35);
+}
+.lp-ai-free-tag {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #10b981;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 8px;
+  letter-spacing: .5px;
+}
+.lp-ai-free-desc {
+  font-size: 11px;
+  color: rgba(255,255,255,.75);
+  margin: 4px 0 8px;
+  line-height: 1.35;
+}
+.lp-ai-free-cta {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(255,255,255,.15);
+  padding: 4px 14px;
+  border-radius: 20px;
+  transition: background .2s;
+}
+.lp-ai-free-card:hover .lp-ai-free-cta {
+  background: rgba(255,255,255,.25);
+}
+
+/* Festival free cards — same style as AI free cards */
+.lp-festival-free-card {
+  cursor: pointer;
+  border: 2px solid rgba(255,255,255,.18);
+  border-style: solid;
+  position: relative;
+  padding: 22px 14px 16px;
+  transition: transform .2s, box-shadow .2s;
+}
+.lp-festival-free-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,0,0,.35);
+  border-color: rgba(255,255,255,.35);
+}
+.lp-festival-free-card .lp-ai-free-tag {
+  background: #f59e0b;
+}
+.lp-festival-free-card .lp-showcase-icon {
+  font-size: 36px;
+  margin-bottom: 6px;
+}
+.lp-festival-free-card .lp-showcase-name {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 4px;
 }
 
 /* ── Occasional / Festival Cards Toggle ── */
@@ -2962,6 +3049,7 @@
   .lp-upcoming-card { padding: 14px 8px; }
   .lp-upcoming-card .lp-showcase-icon { font-size: 28px; }
   .lp-upcoming-card .lp-showcase-name { font-size: 11px; }
+  .lp-ai-free-grid { grid-template-columns: 1fr; max-width: 340px; }
 
   .lp-occasional-toggle { padding: 12px 20px; font-size: 13px; }
   .lp-occasional-icon { font-size: 18px; }
