@@ -19,126 +19,6 @@ function formatSize(bytes) {
   return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
 }
 
-/**
- * Extract PCM audio from a video using the most reliable browser path:
- * 1. Play the <video> element (browser handles any codec it supports)
- * 2. captureStream() → MediaRecorder records audio as WebM/Opus
- * 3. decodeAudioData on the WebM blob (always works — it's a simple audio container)
- * This avoids decodeAudioData failing on complex MP4 containers.
- */
-function extractAudioViaCaptureStream(videoEl, videoUrl, durationHint, onProgress) {
-  return new Promise((resolve, reject) => {
-    let settled = false;
-    const finish = (fn, val) => { if (settled) return; settled = true; fn(val); };
-
-    // Clone into a fresh element so we don't disturb the preview
-    const vid = document.createElement('video');
-    vid.src = videoUrl;
-    vid.preload = 'auto';
-    vid.playsInline = true;
-    vid.crossOrigin = 'anonymous';
-
-    vid.addEventListener('loadedmetadata', async () => {
-      const duration = vid.duration || durationHint || 30;
-
-      // Get a MediaStream from the video element
-      let stream;
-      try {
-        stream = vid.captureStream ? vid.captureStream() : vid.mozCaptureStream();
-      } catch {
-        finish(reject, new Error('captureStream not supported'));
-        return;
-      }
-
-      const audioTracks = stream.getAudioTracks();
-      if (!audioTracks.length) {
-        vid.pause();
-        finish(reject, new Error('Video has no audio track'));
-        return;
-      }
-
-      // Record only the audio track
-      const audioStream = new MediaStream(audioTracks);
-      let recorder;
-      try {
-        const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
-          ? 'audio/webm;codecs=opus'
-          : MediaRecorder.isTypeSupported('audio/webm')
-            ? 'audio/webm'
-            : '';
-        recorder = new MediaRecorder(audioStream, mimeType ? { mimeType } : undefined);
-      } catch {
-        vid.pause();
-        finish(reject, new Error('MediaRecorder unavailable'));
-        return;
-      }
-
-      const chunks = [];
-      recorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
-
-      recorder.onstop = async () => {
-        vid.pause();
-        vid.removeAttribute('src');
-        vid.load();
-        stream.getTracks().forEach(t => t.stop());
-
-        if (!chunks.length) { finish(reject, new Error('No audio data captured')); return; }
-
-        try {
-          const webmBlob = new Blob(chunks, { type: 'audio/webm' });
-          const webmBuffer = await webmBlob.arrayBuffer();
-          onProgress?.(85);
-
-          const ctx = new (window.AudioContext || window.webkitAudioContext)();
-          const audioBuffer = await ctx.decodeAudioData(webmBuffer);
-          try { ctx.close(); } catch {}
-          onProgress?.(90);
-          finish(resolve, audioBuffer);
-        } catch (decErr) {
-          finish(reject, new Error('Could not decode captured audio: ' + (decErr?.message || '')));
-        }
-      };
-
-      recorder.onerror = () => {
-        vid.pause();
-        finish(reject, new Error('Recording failed'));
-      };
-
-      // Progress updates while playing
-      const progressInterval = setInterval(() => {
-        if (duration > 0) {
-          const pct = Math.min(vid.currentTime / duration, 1);
-          onProgress?.(10 + Math.round(pct * 70));
-        }
-      }, 500);
-
-      vid.addEventListener('ended', () => {
-        clearInterval(progressInterval);
-        onProgress?.(80);
-        if (recorder.state === 'recording') recorder.stop();
-      });
-
-      vid.addEventListener('error', () => {
-        clearInterval(progressInterval);
-        if (recorder.state === 'recording') recorder.stop();
-        finish(reject, new Error('Video playback error'));
-      });
-
-      // Start recording + playback
-      recorder.start();
-      try {
-        await vid.play();
-      } catch (playErr) {
-        clearInterval(progressInterval);
-        recorder.stop();
-        finish(reject, new Error('Could not play video: ' + (playErr?.message || '')));
-      }
-    });
-
-    vid.addEventListener('error', () => finish(reject, new Error('Could not load video')));
-  });
-}
-
 export default function Mp4ToMp3({ onBack }) {
   const [videoFile, setVideoFile] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
@@ -219,7 +99,7 @@ export default function Mp4ToMp3({ onBack }) {
       let audioBuffer;
       let usedFallback = false;
 
-      // Method 1 (fast): direct decodeAudioData — works for simple containers
+      // ── Method 1: direct decodeAudioData (fast, works for some containers) ──
       try {
         setProgress(5);
         const arrayBuffer = await videoFile.arrayBuffer();
@@ -227,17 +107,105 @@ export default function Mp4ToMp3({ onBack }) {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
         try { audioCtx.close(); } catch {}
-      } catch {
-        // Method 2 (reliable): play video → captureStream → MediaRecorder → decode WebM
+      } catch (e1) {
+        console.warn('Method 1 (decodeAudioData) failed:', e1?.message);
+
+        // ── Method 2: play existing <video> → captureStream → MediaRecorder → decode WebM ──
         usedFallback = true;
         setProgress(10);
-        audioBuffer = await extractAudioViaCaptureStream(
-          videoElRef.current, videoUrl, videoDuration, setProgress
-        );
+
+        const vid = videoElRef.current;
+        if (!vid) throw new Error('Video element not found');
+
+        audioBuffer = await new Promise((resolve, reject) => {
+          // Get stream from the video element that's already loaded
+          let stream;
+          try {
+            stream = vid.captureStream ? vid.captureStream() : vid.mozCaptureStream?.();
+          } catch (csErr) {
+            reject(new Error('captureStream failed: ' + (csErr?.message || ''))); return;
+          }
+          if (!stream) { reject(new Error('captureStream not supported by browser')); return; }
+
+          // Pick best available audio mime type
+          const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+            ? 'audio/webm;codecs=opus'
+            : MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm'
+            : MediaRecorder.isTypeSupported('audio/ogg;codecs=opus') ? 'audio/ogg;codecs=opus'
+            : '';
+
+          let recorder;
+          try {
+            recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+          } catch (mrErr) {
+            reject(new Error('MediaRecorder failed: ' + (mrErr?.message || ''))); return;
+          }
+
+          const chunks = [];
+          recorder.ondataavailable = (e) => { if (e.data?.size > 0) chunks.push(e.data); };
+
+          recorder.onstop = async () => {
+            // Restore video state
+            vid.pause();
+            vid.currentTime = 0;
+            vid.muted = true;
+
+            if (!chunks.length) { reject(new Error('No audio data recorded — video may have no audio track')); return; }
+
+            try {
+              const webmBlob = new Blob(chunks, { type: recorder.mimeType || 'audio/webm' });
+              setProgress(85);
+              const webmBuffer = await webmBlob.arrayBuffer();
+              const ctx = new (window.AudioContext || window.webkitAudioContext)();
+              const decoded = await ctx.decodeAudioData(webmBuffer);
+              try { ctx.close(); } catch {}
+              setProgress(90);
+              resolve(decoded);
+            } catch (decErr) {
+              reject(new Error('Failed to decode recorded audio: ' + (decErr?.message || '')));
+            }
+          };
+
+          recorder.onerror = (e) => {
+            vid.pause(); vid.currentTime = 0; vid.muted = true;
+            reject(new Error('MediaRecorder error: ' + (e?.error?.message || '')));
+          };
+
+          // Progress ticker
+          const duration = vid.duration || videoDuration || 30;
+          const progressId = setInterval(() => {
+            if (duration > 0) {
+              const pct = Math.min(vid.currentTime / duration, 1);
+              setProgress(10 + Math.round(pct * 70));
+            }
+          }, 400);
+
+          function onEnded() {
+            clearInterval(progressId);
+            setProgress(80);
+            vid.removeEventListener('ended', onEnded);
+            if (recorder.state === 'recording') recorder.stop();
+          }
+          vid.addEventListener('ended', onEnded);
+
+          // Start recording, then play from the beginning
+          recorder.start(250); // request data every 250ms for smoother capture
+          vid.muted = false;   // unmute so audio stream is active
+          vid.currentTime = 0;
+          vid.play().catch((playErr) => {
+            clearInterval(progressId);
+            vid.removeEventListener('ended', onEnded);
+            vid.muted = true;
+            if (recorder.state === 'recording') try { recorder.stop(); } catch {}
+            reject(new Error('Could not play video: ' + (playErr?.message || '')));
+          });
+        });
       }
 
+      setProgress(usedFallback ? 90 : 10);
+
       const sampleRate = audioBuffer.sampleRate;
-      const numChannels = Math.min(audioBuffer.numberOfChannels, 2); // max stereo
+      const numChannels = Math.min(audioBuffer.numberOfChannels, 2);
       const samples = [];
       for (let ch = 0; ch < numChannels; ch++) {
         samples.push(audioBuffer.getChannelData(ch));
@@ -290,18 +258,13 @@ export default function Mp4ToMp3({ onBack }) {
       setStep('done');
     } catch (err) {
       console.error('Conversion failed:', err);
-      const msg = err?.message || '';
-      if (msg.includes('no audio track')) {
-        setError('This video does not contain an audio track.');
-      } else if (msg.includes('Could not start video playback')) {
-        setError('Browser blocked audio extraction. Please try clicking "Convert" again, or use a different browser.');
-      } else {
-        setError('Failed to extract audio. The video may not contain an audio track, or try a different format.');
-      }
+      setError('Conversion error: ' + (err?.message || 'Unknown error. Try a different video file or browser.'));
       setStep('upload');
     } finally {
       setConverting(false);
       setProgress(0);
+      // Ensure video is muted again after conversion
+      if (videoElRef.current) videoElRef.current.muted = true;
     }
   }
 
