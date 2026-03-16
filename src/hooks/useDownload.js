@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
+import { addWatermark as applyWatermark } from '../utils/watermark';
 
 /**
  * Custom hook that captures a DOM element as a PNG and triggers a browser download.
@@ -235,35 +236,7 @@ export default function useDownload(elementId, filename, { onSuccess, downloadWi
 
       /* ── Draw watermark on canvas if watermarkRef.current is true ── */
       if (watermarkRef.current) {
-        const ctx = canvas.getContext('2d');
-        const w = canvas.width;
-        const h = canvas.height;
-
-        // Draw diagonal watermark across the image
-        ctx.save();
-        ctx.globalAlpha = 0.15;
-        ctx.font = `bold ${Math.min(w, h) * 0.08}px Arial, sans-serif`;
-        ctx.fillStyle = '#000';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        
-        // Draw multiple diagonal watermarks
-        ctx.translate(w / 2, h / 2);
-        ctx.rotate(-Math.PI / 6); // -30 degrees
-        for (let y = -h; y < h * 2; y += h * 0.25) {
-          ctx.fillText('CreativeThinkerDesignHub.com', 0, y);
-        }
-        ctx.restore();
-
-        // Bottom watermark banner
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
-        const bannerH = h * 0.06;
-        ctx.fillRect(0, h - bannerH, w, bannerH);
-        ctx.font = `700 ${bannerH * 0.5}px Arial, sans-serif`;
-        ctx.fillStyle = '#fff';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('Created using CreativeThinkerDesignHub.com', w / 2, h - bannerH / 2);
+        applyWatermark(canvas);
       }
 
       /* Save the blob for sharing */

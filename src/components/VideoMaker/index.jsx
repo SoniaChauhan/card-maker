@@ -1,6 +1,7 @@
 'use client';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import './VideoMaker.css';
+import { addVideoFrameWatermark } from '../../utils/watermark';
 
 const MAX_IMAGES = 20;
 const MIN_IMAGES = 2;
@@ -216,6 +217,7 @@ export default function VideoMaker({ onBack }) {
             ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, W, H);
             drawCover(ctx, bitmaps[i], W, H);
+            addVideoFrameWatermark(ctx, W, H);
             frameIdx++;
             setProgress(Math.round((frameIdx / TOTAL) * 100));
             await new Promise(r => requestAnimationFrame(r));
@@ -284,6 +286,7 @@ export default function VideoMaker({ onBack }) {
                   drawCover(ctx, bitmaps[nextIdx], W, H);
                   ctx.globalAlpha = 1;
               }
+              addVideoFrameWatermark(ctx, W, H);
               frameIdx++;
               setProgress(Math.round((frameIdx / TOTAL) * 100));
               await new Promise(r => requestAnimationFrame(r));

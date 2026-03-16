@@ -987,40 +987,40 @@ export default function LoginScreen({ onSelect, onSelectFestival, onEditTemplate
 
   /* ═══ CARD CATEGORIES ═══ */
   const PREMIUM_CARDS = [
-    { id: 'birthday',      icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',   grad: 'linear-gradient(135deg, #c084fc, #818cf8, #a78bfa)', price: '₹19/₹49' },
-    { id: 'wedding',       icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #a78bfa, #f0abfc, #c084fc)', price: '₹19/₹49' },
-    { id: 'anniversary',   icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #e9d5ff, #c4b5fd, #a78bfa)', price: '₹19/₹49' },
-    { id: 'biodata',       icon: '💒', name: 'Marriage Profile Designer',     desc: 'Build a traditional and detailed marriage biodata with a clean layout.',   grad: 'linear-gradient(135deg, #d8b4fe, #93c5fd, #a78bfa)', price: '₹49' },
+    { id: 'birthday',      icon: '🎂', name: 'Birthday Invite Designer',      desc: 'Create personalised and stylish birthday party invitations with ease.',   grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)', price: '₹19/₹49' },
+    { id: 'wedding',       icon: '💐', name: 'Wedding Invite Designer',       desc: 'Create royal and classic wedding invitations with beautiful themes.',      grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)', price: '₹19/₹49' },
+    { id: 'anniversary',   icon: '💍', name: 'Anniversary Greeting Designer', desc: 'Craft elegant anniversary greetings to celebrate love and togetherness.', grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)', price: '₹19/₹49' },
+    { id: 'biodata',       icon: '💒', name: 'Marriage Profile Designer',     desc: 'Build a traditional and detailed marriage biodata with a clean layout.',   grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)', price: '₹49' },
     { id: 'rentcard',      icon: '🏠', name: 'PG / Rent Card',                desc: 'PG, Flat, Room, Hostel & Shop cards with 6 themes, amenities & dynamic layouts.', grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)', price: '₹49' },
-    { id: 'saloncard',     icon: '💇', name: 'Salon / Parlour Card',           desc: 'Create elegant salon service & price list cards for your beauty business.', grad: 'linear-gradient(135deg, #c084fc, #f9a8d4, #d8b4fe)', price: '₹49' },
-    { id: 'cardresume',    icon: '🪪', name: 'Professional Resume Maker',      desc: 'Download your job‑ready resume. Perfect for freshers & professionals.',       grad: 'linear-gradient(135deg, #7c3aed, #a78bfa, #818cf8)', price: '₹99' },
+    { id: 'saloncard',     icon: '💇', name: 'Salon / Parlour Card',           desc: 'Create elegant salon service & price list cards for your beauty business.', grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)', price: '₹49' },
+    { id: 'cardresume',    icon: '🪪', name: 'Professional Resume Maker',      desc: 'Download your job‑ready resume. Perfect for freshers & professionals.',       grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)', price: '₹99' },
   ];
 
   const AI_FREE_CARDS = [
-    { id: 'aitextimage', icon: '🎨', name: 'AI Text to Image Card Maker',  desc: 'Upload photo, add text, choose layout — create personalised cards instantly!', grad: 'linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6)', alt: 'AI Text to Image Card Maker online free', link: '/ai-text-image-card' },
-    { id: 'aifaceswap',  icon: '🎭', name: 'AI Themed Card Generator',  desc: 'Pick a theme, upload your face & get a personalised themed card!',             grad: 'linear-gradient(135deg, #6366f1, #8b5cf6, #c084fc)', alt: 'AI Themed Card Maker free online', link: '/ai-themed-card-maker' },
-    { id: 'videomaker',  icon: '🎬', name: 'Video Card Maker',      desc: 'Upload photos & a song — create a video slideshow with transitions!',          grad: 'linear-gradient(135deg, #3b82f6, #6366f1, #a78bfa)', alt: 'Video Card Maker with photos and music online', link: '/video-maker' },
+    { id: 'aitextimage', icon: '🎨', name: 'AI Text to Image Card Maker',  desc: 'Upload photo, add text, choose layout — create personalised cards instantly!', grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)', alt: 'AI Text to Image Card Maker online free', link: '/ai-text-image-card' },
+    { id: 'aifaceswap',  icon: '🎭', name: 'AI Themed Card Generator',  desc: 'Pick a theme, upload your face & get a personalised themed card!',             grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)', alt: 'AI Themed Card Maker free online', link: '/ai-themed-card-maker' },
+    { id: 'videomaker',  icon: '🎬', name: 'Video Card Maker',      desc: 'Upload photos & a song — create a video slideshow with transitions!',          grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)', alt: 'Video Card Maker with photos and music online', link: '/video-maker' },
   ];
 
   const VIDEO_TOOLS = [
-    { id: 'videotrimmer',   icon: '✂️', name: 'Video Trimmer / Cropper', desc: 'Upload a video, trim it into clips & download — all in your browser!',      grad: 'linear-gradient(135deg, #22d3ee, #a78bfa, #f472b6)', alt: 'Free online video trimmer and cropper tool', link: '/video-trimmer' },
-    { id: 'mp4tomp3',       icon: '🎵', name: 'MP4 to MP3 Converter',    desc: 'Extract audio from any video — choose quality & download instantly!',         grad: 'linear-gradient(135deg, #34d399, #60a5fa, #c084fc)', alt: 'Free MP4 to MP3 converter tool online', link: '/mp4-to-mp3-converter' },
-    { id: 'videoaudioswap', icon: '🔊', name: 'Video Audio Replacer',    desc: 'Replace video sound with a new song — adjust volumes & download!',           grad: 'linear-gradient(135deg, #f472b6, #818cf8, #34d399)', alt: 'Replace audio in video online free tool', link: '/video-audio-replacer' },
+    { id: 'videotrimmer',   icon: '✂️', name: 'Video Trimmer / Cropper', desc: 'Upload a video, trim it into clips & download — all in your browser!',      grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)', alt: 'Free online video trimmer and cropper tool', link: '/video-trimmer' },
+    { id: 'mp4tomp3',       icon: '🎵', name: 'MP4 to MP3 Converter',    desc: 'Extract audio from any video — choose quality & download instantly!',         grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)', alt: 'Free MP4 to MP3 converter tool online', link: '/mp4-to-mp3-converter' },
+    { id: 'videoaudioswap', icon: '🔊', name: 'Video Audio Replacer',    desc: 'Replace video sound with a new song — adjust volumes & download!',           grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)', alt: 'Replace audio in video online free tool', link: '/video-audio-replacer' },
   ];
 
   /* Festival calendar — auto-detect active festivals */
   const activeFestivals = getActiveFestivals();
   const visibleFestivals = getVisibleFestivals();
   const FREE_CARDS_HINDI = [
-    { id: 'motivational',  icon: '💪', name: 'प्रेरणादायक विचार',      desc: 'प्रेरणादायक विचार — थीम चुनें, कस्टमाइज़ करें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #0f0c29, #302b63)' },
-    { id: 'fathers',       icon: '👨‍👧', name: 'पिता पर सुविचार',        desc: 'पिता के प्यार को शब्दों में — थीम चुनें और फ्री डाउनलोड करें!', grad: 'linear-gradient(135deg, #2d3436, #636e72)' },
-    { id: 'mothers',       icon: '💐', name: 'माँ पर सुविचार',         desc: 'माँ के प्यार को शब्दों में — थीम चुनें और फ्री डाउनलोड करें!', grad: 'linear-gradient(135deg, #fbc2eb, #a6c1ee)' },
+    { id: 'motivational',  icon: '💪', name: 'प्रेरणादायक विचार',      desc: 'प्रेरणादायक विचार — थीम चुनें, कस्टमाइज़ करें और डाउनलोड करें!', grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)' },
+    { id: 'fathers',       icon: '👨‍👧', name: 'पिता पर सुविचार',        desc: 'पिता के प्यार को शब्दों में — थीम चुनें और फ्री डाउनलोड करें!', grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)' },
+    { id: 'mothers',       icon: '💐', name: 'माँ पर सुविचार',         desc: 'माँ के प्यार को शब्दों में — थीम चुनें और फ्री डाउनलोड करें!', grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)' },
   ];
 
   const FREE_CARDS_ENGLISH = [
-    { id: 'motivational-en', icon: '💪', name: 'Motivational Quotes',  desc: 'Inspiring English quotes — pick a theme, customize & download free!', grad: 'linear-gradient(135deg, #134e5e, #71b280)' },
-    { id: 'fathers-en',      icon: '👨‍👧', name: 'Father\'s Quotes',     desc: 'Heartfelt father\'s quotes — pick a theme, customize & download free!', grad: 'linear-gradient(135deg, #0c3483, #a2b6df)' },
-    { id: 'mothers-en',      icon: '💐', name: 'Mother\'s Quotes',     desc: 'Beautiful quotes celebrating a mother\'s love — customize & download free!', grad: 'linear-gradient(135deg, #fbc2eb, #a6c1ee)' },
+    { id: 'motivational-en', icon: '💪', name: 'Motivational Quotes',  desc: 'Inspiring English quotes — pick a theme, customize & download free!', grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)' },
+    { id: 'fathers-en',      icon: '👨‍👧', name: 'Father\'s Quotes',     desc: 'Heartfelt father\'s quotes — pick a theme, customize & download free!', grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)' },
+    { id: 'mothers-en',      icon: '💐', name: 'Mother\'s Quotes',     desc: 'Beautiful quotes celebrating a mother\'s love — customize & download free!', grad: 'linear-gradient(135deg, #818cf8, #a5b4fc, #c4b5fd)' },
   ];
 
 

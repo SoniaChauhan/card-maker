@@ -64,7 +64,7 @@ export default function AIFaceSwapCard({ onBack, userEmail }) {
       await logDownload(userEmail, CARD_TYPE, 'AI Themed Card', selectedTheme?.name || 'Card', filename, {}).catch(() => null);
     },
     downloadWidth: 600,
-    addWatermark: false,
+    addWatermark: true,
   });
 
   function showToast(text) {

@@ -5,6 +5,7 @@ import Particles from '../shared/Particles';
 import Toast from '../shared/Toast';
 import html2canvas from 'html2canvas';
 import { logDownload } from '../../services/downloadHistoryService';
+import { addWatermark } from '../../utils/watermark';
 
 const PARTICLES = ['✨', '🌟', '💪', '🔥', '🚀', '⭐', '💫', '🎯', '🏆', '💖', '🌻', '🦋'];
 
@@ -107,6 +108,7 @@ export default function MotivationalCard({ onBack, userEmail }) {
     setDlIdx(idx);
     try {
       const canvas = await html2canvas(el, { useCORS: true, scale: 2, backgroundColor: null });
+      addWatermark(canvas);
       canvas.toBlob(blob => {
         if (!blob) return;
         const url = URL.createObjectURL(blob);
