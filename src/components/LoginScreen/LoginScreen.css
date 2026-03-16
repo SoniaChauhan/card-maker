@@ -1499,6 +1499,9 @@
 .lp-upcoming-section {
   padding: 40px 20px 30px;
   text-align: center;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100%;
 }
 .lp-upcoming-grid {
   display: grid;
@@ -1586,10 +1589,11 @@
   font-size: 16px;
   font-weight: 700;
   text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
   margin: 0 0 6px;
+  line-height: 1.3;
 }
 .lp-ai-free-desc {
   font-size: 13px;
@@ -3088,7 +3092,10 @@
   }
   .lp-fb-row { flex-direction: column; }
   .lp-fb-input { flex: none; }
-  .lp-ai-free-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 0 20px; }
+  .lp-ai-free-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; padding: 0 12px; }
+  .lp-ai-free-card { min-height: 170px; padding: 18px 14px 14px; }
+  .lp-ai-free-card .lp-showcase-name { font-size: 14px; }
+  .lp-ai-free-desc { font-size: 12px; max-width: 100%; }
 
   /* SEO content sections — tablet */
   .lp-anniversary-seo { padding: 32px var(--lp-gutter); }
@@ -3140,12 +3147,15 @@
   .lp-upcoming-card { padding: 14px 8px; }
   .lp-upcoming-card .lp-showcase-icon { font-size: 28px; }
   .lp-upcoming-card .lp-showcase-name { font-size: 11px; }
-  .lp-ai-free-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 0 20px; }
-  .lp-ai-free-card { min-height: 170px; padding: 18px 14px 14px; }
+  .lp-ai-free-grid { grid-template-columns: 1fr; gap: 14px; padding: 0 10px; }
+  .lp-ai-free-card { min-height: auto; padding: 16px 14px 14px; }
   .lp-ai-free-card .lp-showcase-icon { font-size: 32px; }
   .lp-ai-free-card .lp-showcase-name { font-size: 14px; }
-  .lp-ai-free-desc { font-size: 12px; max-width: 100%; }
-  .lp-ai-free-cta { width: 100%; text-align: center; }
+  .lp-ai-free-desc { font-size: 12px; max-width: 100%; -webkit-line-clamp: 3; }
+  .lp-ai-free-cta { width: 100%; text-align: center; font-size: 13px; padding: 8px 16px; height: auto; }
+  .lp-ai-free-tag { font-size: 9px; padding: 2px 8px; top: 8px; right: 8px; }
+
+  .lp-upcoming-section { padding: 28px 10px 20px; }
 
   .lp-occasional-toggle { padding: 12px 20px; font-size: 13px; }
   .lp-occasional-icon { font-size: 18px; }
@@ -3228,9 +3238,14 @@
   .lp-occasional-hindi { display: none; }
   .lp-occasional-toggle { font-size: 12px; padding: 10px 16px; gap: 6px; }
 
-  .lp-ai-free-grid { grid-template-columns: 1fr; gap: 14px; padding: 0 12px; max-width: 360px; }
-  .lp-ai-free-card { min-height: auto; }
-  .lp-ai-free-card .lp-showcase-icon { font-size: 32px; }
+  .lp-ai-free-grid { grid-template-columns: 1fr; gap: 12px; padding: 0 8px; }
+  .lp-ai-free-card { min-height: auto; padding: 14px 12px 12px; }
+  .lp-ai-free-card .lp-showcase-icon { font-size: 28px; margin-bottom: 6px; }
+  .lp-ai-free-card .lp-showcase-name { font-size: 13px; }
+  .lp-ai-free-desc { font-size: 11px; }
+  .lp-ai-free-cta { font-size: 12px; padding: 7px 14px; }
+
+  .lp-upcoming-section { padding: 20px 8px 16px; }
 
   .login-card { padding: 18px 12px 16px; }
   .login-card h2 { font-size: 17px; }
